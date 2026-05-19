@@ -1,0 +1,10 @@
+{
+    "strategy_name": "compression_breakout",
+    "version": "1.0.0",
+    "min_confidence": 75,
+    "max_compression_atr_percentile": 30,
+    "min_expansion_probability": 60,
+    "min_mtf_alignment": 70,
+    "min_trend_strength": 50,
+    "enabled": true
+}
