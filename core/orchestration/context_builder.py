@@ -73,8 +73,12 @@ class ContextBuilder(IContextBuilder):
         
         for engine in engines:
             try:
-                # Tier 1 MTF needs candles dict, others need primary df
-                if 'mtf' in engine.engine_name.lower():
+                # Tier 6-8 synthesis engines read the MarketContext directly
+                # Tier 1 MTF needs the candles dict (multi-timeframe)
+                # Tier 1-5 analytical engines need the primary dataframe
+                if tier_num >= 6:
+                    result = engine.analyze(context=context)
+                elif 'mtf' in engine.engine_name.lower():
                     result = engine.analyze(candles_dict=candles)
                 else:
                     result = engine.analyze(primary_df)
@@ -118,6 +122,7 @@ class ContextBuilder(IContextBuilder):
             'probability_estimator': 'move_probability',
             'signal_quality_scorer': 'signal_quality',
             'confidence_framework': 'confidence_framework',
+            'explainability_engine': 'explainability',
             'behavior_analyzer': 'orderflow',  # Map to closest field
         }
         

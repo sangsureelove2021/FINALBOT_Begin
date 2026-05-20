@@ -70,6 +70,7 @@ class MarketContext:
     # === TIER 7: Quality ===
     signal_quality: Dict[str, Any] = field(default_factory=dict)
     confidence_framework: Dict[str, Any] = field(default_factory=dict)
+    explainability: Dict[str, Any] = field(default_factory=dict)
     
     # === SCORING ===
     scores: Dict[str, float] = field(default_factory=dict)
@@ -152,6 +153,7 @@ class MarketContext:
             'move_probability': self.move_probability,
             'signal_quality': self.signal_quality,
             'confidence_framework': self.confidence_framework,
+            'explainability': self.explainability,
             'scores': self.scores,
             'aggregated_score': self.aggregated_score,
             'strategy_recommendation': self.strategy_recommendation,
