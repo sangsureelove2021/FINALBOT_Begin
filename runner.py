@@ -54,7 +54,7 @@ class BotRunner:
         Initialize bot.
         
         Args:
-            symbols: List of pairs to trade (loads from config/symbols.txt if None)
+            symbols: List of pairs to trade (loads from symbols.txt if None)
             timeframes: Timeframes to analyze
             capital: Account balance (THB)
             use_mock: Use mock data/execution
@@ -62,11 +62,16 @@ class BotRunner:
         # Load symbols from file if not provided
         if symbols is None:
             try:
-                with open('config/symbols.txt', 'r') as f:
+                # Try root directory first, then config folder
+                symbol_file = 'symbols.txt'
+                if not __import__('os').path.exists(symbol_file):
+                    symbol_file = 'config/symbols.txt'
+                
+                with open(symbol_file, 'r') as f:
                     symbols = [line.strip() for line in f if line.strip()]
-                logger.info(f"📖 Loaded symbols from config/symbols.txt: {symbols}")
+                logger.info(f"📖 Loaded symbols from {symbol_file}: {symbols}")
             except FileNotFoundError:
-                logger.warning("⚠️ config/symbols.txt not found, using defaults")
+                logger.warning("⚠️ symbols.txt not found, using defaults")
                 symbols = ['EURUSD-OTC', 'GBPUSD-OTC', 'USDJPY-OTC', 'AUDUSD-OTC', 'NZDUSD-OTC']
         
         self.symbols = symbols
