@@ -59,7 +59,7 @@ class BotRunner:
             capital: Account balance (THB)
             use_mock: Use mock data/execution
         """
-        self.symbols = symbols or ['EURUSD-OTC']
+        self.symbols = symbols or ['EURUSD-OTC', 'GBPUSD-OTC', 'USDJPY-OTC', 'AUDUSD-OTC', 'NZDUSD-OTC']
         self.timeframes = timeframes or ['M1', 'M5', 'M15', 'M60', 'D1']
         self.capital = capital
         self.use_mock = use_mock
@@ -291,7 +291,7 @@ def main():
     try:
         # Initialize bot
         bot = BotRunner(
-            symbols=['EURUSD-OTC'],  # Boss's choice
+            symbols=['EURUSD-OTC', 'GBPUSD-OTC', 'USDJPY-OTC', 'AUDUSD-OTC', 'NZDUSD-OTC'],
             capital=2000.0,
             use_mock=False  # LIVE MODE with credentials
         )

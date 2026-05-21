@@ -17,9 +17,9 @@ if __name__ == "__main__":
     try:
         print("🚀 FINALBOT Starting...\n")
         
-        # Create bot with default config
+        # Create bot with 5 currency pairs
         bot = BotRunner(
-            symbols=['EURUSD-OTC'],
+            symbols=['EURUSD-OTC', 'GBPUSD-OTC', 'USDJPY-OTC', 'AUDUSD-OTC', 'NZDUSD-OTC'],
             capital=2000.0,
             use_mock=False  # LIVE MODE
         )
