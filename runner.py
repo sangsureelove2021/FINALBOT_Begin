@@ -293,7 +293,7 @@ def main():
         bot = BotRunner(
             symbols=['EURUSD-OTC'],  # Boss's choice
             capital=2000.0,
-            use_mock=True  # ← Change to False + provide credentials for live
+            use_mock=False  # LIVE MODE with credentials
         )
         
         # Run backtest

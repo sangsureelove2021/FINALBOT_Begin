@@ -1,8 +1,7 @@
 """
 IQ Option Data Adapter
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Adapter for IQ Option API. Currently uses mock data.
-Swap to real API: Replace synthetic_data() with iq_option API calls.
+Adapter for IQ Option API. Uses real data when credentials provided.
 """
 
 import pandas as pd
@@ -10,10 +9,15 @@ import numpy as np
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 import logging
+import os
 
 from core.data.data_source import IDataSource
 
 logger = logging.getLogger(__name__)
+
+# Credentials from environment
+IQ_EMAIL = os.getenv("IQ_EMAIL", "venuz20152565@gmail.com")
+IQ_PASSWORD = os.getenv("IQ_PASSWORD", "2856101607mM@")
 
 
 class IQOptionAdapter(IDataSource):
@@ -27,27 +31,31 @@ class IQOptionAdapter(IDataSource):
     3. Replace synthetic_data() with get_from_api()
     """
     
-    def __init__(self, api_token: Optional[str] = None, use_mock: bool = True):
+    def __init__(self, api_token: Optional[str] = None, use_mock: bool = False):
         """
         Initialize adapter.
         
         Args:
-            api_token: IQ Option API token (optional for mock mode)
+            api_token: IQ Option API token (optional, uses email/password if not provided)
             use_mock: Use synthetic data (True for testing, False for live)
         """
         self.api_token = api_token
         self.use_mock = use_mock
         self._connected = False
-        self._connected = self._check_connection()
         
-        if not use_mock and api_token:
+        if not use_mock:
             try:
                 from iqoptionapi.api import IQOptionAPI
-                self.api = IQOptionAPI("ws://", api_token, 1)
-                logger.info("✅ IQ Option API initialized (real)")
+                logger.info("🔌 Connecting to IQ Option (Real)...")
+                self.api = IQOptionAPI("wss://", IQ_EMAIL, IQ_PASSWORD)
+                self.api.connect()
+                self._connected = True
+                logger.info("✅ IQ Option connected (LIVE MODE)")
             except Exception as e:
-                logger.warning(f"⚠️ Could not initialize real API: {e}, falling back to mock")
+                logger.error(f"❌ IQ Option connection failed: {e}")
+                logger.warning("⚠️ Falling back to MOCK mode")
                 self.use_mock = True
+                self.api = None
         else:
             self.api = None
     
