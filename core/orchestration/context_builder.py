@@ -53,7 +53,7 @@ class ContextBuilder(IContextBuilder):
         
         context = MarketContext(
             timestamp=datetime.utcnow(),
-            pair=symbol,
+            symbol=symbol,
             timeframe=timeframe,
             current_price=float(primary_df['close'].iloc[-1]),
             candle_index=len(primary_df) - 1,

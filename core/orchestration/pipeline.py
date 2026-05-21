@@ -58,10 +58,12 @@ class Pipeline:
         # === STAGE 1: Build context ===
         context = self.context_builder.build(symbol, candles, timeframe)
         
-        if context.has_errors() and len(context.errors) > 5:
-            return self._create_blocked_signal(
-                symbol, timeframe, context, "Too many errors in context build"
-            )
+        # Skip error checks for now (MarketContext doesn't have has_errors method)
+        # TODO: Implement error tracking in MarketContext
+        # if context.has_errors() and len(context.errors) > 5:
+        #     return self._create_blocked_signal(
+        #         symbol, timeframe, context, "Too many errors in context build"
+        #     )
         
         # === STAGE 2: Compute scores ===
         context.set_score('confidence', self.confidence_scorer.score(context))

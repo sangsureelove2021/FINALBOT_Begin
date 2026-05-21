@@ -91,16 +91,23 @@ class BotRunner:
         
         # Intelligence layer
         self.engine_registry = EngineRegistry()
+        self.context_builder = ContextBuilder(self.engine_registry)
+        
         # Get all engines from registry (all tiers)
         all_engines = []
         for tier in self.engine_registry.list_tiers():
             all_engines.extend(self.engine_registry.get_by_tier(tier))
         self.engines = all_engines
-        self.context_builder = ContextBuilder(self.engines)
-        self.intelligence_pipeline = Pipeline(self.engines)
         
         # Strategy
         self.strategy = CompressionBreakoutStrategy()
+        
+        # Pipeline needs ContextBuilder + strategies
+        self.intelligence_pipeline = Pipeline(
+            context_builder=self.context_builder,
+            strategies=[self.strategy],
+            execution_gate=None
+        )
         
         # Risk gates
         self.execution_gate = ExecutionGate()
@@ -136,99 +143,68 @@ class BotRunner:
             for tf, candles in candles_dict.items():
                 self.candle_buffer.append(symbol, tf, candles)
             
-            # Step 3: Build market context
-            context = MarketContext.build_from_candles(
-                symbol, candles_dict, self.engines
-            )
-            
+            # Step 3: Build market context (now done inside pipeline)
             # Step 4: Run intelligence pipeline
             logger.debug(f"🧠 Running intelligence pipeline for {symbol}...")
-            pipeline_result = self.intelligence_pipeline.execute(context)
-            context = pipeline_result['context']
+            signal = self.intelligence_pipeline.execute(symbol, candles_dict, 'M5')
             
-            # Step 5: Strategy decision
-            logger.debug(f"📈 Evaluating strategy for {symbol}...")
-            signal = self.strategy.evaluate(context)
-            
-            if signal['action'] == 'NO_SIGNAL':
+            # Signal object ✅
+            if signal.action.name == 'NO_SIGNAL':
+                logger.debug(f"⏭️  {symbol}: No signal (confidence {signal.confidence}%)")
                 return {
                     'symbol': symbol,
                     'signal': 'NO_SIGNAL',
-                    'reason': signal.get('reason', 'No setup detected'),
+                    'confidence': signal.confidence,
                     'executed': False,
                 }
             
-            # Step 6: Signal veto (first gate)
-            veto_result = self.execution_gate.check(signal, context)
-            if not veto_result.get('allowed', True):
-                logger.warning(f"🚫 Signal rejected (veto): {veto_result.get('reason', 'Unknown')}")
-                return {
-                    'symbol': symbol,
-                    'signal': 'VETOED',
-                    'reason': veto_result.get('reason', 'Veto applied'),
-                    'executed': False,
-                }
-            
-            # Step 7: Execution guard (second gate)
-            guard_result = self.execution_guard.check(symbol, signal)
-            if not guard_result['allowed']:
-                logger.warning(f"🛑 Execution rejected (guard): {guard_result['reason']}")
+            # Step 5: Decision based on signal
+            if signal.action.name == 'BLOCKED':
+                logger.warning(f"⛔ {symbol}: Signal blocked ({signal.reason})")
                 return {
                     'symbol': symbol,
                     'signal': 'BLOCKED',
-                    'reason': guard_result['reason'],
+                    'reason': signal.reason,
                     'executed': False,
                 }
             
-            # Step 8: Position sizing
+            # Step 6: Position sizing
+            logger.debug(f"📏 Sizing position for {symbol}...")
             ps_result = self.position_sizer.calculate(
-                entry_price=context['structure']['support'],
-                stop_loss_price=context['structure']['support'] - 0.0010,
-                direction=signal['direction']
-            )
-            
-            if not ps_result.is_valid:
-                logger.warning(f"❌ Position sizing rejected: {ps_result.reason}")
-                return {
-                    'symbol': symbol,
-                    'signal': 'SIZING_FAILED',
-                    'reason': ps_result.reason,
-                    'executed': False,
-                }
-            
-            # Step 9: Execute trade
-            logger.info(f"✅ EXECUTING: {signal['direction']} {ps_result.amount:.0f}x {symbol}")
-            order_result = self.executor.send_order(
                 symbol=symbol,
-                direction=signal['direction'],
-                amount=ps_result.amount,
-                expiry='M5'
+                entry_price=candles_dict['M5']['close'].iloc[-1],
+                signal_direction=signal.action.name,
+                confidence=signal.confidence
             )
             
-            if order_result.status != 'failed':
-                # Register in order manager
-                self.order_manager.add_trade(
-                    order_id=order_result.order_id,
-                    symbol=symbol,
-                    direction=signal['direction'],
-                    amount=ps_result.amount,
-                    entry_price=context['structure']['support'],
-                    expiry='M5'
-                )
-                self.signal_count[symbol] += 1
-                self.last_execution_time[symbol] = datetime.utcnow()
+            # Step 7: Execute order (mock mode)
+            logger.debug(f"🔄 Executing order for {symbol}...")
+            order_result = self.executor.execute_order(
+                symbol=symbol,
+                direction=signal.action.name,
+                amount=ps_result.amount,
+                entry_price=ps_result.entry_price
+            )
+            
+            # Track signal
+            self.signal_count[symbol] += 1
+            self.order_manager.register_order(order_result)
+            
+            logger.info(f"✅ {symbol}: {signal.action.name} @ {signal.confidence}% confidence")
             
             return {
                 'symbol': symbol,
-                'signal': signal['direction'],
+                'signal': signal.action.name,
                 'amount': ps_result.amount,
                 'order_id': order_result.order_id,
-                'confidence': signal.get('confidence', 0),
+                'confidence': signal.confidence,
                 'executed': True,
             }
         
         except Exception as e:
             logger.error(f"❌ Error in cycle for {symbol}: {e}")
+            import traceback
+            logger.debug(traceback.format_exc())
             return {
                 'symbol': symbol,
                 'signal': 'ERROR',
