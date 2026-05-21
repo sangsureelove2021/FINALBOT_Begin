@@ -259,22 +259,31 @@ class BotRunner:
     
     def get_status(self) -> Dict:
         """Get current bot status."""
-        stats = self.order_manager.get_stats()
-        sizer_stats = self.position_sizer.get_stats()
-        
-        return {
-            'timestamp': datetime.utcnow().isoformat(),
-            'cycles': self.cycle_count,
-            'data_connected': self.data_adapter.is_connected(),
-            'executor_connected': self.executor.is_connected(),
-            'mode': 'MOCK' if self.use_mock else 'LIVE',
-            'active_trades': len(self.order_manager.active_trades),
-            'total_trades': stats['total_trades'],
-            'total_pnl': stats['total_pnl'],
-            'win_rate': stats['win_rate'],
-            'daily_risk_used': f"{sizer_stats['daily_risk_percent']:.2f}%",
-            'signals_per_symbol': self.signal_count,
-        }
+        try:
+            stats = self.order_manager.get_stats()
+            sizer_stats = self.position_sizer.get_stats()
+            
+            return {
+                'timestamp': datetime.utcnow().isoformat(),
+                'cycles': self.cycle_count,
+                'data_connected': self.data_adapter.is_connected(),
+                'executor_connected': self.executor.is_connected(),
+                'mode': 'MOCK' if self.use_mock else 'LIVE',
+                'active_trades': len(self.order_manager.active_trades),
+                'total_trades': stats.get('total_trades', 0),
+                'total_pnl': stats.get('total_pnl', 0.0),
+                'win_rate': stats.get('win_rate', 0.0),
+                'session_duration': stats.get('session_duration', 'N/A'),
+                'daily_risk_used': f"{sizer_stats.get('daily_risk_percent', 0):.2f}%",
+                'signals_per_symbol': self.signal_count,
+            }
+        except Exception as e:
+            logger.warning(f"⚠️ Error getting status: {e}")
+            return {
+                'timestamp': datetime.utcnow().isoformat(),
+                'error': str(e),
+                'cycles': self.cycle_count,
+            }
 
 
 def main():
@@ -292,14 +301,25 @@ def main():
         
         # Final status
         logger.info("\n📍 FINAL STATUS:")
-        import json
-        logger.info(json.dumps(bot.get_status(), indent=2))
+        try:
+            status = bot.get_status()
+            logger.info(f"  Cycles: {status.get('cycles', 0)}")
+            logger.info(f"  Total Trades: {status.get('total_trades', 0)}")
+            logger.info(f"  Win Rate: {status.get('win_rate', 0):.1f}%")
+            logger.info(f"  Total P&L: {status.get('total_pnl', 0):.2f} THB")
+            logger.info(f"  Mode: {status.get('mode', 'UNKNOWN')}")
+        except Exception as e:
+            logger.warning(f"⚠️ Could not get final status: {e}")
+            logger.info(f"  Cycles: {bot.cycle_count}")
+            logger.info(f"  Signals: {bot.signal_count}")
         
     except KeyboardInterrupt:
         logger.info("\n⏹️  Bot stopped by user")
         sys.exit(0)
     except Exception as e:
         logger.error(f"Fatal error: {e}")
+        import traceback
+        logger.debug(traceback.format_exc())
         sys.exit(1)
 
 

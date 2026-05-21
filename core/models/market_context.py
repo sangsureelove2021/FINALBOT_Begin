@@ -14,24 +14,48 @@ import pandas as pd
 class MarketContext:
     """Unified market context for all engines."""
     
+    # Basic info
     symbol: str = ""
     timestamp: Optional[datetime] = None
     timeframe: str = "M5"
-    candles: Dict = field(default_factory=dict)  # Store dict of {timeframe: DataFrame}
+    candles: Dict = field(default_factory=dict)
     current_price: float = 0.0
     candle_index: int = 0
     
-    # Intelligence outputs
+    # Tier 1: Trend & Structure
+    trend: Dict = field(default_factory=dict)  # trend direction, strength
+    mtf: Dict = field(default_factory=dict)  # multi-timeframe
+    structure: Dict = field(default_factory=dict)  # support, resistance, peaks, troughs
+    strength: Dict = field(default_factory=dict)  # trend strength metrics
+    volatility: Dict = field(default_factory=dict)  # volatility metrics
+    liquidity: Dict = field(default_factory=dict)  # liquidity metrics
+    
+    # Tier 2: Market State
     market_state: str = "UNKNOWN"
     market_volatility: float = 0.0
     noise_level: float = 0.0
+    
+    # Tier 3: Price Action
+    price_action: Dict = field(default_factory=dict)
+    
+    # Tier 4: Detection
     signal_conflict: float = 0.0
+    compression: Dict = field(default_factory=dict)
+    breakout: Dict = field(default_factory=dict)
+    
+    # Tier 5-8: Quality & Synthesis
+    quality_score: float = 0.0
+    synthesis: Dict = field(default_factory=dict)
     
     # Scoring
     _scores: Dict = field(default_factory=dict)
     aggregated_score: float = 0.0
     strategy_recommendation: Dict = field(default_factory=dict)
     execution_decision: Dict = field(default_factory=dict)
+    
+    # Error tracking
+    errors: List = field(default_factory=list)
+    warnings: List = field(default_factory=list)
     
     def set_score(self, key: str, value: float) -> None:
         """Set a score."""
@@ -43,11 +67,15 @@ class MarketContext:
     
     def has_errors(self) -> bool:
         """Check if context has errors."""
-        return False  # TODO: Implement error tracking
+        return len(self.errors) > 0
     
     def add_warning(self, msg: str) -> None:
         """Add a warning."""
-        pass  # TODO: Implement warning tracking
+        self.warnings.append(msg)
+    
+    def add_error(self, msg: str) -> None:
+        """Add an error."""
+        self.errors.append(msg)
     
     
     @classmethod
