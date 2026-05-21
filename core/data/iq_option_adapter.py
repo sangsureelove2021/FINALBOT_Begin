@@ -162,8 +162,15 @@ class IQOptionAdapter(IDataSource):
     def _get_base_price(self, symbol: str) -> float:
         """Base price for symbol."""
         bases = {
-            'EURUSD': 1.0850, 'GBPUSD': 1.2650, 'USDJPY': 149.50,
-            'AUDUSD': 0.6750, 'NZDUSD': 0.6150, 'USDCAD': 1.3550,
-            'XAUUSD': 2050.0, 'BTCUSD': 65000.0, 'ETHUSD': 3500.0,
+            'EURUSD': 1.0850, 
+            'EURUSD-OTC': 1.0850,  # Boss's trading pair
+            'GBPUSD': 1.2650, 
+            'USDJPY': 149.50,
+            'AUDUSD': 0.6750, 
+            'NZDUSD': 0.6150, 
+            'USDCAD': 1.3550,
+            'XAUUSD': 2050.0, 
+            'BTCUSD': 65000.0, 
+            'ETHUSD': 3500.0,
         }
         return bases.get(symbol, 1.0)

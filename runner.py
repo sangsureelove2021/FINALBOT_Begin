@@ -31,9 +31,9 @@ logger = logging.getLogger("FINALBOT")
 from core.data.iq_option_adapter import IQOptionAdapter
 from core.data.candle_buffer import CandleBuffer
 from core.models.market_context import MarketContext
-from core.orchestration.context_builder import MarketContextBuilder
-from core.orchestration.pipeline import IntelligencePipeline
-from core.orchestration.execution_gate import SignalVeto
+from core.orchestration.context_builder import ContextBuilder
+from core.orchestration.pipeline import Pipeline
+from core.orchestration.execution_gate import ExecutionGate
 from core.engines.engine_registry import EngineRegistry
 from strategy.compression_breakout.strategy import CompressionBreakoutStrategy
 from execution.iq_option_executor import IQOptionExecutor
@@ -54,12 +54,12 @@ class BotRunner:
         Initialize bot.
         
         Args:
-            symbols: List of pairs to trade
+            symbols: List of pairs to trade (default: EURUSD-OTC)
             timeframes: Timeframes to analyze
             capital: Account balance (THB)
             use_mock: Use mock data/execution
         """
-        self.symbols = symbols or ['EURUSD', 'GBPUSD', 'USDJPY', 'AUDUSD', 'NZDUSD']
+        self.symbols = symbols or ['EURUSD-OTC']
         self.timeframes = timeframes or ['M1', 'M5', 'M15', 'M60', 'D1']
         self.capital = capital
         self.use_mock = use_mock
@@ -76,15 +76,19 @@ class BotRunner:
         
         # Intelligence layer
         self.engine_registry = EngineRegistry()
-        self.engines = self.engine_registry.get_all_engines()
-        self.context_builder = MarketContextBuilder(self.engines)
-        self.intelligence_pipeline = IntelligencePipeline(self.engines)
+        # Get all engines from registry (all tiers)
+        all_engines = []
+        for tier in self.engine_registry.list_tiers():
+            all_engines.extend(self.engine_registry.get_by_tier(tier))
+        self.engines = all_engines
+        self.context_builder = ContextBuilder(self.engines)
+        self.intelligence_pipeline = Pipeline(self.engines)
         
         # Strategy
         self.strategy = CompressionBreakoutStrategy()
         
         # Risk gates
-        self.signal_veto = SignalVeto()
+        self.execution_gate = ExecutionGate()
         self.execution_guard = ExecutionGuard(capital)
         
         # Execution
@@ -140,13 +144,13 @@ class BotRunner:
                 }
             
             # Step 6: Signal veto (first gate)
-            signal = self.signal_veto.apply(signal, context)
-            if signal['veto_applied']:
-                logger.warning(f"🚫 Signal rejected (veto): {signal['veto_reason']}")
+            veto_result = self.execution_gate.check(signal, context)
+            if not veto_result.get('allowed', True):
+                logger.warning(f"🚫 Signal rejected (veto): {veto_result.get('reason', 'Unknown')}")
                 return {
                     'symbol': symbol,
                     'signal': 'VETOED',
-                    'reason': signal['veto_reason'],
+                    'reason': veto_result.get('reason', 'Veto applied'),
                     'executed': False,
                 }
             
@@ -287,7 +291,7 @@ def main():
     try:
         # Initialize bot
         bot = BotRunner(
-            symbols=['EURUSD', 'GBPUSD', 'USDJPY'],  # Reduced for demo
+            symbols=['EURUSD-OTC'],  # Boss's choice
             capital=2000.0,
             use_mock=True  # ← Change to False + provide credentials for live
         )
