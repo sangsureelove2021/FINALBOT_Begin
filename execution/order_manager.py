@@ -162,6 +162,7 @@ class OrderManager:
                 'largest_win': 0.0,
                 'largest_loss': 0.0,
                 'active_trades': len(self.active_trades),
+                'session_duration': str(datetime.utcnow() - self.session_start),
             }
         
         wins = [t.pnl for t in self.closed_trades if t.pnl > 0]
