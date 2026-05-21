@@ -54,12 +54,22 @@ class BotRunner:
         Initialize bot.
         
         Args:
-            symbols: List of pairs to trade (default: EURUSD-OTC)
+            symbols: List of pairs to trade (loads from config/symbols.txt if None)
             timeframes: Timeframes to analyze
             capital: Account balance (THB)
             use_mock: Use mock data/execution
         """
-        self.symbols = symbols or ['EURUSD-OTC', 'GBPUSD-OTC', 'USDJPY-OTC', 'AUDUSD-OTC', 'NZDUSD-OTC']
+        # Load symbols from file if not provided
+        if symbols is None:
+            try:
+                with open('config/symbols.txt', 'r') as f:
+                    symbols = [line.strip() for line in f if line.strip()]
+                logger.info(f"📖 Loaded symbols from config/symbols.txt: {symbols}")
+            except FileNotFoundError:
+                logger.warning("⚠️ config/symbols.txt not found, using defaults")
+                symbols = ['EURUSD-OTC', 'GBPUSD-OTC', 'USDJPY-OTC', 'AUDUSD-OTC', 'NZDUSD-OTC']
+        
+        self.symbols = symbols
         self.timeframes = timeframes or ['M1', 'M5', 'M15', 'M60', 'D1']
         self.capital = capital
         self.use_mock = use_mock
