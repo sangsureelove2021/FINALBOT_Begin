@@ -162,3 +162,13 @@ class MarketContext:
             'warnings': self.warnings,
             'errors': self.errors,
         }
+
+    @classmethod
+    def build_from_candles(cls, candles: list, symbol: str = "EURUSD"):
+        """Build MarketContext from candle data."""
+        ctx = cls()
+        ctx.symbol = symbol
+        ctx.candles = candles
+        ctx.timestamp = candles[-1].timestamp if candles else None
+        ctx.current_price = candles[-1].close if candles else 0
+        return ctx
