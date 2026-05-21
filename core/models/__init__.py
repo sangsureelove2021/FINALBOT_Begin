@@ -1,4 +1,4 @@
-"""Core data models for FINALBOT"""
+"""Core Models"""
 from core.models.candle import Candle
 from core.models.signal import Signal
 from core.models.score import Score
