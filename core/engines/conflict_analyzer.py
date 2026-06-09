@@ -64,7 +64,7 @@ class ConflictAnalyzer(BaseEngine):
             elif close < ema20 < ema50:
                 return 'DOWN'
             return 'NONE'
-        except:
+        except Exception as e:
             return 'NONE'
     
     def _momentum_direction(self, df) -> str:
@@ -76,7 +76,7 @@ class ConflictAnalyzer(BaseEngine):
             elif roc < -0.3:
                 return 'DOWN'
             return 'NONE'
-        except:
+        except Exception as e:
             return 'NONE'
     
     def _candle_direction(self, df) -> str:
@@ -89,7 +89,7 @@ class ConflictAnalyzer(BaseEngine):
             elif bearish > bullish * 1.5:
                 return 'DOWN'
             return 'NONE'
-        except:
+        except Exception as e:
             return 'NONE'
     
     def _count_conflicts(self, directions: List[str]) -> int:

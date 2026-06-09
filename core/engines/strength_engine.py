@@ -73,7 +73,7 @@ class StrengthEngine(BaseEngine):
                 float(pos_di.iloc[-1]) if not np.isnan(pos_di.iloc[-1]) else 0,
                 float(neg_di.iloc[-1]) if not np.isnan(neg_di.iloc[-1]) else 0,
             )
-        except:
+        except Exception as e:
             return 0.0, 0.0, 0.0
     
     def _calculate_rsi(self, prices: pd.Series, period: int = 14) -> float:
@@ -86,7 +86,7 @@ class StrengthEngine(BaseEngine):
             rs = avg_gain / avg_loss.replace(0, np.nan)
             rsi = 100 - (100 / (1 + rs))
             return float(rsi.iloc[-1]) if not np.isnan(rsi.iloc[-1]) else 50
-        except:
+        except Exception as e:
             return 50.0
     
     def _calculate_macd(self, prices: pd.Series, fast=12, slow=26, signal=9) -> Tuple[float, float, float]:
@@ -97,7 +97,7 @@ class StrengthEngine(BaseEngine):
             signal_line = macd_line.ewm(span=signal).mean()
             return (float(macd_line.iloc[-1]), float(signal_line.iloc[-1]), 
                    float((macd_line - signal_line).iloc[-1]))
-        except:
+        except Exception as e:
             return 0.0, 0.0, 0.0
     
     def _calculate_roc(self, prices: pd.Series, period: int = 14) -> float:
@@ -109,7 +109,7 @@ class StrengthEngine(BaseEngine):
             if past == 0:
                 return 0.0
             return float(((current - past) / abs(past)) * 100)
-        except:
+        except Exception as e:
             return 0.0
     
     def _classify_momentum_level(self, adx: float) -> str:
@@ -130,7 +130,7 @@ class StrengthEngine(BaseEngine):
             elif not price_trend and momentum_up:
                 return 'BULLISH'
             return 'NONE'
-        except:
+        except Exception as e:
             return 'NONE'
     
     def _calculate_strength_score(self, adx, rsi, macd_abs, roc_abs) -> int:

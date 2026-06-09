@@ -3,7 +3,6 @@ RISK GATE - EXECUTION GUARD (signal_veto)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 The FINAL DEFENSE before any trade executes.
-Philosophy: "The Art of Saying NO"
 
 This guard sits AFTER the execution_gate and adds account-level
 and session-level risk controls that the strategy/context cannot see:
@@ -18,7 +17,7 @@ AND this execution_guard (account safety) to be executed.
 """
 
 from typing import Dict, Any, Optional
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 
 
 class ExecutionGuard:
@@ -30,9 +29,9 @@ class ExecutionGuard:
     """
     
     def __init__(self,
-                 max_daily_loss: float = 100.0,
+                 max_daily_loss: float = float('inf'),
                  max_consecutive_losses: int = 3,
-                 max_trades_per_session: int = 20,
+                 max_trades_per_session: int = 10**9,
                  cooldown_minutes_after_loss: int = 15,
                  min_confidence_to_execute: int = 75):
         # Limits
@@ -47,76 +46,60 @@ class ExecutionGuard:
         self._consecutive_losses = 0
         self._trades_today = 0
         self._last_loss_time: Optional[datetime] = None
-        self._session_start = datetime.utcnow()
+        self._session_start = datetime.now(timezone.utc)
         self._halted = False
         self._halt_reason = ""
+        
+        # Parse trading hours (e.g. "17:00-23:00")
+        try:
+            from core.config_loader import get_session
+            session = get_session()
+            hours_str = session.get("trading_hours", "17:00-23:00")
+            start_str, end_str = hours_str.split("-")
+            self.start_hour, self.start_min = map(int, start_str.split(":"))
+            self.end_hour, self.end_min = map(int, end_str.split(":"))
+        except Exception:
+            self.start_hour, self.start_min = 17, 0
+            self.end_hour, self.end_min = 23, 0
     
     def check(self, signal_data: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Check if a signal is allowed to execute.
-        
-        Args:
-            signal_data: dict with 'action', 'confidence', etc.
-        
-        Returns:
-            {
-                'allowed': bool,
-                'reason': str,
-                'veto_code': str or None
-            }
+        Check signal against account and session safety limits.
         """
         action = signal_data.get('action', 'NO_SIGNAL')
         confidence = signal_data.get('confidence', 0)
         
-        # === NON-ACTIONABLE: pass through ===
+        # Non-actionable signals pass through as before
         if action in ('NO_SIGNAL', 'BLOCKED'):
             return self._allow("Non-actionable signal, no guard needed")
         
-        # === HARD HALT ===
+        # 1. Halted state
         if self._halted:
-            return self._veto(f"Trading halted: {self._halt_reason}", 'session_halted')
-        
-        # === CHECK 1: Daily loss limit ===
+            return self._veto(f"Trading halted: {self._halt_reason}", "session_halted")
+            
+        # 2. Daily loss check
         if self._daily_loss >= self.max_daily_loss:
-            self._halt(f"Daily loss limit reached (${self._daily_loss:.2f})")
-            return self._veto(
-                f"Daily loss limit hit: ${self._daily_loss:.2f} >= ${self.max_daily_loss:.2f}",
-                'daily_loss_limit'
-            )
-        
-        # === CHECK 2: Consecutive losses ===
+            self._halt("Daily loss limit reached")
+            return self._veto("Daily loss limit reached", "daily_loss_limit")
+            
+        # 3. Consecutive losses check
         if self._consecutive_losses >= self.max_consecutive_losses:
-            return self._veto(
-                f"Consecutive loss limit: {self._consecutive_losses} losses in a row",
-                'consecutive_losses'
-            )
-        
-        # === CHECK 3: Max trades per session ===
+            self._halt("Max consecutive losses reached")
+            return self._veto("Max consecutive losses reached", "consecutive_losses")
+            
+        # 4. Max trades check
         if self._trades_today >= self.max_trades_per_session:
-            return self._veto(
-                f"Max trades reached: {self._trades_today}/{self.max_trades_per_session}",
-                'max_trades'
-            )
-        
-        # === CHECK 4: Cooldown after loss ===
-        if self._last_loss_time is not None:
-            elapsed = datetime.utcnow() - self._last_loss_time
-            cooldown = timedelta(minutes=self.cooldown_minutes)
-            if elapsed < cooldown:
-                remaining = (cooldown - elapsed).total_seconds() / 60
-                return self._veto(
-                    f"Cooldown active: {remaining:.1f} min remaining after last loss",
-                    'cooldown'
-                )
-        
-        # === CHECK 5: Confidence floor ===
+            self._halt("Max trades per session reached")
+            return self._veto("Max trades per session reached", "max_trades")
+            
+        # 5. Cooldown check
+        if self._is_in_cooldown():
+            return self._veto("Cooldown in progress after loss", "cooldown")
+            
+        # 6. Min confidence check
         if confidence < self.min_confidence:
-            return self._veto(
-                f"Confidence {confidence} below execution floor {self.min_confidence}",
-                'low_confidence'
-            )
-        
-        # === ALL CHECKS PASSED ===
+            return self._veto(f"Confidence {confidence} below minimum {self.min_confidence}", "low_confidence")
+            
         return self._allow(
             f"Approved: conf={confidence}, trades={self._trades_today}, "
             f"streak_loss={self._consecutive_losses}"
@@ -138,7 +121,7 @@ class ExecutionGuard:
             self._consecutive_losses = 0
         else:
             self._consecutive_losses += 1
-            self._last_loss_time = datetime.utcnow()
+            self._last_loss_time = datetime.now(timezone.utc)
             # Track loss amount
             self._daily_loss += abs(profit_loss)
     
@@ -148,7 +131,7 @@ class ExecutionGuard:
         self._consecutive_losses = 0
         self._trades_today = 0
         self._last_loss_time = None
-        self._session_start = datetime.utcnow()
+        self._session_start = datetime.now(timezone.utc)
         self._halted = False
         self._halt_reason = ""
     
@@ -164,14 +147,14 @@ class ExecutionGuard:
             'max_trades': self.max_trades_per_session,
             'in_cooldown': self._is_in_cooldown(),
             'session_duration_min': round(
-                (datetime.utcnow() - self._session_start).total_seconds() / 60, 1
+                (datetime.now(timezone.utc) - self._session_start).total_seconds() / 60, 1
             ),
         }
     
     def _is_in_cooldown(self) -> bool:
         if self._last_loss_time is None:
             return False
-        elapsed = datetime.utcnow() - self._last_loss_time
+        elapsed = datetime.now(timezone.utc) - self._last_loss_time
         return elapsed < timedelta(minutes=self.cooldown_minutes)
     
     def _halt(self, reason: str) -> None:

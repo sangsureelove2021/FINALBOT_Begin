@@ -52,7 +52,7 @@ class RegimeQualityScorer(BaseEngine):
                 ratio = mean / std
                 return min(100, int(50 + ratio * 100))
             return 50
-        except:
+        except Exception as e:
             return 50
     
     def _calculate_cleanliness(self, df: pd.DataFrame) -> int:
@@ -69,7 +69,7 @@ class RegimeQualityScorer(BaseEngine):
             # Lower wicks = cleaner
             cleanliness = max(20, min(100, 100 - wick_ratio * 100))
             return int(cleanliness)
-        except:
+        except Exception as e:
             return 50
     
     def _calculate_directionality(self, df: pd.DataFrame) -> int:
@@ -84,7 +84,7 @@ class RegimeQualityScorer(BaseEngine):
             
             efficiency = (total_move / path_length) * 100
             return int(min(100, efficiency))
-        except:
+        except Exception as e:
             return 50
     
     def get_neutral_state(self) -> Dict[str, Any]:

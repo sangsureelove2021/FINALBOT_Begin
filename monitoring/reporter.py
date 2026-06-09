@@ -6,7 +6,7 @@ Generate daily/weekly reports.
 
 import logging
 from typing import Dict, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 import json
 
@@ -47,8 +47,8 @@ class Reporter:
         health_status = health_monitor.get_status() if health_monitor else {}
         
         report = {
-            'date': datetime.utcnow().date().isoformat(),
-            'timestamp': datetime.utcnow().isoformat(),
+            'date': datetime.now(timezone.utc).date().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'trading_stats': {
                 'total_trades': om_stats.get('total_trades', 0),
                 'wins': om_stats.get('wins', 0),
@@ -88,7 +88,7 @@ class Reporter:
             Path to saved file
         """
         if filename is None:
-            date_str = datetime.utcnow().strftime('%Y%m%d')
+            date_str = datetime.now(timezone.utc).strftime('%Y%m%d')
             filename = f"daily_{date_str}.json"
         
         filepath = self.report_dir / filename

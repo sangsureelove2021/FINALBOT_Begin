@@ -59,7 +59,7 @@ class EfficiencyAnalyzer(BaseEngine):
             
             er = (net_change / total_change) * 100
             return float(min(100, er))
-        except:
+        except Exception as e:
             return 0.0
     
     def _path_efficiency(self, df) -> float:
@@ -79,7 +79,7 @@ class EfficiencyAnalyzer(BaseEngine):
                 return 0.0
             
             return float(min(100, (straight / actual) * 100))
-        except:
+        except Exception as e:
             return 0.0
     
     def _directional_efficiency(self, df) -> float:
@@ -95,7 +95,7 @@ class EfficiencyAnalyzer(BaseEngine):
             
             dominant = max(bullish, bearish)
             return float((dominant / total) * 100)
-        except:
+        except Exception as e:
             return 50.0
     
     def _classify_quality(self, efficiency: int) -> str:

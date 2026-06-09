@@ -1,0 +1,615 @@
+﻿
+  FINALBOT_MASTER_BLUEPRINT.md:119:  เนื่องจากใช้พฤทีกรรมความผันผวนร่วมกับโมเมนตัมโครงสร้างราคา
+  FINALBOT_MASTER_BLUEPRINT.md:120:
+  FINALBOT_MASTER_BLUEPRINT.md:121:ประเภทสัญญาณ:
+  FINALBOT_MASTER_BLUEPRINT.md:122:  Breakout / Momentum Continuation — ตามแนวโน้มหลังจากการระเบิดทะลุกรอบความผันผวน
+  FINALBOT_MASTER_BLUEPRINT.md:123:
+> FINALBOT_MASTER_BLUEPRINT.md:124:Market States ที่เหมาะสม:
+  FINALBOT_MASTER_BLUEPRINT.md:125:  BREAKOUT_EMERGING — ราคาทะลุกรอบและเริ่มเคลื่อนไหวอย่างมีทิศทางชัดเจน    [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:126:  ACCUMULATION      — ช่วงราคารวบรวมพลังงานและบีบอัดตัวต่ำสุดขีด           [★★★★☆]
+  FINALBOT_MASTER_BLUEPRINT.md:127:
+> FINALBOT_MASTER_BLUEPRINT.md:128:Market States ที่ห้ามใช้เด็ดขาด:
+  FINALBOT_MASTER_BLUEPRINT.md:129:  TRENDING_STRONG   — เทรนด์เคลื่อนที่ไปไกลและกระจายความผันผวนไปหมดแล้ว 
+โอกาสติดจุดสิ้นสุดสูง
+  FINALBOT_MASTER_BLUEPRINT.md:130:  SIDEWAY_RANGE    — ราคาแกว่งตัวกว้าง ไม่มีระดับความบีบอัดตัวที่เพียงพอ
+  FINALBOT_MASTER_BLUEPRINT.md:131:  REVERSAL_FORMING — สภาวะตลาดกำลังเกิดการปฏิเสธทิศทางเดิม สวนทางกับกลยุทธ์เบรกเอาต์
+  FINALBOT_MASTER_BLUEPRINT.md:132:  TRENDING_WEAK     — เทรนด์เริ่มหมดแรงขับเคลื่อนและมีความเสี่ยงเปลี่ยนทิศทางสูง
+  FINALBOT_MASTER_BLUEPRINT.md:133:  LIQUIDITY_VOID    — ตลาดขาดสภาพคล่องและทิศทางมีความผันผวนจาก Noise สูง
+  FINALBOT_MASTER_BLUEPRINT.md:134:  CHOPPY_UNCERTAIN  — ราคาขึ้นลงอย่างไร้ทิศทางในระยะสั้นมาก
+  FINALBOT_MASTER_BLUEPRINT.md:135:  DISTRIBUTION     — ราคาแกว่งตัวผันผวนที่ขอบเขตด้านบนเพื่อระบายสัญญา
+  FINALBOT_MASTER_BLUEPRINT.md:136:  TRANSITIONAL     — ช่วงกำลังเปลี่ยนสถานะตลาด 
+ซึ่งสัญญาณเบรกเอาต์มักจะเป็นสัญญาณหลอก (Fakeout)
+  FINALBOT_MASTER_BLUEPRINT.md:137:  UNCLEAR          — ข้อมูลดิบขัดแย้งเชิงโครงสร้าง ห้ามยิงสัญญาณ
+  FINALBOT_MASTER_BLUEPRINT.md:138:
+  FINALBOT_MASTER_BLUEPRINT.md:139:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:140:[2] REQUIRED INPUTS
+  FINALBOT_MASTER_BLUEPRINT.md:141:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:142:1. M5 OHLCV Candles (ย้อนหลัง 100 แท่ง)
+  FINALBOT_MASTER_BLUEPRINT.md:143:   เหตุผล: ตรวจจับทิศทางแนวโน้ม ดึงค่าตัวแปร และใช้วิเคราะห์ขนาดแท่งเทียน
+  FINALBOT_MASTER_BLUEPRINT.md:144:
+  FINALBOT_MASTER_BLUEPRINT.md:145:2. ATR(14) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:146:   เหตุผล: ใช้ normalize ความกว้างกรอบราคาและระยะการตัดความผันผวน
+  FINALBOT_MASTER_BLUEPRINT.md:147:
+  FINALBOT_MASTER_BLUEPRINT.md:148:3. ATR Percentile (จาก Volatility Intelligence)
+  FINALBOT_MASTER_BLUEPRINT.md:6270:  Leading Strategy — 
+สามารถส่งสัญญาณการเทรดได้ด้วยตัวเองเมื่อผ่านเงื่อนไขโครงสร้างราคาและ S&R โดยไม่ต้องรออินดิเคเตอร์ตัวอื่นยืนยัน
+  FINALBOT_MASTER_BLUEPRINT.md:6271:
+  FINALBOT_MASTER_BLUEPRINT.md:6272:ประเภทสัญญาณ:
+  FINALBOT_MASTER_BLUEPRINT.md:6273:  Reversal — กลับตัวระยะสั้นภายใน 1-3 แท่ง M5 (5-15 นาที)
+  FINALBOT_MASTER_BLUEPRINT.md:6274:
+> FINALBOT_MASTER_BLUEPRINT.md:6275:Market States ที่เหมาะสม:
+  FINALBOT_MASTER_BLUEPRINT.md:6276:  SIDEWAY_RANGE    — ตลาดวิ่งในกรอบแนวรับ/แนวต้านชัดเจน            [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:6277:  REVERSAL_FORMING — ตลาดกำลังแสดงสัญญาณสร้างจุดกลับตัว            [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:6278:  DISTRIBUTION     — ตลาดอยู่ในโซนกระจายของสะสม พร้อมกลับตัวลง    [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:6279:  TRANSITIONAL     — สภาวะคาบเกี่ยว ใช้ได้แต่ลดน้ำหนัก Entry Score 30% [★★★☆☆]
+  FINALBOT_MASTER_BLUEPRINT.md:6280:
+> FINALBOT_MASTER_BLUEPRINT.md:6281:Market States ที่ห้ามใช้เด็ดขาด:
+  FINALBOT_MASTER_BLUEPRINT.md:6282:  TRENDING_STRONG   — สภาวะแนวโน้มแข็งแกร่ง การสวนพฤติกรรมราคาเสี่ยงสูง
+  FINALBOT_MASTER_BLUEPRINT.md:6283:  BREAKOUT_EMERGING — ตลาดกำลังเบรคทะลุแนวระดับสำคัญ
+  FINALBOT_MASTER_BLUEPRINT.md:6284:  ACCUMULATION      — ตลาดบีบตัวรอการเลือกทาง
+  FINALBOT_MASTER_BLUEPRINT.md:6285:  TRENDING_WEAK     — สภาวะแนวโน้มอ่อนแรงแต่ยังมีทิศทางชัดเจน
+  FINALBOT_MASTER_BLUEPRINT.md:6286:  LIQUIDITY_VOID    — ตลาดขาดสภาพคล่องและปริมาณซื้อขายหนาแน่น
+  FINALBOT_MASTER_BLUEPRINT.md:6287:  CHOPPY_UNCERTAIN  — ตลาดผันผวนไร้ทิศทางและมีสัญญาณหลอกสูง
+  FINALBOT_MASTER_BLUEPRINT.md:6288:  UNCLEAR           — ข้อมูลตลาดไม่ชัดเจนหรือไม่ครบถ้วน
+  FINALBOT_MASTER_BLUEPRINT.md:6289:
+  FINALBOT_MASTER_BLUEPRINT.md:6290:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:6291:[2] REQUIRED INPUTS
+  FINALBOT_MASTER_BLUEPRINT.md:6292:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:6293:1. M5 OHLCV Candles (ย้อนหลังอย่างน้อย 35 แท่ง เพื่อใช้ประมวลผล Swing Points 
+ย้อนหลัง 30 แท่ง + Window 3 แท่ง)
+  FINALBOT_MASTER_BLUEPRINT.md:6294:   เหตุผล: ตรวจสอบและหาแนว Swing High / Swing Low และยืนยันรูปแบบแท่งเทียนย้อนหลัง 
+3 แท่ง
+  FINALBOT_MASTER_BLUEPRINT.md:6295:
+  FINALBOT_MASTER_BLUEPRINT.md:6296:2. Dynamic Support & Resistance Levels ( Swing Highs / Swing Lows )
+  FINALBOT_MASTER_BLUEPRINT.md:6297:   เหตุผล: ใช้คำนวณตำแหน่งแนวรับและแนวต้านพลวัต
+  FINALBOT_MASTER_BLUEPRINT.md:6298:
+  FINALBOT_MASTER_BLUEPRINT.md:6299:3. Candle Structure Metrics (คำนวณบนแท่ง M5[-1], M5[-2], M5[-3])
+  FINALBOT_MASTER_BLUEPRINT.md:6300:   - Body Size = |Close - Open|
+  FINALBOT_MASTER_BLUEPRINT.md:6301:   - Upper Wick = High - Max(Open, Close)
+  FINALBOT_MASTER_BLUEPRINT.md:6668:  Leading Strategy — 
+สร้างสัญญาณเทรดได้ด้วยตนเองเมื่อเงื่อนไขโครงสร้างราคาและโมเมนตัมสอดคล้องกันอย่างครบถ้วน
+  FINALBOT_MASTER_BLUEPRINT.md:6669:
+  FINALBOT_MASTER_BLUEPRINT.md:6670:ประเภทสัญญาณ:
+  FINALBOT_MASTER_BLUEPRINT.md:6671:  Reversal — กลับตัวระยะสั้นพิเศษภายใน 1 แท่ง M5 (5 นาที)
+  FINALBOT_MASTER_BLUEPRINT.md:6672:
+> FINALBOT_MASTER_BLUEPRINT.md:6673:Market States ที่เหมาะสม:
+  FINALBOT_MASTER_BLUEPRINT.md:6674:  SIDEWAY_RANGE    — ราคาแกว่งในกรอบ คลื่นราคาโต้ตอบดีกับ RSI        [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:6675:  REVERSAL_FORMING — เกิดสัญญาณกลับตัว Pin Bar ในช่วงสิ้นสุดเทรนด์ย่อย   [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:6676:  DISTRIBUTION     — ราคาแกว่งตัวในขอบเขตกระจาย ดัก PUT ความมั่นใจสูง    [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:6677:  TRANSITIONAL     — สภาพรอยต่อของตลาด ใช้ได้แต่ลดน้ำหนัก Entry Score 30% [★★★☆☆]
+  FINALBOT_MASTER_BLUEPRINT.md:6678:
+> FINALBOT_MASTER_BLUEPRINT.md:6679:Market States ที่ห้ามใช้เด็ดขาด:
+  FINALBOT_MASTER_BLUEPRINT.md:6680:  TRENDING_STRONG   — สวนเทรนด์แรงจะถูกลากทะลุเนื่องจาก RSI(3) จะติดโซนค้าง (RSI 
+Pegging)
+  FINALBOT_MASTER_BLUEPRINT.md:6681:  BREAKOUT_EMERGING — ราคาเพิ่งหลุดโซนต้าน/รับและเคลื่อนที่ด้วยความเร็ว
+  FINALBOT_MASTER_BLUEPRINT.md:6682:  ACCUMULATION      — ตลาดสงบรอสะสมกำลัง ไม่เหมาะกับกลยุทธ์ Reversal
+  FINALBOT_MASTER_BLUEPRINT.md:6683:  TRENDING_WEAK     — แนวโน้มทั่วไป
+  FINALBOT_MASTER_BLUEPRINT.md:6684:  LIQUIDITY_VOID    — ตลาดขาดปริมาณซื้อขาย ราคาขยับเป็นขั้นบันไดสัญญาณหลอกสูง
+  FINALBOT_MASTER_BLUEPRINT.md:6685:  CHOPPY_UNCERTAIN  — ตลาดผันผวนและไม่มีทิศทางแน่นอน
+  FINALBOT_MASTER_BLUEPRINT.md:6686:  UNCLEAR           — ข้อมูลตลาดไม่สมบูรณ์
+  FINALBOT_MASTER_BLUEPRINT.md:6687:
+  FINALBOT_MASTER_BLUEPRINT.md:6688:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:6689:[2] REQUIRED INPUTS
+  FINALBOT_MASTER_BLUEPRINT.md:6690:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:6691:1. M5 OHLCV Candles (ย้อนหลังอย่างน้อย 20 แท่ง 
+เพื่อประมวลผลอินดิเคเตอร์และแนวรับ/ต้าน)
+  FINALBOT_MASTER_BLUEPRINT.md:6692:   เหตุผล: คำนวณ RSI(3) และหาแนวต้าน/แนวรับท้องถิ่นระยะย้อนหลัง 8 แท่ง
+  FINALBOT_MASTER_BLUEPRINT.md:6693:
+  FINALBOT_MASTER_BLUEPRINT.md:6694:2. Relative Strength Index - RSI(3) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:6695:   เหตุผล: ตรวจวัดระดับความร้อนแรงของโมเมนตัมระยะสั้นพิเศษเพื่อระบุสภาวะ Extreme 
+Oversold/Overbought
+  FINALBOT_MASTER_BLUEPRINT.md:6696:
+  FINALBOT_MASTER_BLUEPRINT.md:6697:3. Local Support & Resistance (ย้อนหลัง 8 แท่ง ไม่รวมแท่งประเมินปัจจุบัน)
+  FINALBOT_MASTER_BLUEPRINT.md:6698:   - Local Support = Min(Low[-9], Low[-8], ..., Low[-2])
+  FINALBOT_MASTER_BLUEPRINT.md:6699:   - Local Resistance = Max(High[-9], High[-8], ..., High[-2])
+  FINALBOT_MASTER_BLUEPRINT.md:7034:  Indicator ยืนยัน เนื่องจากสัญญาณมาจากโครงสร้างราคาโดยตรง
+  FINALBOT_MASTER_BLUEPRINT.md:7035:
+  FINALBOT_MASTER_BLUEPRINT.md:7036:ประเภทสัญญาณ:
+  FINALBOT_MASTER_BLUEPRINT.md:7037:  Reversal — กลับตัวระยะสั้นภายใน 1-3 แท่ง M5
+  FINALBOT_MASTER_BLUEPRINT.md:7038:
+> FINALBOT_MASTER_BLUEPRINT.md:7039:Market States ที่เหมาะสม:
+  FINALBOT_MASTER_BLUEPRINT.md:7040:  SIDEWAY_RANGE    — แนวรับ/ต้านชัดเจน ราคาเด้งในกรอบ           [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:7041:  REVERSAL_FORMING — มีสัญญาณกลับตัว Rejection ยืนยันได้ดี      [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:7042:  DISTRIBUTION     — ราคาแตะขอบกรอบผันผวน ระวัง False Rejection  [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:7043:  TRANSITIONAL     — ใช้ได้แต่ลดน้ำหนัก Entry Score 30%          [★★★☆☆]
+  FINALBOT_MASTER_BLUEPRINT.md:7044:
+> FINALBOT_MASTER_BLUEPRINT.md:7045:Market States ที่ห้ามใช้เด็ดขาด:
+  FINALBOT_MASTER_BLUEPRINT.md:7046:  TRENDING_STRONG   — Rejection สวนเทรนด์แรง โอกาสแพ้สูงมาก
+  FINALBOT_MASTER_BLUEPRINT.md:7047:  BREAKOUT_EMERGING — ราคากำลังทะลุ Rejection เป็นสัญญาณหลอก
+  FINALBOT_MASTER_BLUEPRINT.md:7048:  ACCUMULATION      — ตลาดบีบอัด รอทิศทาง ยังไม่มีแนวรับ/ต้านชัด
+  FINALBOT_MASTER_BLUEPRINT.md:7049:  TRENDING_WEAK     — เทรนด์ยังมีอยู่ Rejection สวนทิศทาง
+  FINALBOT_MASTER_BLUEPRINT.md:7050:  LIQUIDITY_VOID    — ตลาดหยุดนิ่ง ราคาไม่มีแรงขับ
+  FINALBOT_MASTER_BLUEPRINT.md:7051:  CHOPPY_UNCERTAIN  — Rejection ไม่มีความหมายในตลาดสับสน
+  FINALBOT_MASTER_BLUEPRINT.md:7052:  UNCLEAR           — ข้อมูลขัดแย้ง ห้ามส่งสัญญาณ
+  FINALBOT_MASTER_BLUEPRINT.md:7053:
+  FINALBOT_MASTER_BLUEPRINT.md:7054:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:7055:[2] REQUIRED INPUTS
+  FINALBOT_MASTER_BLUEPRINT.md:7056:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:7057:1. M5 OHLCV Candles (ย้อนหลัง 100 แท่ง)
+  FINALBOT_MASTER_BLUEPRINT.md:7058:   เหตุผล: คำนวณแนวระดับ S/R, Volume Profile และ ATR
+  FINALBOT_MASTER_BLUEPRINT.md:7059:
+  FINALBOT_MASTER_BLUEPRINT.md:7060:2. ATR(14) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:7061:   เหตุผล: Normalize ระยะทุกค่าให้ไม่ขึ้นกับความผันผวนสัมบูรณ์ของคู่เงิน
+  FINALBOT_MASTER_BLUEPRINT.md:7062:
+  FINALBOT_MASTER_BLUEPRINT.md:7063:3. S/R Level Database (คำนวณจาก Swing Points ย้อนหลัง 20 แท่ง)
+  FINALBOT_MASTER_BLUEPRINT.md:7064:   เหตุผล: ระบุพิกัดแนวรับ/ต้านที่ผ่านการยืนยัน พร้อมคะแนนคุณภาพ S_level
+  FINALBOT_MASTER_BLUEPRINT.md:7065:
+  FINALBOT_MASTER_BLUEPRINT.md:7469:  Leading Strategy — 
+สัญญาณเกิดขึ้นจากพฤติกรรมการกวาดสภาพคล่องของราคากับระดับแนวระดับโดยตรง จึงส่งคำสั่งได้ทันทีเมื่อผ่านเกณฑ์
+  FINALBOT_MASTER_BLUEPRINT.md:7470:
+  FINALBOT_MASTER_BLUEPRINT.md:7471:ประเภทสัญญาณ:
+  FINALBOT_MASTER_BLUEPRINT.md:7472:  Reversal — การกลับตัวทันทีหลังจากการกวาดสภาพคล่อง (Mean Reversion ในรอบ 1-2 แท่ง 
+M5)
+  FINALBOT_MASTER_BLUEPRINT.md:7473:
+> FINALBOT_MASTER_BLUEPRINT.md:7474:Market States ที่เหมาะสม:
+  FINALBOT_MASTER_BLUEPRINT.md:7475:  SIDEWAY_RANGE    — ตลาดวิ่งในกรอบ มีการทำ Fakeout ที่ขอบบ่อยครั้ง   [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:7476:  REVERSAL_FORMING — ตลาดแสดงสัญญาณทำจุดกลับตัวชัดเจน             [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:7477:  DISTRIBUTION     — การกวาดสภาพคล่องขอบบนเพื่อกลับตัวลง           [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:7478:  TRANSITIONAL     — ตลาดก้ำกึ่ง ใช้ได้แต่ลดน้ำหนัก Entry Score 30%    [★★★☆☆]
+  FINALBOT_MASTER_BLUEPRINT.md:7479:
+> FINALBOT_MASTER_BLUEPRINT.md:7480:Market States ที่ห้ามใช้เด็ดขาด:
+  FINALBOT_MASTER_BLUEPRINT.md:7481:  TRENDING_STRONG   — สภาวะแนวโน้มรุนแรง (การเบรคมีโอกาสเป็นของจริงสูง)
+  FINALBOT_MASTER_BLUEPRINT.md:7482:  BREAKOUT_EMERGING — ตลาดเพิ่งทะลุกรอบและเริ่มเคลื่อนที่อย่างมีแรงส่ง
+  FINALBOT_MASTER_BLUEPRINT.md:7483:  ACCUMULATION      — ตลาดบีบตัวพักฐานรอการระเบิดทิศทาง
+  FINALBOT_MASTER_BLUEPRINT.md:7484:  TRENDING_WEAK     — แนวโน้มทั่วไป
+  FINALBOT_MASTER_BLUEPRINT.md:7485:  LIQUIDITY_VOID    — ตลาดไม่มีปริมาณซื้อขายรองรับ
+  FINALBOT_MASTER_BLUEPRINT.md:7486:  CHOPPY_UNCERTAIN  — สภาวะราคาผันผวนไร้ทิศทางและเต็มไปด้วย Noise
+  FINALBOT_MASTER_BLUEPRINT.md:7487:  UNCLEAR           — สถานะข้อมูลจาก intelligence OS ไม่ชัดเจน
+  FINALBOT_MASTER_BLUEPRINT.md:7488:
+  FINALBOT_MASTER_BLUEPRINT.md:7489:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:7490:[2] REQUIRED INPUTS
+  FINALBOT_MASTER_BLUEPRINT.md:7491:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:7492:1. M5 OHLCV Candles (ย้อนหลังอย่างน้อย 45 แท่ง เพื่อรองรับ Swing Lookback 40 แท่ง 
++ Window 3 แท่ง)
+  FINALBOT_MASTER_BLUEPRINT.md:7493:   เหตุผล: ใช้ค้นหา Swing High / Swing Low 
+ประวัติศาสตร์และตรวจสอบโครงสร้างแท่งเทียนปัจจุบัน
+  FINALBOT_MASTER_BLUEPRINT.md:7494:
+  FINALBOT_MASTER_BLUEPRINT.md:7495:2. Dynamic Support & Resistance Levels ( Swing Highs / Swing Lows )
+  FINALBOT_MASTER_BLUEPRINT.md:7496:   เหตุผล: กำหนดระดับอ้างอิงเพื่อประเมินจุดกวาดสภาพคล่อง (Liquidity Sweep)
+  FINALBOT_MASTER_BLUEPRINT.md:7497:
+  FINALBOT_MASTER_BLUEPRINT.md:7498:3. Candle Structure Metrics (คำนวณบนแท่ง M5[-1] ล่าสุดที่เพิ่งปิด)
+  FINALBOT_MASTER_BLUEPRINT.md:7499:   - Body Size = |Close - Open|
+  FINALBOT_MASTER_BLUEPRINT.md:7500:   - Upper Wick = High - Max(Open, Close)
+  FINALBOT_MASTER_BLUEPRINT.md:7812:  Leading Strategy — มีสิทธิ์สร้างสัญญาณหลักด้วยตัวเองจากการเกิด Confluence 
+เชิงโครงสร้างราคาและ Momentum
+  FINALBOT_MASTER_BLUEPRINT.md:7813:
+  FINALBOT_MASTER_BLUEPRINT.md:7814:ประเภทสัญญาณ:
+  FINALBOT_MASTER_BLUEPRINT.md:7815:  Reversal — กลับตัวระยะสั้นภายใน 1 แท่ง M5 (5 นาที)
+  FINALBOT_MASTER_BLUEPRINT.md:7816:
+> FINALBOT_MASTER_BLUEPRINT.md:7817:Market States ที่เหมาะสม:
+  FINALBOT_MASTER_BLUEPRINT.md:7818:  SIDEWAY_RANGE    — แนวรับ/ต้านชัดเจน ราคาเด้งในกรอบและแบนด์       [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:7819:  REVERSAL_FORMING — เกิดการปฏิเสธราคาบริเวณขอบแบนด์ชัดเจน      [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:7820:  DISTRIBUTION     — ราคาแตะขอบบนของกรอบสะสมเตรียมกลับตัว       [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:7821:  TRANSITIONAL     — ใช้ได้แต่ลดน้ำหนัก Entry Score 30%          [★★★☆☆]
+  FINALBOT_MASTER_BLUEPRINT.md:7822:
+> FINALBOT_MASTER_BLUEPRINT.md:7823:Market States ที่ห้ามใช้เด็ดขาด:
+  FINALBOT_MASTER_BLUEPRINT.md:7824:  TRENDING_STRONG   — ราคาวิ่งเกาะขอบแบนด์เหนียวแน่น (Band Walking) โอกาสแพ้สูงมาก
+  FINALBOT_MASTER_BLUEPRINT.md:7825:  BREAKOUT_EMERGING — ราคากำลังฉีกแบนด์ทะลุแนวต้าน/รับแบบรุนแรง
+  FINALBOT_MASTER_BLUEPRINT.md:7826:  ACCUMULATION      — ตลาดกำลังบีบตัวแคบ (Squeeze) เพื่อรอระเบิดทิศทาง
+  FINALBOT_MASTER_BLUEPRINT.md:7827:  TRENDING_WEAK     — แนวโน้มอ่อนแรงแต่ยังไหลไปตามทิศทางแบนด์
+  FINALBOT_MASTER_BLUEPRINT.md:7828:  LIQUIDITY_VOID    — ปริมาณซื้อขายต่ำเกินไป แบนด์แคบและราคาไม่มีนัยสำคัญ
+  FINALBOT_MASTER_BLUEPRINT.md:7829:  CHOPPY_UNCERTAIN  — ตลาดผันผวนสับสนในกรอบแคบเกินไป
+  FINALBOT_MASTER_BLUEPRINT.md:7830:  UNCLEAR           — สภาวะตลาดคลุมเครือ
+  FINALBOT_MASTER_BLUEPRINT.md:7831:
+  FINALBOT_MASTER_BLUEPRINT.md:7832:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:7833:[2] REQUIRED INPUTS
+  FINALBOT_MASTER_BLUEPRINT.md:7834:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:7835:1. M5 OHLCV Candles (ย้อนหลัง 100 แท่ง)
+  FINALBOT_MASTER_BLUEPRINT.md:7836:   เหตุผล: ใช้คำนวณ Bollinger Bands, RSI(7), พิกัดแนวรับ/ต้านท้องถิ่น (Local S/R) 
+และ ATR
+  FINALBOT_MASTER_BLUEPRINT.md:7837:
+  FINALBOT_MASTER_BLUEPRINT.md:7838:2. ATR(14) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:7839:   เหตุผล: Normalize ระยะการคำนวณและเกณฑ์การยอมรับค่าเผื่อให้ไม่ขึ้นกับคู่เงิน
+  FINALBOT_MASTER_BLUEPRINT.md:7840:
+  FINALBOT_MASTER_BLUEPRINT.md:7841:3. Bollinger Bands ( window, std_dev )
+  FINALBOT_MASTER_BLUEPRINT.md:7842:   เหตุผล: กำหนดขอบเขตความผันผวนทางสถิติของราคาในรอบเวลาที่กำหนด (14 หรือ 20)
+  FINALBOT_MASTER_BLUEPRINT.md:7843:
+  FINALBOT_MASTER_BLUEPRINT.md:8224:  Leading Strategy — สร้างสัญญาณกลับตัวประสิทธิภาพสูงแต่มีความถี่ต่ำ (High 
+Accuracy, Low Frequency) จากการบรรจบกันของสภาวะสุดขีดของแนวต้านโมเมนตัมและราคา
+  FINALBOT_MASTER_BLUEPRINT.md:8225:
+  FINALBOT_MASTER_BLUEPRINT.md:8226:ประเภทสัญญาณ:
+  FINALBOT_MASTER_BLUEPRINT.md:8227:  Reversal — กลับตัวระยะสั้นภายใน 1 แท่ง M5 (5 นาที)
+  FINALBOT_MASTER_BLUEPRINT.md:8228:
+> FINALBOT_MASTER_BLUEPRINT.md:8229:Market States ที่เหมาะสม:
+  FINALBOT_MASTER_BLUEPRINT.md:8230:  SIDEWAY_RANGE    — แนวราคาเด้งไปมาในกรอบของ Bollinger Bands   [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:8231:  REVERSAL_FORMING — ราคาเริ่มหมดแรงและเกิดการดีดตัวกลับจากโซนขีดสุด [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:8232:  DISTRIBUTION     — สภาวะการแจกจ่ายหุ้นที่มีความผันผวนสูงแถบขีดสุด   [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:8233:  TRANSITIONAL     — ใช้ได้แต่ลดน้ำหนัก Entry Score 30%          [★★★☆☆]
+  FINALBOT_MASTER_BLUEPRINT.md:8234:
+> FINALBOT_MASTER_BLUEPRINT.md:8235:Market States ที่ห้ามใช้เด็ดขาด:
+  FINALBOT_MASTER_BLUEPRINT.md:8236:  TRENDING_STRONG   — สภาวะตลาดมีเทรนด์รุนแรง โมเมนตัม RSI 
+จะค้างในระดับขีดสุดต่อเนื่อง
+  FINALBOT_MASTER_BLUEPRINT.md:8237:  BREAKOUT_EMERGING — ราคาตัดทะลุขอบแบนด์และเบรคเอาท์ยาวอย่างรุนแรง
+  FINALBOT_MASTER_BLUEPRINT.md:8238:  ACCUMULATION      — ตลาดบีบอัดตัวแคบ รอระเบิดทิศทาง
+  FINALBOT_MASTER_BLUEPRINT.md:8239:  TRENDING_WEAK     — เทรนด์ค่อนข้างชัดเจนแต่มีทิศทางเอียงไปข้างใดข้างหนึ่ง
+  FINALBOT_MASTER_BLUEPRINT.md:8240:  LIQUIDITY_VOID    — ขาดปริมาณซื้อขายทำให้โครงสร้าง Bollinger Band ผิดเพี้ยน
+  FINALBOT_MASTER_BLUEPRINT.md:8241:  CHOPPY_UNCERTAIN  — ราคาขึ้นลงสะเปะสะปะโดยไร้ทิศทางและสอดคล้องกับอินดิเคเตอร์
+  FINALBOT_MASTER_BLUEPRINT.md:8242:  UNCLEAR           — ข้อมูลอินดิเคเตอร์และราคาขัดแย้งกันเอง
+  FINALBOT_MASTER_BLUEPRINT.md:8243:
+  FINALBOT_MASTER_BLUEPRINT.md:8244:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:8245:[2] REQUIRED INPUTS
+  FINALBOT_MASTER_BLUEPRINT.md:8246:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:8247:1. M5 OHLCV Candles (ย้อนหลัง 100 แท่ง)
+  FINALBOT_MASTER_BLUEPRINT.md:8248:   เหตุผล: ใช้คำนวณ RSI(3), Stochastic(5,3,3), Bollinger Bands(10, 2.0) และ ATR(14)
+  FINALBOT_MASTER_BLUEPRINT.md:8249:
+  FINALBOT_MASTER_BLUEPRINT.md:8250:2. ATR(14) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:8251:   เหตุผล: Normalize 
+ระยะการคำนวณและเกณฑ์เปรียบเทียบในแบนด์ให้สม่ำเสมอในทุกสินทรัพย์
+  FINALBOT_MASTER_BLUEPRINT.md:8252:
+  FINALBOT_MASTER_BLUEPRINT.md:8253:3. RSI(3) พร้อม Wilder's Smoothing (ช่วงเวลาระยะสั้นมาก)
+  FINALBOT_MASTER_BLUEPRINT.md:8254:   เหตุผล: หาการเปลี่ยนสภาวะสวิงราคาสุดโต่งในกรอบสั้นระดับ 1-2 แท่งเทียน
+  FINALBOT_MASTER_BLUEPRINT.md:8255:
+  FINALBOT_MASTER_BLUEPRINT.md:8622:  Leading Strategy — สร้างสัญญาณกลับตัวพื้นฐาน (Core Reversal) 
+จากการเปลี่ยนผ่านแนวโน้มระยะสั้นในกรอบแนวรับ/แนวต้านสำคัญ
+  FINALBOT_MASTER_BLUEPRINT.md:8623:
+  FINALBOT_MASTER_BLUEPRINT.md:8624:ประเภทสัญญาณ:
+  FINALBOT_MASTER_BLUEPRINT.md:8625:  Reversal — กลับตัวระยะสั้นภายใน 1 แท่ง M5 (5 นาที)
+  FINALBOT_MASTER_BLUEPRINT.md:8626:
+> FINALBOT_MASTER_BLUEPRINT.md:8627:Market States ที่เหมาะสม:
+  FINALBOT_MASTER_BLUEPRINT.md:8628:  SIDEWAY_RANGE    — ตลาดแกว่งตัวในกรอบรับต้านชัดเจน              [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:8629:  REVERSAL_FORMING — เกิดรูปแบบกลับตัวหลังจากราคาออกนอกเกณฑ์     [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:8630:  DISTRIBUTION     — ราคาอยู่ในเขตบนสะสมและเตรียมเทขาย          [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:8631:  TRANSITIONAL     — ใช้ได้แต่ลดน้ำหนัก Entry Score 30%          [★★★☆☆]
+  FINALBOT_MASTER_BLUEPRINT.md:8632:
+> FINALBOT_MASTER_BLUEPRINT.md:8633:Market States ที่ห้ามใช้เด็ดขาด:
+  FINALBOT_MASTER_BLUEPRINT.md:8634:  TRENDING_STRONG   — ตลาดรันเทรนด์ยาวนาน โมเมนตัมหักหัวกลับได้ยากและสเปรดกว้าง
+  FINALBOT_MASTER_BLUEPRINT.md:8635:  BREAKOUT_EMERGING — ราคาตัดผ่านระดับอย่างรุนแรงและเกิดการเริ่มเทรนด์ใหม่
+  FINALBOT_MASTER_BLUEPRINT.md:8636:  ACCUMULATION      — ตลาดบีบตัวไม่แสดงแนวรับ/ต้านที่ชัดเจน
+  FINALBOT_MASTER_BLUEPRINT.md:8637:  TRENDING_WEAK     — สภาวะมีเทรนด์อ่อนๆ แต่ราคาไม่ยอมกลับทิศทาง
+  FINALBOT_MASTER_BLUEPRINT.md:8638:  LIQUIDITY_VOID    — การขาดหายของปริมาณซื้อขายทำให้ตัวชี้วัดเพี้ยน
+  FINALBOT_MASTER_BLUEPRINT.md:8639:  CHOPPY_UNCERTAIN  — ราคาเปลี่ยนทิศทางอย่างไร้ระเบียบ
+  FINALBOT_MASTER_BLUEPRINT.md:8640:  UNCLEAR           — ค่าอินดิเคเตอร์ขัดแย้งเชิงโครงสร้างราคา
+  FINALBOT_MASTER_BLUEPRINT.md:8641:
+  FINALBOT_MASTER_BLUEPRINT.md:8642:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:8643:[2] REQUIRED INPUTS
+  FINALBOT_MASTER_BLUEPRINT.md:8644:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:8645:1. M5 OHLCV Candles (ย้อนหลัง 100 แท่ง)
+  FINALBOT_MASTER_BLUEPRINT.md:8646:   เหตุผล: ใช้คำนวณ RSI(7), แนวรับ/แนวต้าน (Local S/R) และค่า ATR
+  FINALBOT_MASTER_BLUEPRINT.md:8647:
+  FINALBOT_MASTER_BLUEPRINT.md:8648:2. ATR(14) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:8649:   เหตุผล: Normalize ระยะห่างของราคาเทียบกับแนวระดับสำคัญเพื่อวัดพิกัดที่แท้จริง
+  FINALBOT_MASTER_BLUEPRINT.md:8650:
+  FINALBOT_MASTER_BLUEPRINT.md:8651:3. RSI(7) พร้อม Wilder's Smoothing
+  FINALBOT_MASTER_BLUEPRINT.md:8652:   เหตุผล: วัดการไหลเข้าออกของแรงซื้อและแรงขาย (Momentum) เพื่อหาจังหวะไหลกลับ 
+(Reentry)
+  FINALBOT_MASTER_BLUEPRINT.md:8653:
+  FINALBOT_MASTER_BLUEPRINT.md:9017:  Leading Strategy — มีสิทธิ์สร้างสัญญาณหลักด้วยตัวเองเมื่อองค์ประกอบครบถ้วน
+  FINALBOT_MASTER_BLUEPRINT.md:9018:
+  FINALBOT_MASTER_BLUEPRINT.md:9019:ประเภทสัญญาณ:
+  FINALBOT_MASTER_BLUEPRINT.md:9020:  Reversal — กลับตัวระยะสั้นภายใน 1-3 แท่ง M5
+  FINALBOT_MASTER_BLUEPRINT.md:9021:
+> FINALBOT_MASTER_BLUEPRINT.md:9022:Market States ที่เหมาะสม:
+  FINALBOT_MASTER_BLUEPRINT.md:9023:  SIDEWAY_RANGE    — ตลาดสวิงในกรอบชัดเจน วิ่งชนขอบแล้วกลับตัว     [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:9024:  REVERSAL_FORMING — มีสัญญาณเหนื่อยล้าของเทรนด์และจ่อขอบแบนด์      [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:9025:  DISTRIBUTION     — การกระจายสินค้าบริเวณขอบแนวต้านสำคัญ          [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:9026:  TRANSITIONAL     — ใช้ได้แต่ลดน้ำหนัก Entry Score 30%          [★★★☆☆]
+  FINALBOT_MASTER_BLUEPRINT.md:9027:
+> FINALBOT_MASTER_BLUEPRINT.md:9028:Market States ที่ห้ามใช้เด็ดขาด:
+  FINALBOT_MASTER_BLUEPRINT.md:9029:  TRENDING_STRONG   — ตลาดทำเทรนด์รุนแรง ราคาจะเกาะเส้นแบนด์ลากยาว (Band Riding)
+  FINALBOT_MASTER_BLUEPRINT.md:9030:  BREAKOUT_EMERGING — ราคากำลังพุ่งทะลุกรอบเพื่อทำทิศทางใหม่
+  FINALBOT_MASTER_BLUEPRINT.md:9031:  ACCUMULATION      — ช่วงสะสมราคา กรอบแคบเกินไป สัญญาณหลอกเยอะ
+  FINALBOT_MASTER_BLUEPRINT.md:9032:  TRENDING_WEAK     — เทรนด์อ่อนๆ แต่อาจผลักดันต่อเนื่องจนชนแนว
+  FINALBOT_MASTER_BLUEPRINT.md:9033:  LIQUIDITY_VOID    — ขาดสภาพคล่อง ราคาขยับเป็นขั้นบันได
+  FINALBOT_MASTER_BLUEPRINT.md:9034:  CHOPPY_UNCERTAIN  — ตลาดสะเปะสะปะ ไม่มีทิศทาง
+  FINALBOT_MASTER_BLUEPRINT.md:9035:  UNCLEAR           — สัญญาณตลาดขัดแย้งเชิงโครงสร้าง
+  FINALBOT_MASTER_BLUEPRINT.md:9036:
+  FINALBOT_MASTER_BLUEPRINT.md:9037:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:9038:[2] REQUIRED INPUTS
+  FINALBOT_MASTER_BLUEPRINT.md:9039:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:9040:1. M5 OHLCV Candles (ย้อนหลังอย่างน้อย 20 แท่ง)
+  FINALBOT_MASTER_BLUEPRINT.md:9041:   เหตุผล: คำนวณเส้น Bollinger Bands, Fast Stochastic, ATR 
+และระบุแพทเทิร์นแท่งเทียน
+  FINALBOT_MASTER_BLUEPRINT.md:9042:
+  FINALBOT_MASTER_BLUEPRINT.md:9043:2. ATR(14) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:9044:   เหตุผล: 
+ใช้เป็นมาตรวัดสากลในการแปลงค่าความห่างของราคาให้เป็นสัดส่วนผันแปรเทียบเคียงกันได้
+  FINALBOT_MASTER_BLUEPRINT.md:9045:
+  FINALBOT_MASTER_BLUEPRINT.md:9046:3. Bollinger Bands (10, 1.8) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:9047:   - Period             = 10 (หน้าต่างสแกนสั้นเพื่อความไวต่อการตอบสนอง)
+  FINALBOT_MASTER_BLUEPRINT.md:9048:   - Standard Deviation = 1.8 (ปรับระดับแบนด์ให้แคบลงเพื่อหาขอบสวิงลึก)
+  FINALBOT_MASTER_BLUEPRINT.md:9451:  Leading Strategy — 
+มีสิทธิ์สร้างสัญญาณหลักด้วยตัวเองเมื่อเงื่อนไขและคะแนนผ่านเกณฑ์ที่กำหนด
+  FINALBOT_MASTER_BLUEPRINT.md:9452:
+  FINALBOT_MASTER_BLUEPRINT.md:9453:ประเภทสัญญาณ:
+  FINALBOT_MASTER_BLUEPRINT.md:9454:  Reversal — กลับตัวระยะสั้นภายใน 1-3 แท่ง M5
+  FINALBOT_MASTER_BLUEPRINT.md:9455:
+> FINALBOT_MASTER_BLUEPRINT.md:9456:Market States ที่เหมาะสม:
+  FINALBOT_MASTER_BLUEPRINT.md:9457:  SIDEWAY_RANGE    — แนวรับ/ต้านชัดเจน ราคาแกว่งตัวในกรอบ          [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:9458:  REVERSAL_FORMING — มีสัญญาณการกลับตัวและโมเมนตัมชะลอตัวลงชัดเจน  [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:9459:  DISTRIBUTION     — ราคาแตะขอบบนของกรอบสะสมหนาแน่น           [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:9460:  TRANSITIONAL     — ใช้ได้แต่ลดน้ำหนัก Entry Score 30%          [★★★☆☆]
+  FINALBOT_MASTER_BLUEPRINT.md:9461:
+> FINALBOT_MASTER_BLUEPRINT.md:9462:Market States ที่ห้ามใช้เด็ดขาด:
+  FINALBOT_MASTER_BLUEPRINT.md:9463:  TRENDING_STRONG   — ตลาดมีแนวโน้มแข็งแกร่ง สวนทางมีโอกาสขาดทุนสูง
+  FINALBOT_MASTER_BLUEPRINT.md:9464:  BREAKOUT_EMERGING — ราคากำลังเบรคทะลุกรอบแนวรับ/แนวต้าน
+  FINALBOT_MASTER_BLUEPRINT.md:9465:  ACCUMULATION      — ตลาดบีบอัดตัวรอเลือกทิศทาง ยังไม่มีกรอบแกว่งตัวชัดเจน
+  FINALBOT_MASTER_BLUEPRINT.md:9466:  TRENDING_WEAK     — ตลาดยังมีแนวโน้มอ่อนๆ โอกาสกลับตัวไม่แน่นอน
+  FINALBOT_MASTER_BLUEPRINT.md:9467:  LIQUIDITY_VOID    — ตลาดขาดสภาพคล่อง ราคาเคลื่อนไหวไม่มีทิศทาง
+  FINALBOT_MASTER_BLUEPRINT.md:9468:  CHOPPY_UNCERTAIN  — ราคาผันผวนสะเปะสะปะ ไม่มีโครงสร้างชัดเจน
+  FINALBOT_MASTER_BLUEPRINT.md:9469:  UNCLEAR           — สภาวะตลาดมีความขัดแย้งเชิงข้อมูล
+  FINALBOT_MASTER_BLUEPRINT.md:9470:
+  FINALBOT_MASTER_BLUEPRINT.md:9471:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:9472:[2] REQUIRED INPUTS
+  FINALBOT_MASTER_BLUEPRINT.md:9473:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:9474:1. M5 OHLCV Candles (ย้อนหลังอย่างน้อย 30 แท่ง)
+  FINALBOT_MASTER_BLUEPRINT.md:9475:   เหตุผล: คำนวณเส้น Stochastic, แนวรับ/แนวต้านระดับท้องถิ่น และ ATR
+  FINALBOT_MASTER_BLUEPRINT.md:9476:
+  FINALBOT_MASTER_BLUEPRINT.md:9477:2. ATR(14) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:9478:   เหตุผล: Normalize 
+ระยะการสัมผัสแนวและค่าความผันผวนเพื่อให้เป็นมาตรฐานเดียวกันในทุกคู่เงิน
+  FINALBOT_MASTER_BLUEPRINT.md:9479:
+  FINALBOT_MASTER_BLUEPRINT.md:9480:3. Local S/R Level (คำนวณจากช่วงแท่งเทียน M5[-13] ถึง M5[-3] ย้อนหลัง)
+  FINALBOT_MASTER_BLUEPRINT.md:9481:   - Support Level (แนวรับ)      = ค่าต่ำสุดของราคา Low ในช่วง M5[-13] ถึง M5[-3]
+  FINALBOT_MASTER_BLUEPRINT.md:9482:   - Resistance Level (แนวต้าน) = ค่าสูงสุดของราคา High ในช่วง M5[-13] ถึง M5[-3]
+  FINALBOT_MASTER_BLUEPRINT.md:9879:  และได้รับการยืนยันปริมาณการซื้อขายและค่าความผันผวนตามเกณฑ์
+  FINALBOT_MASTER_BLUEPRINT.md:9880:
+  FINALBOT_MASTER_BLUEPRINT.md:9881:ประเภทสัญญาณ:
+  FINALBOT_MASTER_BLUEPRINT.md:9882:  Trend-Following — ตามแนวโน้มระยะสั้นถึงกลางภายใน 1-3 แท่ง M5
+  FINALBOT_MASTER_BLUEPRINT.md:9883:
+> FINALBOT_MASTER_BLUEPRINT.md:9884:Market States ที่เหมาะสม:
+  FINALBOT_MASTER_BLUEPRINT.md:9885:  TRENDING_STRONG   — แนวโน้มหลักชัดเจนและแข็งแกร่ง             [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:9886:  TRENDING_WEAK     — แนวโน้มเริ่มก่อตัวแต่ยังไม่แข็งแรงเต็มที่       [★★★★☆]
+  FINALBOT_MASTER_BLUEPRINT.md:9887:  BREAKOUT_EMERGING — ราคาทะลุกรอบสำคัญเพื่อตั้งเทรนด์ใหม่        [★★★☆☆]
+  FINALBOT_MASTER_BLUEPRINT.md:9888:
+> FINALBOT_MASTER_BLUEPRINT.md:9889:Market States ที่ห้ามใช้เด็ดขาด:
+  FINALBOT_MASTER_BLUEPRINT.md:9890:  SIDEWAY_RANGE    — ตลาดไม่มีแนวโน้ม เกิดสัญญาณหลอกบ่อยครั้ง (Whip-saws)
+  FINALBOT_MASTER_BLUEPRINT.md:9891:  ACCUMULATION      — ตลาดสะสมพลังเพื่อเลือกทิศทาง ราคาแกว่งแคบ
+  FINALBOT_MASTER_BLUEPRINT.md:9892:  DISTRIBUTION     — ราคาแกว่งตัวผันผวนสูงบริเวณยอดคลื่น
+  FINALBOT_MASTER_BLUEPRINT.md:9893:  LIQUIDITY_VOID    — ปริมาณการซื้อขายต่ำเกินไป เส้นค่าเฉลี่ยวิ่งทับกัน
+  FINALBOT_MASTER_BLUEPRINT.md:9894:  CHOPPY_UNCERTAIN  — ทิศทางตลาดไม่แน่นอน แกว่งตัดไปมาไม่มีทิศทาง
+  FINALBOT_MASTER_BLUEPRINT.md:9895:  UNCLEAR           — ข้อมูลขัดแย้ง ไม่ระบุสภาวะตลาดที่แน่นอน
+  FINALBOT_MASTER_BLUEPRINT.md:9896:
+  FINALBOT_MASTER_BLUEPRINT.md:9897:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:9898:[2] REQUIRED INPUTS
+  FINALBOT_MASTER_BLUEPRINT.md:9899:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:9900:1. M5 OHLCV Candles (ย้อนหลัง 100 แท่ง)
+  FINALBOT_MASTER_BLUEPRINT.md:9901:   เหตุผล: คำนวณเส้น EMA 5, EMA 20, Volume Profile และ ATR(14)
+  FINALBOT_MASTER_BLUEPRINT.md:9902:
+  FINALBOT_MASTER_BLUEPRINT.md:9903:2. ATR(14) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:9904:   เหตุผล: Normalize ระยะการตัดกันและขนาดแท่งเทียนให้เหมาะสมตามความผันผวนของคู่เงิน
+  FINALBOT_MASTER_BLUEPRINT.md:9905:
+  FINALBOT_MASTER_BLUEPRINT.md:9906:3. EMA 5 และ EMA 20 บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:9907:   เหตุผล: ระบุจุดตัดของราคาระหว่างระยะสั้นและระยะกลางเพื่อระบุสัญญาณ Golden/Dead 
+Cross
+  FINALBOT_MASTER_BLUEPRINT.md:9908:
+  FINALBOT_MASTER_BLUEPRINT.md:9909:4. Average Volume (เฉลี่ย 20 แท่ง M5)
+  FINALBOT_MASTER_BLUEPRINT.md:10275:  และได้รับการยืนยันพารามิเตอร์ตามที่กำหนดไว้ในเงื่อนไขการเปิดสัญญาณ
+  FINALBOT_MASTER_BLUEPRINT.md:10276:
+  FINALBOT_MASTER_BLUEPRINT.md:10277:ประเภทสัญญาณ:
+  FINALBOT_MASTER_BLUEPRINT.md:10278:  Trend-Following (Momentum Pullback) — 
+เข้าซื้อเมื่อเกิดการย่อตัวในแนวโน้มเพื่อหาจุดเข้าเปรียบเทียบที่ดีที่สุด
+  FINALBOT_MASTER_BLUEPRINT.md:10279:
+> FINALBOT_MASTER_BLUEPRINT.md:10280:Market States ที่เหมาะสม:
+  FINALBOT_MASTER_BLUEPRINT.md:10281:  TRENDING_STRONG   — แนวโน้มมีความชันและการเรียงตัวสมบูรณ์แบบ      [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:10282:  TRENDING_WEAK     — แนวโน้มกำลังตั้งตัวและเรียงเส้นเข้าหากัน        [★★★★☆]
+  FINALBOT_MASTER_BLUEPRINT.md:10283:
+> FINALBOT_MASTER_BLUEPRINT.md:10284:Market States ที่ห้ามใช้เด็ดขาด:
+  FINALBOT_MASTER_BLUEPRINT.md:10285:  SIDEWAY_RANGE    — ตลาดแกว่งออกข้าง เส้นค่าเฉลี่ยพันกันเป็นเกลียว (No alignment)
+  FINALBOT_MASTER_BLUEPRINT.md:10286:  ACCUMULATION      — การสะสมของราคารอบเส้นค่าเฉลี่ย
+  FINALBOT_MASTER_BLUEPRINT.md:10287:  DISTRIBUTION     — ราคาผันผวนสูงบริเวณยอดคลื่น เกิดสัญญาณหลอกบ่อย
+  FINALBOT_MASTER_BLUEPRINT.md:10288:  LIQUIDITY_VOID    — ขาดปริมาณซื้อขายสะสมอย่างชัดเจน
+  FINALBOT_MASTER_BLUEPRINT.md:10289:  CHOPPY_UNCERTAIN  — ตลาดเหวี่ยงตัวอย่างไร้ทิศทาง
+  FINALBOT_MASTER_BLUEPRINT.md:10290:  UNCLEAR           — สถานะตลาดไม่ชัดเจนหรือขาดการประมวลผลข้อมูล
+  FINALBOT_MASTER_BLUEPRINT.md:10291:
+  FINALBOT_MASTER_BLUEPRINT.md:10292:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:10293:[2] REQUIRED INPUTS
+  FINALBOT_MASTER_BLUEPRINT.md:10294:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:10295:1. M5 OHLCV Candles (ย้อนหลัง 100 แท่ง)
+  FINALBOT_MASTER_BLUEPRINT.md:10296:   เหตุผล: ใช้ประเมินและคำนวณเส้น EMA 3, EMA 5, EMA 8, RSI(5) และค่า ATR(14) 
+ย้อนหลัง
+  FINALBOT_MASTER_BLUEPRINT.md:10297:
+  FINALBOT_MASTER_BLUEPRINT.md:10298:2. ATR(14) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:10299:   เหตุผล: 
+ใช้ในการวัดความกว้างขอบเขตของช่องว่างระหว่างเส้นเฉลี่ยและสเปรดดึงตัวกลับของราคา
+  FINALBOT_MASTER_BLUEPRINT.md:10300:
+  FINALBOT_MASTER_BLUEPRINT.md:10301:3. EMA 3 (Fast), EMA 5 (Mid), และ EMA 8 (Slow) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:10302:   เหตุผล: คำนวณเพื่อใช้เป็นริบบอนความก้าวหน้าและการทดสอบแนวรับ/ต้านเคลื่อนที่ 
+(Dynamic Support/Resistance)
+  FINALBOT_MASTER_BLUEPRINT.md:10303:
+  FINALBOT_MASTER_BLUEPRINT.md:10304:4. RSI(5) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:10684:  โดยไม่ต้องยืนยันจากกลยุทธ์อินดิเคเตอร์อื่น
+  FINALBOT_MASTER_BLUEPRINT.md:10685:
+  FINALBOT_MASTER_BLUEPRINT.md:10686:ประเภทสัญญาณ:
+  FINALBOT_MASTER_BLUEPRINT.md:10687:  Trend-Following / Trend-Reversal — 
+ค้นหาจุดเริ่มต้นแนวโน้มใหม่จากการเปลี่ยนรอบของราคาระยะกลาง
+  FINALBOT_MASTER_BLUEPRINT.md:10688:
+> FINALBOT_MASTER_BLUEPRINT.md:10689:Market States ที่เหมาะสม:
+  FINALBOT_MASTER_BLUEPRINT.md:10690:  TRENDING_STRONG   — ตลาดเกิดแนวโน้มความชันสูงชัดเจน           [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:10691:  TRENDING_WEAK     — แนวโน้มเริ่มชะลอหรือกำลังฟื้นตัวใหม่         [★★★★☆]
+  FINALBOT_MASTER_BLUEPRINT.md:10692:  BREAKOUT_EMERGING — ราคาตัดทะลุกรอบเพื่อตั้งเทรนด์ใหม่           [★★★☆☆]
+  FINALBOT_MASTER_BLUEPRINT.md:10693:
+> FINALBOT_MASTER_BLUEPRINT.md:10694:Market States ที่ห้ามใช้เด็ดขาด:
+  FINALBOT_MASTER_BLUEPRINT.md:10695:  SIDEWAY_RANGE    — ตลาดเคลื่อนที่ในกรอบแคบ เส้นตัดสลับกันจนสูญเสียโมเมนตัม
+  FINALBOT_MASTER_BLUEPRINT.md:10696:  ACCUMULATION      — การสะสมของราคารอบศูนย์ ไม่มีทิศทาง
+  FINALBOT_MASTER_BLUEPRINT.md:10697:  DISTRIBUTION     — ราคาผันผวนสูงบริเวณยอดคลื่น เกิดสัญญาณหลอกบ่อย
+  FINALBOT_MASTER_BLUEPRINT.md:10698:  LIQUIDITY_VOID    — ปริมาณการซื้อขายเบาบาง อินดิเคเตอร์แสดงค่าผิดเพี้ยน
+  FINALBOT_MASTER_BLUEPRINT.md:10699:  CHOPPY_UNCERTAIN  — ตลาดเหวี่ยงตัวไร้ทิศทาง ไม่เหมาะกับการตามแนวโน้ม
+  FINALBOT_MASTER_BLUEPRINT.md:10700:  UNCLEAR           — สถานะตลาดไม่สามารถคำนวณหรือยืนยันได้
+  FINALBOT_MASTER_BLUEPRINT.md:10701:
+  FINALBOT_MASTER_BLUEPRINT.md:10702:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:10703:[2] REQUIRED INPUTS
+  FINALBOT_MASTER_BLUEPRINT.md:10704:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:10705:1. M5 OHLCV Candles (ย้อนหลัง 100 แท่ง)
+  FINALBOT_MASTER_BLUEPRINT.md:10706:   เหตุผล: คำนวณอินดิเคเตอร์ MACD (12, 26, 9) และหาค่า ATR(14) ย้อนหลัง
+  FINALBOT_MASTER_BLUEPRINT.md:10707:
+  FINALBOT_MASTER_BLUEPRINT.md:10708:2. ATR(14) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:10709:   เหตุผล: ใช้ประเมินขนาดความกว้างของสัญญาณและการแกว่งตัวของราคาเพื่อตัดความเสี่ยง
+  FINALBOT_MASTER_BLUEPRINT.md:10710:
+  FINALBOT_MASTER_BLUEPRINT.md:10711:3. MACD Line (12, 26) และ Signal Line (9) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:10712:   เหตุผล: ตรวจสอบพิกัดความต่างและการตัดกันของเส้นหลักและเส้นสัญญาณ
+  FINALBOT_MASTER_BLUEPRINT.md:10713:
+  FINALBOT_MASTER_BLUEPRINT.md:10714:4. Average Volume (เฉลี่ย 20 แท่ง M5)
+  FINALBOT_MASTER_BLUEPRINT.md:11083:  Leading Strategy — สัญญาณเปิดออเดอร์จะถูกสร้างเมื่อปัจจัยทั้ง 3 
+ประสานกันอย่างสมบูรณ์แบบโดยไม่ต้องรอตัวชี้วัดอื่น
+  FINALBOT_MASTER_BLUEPRINT.md:11084:
+  FINALBOT_MASTER_BLUEPRINT.md:11085:ประเภทสัญญาณ:
+  FINALBOT_MASTER_BLUEPRINT.md:11086:  Trend-Following / Pullback Reversal — 
+ติดตามเทรนด์หลักของตลาดจากการดีดตัวในระดับราคาสำคัญ
+  FINALBOT_MASTER_BLUEPRINT.md:11087:
+> FINALBOT_MASTER_BLUEPRINT.md:11088:Market States ที่เหมาะสม:
+  FINALBOT_MASTER_BLUEPRINT.md:11089:  TRENDING_STRONG   — ตลาดเป็นแนวโน้มชัดเจนและแข็งแกร่ง             [★★★★★]
+  FINALBOT_MASTER_BLUEPRINT.md:11090:  TRENDING_WEAK     — แนวโน้มเริ่มชะลอแต่ยังทิศทางเดินหน้าต่อเนื่อง     [★★★★☆]
+  FINALBOT_MASTER_BLUEPRINT.md:11091:
+> FINALBOT_MASTER_BLUEPRINT.md:11092:Market States ที่ห้ามใช้เด็ดขาด:
+  FINALBOT_MASTER_BLUEPRINT.md:11093:  SIDEWAY_RANGE    — ราคาแกว่งขอบแนวระดับบ่อยครั้ง จนขาดทิศทางแนวโน้มหลัก
+  FINALBOT_MASTER_BLUEPRINT.md:11094:  ACCUMULATION      — ตลาดเข้าสู่สภาวะรอการเบรคตัว ไม่สามารถคำนวณเทรนด์ได้
+  FINALBOT_MASTER_BLUEPRINT.md:11095:  DISTRIBUTION     — ตลาดปั่นป่วนตรงจุดสูงสุด
+  FINALBOT_MASTER_BLUEPRINT.md:11096:  LIQUIDITY_VOID    — การขาดปริมาณการซื้อขายทำให้เส้นเฉลี่ยวัดทิศทางผิดพลาด
+  FINALBOT_MASTER_BLUEPRINT.md:11097:  CHOPPY_UNCERTAIN  — ตลาดสะบัดตัวสับสน ไร้ระเบียบแบบแผน
+  FINALBOT_MASTER_BLUEPRINT.md:11098:  UNCLEAR           — ปัญหาข้อมูลส่งเสริมสภาวะตลาดสับสน
+  FINALBOT_MASTER_BLUEPRINT.md:11099:
+  FINALBOT_MASTER_BLUEPRINT.md:11100:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:11101:[2] REQUIRED INPUTS
+  FINALBOT_MASTER_BLUEPRINT.md:11102:--------------------------------------------------------------------------------
+  FINALBOT_MASTER_BLUEPRINT.md:11103:1. M5 OHLCV Candles (ย้อนหลัง 100 แท่ง)
+  FINALBOT_MASTER_BLUEPRINT.md:11104:   เหตุผล: คำนวณค่า EMA 20, EMA 50, ระดับ Local Support/Resistance ย้อนหลัง 
+และค่า ATR(14)
+  FINALBOT_MASTER_BLUEPRINT.md:11105:
+  FINALBOT_MASTER_BLUEPRINT.md:11106:2. ATR(14) บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:11107:   เหตุผล: Normalize 
+ระยะการทดสอบแนวรับ/ต้านและขนาดโครงสร้างแท่งเทียนให้มีความเที่ยงตรง
+  FINALBOT_MASTER_BLUEPRINT.md:11108:
+  FINALBOT_MASTER_BLUEPRINT.md:11109:3. EMA 20 และ EMA 50 บน M5
+  FINALBOT_MASTER_BLUEPRINT.md:11110:   เหตุผล: ตรวจสอบและระบุแนวโน้มหลักและใช้เป็นจุดแนวรับ/ต้านแบบเคลื่อนที่ 
+(Dynamic S&R)
+  FINALBOT_MASTER_BLUEPRINT.md:11111:
+  FINALBOT_MASTER_BLUEPRINT.md:11112:4. Local S/R Database (คำนวณจาก Swing High/Low ย้อนหลัง 10 แท่งเสร็จสมบูรณ์)
+  FINALBOT_MASTER_BLUEPRINT.md:11373:
+  FINALBOT_MASTER_BLUEPRINT.md:11374:**Status:** Architecture Approved (With Minor Fixes)  
+  FINALBOT_MASTER_BLUEPRINT.md:11375:**Version:** 2.1-final  
+  FINALBOT_MASTER_BLUEPRINT.md:11376:**Date:** May 19, 2026  
+  FINALBOT_MASTER_BLUEPRINT.md:11377:**Owner:** Boss  
+> FINALBOT_MASTER_BLUEPRINT.md:11378:**Purpose:** Institutional-grade Trading Intelligence OS
+  FINALBOT_MASTER_BLUEPRINT.md:11379:
+  FINALBOT_MASTER_BLUEPRINT.md:11380:---
+  FINALBOT_MASTER_BLUEPRINT.md:11381:
+  FINALBOT_MASTER_BLUEPRINT.md:11382:## 📁 Project Tree (Complete - 151 Files)
+  FINALBOT_MASTER_BLUEPRINT.md:11383:
+  FINALBOT_MASTER_BLUEPRINT.md:11384:```
+  FINALBOT_MASTER_BLUEPRINT.md:11385:BOT_FINALBOT/
+  FINALBOT_MASTER_BLUEPRINT.md:11386:│
+  FINALBOT_MASTER_BLUEPRINT.md:11387:├── 📄 main.py                          ← Entry point (orchestrator only)
+  FINALBOT_MASTER_BLUEPRINT.md:11388:├── 📄 __init__.py                      ← Package marker
+  FINALBOT_MASTER_BLUEPRINT.md:11389:├── 📄 requirements.txt                 ← Dependencies
+  FINALBOT_MASTER_BLUEPRINT.md:11390:├── 📄 README.md                        ← Documentation
+  FINALBOT_MASTER_BLUEPRINT.md:11391:│
+  FINALBOT_MASTER_BLUEPRINT.md:11392:├── 📁 config/                          ← Configuration (IMMUTABLE at runtime)
+  FINALBOT_MASTER_BLUEPRINT.md:11393:│   ├── settings.json                   ← System config
+  FINALBOT_MASTER_BLUEPRINT.md:11394:│   ├── symbols.txt                     ← Trading pairs
+  FINALBOT_MASTER_BLUEPRINT.md:11395:│   └── thresholds.json                 ← Decision thresholds
+  FINALBOT_MASTER_BLUEPRINT.md:11396:│
+  FINALBOT_MASTER_BLUEPRINT.md:11397:├── 📁 core/                            ← Core Intelligence OS (LAYER 1)
+  FINALBOT_MASTER_BLUEPRINT.md:11398:│   ├── 📄 __init__.py
+  FINALBOT_MASTER_BLUEPRINT.md:13487:FINALSIGNAL_BOT - Foundation Platform for Future Trading Bots
+  FINALBOT_MASTER_BLUEPRINT.md:13488:"Operating System for Market Analysis"
+  FINALBOT_MASTER_BLUEPRINT.md:13489:═══════════════════════════════════════════════════════════
+  FINALBOT_MASTER_BLUEPRINT.md:13490:```
+  FINALBOT_MASTER_BLUEPRINT.md:13491:
+> FINALBOT_MASTER_BLUEPRINT.md:13492:\n\n\n============================================================================
+====\n📂 FILE 37/44: แนวทาง_Chat02_FINALBOT_Core_Intelligence.md\n=====================================================
+===========================\n\n# Trading Intelligence OS - Core Architecture
+  FINALBOT_MASTER_BLUEPRINT.md:13493:
+  FINALBOT_MASTER_BLUEPRINT.md:13494:## 1. System Overview
+  FINALBOT_MASTER_BLUEPRINT.md:13495:
+  FINALBOT_MASTER_BLUEPRINT.md:13496:ระบบนี้เป็น "Market Intelligence Platform" ไม่ใช่ trading bot แบบทั่วไป 
+โดยมีเป้าหมายหลักคือการสร้างความเข้าใจตลาด (market cognition) ก่อนการตัดสินใจเทรด
+  FINALBOT_MASTER_BLUEPRINT.md:13497:
+  FINALBOT_MASTER_BLUEPRINT.md:13498:ระบบถูกออกแบบให้เป็น modular intelligence system ที่แยก analysis engines ออกจาก 
+strategy layer อย่างชัดเจน
+  FINALBOT_MASTER_BLUEPRINT.md:13499:
+  FINALBOT_MASTER_BLUEPRINT.md:13500:## 2. Core Architecture Layers
+  FINALBOT_MASTER_BLUEPRINT.md:13501:
+  FINALBOT_MASTER_BLUEPRINT.md:13502:### Layer 1: Data Foundation
+  FINALBOT_MASTER_BLUEPRINT.md:13503:- Candle Data Ingestion
+  FINALBOT_MASTER_BLUEPRINT.md:13504:- Market Feed Normalization
+  FINALBOT_MASTER_BLUEPRINT.md:13505:- Multi-Timeframe Alignment
+  FINALBOT_MASTER_BLUEPRINT.md:13506:
+  FINALBOT_MASTER_BLUEPRINT.md:13507:### Layer 2: Market Intelligence Engines
+  FINALBOT_MASTER_BLUEPRINT.md:13508:- Structure Intelligence
+  FINALBOT_MASTER_BLUEPRINT.md:13509:- Volatility Intelligence
+  FINALBOT_MASTER_BLUEPRINT.md:13510:- Liquidity Intelligence
+  FINALBOT_MASTER_BLUEPRINT.md:13511:- Price Action Engine
+  FINALBOT_MASTER_BLUEPRINT.md:13512:- Noise Filter Engine
+  FINALBOT_MASTER_BLUEPRINT.md:13665:- Engines observe
+  FINALBOT_MASTER_BLUEPRINT.md:13666:- Context layer interprets
+  FINALBOT_MASTER_BLUEPRINT.md:13667:- Scoring layer evaluates
+  FINALBOT_MASTER_BLUEPRINT.md:13668:- Strategy layer consumes
+  FINALBOT_MASTER_BLUEPRINT.md:13669:
+> FINALBOT_MASTER_BLUEPRINT.md:13670:*Not a trading bot, but a trading intelligence OS.*
+  FINALBOT_MASTER_BLUEPRINT.md:13671:\n\n\n============================================================================
+====\n📂 FILE 38/44: แนวทาง_Chat03_FINALBOT_CONTINUATION 
+GUIDE.md\n================================================================================\n\n# FINALSignal_BOT — 
+Continuation Guide for Phase 0
+  FINALBOT_MASTER_BLUEPRINT.md:13672:
+  FINALBOT_MASTER_BLUEPRINT.md:13673:**Status:** Architecture Approved | Pre-Coding | Phase 0 Ready
+  FINALBOT_MASTER_BLUEPRINT.md:13674:**Date Created:** May 18, 2026
+  FINALBOT_MASTER_BLUEPRINT.md:13675:**For:** Chat Continuation — New Session Context
+  FINALBOT_MASTER_BLUEPRINT.md:13676:
+  FINALBOT_MASTER_BLUEPRINT.md:13677:---
+  FINALBOT_MASTER_BLUEPRINT.md:13678:
+  FINALBOT_MASTER_BLUEPRINT.md:13679:## 1. Executive Summary
+  FINALBOT_MASTER_BLUEPRINT.md:13680:
+  FINALBOT_MASTER_BLUEPRINT.md:13681:### Current Status
+  FINALBOT_MASTER_BLUEPRINT.md:13682:```
+  FINALBOT_MASTER_BLUEPRINT.md:13683:Architecture       ✅ Approved (8 Tiers, 29 Modules)
+  FINALBOT_MASTER_BLUEPRINT.md:13684:Blueprint          ✅ Complete (100% specification)
+  FINALBOT_MASTER_BLUEPRINT.md:13685:Code               ❌ Not started (0 lines)
+  FINALBOT_MASTER_BLUEPRINT.md:13686:Integration        ❌ Not started
+  FINALBOT_MASTER_BLUEPRINT.md:13687:Backtest           ❌ Not started
+  FINALBOT_MASTER_BLUEPRINT.md:13688:
+  FINALBOT_MASTER_BLUEPRINT.md:13689:Next Step: Phase 0 — Tier 1 Coding (5 core engines)
+  FINALBOT_MASTER_BLUEPRINT.md:13690:Timeline: ~2-3 weeks to Phase 1
+  FINALBOT_MASTER_BLUEPRINT.md:15863:- Synthesize Tier 1 engines into single market state
+  FINALBOT_MASTER_BLUEPRINT.md:15864:- Classify market into distinct regimes
+  FINALBOT_MASTER_BLUEPRINT.md:15865:- Calculate state confidence
+  FINALBOT_MASTER_BLUEPRINT.md:15866:- Detect state transitions
+  FINALBOT_MASTER_BLUEPRINT.md:15867:
+> FINALBOT_MASTER_BLUEPRINT.md:15868:**Market States:**
+  FINALBOT_MASTER_BLUEPRINT.md:15869:```
+  FINALBOT_MASTER_BLUEPRINT.md:15870:TRENDING_STRONG    - Clear trend + Strong strength + Valid regime
+  FINALBOT_MASTER_BLUEPRINT.md:15871:TRENDING_WEAK      - Trend exists but weak strength
+  FINALBOT_MASTER_BLUEPRINT.md:15872:SIDEWAY_RANGE      - No trend + Weak strength + Low volatility
+  FINALBOT_MASTER_BLUEPRINT.md:15873:BREAKOUT_EMERGING  - High volatility + Breaking S/R + High momentum
+  FINALBOT_MASTER_BLUEPRINT.md:15874:REVERSAL_FORMING   - Trend weakening + Divergence signals
+  FINALBOT_MASTER_BLUEPRINT.md:15875:ACCUMULATION       - Low volatility + Consolidation
+  FINALBOT_MASTER_BLUEPRINT.md:15876:DISTRIBUTION       - High volatility + Range-bound
+  FINALBOT_MASTER_BLUEPRINT.md:15877:CHOPPY_UNCERTAIN   - Conflicting signals + High noise
+  FINALBOT_MASTER_BLUEPRINT.md:15878:LIQUIDITY_VOID     - Low volume + Sparse trades
+  FINALBOT_MASTER_BLUEPRINT.md:15879:UNCLEAR            - Insufficient data or conflicting signals
+  FINALBOT_MASTER_BLUEPRINT.md:15880:```
+  FINALBOT_MASTER_BLUEPRINT.md:15881:
+  FINALBOT_MASTER_BLUEPRINT.md:15882:**Outputs:**
+  FINALBOT_MASTER_BLUEPRINT.md:15883:```python
+  FINALBOT_MASTER_BLUEPRINT.md:15884:MarketState = {
+  FINALBOT_MASTER_BLUEPRINT.md:15885:    'state': str,  # one of above
+  FINALBOT_MASTER_BLUEPRINT.md:15886:    'state_confidence': 0-100,
+  FINALBOT_MASTER_BLUEPRINT.md:15887:    'duration': int,  # candles
+  FINALBOT_MASTER_BLUEPRINT.md:15888:    'likelihood_next_state': {
+  FINALBOT_MASTER_BLUEPRINT.md:16914:---
+  FINALBOT_MASTER_BLUEPRINT.md:16915:
+  FINALBOT_MASTER_BLUEPRINT.md:16916:### TIER 2: Market State Classification (2 modules)
+  FINALBOT_MASTER_BLUEPRINT.md:16917:```
+  FINALBOT_MASTER_BLUEPRINT.md:16918:├─ core/analysis/market_state_classifier.py
+> FINALBOT_MASTER_BLUEPRINT.md:16919:│  └─ Synthesizes Tier 1 into 10 distinct market states
+  FINALBOT_MASTER_BLUEPRINT.md:16920:│
+  FINALBOT_MASTER_BLUEPRINT.md:16921:└─ core/analysis/regime_quality_scorer.py
+  FINALBOT_MASTER_BLUEPRINT.md:16922:   └─ Rates: tradeable-ness, noise, stability, quality
+  FINALBOT_MASTER_BLUEPRINT.md:16923:```
+  FINALBOT_MASTER_BLUEPRINT.md:16924:
+  FINALBOT_MASTER_BLUEPRINT.md:16925:**Outputs:** Single unified market state + confidence
+  FINALBOT_MASTER_BLUEPRINT.md:16926:**Purpose:** What regime are we in?
+  FINALBOT_MASTER_BLUEPRINT.md:16927:
+  FINALBOT_MASTER_BLUEPRINT.md:16928:---
+  FINALBOT_MASTER_BLUEPRINT.md:16929:
+  FINALBOT_MASTER_BLUEPRINT.md:16930:### TIER 3: Price Action Signals (2 modules)
+  FINALBOT_MASTER_BLUEPRINT.md:16931:```
+  FINALBOT_MASTER_BLUEPRINT.md:16932:├─ core/analysis/candle_pattern_analyzer.py
+  FINALBOT_MASTER_BLUEPRINT.md:16933:│  └─ Identifies: Reversal, Continuation, Rejection patterns
+  FINALBOT_MASTER_BLUEPRINT.md:16934:│
+  FINALBOT_MASTER_BLUEPRINT.md:16935:└─ core/analysis/price_action_engine.py
+  FINALBOT_MASTER_BLUEPRINT.md:16936:   └─ Analyzes: Impulse, Pullback, Momentum through candles
+  FINALBOT_MASTER_BLUEPRINT.md:16937:```
+  FINALBOT_MASTER_BLUEPRINT.md:16938:
+  FINALBOT_MASTER_BLUEPRINT.md:16939:**Outputs:** Pattern signals + price action quality
+
+

@@ -6,7 +6,7 @@ Generate performance reports from replay results.
 
 import logging
 from typing import Dict, List
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 
 logger = logging.getLogger(__name__)
@@ -39,7 +39,7 @@ class ReplayReport:
         om_stats = order_manager.get_stats() if order_manager else {}
         
         report = {
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'replay_metrics': replay_metrics,
             'trading_performance': {
                 'total_trades': om_stats.get('total_trades', 0),

@@ -6,7 +6,7 @@ Base class with common functionality for all engines.
 
 import time
 from typing import Dict, Any, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 import pandas as pd
 
 from core.interfaces.engine_interface import IEngine
@@ -83,7 +83,7 @@ class BaseEngine(IEngine):
         return EngineOutput(
             engine_name=self.engine_name,
             engine_version=self.engine_version,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             data=data,
             confidence=confidence,
             execution_time_ms=self._last_execution_time_ms,

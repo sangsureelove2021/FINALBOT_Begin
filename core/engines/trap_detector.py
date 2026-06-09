@@ -76,7 +76,7 @@ class TrapDetector(BaseEngine):
                 return True, 'BEAR_TRAP'
             
             return False, 'NONE'
-        except:
+        except Exception as e:
             return False, 'NONE'
     
     def _detect_stop_hunt(self, df):
@@ -95,7 +95,7 @@ class TrapDetector(BaseEngine):
                 if body < last_range * 0.4:  # Small body, big wicks
                     return True
             return False
-        except:
+        except Exception as e:
             return False
     
     def _detect_rejection_wick(self, df):
@@ -114,7 +114,7 @@ class TrapDetector(BaseEngine):
             if upper_wick / total > 0.6 or lower_wick / total > 0.6:
                 return True
             return False
-        except:
+        except Exception as e:
             return False
     
     def _calculate_trap_score(self, fb, sh, rw, df) -> int:

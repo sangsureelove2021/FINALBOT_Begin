@@ -6,7 +6,7 @@ Monitor bot health (connections, errors, alerts).
 
 import logging
 from typing import Dict, List
-from datetime import datetime
+from datetime import datetime, timezone
 from dataclasses import dataclass
 
 logger = logging.getLogger(__name__)
@@ -42,7 +42,7 @@ class HealthMonitor:
             message: Alert message
         """
         alert = HealthAlert(
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             level=level,
             component=component,
             message=message
@@ -93,7 +93,7 @@ class HealthMonitor:
     def get_status(self) -> Dict:
         """Get overall health status."""
         status = {
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'data_connected': self.data_connected,
             'executor_connected': self.executor_connected,
             'last_cycle_time': self.last_cycle_time,

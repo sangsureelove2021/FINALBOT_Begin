@@ -5,7 +5,7 @@ Assembles MarketContext by running engines in tier order.
 This is the central wiring of the Intelligence OS.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, Any
 import pandas as pd
 
@@ -52,9 +52,10 @@ class ContextBuilder(IContextBuilder):
             return self._empty_context(symbol, timeframe)
         
         context = MarketContext(
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             symbol=symbol,
             timeframe=timeframe,
+            candles=candles,
             current_price=float(primary_df['close'].iloc[-1]),
             candle_index=len(primary_df) - 1,
         )
@@ -80,6 +81,27 @@ class ContextBuilder(IContextBuilder):
                     result = engine.analyze(context=context)
                 elif 'mtf' in engine.engine_name.lower():
                     result = engine.analyze(candles_dict=candles)
+                elif tier_num == 2 and engine.engine_name == 'market_state_classifier':
+                    # M5 binary strategies: classify on M5 candles (fallback M15 → primary)
+                    m5_df = candles.get('M5')
+                    m15_df = candles.get('M15')
+                    if m5_df is not None and len(m5_df) >= 100:
+                        result = engine.analyze(m5_df)
+                    elif m15_df is not None and not m15_df.empty:
+                        result = engine.analyze(m15_df)
+                    else:
+                        # Fallback to primary if M15 is missing
+                        tier1 = {
+                            'direction': context.trend.get('direction', 'NONE') if context.trend else 'NONE',
+                            'atr_percentile': context.volatility.get('atr_percentile', 50.0) if context.volatility else 50.0,
+                            'trend_strength': context.trend.get('strength', 0) if context.trend else 0,
+                            'strength': context.strength.get('strength_score', 0) if context.strength else 0,
+                            'type': context.trend.get('type', '') if context.trend else '',
+                            'regime': context.volatility.get('regime', 'NORMAL') if context.volatility else 'NORMAL',
+                            'exhaustion_risk': context.strength.get('exhaustion_risk', 0) if context.strength else 0,
+                            'bos_detected': context.structure.get('bos_detected', False) if context.structure else False,
+                        }
+                        result = engine.analyze(primary_df, tier1=tier1)
                 else:
                     result = engine.analyze(primary_df)
                 
@@ -91,7 +113,7 @@ class ContextBuilder(IContextBuilder):
                 context.add_error(f"{engine.engine_name} failed: {str(e)}")
     
     def _apply_engine_result(self, context: MarketContext,
-                            engine_name: str, result: Dict[str, Any]) -> None:
+                             engine_name: str, result: Dict[str, Any]) -> None:
         """
         Apply engine result to appropriate context field.
         Maps engine_name -> context attribute.
@@ -102,6 +124,7 @@ class ContextBuilder(IContextBuilder):
             'strength_engine': 'strength',
             'volatility_engine': 'volatility',
             'structure_engine': 'structure',
+            'market_structure_engine': 'market_structure',
             'mtf_engine': 'mtf',
             'market_state_classifier': 'market_state',
             'regime_quality_scorer': 'regime_quality',
@@ -128,13 +151,17 @@ class ContextBuilder(IContextBuilder):
         
         attr = mapping.get(engine_name)
         if attr and hasattr(context, attr):
-            setattr(context, attr, result)
+            if engine_name == 'market_state_classifier':
+                # Revert to dict to avoid crashes in ContextSynthesizer & ExplainabilityEngine
+                setattr(context, attr, result)
+            else:
+                setattr(context, attr, result)
     
     def _empty_context(self, symbol: str, timeframe: str) -> MarketContext:
         """Return empty context when no data available"""
         ctx = MarketContext(
-            timestamp=datetime.utcnow(),
-            pair=symbol,
+            timestamp=datetime.now(timezone.utc),
+            symbol=symbol,
             timeframe=timeframe,
             current_price=0.0,
         )

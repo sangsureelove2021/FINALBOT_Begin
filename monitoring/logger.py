@@ -7,7 +7,7 @@ Unified logging for bot. Logs to file + console with levels.
 import logging
 import sys
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 
@@ -48,7 +48,7 @@ class BotLogger:
         self.logger.addHandler(console_handler)
         
         # File handler (daily log file)
-        log_file = self.log_dir / f"{name.lower()}_{datetime.utcnow().strftime('%Y%m%d')}.log"
+        log_file = self.log_dir / f"{name.lower()}_{datetime.now(timezone.utc).strftime('%Y%m%d')}.log"
         file_handler = logging.FileHandler(log_file, mode='a')
         file_handler.setLevel(self.level)
         file_formatter = logging.Formatter(
@@ -59,7 +59,7 @@ class BotLogger:
         self.logger.addHandler(file_handler)
         
         # Signal log (separate file for trades only)
-        signal_file = self.log_dir / f"signals_{datetime.utcnow().strftime('%Y%m%d')}.log"
+        signal_file = self.log_dir / f"signals_{datetime.now(timezone.utc).strftime('%Y%m%d')}.log"
         signal_handler = logging.FileHandler(signal_file, mode='a')
         signal_handler.setLevel(logging.INFO)
         signal_handler.setFormatter(file_formatter)

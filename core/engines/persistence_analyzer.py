@@ -30,6 +30,8 @@ class PersistenceAnalyzer(BaseEngine):
             autocorrelation, consecutive_run, trend_persistence
         )
         
+        expansion_persistence, fatigue_risk = self._calculate_expansion_persistence(candles_df)
+        
         return {
             'persistence_score': persistence_score,
             'autocorrelation': float(autocorrelation),
@@ -38,7 +40,52 @@ class PersistenceAnalyzer(BaseEngine):
             'is_persistent': persistence_score > 60,
             'behavior': self._classify_behavior(autocorrelation),
             'confidence': 70,
+            
+            # Enhancement 4: Persistence and Fatigue metrics
+            'expansion_persistence': expansion_persistence,
+            'fatigue_risk': fatigue_risk,
         }
+        
+    def _calculate_expansion_persistence(self, df: pd.DataFrame) -> Tuple[float, float]:
+        """
+        Enhancement 4: Expansion Persistence.
+        Measures momentum expansion persistence and trend fatigue risk.
+        """
+        try:
+            closes = df['close'].tail(20).values
+            
+            # Autocorrelation of returns for short-term persistence
+            returns = np.diff(closes)
+            if len(returns) < 5:
+                return 50.0, 0.0
+                
+            # Autocorrelation lag 1
+            r1 = returns[:-1]
+            r2 = returns[1:]
+            if np.std(r1) == 0 or np.std(r2) == 0:
+                corr = 0.0
+            else:
+                corr = np.corrcoef(r1, r2)[0, 1]
+                
+            # Calculate momentum slope acceleration
+            x = np.arange(len(closes))
+            slope = np.polyfit(x, closes, 1)[0]
+            
+            # Fatigue: If current price deviation from 20 EMA is excessive
+            ema = df['close'].ewm(span=20).mean().iloc[-1]
+            deviation = abs(closes[-1] - ema) / ema
+            
+            # Calculate metrics
+            expansion_persistence = 50.0 + (corr * 30.0) + (min(1.0, abs(slope) / 0.005) * 20.0)
+            expansion_persistence = max(0.0, min(100.0, expansion_persistence))
+            
+            # Fatigue increases with excessive deviation and negative autocorrelation (whipsaw)
+            fatigue_risk = (deviation * 1500.0) + (max(0.0, -corr) * 30.0)
+            fatigue_risk = max(0.0, min(100.0, fatigue_risk))
+            
+            return float(expansion_persistence), float(fatigue_risk)
+        except Exception as e:
+            return 50.0, 20.0
     
     def _autocorrelation(self, df, lag=1) -> float:
         """Autocorrelation of returns (-1 to 1)"""
@@ -56,7 +103,7 @@ class PersistenceAnalyzer(BaseEngine):
             
             corr = np.corrcoef(r1, r2)[0, 1]
             return float(corr) if not np.isnan(corr) else 0.0
-        except:
+        except Exception as e:
             return 0.0
     
     def _max_consecutive_run(self, df) -> int:
@@ -76,7 +123,7 @@ class PersistenceAnalyzer(BaseEngine):
                     current_run = 1
             
             return int(max_run)
-        except:
+        except Exception as e:
             return 1
     
     def _trend_persistence(self, df) -> float:
@@ -94,7 +141,7 @@ class PersistenceAnalyzer(BaseEngine):
             # Map to 0-100 (either strongly above or below = persistent)
             persistence = abs(recent_consistency - 0.5) * 200
             return float(min(100, persistence))
-        except:
+        except Exception as e:
             return 50.0
     
     def _calculate_persistence(self, autocorr, run, trend_persist) -> int:

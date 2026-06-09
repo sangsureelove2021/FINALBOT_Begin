@@ -1,61 +1,30 @@
-"""
-TIER 2 - MARKET STATE CLASSIFIER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Classifies the current market into one of 10 states based on Tier 1 outputs.
-
-States:
-    1. TRENDING_UP
-    2. TRENDING_DOWN
-    3. IMPULSIVE
-    4. CORRECTIVE
-    5. CONSOLIDATING
-    6. COMPRESSION
-    7. BREAKING_OUT
-    8. RANGING
-    9. CHOPPY
-    10. EXHAUSTION
-"""
-
+import numpy as np
 import pandas as pd
 from typing import Dict, Any
 
 from core.engines.base_engine import BaseEngine
 
-
 class MarketStateClassifier(BaseEngine):
-    """Tier 2: Market State Classifier"""
+    """Tier 2: Market State Classifier
+    M5 Binary Options Overhaul.
+    Detects market condition suitable for 5-minute expirations.
+    """
     
     ENGINE_NAME = "market_state_classifier"
-    ENGINE_VERSION = "1.0.0"
+    ENGINE_VERSION = "3.0.0"
     TIER = 2
     MIN_CANDLES = 100
     
     def __init__(self, config=None):
         super().__init__(config)
-        # Will receive context-aware data through analyze
     
     def analyze(self, candles_df: pd.DataFrame = None, **kwargs) -> Dict[str, Any]:
-        """
-        Special analyze for classification.
-        Can accept either candles_df + computed tier1 results, or context.
-        """
         try:
-            # Try to extract tier 1 data from kwargs (context-aware)
-            tier1 = kwargs.get('tier1', {})
-            
-            # If not given, compute on the fly from candles
-            if not tier1 and candles_df is not None:
-                tier1 = self._compute_tier1_quick(candles_df)
-            
-            if not tier1:
+            if candles_df is None or len(candles_df) < self.MIN_CANDLES:
                 return self.get_neutral_state()
-            
-            # Classify
-            state = self._classify(tier1)
-            
-            # Calculate quality
-            quality = self._calculate_quality(state, tier1)
+                
+            state = self._classify(candles_df)
+            quality = self._calculate_quality(state)
             
             return {
                 'state': state,
@@ -65,125 +34,132 @@ class MarketStateClassifier(BaseEngine):
                 'confidence': min(100, quality + 5),
             }
         except Exception as e:
-            print(f"❌ MarketStateClassifier error: {e}")
+            print(f"[ERR] MarketStateClassifier error: {e}")
             return self.get_neutral_state()
-    
-    def _compute_tier1_quick(self, df: pd.DataFrame) -> Dict:
-        """Quick computation of needed tier 1 metrics"""
+            
+    def _calculate_adx(self, df: pd.DataFrame, period: int = 14) -> float:
         try:
-            ema20 = df['close'].ewm(span=20).mean().iloc[-1]
-            ema50 = df['close'].ewm(span=50).mean().iloc[-1]
-            close = df['close'].iloc[-1]
+            high, low, close = df['high'], df['low'], df['close']
+            tr1 = high - low
+            tr2 = abs(high - close.shift(1))
+            tr3 = abs(low - close.shift(1))
+            tr = np.maximum(tr1, np.maximum(tr2, tr3))
             
-            direction = 'UP' if close > ema20 > ema50 else ('DOWN' if close < ema20 < ema50 else 'NONE')
+            atr = tr.ewm(alpha=1/period, adjust=False).mean()
             
-            # ATR percentile rough
-            high_low = df['high'] - df['low']
-            atr = high_low.rolling(14).mean().iloc[-1]
-            atr_avg = high_low.rolling(14).mean().tail(100).mean()
-            atr_pct = (atr / atr_avg * 50) if atr_avg > 0 else 50
-            atr_pct = min(100, max(0, atr_pct))
+            up_move = high.diff()
+            down_move = -low.diff()
+            pos_dm = np.where((up_move > down_move) & (up_move > 0), up_move, 0)
+            neg_dm = np.where((down_move > up_move) & (down_move > 0), down_move, 0)
             
-            return {
-                'direction': direction,
-                'atr_percentile': float(atr_pct),
-                'trend_strength': 60 if direction != 'NONE' else 20,
-            }
+            pos_dm_smooth = pd.Series(pos_dm).ewm(alpha=1/period, adjust=False).mean()
+            neg_dm_smooth = pd.Series(neg_dm).ewm(alpha=1/period, adjust=False).mean()
+            
+            pos_di = 100 * (pos_dm_smooth / (atr + 1e-9))
+            neg_di = 100 * (neg_dm_smooth / (atr + 1e-9))
+            
+            dx = 100 * (abs(pos_di - neg_di) / (pos_di + neg_di + 1e-9))
+            adx = dx.ewm(alpha=1/period, adjust=False).mean()
+            
+            return float(adx.iloc[-1]) if not np.isnan(adx.iloc[-1]) else 20.0
         except:
-            return {}
-    
-    def _classify(self, tier1: Dict) -> str:
-        """Apply classification logic"""
-        direction = tier1.get('direction', 'NONE')
-        atr_pct = tier1.get('atr_percentile', 50)
-        trend_strength = tier1.get('trend_strength', 0) or tier1.get('strength', 0)
-        trend_type = tier1.get('type', '')
-        regime = tier1.get('regime', 'NORMAL')
-        exhaustion = tier1.get('exhaustion_risk', 0)
-        bos_detected = tier1.get('bos_detected', False)
+            return 20.0
+
+    def _classify(self, df: pd.DataFrame) -> str:
+        """Classify into binary-friendly states."""
+        close = df['close']
+        high = df['high']
+        low = df['low']
         
-        # Exhaustion check first (priority)
-        if exhaustion > 70:
-            return 'EXHAUSTION'
+        # Bollinger Bands
+        bb_window = 20
+        bb_std = 2.0
+        rolling_mean = close.rolling(window=bb_window).mean()
+        rolling_std = close.rolling(window=bb_window).std(ddof=0)
+        upper_band = rolling_mean + (bb_std * rolling_std)
+        lower_band = rolling_mean - (bb_std * rolling_std)
         
-        # Choppy = no clear direction
-        if direction == 'NONE' or trend_type == 'CHOPPY':
-            return 'CHOPPY'
+        # Bandwidth
+        bandwidth = (upper_band - lower_band) / rolling_mean
+        current_bw = bandwidth.iloc[-1]
+        avg_bw = bandwidth.iloc[-20:].mean()
         
-        # Breakout
-        if bos_detected and atr_pct > 50:
-            return 'BREAKING_OUT'
+        # RSI
+        delta = close.diff()
+        gain = (delta.where(delta > 0, 0)).ewm(alpha=1/14, adjust=False).mean()
+        loss = (-delta.where(delta < 0, 0)).ewm(alpha=1/14, adjust=False).mean()
+        rs = gain / (loss + 1e-9)
+        rsi = 100 - (100 / (1 + rs))
+        current_rsi = rsi.iloc[-1]
         
-        # Compression
-        if atr_pct < 25 and regime == 'LOW':
-            return 'COMPRESSION'
+        adx = self._calculate_adx(df)
         
-        # Impulsive trend
-        if trend_type == 'IMPULSIVE' and trend_strength > 70:
-            return 'IMPULSIVE'
+        # ATR relative
+        tr = pd.concat([high - low, (high - close.shift(1)).abs(), (low - close.shift(1)).abs()], axis=1).max(axis=1)
+        atr = tr.rolling(14).mean()
+        current_atr = atr.iloc[-1]
+        avg_atr = atr.iloc[-100:].mean()
+        atr_pct = (current_atr / (avg_atr + 1e-9)) * 100
         
-        # Corrective
-        if trend_type == 'CORRECTIVE':
-            return 'CORRECTIVE'
+        # 1. LIQUIDITY VOID
+        if atr_pct < 20 or current_bw < 0.0005:
+            # Very tight, unplayable
+            return 'LIQUIDITY_VOID'
+            
+        # 2. VOLATILITY EXPANDING (Dangerous to fade)
+        if current_bw > avg_bw * 1.5 and adx > 25:
+            return 'VOLATILITY_EXPANDING'
+            
+        # 3. EXHAUSTION ZONE (Price outside BB and RSI stretched)
+        is_upper_pierce = close.iloc[-1] > upper_band.iloc[-1] or high.iloc[-1] > upper_band.iloc[-1]
+        is_lower_pierce = close.iloc[-1] < lower_band.iloc[-1] or low.iloc[-1] < lower_band.iloc[-1]
         
-        # Strong trends
-        if trend_strength > 60:
-            return 'TRENDING_UP' if direction == 'UP' else 'TRENDING_DOWN'
-        
-        # Ranging
-        if atr_pct < 50 and trend_strength < 50:
-            return 'RANGING'
-        
-        # Consolidating
-        if 30 < atr_pct < 60:
-            return 'CONSOLIDATING'
-        
-        return 'RANGING'
-    
-    def _calculate_quality(self, state: str, tier1: Dict) -> int:
-        """Quality score for the state (how tradeable)"""
+        if (is_upper_pierce and current_rsi >= 65) or (is_lower_pierce and current_rsi <= 35):
+            return 'EXHAUSTION_ZONE'
+            
+        # 4. MEAN REVERSION ZONE (ranging / low-momentum — primary M5 binary edge)
+        if adx < 32 and current_bw <= avg_bw * 1.4:
+            return 'MEAN_REVERSION_ZONE'
+
+        # 5. Moderate momentum still tradable for M5 reversals
+        if adx < 38 and current_bw <= avg_bw * 1.6:
+            return 'MEAN_REVERSION_ZONE'
+            
+        # 6. DEFAULT — only block truly chaotic conditions
+        if adx > 42 or current_bw > avg_bw * 2.0:
+            return 'CHOPPY_UNCERTAIN'
+
+        return 'MEAN_REVERSION_ZONE'
+
+    def _calculate_quality(self, state: str) -> int:
         quality_map = {
-            'IMPULSIVE': 90, 'TRENDING_UP': 85, 'TRENDING_DOWN': 85,
-            'BREAKING_OUT': 80, 'COMPRESSION': 70, 'CORRECTIVE': 60,
-            'CONSOLIDATING': 55, 'RANGING': 45,
-            'CHOPPY': 20, 'EXHAUSTION': 25,
+            'EXHAUSTION_ZONE': 95,
+            'MEAN_REVERSION_ZONE': 85,
+            'VOLATILITY_EXPANDING': 30,
+            'CHOPPY_UNCERTAIN': 20,
+            'LIQUIDITY_VOID': 10,
         }
-        base = quality_map.get(state, 50)
-        
-        # Adjust based on trend strength
-        trend_strength = tier1.get('trend_strength', 50)
-        if trend_strength > 80:
-            base = min(100, base + 5)
-        elif trend_strength < 30:
-            base = max(20, base - 10)
-        
-        return base
+        return quality_map.get(state, 50)
     
     def _is_tradeable(self, state: str, quality: int) -> bool:
-        """Is this state tradeable?"""
-        non_tradeable = ['CHOPPY', 'EXHAUSTION']
+        non_tradeable = ['CHOPPY_UNCERTAIN', 'LIQUIDITY_VOID', 'VOLATILITY_EXPANDING']
         if state in non_tradeable:
             return False
-        return quality >= 60
+        return quality >= 40
     
     def _describe_state(self, state: str) -> str:
         descriptions = {
-            'TRENDING_UP': 'Strong upward trend',
-            'TRENDING_DOWN': 'Strong downward trend',
-            'IMPULSIVE': 'Fast trending move',
-            'CORRECTIVE': 'Pullback / correction phase',
-            'CONSOLIDATING': 'Price consolidating',
-            'COMPRESSION': 'Volatility compression',
-            'BREAKING_OUT': 'Breakout in progress',
-            'RANGING': 'Range-bound trading',
-            'CHOPPY': 'Choppy / unclear direction',
-            'EXHAUSTION': 'Trend exhaustion - reversal likely',
+            'EXHAUSTION_ZONE': 'Price over-extended from mean, ripe for 5m reversal',
+            'MEAN_REVERSION_ZONE': 'Low momentum ranging market, perfect for BB bounces',
+            'VOLATILITY_EXPANDING': 'High momentum breakout, dangerous to fade',
+            'LIQUIDITY_VOID': 'Low volume dead zone / sparse trading (Safety lock)',
+            'CHOPPY_UNCERTAIN': 'Choppy chaotic market - high noise fallback',
         }
         return descriptions.get(state, 'Unknown state')
     
     def get_neutral_state(self) -> Dict[str, Any]:
         return {
-            'state': 'CHOPPY', 'quality_score': 30,
+            'state': 'CHOPPY_UNCERTAIN', 'quality_score': 20,
             'tradeable': False, 'description': 'Insufficient data',
             'confidence': 0,
         }

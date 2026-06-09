@@ -18,7 +18,7 @@ Risk Formula:
 import logging
 from typing import Dict, Optional
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 
 logger = logging.getLogger(__name__)
 
@@ -70,28 +70,41 @@ class PositionSizer:
         
         # Track daily P&L
         self.daily_trades = []  # List of (timestamp, amount, result)
-        self.session_start = datetime.utcnow()
+        self.session_start = datetime.now(timezone.utc)
         
-        logger.info(f"📊 PositionSizer initialized")
+        logger.info(f"[STAT] PositionSizer initialized")
         logger.info(f"   Capital: {capital} THB")
         logger.info(f"   Risk per trade: {risk_percent}%")
         logger.info(f"   Max daily risk: {max_daily_risk}%")
     
     def calculate(self, 
-                 entry_price: float,
-                 stop_loss_price: float,
-                 direction: str = 'CALL') -> PositionSize:
+                 entry_price: Optional[float] = None,
+                 stop_loss_price: Optional[float] = None,
+                 direction: str = 'CALL',
+                 confidence: Optional[float] = None) -> Any:
         """
-        Calculate position size based on risk.
+        Calculate position size based on risk or confidence.
         
-        Args:
-            entry_price: Entry price (e.g. 1.0850)
-            stop_loss_price: Stop loss price
-            direction: 'CALL' or 'PUT' (for logging)
-        
-        Returns:
-            PositionSize object with calculated amount and validity
+        Supports two modes:
+        1. Forex/Stock mode: Returns PositionSize object using entry & stop loss.
+        2. Binary Options mode: Returns float stake size using confidence & config settings.
         """
+        from typing import Any
+        
+        if confidence is not None:
+            # Binary Options Mode: Load stake per trade from config/settings.json
+            from core.config_loader import load_settings
+            try:
+                base_stake = float(load_settings().get("capital", {}).get("stake_per_trade", 30.0))
+            except Exception as e:
+                logger.error(f"[ERR] Failed to load stake_per_trade: {e}")
+                base_stake = 30.0
+            return base_stake
+
+        # Forex/Stock Mode: Expect entry_price and stop_loss_price
+        if entry_price is None or stop_loss_price is None:
+            return self.min_amount
+
         # Calculate distance to SL
         distance = abs(entry_price - stop_loss_price)
         
@@ -99,7 +112,7 @@ class PositionSizer:
             return PositionSize(
                 amount=0, risk_amount=0, risk_percent=0,
                 daily_risk=0, is_valid=False,
-                reason="❌ Invalid SL: distance is 0"
+                reason="[ERR] Invalid SL: distance is 0"
             )
         
         # Risk amount in THB
@@ -119,7 +132,7 @@ class PositionSizer:
                 amount=0, risk_amount=max_risk_amount, 
                 risk_percent=self.risk_percent,
                 daily_risk=daily_risk_percent, is_valid=False,
-                reason=f"❌ Daily risk limit ({self.max_daily_risk}%) exceeded"
+                reason=f"[ERR] Daily risk limit ({self.max_daily_risk}%) exceeded"
             )
         
         return PositionSize(
@@ -128,7 +141,7 @@ class PositionSizer:
             risk_percent=self.risk_percent,
             daily_risk=daily_risk_percent,
             is_valid=True,
-            reason=f"✅ {direction} {amount:.0f} contracts (risk: {self.risk_percent}%, daily: {daily_risk_percent:.2f}%)"
+            reason=f"[OK] {direction} {amount:.0f} contracts (risk: {self.risk_percent}%, daily: {daily_risk_percent:.2f}%)"
         )
     
     def record_trade(self, amount: float, result: float = 0.0) -> None:
@@ -140,7 +153,7 @@ class PositionSizer:
             result: Profit/loss in THB (0 for pending)
         """
         self.daily_trades.append({
-            'timestamp': datetime.utcnow(),
+            'timestamp': datetime.now(timezone.utc),
             'amount': amount,
             'result': result
         })
@@ -148,13 +161,13 @@ class PositionSizer:
     def reset_daily_tracking(self) -> None:
         """Reset daily trade history."""
         self.daily_trades = []
-        self.session_start = datetime.utcnow()
-        logger.info("🔄 Daily tracking reset")
+        self.session_start = datetime.now(timezone.utc)
+        logger.info("[LOOP] Daily tracking reset")
     
     def _get_daily_risk_used(self) -> float:
         """Calculate total risk used today."""
         # Filter trades from today
-        today_start = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+        today_start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
         
         daily_pnl = 0.0
         for trade in self.daily_trades:
@@ -176,5 +189,5 @@ class PositionSizer:
             'daily_risk_percent': daily_risk_percent,
             'daily_risk_remaining': self.max_daily_risk - daily_risk_percent,
             'trades_today': len([t for t in self.daily_trades 
-                                if t['timestamp'] >= datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)]),
+                                if t['timestamp'] >= datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)]),
         }

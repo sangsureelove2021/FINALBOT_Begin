@@ -76,13 +76,26 @@ class ConfidenceScorer:
     
     def _market_state_quality(self, context: MarketContext) -> float:
         """How tradeable is the current market state"""
-        state = context.market_state.get('state', '')
+        # market_state may be a plain string or a dict from the classifier
+        ms = context.market_state
+        if isinstance(ms, dict):
+            state = ms.get('state', '')
+        else:
+            state = ms or ''
         quality_map = {
             'TRENDING_UP': 80, 'TRENDING_DOWN': 80,
             'BREAKING_OUT': 75, 'IMPULSIVE': 85,
             'COMPRESSION': 70, 'CORRECTIVE': 60,
             'CONSOLIDATING': 55, 'RANGING': 50,
             'CHOPPY': 30, 'EXHAUSTION': 25,
+            
+            # Correct actual market state classifier names
+            'TRENDING_STRONG': 90, 'TRENDING_WEAK': 65,
+            'BREAKOUT_EMERGING': 85, 'ACCUMULATION': 80,
+            'SIDEWAY_RANGE': 75, 'DISTRIBUTION': 45,
+            'CHOPPY_UNCERTAIN': 20, 'REVERSAL_FORMING': 60,
+            'LIQUIDITY_VOID': 10, 'UNCLEAR': 15,
+            'TRANSITIONAL': 50,
         }
         return quality_map.get(state, 50)
     

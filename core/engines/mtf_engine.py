@@ -101,7 +101,7 @@ class MTFEngine(BaseEngine):
             elif close < ema20 < ema50:
                 return 'DOWN'
             return 'NONE'
-        except:
+        except Exception as e:
             return 'NONE'
     
     def get_neutral_state(self) -> Dict[str, Any]:

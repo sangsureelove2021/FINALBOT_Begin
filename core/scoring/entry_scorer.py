@@ -49,6 +49,10 @@ class EntryScorer:
         if regime == 'EXTREME':
             score -= 15  # Don't enter in extreme volatility
         elif regime == 'LOW':
-            score -= 8   # Avoid low vol
+            state_str = context.market_state.get('state', 'UNKNOWN') if isinstance(context.market_state, dict) else context.market_state
+            if state_str in ("ACCUMULATION", "BREAKOUT_EMERGING"):
+                score += 15  # Compression is a strong plus for breakouts!
+            else:
+                score -= 8   # Avoid low vol for normal trend following
         
         return int(max(0, min(100, score)))

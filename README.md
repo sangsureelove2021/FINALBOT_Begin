@@ -20,17 +20,11 @@ python runner.py
 
 ## Configuration
 
-### Credentials (Already Embedded)
-- ✅ IQ Option Email: `venuz20152565@gmail.com`
-- ✅ IQ Option Password: `2856101607mM@`
-- ✅ Trading Pair: `EURUSD-OTC`
-- ✅ Capital: `2000 THB`
+### Settings
+แก้ไฟล์ `config/settings.json` ก่อนรัน
 
 ### Modify Trading Pair
-Edit `runner.py` line 270:
-```python
-symbols=['EURUSD-OTC']  # Change this
-```
+แก้ไฟล์ `config/symbols.txt` (หนึ่งบรรทัด = หนึ่งคู่)
 
 ## Features
 

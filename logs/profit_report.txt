@@ -1,0 +1,3 @@
+Backtest Profit Report
+Cycles executed: 1
+Total P&L: 0.00 THB

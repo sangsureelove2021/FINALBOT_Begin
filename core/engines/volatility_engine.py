@@ -39,6 +39,8 @@ class VolatilityEngine(BaseEngine):
         zscore = self._calculate_zscore(atr_val, atr_historical)
         spike_detected = abs(zscore) > 2.0
         
+        bbw_ratio, compression_quality = self._calculate_compression_quality(atr_percentile, bbw, candles_df)
+        
         return {
             'atr': float(atr_val),
             'atr_percentile': float(atr_percentile),
@@ -51,7 +53,38 @@ class VolatilityEngine(BaseEngine):
             'volatility_zscore': float(zscore),
             'spike_detected': bool(spike_detected),
             'confidence': self._calculate_confidence(atr_val, regime),
+            
+            # Enhancement 2: Compression metrics
+            'bbw_compression_ratio': bbw_ratio,
+            'compression_quality': compression_quality,
         }
+        
+    def _calculate_compression_quality(self, atr_pct: float, bbw: float, df: pd.DataFrame) -> Tuple[float, float]:
+        """Calculate Bollinger Bands squeeze ratio and Compression Squeeze Quality score"""
+        try:
+            closes = df['close']
+            sma = closes.rolling(20).mean()
+            std = closes.rolling(20).std()
+            bbw_series = (sma + 2*std) - (sma - 2*std)
+            
+            current_bbw = bbw_series.iloc[-1]
+            historical_bbw_sma = bbw_series.rolling(100).mean().iloc[-1]
+            
+            if historical_bbw_sma == 0 or np.isnan(historical_bbw_sma):
+                bbw_compression_ratio = 1.0
+            else:
+                bbw_compression_ratio = float(current_bbw / historical_bbw_sma)
+                
+            # Compute quality 0-100: lower ratio & lower atr_pct = higher quality squeeze
+            quality = 100.0
+            if bbw_compression_ratio > 0.8:
+                quality -= (bbw_compression_ratio - 0.8) * 100
+            quality -= max(0.0, (atr_pct - 20.0) * 0.8)
+            
+            compression_quality = float(max(0.0, min(100.0, quality)))
+            return bbw_compression_ratio, compression_quality
+        except Exception as e:
+            return 1.0, 50.0
     
     def _calculate_atr(self, df, period=14) -> float:
         try:
@@ -62,7 +95,7 @@ class VolatilityEngine(BaseEngine):
             tr = np.maximum(tr1, np.maximum(tr2, tr3))
             atr = tr.rolling(period).mean()
             return float(atr.iloc[-1]) if not np.isnan(atr.iloc[-1]) else 0.0
-        except:
+        except Exception as e:
             return 0.0
     
     def _calculate_atr_historical(self, df, period=14):
@@ -76,7 +109,7 @@ class VolatilityEngine(BaseEngine):
             tr = np.maximum(tr1, np.maximum(tr2, tr3))
             atr_values = tr.rolling(period).mean().dropna().values
             return atr_values[-100:] if len(atr_values) > 0 else np.array([0.0])
-        except:
+        except Exception as e:
             return np.array([0.0])
     
     def _calculate_percentile(self, current_atr, historical_atr) -> float:
@@ -84,7 +117,7 @@ class VolatilityEngine(BaseEngine):
             if len(historical_atr) == 0 or current_atr == 0:
                 return 50.0
             return float((np.sum(historical_atr <= current_atr) / len(historical_atr)) * 100)
-        except:
+        except Exception as e:
             return 50.0
     
     def _calculate_bollinger_bands(self, prices, period=20, std_dev=2) -> Tuple[float, float]:
@@ -96,7 +129,7 @@ class VolatilityEngine(BaseEngine):
             bbw = upper - lower
             return (float(bbw.iloc[-1]) if not np.isnan(bbw.iloc[-1]) else 0.0,
                     float(std.iloc[-1]) if not np.isnan(std.iloc[-1]) else 0.0)
-        except:
+        except Exception as e:
             return 0.0, 0.0
     
     def _classify_regime(self, atr_percentile) -> str:
@@ -133,7 +166,7 @@ class VolatilityEngine(BaseEngine):
                     return 70, 30
                 return 55, 45
             return 40, 60
-        except:
+        except Exception as e:
             return 50, 50
     
     def _calculate_zscore(self, current_atr, historical_atr) -> float:
@@ -145,7 +178,7 @@ class VolatilityEngine(BaseEngine):
             if std == 0:
                 return 0.0
             return float((current_atr - mean) / std)
-        except:
+        except Exception as e:
             return 0.0
     
     def _calculate_confidence(self, atr_val, regime) -> int:

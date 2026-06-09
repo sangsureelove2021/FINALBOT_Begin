@@ -6,7 +6,7 @@ Real-time performance tracking during execution.
 
 import logging
 from typing import Dict, List
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 from dataclasses import dataclass
 import time
 
@@ -31,7 +31,7 @@ class PerformanceMonitor:
     
     def __init__(self):
         """Initialize monitor."""
-        self.start_time = datetime.utcnow()
+        self.start_time = datetime.now(timezone.utc)
         self.cycle_times: List[float] = []  # Per-cycle times in seconds
         self.cycle_count = 0
         self.signal_count = 0
@@ -39,7 +39,7 @@ class PerformanceMonitor:
         self.total_pnl = 0.0
         self.wins = 0
         self.losses = 0
-        self.last_metric_time = datetime.utcnow()
+        self.last_metric_time = datetime.now(timezone.utc)
     
     def record_cycle(self, cycle_time: float, 
                     signals_this_cycle: int = 0) -> None:
@@ -75,7 +75,7 @@ class PerformanceMonitor:
     
     def get_metrics(self) -> PerformanceMetrics:
         """Get current performance metrics."""
-        elapsed = datetime.utcnow() - self.start_time
+        elapsed = datetime.now(timezone.utc) - self.start_time
         elapsed_hours = elapsed.total_seconds() / 3600
         
         avg_cycle_time = (sum(self.cycle_times) / len(self.cycle_times) 
@@ -88,7 +88,7 @@ class PerformanceMonitor:
                            if elapsed_hours > 0 else 0.0)
         
         return PerformanceMetrics(
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             cycle_count=self.cycle_count,
             signal_count=self.signal_count,
             trade_count=self.trade_count,
@@ -101,7 +101,7 @@ class PerformanceMonitor:
     def print_stats(self) -> None:
         """Print current statistics."""
         metrics = self.get_metrics()
-        elapsed = datetime.utcnow() - self.start_time
+        elapsed = datetime.now(timezone.utc) - self.start_time
         
         logger.info("\n" + "="*80)
         logger.info("📊 PERFORMANCE MONITOR")

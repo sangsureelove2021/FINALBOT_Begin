@@ -6,7 +6,7 @@ Manage active orders, track P&L, handle results.
 
 import logging
 from typing import Dict, List, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 from dataclasses import dataclass, field
 
 logger = logging.getLogger(__name__)
@@ -51,31 +51,33 @@ class OrderManager:
         self.max_concurrent = max_concurrent
         self.active_trades: Dict[str, Trade] = {}  # {order_id: Trade}
         self.closed_trades: List[Trade] = []
-        self.session_start = datetime.utcnow()
+        self.session_start = datetime.now(timezone.utc)
+        self.symbol_cooldowns: Dict[str, datetime] = {}
     
+    def is_cooldown_active(self, symbol: str, current_time: datetime) -> bool:
+        if symbol in self.symbol_cooldowns:
+            if current_time < self.symbol_cooldowns[symbol]:
+                return True
+        return False
+        
     def add_trade(self, order_id: str, symbol: str, direction: str,
                   amount: float, entry_price: float, 
-                  expiry: str = 'M5') -> bool:
+                  expiry: str = 'M5', current_time: Optional[datetime] = None) -> bool:
         """
         Register a new trade.
-        
-        Args:
-            order_id: Unique order identifier
-            symbol: Trading pair
-            direction: 'CALL' or 'PUT'
-            amount: Trade size
-            entry_price: Entry price
-            expiry: Expiration timeframe
-        
-        Returns:
-            True if added, False if would exceed limit
         """
+        now = current_time or datetime.now(timezone.utc)
+        
+        if self.is_cooldown_active(symbol, now):
+            logger.info(f"[COOLDOWN] Cannot trade {symbol}, cooldown active until {self.symbol_cooldowns[symbol]}")
+            return False
+            
         if len(self.active_trades) >= self.max_concurrent:
-            logger.warning(f"⚠️ Cannot add trade: max concurrent ({self.max_concurrent}) reached")
+            logger.warning(f"[WARN] Cannot add trade: max concurrent ({self.max_concurrent}) reached")
             return False
         
         if order_id in self.active_trades:
-            logger.warning(f"⚠️ Trade {order_id} already exists")
+            logger.warning(f"[WARN] Trade {order_id} already exists")
             return False
         
         trade = Trade(
@@ -84,36 +86,30 @@ class OrderManager:
             direction=direction,
             amount=amount,
             entry_price=entry_price,
-            entry_time=datetime.utcnow(),
+            entry_time=now,
             expiry=expiry,
             status='pending'
         )
         
         self.active_trades[order_id] = trade
-        logger.info(f"📊 Trade opened: {order_id} | {direction} {amount:.0f}x {symbol} @ {entry_price}")
+        logger.info(f"[TRADE] Trade opened: {order_id} | {direction} {amount:.0f}x {symbol} @ {entry_price}")
         return True
     
     def close_trade(self, order_id: str, exit_price: float, 
-                   pnl: float = 0.0, notes: str = "") -> Optional[Trade]:
+                   pnl: float = 0.0, notes: str = "",
+                   current_time: Optional[datetime] = None) -> Optional[Trade]:
         """
         Close a trade and calculate P&L.
-        
-        Args:
-            order_id: Order to close
-            exit_price: Price at exit
-            pnl: Profit/Loss (THB)
-            notes: Reason for closing
-        
-        Returns:
-            Closed Trade object or None if not found
         """
+        now = current_time or datetime.now(timezone.utc)
+        
         if order_id not in self.active_trades:
-            logger.warning(f"❌ Trade {order_id} not found")
+            logger.warning(f"[ERR] Trade {order_id} not found")
             return None
         
         trade = self.active_trades[order_id]
         trade.exit_price = exit_price
-        trade.exit_time = datetime.utcnow()
+        trade.exit_time = now
         trade.pnl = pnl
         trade.status = 'closed'
         trade.notes = notes
@@ -125,12 +121,18 @@ class OrderManager:
             else:  # PUT
                 trade.pnl_percent = ((trade.entry_price - exit_price) / trade.entry_price) * 100
         
+        # Apply Cooldown Penalty (DS Blueprint: 15 mins for WIN, 45 mins for LOSS)
+        import datetime as dt
+        cooldown_mins = 15 if pnl > 0 else 45
+        self.symbol_cooldowns[trade.symbol] = now + dt.timedelta(minutes=cooldown_mins)
+        
         # Move to closed
         del self.active_trades[order_id]
         self.closed_trades.append(trade)
         
-        status_icon = "✅ WIN" if pnl > 0 else "❌ LOSS"
-        logger.info(f"{status_icon}: {order_id} | {trade.symbol} | P&L: {pnl:.2f} THB ({trade.pnl_percent:+.2f}%)")
+        status_label = "[WIN]" if pnl > 0 else "[LOSS]"
+        logger.info(f"{status_label}: {order_id} | {trade.symbol} | P&L: {pnl:.2f} THB ({trade.pnl_percent:+.2f}%)")
+        logger.info(f"-> Applied {cooldown_mins} min cooldown for {trade.symbol}")
         
         return trade
     
@@ -162,7 +164,7 @@ class OrderManager:
                 'largest_win': 0.0,
                 'largest_loss': 0.0,
                 'active_trades': len(self.active_trades),
-                'session_duration': str(datetime.utcnow() - self.session_start),
+                'session_duration': str(datetime.now(timezone.utc) - self.session_start),
             }
         
         wins = [t.pnl for t in self.closed_trades if t.pnl > 0]
@@ -179,14 +181,14 @@ class OrderManager:
             'avg_loss': sum(losses) / len(losses) if losses else 0.0,
             'largest_win': max(wins) if wins else 0.0,
             'largest_loss': min(losses) if losses else 0.0,
-            'session_duration': str(datetime.utcnow() - self.session_start),
+            'session_duration': str(datetime.now(timezone.utc) - self.session_start),
         }
     
     def print_summary(self) -> None:
         """Print session summary."""
         stats = self.get_stats()
         logger.info("\n" + "="*60)
-        logger.info("📊 SESSION SUMMARY")
+        logger.info("=== SESSION SUMMARY ===")
         logger.info("="*60)
         logger.info(f"Total Trades: {stats['total_trades']}")
         logger.info(f"Active Trades: {stats['active_trades']}")

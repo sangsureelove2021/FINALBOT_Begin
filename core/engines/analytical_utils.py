@@ -24,7 +24,7 @@ class AnalyticalUtils:
             x = np.arange(len(y))
             slope, intercept = np.polyfit(x, y, 1)
             return float(slope), float(intercept)
-        except:
+        except Exception as e:
             return 0.0, 0.0
     
     @staticmethod
@@ -48,7 +48,7 @@ class AnalyticalUtils:
                 return 0.0
             
             return float(max(0, 1 - ss_res / ss_tot))
-        except:
+        except Exception as e:
             return 0.0
     
     @staticmethod
@@ -56,7 +56,7 @@ class AnalyticalUtils:
         """Standard deviation"""
         try:
             return float(np.std(np.array(values, dtype=float)))
-        except:
+        except Exception as e:
             return 0.0
     
     @staticmethod
@@ -69,7 +69,7 @@ class AnalyticalUtils:
             if std == 0:
                 return 0.0
             return float((value - mean) / std)
-        except:
+        except Exception as e:
             return 0.0
     
     @staticmethod
@@ -80,7 +80,7 @@ class AnalyticalUtils:
             if len(arr) == 0:
                 return 50.0
             return float((np.sum(arr <= value) / len(arr)) * 100)
-        except:
+        except Exception as e:
             return 50.0
     
     @staticmethod
@@ -96,7 +96,7 @@ class AnalyticalUtils:
                 return 0.0
             corr = np.corrcoef(a, b)[0, 1]
             return float(corr) if not np.isnan(corr) else 0.0
-        except:
+        except Exception as e:
             return 0.0
     
     @staticmethod
@@ -107,7 +107,7 @@ class AnalyticalUtils:
             if len(arr) < window:
                 return arr
             return np.convolve(arr, np.ones(window) / window, mode='valid')
-        except:
+        except Exception as e:
             return np.array(values)
     
     @staticmethod
@@ -119,7 +119,7 @@ class AnalyticalUtils:
             if max_v == min_v:
                 return np.full_like(arr, 0.5)
             return (arr - min_v) / (max_v - min_v)
-        except:
+        except Exception as e:
             return np.array(values)
     
     @staticmethod
@@ -134,7 +134,7 @@ class AnalyticalUtils:
                 return []
             z_scores = np.abs((arr - mean) / std)
             return [int(i) for i in np.where(z_scores > threshold)[0]]
-        except:
+        except Exception as e:
             return []
     
     @staticmethod
@@ -146,5 +146,5 @@ class AnalyticalUtils:
             if w.sum() == 0:
                 return 0.0
             return float(np.average(v, weights=w))
-        except:
+        except Exception as e:
             return 0.0

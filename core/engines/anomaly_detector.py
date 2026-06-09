@@ -70,7 +70,7 @@ class AnomalyDetector(BaseEngine):
             
             zscore = (recent_range - mean_range) / std_range
             return abs(zscore) > 3.0
-        except:
+        except Exception as e:
             return False
     
     def _detect_gap(self, df) -> bool:
@@ -92,7 +92,7 @@ class AnomalyDetector(BaseEngine):
                     return True
             
             return False
-        except:
+        except Exception as e:
             return False
     
     def _detect_volume_anomaly(self, df) -> bool:
@@ -112,7 +112,7 @@ class AnomalyDetector(BaseEngine):
             
             zscore = (recent_vol - mean_vol) / std_vol
             return zscore > 3.0
-        except:
+        except Exception as e:
             return False
     
     def _detect_body_anomaly(self, df) -> bool:
@@ -129,7 +129,7 @@ class AnomalyDetector(BaseEngine):
             
             zscore = (recent_body - mean_body) / std_body
             return zscore > 3.0
-        except:
+        except Exception as e:
             return False
     
     def _calculate_anomaly_score(self, anomalies: List[str]) -> int:

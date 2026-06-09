@@ -52,7 +52,7 @@ class PriceActionHandler(BaseEngine):
             if avg_price == 0:
                 return 0.0
             return float(bodies.mean() / avg_price * 100)
-        except:
+        except Exception as e:
             return 0.0
     
     def _wick_to_body_ratio(self, df: pd.DataFrame) -> float:
@@ -63,7 +63,7 @@ class PriceActionHandler(BaseEngine):
             if bodies.sum() == 0:
                 return 0.0
             return float(wicks.sum() / bodies.sum())
-        except:
+        except Exception as e:
             return 0.0
     
     def _candle_momentum(self, df: pd.DataFrame) -> int:
@@ -78,7 +78,7 @@ class PriceActionHandler(BaseEngine):
             # If one side dominates
             dominance = max(bullish_count, bearish_count) / total
             return int(dominance * 100)
-        except:
+        except Exception as e:
             return 50
     
     def _classify_move(self, df: pd.DataFrame) -> str:
@@ -100,7 +100,7 @@ class PriceActionHandler(BaseEngine):
                 return 'NOISY'
             else:
                 return 'CHAOTIC'
-        except:
+        except Exception as e:
             return 'NORMAL'
     
     def _recent_directional_bias(self, df: pd.DataFrame) -> str:
@@ -113,7 +113,7 @@ class PriceActionHandler(BaseEngine):
             elif bearish > bullish * 1.5:
                 return 'BEARISH'
             return 'NEUTRAL'
-        except:
+        except Exception as e:
             return 'NEUTRAL'
     
     def _quality_score(self, body_size: float, wick_ratio: float, 

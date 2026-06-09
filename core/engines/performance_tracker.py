@@ -7,7 +7,7 @@ Stateful - accumulates data across multiple analyses.
 """
 
 from typing import Dict, Any, List
-from datetime import datetime
+from datetime import datetime, timezone
 from collections import deque
 
 
@@ -26,7 +26,7 @@ class PerformanceTracker:
     def record_signal(self, signal_data: Dict[str, Any]) -> None:
         """Record a generated signal"""
         self._signals.append({
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'action': signal_data.get('action', 'UNKNOWN'),
             'confidence': signal_data.get('confidence', 0),
             'quality': signal_data.get('quality', 'UNKNOWN'),
@@ -41,7 +41,7 @@ class PerformanceTracker:
             'signal_id': signal_id,
             'won': won,
             'profit': profit,
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
         })
     
     def get_statistics(self) -> Dict[str, Any]:

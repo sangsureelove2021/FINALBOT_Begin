@@ -14,7 +14,7 @@ def test_reversal_strategy():
     logger.info("Testing Reversal Strategy V2...")
     strategy = ReversalStrategy()
     assert strategy.name == "Reversal Pattern V2"
-    context = MarketContext(timestamp=datetime.now(), pair="EURUSD", timeframe="M5", current_price=1.0850)
+    context = MarketContext(timestamp=datetime.now(), symbol="EURUSD", timeframe="M5", current_price=1.0850)
     context.candles = [Candle(timestamp=datetime.now(), open=100+i, high=102+i, low=98+i, close=101+i, volume=1000) for i in range(20)]
     result = strategy.evaluate(context)
     assert result is not None
@@ -25,7 +25,7 @@ def test_trend_following_strategy():
     logger.info("Testing Trend Following Strategy V3...")
     strategy = TrendFollowingStrategy()
     assert strategy.name == "Trend Following V3"
-    context = MarketContext(timestamp=datetime.now(), pair="EURUSD", timeframe="M5", current_price=1.0900)
+    context = MarketContext(timestamp=datetime.now(), symbol="EURUSD", timeframe="M5", current_price=1.0900)
     context.candles = [Candle(timestamp=datetime.now(), open=100+i*0.5, high=102+i*0.5, low=99+i*0.5, close=101+i*0.5, volume=1000) for i in range(50)]
     result = strategy.evaluate(context)
     assert result is not None

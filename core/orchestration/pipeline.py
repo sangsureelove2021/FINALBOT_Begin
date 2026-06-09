@@ -8,7 +8,7 @@ Flow:
 """
 
 from typing import Dict, List
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 import pandas as pd
 
@@ -46,6 +46,7 @@ class Pipeline:
         self.confidence_scorer = confidence_scorer or ConfidenceScorer()
         self.entry_scorer = entry_scorer or EntryScorer()
         self.block_scorer = block_scorer or BlockScorer()
+        self.last_context = None
     
     def execute(self, symbol: str, candles: Dict[str, pd.DataFrame],
                timeframe: str = 'M5') -> Signal:
@@ -57,6 +58,7 @@ class Pipeline:
         """
         # === STAGE 1: Build context ===
         context = self.context_builder.build(symbol, candles, timeframe)
+        self.last_context = context
         
         # Skip error checks for now (MarketContext doesn't have has_errors method)
         # TODO: Implement error tracking in MarketContext
@@ -75,19 +77,15 @@ class Pipeline:
         recommendation = self._evaluate_strategies(context)
         context.strategy_recommendation = recommendation
         
-        if recommendation.get('action') == 'NO_SIGNAL':
+        if recommendation.get('action') in ('NO_SIGNAL', 'NO_SETUP'):
             return self._create_no_signal(symbol, timeframe, context, recommendation)
         
-        # === STAGE 4: Execution Gate (signal veto) ===
+        # === STAGE 4: Execution Gate — BYPASSED (ด่านทั้งหมดยกเลิก) ===
+        # Gate still runs for advisory data, but never blocks
         if self.execution_gate:
             gate_decision = self.execution_gate.evaluate(context, recommendation)
             context.execution_decision = gate_decision
-            
-            if not gate_decision.get('approved'):
-                return self._create_blocked_signal(
-                    symbol, timeframe, context,
-                    gate_decision.get('reason', 'Blocked by execution gate')
-                )
+            # Gate always returns approved=True now, no blocking
         
         # === STAGE 5: Final signal ===
         return self._create_signal(symbol, timeframe, context, recommendation)
@@ -138,7 +136,7 @@ class Pipeline:
         
         return Signal(
             signal_id=str(uuid.uuid4())[:8],
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             symbol=symbol,
             timeframe=timeframe,
             action=action,
@@ -159,7 +157,7 @@ class Pipeline:
         """Create NO_SIGNAL signal"""
         return Signal(
             signal_id=str(uuid.uuid4())[:8],
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             symbol=symbol,
             timeframe=timeframe,
             action=SignalAction.NO_SIGNAL,
@@ -174,7 +172,7 @@ class Pipeline:
         """Create BLOCKED signal"""
         return Signal(
             signal_id=str(uuid.uuid4())[:8],
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             symbol=symbol,
             timeframe=timeframe,
             action=SignalAction.BLOCKED,

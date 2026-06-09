@@ -58,7 +58,7 @@ class LiquidityEngine(BaseEngine):
                             equal.append(level)
             
             return sorted(equal, reverse=True)[:3]
-        except:
+        except Exception as e:
             return []
     
     def _find_equal_lows(self, df, tolerance=0.0008) -> List[float]:
@@ -78,7 +78,7 @@ class LiquidityEngine(BaseEngine):
                             equal.append(level)
             
             return sorted(equal)[:3]
-        except:
+        except Exception as e:
             return []
     
     def _detect_sweep(self, df):
@@ -106,7 +106,7 @@ class LiquidityEngine(BaseEngine):
                 return True, 'SWEEP_LOW'
             
             return False, 'NONE'
-        except:
+        except Exception as e:
             return False, 'NONE'
     
     def _score_liquidity(self, equal_highs, equal_lows) -> int:

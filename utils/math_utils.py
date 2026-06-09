@@ -65,7 +65,7 @@ def slope(values: Union[list, np.ndarray, pd.Series]) -> float:
     try:
         coeffs = np.polyfit(x, y, 1)
         return float(coeffs[0])
-    except:
+    except Exception as e:
         return 0.0
 
 

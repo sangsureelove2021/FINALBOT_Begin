@@ -52,7 +52,9 @@ class BlockScorer:
         # Choppy / corrective market
         trend_type = context.trend.get('type', '')
         if trend_type == 'CHOPPY':
-            score += 25
+            state_str = context.market_state.get('state', 'UNKNOWN') if isinstance(context.market_state, dict) else context.market_state
+            if state_str not in ("ACCUMULATION", "BREAKOUT_EMERGING"):
+                score += 25
         elif trend_type == 'CORRECTIVE':
             score += 12
         

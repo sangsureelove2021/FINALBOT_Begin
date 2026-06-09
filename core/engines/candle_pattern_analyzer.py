@@ -58,7 +58,7 @@ class CandlePatternAnalyzer(BaseEngine):
                     curr['close'] > curr['open'] and  # Current bullish
                     curr['open'] < prev['close'] and  # Opens below prev close
                     curr['close'] > prev['open'])     # Closes above prev open
-        except:
+        except Exception as e:
             return False
     
     def _is_bearish_engulfing(self, df) -> bool:
@@ -69,7 +69,7 @@ class CandlePatternAnalyzer(BaseEngine):
                     curr['close'] < curr['open'] and
                     curr['open'] > prev['close'] and
                     curr['close'] < prev['open'])
-        except:
+        except Exception as e:
             return False
     
     def _is_hammer(self, df) -> bool:
@@ -84,7 +84,7 @@ class CandlePatternAnalyzer(BaseEngine):
             return (lower_wick > body * 2 and
                     upper_wick < body * 0.5 and
                     body / total > 0.1)
-        except:
+        except Exception as e:
             return False
     
     def _is_shooting_star(self, df) -> bool:
@@ -99,7 +99,7 @@ class CandlePatternAnalyzer(BaseEngine):
             return (upper_wick > body * 2 and
                     lower_wick < body * 0.5 and
                     body / total > 0.1)
-        except:
+        except Exception as e:
             return False
     
     def _is_doji(self, df) -> bool:
@@ -110,7 +110,7 @@ class CandlePatternAnalyzer(BaseEngine):
             if total == 0:
                 return False
             return body / total < 0.1
-        except:
+        except Exception as e:
             return False
     
     def _is_morning_star(self, df) -> bool:
@@ -122,7 +122,7 @@ class CandlePatternAnalyzer(BaseEngine):
                     abs(c2['close'] - c2['open']) < abs(c1['close'] - c1['open']) * 0.5 and  # Small body
                     c3['close'] > c3['open'] and  # Third bullish
                     c3['close'] > (c1['open'] + c1['close']) / 2)  # Closes above midpoint
-        except:
+        except Exception as e:
             return False
     
     def _is_evening_star(self, df) -> bool:
@@ -134,7 +134,7 @@ class CandlePatternAnalyzer(BaseEngine):
                     abs(c2['close'] - c2['open']) < abs(c1['close'] - c1['open']) * 0.5 and
                     c3['close'] < c3['open'] and
                     c3['close'] < (c1['open'] + c1['close']) / 2)
-        except:
+        except Exception as e:
             return False
     
     def _determine_bias(self, patterns: List[str]) -> str:

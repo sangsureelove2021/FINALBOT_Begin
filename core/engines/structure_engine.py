@@ -31,6 +31,8 @@ class StructureEngine(BaseEngine):
         )
         struct_score = self._score_structure(support_levels, resistance_levels)
         
+        box_duration, box_tightness = self._calculate_box_metrics(candles_df)
+        
         return {
             'support_levels': support_levels,
             'resistance_levels': resistance_levels,
@@ -43,7 +45,40 @@ class StructureEngine(BaseEngine):
             'breakout_probability': 60 if bos_detected else 30,
             'reversal_probability': 40 if bos_detected else 50,
             'confidence': min(85, struct_score + 10),
+            
+            # Enhancement 1: Box Duration Tracker metrics
+            'box_duration': box_duration,
+            'box_tightness': box_tightness,
         }
+    
+    def _calculate_box_metrics(self, df: pd.DataFrame) -> Tuple[int, float]:
+        """Calculate range box duration and tightness"""
+        try:
+            highs = df['high'].tail(50).values
+            lows = df['low'].tail(50).values
+            
+            # Find ATR for normalization
+            high_low = df['high'] - df['low']
+            atr = high_low.rolling(14).mean().iloc[-1]
+            if atr == 0:
+                atr = 0.0001
+                
+            box_duration = 0
+            # Track back to find how many consecutive candles stay within recent 20-candle high/low range
+            ref_high = max(highs[-20:])
+            ref_low = min(lows[-20:])
+            ref_range = ref_high - ref_low
+            
+            for i in range(len(highs) - 1, -1, -1):
+                if ref_low <= highs[i] <= ref_high and ref_low <= lows[i] <= ref_high:
+                    box_duration += 1
+                else:
+                    break
+                    
+            box_tightness = float(ref_range / atr)
+            return box_duration, box_tightness
+        except Exception as e:
+            return 10, 2.5
     
     def _find_support_levels(self, df, lookback=50) -> List[float]:
         try:
@@ -53,7 +88,7 @@ class StructureEngine(BaseEngine):
                 if lows[i] < lows[i-1] and lows[i] < lows[i+1]:
                     support.append(float(lows[i]))
             return sorted(list(set([round(s, 5) for s in support])))[:3]
-        except:
+        except Exception as e:
             return []
     
     def _find_resistance_levels(self, df, lookback=50) -> List[float]:
@@ -64,7 +99,7 @@ class StructureEngine(BaseEngine):
                 if highs[i] > highs[i-1] and highs[i] > highs[i+1]:
                     resistance.append(float(highs[i]))
             return sorted(list(set([round(r, 5) for r in resistance])))[:3]
-        except:
+        except Exception as e:
             return []
     
     def _determine_structure_type(self, df) -> str:
@@ -73,7 +108,7 @@ class StructureEngine(BaseEngine):
             if recent_range > 0.02: return 'BREAKOUT'
             elif recent_range > 0.015: return 'TRENDING'
             return 'RANGING'
-        except:
+        except Exception as e:
             return 'RANGING'
     
     def _detect_bos(self, df, supports, resistances) -> Tuple[bool, str]:
@@ -87,7 +122,7 @@ class StructureEngine(BaseEngine):
                 if prev_price < level and price > level:
                     return True, 'BULLISH'
             return False, 'NONE'
-        except:
+        except Exception as e:
             return False, 'NONE'
     
     def _find_key_zones(self, supports, resistances, df) -> Dict[str, float]:
@@ -97,7 +132,7 @@ class StructureEngine(BaseEngine):
                 'strong_resistance': float(resistances[0]) if resistances else float(df['high'].max()),
                 'middle': float((supports[0] + resistances[0]) / 2) if supports and resistances else float(df['close'].mean()),
             }
-        except:
+        except Exception as e:
             return {'strong_support': 0, 'strong_resistance': 0, 'middle': 0}
     
     def _check_proximity(self, price, supports, resistances) -> str:
@@ -111,7 +146,7 @@ class StructureEngine(BaseEngine):
             elif distance < 0.005: return 'NEAR'
             elif distance < 0.015: return 'MEDIUM'
             return 'FAR'
-        except:
+        except Exception as e:
             return 'FAR'
     
     def _score_structure(self, supports, resistances) -> int:

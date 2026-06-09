@@ -8,7 +8,7 @@ Used for backtesting and strategy validation.
 import logging
 import pandas as pd
 from typing import Dict, List, Optional, Callable
-from datetime import datetime
+from datetime import datetime, timezone
 from dataclasses import dataclass
 
 logger = logging.getLogger(__name__)
@@ -93,7 +93,7 @@ class ReplayEngine:
             for symbol, result in results_per_symbol.items():
                 if result['executed']:
                     replay_result = ReplayResult(
-                        timestamp=datetime.utcnow(),
+                        timestamp=datetime.now(timezone.utc),
                         symbol=symbol,
                         signal=result['signal'],
                         confidence=result.get('confidence', 0),

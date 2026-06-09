@@ -67,7 +67,7 @@ class MarketPressureAnalyzer(BaseEngine):
                 return 50
             
             return int((buy_score / total_weight) * 100)
-        except:
+        except Exception as e:
             return 50
     
     def _detect_absorption(self, df) -> bool:
@@ -91,7 +91,7 @@ class MarketPressureAnalyzer(BaseEngine):
                     return True
             
             return False
-        except:
+        except Exception as e:
             return False
     
     def _effort_vs_result(self, df) -> str:
@@ -103,22 +103,23 @@ class MarketPressureAnalyzer(BaseEngine):
             recent = df.tail(10)
             
             avg_vol = recent['volume'].mean()
-            price_move = abs(recent['close'].iloc[-1] - recent['close'].iloc[0])
+            # Calculate cumulative path instead of net A to B
+            path_move = abs(recent['close'].diff()).sum()
             avg_price = recent['close'].mean()
             
             if avg_price == 0:
                 return 'UNKNOWN'
             
-            move_pct = price_move / avg_price * 100
+            move_pct = path_move / avg_price * 100
             
-            # High volume + low move = effort without result (weak)
-            if avg_vol > 0 and move_pct < 0.1:
+            # High volume + low cumulative move = effort without result (choppy absorption)
+            if avg_vol > 0 and move_pct < 0.2:
                 return 'EFFORT_NO_RESULT'
-            elif move_pct > 0.5:
+            elif move_pct > 1.0:
                 return 'STRONG_RESULT'
             else:
                 return 'NORMAL'
-        except:
+        except Exception as e:
             return 'UNKNOWN'
     
     def get_neutral_state(self) -> Dict[str, Any]:

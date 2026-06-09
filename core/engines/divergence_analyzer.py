@@ -61,7 +61,7 @@ class DivergenceAnalyzer(BaseEngine):
             avg_loss = pd.Series(losses, index=prices.index).rolling(period).mean()
             rs = avg_gain / avg_loss.replace(0, np.nan)
             return 100 - (100 / (1 + rs))
-        except:
+        except Exception as e:
             return pd.Series([50] * len(prices), index=prices.index)
     
     def _calculate_macd_hist(self, prices) -> pd.Series:
@@ -71,7 +71,7 @@ class DivergenceAnalyzer(BaseEngine):
             macd_line = ema_fast - ema_slow
             signal_line = macd_line.ewm(span=9).mean()
             return macd_line - signal_line
-        except:
+        except Exception as e:
             return pd.Series([0] * len(prices), index=prices.index)
     
     def _check_divergence(self, prices, indicator):
@@ -109,7 +109,7 @@ class DivergenceAnalyzer(BaseEngine):
                 return True, 'BEARISH'
             
             return False, 'NONE'
-        except:
+        except Exception as e:
             return False, 'NONE'
     
     def _divergence_strength(self, rsi_div, macd_div, rsi_type, macd_type) -> int:

@@ -30,6 +30,13 @@ class ContinuationAnalyzer(BaseEngine):
         )
         reversal_prob = 100 - continuation_prob
         
+        retest_detected, retest_quality, retest_type = self._analyze_retest(candles_df)
+        
+        # If a healthy retest is confirmed, boost continuation probability!
+        if retest_detected:
+            continuation_prob = min(98, continuation_prob + 15)
+            reversal_prob = 100 - continuation_prob
+        
         return {
             'continuation_probability': continuation_prob,
             'reversal_probability': reversal_prob,
@@ -39,7 +46,60 @@ class ContinuationAnalyzer(BaseEngine):
             'bias': 'CONTINUATION' if continuation_prob > 55 else (
                     'REVERSAL' if continuation_prob < 45 else 'NEUTRAL'),
             'confidence': 70,
+            
+            # Enhancement 3: Retest Analyzer metrics
+            'retest_detected': retest_detected,
+            'retest_quality': retest_quality,
+            'retest_type': retest_type,
         }
+        
+    def _analyze_retest(self, df: pd.DataFrame) -> Tuple[bool, float, str]:
+        """
+        Enhancement 3: Retest Analyzer.
+        Detects if price has broken out of a support/resistance level,
+        then yetted (retested) that level and got rejected.
+        """
+        try:
+            closes = df['close'].tail(30).values
+            highs = df['high'].tail(30).values
+            lows = df['low'].tail(30).values
+            
+            # Identify a support and resistance level in the tail (excluding recent candles)
+            ref_high = max(highs[:-5])
+            ref_low = min(lows[:-5])
+            
+            retest_detected = False
+            retest_quality = 0.0
+            retest_type = 'NONE'
+            
+            # Check for BULLISH retest: broke above ref_high, then touched/approached it and bounced
+            last_close = closes[-1]
+            last_low = lows[-1]
+            
+            # Broke out in last 5 candles
+            broke_high = any(closes[i] > ref_high for i in range(-5, -1))
+            if broke_high and last_close > ref_high:
+                # Retested the broken level (low got close to it)
+                distance_to_high = abs(last_low - ref_high) / ref_high
+                if distance_to_high < 0.002: # touched or almost touched
+                    retest_detected = True
+                    retest_type = 'BULLISH'
+                    # Quality is higher if close is higher than open (rejection)
+                    retest_quality = 85.0 if closes[-1] > df['open'].iloc[-1] else 60.0
+                    
+            # Check for BEARISH retest: broke below ref_low, then touched/approached it and bounced down
+            broke_low = any(closes[i] < ref_low for i in range(-5, -1))
+            if broke_low and last_close < ref_low:
+                # Retested the broken level (high got close to it)
+                distance_to_low = abs(highs[-1] - ref_low) / ref_low
+                if distance_to_low < 0.002:
+                    retest_detected = True
+                    retest_type = 'BEARISH'
+                    retest_quality = 85.0 if closes[-1] < df['open'].iloc[-1] else 60.0
+                    
+            return retest_detected, retest_quality, retest_type
+        except Exception as e:
+            return False, 0.0, 'NONE'
     
     def _assess_pullback(self, df) -> int:
         """Assess if recent pullback is healthy (0-100)"""
@@ -65,7 +125,7 @@ class ContinuationAnalyzer(BaseEngine):
                 return 40
             else:
                 return 20  # Overextended
-        except:
+        except Exception as e:
             return 50
     
     def _momentum_intact(self, df) -> bool:
@@ -79,7 +139,7 @@ class ContinuationAnalyzer(BaseEngine):
             
             # Momentum intact if same direction
             return np.sign(recent_roc) == np.sign(older_roc) and abs(recent_roc) > 0.1
-        except:
+        except Exception as e:
             return False
     
     def _volume_support(self, df) -> bool:
@@ -93,7 +153,7 @@ class ContinuationAnalyzer(BaseEngine):
             
             # Volume supports if recent >= past
             return recent_vol >= past_vol * 0.8
-        except:
+        except Exception as e:
             return True
     
     def _calculate_continuation_probability(self, pullback, momentum, 
@@ -122,7 +182,7 @@ class ContinuationAnalyzer(BaseEngine):
             slope = np.polyfit(np.arange(len(closes)), closes.values, 1)[0]
             if abs(slope) > 0.0005:
                 prob += 10
-        except:
+        except Exception as e:
             pass
         
         return int(min(95, max(5, prob)))

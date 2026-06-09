@@ -64,7 +64,7 @@ class TransitionAnalyzer(BaseEngine):
             ratio = recent_vol / past_vol
             # Significant shift if vol changed >50%
             return ratio > 1.5 or ratio < 0.6
-        except:
+        except Exception as e:
             return False
     
     def _detect_momentum_shift(self, df) -> bool:
@@ -83,7 +83,7 @@ class TransitionAnalyzer(BaseEngine):
                 return True
             
             return False
-        except:
+        except Exception as e:
             return False
     
     def _detect_structure_shift(self, df) -> bool:
@@ -97,14 +97,14 @@ class TransitionAnalyzer(BaseEngine):
             
             # Structure break if closed beyond prior range
             return last_close > prior_high or last_close < prior_low
-        except:
+        except Exception as e:
             return False
     
     def _slope(self, series) -> float:
         try:
             x = np.arange(len(series))
             return float(np.polyfit(x, series.values, 1)[0])
-        except:
+        except Exception as e:
             return 0.0
     
     def _calculate_stability(self, vol_shift, mom_shift, struct_shift) -> int:
