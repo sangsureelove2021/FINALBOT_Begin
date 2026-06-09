@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^\\$path = 'e:\\\\BOT_FINALBOT13 STG\\\\BOT_FINALBOT\\\\logs\\\\backtest_signals\\.json'; \\$lines = Get-Content -Path \\$path -Encoding UTF8; 312\\.\\.322 \\| ForEach-Object \\{ '\\{0\\}: \\{1\\}' -f \\$_, \\$lines\\[\\$_-1\\] \\}; '---'; 472\\.\\.480 \\| ForEach-Object \\{ '\\{0\\}: \\{1\\}' -f \\$_, \\$lines\\[\\$_-1\\] \\}$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
