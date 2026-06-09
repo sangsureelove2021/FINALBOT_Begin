@@ -1,4 +1,4 @@
-from core.interfaces.engine_interface import EngineInterface
+from core.interfaces.engine_interface import IEngine as EngineInterface
 from core.models.candle import Candle
 from typing import List, Dict, Any
 
