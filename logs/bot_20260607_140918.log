@@ -1,0 +1,25 @@
+2026-06-07 21:09:18,754 | INFO     | FINALBOT | [DYNAMIC] Loaded 2 symbols: ['EURJPY-OTC', 'EURUSD']
+2026-06-07 21:09:18,754 | ERROR    | FINALBOT | Fatal error: iqoptionapi library not installed. Run: pip install iqoptionapi
+2026-06-07 21:09:18,785 | DEBUG    | FINALBOT | Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\core\data\iq_option_adapter.py", line 77, in __init__
+    from iqoptionapi.stable_api import IQ_Option
+ModuleNotFoundError: No module named 'iqoptionapi.stable_api'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\runner.py", line 1373, in main
+    bot = BotRunner(
+        symbols=None,  # Loads from symbols.txt capped at 6
+    ...<2 lines>...
+        account_type=account_type
+    )
+  File "E:\BOT_FINALBOT13 STG\runner.py", line 275, in __init__
+    self.data_adapter = None if use_mock else IQOptionAdapter(use_mock=use_mock, account_type=account_type)
+                                              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT13 STG\core\data\iq_option_adapter.py", line 79, in __init__
+    raise RuntimeError(
+        "iqoptionapi library not installed. Run: pip install iqoptionapi"
+    ) from e
+RuntimeError: iqoptionapi library not installed. Run: pip install iqoptionapi
+
