@@ -1,6 +1,6 @@
 """
 IQ Option Executor
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Send trade orders to IQ Option via the live API.
 """
 

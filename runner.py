@@ -1,6 +1,6 @@
 """
 FINALBOT Main Runner
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Complete pipeline: Data → Intelligence → Strategy → Output
 
 BOT MODES:
@@ -19,13 +19,13 @@ ACTIVE STRATEGIES (7):
   ema_crossover, compression_breakout, triple_confluence, macd_crossover
 """
 
-# ─── BOT MODE ───────────────────────────────────────────────────────────────
+#  BOT MODE 
 # Change this value to switch the bot's operating mode:
 #   'SIGNAL' → Report CALL/PUT + market state only (no trade execution)
 #   'TRADE'  → Execute trades directly, no gates, no market filters
 #   'AI'     → Write full market data + signals to JSON for AI evaluation
 BOT_MODE = 'AI'  # Default: AI collaboration mode
-# ────────────────────────────────────────────────────────────────────────────
+# 
 
 import sys
 import logging
@@ -124,7 +124,7 @@ from execution.order_manager import OrderManager
 from execution.execution_guard import ExecutionGuard
 
 
-# ─── SHARED HELPERS (ใช้ร่วมกันทั้ง Live Runner) ───────────────────────────
+#  SHARED HELPERS (ใช้ร่วมกันทั้ง Live Runner) 
 
 def calc_dynamic_confidence(direction: str, indicators: dict) -> int:
     """
@@ -228,7 +228,7 @@ def get_session(utc_hour: int) -> str:
         return 'OFF_HOURS'
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# 
 
 
 class BotRunner:
@@ -441,6 +441,7 @@ class BotRunner:
                 "Auto_BOT": "TRADE",
                 "Ai_BOT": "AI",
                 "Hybrid_AiBOT": "HYBRID",
+                "Backtest_BOT": "BACKTEST",
             }
             new_bot_mode = mode_mapping.get(raw_mode, "SIGNAL")
             if new_bot_mode != self.bot_mode:
@@ -452,9 +453,9 @@ class BotRunner:
         except Exception as e:
             logger.warning(f"[DYNAMIC ERR] Failed to reload configuration: {e}")
 
-    # ────────────────────────────────────────────────────────────────────────
+    # 
     # CORE ANALYSIS ENGINE  (same logic for all 3 modes)
-    # ────────────────────────────────────────────────────────────────────────
+    # 
 
     def _evaluate_active_strategies(self, context) -> list:
         """
@@ -525,21 +526,25 @@ class BotRunner:
         """
         try:
             # Step 0.1: Auto-settle expired trades
-            now = datetime.now(timezone.utc)
+            now = self.data_adapter.simulated_time if (hasattr(self.data_adapter, 'simulated_time') and self.data_adapter.simulated_time) else datetime.now(timezone.utc)
             for order_id, trade in list(self.order_manager.active_trades.items()):
                 elapsed_seconds = (now - trade.entry_time).total_seconds()
                 expiry_val = getattr(trade, 'expiry', 'M1')
                 duration_mins = {'M1': 1, 'M5': 5, 'M15': 15, 'M30': 30, 'M60': 60}.get(expiry_val, 1)
                 
-                # Wait for the full expiry duration + 5 seconds buffer to ensure API settlement
-                if elapsed_seconds >= (duration_mins * 60) + 5:
+                # Wait for the full expiry duration + 5 seconds buffer to ensure API settlement (or exactly at duration for backtesting)
+                expiry_threshold = duration_mins * 60
+                if not (hasattr(self.data_adapter, 'simulated_time') and self.data_adapter.simulated_time):
+                    expiry_threshold += 5
+                
+                if elapsed_seconds >= expiry_threshold:
                     pnl = 0.0
                     won = False
                     exit_price = 0.0
                     notes = "Option contract expired"
                     
                     # Fetch real outcome if connected to live API
-                    if self.executor.is_connected() and "SIGNAL" not in order_id:
+                    if self.executor.is_connected() and "SIGNAL" not in order_id and not (hasattr(self.data_adapter, 'simulated_time') and self.data_adapter.simulated_time):
                         try:
                             # check_win_v3 returns profit (positive if won, negative if lost, 0 if tie)
                             # since it's already expired, this should return instantly
@@ -550,12 +555,52 @@ class BotRunner:
                             notes = f"Settled via IQ Option API (pnl: {pnl})"
                         except Exception as ex:
                             logger.error(f"[ERR] Failed to check win status for live trade {order_id}: {ex}")
+                    elif hasattr(self.data_adapter, 'simulated_time') and self.data_adapter.simulated_time:
+                        # BACKTEST MODE outcome calculation:
+                        try:
+                            expiry_time = trade.entry_time + pd.Timedelta(minutes=duration_mins)
+                            old_sim_time = self.data_adapter.simulated_time
+                            self.data_adapter.set_simulated_time(expiry_time)
+                            expiry_candles = self.data_adapter.get_candles(symbol, 'M1', count=1)
+                            self.data_adapter.set_simulated_time(old_sim_time)
+                            
+                            if not expiry_candles.empty:
+                                exit_price = float(expiry_candles['close'].iloc[-1])
+                                if trade.direction == 'CALL':
+                                    if exit_price > trade.entry_price:
+                                        won = True
+                                        pnl = trade.amount * 0.85
+                                    elif exit_price < trade.entry_price:
+                                        won = False
+                                        pnl = -trade.amount
+                                    else:
+                                        won = False
+                                        pnl = 0.0
+                                else:  # PUT
+                                    if exit_price < trade.entry_price:
+                                        won = True
+                                        pnl = trade.amount * 0.85
+                                    elif exit_price > trade.entry_price:
+                                        won = False
+                                        pnl = -trade.amount
+                                    else:
+                                        won = False
+                                        pnl = 0.0
+                                notes = f"Settled via Backtest (entry: {trade.entry_price:.5f}, exit: {exit_price:.5f})"
+                            else:
+                                exit_price = trade.entry_price
+                                pnl = 0.0
+                                won = False
+                                notes = f"Backtest expiry candle missing at {expiry_time}"
+                        except Exception as ex:
+                            logger.error(f"[BACKTEST ERR] Failed to settle backtest trade {order_id}: {ex}")
                     
                     self.order_manager.close_trade(
                         order_id=order_id,
                         exit_price=exit_price,
                         pnl=pnl,
-                        notes=notes
+                        notes=notes,
+                        current_time=now
                     )
                     self.execution_guard.record_trade_result(won=won, profit_loss=pnl)
                     if hasattr(self, 'position_sizer'):
@@ -597,7 +642,7 @@ class BotRunner:
             # This ensures that ALL subsequent calculations in ContextBuilder, TrendEngine, VolatilityEngine, and all
             # indicator formulas are 100% stable, non-repainting, and match the actual closed chart data on platforms
             # like TradingView, MT4, and brokers.
-            now_ts = pd.Timestamp(datetime.utcnow())
+            now_ts = pd.Timestamp(self.data_adapter.simulated_time) if (hasattr(self.data_adapter, 'simulated_time') and self.data_adapter.simulated_time) else pd.Timestamp(datetime.utcnow())
             for tf in list(synced.keys()):
                 if len(synced[tf]) > 1:
                     tf_mins = {'M1': 1, 'M5': 5, 'M15': 15, 'M30': 30, 'H1': 60, 'M60': 60}.get(tf, 1)
@@ -763,16 +808,21 @@ class BotRunner:
             import os
             import json
 
-            # ── STEP A: Evaluate all active strategies simultaneously ──────
+            #  STEP A: Evaluate all active strategies simultaneously 
             triggered_signals = self._evaluate_active_strategies(context)
             
-            # ── STEP A.0: Freshness Check ──────────
+            #  STEP A.0: Freshness Check 
             # Discard if we are entering too late into the M5 candle
             fresh_signals = []
             if 'M5' in synced and len(synced['M5']) > 1:
                 m5_last_ts = synced['M5'].index[-1]
                 m5_close_time = m5_last_ts + pd.Timedelta(minutes=5)
-                seconds_late = (pd.Timestamp(datetime.utcnow()) - m5_close_time).total_seconds()
+                # Use simulated time during backtest to avoid real time comparison
+                if hasattr(self.data_adapter, 'simulated_time') and self.data_adapter.simulated_time:
+                    now_ts = pd.Timestamp(self.data_adapter.simulated_time)
+                else:
+                    now_ts = pd.Timestamp(datetime.utcnow())
+                seconds_late = (now_ts - m5_close_time).total_seconds()
                 
                 for sig in triggered_signals:
                     if sig.get('expiry', 'M1') == 'M5' and seconds_late > 15.0:
@@ -783,7 +833,7 @@ class BotRunner:
             else:
                 triggered_signals = triggered_signals
             
-            # ── STEP A.1: M5 Confirmation Filter ──────────
+            #  STEP A.1: M5 Confirmation Filter 
             # Signals must be confirmed by M5 direction
             m5_confirmed_signals = []
             for sig in triggered_signals:
@@ -820,7 +870,7 @@ class BotRunner:
                     # No M5 data available, pass through
                     m5_confirmed_signals.append(sig)
             
-            # ── STEP A.2: Dynamic Confidence Filter ──────────
+            #  STEP A.2: Dynamic Confidence Filter 
             confidence_filtered_signals = []
             for sig in m5_confirmed_signals:
                 _ind_for_conf = dict(market_state_data['indicators'])
@@ -843,11 +893,11 @@ class BotRunner:
             
             first_signal = approved_signals[0] if approved_signals else None
 
-            # ── STEP B: Attach triggered signals to market state (always) ────────
+            #  STEP B: Attach triggered signals to market state (always) 
             market_state_data['triggered_signals'] = triggered_signals
             market_state_data['signal_count'] = len(triggered_signals)
 
-            # ── STEP C: Always save market state JSON (all 3 modes need it) ──────
+            #  STEP C: Always save market state JSON (all 3 modes need it) 
             market_state_path = os.path.join("logs", "market_state.json")
             try:
                 with open(market_state_path, "w", encoding="utf-8") as f:
@@ -856,16 +906,16 @@ class BotRunner:
             except Exception as e:
                 logger.error(f"[ERR] Failed to write market state JSON: {e}")
 
-            # ── STEP D: Mode-specific output ──────────────────────────────────────
+            #  STEP D: Mode-specific output 
             if self.bot_mode in ('SIGNAL', 'HYBRID'):
-                # ── SIGNAL/HYBRID MODE: Report CALL/PUT + market state, no execution ──
+                #  SIGNAL/HYBRID MODE: Report CALL/PUT + market state, no execution 
                 if first_signal:
                     sig_action = first_signal['signal']
                     sig_strategy = first_signal['strategy']
                     sig_reason = first_signal['reason']
 
-                    # ── Cooldown: ป้องกัน Signal Flooding (10 นาทีต่อ symbol) ── (Disabled per user request)
-                    _now_dt = datetime.now(timezone.utc)
+                    #  Cooldown: ป้องกัน Signal Flooding (10 นาทีต่อ symbol)  (Disabled per user request)
+                    _now_dt = self.data_adapter.simulated_time if (hasattr(self.data_adapter, 'simulated_time') and self.data_adapter.simulated_time) else datetime.now(timezone.utc)
                     self._last_signal_time[symbol] = _now_dt
 
                     # คำนวณ dynamic confidence
@@ -885,12 +935,12 @@ class BotRunner:
                         f">>> {sig_action} | {symbol} | {sig_strategy} | "
                         f"Conf: {sig_conf}% | {state_str} | {current_price:.5f}"
                     )
-                    logger.info(f"""\n{'─'*70}
+                    logger.info(f"""\n{''*70}
 [{log_mode}] {symbol} | {sig_action} | Strategy: {sig_strategy} | Conf: {sig_conf}%
 [MARKET] State: {state_str} | Trend: {trend_dir} ({trend_strength:.0f}%) | Price: {current_price:.5f}
 [REASON] {sig_reason}
 [OTHER]  {len(triggered_signals)-1} additional signal(s) also triggered
-{'─'*70}""")
+{''*70}""")
                     # Write pending signal for external tools (stored as array for clear_and_parse_signals compatibility)
                     pending_path = os.path.join("logs", "pending_signals.json")
                     try:
@@ -950,8 +1000,8 @@ class BotRunner:
                     'all_strategies': all_strategy_results
                 }
 
-            elif self.bot_mode == 'TRADE':
-                # ── TRADE MODE: Execute directly, with execution guard safety ──
+            elif self.bot_mode in ('TRADE', 'BACKTEST'):
+                #  TRADE / BACKTEST MODE: Execute trade
                 if first_signal:
                     sig_action = first_signal['signal']
                     sig_strategy = first_signal['strategy']
@@ -960,7 +1010,7 @@ class BotRunner:
                     # Execution Guard Check
                     guard_result = self.execution_guard.check({'action': sig_action, 'confidence': sig_conf})
                     if not guard_result['allowed']:
-                        logger.warning(f"[TRADE SKIP] Execution Guard vetoed {symbol} {sig_action} | Reason: {guard_result['reason']}")
+                        logger.warning(f"[{self.bot_mode} SKIP] Execution Guard vetoed {symbol} {sig_action} | Reason: {guard_result['reason']}")
                         return {
                             'symbol': symbol,
                             'signal': 'NO_SIGNAL',
@@ -977,14 +1027,14 @@ class BotRunner:
                         }
 
                     thai_console_log(f">>> EXECUTE {sig_action} | {symbol} | {sig_strategy}")
-                    logger.info(f"[TRADE] {symbol} | {sig_action} | Strategy: {sig_strategy} | Executing now...")
+                    logger.info(f"[{self.bot_mode}] {symbol} | {sig_action} | Strategy: {sig_strategy} | Executing now...")
                     try:
                         size = self.position_sizer.calculate(
                             confidence=sig_conf
                         )
                         if float(size) <= 0:
                             logger.warning(
-                                f"[TRADE SKIP] Risk limit blocked {symbol} {sig_action} | Strategy: {sig_strategy}"
+                                f"[{self.bot_mode} SKIP] Risk limit blocked {symbol} {sig_action} | Strategy: {sig_strategy}"
                             )
                             return {
                                 'symbol': symbol,
@@ -1001,12 +1051,29 @@ class BotRunner:
                                 ]
                             }
                         expiry_val = first_signal.get('expiry', 'M1')
-                        order = self.executor.send_order(
-                            symbol=symbol,
-                            direction=sig_action,
-                            amount=size,
-                            expiry=expiry_val
-                        )
+                        
+                        if self.bot_mode == 'BACKTEST':
+                            # Simulate order result
+                            order_id = f"backtest_{symbol}_{now.strftime('%Y%m%d%H%M%S')}"
+                            from execution.iq_option_executor import OrderResult
+                            order = OrderResult(
+                                order_id=order_id,
+                                symbol=symbol,
+                                direction=sig_action,
+                                amount=size,
+                                expiry=expiry_val,
+                                status='executed',
+                                timestamp=now.isoformat(),
+                                reason='Simulated backtest order'
+                            )
+                        else:
+                            order = self.executor.send_order(
+                                symbol=symbol,
+                                direction=sig_action,
+                                amount=size,
+                                expiry=expiry_val
+                            )
+                        
                         if order and order.status in ('pending', 'executed'):
                             self.order_manager.add_trade(
                                 order_id=order.order_id,
@@ -1014,14 +1081,19 @@ class BotRunner:
                                 direction=sig_action,
                                 amount=size,
                                 entry_price=current_price,
-                                expiry=expiry_val
+                                expiry=expiry_val,
+                                current_time=now
                             )
-                            # Store strategy name in trade notes
+                            # Store strategy name and metadata in trade notes
                             if order.order_id in self.order_manager.active_trades:
-                                self.order_manager.active_trades[order.order_id].notes = sig_strategy
+                                t = self.order_manager.active_trades[order.order_id]
+                                t.notes = sig_strategy
+                                t.strategy = sig_strategy
+                                t.indicators = market_state_data.get('indicators', {})
+                                t.candles = market_state_data.get('candles', [])
                                 
                             self.signal_count[symbol] = self.signal_count.get(symbol, 0) + 1
-                            logger.info(f"[TRADE] Order placed: {order.order_id}")
+                            logger.info(f"[{self.bot_mode}] Order placed: {order.order_id}")
                             return {
                                 'symbol': symbol,
                                 'signal': sig_action,
@@ -1053,7 +1125,7 @@ class BotRunner:
                 }
 
             else:
-                # ── AI MODE (default): Write full JSON, return AI_EVAL ──────────
+                #  AI MODE (default): Write full JSON, return AI_EVAL 
                 all_strategy_results = [
                     {'strategy': s['strategy'], 'signal': s['signal'], 'confidence': s['confidence'], 'reason': s['reason'][:12]}
                     for s in triggered_signals
@@ -1301,6 +1373,148 @@ class BotRunner:
                 time.sleep(max(0.1, sleep_time))
         except KeyboardInterrupt:
             logger.info("\n[STOP] Live trading stopped by user.")
+            
+    def run_backtest(self) -> None:
+        """
+        Run the bot offline in historical backtesting mode.
+        """
+        import os
+        import pandas as pd
+        from datetime import datetime, timezone, timedelta
+        from backtest.historical_downloader import ensure_data
+        from core.data.csv_data_adapter import CSVDataAdapter
+        
+        thai_console_log("[BACKTEST] เริ่มต้นระบบ Backtest...")
+        
+        # Load days or date ranges to test from settings
+        from core.config_loader import load_settings
+        settings = load_settings()
+        
+        backtest_cfg = settings.get("backtest", {})
+        start_date_str = backtest_cfg.get("start_date")
+        end_date_str = backtest_cfg.get("end_date")
+        
+        start_dt = None
+        end_dt = None
+        
+        if start_date_str:
+            try:
+                start_dt = pd.to_datetime(start_date_str)
+                # Make timezone-aware UTC
+                if start_dt.tzinfo is None:
+                    start_dt = start_dt.tz_localize("UTC")
+                else:
+                    start_dt = start_dt.tz_convert("UTC")
+            except Exception as e:
+                logger.warning(f"Failed to parse start_date '{start_date_str}': {e}")
+        
+        if end_date_str:
+            try:
+                end_dt = pd.to_datetime(end_date_str)
+                # Make timezone-aware UTC
+                if end_dt.tzinfo is None:
+                    end_dt = end_dt.tz_localize("UTC")
+                else:
+                    end_dt = end_dt.tz_convert("UTC")
+            except Exception as e:
+                logger.warning(f"Failed to parse end_date '{end_date_str}': {e}")
+        
+        if start_dt:
+            thai_console_log(f"[BACKTEST] ช่วงการทดสอบ: ตั้งแต่ {start_date_str} ถึง {end_date_str or 'ปัจจุบัน'}")
+            days_back = (datetime.now(timezone.utc) - start_dt).days + 2
+        else:
+            days_back = 30
+            thai_console_log(f"[BACKTEST] วันที่ต้องการทดสอบ: {days_back} วัน")
+        
+        # Ensure data is present
+        success = ensure_data(self.symbols, days_back=days_back, start_date=start_dt, end_date=end_dt)
+        if not success:
+            raise RuntimeError("Failed to download or verify historical data. Cannot run backtest.")
+            
+        # Swap data adapter to CSVDataAdapter
+        csv_dir = os.path.join("backtest", "data test")
+        csv_adapter = CSVDataAdapter(data_dir=csv_dir)
+        for symbol in self.symbols:
+            csv_adapter.load_symbol_data(symbol, ['M1', 'M5', 'M15', 'M60'])
+        self.data_adapter = csv_adapter
+        
+        # Inform components that we are in backtest mode
+        self.order_manager.is_backtest = True
+        
+        # Get unified, chronological timestamps from the historical data
+        # Use M1 timestamps as ticks to evaluate exactly like the autobot (minute-by-minute clock)
+        all_timestamps = set()
+        for symbol in self.symbols:
+            if symbol in csv_adapter.dfs and 'M1' in csv_adapter.dfs[symbol]:
+                df_m1 = csv_adapter.dfs[symbol]['M1']
+                all_timestamps.update(df_m1.index)
+                
+        if not all_timestamps:
+            raise RuntimeError("No historical M1 data available for the requested range.")
+            
+        # Sort and filter timestamps based on date range
+        sorted_timestamps = sorted(list(all_timestamps))
+        
+        # Convert aware datetimes to naive for comparison with CSV timestamps (which are tz-naive)
+        naive_start = start_dt.tz_localize(None) if start_dt and start_dt.tzinfo is not None else start_dt
+        naive_end = end_dt.tz_localize(None) if end_dt and end_dt.tzinfo is not None else end_dt
+        
+        if start_dt:
+            backtest_timestamps = []
+            for t in sorted_timestamps:
+                if naive_start and t < naive_start:
+                    continue
+                if naive_end and t > naive_end:
+                    continue
+                backtest_timestamps.append(t)
+        else:
+            days_to_test = 30
+            last_timestamp = sorted_timestamps[-1]
+            start_timestamp = last_timestamp - timedelta(days=days_to_test)
+            backtest_timestamps = [t for t in sorted_timestamps if t >= start_timestamp]
+        
+        if len(backtest_timestamps) < 200:
+            raise RuntimeError(f"Insufficient backtesting points ({len(backtest_timestamps)}) within the requested range.")
+            
+        thai_console_log(f"[BACKTEST] เริ่มจำลองเวลา ตั้งแต่ {backtest_timestamps[0]} ถึง {backtest_timestamps[-1]} ({len(backtest_timestamps)} จุดเวลา)...")
+        
+        # Warm-up phase: run first 200 ticks with logging disabled to populate indicators buffer/warmup
+        warmup_ticks = backtest_timestamps[:200]
+        main_ticks = backtest_timestamps[200:]
+        
+        # Run warmup
+        for sim_time in warmup_ticks:
+            self.data_adapter.set_simulated_time(sim_time)
+            # Run without printing to console or placing orders
+            orig_mode = self.bot_mode
+            self.bot_mode = 'SIGNAL'
+            self.run_cycle()
+            self.bot_mode = orig_mode
+            
+        thai_console_log("[BACKTEST] Warm-up เสร็จสิ้น เริ่มกระบวนการทดสอบหลัก...")
+        
+        # Start main backtest loop
+        total_ticks = len(main_ticks)
+        for idx, sim_time in enumerate(main_ticks):
+            self.data_adapter.set_simulated_time(sim_time)
+            
+            # Every 100 ticks, print progress
+            if idx % 100 == 0 or idx == total_ticks - 1:
+                progress_percent = (idx / total_ticks) * 100
+                stats = self.order_manager.get_stats()
+                thai_console_log(
+                    f"[BACKTEST PROGRESS] {progress_percent:.1f}% | "
+                    f"เวลา: {sim_time.strftime('%Y-%m-%d %H:%M')} | "
+                    f"ดีลทั้งหมด: {stats.get('total_trades', 0)} | "
+                    f"ชนะ/แพ้: {stats.get('wins', 0)}/{stats.get('losses', 0)} | "
+                    f"Win Rate: {stats.get('win_rate', 0.0):.1f}% | "
+                    f"P&L: {stats.get('total_pnl', 0.0):+.2f} THB"
+                )
+                
+            self.run_cycle()
+            
+        thai_console_log("\n[BACKTEST COMPLETE] เสร็จสิ้นการจำลองย้อนหลัง!")
+        self.order_manager.print_summary()
     
     def get_status(self) -> Dict:
         """Get current bot status."""

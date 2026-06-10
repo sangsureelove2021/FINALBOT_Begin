@@ -1,6 +1,6 @@
 """
 Active Pairs Grabber Bot
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 A standalone utility that fetches active trading pairs from IQ Option 
 and exports them to a text file.
 

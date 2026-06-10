@@ -1,6 +1,6 @@
 """
 Data Validator
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Validates candle data before passing to engines.
 """
 

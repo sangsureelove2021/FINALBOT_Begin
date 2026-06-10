@@ -1,6 +1,6 @@
 """
 Reporter
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Generate daily/weekly reports.
 """
 
@@ -96,13 +96,13 @@ class Reporter:
         with open(filepath, 'w') as f:
             json.dump(report, f, indent=2)
         
-        logger.info(f"📊 Report saved: {filepath}")
+        logger.info(f" Report saved: {filepath}")
         return str(filepath)
     
     def print_report(self, report: Dict) -> None:
         """Pretty print report."""
         print("\n" + "="*80)
-        print("📄 DAILY REPORT")
+        print(" DAILY REPORT")
         print("="*80)
         print(f"Date: {report['date']}\n")
         

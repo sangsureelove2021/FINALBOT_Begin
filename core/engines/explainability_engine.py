@@ -1,6 +1,6 @@
 """
 TIER 8 - EXPLAINABILITY ENGINE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Generates human-readable explanations of WHY a signal/decision was made.
 Critical for trust and debugging.
@@ -39,7 +39,7 @@ class ExplainabilityEngine(BaseEngine):
                 'confidence': 100,
             }
         except Exception as e:
-            print(f"❌ ExplainabilityEngine error: {e}")
+            print(f" ExplainabilityEngine error: {e}")
             return self.get_neutral_state()
     
     def _gather_supporting_factors(self, ctx) -> List[str]:

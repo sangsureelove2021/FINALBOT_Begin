@@ -1,6 +1,6 @@
 """
 TIER 8 - PERFORMANCE TRACKER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Tracks signal history and performance statistics over time.
 Stateful - accumulates data across multiple analyses.

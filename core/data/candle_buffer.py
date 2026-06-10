@@ -1,6 +1,6 @@
 """
 Candle Buffer
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Maintains rolling buffer of recent candles per symbol/timeframe.
 Auto-detects incomplete candles (in-progress bar).
 """
@@ -61,7 +61,7 @@ class CandleBuffer:
             df = df.iloc[-self.size:]
         
         self.buffers[key] = df.sort_index()
-        logger.debug(f"📊 Buffer {symbol}/{timeframe}: {len(df)} candles")
+        logger.debug(f"[DATA] Buffer {symbol}/{timeframe}: {len(df)} candles")
     
     def get(self, symbol: str, timeframe: str) -> Optional[pd.DataFrame]:
         """
@@ -99,7 +99,7 @@ class CandleBuffer:
         """
         key = f"{symbol}_{timeframe}"
         self.incomplete_flags[key] = is_incomplete
-        logger.debug(f"🔄 {symbol}/{timeframe} incomplete: {is_incomplete}")
+        logger.debug(f"[SYNC] {symbol}/{timeframe} incomplete: {is_incomplete}")
     
     def is_incomplete(self, symbol: str, timeframe: str) -> bool:
         """Check if last candle is still forming."""
@@ -118,17 +118,17 @@ class CandleBuffer:
         if symbol is None:
             self.buffers.clear()
             self.incomplete_flags.clear()
-            logger.info("🗑️ All buffers cleared")
+            logger.info("[CLEAR] All buffers cleared")
         elif timeframe is None:
             to_delete = [k for k in self.buffers.keys() if k.startswith(f"{symbol}_")]
             for k in to_delete:
                 del self.buffers[k]
-            logger.info(f"🗑️ Buffer for {symbol} cleared")
+            logger.info(f"[CLEAR] Buffer for {symbol} cleared")
         else:
             key = f"{symbol}_{timeframe}"
             if key in self.buffers:
                 del self.buffers[key]
-            logger.info(f"🗑️ Buffer {symbol}/{timeframe} cleared")
+            logger.info(f"[CLEAR] Buffer {symbol}/{timeframe} cleared")
     
     def size_info(self) -> Dict[str, int]:
         """Get info about buffer sizes."""

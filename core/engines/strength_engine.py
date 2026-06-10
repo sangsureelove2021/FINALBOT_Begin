@@ -1,6 +1,6 @@
 """
 TIER 1 - STRENGTH ENGINE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Measure momentum strength using ADX, RSI, MACD, and Rate of Change.
 Detects divergence between price and momentum indicators.

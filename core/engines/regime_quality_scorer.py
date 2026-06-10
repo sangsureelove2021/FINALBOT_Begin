@@ -1,6 +1,6 @@
 """
 TIER 2 - REGIME QUALITY SCORER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Scores how favorable the current regime is for trading.
 """

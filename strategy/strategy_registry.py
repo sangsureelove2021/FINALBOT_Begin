@@ -1,6 +1,6 @@
 """
 Strategy Registry
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Central registry of all available strategies.
 """
 

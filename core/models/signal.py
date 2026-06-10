@@ -1,6 +1,6 @@
 """
 Core Model: Signal
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Trading signal output (final decision from execution gate).
 """
 

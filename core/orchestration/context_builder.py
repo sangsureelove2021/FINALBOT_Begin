@@ -1,6 +1,6 @@
 """
 Context Builder
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Assembles MarketContext by running engines in tier order.
 This is the central wiring of the Intelligence OS.
 """

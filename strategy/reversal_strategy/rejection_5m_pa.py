@@ -90,7 +90,7 @@ class Rejection5mPA(BaseStrategy):
 
         if action == "NO_SETUP":
             return build_no_setup(name, "CANDLE_STRUCTURE_INVALID", state)
-        if s_level < 15:
+        if s_level < 10:
             return build_no_setup(name, "LEVEL_TOO_WEAK", state)
         if m["body"] <= 0.03 * atr_val:
             return build_no_setup(name, "DOJI_SETUP_INVALID", state)
@@ -99,7 +99,7 @@ class Rejection5mPA(BaseStrategy):
         d_pen = (abs(m["low"] - level_touched) if action == "CALL" else abs(m["high"] - level_touched)) / atr_val
         d_close = abs(m["close"] - level_touched) / atr_val
 
-        f_wick = min(100.0, ((r_wick - 0.8) / 1.2) * 50.0 + 50.0) if r_wick >= 0.8 else 0.0
+        f_wick = min(100.0, ((r_wick - 0.5) / 1.2) * 50.0 + 50.0) if r_wick >= 0.5 else 0.0
         f_pen = min(100.0, (d_pen / 0.4) * 100.0)
         f_close = max(0.0, 100.0 - (d_close / 0.3) * 100.0)
         entry_score = apply_lifecycle_penalty(

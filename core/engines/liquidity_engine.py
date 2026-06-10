@@ -1,6 +1,6 @@
 """
 TIER 4 - LIQUIDITY ENGINE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Detects liquidity zones, equal highs/lows (where stops cluster),
 and liquidity sweeps.

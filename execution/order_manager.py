@@ -1,6 +1,6 @@
 """
 Order Manager
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Manage active orders, track P&L, handle results.
 """
 
@@ -28,6 +28,9 @@ class Trade:
     pnl: float = 0.0  # Profit/Loss in THB
     pnl_percent: float = 0.0
     notes: str = ""
+    strategy: str = ""
+    indicators: dict = field(default_factory=dict)
+    candles: list = field(default_factory=list)
 
 
 class OrderManager:
@@ -125,6 +128,39 @@ class OrderManager:
         import datetime as dt
         cooldown_mins = 15 if pnl > 0 else 45
         self.symbol_cooldowns[trade.symbol] = now + dt.timedelta(minutes=cooldown_mins)
+        
+        # Settle the trade and then log it using our new standard logger
+        from utils.order_logger import log_live_order, log_backtest_order
+        
+        outcome = "TIE"
+        if pnl > 0:
+            outcome = "WIN"
+        elif pnl < 0:
+            outcome = "LOSS"
+            
+        is_backtest_mode = "backtest" in str(order_id).lower() or notes.startswith("Settled via Backtest")
+        
+        order_record = {
+            "timestamp": trade.entry_time.isoformat() if hasattr(trade, 'entry_time') and trade.entry_time else now.isoformat(),
+            "symbol": trade.symbol,
+            "mode": "BACKTEST" if is_backtest_mode else "TRADE",
+            "direction": trade.direction,
+            "amount": trade.amount,
+            "entry_price": trade.entry_price,
+            "exit_price": exit_price,
+            "pnl": pnl,
+            "outcome": outcome,
+            "strategy": getattr(trade, 'strategy', ''),
+            "indicators": getattr(trade, 'indicators', {}),
+            "candles": getattr(trade, 'candles', []),
+            "order_id": str(order_id),
+            "notes": notes
+        }
+        
+        if is_backtest_mode:
+            log_backtest_order(order_record)
+        else:
+            log_live_order(order_record)
         
         # Move to closed
         del self.active_trades[order_id]

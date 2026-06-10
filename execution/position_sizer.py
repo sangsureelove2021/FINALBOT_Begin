@@ -1,6 +1,6 @@
 """
 Position Sizer
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Calculate trade size based on risk management rules.
 
 Risk Formula:

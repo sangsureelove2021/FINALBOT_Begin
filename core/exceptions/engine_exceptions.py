@@ -1,6 +1,6 @@
 """
 Engine Exceptions
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Custom exceptions for engine errors.
 """
 

@@ -1,6 +1,6 @@
 """
 TIER 4 - NOISE DETECTOR
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Measures market noise vs signal. High noise = unpredictable, avoid trading.
 """

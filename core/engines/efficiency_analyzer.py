@@ -1,6 +1,6 @@
 """
 TIER 5 - EFFICIENCY ANALYZER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Measures how efficiently price moves (directness of moves).
 High efficiency = clean trend. Low efficiency = choppy.

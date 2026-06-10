@@ -1,6 +1,6 @@
 """
 TIER 5 - CONTINUATION ANALYZER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Estimates probability that the current move will continue vs reverse.
 """

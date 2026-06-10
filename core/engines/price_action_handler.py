@@ -1,6 +1,6 @@
 """
 TIER 3 - PRICE ACTION HANDLER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Analyzes raw price action: candle body sizes, wicks, momentum,
 breakouts, pullbacks.

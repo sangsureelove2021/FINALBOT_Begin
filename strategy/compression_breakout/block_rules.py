@@ -1,6 +1,6 @@
 """
 Compression Breakout Block Rules
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 """
 
 from typing import Tuple

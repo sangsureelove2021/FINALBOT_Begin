@@ -1,6 +1,6 @@
 """
 Math Utilities
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Common mathematical functions used across engines.
 """
 

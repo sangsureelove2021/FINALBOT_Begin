@@ -1,6 +1,6 @@
 """
 CSV Data Adapter for FINALBOT Offline Historical Slicing
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Implements IDataSource interface, reading historical candle data 
 from local CSV databases and slicing it according to simulated 
 time to prevent look-ahead bias (future leakage).
@@ -42,7 +42,7 @@ class CSVDataAdapter(IDataSource):
             file_path = os.path.join(self.data_dir, file_name)
             
             if not os.path.exists(file_path):
-                logger.warning(f"⚠️ CSV file not found: {file_path}")
+                logger.warning(f"[WARN] CSV file not found: {file_path}")
                 continue
                 
             try:
@@ -50,8 +50,9 @@ class CSVDataAdapter(IDataSource):
                 df = pd.read_csv(file_path)
                 df["timestamp"] = pd.to_datetime(df["timestamp"])
                 df = df.set_index("timestamp").sort_index()
-                if df.index.tzinfo is None:
-                    df.index = df.index.tz_localize(timezone.utc)
+                # Convert index to timezone-naive UTC by stripping timezone
+                if df.index.tzinfo is not None:
+                    df.index = df.index.tz_localize(None)
                 
                 # Sanity checking column conversions
                 for col in ("open", "high", "low", "close", "volume"):
@@ -62,7 +63,7 @@ class CSVDataAdapter(IDataSource):
                 success = True
                 logger.debug(f"[CSV] Pre-loaded {len(df)} candles for {symbol} ({tf}) from {file_path}")
             except Exception as e:
-                logger.error(f"❌ Failed to load historical CSV {file_path}: {e}")
+                logger.error(f"[ERROR] Failed to load historical CSV {file_path}: {e}")
                 
         return success
         
@@ -71,11 +72,14 @@ class CSVDataAdapter(IDataSource):
         Advance or set the 'Time Machine' cursor.
         All subsequent candle retrievals will strictly slice up to this timestamp.
         """
-        # Ensure timestamp is timezone-aware UTC
-        if sim_time.tzinfo is None:
-            self.simulated_time = sim_time.replace(tzinfo=timezone.utc)
+        # Ensure timestamp is timezone-naive UTC (strip any timezone)
+        if sim_time.tzinfo is not None:
+            # Convert to UTC then strip timezone
+            sim_time_utc = sim_time.astimezone(timezone.utc)
+            self.simulated_time = sim_time_utc.replace(tzinfo=None)
         else:
-            self.simulated_time = sim_time.astimezone(timezone.utc)
+            # Assume naive timestamp is already UTC, keep as is
+            self.simulated_time = sim_time
             
     def get_candles(self, symbol: str, timeframe: str, 
                     count: int = 200) -> pd.DataFrame:
@@ -99,7 +103,7 @@ class CSVDataAdapter(IDataSource):
         df_sliced = df_full.iloc[:pos]
         
         if df_sliced.empty:
-            logger.warning(f"⚠️ Sliced history is empty for {symbol} ({timeframe}) at {self.simulated_time}")
+            logger.warning(f"[WARN] Sliced history is empty for {symbol} ({timeframe}) at {self.simulated_time}")
             return pd.DataFrame()
             
         # Return the last 'count' rows

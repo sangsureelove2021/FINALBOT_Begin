@@ -1,6 +1,6 @@
 """
 Core Model: Candle
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Immutable candle data structure (OHLCV) for type safety.
 """
 

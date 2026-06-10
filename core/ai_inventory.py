@@ -77,6 +77,6 @@ def count_ai_models() -> int:
 if __name__ == "__main__":
     models = list_ai_models()
     total = len(models)
-    print(f"🔎 Discovered {total} AI engine(s) in the project:\n")
+    print(f"[SEARCH] Discovered {total} AI engine(s) in the project:\n")
     for mod, cls_name in sorted(models.items()):
         print(f"- {mod}: {cls_name}")

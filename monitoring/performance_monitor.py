@@ -1,6 +1,6 @@
 """
 Performance Monitor
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Real-time performance tracking during execution.
 """
 
@@ -56,7 +56,7 @@ class PerformanceMonitor:
         
         if self.cycle_count % 100 == 0:
             avg_time = sum(self.cycle_times) / len(self.cycle_times)
-            logger.debug(f"📈 Cycle {self.cycle_count}: avg time {avg_time:.3f}s/cycle")
+            logger.debug(f" Cycle {self.cycle_count}: avg time {avg_time:.3f}s/cycle")
     
     def record_trade(self, pnl: float) -> None:
         """
@@ -104,7 +104,7 @@ class PerformanceMonitor:
         elapsed = datetime.now(timezone.utc) - self.start_time
         
         logger.info("\n" + "="*80)
-        logger.info("📊 PERFORMANCE MONITOR")
+        logger.info(" PERFORMANCE MONITOR")
         logger.info("="*80)
         logger.info(f"Elapsed: {elapsed}")
         logger.info(f"Cycles: {metrics.cycle_count}")

@@ -1,6 +1,6 @@
 """
 TIER 8 - ANALYTICAL UTILITIES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Shared analytical helper functions used across the system.
 Statistical and technical analysis utilities.

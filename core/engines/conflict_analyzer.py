@@ -1,6 +1,6 @@
 """
 TIER 5 - CONFLICT ANALYZER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Detects internal conflicts between signals/timeframes/indicators.
 When signals conflict, confidence should drop.

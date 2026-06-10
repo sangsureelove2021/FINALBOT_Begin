@@ -1,6 +1,6 @@
 """
 TIER 3 - CANDLE PATTERN ANALYZER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Detects candlestick patterns: Engulfing, Hammer, Doji, etc.
 """

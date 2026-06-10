@@ -1,6 +1,6 @@
 """
 Confidence Scorer
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Calculates final confidence from multiple sources.
 """
 

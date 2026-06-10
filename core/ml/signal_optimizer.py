@@ -1,6 +1,6 @@
 """
 Signal Optimizer (ML Framework)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Optimize signal quality using historical data patterns.
 """
 
@@ -45,7 +45,7 @@ class SignalOptimizer:
     def train_model(self) -> Dict:
         """Train ML model on historical signals."""
         if len(self.history) < 50:
-            logger.warning("⚠️ Not enough data to train (need 50+)")
+            logger.warning(" Not enough data to train (need 50+)")
             return {}
         
         try:
@@ -71,13 +71,13 @@ class SignalOptimizer:
             }
             
             self.trained = True
-            logger.info(f"✅ ML Model trained on {len(self.history)} signals")
+            logger.info(f" ML Model trained on {len(self.history)} signals")
             logger.info(f"   Overall WR: {self.signal_quality_model['overall_win_rate']:.1%}")
             
             return self.signal_quality_model
             
         except Exception as e:
-            logger.error(f"❌ Model training failed: {e}")
+            logger.error(f" Model training failed: {e}")
             return {}
     
     def optimize_confidence(self, direction: str, confidence: float) -> float:
@@ -100,7 +100,7 @@ class SignalOptimizer:
             return optimized
         
         except Exception as e:
-            logger.error(f"❌ Confidence optimization failed: {e}")
+            logger.error(f" Confidence optimization failed: {e}")
             return confidence
     
     @staticmethod

@@ -37,7 +37,7 @@ def load_settings(reload: bool = False) -> Dict[str, Any]:
     return _CACHE
 
 
-# ── Convenience getters ──────────────────────────────────────────
+#  Convenience getters 
 
 def get_account() -> Dict[str, Any]:
     return load_settings().get("account", {})

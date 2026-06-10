@@ -1,6 +1,6 @@
 """
 Block Scorer
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Scores reasons to BLOCK entry (Art of Saying NO).
 Higher score = more reasons to block.
 """

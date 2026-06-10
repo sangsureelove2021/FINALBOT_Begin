@@ -1,6 +1,6 @@
 """
 Core Model: Score
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Score representation for scoring pipeline.
 """
 

@@ -1,6 +1,6 @@
 """
 FINALBOT — Main Entry Point
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Quick start: python main.py
 
 Currency pairs are loaded from symbols.txt next to this file (one per line).
@@ -145,8 +145,15 @@ def main():
         account_type=get_account_type(),
     )
 
-    thai_console_log("เริ่ม Live Mode — วิเคราะห์ทุกแท่ง M1 (Ctrl+C หยุด)")
-    bot.run_live(interval_seconds=60)
+    from core.config_loader import load_settings
+    settings = load_settings()
+    trading_mode = settings.get("account", {}).get("trading_mode", "Signal_BOT")
+
+    if trading_mode == "Backtest_BOT":
+        bot.run_backtest()
+    else:
+        thai_console_log("เริ่ม Live Mode — วิเคราะห์ทุกแท่ง M1 (Ctrl+C หยุด)")
+        bot.run_live(interval_seconds=60)
 
 
 
@@ -154,10 +161,10 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print("\n⏹️ Bot stopped by user")
+        print("\n⏹ Bot stopped by user")
         sys.exit(0)
     except Exception as e:
-        print(f"\n❌ Error: {e}")
+        print(f"\n Error: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)

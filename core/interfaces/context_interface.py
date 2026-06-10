@@ -1,6 +1,6 @@
 """
 Interface: Context
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Abstract interface for context building.
 """
 

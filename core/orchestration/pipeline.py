@@ -1,6 +1,6 @@
 """
 Pipeline
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Main pipeline that orchestrates the full analysis flow.
 
 Flow:

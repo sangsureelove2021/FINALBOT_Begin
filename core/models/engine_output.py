@@ -1,6 +1,6 @@
 """
 Core Model: Engine Output
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Standard output schema that every engine returns.
 """
 

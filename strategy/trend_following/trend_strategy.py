@@ -1,6 +1,6 @@
 """
 Trend Following Strategy (V3)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EMA-based trend following strategy.
 """
 
@@ -61,7 +61,7 @@ class TrendFollowingStrategy(BaseStrategy):
             }
             
         except Exception as e:
-            logger.error(f"❌ {self.name} error: {e}")
+            logger.error(f" {self.name} error: {e}")
             return {'action': 'NO_SIGNAL', 'confidence': 0}
     
     @staticmethod

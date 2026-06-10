@@ -1,6 +1,6 @@
 """
 TIER 4 - TRAP DETECTOR
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Detects bull traps, bear traps, false breakouts, and stop hunts.
 A trap is when price fakes a move to trigger entries/stops, then reverses.

@@ -1,6 +1,6 @@
 """
 TIER 5 - PERSISTENCE ANALYZER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Measures how persistent (sustained) the current move is.
 Uses autocorrelation and consecutive-move analysis.

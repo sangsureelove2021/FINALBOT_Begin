@@ -1,6 +1,6 @@
 """
 IQ Option Data Adapter
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Single source of market data: IQ Option (DEMO account by default).
 No fallback to synthetic data — if connection fails, the bot stops.
 
@@ -97,7 +97,7 @@ class IQOptionAdapter(IDataSource):
         return out.sort_index()
 
     def get_candles(self, symbol: str, timeframe: str = 'M1',
-                   count: int = 200) -> pd.DataFrame:
+                   count: int = 200, end_time: Optional[Any] = None) -> pd.DataFrame:
         """
         Fetch candles for symbol.
         
@@ -105,6 +105,7 @@ class IQOptionAdapter(IDataSource):
             symbol: 'EURUSD', 'GBPUSD', etc.
             timeframe: 'M1', 'M5', 'M15', 'M60', 'D1'
             count: Number of candles
+            end_time: End time for candle history retrieval
         
         Returns:
             DataFrame [open, high, low, close, volume] indexed by datetime
@@ -112,7 +113,7 @@ class IQOptionAdapter(IDataSource):
         if not self._connected:
             raise RuntimeError("IQ Option not connected")
         return self._normalize_candle_index(
-            self._get_from_api(symbol, timeframe, count)
+            self._get_from_api(symbol, timeframe, count, end_time)
         )
     
     def get_multi_timeframe(self, symbol: str,
@@ -134,18 +135,18 @@ class IQOptionAdapter(IDataSource):
             return
         try:
             if not self.api.check_connect():
-                logger.warning("⚠️  IQ Option connection lost — reconnecting...")
+                logger.warning("[WARN]  IQ Option connection lost — reconnecting...")
                 ok, reason = self.api.connect()
                 if ok:
                     try:
                         self.api.change_balance(self.account_type)
                     except Exception:
                         pass
-                    logger.info("✅ Reconnected")
+                    logger.info(" Reconnected")
                 else:
-                    logger.error(f"❌ Reconnect failed: {reason}")
+                    logger.error(f"[ERROR] Reconnect failed: {reason}")
         except Exception as e:
-            logger.error(f"❌ ensure_connected error: {e}")
+            logger.error(f"[ERROR] ensure_connected error: {e}")
             
     def start_stream(self, symbol: str, timeframe: str, count: int) -> None:
         """Subscribe to live websocket stream of candles for this pair and timeframe."""
@@ -163,11 +164,11 @@ class IQOptionAdapter(IDataSource):
         """Verify connection to the API."""
         if self.api_token:
             try:
-                logger.info("🔌 Attempting IQ Option API connection...")
+                logger.info(" Attempting IQ Option API connection...")
                 # Simple check: can we initialize?
                 return True
             except Exception as e:
-                logger.error(f"❌ Connection failed: {e}")
+                logger.error(f"[ERROR] Connection failed: {e}")
                 return False
         
         return False
@@ -225,61 +226,56 @@ class IQOptionAdapter(IDataSource):
     }
 
     def _get_from_api(self, symbol: str, timeframe: str,
-                      count: int) -> pd.DataFrame:
+                      count: int, end_time: Optional[Any] = None) -> pd.DataFrame:
         """
         Fetch candles from IQ Option (field-tested pattern from BOT_2026).
-
-        - Reconnects if websocket dropped
-        - Try reading from WebSocket candles stream first (instantly, 0ms latency)
-        - Fallback to REST HTTP API request if stream is unavailable or unpopulated
-        - Serializes REST calls (the iqoptionapi buffer is shared)
-        - 8-second timeout so a hung call doesn't freeze the loop
-        - Renames 'max'/'min' → 'high'/'low'
-        - Drops obviously bad data (median price outside sane band)
-
-        Args:
-            symbol: e.g. 'EURUSD-OTC'
-            timeframe: 'M1'..'D1'
-            count: number of candles to retrieve
-
-        Returns:
-            DataFrame [open, high, low, close, volume] indexed by datetime.
         """
         if not self.api:
             raise RuntimeError("API not initialized")
         self.ensure_connected()
 
         size = self._TF_SECONDS.get(timeframe, 60)
+        
+        # Parse end_time to epoch timestamp
+        import time
+        end_timestamp = time.time()
+        if end_time is not None:
+            if isinstance(end_time, datetime):
+                end_timestamp = end_time.timestamp()
+            elif isinstance(end_time, (int, float)):
+                end_timestamp = float(end_time)
 
         # 1. Try fetching from live WebSocket Stream buffer first (0ms latency fallback)
-        try:
-            raw_dict = self.api.get_realtime_candles(symbol, size)
-            if raw_dict and isinstance(raw_dict, dict) and len(raw_dict) >= count * 0.8:
-                raw = list(raw_dict.values())
-                df = pd.DataFrame(raw)
-                if not df.empty:
-                    df = df.rename(columns={"max": "high", "min": "low"})
-                    need = {"from", "open", "close", "high", "low"}
-                    if need.issubset(df.columns):
-                        df["timestamp"] = pd.to_datetime(df["from"], unit="s")
-                        for col in ("open", "close", "high", "low"):
-                            df[col] = pd.to_numeric(df[col], errors="coerce")
-                        df["volume"] = pd.to_numeric(df.get("volume", 0), errors="coerce").fillna(0.0)
-                        df = df.dropna(subset=["open", "close", "high", "low"])
-                        if not df.empty:
-                            logger.debug(f"[WS] Retrieved {len(df)} live candles for {symbol} ({timeframe})")
-                            return (df[["timestamp", "open", "high", "low", "close", "volume"]]
-                                    .set_index("timestamp").sort_index())
-        except Exception as e:
-            logger.debug(f"[WS] WebSocket candle retrieval bypassed for {symbol} ({timeframe}): {e}")
+        # Bypass WS stream if we want historical pagination (end_time is set)
+        if end_time is None:
+            try:
+                raw_dict = self.api.get_realtime_candles(symbol, size)
+                if raw_dict and isinstance(raw_dict, dict) and len(raw_dict) >= count * 0.8:
+                    raw = list(raw_dict.values())
+                    df = pd.DataFrame(raw)
+                    if not df.empty:
+                        df = df.rename(columns={"max": "high", "min": "low"})
+                        need = {"from", "open", "close", "high", "low"}
+                        if need.issubset(df.columns):
+                            df["timestamp"] = pd.to_datetime(df["from"], unit="s")
+                            for col in ("open", "close", "high", "low"):
+                                df[col] = pd.to_numeric(df[col], errors="coerce")
+                            df["volume"] = pd.to_numeric(df.get("volume", 0), errors="coerce").fillna(0.0)
+                            df = df.dropna(subset=["open", "close", "high", "low"])
+                            if not df.empty:
+                                logger.debug(f"[WS] Retrieved {len(df)} live candles for {symbol} ({timeframe})")
+                                return (df[["timestamp", "open", "high", "low", "close", "volume"]]
+                                        .set_index("timestamp").sort_index())
+            except Exception as e:
+                logger.debug(f"[WS] WebSocket candle retrieval bypassed for {symbol} ({timeframe}): {e}")
 
         # 2. Fallback to standard REST HTTP request
         def _fetch() -> Optional[pd.DataFrame]:
             with _CANDLES_LOCK:
                 try:
-                    raw = self.api.get_candles(symbol, size, count, time.time())
+                    raw = self.api.get_candles(symbol, size, count, end_timestamp)
                 except Exception as e:
-                    logger.error(f"❌ get_candles({symbol}/{timeframe}): {e}")
+                    logger.error(f"[ERROR] get_candles({symbol}/{timeframe}): {e}")
                     return None
             if not raw:
                 return None
@@ -304,10 +300,10 @@ class IQOptionAdapter(IDataSource):
             median_close = float(df["close"].median())
             is_jpy = "JPY" in symbol.upper()
             if is_jpy and not (50.0 <= median_close <= 300.0):
-                logger.warning(f"⚠️ {symbol} median {median_close} out of JPY range — skip")
+                logger.warning(f"[WARN] {symbol} median {median_close} out of JPY range — skip")
                 return None
             if not is_jpy and not (0.3 <= median_close <= 10.0):
-                logger.warning(f"⚠️ {symbol} median {median_close} out of FX range — skip")
+                logger.warning(f"[WARN] {symbol} median {median_close} out of FX range — skip")
                 return None
             return (df[["timestamp", "open", "high", "low", "close", "volume"]]
                     .set_index("timestamp").sort_index())
@@ -316,7 +312,7 @@ class IQOptionAdapter(IDataSource):
             with concurrent.futures.ThreadPoolExecutor(max_workers=1) as ex:
                 df = ex.submit(_fetch).result(timeout=_CANDLES_TIMEOUT_SEC)
         except concurrent.futures.TimeoutError:
-            logger.warning(f"⏱️  get_candles({symbol}/{timeframe}) timeout — skip")
+            logger.warning(f"[TIMEOUT]  get_candles({symbol}/{timeframe}) timeout — skip")
             return pd.DataFrame()
         return df if df is not None else pd.DataFrame()
 

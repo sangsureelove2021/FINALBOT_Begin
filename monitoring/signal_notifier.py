@@ -1,6 +1,6 @@
 """
 Signal Notifier
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Send notifications for signals (console, file, Telegram placeholder).
 """
 
@@ -29,9 +29,9 @@ class SignalNotifier:
         self.telegram_enabled = bool(telegram_token and telegram_chat_id)
         
         if self.telegram_enabled:
-            logger.info("🔔 Telegram notifications enabled")
+            logger.info(" Telegram notifications enabled")
         else:
-            logger.info("📝 Telegram notifications disabled")
+            logger.info(" Telegram notifications disabled")
     
     def notify_signal(self, symbol: str, direction: str, 
                      amount: float, confidence: int,
@@ -46,7 +46,7 @@ class SignalNotifier:
             confidence: Confidence (0-100)
             order_id: Order identifier
         """
-        msg = f"🎯 SIGNAL: {direction} {amount:.0f}x {symbol} | confidence {confidence}%"
+        msg = f" SIGNAL: {direction} {amount:.0f}x {symbol} | confidence {confidence}%"
         
         logger.info(msg)
         
@@ -64,7 +64,7 @@ class SignalNotifier:
             pnl: Profit/Loss (THB)
             pnl_percent: Percentage return
         """
-        icon = "✅" if pnl > 0 else "❌"
+        icon = "" if pnl > 0 else ""
         msg = f"{icon} CLOSED: {direction} {symbol} | P&L {pnl:+.2f} THB ({pnl_percent:+.2f}%)"
         
         logger.info(msg)
@@ -80,7 +80,7 @@ class SignalNotifier:
             error_msg: Error message
             context: Additional context
         """
-        msg = f"❌ ERROR: {error_msg}"
+        msg = f" ERROR: {error_msg}"
         if context:
             msg += f" | {context}"
         
@@ -99,7 +99,7 @@ class SignalNotifier:
             win_rate: Win rate (%)
             trade_count: Number of trades
         """
-        msg = (f"📊 SUMMARY: P&L {total_pnl:+.2f} THB | "
+        msg = (f" SUMMARY: P&L {total_pnl:+.2f} THB | "
                f"Win Rate {win_rate:.1f}% | Trades {trade_count}")
         
         logger.info(msg)

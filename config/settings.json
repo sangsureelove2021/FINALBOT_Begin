@@ -2,16 +2,16 @@
   "_comment": "FINALBOT settings. account_type=PRACTICE uses the IQ Option demo account (fake money). Change to REAL only after demo testing is complete.",
   "account": {
     "account_type": "PRACTICE",
-    "trading_mode": "Signal_BOT",
+    "trading_mode": "Backtest_BOT",
     "iq_email": "venuz20152565@gmail.com",
     "iq_password": "2856101607mM@"
   },
    "symbols": [
-    "EURGBP-OTC", "EURJPY-OTC", "EURUSD-OTC", "GBPUSD-OTC", "USDJPY-OTC"
-],
+     "EURUSD", "EURUSD-OTC"
+   ],
   "capital": {
     "starting_balance": 2000,
-    "stake_per_trade": 30,
+    "stake_per_trade": 35,
     "stake_locked": false
   },
   "limits": {
@@ -37,5 +37,9 @@
     "pa_snr",
     "triple_confluence",
     "compression_breakout"
-  ]
+  ],
+  "backtest": {
+    "start_date": "2026-06-08",
+    "end_date": "2026-06-09"
+  }
 }

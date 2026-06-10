@@ -1,6 +1,6 @@
 """
 Health Monitor
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Monitor bot health (connections, errors, alerts).
 """
 
@@ -50,14 +50,14 @@ class HealthMonitor:
         self.alerts.append(alert)
         
         if level == 'CRITICAL':
-            logger.critical(f"🚨 {component}: {message}")
+            logger.critical(f" {component}: {message}")
         elif level == 'ERROR':
-            logger.error(f"❌ {component}: {message}")
+            logger.error(f" {component}: {message}")
             self.error_count += 1
         elif level == 'WARNING':
-            logger.warning(f"⚠️ {component}: {message}")
+            logger.warning(f" {component}: {message}")
         else:
-            logger.info(f"ℹ️ {component}: {message}")
+            logger.info(f"ℹ {component}: {message}")
     
     def set_data_connected(self, connected: bool) -> None:
         """Set data source connection status."""
@@ -124,10 +124,10 @@ class HealthMonitor:
         status = self.get_status()
         
         logger.info("\n" + "="*80)
-        logger.info("🏥 HEALTH MONITOR")
+        logger.info(" HEALTH MONITOR")
         logger.info("="*80)
-        logger.info(f"Data Connected: {'✅' if status['data_connected'] else '❌'}")
-        logger.info(f"Executor Connected: {'✅' if status['executor_connected'] else '❌'}")
+        logger.info(f"Data Connected: {'' if status['data_connected'] else ''}")
+        logger.info(f"Executor Connected: {'' if status['executor_connected'] else ''}")
         logger.info(f"Overall Health: {status['overall_health']}")
         logger.info(f"Error Count: {status['error_count']}")
         logger.info(f"Alert Count: {status['alert_count']}")

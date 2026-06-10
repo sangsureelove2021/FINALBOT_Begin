@@ -1,6 +1,6 @@
 """
 RISK GATE - EXECUTION GUARD (signal_veto)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 The FINAL DEFENSE before any trade executes.
 

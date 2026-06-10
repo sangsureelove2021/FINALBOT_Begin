@@ -1,6 +1,6 @@
 """
 TIER 6 - CONTEXT SYNTHESIZER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Synthesizes all Tier 1-5 outputs into a unified market picture.
 This is where the system "understands" the market holistically.
@@ -57,7 +57,7 @@ class ContextSynthesizer(BaseEngine):
                 'confidence': clarity,
             }
         except Exception as e:
-            print(f"❌ ContextSynthesizer error: {e}")
+            print(f" ContextSynthesizer error: {e}")
             return self.get_neutral_state()
     
     def _synthesize_direction(self, ctx):

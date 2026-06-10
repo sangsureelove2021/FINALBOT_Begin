@@ -1,6 +1,6 @@
 """
 Base Strategy
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Base class for all strategies.
 
 CRITICAL: Strategies must NOT contain market analysis logic.

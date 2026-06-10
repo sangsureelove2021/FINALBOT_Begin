@@ -1,6 +1,6 @@
 """
 Interface: Engine
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Abstract interface that every engine must implement.
 """
 

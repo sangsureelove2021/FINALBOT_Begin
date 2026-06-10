@@ -1,6 +1,6 @@
 """
 TIER 1 - STRUCTURE ENGINE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Detects support/resistance levels, BOS (Break of Structure), and key zones.
 """

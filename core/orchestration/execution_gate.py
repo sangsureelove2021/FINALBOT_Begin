@@ -1,6 +1,6 @@
 """
 Execution Gate (signal_veto)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Final authority that decides whether to execute or block a signal.
 
 This is the LAST DEFENSE against bad trades.
@@ -53,7 +53,7 @@ class ExecutionGate:
         state = state_dict.get('state', 'UNKNOWN').upper() if isinstance(state_dict, dict) else (state_dict.upper() if isinstance(state_dict, str) else 'UNKNOWN')
         
         # 1. Indicator State Guard (Block toxic conditions)
-        if state in ['VOLATILITY_EXPANDING', 'LIQUIDITY_VOID', 'CHOPPY_UNCERTAIN', 'EXTREME']:
+        if state in ['VOLATILITY_EXPANDING', 'LIQUIDITY_VOID', 'EXTREME']:
             return self._block(f"Trading blocked in toxic state: {state}", f"toxic_state_{state.lower()}")
             
         # 1.5 Market Structure Leader (Direction Alignment & Hard Blocks)

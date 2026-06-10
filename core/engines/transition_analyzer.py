@@ -1,6 +1,6 @@
 """
 TIER 5 - TRANSITION ANALYZER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Detects when the market is transitioning between states/regimes.
 Transitions are high-uncertainty periods.

@@ -1,6 +1,6 @@
 """
 TIER 1 - MTF (Multi-Timeframe) ENGINE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Analyzes multiple timeframes to detect alignment or conflict.
 Critical for binary options to confirm setup across timeframes.
@@ -86,7 +86,7 @@ class MTFEngine(BaseEngine):
                 'confidence': alignment_score,
             }
         except Exception as e:
-            print(f"❌ MTF Engine error: {e}")
+            print(f" MTF Engine error: {e}")
             return self.get_neutral_state()
     
     def _tf_direction(self, df: pd.DataFrame) -> str:
