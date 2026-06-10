@@ -1,31 +1,45 @@
-from core.interfaces.engine_interface import IEngine as EngineInterface
-from core.models.candle import Candle
-from typing import List, Dict, Any
+from typing import Dict, Any
+import pandas as pd
 
-class MarketStructureEngine(EngineInterface):
+from core.engines.base_engine import BaseEngine
+
+
+class MarketStructureEngine(BaseEngine):
     """วิเคราะห์โครงสร้างราคา (HH, HL, LL, LH) เพื่อจำแนกสภาวะตลาด"""
-    
+
+    ENGINE_NAME = "market_structure"
+    ENGINE_VERSION = "1.0.0"
+    TIER = 3
+    MIN_CANDLES = 15
+
     def __init__(self, config: dict = None):
-        self.name = "MarketStructure"
+        super().__init__(config)
         self.lookback = 15  # ดูย้อนหลัง 15 แท่งเพื่อความแม่นยำ
 
-    def calculate(self, candles: List[Candle]) -> Dict[str, Any]:
-        if len(candles) < self.lookback:
-            return {"status": "INSUFFICIENT_DATA", "regime": "UNKNOWN", "structure": "UNKNOWN"}
+    def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
+        # operate on the last `lookback` rows
+        if candles_df is None or len(candles_df) < self.lookback:
+            return self.get_neutral_state()
 
-        highs = [c.high for c in candles[-self.lookback:]]
-        lows = [c.low for c in candles[-self.lookback:]]
-        
-        # หาจุดสูงสุดและต่ำสุดในช่วง lookback
+        df = candles_df.copy()
+        recent = df.tail(self.lookback)
+
+        highs = recent['high'].tolist()
+        lows = recent['low'].tolist()
+
+        # split into recent and previous windows
         recent_highs = highs[-5:]
         recent_lows = lows[-5:]
-        prev_highs = highs[-10:-5]
-        prev_lows = lows[-10:-5]
+        prev_highs = highs[-10:-5] or highs[:max(0, len(highs)-5)]
+        prev_lows = lows[-10:-5] or lows[:max(0, len(lows)-5)]
 
-        current_high = max(recent_highs)
-        prev_high = max(prev_highs)
-        current_low = min(recent_lows)
-        prev_low = min(prev_lows)
+        try:
+            current_high = max(recent_highs)
+            prev_high = max(prev_highs)
+            current_low = min(recent_lows)
+            prev_low = min(prev_lows)
+        except ValueError:
+            return self.get_neutral_state()
 
         # วิเคราะห์โครงสร้าง
         if current_high > prev_high and current_low > prev_low:
@@ -36,15 +50,14 @@ class MarketStructureEngine(EngineInterface):
             regime = "STRONG_TREND" if (prev_low - current_low) > (min(prev_lows) - prev_low) else "WEAK_TREND"
         else:
             structure = "RANGING"
-            # เช็ค Choppy
-            avg_range = sum(c.high - c.low for c in candles[-5:]) / 5
-            if avg_range < (sum(c.high - c.low for c in candles[-15:]) / 15) * 0.8:
+            avg_range = recent['high'].sub(recent['low']).tail(5).mean()
+            if avg_range < (recent['high'].sub(recent['low']).mean()) * 0.8:
                 regime = "CHOPPY"
             else:
                 regime = "RANGING"
 
         # เช็ค Breakout
-        if abs(current_high - prev_high) > (prev_high * 0.001): # 0.1% move
+        if abs(current_high - prev_high) > (prev_high * 0.001):  # 0.1% move
             if current_high > prev_high and structure == "BULLISH":
                 regime = "BREAKOUT"
 
@@ -52,7 +65,10 @@ class MarketStructureEngine(EngineInterface):
             "status": "ACTIVE",
             "regime": regime,
             "structure": structure,
-            "last_high": current_high,
-            "last_low": current_low,
-            "trend_strength": abs(current_high - prev_high) + abs(current_low - prev_low)
+            "last_high": float(current_high),
+            "last_low": float(current_low),
+            "trend_strength": float(abs(current_high - prev_high) + abs(current_low - prev_low)),
         }
+
+    def get_neutral_state(self) -> Dict[str, Any]:
+        return {"status": "INSUFFICIENT_DATA", "regime": "UNKNOWN", "structure": "UNKNOWN", "confidence": 0}
