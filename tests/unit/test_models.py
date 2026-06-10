@@ -104,6 +104,36 @@ class TestPositionSizer:
         assert ps.is_valid
         assert ps.amount > 0
 
+    def test_confidence_mode_scales_stake(self, monkeypatch):
+        from core import config_loader
+
+        monkeypatch.setattr(
+            config_loader,
+            "load_settings",
+            lambda reload=False: {"capital": {"stake_per_trade": 30.0}},
+        )
+
+        sizer = PositionSizer(capital=2000, risk_percent=2)
+        stake = sizer.calculate(confidence=90)
+
+        assert isinstance(stake, float)
+        assert stake > 30.0
+        assert stake <= sizer.max_per_trade
+
+    def test_confidence_mode_blocks_after_daily_limit(self, monkeypatch):
+        from core import config_loader
+
+        monkeypatch.setattr(
+            config_loader,
+            "load_settings",
+            lambda reload=False: {"capital": {"stake_per_trade": 30.0}},
+        )
+
+        sizer = PositionSizer(capital=2000, risk_percent=2)
+        sizer.record_trade(amount=30.0, result=-150.0)
+
+        assert sizer.calculate(confidence=90) == 0.0
+
     def test_invalid_sl(self):
         """Stop loss equal to entry must be rejected."""
         sizer = PositionSizer()

@@ -22,21 +22,20 @@ from execution.position_sizer import PositionSizer
 from execution.iq_option_executor import IQOptionExecutor
 
 class SimpleBot:
-    """Simple bot for testing"""
+    """Simple live bot for debugging."""
     
-    def __init__(self, symbols: List[str] = None, capital: float = 2000.0, use_mock: bool = True):
+    def __init__(self, symbols: List[str] = None, capital: float = 2000.0):
         self.symbols = symbols or ['EURUSD-OTC']
         self.capital = capital
-        self.use_mock = use_mock
         
         logger.info("🚀 FINALBOT Simple Runner initializing...")
         logger.info(f"   Symbols: {', '.join(self.symbols)}")
         logger.info(f"   Capital: {capital} THB")
-        logger.info(f"   Mode: {'MOCK' if use_mock else 'LIVE'}")
+        logger.info("   Mode: LIVE")
         
         # Initialize components
-        self.data_adapter = IQOptionAdapter(use_mock=use_mock)
-        self.executor = IQOptionExecutor(use_mock=use_mock)
+        self.data_adapter = IQOptionAdapter()
+        self.executor = IQOptionExecutor(adapter=self.data_adapter)
         self.position_sizer = PositionSizer(capital=capital)
         self.order_manager = OrderManager()
         
@@ -46,7 +45,7 @@ class SimpleBot:
     
     def run_cycles(self, num_cycles: int = 5):
         """Run multiple cycles"""
-        logger.info(f"\n🔄 Running {num_cycles} cycles in MOCK mode...\n")
+        logger.info(f"\n🔄 Running {num_cycles} cycles in LIVE mode...\n")
         
         for cycle in range(num_cycles):
             self.cycle_count += 1
@@ -62,7 +61,7 @@ class SimpleBot:
         
         # Print summary
         logger.info("\n" + "="*80)
-        logger.info("📊 BACKTEST SUMMARY")
+        logger.info("📊 LIVE SUMMARY")
         logger.info("="*80)
         logger.info(f"Cycles executed: {self.cycle_count}")
         logger.info(f"Total symbols: {len(self.symbols)}")
@@ -71,7 +70,7 @@ class SimpleBot:
         self.order_manager.print_summary()
         
         logger.info("\n📍 FINAL STATUS:")
-        logger.info(f"  Mode: {'MOCK' if self.use_mock else 'LIVE'}")
+        logger.info("  Mode: LIVE")
         logger.info(f"  Cycles: {self.cycle_count}")
         logger.info(f"  Status: ✅ OK")
 
@@ -82,7 +81,6 @@ def main():
         bot = SimpleBot(
             symbols=['EURUSD-OTC', 'GBPUSD-OTC', 'USDJPY-OTC'],
             capital=2000.0,
-            use_mock=True
         )
         
         bot.run_cycles(num_cycles=5)

@@ -131,7 +131,7 @@ def load_symbols(path: str = None) -> list:
 
 def main():
     import logging
-    from core.config_loader import get_use_mock, get_account_type, get_capital
+    from core.config_loader import get_account_type, get_capital
     from runner import BotRunner, thai_console_log
 
     logger = logging.getLogger("FINALBOT")
@@ -142,12 +142,8 @@ def main():
     bot = BotRunner(
         symbols=symbols,
         capital=get_capital(),
-        use_mock=get_use_mock(),
         account_type=get_account_type(),
     )
-
-    thai_console_log("ทดสอบ 1 รอบก่อนเริ่ม Live...")
-    bot.run_backtest(num_cycles=1)
 
     thai_console_log("เริ่ม Live Mode — วิเคราะห์ทุกแท่ง M1 (Ctrl+C หยุด)")
     bot.run_live(interval_seconds=60)

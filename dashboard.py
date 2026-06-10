@@ -9,7 +9,6 @@ from pathlib import Path
 PORT = 5000
 PROJECT_ROOT = Path(__file__).resolve().parent
 SETTINGS_PATH = PROJECT_ROOT / "config" / "settings.json"
-STATUS_PATH = PROJECT_ROOT / "logs" / "backtest_status.json"
 
 # HTML/CSS/JS template for the complete trading workstation
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -367,13 +366,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             box-shadow: none !important;
         }
 
-        /* Backtest Section */
-        .backtest-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
         .progress-container {
             width: 100%;
             height: 10px;
@@ -543,13 +535,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     <div class="card-title">Connection & Credentials</div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>API Mode</label>
-                            <select id="cfg-use-mock" onchange="updateParam('account.use_mock', this.value === 'true')">
-                                <option value="false">Live WebSocket API</option>
-                                <option value="true">Mock Data Feed</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
                             <label>IQ Option Email</label>
                             <input type="text" id="cfg-iq-email" placeholder="email@example.com" onchange="updateParam('account.iq_email', this.value)">
                         </div>
@@ -610,72 +595,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     </div>
                 </div>
 
-                <!-- Backtest Simulator Control -->
-                <div class="card">
-                    <div class="card-title">90-Day Backtest Simulator</div>
-                    <div class="backtest-panel">
-                        <div style="display: flex; gap: 10px;">
-                            <button class="btn" id="btn-start-backtest" onclick="startBacktest()">Run 90-Day Backtest</button>
-                            <button class="btn btn-danger btn-disabled" id="btn-stop-backtest" disabled onclick="stopBacktest()">Stop</button>
-                        </div>
-                        
-                        <div id="backtest-status-text" style="font-size: 13px; color: var(--text-muted);">Status: Idle</div>
-                        
-                        <div class="progress-container">
-                            <div class="progress-bar" id="backtest-progress"></div>
-                        </div>
-
-                        <!-- Results Panel (Collapsed by default) -->
-                        <div class="results-box" id="backtest-results" style="display: none;">
-                            <div class="results-summary-grid">
-                                <div class="summary-tile">
-                                    <label>Total Trades</label>
-                                    <div class="val" id="res-total">0</div>
-                                </div>
-                                <div class="summary-tile wins">
-                                    <label>Win Rate</label>
-                                    <div class="val" id="res-wr">0%</div>
-                                </div>
-                                <div class="summary-tile">
-                                    <label>Net P&L</label>
-                                    <div class="val" id="res-pnl">$0</div>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <label style="display: block; margin-bottom: 8px;">Performance Per Asset</label>
-                                <table id="res-table-symbols">
-                                    <thead>
-                                        <tr>
-                                            <th>Asset</th>
-                                            <th>Trades</th>
-                                            <th>Wins</th>
-                                            <th>Win Rate</th>
-                                            <th>Net P&L</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-
-                            <div>
-                                <label style="display: block; margin-top: 16px; margin-bottom: 8px;">Performance Per Strategy</label>
-                                <table id="res-table-strategies">
-                                    <thead>
-                                        <tr>
-                                            <th>Strategy</th>
-                                            <th>Trades</th>
-                                            <th>Wins</th>
-                                            <th>Win Rate</th>
-                                            <th>Net P&L</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Right Column: Markets & Strategies lists -->
@@ -741,8 +660,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         ];
 
         let configData = {};
-        let backtestInterval = null;
-
         async function fetchConfig() {
             try {
                 const response = await fetch('/api/config');
@@ -787,8 +704,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('cfg-cooldown').value = configData.limits?.cooldown_minutes_after_loss || 0;
             document.getElementById('cfg-daily-loss').value = configData.limits?.max_daily_loss || '';
 
-            // Connection parameters
-            document.getElementById('cfg-use-mock').value = (configData.account?.use_mock === true) ? "true" : "false";
             document.getElementById('cfg-iq-email').value = configData.account?.iq_email || "";
             document.getElementById('cfg-iq-password').value = configData.account?.iq_password || "";
 
@@ -887,115 +802,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
-        // Backtest Controls
-        async function startBacktest() {
-            document.getElementById('btn-start-backtest').classList.add('btn-disabled');
-            document.getElementById('btn-start-backtest').disabled = true;
-            document.getElementById('btn-stop-backtest').classList.remove('btn-disabled');
-            document.getElementById('btn-stop-backtest').disabled = false;
-            document.getElementById('backtest-results').style.display = 'none';
-
-            try {
-                await fetch('/api/backtest', { method: 'POST' });
-                pollBacktestStatus();
-                backtestInterval = setInterval(pollBacktestStatus, 1500);
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        async function stopBacktest() {
-            try {
-                await fetch('/api/backtest/stop', { method: 'POST' });
-                clearInterval(backtestInterval);
-                resetBacktestUI("Backtest Stopped");
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        async function pollBacktestStatus() {
-            try {
-                const response = await fetch('/api/backtest/status');
-                const data = await response.json();
-                
-                const bar = document.getElementById('backtest-progress');
-                const txt = document.getElementById('backtest-status-text');
-                
-                if (data.status === "running") {
-                    bar.style.width = `${data.progress}%`;
-                    txt.innerText = `Status: Running (${data.progress}%)`;
-                } else if (data.status === "completed") {
-                    clearInterval(backtestInterval);
-                    bar.style.width = '100%';
-                    txt.innerText = `Status: Completed successfully!`;
-                    showBacktestResults(data.results);
-                    resetBacktestUI("Status: Idle");
-                } else if (data.status === "error") {
-                    clearInterval(backtestInterval);
-                    txt.innerText = `Status: Error occurred during simulation.`;
-                    resetBacktestUI("Status: Idle");
-                }
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        function resetBacktestUI(statusText) {
-            document.getElementById('btn-start-backtest').classList.remove('btn-disabled');
-            document.getElementById('btn-start-backtest').disabled = false;
-            document.getElementById('btn-stop-backtest').classList.add('btn-disabled');
-            document.getElementById('btn-stop-backtest').disabled = true;
-            document.getElementById('backtest-status-text').innerText = statusText;
-        }
-
-        function showBacktestResults(results) {
-            document.getElementById('backtest-results').style.display = 'flex';
-            document.getElementById('res-total').innerText = results.total_trades;
-            document.getElementById('res-wr').innerText = results.win_rate;
-            
-            const pnlEl = document.getElementById('res-pnl');
-            pnlEl.innerText = results.pnl;
-            if (results.pnl.startsWith('-')) {
-                pnlEl.className = 'val text-red';
-            } else {
-                pnlEl.className = 'val text-green';
-            }
-
-            const tbody = document.querySelector('#res-table-symbols tbody');
-            tbody.innerHTML = '';
-            for (const sym in results.symbol_report) {
-                const r = results.symbol_report[sym];
-                const tr = document.createElement('tr');
-                const pnlClass = r.pnl.startsWith('-') ? 'text-red' : 'text-green';
-                tr.innerHTML = `
-                    <td><b>${sym}</b></td>
-                    <td>${r.trades}</td>
-                    <td>${r.wins}</td>
-                    <td>${r.win_rate}</td>
-                    <td class="${pnlClass}">${r.pnl}</td>
-                `;
-                tbody.appendChild(tr);
-            }
-
-            const tbodyStrat = document.querySelector('#res-table-strategies tbody');
-            tbodyStrat.innerHTML = '';
-            for (const strat in results.strategy_report) {
-                const r = results.strategy_report[strat];
-                const tr = document.createElement('tr');
-                const pnlClass = r.pnl.startsWith('-') ? 'text-red' : 'text-green';
-                const stratName = AVAILABLE_STRATEGIES.find(s => s.id === strat)?.name || strat;
-                tr.innerHTML = `
-                    <td><b>${stratName}</b></td>
-                    <td>${r.trades}</td>
-                    <td>${r.wins}</td>
-                    <td>${r.win_rate}</td>
-                    <td class="${pnlClass}">${r.pnl}</td>
-                `;
-                tbodyStrat.appendChild(tr);
-            }
-        }
-
         function loadChart(symbol) {
             let tvSymbol = symbol.replace('-OTC', '');
             tvSymbol = "FX:" + tvSymbol;
@@ -1033,14 +839,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </html>
 """
 
-backtest_proc = None
-
 class DashboardHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         pass
 
     def do_GET(self):
-        global backtest_proc
         if self.path == '/':
             self.send_response(200)
             self.send_header('Content-type', 'text/html; charset=utf-8')
@@ -1056,24 +859,10 @@ class DashboardHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(config, ensure_ascii=False).encode('utf-8'))
             except Exception as e:
                 self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
-        elif self.path == '/api/backtest/status':
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            try:
-                if STATUS_PATH.exists():
-                    with open(STATUS_PATH, "r", encoding="utf-8") as f:
-                        status = json.load(f)
-                else:
-                    status = {"status": "idle", "progress": 0, "results": None}
-                self.wfile.write(json.dumps(status).encode('utf-8'))
-            except Exception as e:
-                self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
         else:
             self.send_error(404, "File not found")
 
     def do_POST(self):
-        global backtest_proc
         if self.path == '/api/config':
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
@@ -1087,45 +876,6 @@ class DashboardHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps({"status": "success"}).encode('utf-8'))
             except Exception as e:
                 self.send_response(400)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
-        elif self.path == '/api/backtest':
-            try:
-                # Start backtest subprocess
-                script_path = PROJECT_ROOT / "scratch" / "run_fast_90_day_backtest.py"
-                
-                # Clear old status
-                with open(STATUS_PATH, "w", encoding="utf-8") as f:
-                    json.dump({"status": "running", "progress": 0, "results": None}, f)
-                    
-                backtest_proc = subprocess.Popen([sys.executable, str(script_path)])
-                
-                self.send_response(200)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"status": "running"}).encode('utf-8'))
-            except Exception as e:
-                self.send_response(500)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
-        elif self.path == '/api/backtest/stop':
-            try:
-                if backtest_proc and backtest_proc.poll() is None:
-                    backtest_proc.terminate()
-                    backtest_proc.wait()
-                    
-                # Reset status file
-                with open(STATUS_PATH, "w", encoding="utf-8") as f:
-                    json.dump({"status": "idle", "progress": 0, "results": None}, f)
-                    
-                self.send_response(200)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"status": "stopped"}).encode('utf-8'))
-            except Exception as e:
-                self.send_response(500)
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
                 self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))

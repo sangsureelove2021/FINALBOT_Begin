@@ -1,5 +1,5 @@
 """
-CSV Data Adapter for FINALBOT Offline Simulation
+CSV Data Adapter for FINALBOT Offline Historical Slicing
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Implements IDataSource interface, reading historical candle data 
 from local CSV databases and slicing it according to simulated 
@@ -31,7 +31,7 @@ class CSVDataAdapter(IDataSource):
         
     def load_symbol_data(self, symbol: str, timeframes: List[str]) -> bool:
         """
-        Pre-load CSV dataframes into memory for ultra-fast slicing during backtesting.
+        Pre-load CSV dataframes into memory for ultra-fast historical slicing.
         """
         self.dfs[symbol] = {}
         safe_sym = symbol.replace("-OTC", "_OTC")
@@ -114,5 +114,5 @@ class CSVDataAdapter(IDataSource):
         return {tf: self.get_candles(symbol, tf, count) for tf in timeframes}
         
     def is_connected(self) -> bool:
-        """Fully online locally for backtesting."""
+        """Always available once local CSV data is loaded."""
         return self._connected

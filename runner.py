@@ -124,7 +124,7 @@ from execution.order_manager import OrderManager
 from execution.execution_guard import ExecutionGuard
 
 
-# ─── SHARED HELPERS (ใช้ร่วมกันทั้ง Backtest และ Live Runner) ───────────────
+# ─── SHARED HELPERS (ใช้ร่วมกันทั้ง Live Runner) ───────────────────────────
 
 def calc_dynamic_confidence(direction: str, indicators: dict) -> int:
     """
@@ -238,7 +238,6 @@ class BotRunner:
                  symbols: List[str] = None,
                  timeframes: List[str] = None,
                  capital: float = 2000.0,
-                 use_mock: bool = False,
                  account_type: str = "PRACTICE"):
         """
         Initialize bot.
@@ -247,7 +246,6 @@ class BotRunner:
             symbols: pairs to trade (loads from symbols.txt if None)
             timeframes: timeframes to analyze
             capital: account balance
-            use_mock: use synthetic data instead of the live API
             account_type: 'PRACTICE' (demo) or 'REAL'
         """
         # Load symbols from symbols.txt next to main.py (single source)
@@ -267,17 +265,15 @@ class BotRunner:
         }
         self.timeframes = list(self.timeframe_counts.keys())
         self.capital = capital
-        # Enforce live trading only — mock mode is locked to False
-        self.use_mock = use_mock
         self.account_type = account_type
 
         # Initialize components (single connection point: IQ Option DEMO)
-        self.data_adapter = None if use_mock else IQOptionAdapter(use_mock=use_mock, account_type=account_type)
-        if not use_mock and not self.data_adapter.is_connected():
+        self.data_adapter = IQOptionAdapter(account_type=account_type)
+        if not self.data_adapter.is_connected():
             raise RuntimeError("Cannot start bot — IQ Option not connected")
         
         # ดึงยอดเงินจริงจาก IQ Option
-        if not use_mock and self.data_adapter.api:
+        if self.data_adapter.api:
             try:
                 real_balance = self.data_adapter.api.get_balance()
                 if real_balance is not None:
@@ -287,8 +283,7 @@ class BotRunner:
 
         thai_console_log(f"ล็อกอินสำเร็จ - คู่เงิน: {', '.join(self.symbols)}")
 
-        mode = ('MOCK' if use_mock
-                else 'DEMO' if account_type == 'PRACTICE'
+        mode = ('DEMO' if account_type == 'PRACTICE'
                 else 'REAL MONEY')
         logger.info("[START] FINALBOT initializing...")
         logger.info(f"   Symbols: {', '.join(self.symbols)}")
@@ -299,11 +294,10 @@ class BotRunner:
         self.candle_buffer = CandleBuffer(size=500)
         
         # Subscribe to WebSocket candles streams for all symbols and timeframes
-        if not use_mock:
-            logger.info("[WS] Initiating WebSocket live candles subscriptions...")
-            for symbol in self.symbols:
-                for tf, count in self.timeframe_counts.items():
-                    self.data_adapter.start_stream(symbol, tf, count)
+        logger.info("[WS] Initiating WebSocket live candles subscriptions...")
+        for symbol in self.symbols:
+            for tf, count in self.timeframe_counts.items():
+                self.data_adapter.start_stream(symbol, tf, count)
         
         # Intelligence layer — registry populated with all 25 engines
         from core.engines.engine_setup import setup_engines
@@ -358,7 +352,7 @@ class BotRunner:
         self._reload_runtime_config()
 
         # Execution (reuses adapter's connection — same login)
-        self.executor = None if use_mock else IQOptionExecutor(adapter=self.data_adapter, use_mock=use_mock, account_type=account_type)
+        self.executor = IQOptionExecutor(adapter=self.data_adapter, account_type=account_type)
         self.position_sizer = PositionSizer(capital=self.capital)
         self.order_manager = OrderManager()
         
@@ -545,7 +539,7 @@ class BotRunner:
                     notes = "Option contract expired"
                     
                     # Fetch real outcome if connected to live API
-                    if not self.use_mock and self.executor.is_connected() and "SIGNAL" not in order_id and "MOCK" not in order_id:
+                    if self.executor.is_connected() and "SIGNAL" not in order_id:
                         try:
                             # check_win_v3 returns profit (positive if won, negative if lost, 0 if tie)
                             # since it's already expired, this should return instantly
@@ -564,6 +558,8 @@ class BotRunner:
                         notes=notes
                     )
                     self.execution_guard.record_trade_result(won=won, profit_loss=pnl)
+                    if hasattr(self, 'position_sizer'):
+                        self.position_sizer.record_trade(amount=trade.amount, result=pnl)
 
             # Step 0.2: Prevent duplicate trades for the same symbol
             active_trades = self.order_manager.get_active_trades(symbol)
@@ -817,16 +813,14 @@ class BotRunner:
                     
                     if confirmed:
                         logger.info(f"[M5 CONFIRM] {sig['strategy']} {action} confirmed by M5 (RSI14={m5_rsi14:.1f}, Close vs MA20={'above' if m5_curr_close > m5_ma20 else 'below'})")
+                        m5_confirmed_signals.append(sig)
                     else:
-                        logger.info(f"[M5 INFO] {sig['strategy']} {action} - M5 direction does not confirm (RSI14={m5_rsi14:.1f}) - PASSING THROUGH (No decision)")
-                    
-                    # Always append to m5_confirmed_signals, do not set sig['signal'] = 'NOTRADE'
-                    m5_confirmed_signals.append(sig)
+                        logger.info(f"[M5 REJECT] {sig['strategy']} {action} - M5 direction does not confirm (RSI14={m5_rsi14:.1f})")
                 else:
                     # No M5 data available, pass through
                     m5_confirmed_signals.append(sig)
             
-            # ── STEP A.2: Dynamic Confidence >= 80% Filter ──────────
+            # ── STEP A.2: Dynamic Confidence Filter ──────────
             confidence_filtered_signals = []
             for sig in m5_confirmed_signals:
                 _ind_for_conf = dict(market_state_data['indicators'])
@@ -835,13 +829,15 @@ class BotRunner:
                 _ind_for_conf['market_state'] = state_str
                 _dynamic_conf = calc_dynamic_confidence(sig['signal'], _ind_for_conf)
                 
-                # Keep the strategy's original confidence, but log the dynamic confidence
-                strategy_conf = sig.get('confidence', 85)
-                sig['confidence'] = strategy_conf
+                # Minimum confidence required
+                min_conf = self.execution_gate.min_confidence if hasattr(self, "execution_gate") else 80
                 
-                # Always approve and append to confidence_filtered_signals, do not reject
-                confidence_filtered_signals.append(sig)
-                logger.info(f"[CONF INFO] {sig['strategy']} {sig['signal']} - Strategy Conf={strategy_conf}%, Dynamic Conf={_dynamic_conf}% - APPROVED (No decision)")
+                if _dynamic_conf >= min_conf:
+                    sig['confidence'] = _dynamic_conf
+                    confidence_filtered_signals.append(sig)
+                    logger.info(f"[CONF OK] {sig['strategy']} {sig['signal']} - Dynamic Conf={_dynamic_conf}% (Min {min_conf}%) - APPROVED")
+                else:
+                    logger.info(f"[CONF REJECT] {sig['strategy']} {sig['signal']} - Dynamic Conf={_dynamic_conf}% (Min {min_conf}%) - REJECTED")
             
             approved_signals = confidence_filtered_signals
             
@@ -859,66 +855,6 @@ class BotRunner:
                 logger.debug(f"[MARKET STATE] Saved to logs/market_state.json | Signals found: {len(triggered_signals)}")
             except Exception as e:
                 logger.error(f"[ERR] Failed to write market state JSON: {e}")
-
-            # ── STEP C.2: Write to backtest_signals.json if signals were triggered (AI-style chronological logging) ──
-            if triggered_signals:
-                backtest_signals_path = os.path.join("logs", "backtest_signals.json")
-                try:
-                    existing_backtest = []
-                    if os.path.exists(backtest_signals_path):
-                        try:
-                            with open(backtest_signals_path, "r", encoding="utf-8") as f_backtest:
-                                existing_backtest = json.load(f_backtest)
-                                if not isinstance(existing_backtest, list):
-                                    existing_backtest = []
-                        except Exception:
-                            existing_backtest = []
-
-                    # คำนวณ session / hour_gmt7 จาก timestamp ปัจจุบัน
-                    _ts_now = datetime.now(timezone.utc)
-                    _utc_hour = _ts_now.hour
-                    _hour_gmt7 = (_utc_hour + 7) % 24
-                    _session = get_session(_utc_hour)
-
-                    # For each triggered signal, package it with the full market state data
-                    for sig in triggered_signals:
-                        # คำนวณ dynamic confidence จาก indicators
-                        _ind_for_conf = dict(market_state_data['indicators'])
-                        _ind_for_conf['current_price'] = current_price
-                        _ind_for_conf['trend_direction'] = trend_dir
-                        _ind_for_conf['market_state'] = state_str
-                        _dynamic_conf = calc_dynamic_confidence(sig['signal'], _ind_for_conf)
-
-                        signal_record = {
-                            'timestamp': market_state_data['timestamp'],
-                            'symbol': symbol,
-                            'direction': sig['signal'],
-                            'confidence': _dynamic_conf,
-                            'size': float(self.position_sizer.calculate(
-                                confidence=_dynamic_conf
-                            )) if hasattr(self, 'position_sizer') else 30.0,
-                            'state': state_str,
-                            'session': _session,
-                            'hour_gmt7': _hour_gmt7,
-                            'reason': sig['reason'],
-                            'strategy': sig['strategy'],
-                            'indicators': market_state_data['indicators'],
-                            'candles': market_state_data['candles'],
-                            'candle_count': len(market_state_data['candles']),
-                            'processed': True,
-                            'trade_outcome': None
-                        }
-                        existing_backtest.append(signal_record)
-
-                    # Cap size of backtest history file to 5000 signals to prevent out of memory / huge files
-                    if len(existing_backtest) > 5000:
-                        existing_backtest = existing_backtest[-5000:]
-
-                    with open(backtest_signals_path, "w", encoding="utf-8") as f_backtest:
-                        json.dump(existing_backtest, f_backtest, indent=2, ensure_ascii=False)
-                    logger.debug(f"[BACKTEST LOG] Appended {len(triggered_signals)} signals to logs/backtest_signals.json")
-                except Exception as e:
-                    logger.error(f"[ERR] Failed to write backtest signals JSON: {e}")
 
             # ── STEP D: Mode-specific output ──────────────────────────────────────
             if self.bot_mode in ('SIGNAL', 'HYBRID'):
@@ -1015,17 +951,55 @@ class BotRunner:
                 }
 
             elif self.bot_mode == 'TRADE':
-                # ── TRADE MODE: Execute directly, no gates, no market filters ──
+                # ── TRADE MODE: Execute directly, with execution guard safety ──
                 if first_signal:
                     sig_action = first_signal['signal']
                     sig_strategy = first_signal['strategy']
                     sig_conf = first_signal['confidence']
+                    
+                    # Execution Guard Check
+                    guard_result = self.execution_guard.check({'action': sig_action, 'confidence': sig_conf})
+                    if not guard_result['allowed']:
+                        logger.warning(f"[TRADE SKIP] Execution Guard vetoed {symbol} {sig_action} | Reason: {guard_result['reason']}")
+                        return {
+                            'symbol': symbol,
+                            'signal': 'NO_SIGNAL',
+                            'confidence': sig_conf,
+                            'reason': f"Guard veto: {guard_result['reason']}",
+                            'executed': False,
+                            'market_state': state_str,
+                            'current_price': current_price,
+                            'strategy': sig_strategy,
+                            'all_strategies': [
+                                {'strategy': s['strategy'], 'signal': s['signal'], 'confidence': s['confidence'], 'reason': s['reason'][:12]}
+                                for s in triggered_signals
+                            ]
+                        }
+
                     thai_console_log(f">>> EXECUTE {sig_action} | {symbol} | {sig_strategy}")
                     logger.info(f"[TRADE] {symbol} | {sig_action} | Strategy: {sig_strategy} | Executing now...")
                     try:
                         size = self.position_sizer.calculate(
                             confidence=sig_conf
                         )
+                        if float(size) <= 0:
+                            logger.warning(
+                                f"[TRADE SKIP] Risk limit blocked {symbol} {sig_action} | Strategy: {sig_strategy}"
+                            )
+                            return {
+                                'symbol': symbol,
+                                'signal': 'NO_SIGNAL',
+                                'confidence': sig_conf,
+                                'reason': 'Risk limit blocked trade',
+                                'executed': False,
+                                'market_state': state_str,
+                                'current_price': current_price,
+                                'strategy': sig_strategy,
+                                'all_strategies': [
+                                    {'strategy': s['strategy'], 'signal': s['signal'], 'confidence': s['confidence'], 'reason': s['reason'][:12]}
+                                    for s in triggered_signals
+                                ]
+                            }
                         expiry_val = first_signal.get('expiry', 'M1')
                         order = self.executor.send_order(
                             symbol=symbol,
@@ -1157,11 +1131,28 @@ class BotRunner:
                         updated = True
                         continue
                         
+                    # Execution Guard Check
+                    guard_result = self.execution_guard.check({'action': sig_action, 'confidence': sig_conf})
+                    if not guard_result['allowed']:
+                        logger.warning(f"[HYBRID SKIP] Execution Guard vetoed {symbol} {sig_action} | Reason: {guard_result['reason']}")
+                        sig["processed"] = True
+                        sig["ai_action"] = f"SKIPPED_GUARD: {guard_result['reason']}"
+                        updated = True
+                        continue
+
                     current_price = sig.get("indicators", {}).get("ema5", 0.0)  # estimate current price
                     if hasattr(self, 'intelligence_pipeline') and self.intelligence_pipeline.last_context:
                         current_price = getattr(self.intelligence_pipeline.last_context, 'current_price', current_price)
 
                     size = float(self.position_sizer.calculate(confidence=sig_conf))
+                    if size <= 0:
+                        logger.warning(
+                            f"[HYBRID SKIP] Risk limit blocked {symbol} {sig_action} | Strategy: {sig_strategy}"
+                        )
+                        sig["processed"] = True
+                        sig["ai_action"] = "SKIPPED_RISK_LIMIT"
+                        updated = True
+                        continue
                     order = self.executor.send_order(
                         symbol=symbol,
                         direction=sig_action,
@@ -1267,42 +1258,6 @@ class BotRunner:
         
         return results
 
-    def run_backtest(self, num_cycles: int = 10) -> None:
-        """
-        Run backtest (multiple cycles).
-        
-        Args:
-            num_cycles: Number of cycles to execute
-        """
-        logger.info(f"\n[LOOP] Starting backtest: {num_cycles} cycles...\n")
-        
-        for i in range(num_cycles):
-            self.run_cycle()
-        
-        logger.info("\n" + "="*80)
-        logger.info("=== BACKTEST SUMMARY ===")
-        logger.info("="*80)
-        logger.info(f"Cycles executed: {self.cycle_count}")
-        logger.info(f"Signals per symbol: {self.signal_count}")
-        
-        # Order manager stats
-        self.order_manager.print_summary()
-
-        # Profit summary
-        status = self.get_status()
-        total_pnl = status.get('total_pnl', 0.0)
-        logger.info(f"[SUMMARY] Total P&L (profit/loss): {total_pnl:.2f} THB")
-        # Write profit report
-        report_path = Path('logs') / "profit_report.txt"
-        try:
-            with open(report_path, "w", encoding="utf-8") as f:
-                f.write("Backtest Profit Report\n")
-                f.write(f"Cycles executed: {self.cycle_count}\n")
-                f.write(f"Total P&L: {total_pnl:.2f} THB\n")
-            logger.info(f"Profit report written to {report_path}")
-        except Exception as e:
-            logger.error(f"Failed to write profit report: {e}")
-    
     def run_live(self, interval_seconds: int = 5) -> None:
         """
         Run the bot continuously in real-time.
@@ -1358,7 +1313,7 @@ class BotRunner:
                 'cycles': self.cycle_count,
                 'data_connected': self.data_adapter.is_connected(),
                 'executor_connected': self.executor.is_connected(),
-                'mode': 'MOCK' if self.use_mock else 'LIVE',
+                'mode': 'LIVE',
                 'active_trades': len(self.order_manager.active_trades),
                 'total_trades': stats.get('total_trades', 0),
                 'total_pnl': stats.get('total_pnl', 0.0),
@@ -1379,8 +1334,7 @@ class BotRunner:
 def main():
     """Main entry point."""
     try:
-        from core.config_loader import get_use_mock, get_account_type, get_capital
-        use_mock = get_use_mock()
+        from core.config_loader import get_account_type, get_capital
         account_type = get_account_type()
         capital = get_capital()
         
@@ -1388,12 +1342,8 @@ def main():
         bot = BotRunner(
             symbols=None,  # Loads from symbols.txt capped at 6
             capital=capital,
-            use_mock=use_mock,
             account_type=account_type
         )
-        
-        # Run backtest
-        bot.run_backtest(num_cycles=5)
         
         # Final status
         logger.info("\n[STATUS] FINAL STATUS:")

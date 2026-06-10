@@ -230,7 +230,7 @@ def main():
     print(f"Successfully completed  : {success_count} / {total_downloads}")
     print(f"Saved directory         : {OUTPUT_DIR.resolve()}")
     print("All data is formatted chronologically: timestamp,open,high,low,close,volume")
-    print("Ready for offline backtesting and strategy validation!")
+    print("Ready for offline historical validation and strategy checks!")
     print("="*80)
 
 

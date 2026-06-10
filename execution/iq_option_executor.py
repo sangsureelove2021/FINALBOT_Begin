@@ -1,15 +1,13 @@
 """
 IQ Option Executor
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Send trade orders to IQ Option. Currently logs to file (mock mode).
-Swap to real API: Replace log_order() with api.buy()/sell()
+Send trade orders to IQ Option via the live API.
 """
 
 import logging
 from datetime import datetime, timezone
 from typing import Dict, Optional
 from dataclasses import dataclass
-import json
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
@@ -30,23 +28,13 @@ class OrderResult:
 
 class IQOptionExecutor:
     """
-    Execute trades on IQ Option.
-    
-    Current Mode: MOCK (logs to file)
-    
-    To activate real trading:
-    1. Set api_token in __init__
-    2. Replace _log_order() with _api_order()
-    3. pip install iqoptionapi
-    
-    DO NOT ENABLE REAL TRADING WITHOUT THOROUGH TESTING!
+    Execute trades on IQ Option through the live API.
     """
     
     def __init__(self,
                  adapter=None,
                  email: Optional[str] = None,
                  password: Optional[str] = None,
-                 use_mock: bool = False,
                  account_type: str = "PRACTICE",
                  log_dir: str = "./logs",
                  api_token: Optional[str] = None):
@@ -56,14 +44,11 @@ class IQOptionExecutor:
         Args:
             adapter: an already-connected IQOptionAdapter (reuses its API).
             email / password: only used if adapter is None.
-            use_mock: mock mode — no real orders are sent (test only).
             account_type: 'PRACTICE' (demo) or 'REAL'.
             log_dir: directory for order logs.
             api_token: legacy, unused.
         """
         import os
-        # Enforce live trading only — mock mode locked to False
-        self.use_mock = False
         self.account_type = account_type
         self.log_dir = Path(log_dir)
         self.log_dir.mkdir(exist_ok=True)
@@ -71,10 +56,6 @@ class IQOptionExecutor:
         self.api = None
         self._order_counter = 0
         self._connected = False
-
-        if use_mock:
-            logger.info("[MOCK] Executor MOCK mode (orders logged to file)")
-            return
 
         # Reuse adapter's API if available
         if adapter is not None and getattr(adapter, "api", None) is not None:
@@ -143,10 +124,14 @@ class IQOptionExecutor:
             )
         
         try:
-            if self.use_mock or not self._connected:
-                return self._log_order(symbol, direction, amount, expiry)
-            else:
-                return self._api_order(symbol, direction, amount, expiry)
+            if not self._connected:
+                return OrderResult(
+                    order_id="DISCONNECTED", symbol=symbol, direction=direction,
+                    amount=amount, expiry=expiry, status='failed',
+                    timestamp=datetime.now(timezone.utc).isoformat(),
+                    reason="Executor is not connected to IQ Option",
+                )
+            return self._api_order(symbol, direction, amount, expiry)
         
         except Exception as e:
             logger.error(f"Order failed: {e}")
@@ -156,47 +141,6 @@ class IQOptionExecutor:
                 timestamp=datetime.now(timezone.utc).isoformat(),
                 reason=f"[ERR] Exception: {str(e)}"
             )
-    
-    def _log_order(self, symbol: str, direction: str, 
-                   amount: float, expiry: str) -> OrderResult:
-        """
-        Log order to file (mock mode).
-        
-        In real mode, this is replaced with API call.
-        """
-        self._order_counter += 1
-        order_id = f"MOCK-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}-{self._order_counter:04d}"
-        timestamp = datetime.now(timezone.utc).isoformat()
-        
-        result = OrderResult(
-            order_id=order_id,
-            symbol=symbol,
-            direction=direction,
-            amount=amount,
-            expiry=expiry,
-            status='pending',
-            timestamp=timestamp,
-            reason=f"[OK] {direction} {amount:.0f}x {symbol} {expiry} [MOCK]"
-        )
-        
-        # Log to file
-        log_file = self.log_dir / f"orders_{datetime.now(timezone.utc).strftime('%Y%m%d')}.jsonl"
-        with open(log_file, 'a') as f:
-            f.write(json.dumps({
-                'order_id': result.order_id,
-                'symbol': result.symbol,
-                'direction': result.direction,
-                'amount': result.amount,
-                'expiry': result.expiry,
-                'timestamp': result.timestamp,
-                'status': result.status,
-            }) + '\n')
-        
-        logger.info(f"[MOCK] {result.reason}")
-        logger.debug(f"   Order ID: {order_id}")
-        logger.debug(f"   Log: {log_file}")
-        
-        return result
     
     # Map expiry codes to duration in minutes
     _EXPIRY_MINUTES = {'M1': 1, 'M5': 5, 'M15': 15, 'M30': 30, 'M60': 60}

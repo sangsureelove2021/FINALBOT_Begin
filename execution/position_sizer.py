@@ -88,60 +88,93 @@ class PositionSizer:
         Supports two modes:
         1. Forex/Stock mode: Returns PositionSize object using entry & stop loss.
         2. Binary Options mode: Returns float stake size using confidence & config settings.
+
+        In confidence mode, the stake is scaled by signal quality and the
+        remaining daily risk budget. If a stop loss is supplied, the sizing
+        falls back to the explicit risk-based path.
         """
         from typing import Any
         
+        if entry_price is not None and stop_loss_price is not None:
+            return self._calculate_from_stop_loss(entry_price, stop_loss_price, direction)
+
         if confidence is not None:
-            # Binary Options Mode: Load stake per trade from config/settings.json
+            # Binary Options Mode: Load base stake from config/settings.json.
             from core.config_loader import load_settings
             try:
                 base_stake = float(load_settings().get("capital", {}).get("stake_per_trade", 30.0))
             except Exception as e:
                 logger.error(f"[ERR] Failed to load stake_per_trade: {e}")
                 base_stake = 30.0
-            return base_stake
 
-        # Forex/Stock Mode: Expect entry_price and stop_loss_price
-        if entry_price is None or stop_loss_price is None:
-            return self.min_amount
+            daily_risk_used = self._get_daily_risk_used()
+            daily_risk_percent = (daily_risk_used / self.capital) * 100 if self.capital else 0.0
+            if daily_risk_percent >= self.max_daily_risk:
+                logger.warning(
+                    f"[RISK] Daily risk limit reached ({daily_risk_percent:.2f}% >= {self.max_daily_risk:.2f}%)"
+                )
+                return 0.0
 
-        # Calculate distance to SL
+            try:
+                conf = max(0.0, min(100.0, float(confidence)))
+            except Exception:
+                conf = 0.0
+
+            confidence_scale = 0.75 + (conf / 100.0) * 0.75
+            remaining_daily_scale = 1.0
+            if self.max_daily_risk > 0:
+                remaining_daily_scale = max(
+                    0.25,
+                    min(1.0, (self.max_daily_risk - daily_risk_percent) / self.max_daily_risk),
+                )
+
+            amount = base_stake * confidence_scale * remaining_daily_scale
+            amount = max(self.min_amount, min(amount, self.max_per_trade))
+            return amount
+
+        return self.min_amount
+
+    def _calculate_from_stop_loss(self,
+                                  entry_price: float,
+                                  stop_loss_price: float,
+                                  direction: str) -> PositionSize:
+        """Risk-based sizing using entry and stop-loss prices."""
         distance = abs(entry_price - stop_loss_price)
-        
+
         if distance <= 0:
             return PositionSize(
-                amount=0, risk_amount=0, risk_percent=0,
-                daily_risk=0, is_valid=False,
-                reason="[ERR] Invalid SL: distance is 0"
+                amount=0,
+                risk_amount=0,
+                risk_percent=0,
+                daily_risk=0,
+                is_valid=False,
+                reason="[ERR] Invalid SL: distance is 0",
             )
-        
-        # Risk amount in THB
+
         max_risk_amount = (self.capital * self.risk_percent) / 100
-        
-        # Calculate position size
-        # amount = risk_amount / distance
         amount = max_risk_amount / distance if distance > 0 else 0
         amount = max(self.min_amount, min(amount, self.max_per_trade))
-        
-        # Check daily risk limit
+
         daily_risk_used = self._get_daily_risk_used()
-        daily_risk_percent = (daily_risk_used / self.capital) * 100
-        
+        daily_risk_percent = (daily_risk_used / self.capital) * 100 if self.capital else 0.0
+
         if daily_risk_percent >= self.max_daily_risk:
             return PositionSize(
-                amount=0, risk_amount=max_risk_amount, 
+                amount=0,
+                risk_amount=max_risk_amount,
                 risk_percent=self.risk_percent,
-                daily_risk=daily_risk_percent, is_valid=False,
-                reason=f"[ERR] Daily risk limit ({self.max_daily_risk}%) exceeded"
+                daily_risk=daily_risk_percent,
+                is_valid=False,
+                reason=f"[ERR] Daily risk limit ({self.max_daily_risk}%) exceeded",
             )
-        
+
         return PositionSize(
             amount=amount,
             risk_amount=max_risk_amount,
             risk_percent=self.risk_percent,
             daily_risk=daily_risk_percent,
             is_valid=True,
-            reason=f"[OK] {direction} {amount:.0f} contracts (risk: {self.risk_percent}%, daily: {daily_risk_percent:.2f}%)"
+            reason=f"[OK] {direction} {amount:.0f} contracts (risk: {self.risk_percent}%, daily: {daily_risk_percent:.2f}%)",
         )
     
     def record_trade(self, amount: float, result: float = 0.0) -> None:

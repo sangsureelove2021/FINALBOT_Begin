@@ -31,11 +31,10 @@ _CANDLES_TIMEOUT_SEC = 8
 
 
 class IQOptionAdapter(IDataSource):
-    """IQ Option broker adapter — live API only (no mock fallback)."""
+    """IQ Option broker adapter — live API only."""
 
     def __init__(self, email: Optional[str] = None,
                  password: Optional[str] = None,
-                 use_mock: bool = False,
                  account_type: str = "PRACTICE",
                  api_token: Optional[str] = None):
         """
@@ -44,7 +43,6 @@ class IQOptionAdapter(IDataSource):
         Args:
             email: IQ Option login email (or via IQ_EMAIL env var).
             password: IQ Option password (or via IQ_PASSWORD env var).
-            use_mock: kept for tests only — synthetic data, no broker.
             account_type: 'PRACTICE' (demo) or 'REAL'.
             api_token: legacy, unused.
         """
@@ -57,15 +55,9 @@ class IQOptionAdapter(IDataSource):
                 self.email, self.password = get_iq_credentials()
             except Exception:
                 self.email = os.getenv("IQ_EMAIL", "")
-                # Enforce live API only — mock mode locked to False
-        self.use_mock = use_mock
         self.account_type = account_type
         self._connected = False
         self.api = None
-
-        if use_mock:
-            logger.info("[MOCK] IQOptionAdapter running in MOCK mode (test only)")
-            return
 
         if not self.email or not self.password:
             raise RuntimeError(
@@ -117,10 +109,6 @@ class IQOptionAdapter(IDataSource):
         Returns:
             DataFrame [open, high, low, close, volume] indexed by datetime
         """
-        if self.use_mock:
-            return self._normalize_candle_index(
-                self._synthetic_data(symbol, timeframe, count)
-            )
         if not self._connected:
             raise RuntimeError("IQ Option not connected")
         return self._normalize_candle_index(
@@ -142,7 +130,7 @@ class IQOptionAdapter(IDataSource):
 
     def ensure_connected(self) -> None:
         """Reconnect if the websocket dropped (called before each fetch)."""
-        if not self.api or self.use_mock:
+        if not self.api:
             return
         try:
             if not self.api.check_connect():
@@ -161,7 +149,7 @@ class IQOptionAdapter(IDataSource):
             
     def start_stream(self, symbol: str, timeframe: str, count: int) -> None:
         """Subscribe to live websocket stream of candles for this pair and timeframe."""
-        if self.use_mock or not self._connected or not self.api:
+        if not self._connected or not self.api:
             return
         size = self._TF_SECONDS.get(timeframe, 60)
         try:
@@ -172,11 +160,7 @@ class IQOptionAdapter(IDataSource):
             logger.warning(f"[WS] Failed to start stream for {symbol} ({timeframe}): {e}")
     
     def _check_connection(self) -> bool:
-        """Verify connection to API or mock."""
-        if self.use_mock:
-            logger.info("📊 Using MOCK data source")
-            return True
-        
+        """Verify connection to the API."""
         if self.api_token:
             try:
                 logger.info("🔌 Attempting IQ Option API connection...")

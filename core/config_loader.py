@@ -66,10 +66,6 @@ def get_account_type() -> str:
     return get_account().get("account_type", "PRACTICE")
 
 
-def get_use_mock() -> bool:
-    return bool(get_account().get("use_mock", False))
-
-
 def get_trading_mode() -> str:
     return str(get_account().get("trading_mode", "SIGNALBOT")).strip().upper()
 
