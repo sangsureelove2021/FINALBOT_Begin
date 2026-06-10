@@ -40,9 +40,9 @@ class TripleConfluenceStrategy(BaseStrategy):
         m = candle_metrics(df)
 
         action = "NO_SETUP"
-        if price > ema20 and rsi > 52 and m_now > s_now and m["bullish"]:
+        if price > ema20 and rsi > 48 and m_now > s_now and m["bullish"]:
             action = "CALL"
-        elif price < ema20 and rsi < 48 and m_now < s_now and m["bearish"]:
+        elif price < ema20 and rsi < 52 and m_now < s_now and m["bearish"]:
             action = "PUT"
 
         if action == "NO_SETUP":

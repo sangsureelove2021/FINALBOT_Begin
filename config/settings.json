@@ -22,8 +22,8 @@
     "_note": "Risk management enabled for safety."
   },
   "execution_gate": {
-    "min_confidence": 80,
-    "max_block_score": 35,
+    "min_confidence": 72,
+    "max_block_score": 45,
     "_note": "Strict quality threshold for better signals."
   },
   "session": {
