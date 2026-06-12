@@ -28,7 +28,7 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 # Timeframes to download (M1, M5, M15, M60)
 TIMEFRAMES = ['M1', 'M5', 'M15', 'M60']
 # Number of candles to fetch per request (max 1000 typically)
-CANDLE_COUNT = 1000
+CANDLE_COUNT = 5000  # Increased to ensure enough candles for backtest (was 1000 causing truncation)
 
 
 def get_iq_adapter() -> IQOptionAdapter:
@@ -51,13 +51,18 @@ def download_candles(symbol: str, timeframe: str, days_back: int = 30) -> pd.Dat
         raise RuntimeError("Cannot download data: IQ Option not connected")
     
     all_candles = []
-    end_time = datetime.now(timezone.utc)
+    # Use naive UTC datetime for consistent comparisons
+    end_time = datetime.now(timezone.utc).replace(tzinfo=None)
     
     max_attempts = 40  # safety
     for attempt in range(max_attempts):
-        df = adapter.get_candles(symbol, timeframe, count=CANDLE_COUNT, end_time=end_time)
+        # Pass end_time as naive or aware? IQOptionAdapter expects timezone-aware? We'll keep as naive but adapter might expect aware.
+        # Convert to aware for adapter call
+        end_time_aware = end_time.replace(tzinfo=timezone.utc) if end_time.tzinfo is None else end_time
+        df = adapter.get_candles(symbol, timeframe, count=CANDLE_COUNT, end_time=end_time_aware)
         if df.empty:
             break
+        # Ensure index is naive UTC
         df.index = pd.to_datetime(df.index, utc=True).tz_localize(None)
         all_candles.append(df)
         earliest = df.index.min()

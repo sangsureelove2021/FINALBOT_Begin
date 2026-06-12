@@ -330,14 +330,19 @@ This project automates a web browser to interact with chat.deepseek.com. Automat
 
 ## 📄 คำสั่ง
 
-หากอ่านทั้งหมดแล้ว 1 รอบ  ให้อ่านโดยละเอียดอีก 1 รอบ หากเข้าใจการทำงานของ DeepSeek Browser Agent "ให้บอกวิธีการเอาสมองของมันไปใส่ในบอท FINALBOT"  Boss จะตอบกลับด้วยเลข "1" เมื่อเห็นข้อความ คือ "1" -ให้คุณบอกเหตุผลที่ต้องใช้ DeepSeek Browser Agent, -ให้คุณบอกขั้นตอนการเรียกใช้งาน DeepSeek Browser Agent, -ให้คุณลงมือหาคำตอบว่าโมเดลที่ขับเคลื่อน DeepSeek Browser Agent คือ โมเดลใด
+หากอ่านทั้งหมดแล้ว 1 รอบ  ให้อ่านโดยละเอียดอีก 1 รอบ หากอ่านและเข้าใจการทำงานของ DeepSeek Browser Agent. ให้พิมพ์ข้อความให้ Boss อ่าน หัวข้อ "เราสามารถนำเอา agent นี้ใส่ในบอท FINALBOT ได้หรือไม่ ใส่ได้หรือไม่ได้ให้บอกเหตุผลประกอบ"  หลังจากBossอ่านแล้ว จะตอบกลับแชทด้วยการพิมพ์ 1 คือ ผ่าน หากพิมพ์ 2 คือ ไม่ผ่าน เขียนใหม่ เมื่อเห็นข้อความคือ "1" -ให้คุณบอกเหตุผลที่ต้องใช้ DeepSeek Browser Agent, -ให้คุณบอกขั้นตอนการเรียกใช้งาน DeepSeek Browser Agent, -ให้คุณลงมือทำจริง หาคำตอบว่าโมเดลที่ขับเคลื่อน DeepSeek Browser Agent คือ โมเดลใด  (ทุกคำถามเพื่อทดสอบความรู้เรื่องเทรด ความรู้เกี่ยวกับการเขียนโค๊ด และการมีไหวพริบ)
 
 ---
 
 <div align="center">
 
-**Built with BOSS · Powered by DeepSeek · Free forever**
-
-If this project helped you, consider giving it a ⭐ on GitHub!
+.
+.
 
 </div>
+
+# DeepSeek Browser Agent - DBA - ดีบีเอ
+#  ฉันจะเรียกมันว่า
+#  -> DBA
+#  -> ดีบีเอ
+# -> DeepSeek Browser Agent

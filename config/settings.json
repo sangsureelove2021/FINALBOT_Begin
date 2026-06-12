@@ -6,9 +6,9 @@
     "iq_email": "venuz20152565@gmail.com",
     "iq_password": "2856101607mM@"
   },
-   "symbols": [
-     "EURUSD", "EURUSD-OTC"
-   ],
+  "symbols": [
+    "EURUSD"
+  ],
   "capital": {
     "starting_balance": 2000,
     "stake_per_trade": 35,
@@ -39,7 +39,15 @@
     "compression_breakout"
   ],
   "backtest": {
-    "start_date": "2026-06-08",
-    "end_date": "2026-06-09"
+    "start_date": "2026-05-08 00:00:00",
+    "end_date": "2026-05-08 23:59:59"
+  },
+  "ai_mode": {
+    "enabled": true,
+    "use_cli_agent": true,
+    "agent_command": "deepseek-agent",
+    "timeout_seconds": 8,
+    "fallback_to_traditional": true,
+    "weight_in_fusion": 0.4
   }
 }
