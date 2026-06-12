@@ -1,6 +1,6 @@
 """
 Market Context
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Unified market data object consumed by all intelligence engines.
 """
 

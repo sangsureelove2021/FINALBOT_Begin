@@ -1,6 +1,6 @@
 """
 History_IQ.py — Historical Data Grabber for FINALBOT (Updated Version)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Fetches and saves long-term historical candles from IQ Option
 directly to well-structured CSV files. If a file already exists,
 it merges the new data with the old data without duplicates.
@@ -188,7 +188,7 @@ def main():
                 
                 df = fetch_history(adapter, symbol, tf, target_count)
                 if df.empty:
-                    print(f"   ❌ [FAILED] Downloaded 0 candles for {symbol} ({tf})")
+                    print(f"    [FAILED] Downloaded 0 candles for {symbol} ({tf})")
                     continue
                     
                 # Save as premium formatted CSV
@@ -208,17 +208,17 @@ def main():
                         # ลบแท่งเทียนที่เวลาตรงกันซ้ำออก และเรียงลำดับเวลาใหม่จากเก่าไปใหม่
                         df = df.drop_duplicates(subset=['timestamp'])
                         df = df.sort_values(by="timestamp").reset_index(drop=True)
-                        print(f"   🔄 [MERGE] Found existing file. Successfully merged new data with history.")
+                        print(f"    [MERGE] Found existing file. Successfully merged new data with history.")
                     except Exception as merge_err:
-                        print(f"   ⚠️ [WARNING] Could not merge with existing file, overwriting instead: {merge_err}")
+                        print(f"    [WARNING] Could not merge with existing file, overwriting instead: {merge_err}")
                 # -----------------------------------------------------------------
                 
                 df.to_csv(file_path, index=False, date_format="%Y-%m-%d %H:%M:%S")
-                print(f"   ✅ [SAVED] Successfully wrote {len(df)} candles -> {file_path}")
+                print(f"    [SAVED] Successfully wrote {len(df)} candles -> {file_path}")
                 success_count += 1
                 
             except Exception as e:
-                print(f"   ❌ [ERROR] Failed during processing for {symbol} ({tf}): {e}")
+                print(f"    [ERROR] Failed during processing for {symbol} ({tf}): {e}")
                 
             # Cooldown between symbols/timeframes
             time.sleep(1.0)

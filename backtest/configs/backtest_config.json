@@ -1,0 +1,18 @@
+{
+  "symbols": [
+    "EURUSD",
+    "GBPUSD",
+    "USDJPY"
+  ],
+  "timeframes": [
+    "M1",
+    "M5",
+    "M15",
+    "M60"
+  ],
+  "candle_count": 5000,
+  "starting_capital": 2000.0,
+  "stake_per_trade": 30.0,
+  "payout_rate": 0.85,
+  "cooldown_minutes": 5
+}

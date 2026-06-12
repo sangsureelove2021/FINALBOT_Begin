@@ -1,6 +1,6 @@
 """
 Validation Exceptions
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Custom exceptions for validation errors.
 """
 

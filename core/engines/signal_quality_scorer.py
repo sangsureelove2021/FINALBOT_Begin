@@ -1,6 +1,6 @@
 """
 TIER 7 - SIGNAL QUALITY SCORER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Scores the overall quality of a potential signal.
 Combines edge, clarity, risk, and confirmation into a single quality grade.
@@ -53,7 +53,7 @@ class SignalQualityScorer(BaseEngine):
                 'confidence': quality_score,
             }
         except Exception as e:
-            print(f"❌ SignalQualityScorer error: {e}")
+            print(f" SignalQualityScorer error: {e}")
             return self.get_neutral_state()
     
     def _score_edge(self, ctx) -> float:

@@ -1,6 +1,6 @@
 """
 TIER 5 - BEHAVIOR ANALYZER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Combined behavioral intelligence engine.
 Reads raw candle data and summarizes overall market "behavior":

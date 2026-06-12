@@ -1,6 +1,6 @@
 """
 Engine Setup
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Central engine registration. Builds a populated EngineRegistry
 with every analytical engine, registered under its correct tier.
 """

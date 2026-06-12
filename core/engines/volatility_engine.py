@@ -1,6 +1,6 @@
 """
 TIER 1 - VOLATILITY ENGINE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Measure market volatility using ATR, Bollinger Bands, and historical percentile.
 Classify volatility regime and detect compression/expansion.

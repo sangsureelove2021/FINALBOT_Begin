@@ -1,6 +1,6 @@
 """
 TIER 1 - TREND ENGINE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Detects price direction, trend strength, momentum type, and reversal risk.
 Uses: EMA (20/50/100/200), slope calculation, candle momentum.

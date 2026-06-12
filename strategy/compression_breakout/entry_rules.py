@@ -1,6 +1,6 @@
 """
 Compression Breakout Entry Rules
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 """
 
 from core.models.market_context import MarketContext

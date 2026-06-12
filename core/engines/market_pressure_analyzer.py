@@ -1,6 +1,6 @@
 """
 TIER 5 - MARKET PRESSURE ANALYZER (Orderflow Proxy)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Estimates buying vs selling pressure using candle structure and volume.
 A proxy for orderflow when actual orderbook data is unavailable.

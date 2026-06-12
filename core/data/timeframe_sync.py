@@ -1,6 +1,6 @@
 """
 Timeframe Sync
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Aligns multi-timeframe candle data so that every timeframe refers
 to the same point in time.
 

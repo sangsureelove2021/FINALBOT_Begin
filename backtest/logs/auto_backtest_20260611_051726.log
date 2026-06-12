@@ -1,0 +1,24 @@
+2026-06-11 05:17:26,032 | INFO     | ======================================================================
+2026-06-11 05:17:26,033 | INFO     | AUTOMATED BACKTESTING FRAMEWORK STARTED
+2026-06-11 05:17:26,033 | INFO     | Data directory: C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\backtest\data test
+2026-06-11 05:17:26,034 | INFO     | Configs directory: C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\backtest\configs
+2026-06-11 05:17:26,034 | INFO     | Results directory: C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\backtest\results
+2026-06-11 05:17:26,035 | INFO     | ======================================================================
+2026-06-11 05:17:26,038 | INFO     | Created default config at C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\backtest\configs\backtest_config.json
+2026-06-11 05:17:26,038 | INFO     | 
+[1/4] Checking data availability...
+2026-06-11 05:17:26,223 | INFO     | [OK] history_EURUSD_M1.csv OK (39961 candles)
+2026-06-11 05:17:26,379 | INFO     | [OK] history_EURUSD_M5.csv OK (39961 candles)
+2026-06-11 05:17:26,395 | WARNING  | [WARN] history_EURUSD_M15.csv has only 1000 candles, need 5000
+2026-06-11 05:17:26,404 | WARNING  | [WARN] history_EURUSD_M60.csv has only 1000 candles, need 5000
+2026-06-11 05:17:26,645 | INFO     | [OK] history_GBPUSD_M1.csv OK (71510 candles)
+2026-06-11 05:17:26,750 | INFO     | [OK] history_GBPUSD_M5.csv OK (27516 candles)
+2026-06-11 05:17:26,796 | INFO     | [OK] history_GBPUSD_M15.csv OK (9172 candles)
+2026-06-11 05:17:26,811 | WARNING  | [WARN] history_GBPUSD_M60.csv has only 2293 candles, need 5000
+2026-06-11 05:17:26,993 | INFO     | [OK] history_USDJPY_M1.csv OK (71510 candles)
+2026-06-11 05:17:27,091 | INFO     | [OK] history_USDJPY_M5.csv OK (27515 candles)
+2026-06-11 05:17:27,121 | INFO     | [OK] history_USDJPY_M15.csv OK (9171 candles)
+2026-06-11 05:17:27,138 | WARNING  | [WARN] history_USDJPY_M60.csv has only 2292 candles, need 5000
+2026-06-11 05:17:27,138 | INFO     | Missing or insufficient files: 4
+2026-06-11 05:17:27,140 | ERROR    | Could not import IQOptionAdapter: No module named 'core.adapters'
+2026-06-11 05:17:27,141 | ERROR    | Data download failed. Exiting.

@@ -1,6 +1,6 @@
 """
 Logger System
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Unified logging for bot. Logs to file + console with levels.
 """
 
@@ -92,12 +92,12 @@ class BotLogger:
         """Log trade signal."""
         msg = f"SIGNAL | {symbol} | {direction} | {amount:.0f} | confidence={confidence}% | {order_id}"
         self.signal_logger.info(msg)
-        self.logger.info(f"✅ {msg}")
+        self.logger.info(f" {msg}")
     
     def log_trade_closed(self, order_id: str, pnl: float, 
                         pnl_percent: float) -> None:
         """Log closed trade."""
-        icon = "✅" if pnl > 0 else "❌"
+        icon = "" if pnl > 0 else ""
         msg = f"CLOSED | {order_id} | P&L={pnl:+.2f} THB ({pnl_percent:+.2f}%)"
         self.signal_logger.info(msg)
         self.logger.info(f"{icon} {msg}")

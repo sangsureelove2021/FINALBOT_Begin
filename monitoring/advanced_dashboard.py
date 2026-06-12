@@ -1,6 +1,6 @@
 """
 Advanced Analytics Dashboard
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Compare strategies, analyze correlation, ML metrics.
 """
 
@@ -52,7 +52,7 @@ class AdvancedDashboard:
         """Register strategy for tracking."""
         key = f"{name}_v{version}"
         self.strategies[key] = StrategyStats(name=name, version=version)
-        logger.info(f"✅ Strategy registered: {key}")
+        logger.info(f" Strategy registered: {key}")
     
     def record_trade(self, strategy_key: str, symbol: str, result: str, pnl: float):
         """Record trade result."""
@@ -114,16 +114,16 @@ class AdvancedDashboard:
     def record_ml_metric(self, metric_name: str, value: float):
         """Record ML optimization metric."""
         self.ml_metrics[metric_name] = value
-        logger.info(f"📊 ML Metric: {metric_name} = {value:.3f}")
+        logger.info(f" ML Metric: {metric_name} = {value:.3f}")
     
     def generate_report(self) -> str:
         """Generate summary report."""
         report = f"\n{'='*60}\n"
-        report += "📊 ADVANCED ANALYTICS DASHBOARD\n"
+        report += " ADVANCED ANALYTICS DASHBOARD\n"
         report += f"{'='*60}\n\n"
         
         # Strategy comparison
-        report += "🎯 STRATEGY COMPARISON\n"
+        report += " STRATEGY COMPARISON\n"
         report += f"{'-'*60}\n"
         for key, stats in self.strategies.items():
             report += f"{key}:\n"
@@ -132,7 +132,7 @@ class AdvancedDashboard:
         
         # Symbol performance
         report += f"\n{'='*60}\n"
-        report += "📈 SYMBOL PERFORMANCE\n"
+        report += " SYMBOL PERFORMANCE\n"
         report += f"{'-'*60}\n"
         perf = self.get_symbol_performance()
         for symbol, data in perf.items():
@@ -140,7 +140,7 @@ class AdvancedDashboard:
         
         # ML metrics
         report += f"\n{'='*60}\n"
-        report += "🤖 ML OPTIMIZATION METRICS\n"
+        report += " ML OPTIMIZATION METRICS\n"
         report += f"{'-'*60}\n"
         for metric, value in self.ml_metrics.items():
             report += f"{metric}: {value:.3f}\n"

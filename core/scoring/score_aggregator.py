@@ -1,6 +1,6 @@
 """
 Score Aggregator
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Aggregates multiple scores into a single final score using weights.
 """
 

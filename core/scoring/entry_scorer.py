@@ -1,6 +1,6 @@
 """
 Entry Scorer
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Scores how good the current moment is for entry.
 """
 

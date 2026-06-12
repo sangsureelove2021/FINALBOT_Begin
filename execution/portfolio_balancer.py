@@ -1,6 +1,6 @@
 """
 Portfolio Balancer
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Multi-symbol risk distribution and correlation analysis.
 """
 
@@ -57,10 +57,10 @@ class PortfolioBalancer:
                 for i in range(n)
             }
             
-            logger.info(f"✅ Correlation matrix updated for {n} symbols")
+            logger.info(f" Correlation matrix updated for {n} symbols")
             
         except Exception as e:
-            logger.error(f"❌ Correlation update failed: {e}")
+            logger.error(f" Correlation update failed: {e}")
     
     def rebalance_weights(self) -> Dict[str, float]:
         """Rebalance symbol weights based on correlation."""
@@ -85,11 +85,11 @@ class PortfolioBalancer:
             total = sum(adjusted_weights.values())
             self.symbol_weights = {s: w / total for s, w in adjusted_weights.items()}
             
-            logger.info(f"✅ Portfolio rebalanced: {self.symbol_weights}")
+            logger.info(f" Portfolio rebalanced: {self.symbol_weights}")
             return self.symbol_weights
             
         except Exception as e:
-            logger.error(f"❌ Rebalancing failed: {e}")
+            logger.error(f" Rebalancing failed: {e}")
             return self.symbol_weights
     
     def get_capital_allocation(self, symbol: str) -> float:

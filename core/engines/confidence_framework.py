@@ -1,6 +1,6 @@
 """
 TIER 7 - CONFIDENCE FRAMEWORK
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Final confidence calibration. Produces the definitive confidence number
 that the strategy and execution gate will use.
@@ -55,7 +55,7 @@ class ConfidenceFramework(BaseEngine):
                 'confidence': int(final),
             }
         except Exception as e:
-            print(f"❌ ConfidenceFramework error: {e}")
+            print(f" ConfidenceFramework error: {e}")
             return self.get_neutral_state()
     
     def _apply_calibration(self, ctx, raw: float) -> float:

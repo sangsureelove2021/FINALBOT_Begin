@@ -1,6 +1,6 @@
 """
 TIER 5 - ANOMALY DETECTOR
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Detects statistical anomalies: unusual candles, gaps, volume spikes.
 Anomalies are signals to be cautious.

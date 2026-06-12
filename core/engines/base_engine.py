@@ -1,6 +1,6 @@
 """
 Base Engine
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Base class with common functionality for all engines.
 """
 
@@ -61,7 +61,7 @@ class BaseEngine(IEngine):
             return result
             
         except Exception as e:
-            print(f"❌ {self.engine_name} error: {e}")
+            print(f" {self.engine_name} error: {e}")
             return self.get_neutral_state()
     
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:

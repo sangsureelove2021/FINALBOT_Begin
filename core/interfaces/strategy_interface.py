@@ -1,6 +1,6 @@
 """
 Interface: Strategy
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Abstract interface that every strategy must implement.
 
 CRITICAL RULE: Strategies CANNOT contain market analysis logic.

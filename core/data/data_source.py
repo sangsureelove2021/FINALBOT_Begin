@@ -1,6 +1,6 @@
 """
 Data Source Interface
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Abstract interface for candle data sources.
 """
 

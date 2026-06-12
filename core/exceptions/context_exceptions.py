@@ -1,6 +1,6 @@
 """
 Context Exceptions
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Custom exceptions for MarketContext errors.
 """
 

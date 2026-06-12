@@ -1,6 +1,6 @@
 """
 TIER 4 - DIVERGENCE ANALYZER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Detects divergence between price and momentum indicators (RSI, MACD).
 Divergence often precedes reversals.

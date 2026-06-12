@@ -1,6 +1,6 @@
 """
 TIER 6 - PROBABILITY ESTIMATOR
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 
 Estimates probability of price moving UP vs DOWN in the next period.
 Combines all evidence into a calibrated probability.
@@ -58,7 +58,7 @@ class ProbabilityEstimator(BaseEngine):
                 'confidence': estimate_confidence,
             }
         except Exception as e:
-            print(f"❌ ProbabilityEstimator error: {e}")
+            print(f" ProbabilityEstimator error: {e}")
             return self.get_neutral_state()
     
     def _estimate_up_probability(self, ctx) -> int:

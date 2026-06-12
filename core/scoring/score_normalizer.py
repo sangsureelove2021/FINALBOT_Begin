@@ -1,6 +1,6 @@
 """
 Score Normalizer
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Normalizes raw engine outputs to 0-100 score range.
 """
 

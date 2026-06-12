@@ -17,9 +17,9 @@ import pandas as pd
 from core.models.market_context import MarketContext
 
 # States where reversal / range strategies are allowed
-REVERSAL_STATES = frozenset({"EXHAUSTION_ZONE", "MEAN_REVERSION_ZONE", "CHOPPY_UNCERTAIN"})
+REVERSAL_STATES = frozenset({"EXHAUSTION_ZONE", "MEAN_REVERSION_ZONE", "CHOPPY_UNCERTAIN", "RANGE_BOUND", "TRENDING_OVEREXTENDED"})
 # States where mild momentum strategies may operate
-MOMENTUM_STATES = frozenset({"MEAN_REVERSION_ZONE", "CHOPPY_UNCERTAIN"})
+MOMENTUM_STATES = frozenset({"MEAN_REVERSION_ZONE", "CHOPPY_UNCERTAIN", "RANGE_BREAKOUT"})
 BLOCKED_STATES = frozenset({"VOLATILITY_EXPANDING", "LIQUIDITY_VOID"})
 
 MIN_CANDLES = 50
@@ -168,9 +168,9 @@ def apply_lifecycle_penalty(score: float, lifecycle: str, state: str) -> float:
     if lifecycle == "EXHAUSTED":
         return 0.0
     if lifecycle == "LATE":
-        score *= 0.85
+        score *= 0.90
     if state == "CHOPPY_UNCERTAIN":
-        score *= 0.80
+        score *= 0.85
     return max(0.0, min(100.0, score))
 
 

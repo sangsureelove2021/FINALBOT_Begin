@@ -1,0 +1,13 @@
+2026-06-10 22:35:53,347 | INFO     | Starting Offline Backtest Run...
+2026-06-10 22:35:53,735 | INFO     | [OK] history_EURGBP_OTC_M1.csv has 99817 candles. OK.
+2026-06-10 22:35:53,842 | INFO     | [OK] history_EURGBP_OTC_M5.csv has 28596 candles. OK.
+2026-06-10 22:35:53,875 | INFO     | [OK] history_EURGBP_OTC_M15.csv has 9533 candles. OK.
+2026-06-10 22:35:54,097 | INFO     | [OK] history_EURGBP_OTC_M60.csv has 5000 candles. OK.
+2026-06-10 22:35:54,465 | INFO     | [OK] history_EURJPY_OTC_M1.csv has 99818 candles. OK.
+2026-06-10 22:35:54,572 | INFO     | [OK] history_EURJPY_OTC_M5.csv has 28595 candles. OK.
+2026-06-10 22:35:54,619 | INFO     | [OK] history_EURJPY_OTC_M15.csv has 9533 candles. OK.
+2026-06-10 22:35:54,672 | INFO     | [OK] history_EURJPY_OTC_M60.csv has 5000 candles. OK.
+2026-06-10 22:35:54,748 | INFO     | [OK] history_EURUSD_OTC_M1.csv has 21600 candles. OK.
+2026-06-10 22:35:54,805 | INFO     | [OK] history_EURUSD_OTC_M5.csv has 5000 candles. OK.
+2026-06-10 22:35:54,816 | WARNING  | [WARN] history_EURUSD_OTC_M15.csv has only 1440 candles (target 5000). Downloading...
+2026-06-10 22:35:55,524 | INFO     | Connecting to IQ Option to download missing data...

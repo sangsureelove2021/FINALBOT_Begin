@@ -1,6 +1,6 @@
 """
 Engine Registry
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Central registry that maps engine names to instances.
 Used by orchestration to find and execute engines.
 """
