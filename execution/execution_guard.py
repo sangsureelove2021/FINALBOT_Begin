@@ -97,8 +97,9 @@ class ExecutionGuard:
             return self._veto("Cooldown in progress after loss", "cooldown")
             
         # 6. Min confidence check
-        if confidence < self.min_confidence:
-            return self._veto(f"Confidence {confidence} below minimum {self.min_confidence}", "low_confidence")
+        # [DISABLED per Boss request] Make confidence informational only
+        # if confidence < self.min_confidence:
+        #     return self._veto(f"Confidence {confidence} below minimum {self.min_confidence}", "low_confidence")
             
         return self._allow(
             f"Approved: conf={confidence}, trades={self._trades_today}, "

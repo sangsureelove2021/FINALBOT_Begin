@@ -67,6 +67,11 @@ def setup_pipeline(registry=None):
     from strategy.reversal_strategy.pa_snr_strategy import PASNRStrategy
     from strategy.reversal_strategy.sr_fakeout_rejection import SRFakeoutRejection
     from strategy.reversal_strategy.rejection_5m_pa import Rejection5mPA
+    from strategy.trend_following.velocity_layer import VelocityLayerStrategy
+    from strategy.reversal_strategy.fakeout_trap_rider import FakeoutTrapRiderStrategy
+    from strategy.reversal_strategy.zscore_bandit import ZScoreBanditStrategy
+    from strategy.reversal_strategy.range_bounce_arbitrage import RangeBounceArbitrageStrategy
+    from strategy.reversal_strategy.stochastic_sniping import StochasticSnipingStrategy
 
     strategy_mapping = {
         "rejection_5m_pa": Rejection5mPA,
@@ -83,6 +88,11 @@ def setup_pipeline(registry=None):
         "sr_fakeout_rejection": SRFakeoutRejection,
         "triple_confluence": TripleConfluenceStrategy,
         "compression_breakout": CompressionBreakoutStrategy,
+        "velocity_layer": VelocityLayerStrategy,
+        "fakeout_trap_rider": FakeoutTrapRiderStrategy,
+        "zscore_bandit": ZScoreBanditStrategy,
+        "range_bounce_arbitrage": RangeBounceArbitrageStrategy,
+        "stochastic_sniping": StochasticSnipingStrategy,
     }
 
     settings = load_settings()

@@ -31,12 +31,11 @@
     "timezone": "Asia/Bangkok"
   },
   "active_strategies": [
-    "rejection_5m_pa",
-    "bb_rsi_confluence",
-    "sr_fakeout_rejection",
-    "pa_snr",
-    "triple_confluence",
-    "compression_breakout"
+    "fakeout_trap_rider",
+    "velocity_layer",
+    "stochastic_sniping",
+    "zscore_bandit",
+    "range_bounce_arbitrage"
   ],
   "backtest": {
     "start_date": "2026-05-08 00:00:00",

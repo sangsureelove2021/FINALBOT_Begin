@@ -432,6 +432,11 @@ class BotRunner:
             from strategy.reversal_strategy.sr_fakeout_rejection import SRFakeoutRejection
             from strategy.trend_following.triple_confluence import TripleConfluenceStrategy
             from strategy.compression_breakout.strategy import CompressionBreakoutStrategy
+            from strategy.trend_following.velocity_layer import VelocityLayerStrategy
+            from strategy.reversal_strategy.fakeout_trap_rider import FakeoutTrapRiderStrategy
+            from strategy.reversal_strategy.zscore_bandit import ZScoreBanditStrategy
+            from strategy.reversal_strategy.range_bounce_arbitrage import RangeBounceArbitrageStrategy
+            from strategy.reversal_strategy.stochastic_sniping import StochasticSnipingStrategy
 
             strategy_mapping = {
                 "rejection_5m_pa": Rejection5mPA,
@@ -448,6 +453,11 @@ class BotRunner:
                 "sr_fakeout_rejection": SRFakeoutRejection,
                 "triple_confluence": TripleConfluenceStrategy,
                 "compression_breakout": CompressionBreakoutStrategy,
+                "velocity_layer": VelocityLayerStrategy,
+                "fakeout_trap_rider": FakeoutTrapRiderStrategy,
+                "zscore_bandit": ZScoreBanditStrategy,
+                "range_bounce_arbitrage": RangeBounceArbitrageStrategy,
+                "stochastic_sniping": StochasticSnipingStrategy,
             }
 
             new_active_strategies = []
@@ -924,7 +934,8 @@ class BotRunner:
             
             # AI Fusion Integration (if enabled)
             fused_signal = None
-            if self.ai_enabled and hasattr(self, 'ai_engine') and self.ai_engine:
+            # OPTIMIZATION: Only call AI if traditional bot generated at least 1 signal
+            if self.ai_enabled and hasattr(self, 'ai_engine') and self.ai_engine and len(triggered_signals) > 0:
                 try:
                     # Call AI engine (blocking call via subprocess)
                     ai_insight = self.ai_engine.analyze_market(context)
@@ -949,7 +960,8 @@ class BotRunner:
                     min_conf = self.execution_gate.min_confidence if hasattr(self, 'execution_gate') else 72
                     max_block = self.execution_gate.max_block_score if hasattr(self, 'execution_gate') else 45
                     
-                    if fused_conf >= min_conf and fused_block < max_block and fused_action != 'NO_TRADE':
+                    # [DISABLED per Boss request] Make confidence and block score informational only
+                    if fused_action != 'NO_TRADE':
                         fused_signal = {
                             'signal': fused_action,
                             'confidence': int(fused_conf),
@@ -1527,6 +1539,7 @@ class BotRunner:
         
         # Inform components that we are in backtest mode
         self.order_manager.is_backtest = True
+        self.ai_enabled = False  # Disable AI for fast Mode 2 simulation
         
         # Get unified, chronological timestamps from the historical data
         # Use M1 timestamps as ticks to evaluate exactly like the autobot (minute-by-minute clock)

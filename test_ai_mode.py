@@ -22,6 +22,10 @@ proc.terminate()
 time.sleep(2)
 proc.kill()
 out, err = proc.communicate()
+print("=== RUNNER OUT ===")
+print(out)
+print("=== RUNNER ERR ===")
+print(err)
 
 # Check logs/pending_signals.json
 pending_path = "logs/pending_signals.json"

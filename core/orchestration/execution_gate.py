@@ -54,8 +54,9 @@ class ExecutionGate:
         state = state_dict.get('state', 'UNKNOWN').upper() if isinstance(state_dict, dict) else (state_dict.upper() if isinstance(state_dict, str) else 'UNKNOWN')
 
         # 1. Indicator State Guard (Block toxic conditions)
-        if state in ['VOLATILITY_EXPANDING', 'LIQUIDITY_VOID', 'EXTREME']:
-            return self._block(f"Trading blocked in toxic state: {state}", f"toxic_state_{state.lower()}")
+        # [DISABLED per Boss request] Allow all states
+        # if state in ['VOLATILITY_EXPANDING', 'LIQUIDITY_VOID', 'EXTREME']:
+        #     return self._block(f"Trading blocked in toxic state: {state}", f"toxic_state_{state.lower()}")
 
         # 1.5 Market Structure Leader (Direction Alignment & Hard Blocks)
         ms_regime = context.market_structure.get('regime', 'UNKNOWN')
@@ -73,12 +74,14 @@ class ExecutionGate:
 
         # 3. Dynamic Entry score check (M5 binary — strategy already filters; gate is secondary)
         min_entry_required = 68 if state == 'MEAN_REVERSION_ZONE' else 65
-        if 0 < entry_score < min_entry_required:
-            return self._block(f"Low entry score ({entry_score:.0f} < {min_entry_required} for {state})", "low_entry")
+        # [DISABLED per Boss request] Make entry_score informational only
+        # if 0 < entry_score < min_entry_required:
+        #     return self._block(f"Low entry score ({entry_score:.0f} < {min_entry_required} for {state})", "low_entry")
 
         # 4. Block score check
-        if block_score >= self.max_block_score:
-            return self._block(f"High block score ({block_score:.0f} >= {self.max_block_score})", "high_block")
+        # [DISABLED per Boss request] Make block_score informational only
+        # if block_score >= self.max_block_score:
+        #     return self._block(f"High block score ({block_score:.0f} >= {self.max_block_score})", "high_block")
 
         # 5. Trap check
         if self.block_on_trap and context.traps.get('trap_detected'):
