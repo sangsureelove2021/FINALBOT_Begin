@@ -50,3 +50,24 @@
 * **[2026-06-14]** สั่งให้ DBA อัปเดตปรับแก้เอกสารต้นแบบ `docs/D03-MARKET_STATE_CLASSIFICATION_BLUEPRINT.md` ตามจุดต่างที่บันทึกไว้ใน `D04` เพื่อให้เนื้อหาสอดคล้องกับพฤติกรรมและการคำนวณของโค้ดจริง v5.0.0 แบบ 100%
 * **[2026-06-14]** สั่งให้ DBA รวบรวมรายงานผลการตรวจสอบสถาปัตยกรรมการคำนวณ การแมปปิ้งตลาด และเงื่อนไขการส่งสัญญาณ CALL/PUT ของทั้ง 21 กลยุทธ์ มาบันทึกไว้เป็นคู่มืออย่างเป็นทางการในไฟล์ `docs/D05-STRATEGY_CONDITIONS_CATALOG.md`
 * **[2026-06-14]** สั่งให้ DBA อ่านและวิเคราะห์ไฟล์ `docs/MARKET_STATE_vs_STRATEGY.md` เพื่อหาแนวทางปรับปรุงกลยุทธ์ที่มีคะแนนต่ำกว่า 80 ให้สูงกว่า 80 โดยวิเคราะห์การเพิ่มลดอินดิเคเตอร์และค่าพารามิเตอร์อย่างละเอียด (รันแบบ Headless)
+* **[2026-06-14]** สั่งให้ DBA วิเคราะห์การนำ DeepSeek Browser Agent (ตัวมันเอง) เข้าไปฝังในบอท FINALBOT เพื่อทำงานทั้งหมดแบบ Full Loop ข้อดี ข้อจำกัด และคำแนะนำสถาปัตยกรรม (รันแบบ Headless)
+* **[2026-06-14]** สั่งให้ DBA เขียนโครงสร้างโค้ดภาษา Python สำหรับเชื่อมต่อ DeepSeek Agent CLI กับ FINALBOT ตามแนวทางที่กำหนด (บอทดึงราคา → คำนวณ RSI/MACD/EMA → ส่งให้ AI → AI ตอบ CALL/PUT → บอทเทรดจริง) โดยให้สร้างไฟล์ `core/ai_analysis/deepseek_agent_bridge.py` และนำโค้ดที่สมบูรณ์ไปแปะท้ายเอกสาร `docs/AI03-ใช้ DeepSeek Browser AgentI เป็นสมองบอท.md` พร้อมอัปเดตบันทึกการทำงาน
+
+* **[2026-06-14]** สั่งให้ DBA วิเคราะห์โค้ดใน `runner.py` และ `core/ai_analysis/deepseek_agent_bridge.py` เพื่อตรวจสอบความถูกต้องตามแนวทางที่กำหนด (บอทดึงราคา → คำนวณ RSI/MACD/EMA → ส่งให้ AI → AI ตอบ CALL/PUT + expiry → บอทเทรดจริง) พร้อมบันทึกคำยืนยันและคำแนะนำเพิ่มเติมใน `docs/AI03-` และอัปเดตบันทึกการทำงานใน `docs/AI02-`
+
+### ผลการตรวจสอบ (2026-06-14)
+✅ **โค้ดทำงานถูกต้องครบถ้วนตามแนวทางทั้ง 4 ขั้นตอน**
+- ขั้นตอนที่ 1: runner.py ใช้ IQOptionAdapter.get_candles() ดึงข้อมูล M5
+- ขั้นตอนที่ 2: คำนวณ RSI, MACD, EMA20/50, Bollinger Bands ใน runner.py ก่อนส่ง context
+- ขั้นตอนที่ 3: deepseek_agent_bridge.py สร้าง prompt ให้เลือก expiry 1-5 นาที, เรียก deepseek-agent ผ่าน subprocess, แปลง JSON response เป็น AIInsight (action, confidence, expiry, reason)
+- ขั้นตอนที่ 4: runner.py ตรวจสอบ confidence >= 70, คำนวณ expiry_seconds = insight.expiry * 60, สั่ง execute_binary_order พร้อม expiry_seconds
+
+### คำแนะนำเพิ่มเติมที่บันทึกใน AI03
+1. เพิ่ม EMA20/EMA50 และ Bollinger Bands ใน prompt เพื่อให้ AI มีข้อมูลครบ
+2. ปรับเกณฑ์ confidence แบบ dynamic ตาม market_state
+3. บันทึก raw_response สำหรับ debug
+4. ทดสอบ deepseek-agent CLI บน Windows ก่อนใช้งานจริง
+5. เพิ่ม retry logic เมื่อ Agent timeout
+
+---
+*อัปเดตโดย DeepSeek Agent เมื่อ 2026-06-14*

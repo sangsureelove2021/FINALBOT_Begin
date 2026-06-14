@@ -1,0 +1,4 @@
+2026-06-14 20:03:55,688 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-14 20:03:57,524 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-14 20:03:57,552 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-14 20:03:58,122 | ERROR    | Agent command 'deepseek-agent' not found.

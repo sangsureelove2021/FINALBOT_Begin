@@ -166,7 +166,22 @@ class IQOptionExecutor:
         if not self.api:
             raise RuntimeError("API not initialized")
 
-        duration = self._EXPIRY_MINUTES.get(expiry, 5)
+        # Parse duration dynamically (e.g. 'M3' -> 3, '3' -> 3)
+        duration = 5
+        if isinstance(expiry, str):
+            if expiry.startswith('M'):
+                try:
+                    duration = int(expiry[1:])
+                except:
+                    duration = self._EXPIRY_MINUTES.get(expiry, 5)
+            else:
+                try:
+                    duration = int(expiry)
+                except:
+                    duration = 5
+        elif isinstance(expiry, (int, float)):
+            duration = int(expiry)
+            
         action = direction.lower()  # iqoptionapi expects 'call' / 'put'
         timestamp = datetime.now(timezone.utc).isoformat()
 
