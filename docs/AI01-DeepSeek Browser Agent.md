@@ -20,6 +20,7 @@
 ### ⚠️ สิ่งสำคัญที่ต้องรู้เกี่ยว DeepSeek Browser Agent
 
 * DeepSeek Browser Agent ไม่สามารถเรียกใช้งานผ่าน MCP ได้ ให้ใช้งานผ่าน Command Line ด้วยคำสั่งในเทอร์มินัล/cmd เท่านั้น
+* **[กฎสำคัญจาก Boss]:** ให้ AI ใช้คำสั่ง `deepseek-agent --interactive` นี้เพื่อเรียกใช้งาน DeepSeek Browser Agent (DBA)
 * DeepSeek Browser Agent จะช่วยให้ Boss ไม่เสียเงินค่า API Key  
 * DeepSeek Browser Agent ได้ถูกติดตั้งและล็อกอินพร้อมแล้วในคอมพิวเตอร์เครื่องนี้ 
 * DeepSeek Browser Agent ทำงานแบบ End-to-End มีความสามารถและฉลาด แต่มันไม่มีความจำ 
