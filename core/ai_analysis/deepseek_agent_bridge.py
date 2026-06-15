@@ -70,7 +70,7 @@ class DeepSeekAgentBridge:
             logger.warning(f"DeepSeek Agent not found in PATH or common locations. Will search again at runtime.")
     
     def _find_agent_executable(self) -> Optional[str]:
-        """
+        r"""
         ค้นหา deepseek-agent executable บน Windows โดยอัตโนมัติ
         ค้นหาจาก:
         1. system PATH (shutil.which)
@@ -241,7 +241,14 @@ class DeepSeekAgentBridge:
         volatility = ctx.get('volatility', getattr(context, 'volatility', 'medium'))
         support_resistance = ctx.get('support_resistance', getattr(context, 'support_resistance', 'N/A'))
         
-        prompt = f"""You are a professional binary options trader. Analyze the following market data and output ONLY a valid JSON object.
+        prompt = f"""You are a professional binary options trader. Analyze the following market data and reply with ONLY a valid JSON object.
+CRITICAL INSTRUCTIONS:
+1. DO NOT use any tools.
+2. DO NOT run any shell commands (like echo).
+3. DO NOT write or save any files.
+4. Just type the raw JSON text as your normal chat response.
+5. EXTREMELY IMPORTANT: Your JSON must be strictly valid. ALL keys and ALL string values MUST be enclosed in double quotes (""). Do not leave strings unquoted.
+
 You can choose the optimal expiry time (from 1 to 5 minutes) based on market structure and volatility.
 
 MARKET DATA:
@@ -256,7 +263,7 @@ TECHNICAL INDICATORS:
 - Volatility: {volatility}
 - Support/Resistance: {support_resistance}
 
-OUTPUT FORMAT (JSON only, no other text):
+OUTPUT FORMAT (Return exactly this JSON structure and nothing else):
 {{
   "action": "CALL",
   "confidence": 85,
@@ -275,20 +282,66 @@ OUTPUT FORMAT (JSON only, no other text):
             ansi_escape = re.compile(r'\x1b\[[0-9;]*[a-zA-Z]')
             response_text = ansi_escape.sub('', response_text)
             
-            start_idx = response_text.rfind('{')
+            # Find the FIRST '{' and LAST '}' to extract the outermost JSON block
+            start_idx = response_text.find('{')
             end_idx = response_text.rfind('}') + 1
             if start_idx == -1 or end_idx == 0 or start_idx > end_idx:
                 logger.error(f"No JSON found in response")
                 return None
             
             json_str = response_text[start_idx:end_idx]
+            
+            # --- FIX: Auto-correct unquoted keys and known string values ---
+            # AI sometimes returns: { action: CALL, confidence: 75, expiry: 5, reason: ... }
+            # Add quotes to known keys
+            for key in ["action", "confidence", "expiry", "reason"]:
+                json_str = re.sub(rf'\b{key}\s*:', f'"{key}":', json_str)
+                
+            # Add quotes to known string values if unquoted
+            for val in ["CALL", "PUT", "NO_TRADE"]:
+                # Matches if the value is directly after a colon/space and followed by a comma or newline
+                json_str = re.sub(rf':\s*{val}\b(?!")', f': "{val}"', json_str)
+                
+            # Try to fix unquoted reason strings (anything after "reason": that isn't quoted, up to the closing brace)
+            # This is tricky, so we just attempt json.loads and ast.literal_eval first.
+            
+            data = None
             try:
                 data = json.loads(json_str)
-            except Exception:
-                import ast
-                # Fallback to ast.literal_eval if the AI used single quotes or python dict format
-                data = ast.literal_eval(json_str)
+            except Exception as json_e:
+                try:
+                    import ast
+                    data = ast.literal_eval(json_str)
+                except Exception as ast_e:
+                    # Final aggressive fallback: manually extract values using regex
+                    logger.warning(f"Standard parsing failed. Attempting regex extraction. Extracted string: {json_str[:200]}")
+                    data = {}
+                    
+                    action_match = re.search(r'"?action"?\s*:\s*"?([A-Z_]+)"?', json_str, re.IGNORECASE)
+                    if action_match:
+                        data["action"] = action_match.group(1).upper()
+                        
+                    conf_match = re.search(r'"?confidence"?\s*:\s*(\d+)', json_str, re.IGNORECASE)
+                    if conf_match:
+                        data["confidence"] = int(conf_match.group(1))
+                        
+                    exp_match = re.search(r'"?expiry"?\s*:\s*(\d+)', json_str, re.IGNORECASE)
+                    if exp_match:
+                        data["expiry"] = int(exp_match.group(1))
+                        
+                    # Capture reason - anything from reason: up to the closing } or another key
+                    reason_match = re.search(r'"?reason"?\s*:\s*"?(.+?)"?\s*}?\s*$', json_str, re.IGNORECASE | re.DOTALL)
+                    if reason_match:
+                        data["reason"] = reason_match.group(1).strip().strip('"').strip("'")
+                    
+                    if not data:
+                        logger.error(f"JSON, AST, and Regex parsing all failed. Extracted string: {json_str[:200]}")
+                        return None
             
+            if not isinstance(data, dict):
+                logger.error(f"Parsed data is not a dictionary: {type(data)}")
+                return None
+                
             action = data.get('action', 'NO_TRADE').upper()
             if action not in ['CALL', 'PUT', 'NO_TRADE']:
                 action = 'NO_TRADE'

@@ -29,10 +29,10 @@ class ExecutionGuard:
     """
     
     def __init__(self,
-                 max_daily_loss: float = float('inf'),
-                 max_consecutive_losses: int = 3,
-                 max_trades_per_session: int = 10**9,
-                 cooldown_minutes_after_loss: int = 15,
+                 max_daily_loss: float = 9999.0,
+                 max_consecutive_losses: int = 9999,
+                 max_trades_per_session: int = 9999,
+                 cooldown_minutes_after_loss: int = 0,
                  min_confidence_to_execute: int = 75):
         # Limits
         self.max_daily_loss = max_daily_loss

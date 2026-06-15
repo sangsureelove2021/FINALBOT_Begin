@@ -71,7 +71,10 @@ class PureAIRunner:
             sys.exit(1)
             
         self.executor = IQOptionExecutor(adapter=self.data_adapter, account_type=self.account_type)
-        self.order_manager = OrderManager()
+        
+        # Pull max_concurrent from settings, default to 5 if not set
+        max_conc = self.settings.get("limits", {}).get("max_concurrent", 5)
+        self.order_manager = OrderManager(max_concurrent=max_conc)
         
         # Initialize DeepSeek bridge
         ai_cfg = self.settings.get("ai_mode", {})
@@ -93,6 +96,13 @@ class PureAIRunner:
         return float(rsi.iloc[-1])
 
     def run_cycle(self):
+        # Ensure connection is active before processing (handles WinError 10054 drops)
+        try:
+            self.data_adapter.ensure_connected()
+        except Exception as e:
+            logger.error(f"Failed to check/restore connection: {e}")
+            return
+
         # Settle expired trades
         now = datetime.now(timezone.utc)
         for order_id, trade in list(self.order_manager.active_trades.items()):
@@ -110,14 +120,16 @@ class PureAIRunner:
                 
             if elapsed >= (duration_mins * 60):
                 try:
-                    profit = self.executor.api.check_win_v3(int(order_id))
+                    # check_win_v4 gets from socket cache directly, much less likely to block
+                    # Returns: (win_status, profit_amount)
+                    win_status, profit = self.executor.api.check_win_v4(int(order_id))
                     pnl = float(profit)
                     won = pnl > 0
                     self.order_manager.close_trade(
                         order_id=order_id,
                         exit_price=trade.entry_price,
                         pnl=pnl,
-                        notes=f"Settled via IQ Option API (pnl: {pnl})",
+                        notes=f"Settled via IQ Option API (status: {win_status}, pnl: {pnl})",
                         current_time=now
                     )
                     thai_console_log(f"🏆 Trade {order_id} Settled. PnL: {pnl} | Won: {won}")
@@ -126,9 +138,9 @@ class PureAIRunner:
 
         # Process each symbol
         for symbol in self.symbols:
-            # Prevent double trade
-            if self.order_manager.get_active_trades(symbol):
-                continue
+            # Allow multiple active trades (removed double trade check)
+            # if self.order_manager.get_active_trades(symbol):
+            #     continue
                 
             # Fetch 5-minute candles
             candles = self.data_adapter.get_candles(symbol, 'M5', 100)

@@ -124,9 +124,9 @@ class OrderManager:
             else:  # PUT
                 trade.pnl_percent = ((trade.entry_price - exit_price) / trade.entry_price) * 100
         
-        # Apply Cooldown Penalty (DS Blueprint: 15 mins for WIN, 45 mins for LOSS)
+        # Apply Cooldown Penalty (Disabled: set to 0)
         import datetime as dt
-        cooldown_mins = 15 if pnl > 0 else 45
+        cooldown_mins = 0
         self.symbol_cooldowns[trade.symbol] = now + dt.timedelta(minutes=cooldown_mins)
         
         # Settle the trade and then log it using our new standard logger

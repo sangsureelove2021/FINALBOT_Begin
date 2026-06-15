@@ -49,9 +49,9 @@ class PositionSizer:
     def __init__(self, 
                  capital: float = 2000.0,  # THB
                  risk_percent: float = 2.0,  # % per trade
-                 max_daily_risk: float = 5.0,  # % per day
+                 max_daily_risk: float = 9999.0,  # % per day
                  min_amount: float = 10.0,
-                 max_per_trade: float = 500.0):
+                 max_per_trade: float = 9999.0):
         """
         Initialize sizer.
         

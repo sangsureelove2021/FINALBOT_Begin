@@ -1,0 +1,77 @@
+
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automation[0m         [36m║[0m
+[36m║[0m   [90mNo API key needed — uses chat.deepseek.com[0m     [36m║[0m
+[36m╚══════════════════════════════════════════════════╝[0m
+
+[94m  ℹ [0m Working directory : [36mE:\BOT_FINALBOT13 STG\BOT_FINALBOT[0m
+[94m  ℹ [0m Session directory : [36mC:\Users\BUSOLOVE\.deepseek-agent\session[0m
+[94m  ℹ [0m Headless mode     : [36mtrue[0m
+[94m  ℹ [0m Debug mode        : [36mfalse[0m
+
+[94m  ℹ [0m Launching browser with persistent session...
+[92m  ✓ [0m [92mBrowser ready![0m
+[2m    Navigated to DeepSeek home (new chat)[0m
+FIND: Parameter format not correct
+
+[34m──────────────────────────────────────────────────[0m
+[1m📋 [0m[1m[37mTask: You are a professional binary options trader. Analyze the following market data …[0m
+[34m──────────────────────────────────────────────────[0m
+
+[94m  ℹ [0m Sending task to DeepSeek...
+
+[90m  ┄[0m [2mStep 1/40[0m [90m┄[0m
+[93m  ⚠ [0m [93mResponse may have been delayed — continuing to wait...[0m
+  [36m⟳[0m [90mReceiving response.  (164 chars)[0m  [36m⟳[0m [90mReceiving response..  (164 chars)[0m  [36m⟳[0m [90mReceiving response...  (164 chars)[0m  [36m⟳[0m [90mReceiving response  (164 chars)[0m  [36m⟳[0m [90mReceiving response.  (164 chars)[0m  [36m⟳[0m [90mReceiving response..  (164 chars)[0m                                                                                
+  [1m[35m⚡ TOOL CALL[0m [36m→ run_command[0m
+  [90m{[0m
+  [90m  "command": "dir /b",[0m
+  [90m  "cwd": "E:\\BOT_FINALBOT13 STG\\BOT_FINALBOT"[0m
+  [90m}[0m
+[92m  ✓ Result:[0m
+  [90m.env[0m
+  [90m.env.example[0m
+  [90m.gitignore[0m
+  [90m.pytest_cache[0m
+  [90m.venv[0m
+  [90m.vscode[0m
+  [90mActive_Pairs_Grabber[0m
+  [90manalysis_result.json[0m
+  [90mantigravity_cli.py[0m
+  [90mbacktest[0m
+  [90mbinary_option_signal.json[0m
+  [90mbinary_trade_analysis.json[0m
+  [90m  … (truncated for display)[0m
+
+
+[90m  ┄[0m [2mStep 2/40[0m [90m┄[0m
+  [36m⟳[0m [90mReceiving response.  (125 chars)[0m  [36m⟳[0m [90mReceiving response..  (276 chars)[0m  [36m⟳[0m [90mReceiving response...  (348 chars)[0m  [36m⟳[0m [90mReceiving response  (442 chars)[0m  [36m⟳[0m [90mReceiving response.  (495 chars)[0m  [36m⟳[0m [90mReceiving response..  (495 chars)[0m  [36m⟳[0m [90mReceiving response...  (495 chars)[0m  [36m⟳[0m [90mReceiving response  (495 chars)[0m  [36m⟳[0m [90mReceiving response.  (495 chars)[0m  [36m⟳[0m [90mReceiving response..  (495 chars)[0m                                                                                
+  [1m[35m⚡ TOOL CALL[0m [36m→ write_file[0m
+  [90m{[0m
+  [90m  "path": "E:\\BOT_FINALBOT13 STG\\BOT_FINALBOT\\binary_trade_signal_final.json",[0m
+  [90m  "content": "{\n  \"action\": \"CALL\",\n  \"confidence\": 85,\n  \"expiry\": 3,\n  \"reason\": \"ราคาใกล้แนวต้าน 184.93393 และ RSI 55.81 บ่งชี้โมเมนตัมขาขึ้นอ่อนๆ แม้แนวโน้มหลักจะ Bearish แต่ MACD Histogram บวก 0.03332 สนับสนุนการดีดตัวระยะสั้น ความผันผวนต่ำเหมาะก[90m… (+56 chars)[0m[0m
+[92m  ✓ Result:[0m
+  [90m✓ Wrote 582.0 B (6 lines) → E:\BOT_FINALBOT13 STG\BOT_FINALBOT\binary_trade_signal_final.json[0m
+
+
+[90m  ┄[0m [2mStep 3/40[0m [90m┄[0m
+  [36m⟳[0m [90mReceiving response.  (51 chars)[0m  [36m⟳[0m [90mReceiving response..  (122 chars)[0m  [36m⟳[0m [90mReceiving response...  (225 chars)[0m  [36m⟳[0m [90mReceiving response  (370 chars)[0m  [36m⟳[0m [90mReceiving response.  (483 chars)[0m  [36m⟳[0m [90mReceiving response..  (483 chars)[0m  [36m⟳[0m [90mReceiving response...  (483 chars)[0m  [36m⟳[0m [90mReceiving response  (483 chars)[0m  [36m⟳[0m [90mReceiving response.  (483 chars)[0m  [36m⟳[0m [90mReceiving response..  (483 chars)[0m                                                                                
+[92m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[1m[92m✅  TASK COMPLETE[0m
+[92m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+
+การวิเคราะห์ข้อมูลการเทรด Binary Options สำหรับคู่สกุลเงิน EURJPY-OTC เสร็จสมบูรณ์แล้ว
+ผลลัพธ์ที่ได้:
+การตัดสินใจ: CALL (ซื้อขาขึ้น)
+
+ความมั่นใจ: 85%
+
+ระยะเวลาหมดอายุ: 3 นาที
+
+เหตุผล: ราคาใกล้แนวต้าน 184.93393 และ RSI 55.81 บ่งชี้โมเมนตัมขาขึ้นอ่อนๆ แม้แนวโน้มหลักจะ Bearish แต่ MACD Histogram บวก 0.03332 สนับสนุนการดีดตัวระยะสั้น ความผันผวนต่ำเหมาะกับการเทรด 3 นาที เลือก CALL เพื่อลุ้นทะลุแนวต้าน
+
+ไฟล์ JSON ได้ถูกบันทึกไว้ที่ `binary_trade_signal_final.json` ในไดเรกทอรีทำงานแล้ว
+
+[94m  ℹ [0m 
+Shutting down...

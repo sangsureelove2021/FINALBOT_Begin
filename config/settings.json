@@ -15,11 +15,13 @@
     "stake_locked": false
   },
   "limits": {
-    "max_trades_per_session": 500,
-    "max_daily_loss": 3000,
-    "max_consecutive_losses": 200,
-    "cooldown_minutes_after_loss": 5,
-    "_note": "Risk management enabled for safety."
+    "max_concurrent": 9999,
+    "max_trades_per_session": 9999,
+    "max_daily_profit": 9999,
+    "max_daily_loss": 9999,
+    "max_consecutive_losses": 9999,
+    "cooldown_minutes_after_loss": 0,
+    "_note": "Risk management disabled (set to 9999)."
   },
   "execution_gate": {
     "min_confidence": 65,

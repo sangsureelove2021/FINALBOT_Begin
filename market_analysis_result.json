@@ -1,0 +1,6 @@
+{
+  "action": "CALL",
+  "confidence": 75,
+  "expiry": 3,
+  "reason": "RSI 52.75 อยู่ในโซนเป็นกลาง แนวโน้ม bullish และ MACD ติดลบแต่ใกล้ศูนย์ แนวรับ-แนวตันชัดเจน เลือก expiry 3 นาทีเพื่อลดความเสี่ยงจาก volatility ต่ำ"
+}
