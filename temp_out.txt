@@ -1,50 +1,0 @@
-
-[36m╔══════════════════════════════════════════════════╗[0m
-[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
-[36m║[0m   [90mAI Coding Agent via Browser Automation[0m         [36m║[0m
-[36m║[0m   [90mNo API key needed — uses chat.deepseek.com[0m     [36m║[0m
-[36m╚══════════════════════════════════════════════════╝[0m
-
-[94m  ℹ [0m Working directory : [36mC:\Users\Administrator\Documents\GitHub\BOT_FINALBOT[0m
-[94m  ℹ [0m Session directory : [36mC:\Users\Administrator\.deepseek-agent\session[0m
-[94m  ℹ [0m Headless mode     : [36mtrue[0m
-[94m  ℹ [0m Debug mode        : [36mfalse[0m
-
-[94m  ℹ [0m Launching browser with persistent session...
-[92m  ✓ [0m [92mBrowser ready![0m
-[2m    Navigated to DeepSeek home (new chat)[0m
-FIND: Parameter format not correct
-
-[34m──────────────────────────────────────────────────[0m
-[1m📋 [0m[1m[37mTask: You are a professional binary options trader. Analyze the following market data …[0m
-[34m──────────────────────────────────────────────────[0m
-
-[94m  ℹ [0m Sending task to DeepSeek...
-
-[90m  ┄[0m [2mStep 1/40[0m [90m┄[0m
-[93m  ⚠ [0m [93mResponse may have been delayed — continuing to wait...[0m
-  [36m⟳[0m [90mReceiving response.  (378 chars)[0m  [36m⟳[0m [90mReceiving response..  (378 chars)[0m  [36m⟳[0m [90mReceiving response...  (378 chars)[0m  [36m⟳[0m [90mReceiving response  (378 chars)[0m  [36m⟳[0m [90mReceiving response.  (378 chars)[0m  [36m⟳[0m [90mReceiving response..  (378 chars)[0m                                                                                
-  [1m[35m⚡ TOOL CALL[0m [36m→ write_file[0m
-  [90m{[0m
-  [90m  "path": "output.json",[0m
-  [90m  "content": "{\n  \"action\": \"PUT\",\n  \"confidence\": 75,\n  \"expiry\": 3,\n  \"reason\": \"เนื่องจากแนวโน้มเป็นขาลง (bearish) และ MACD Histogram ติดลบ บ่งชี้ว่าโมเมนตัมขาลงยังคงอยู่ ราคาใกล้แนวรับ 1.15500 แต่มีโอกาสทะลุลงไป เนื่องจากตลาดมีแนวโน้มขาลง\"\n}"[0m
-  [90m}[0m
-[92m  ✓ Result:[0m
-  [90m✓ Wrote 471.0 B (6 lines) → output.json[0m
-
-
-[90m  ┄[0m [2mStep 2/40[0m [90m┄[0m
-  [36m⟳[0m [90mReceiving response.  (70 chars)[0m  [36m⟳[0m [90mReceiving response..  (187 chars)[0m  [36m⟳[0m [90mReceiving response...  (223 chars)[0m  [36m⟳[0m [90mReceiving response  (223 chars)[0m  [36m⟳[0m [90mReceiving response.  (223 chars)[0m  [36m⟳[0m [90mReceiving response..  (223 chars)[0m  [36m⟳[0m [90mReceiving response...  (223 chars)[0m  [36m⟳[0m [90mReceiving response  (223 chars)[0m                                                                                
-[92m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-[1m[92m✅  TASK COMPLETE[0m
-[92m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-
-{
-"action": "PUT",
-"confidence": 75,
-"expiry": 3,
-"reason": "เนื่องจากแนวโน้มเป็นขาลง (bearish) และ MACD Histogram ติดลบ บ่งชี้ว่าโมเมนตัมขาลงยังคงอยู่ ราคาใกล้แนวรับ 1.15500 แต่มีโอกาสทะลุลงไป เนื่องจากตลาดมีแนวโน้มขาลง"
-}
-
-[94m  ℹ [0m 
-Shutting down...
