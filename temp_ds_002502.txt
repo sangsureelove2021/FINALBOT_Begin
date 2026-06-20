@@ -1,0 +1,22 @@
+
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automation[0m         [36m║[0m
+[36m║[0m   [90mNo API key needed — uses chat.deepseek.com[0m     [36m║[0m
+[36m╚══════════════════════════════════════════════════╝[0m
+
+[94m  ℹ [0m Working directory : [36mC:\Users\Administrator\Documents\GitHub\BOT_FINALBOT[0m
+[94m  ℹ [0m Session directory : [36mC:\Users\Administrator\.deepseek-agent\session[0m
+[94m  ℹ [0m Headless mode     : [36mtrue[0m
+[94m  ℹ [0m Debug mode        : [36mfalse[0m
+
+[94m  ℹ [0m Launching browser with persistent session...
+[92m  ✓ [0m [92mBrowser ready![0m
+[2m    Navigated to DeepSeek home (new chat)[0m
+FIND: Parameter format not correct
+
+[34m──────────────────────────────────────────────────[0m
+[1m📋 [0m[1m[37mTask: You are a professional binary options trader. Analyze the following market data …[0m
+[34m──────────────────────────────────────────────────[0m
+
+[94m  ℹ [0m Sending task to DeepSeek...
