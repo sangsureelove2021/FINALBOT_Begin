@@ -124,7 +124,7 @@ class PureAIRunner:
                 try:
                     # check_win_v4 gets from socket cache directly, much less likely to block
                     # Returns: (win_status, profit_amount)
-                    win_status, profit = self.executor.api.check_win_v4(int(order_id))
+                    win_status, profit = self.executor.api.check_win_v3(int(order_id))
                     pnl = float(profit)
                     won = pnl > 0
                     self.order_manager.close_trade(

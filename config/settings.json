@@ -48,7 +48,7 @@
     "use_cli_agent": true,
     "agent_command": "deepseek-agent",
     "timeout_seconds": 75,
-    "fallback_to_traditional": true,
+    "fallback_to_traditional": false,
     "weight_in_fusion": 0.4
   }
 }

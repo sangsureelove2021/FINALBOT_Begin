@@ -23,6 +23,12 @@ try:
 except ImportError:
     MarketStateClassifier = None
 
+# Import CandlePatternAnalyzer if available
+try:
+    from core.engines.candle_pattern_analyzer import CandlePatternAnalyzer
+except ImportError:
+    CandlePatternAnalyzer = None
+
 logger = logging.getLogger("TradeLogger")
 
 
@@ -47,6 +53,15 @@ class TradeLogger:
                 logger.info("MarketStateClassifier initialized successfully")
             except Exception as e:
                 logger.warning(f"Failed to initialize MarketStateClassifier: {e}")
+                
+        # Initialize CandlePatternAnalyzer if available
+        self.pattern_analyzer = None
+        if CandlePatternAnalyzer is not None:
+            try:
+                self.pattern_analyzer = CandlePatternAnalyzer()
+                logger.info("CandlePatternAnalyzer initialized successfully")
+            except Exception as e:
+                logger.warning(f"Failed to initialize CandlePatternAnalyzer: {e}")
         
         # Cache for candle data to avoid repeated fetches
         self._cache = {}

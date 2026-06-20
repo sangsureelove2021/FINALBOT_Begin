@@ -158,7 +158,11 @@ class DeepSeekAgentBridge:
         
         # แปลงขึ้นบรรทัดใหม่เป็นเว้นวรรค
         prompt_clean = prompt.replace('\r', '').replace('\n', ' ')
-        cmd_args = f'"{agent_exec}" "{prompt_clean}" > "{temp_file}" 2>&1'
+        # เพิ่ม flags เพื่อบังคับให้ส่งเฉพาะข้อความ JSON กลับมา:
+        # --no-tui: ปิด TUI decorations (กรอบ, สี, spinner)
+        # --format=json-raw: output เป็น JSON เท่านั้น
+        # --max-iterations=1: ไม่ให้เรียก tools (run_command, write_file) แค่ตอบ JSON
+        cmd_args = f'"{agent_exec}" --no-tui --format=json-raw --max-iterations=1 "{prompt_clean}" > "{temp_file}" 2>&1'
         use_shell = True
             
         try:
@@ -186,7 +190,8 @@ class DeepSeekAgentBridge:
                     try: os.remove(temp_file)
                     except: pass
                 self.consecutive_failures += 1
-                return self.get_fallback_insight(context)
+                logger.warning(f"AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout {self.timeout}s)")
+                return None
                 
             # ดึงข้อความจากไฟล์ชั่วคราว
             stdout_text = ""
@@ -203,7 +208,8 @@ class DeepSeekAgentBridge:
                 if stdout_text:
                     logger.error(f"Error details: {stdout_text[:200]}")
                 self.consecutive_failures += 1
-                return self.get_fallback_insight(context)
+                logger.warning("AI error — ข้ามรอบนี้ ไม่เทรด")
+                return None
             
             self.consecutive_failures = 0
             insight = self._parse_response(stdout_text, context)
@@ -211,7 +217,8 @@ class DeepSeekAgentBridge:
                 self._cache[cache_key] = (datetime.now(), insight)
                 return insight
             else:
-                return self.get_fallback_insight(context)
+                logger.warning("AI parse failed — ข้ามรอบนี้ ไม่เทรด")
+                return None
         except FileNotFoundError as e:
             # พยายามค้นหาอีกครั้ง (อาจมีการติดตั้งระหว่างรัน)
             self.agent_path = self._find_agent_executable()
@@ -221,11 +228,13 @@ class DeepSeekAgentBridge:
             else:
                 logger.error(f"Agent command '{self.agent_command}' not found even after search. Is deepseek-agent installed?")
                 self.consecutive_failures = self.max_failures
-                return self.get_fallback_insight(context)
+                logger.warning("AI not found — ข้ามรอบนี้ ไม่เทรด")
+                return None
         except Exception as e:
             logger.exception(f"Unexpected error calling agent: {e}")
             self.consecutive_failures += 1
-            return self.get_fallback_insight(context)
+            logger.warning("AI unexpected error — ข้ามรอบนี้ ไม่เทรด")
+            return None
 
     def _build_prompt(self, context) -> str:
         if hasattr(context, '__dict__'):
@@ -371,17 +380,3 @@ OUTPUT FORMAT (Return exactly this JSON structure and nothing else):
             logger.error(f"Parse error: {e}. Raw response: {response_text[:500]}")
             return None
     
-    def get_fallback_insight(self, context) -> AIInsight:
-        from core.ai_analysis.fallback_analyzer import FallbackAnalyzer
-        fallback = FallbackAnalyzer()
-        insight = fallback.analyze(context)
-        
-        return AIInsight(
-            action=insight.action,
-            confidence=insight.confidence,
-            expiry=insight.expiry,
-            reason=insight.reason,
-            raw_response="[FALLBACK] " + insight.reason,
-            timestamp=insight.timestamp,
-            symbol=insight.symbol
-        )

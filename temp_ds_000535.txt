@@ -1,0 +1,168 @@
+
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automation[0m         [36m║[0m
+[36m║[0m   [90mNo API key needed — uses chat.deepseek.com[0m     [36m║[0m
+[36m╚══════════════════════════════════════════════════╝[0m
+
+[94m  ℹ [0m Working directory : [36mC:\Users\Administrator\Documents\GitHub\BOT_FINALBOT[0m
+[94m  ℹ [0m Session directory : [36mC:\Users\Administrator\.deepseek-agent\session[0m
+[94m  ℹ [0m Headless mode     : [36mfalse[0m
+[94m  ℹ [0m Debug mode        : [36mfalse[0m
+
+[94m  ℹ [0m Launching browser with persistent session...
+[92m  ✓ [0m [92mBrowser ready![0m
+[2m    Navigated to DeepSeek home (new chat)[0m
+FIND: Parameter format not correct
+
+[34m──────────────────────────────────────────────────[0m
+[1m📋 [0m[1m[37mTask: You are a professional binary options trader. Analyze the following market data …[0m
+[34m──────────────────────────────────────────────────[0m
+
+[94m  ℹ [0m Sending task to DeepSeek...
+
+[90m  ┄[0m [2mStep 1/100[0m [90m┄[0m
+[93m  ⚠ [0m [93mResponse may have been delayed — continuing to wait...[0m
+  [36m⟳[0m [90mReceiving response.  (100 chars)[0m  [36m⟳[0m [90mReceiving response..  (100 chars)[0m  [36m⟳[0m [90mReceiving response...  (100 chars)[0m  [36m⟳[0m [90mReceiving response  (100 chars)[0m  [36m⟳[0m [90mReceiving response.  (100 chars)[0m  [36m⟳[0m [90mReceiving response..  (100 chars)[0m                                                                                
+  [1m[35m⚡ TOOL CALL[0m [36m→ read_file[0m
+  [90m{[0m
+  [90m  "path": "."[0m
+  [90m}[0m
+[91m  ✗ Result:[0m
+  [91mError: . is a directory[0m
+
+
+[90m  ┄[0m [2mStep 2/100[0m [90m┄[0m
+  [36m⟳[0m [90mReceiving response.  (105 chars)[0m  [36m⟳[0m [90mReceiving response..  (105 chars)[0m  [36m⟳[0m [90mReceiving response...  (105 chars)[0m  [36m⟳[0m [90mReceiving response  (105 chars)[0m  [36m⟳[0m [90mReceiving response.  (105 chars)[0m  [36m⟳[0m [90mReceiving response..  (105 chars)[0m                                                                                
+  [1m[35m⚡ TOOL CALL[0m [36m→ list_directory[0m
+  [90m{[0m
+  [90m  "path": "."[0m
+  [90m}[0m
+[92m  ✓ Result:[0m
+  [90m[.] — 61 items[0m
+  [90m📁  Active_Pairs_Grabber/[0m
+  [90m📁  browser_profile/[0m
+  [90m📁  config/[0m
+  [90m📁  core/[0m
+  [90m📁  docs/[0m
+  [90m📁  execution/[0m
+  [90m📁  logs/[0m
+  [90m📁  monitoring/[0m
+  [90m📁  node_modules/[0m
+  [90m📁  __pycache__/[0m
+  [90m📁  scratch/[0m
+  [90m  … (truncated for display)[0m
+
+
+[90m  ┄[0m [2mStep 3/100[0m [90m┄[0m
+  [36m⟳[0m [90mReceiving response.  (112 chars)[0m  [36m⟳[0m [90mReceiving response..  (112 chars)[0m  [36m⟳[0m [90mReceiving response...  (112 chars)[0m  [36m⟳[0m [90mReceiving response  (112 chars)[0m  [36m⟳[0m [90mReceiving response.  (112 chars)[0m  [36m⟳[0m [90mReceiving response..  (112 chars)[0m                                                                                
+  [1m[35m⚡ TOOL CALL[0m [36m→ read_file[0m
+  [90m{[0m
+  [90m  "path": "analysis.json"[0m
+  [90m}[0m
+[92m  ✓ Result:[0m
+  [90m[analysis.json | 6 lines][0m
+  [90m1: {[0m
+  [90m2:   "action": "CALL",[0m
+  [90m3:   "confidence": 85,[0m
+  [90m4:   "expiry": 3,[0m
+  [90m5:   "reason": "RSI แสดงแนวโน้ม bullish ที่ 62.16 ยังไม่ถึงเขต overbought, MACD บวก, ราคาใกล้แนวต้าน 1.35065 แต่มีโอกาสทะลุเนื่องจากแนวโน้มขาขึ้นและความผันผวนต่ำ เหมาะกับการเข้า CALL ภายใน 3 นาที"[0m
+  [90m6: [90m… (+1 chars)[0m[0m
+
+
+[90m  ┄[0m [2mStep 4/100[0m [90m┄[0m
+  [36m⟳[0m [90mReceiving response.  (78 chars)[0m  [36m⟳[0m [90mReceiving response..  (126 chars)[0m  [36m⟳[0m [90mReceiving response...  (126 chars)[0m  [36m⟳[0m [90mReceiving response  (126 chars)[0m  [36m⟳[0m [90mReceiving response.  (126 chars)[0m  [36m⟳[0m [90mReceiving response..  (126 chars)[0m  [36m⟳[0m [90mReceiving response...  (126 chars)[0m                                                                                
+  [1m[35m⚡ TOOL CALL[0m [36m→ read_file[0m
+  [90m{[0m
+  [90m  "path": "market_analysis_result.json"[0m
+  [90m}[0m
+[92m  ✓ Result:[0m
+  [90m[market_analysis_result.json | 6 lines][0m
+  [90m1: {[0m
+  [90m2:   "action": "CALL",[0m
+  [90m3:   "confidence": 75,[0m
+  [90m4:   "expiry": 3,[0m
+  [90m5:   "reason": "RSI 52.75 อยู่ในโซนเป็นกลาง แนวโน้ม bullish และ MACD ติดลบแต่ใกล้ศูนย์ แนวรับ-แนวตันชัดเจน เลือก expiry 3 นาทีเพื่อลดความเสี่ยงจาก volatility ต่ำ"[0m
+  [90m6: }[0m
+
+
+[90m  ┄[0m [2mStep 5/100[0m [90m┄[0m
+  [36m⟳[0m [90mReceiving response.  (110 chars)[0m  [36m⟳[0m [90mReceiving response..  (110 chars)[0m  [36m⟳[0m [90mReceiving response...  (110 chars)[0m  [36m⟳[0m [90mReceiving response  (110 chars)[0m  [36m⟳[0m [90mReceiving response.  (110 chars)[0m  [36m⟳[0m [90mReceiving response..  (110 chars)[0m                                                                                
+  [1m[35m⚡ TOOL CALL[0m [36m→ read_file[0m
+  [90m{[0m
+  [90m  "path": "output.json"[0m
+  [90m}[0m
+[92m  ✓ Result:[0m
+  [90m[output.json | 6 lines][0m
+  [90m1: {[0m
+  [90m2:   "action": "CALL",[0m
+  [90m3:   "confidence": 75,[0m
+  [90m4:   "expiry": 3,[0m
+  [90m5:   "reason": "RSI 64.90 บ่งชี้แนวโน้ม bullish แต่ยังไม่ overbought, MACD บวก 0.00030 สนับสนุนโมเมนตัมขึ้น, แนวต้านอยู่ที่ 1.17524 ซึ่งห่างจากราคาปัจจุบันไม่มาก แต่เทรนด์ขาขึ้นและความผันผวนต่ำทำให้มีโอก[90m… (+42 chars)[0m[0m
+
+
+[90m  ┄[0m [2mStep 6/100[0m [90m┄[0m
+  [36m⟳[0m [90mReceiving response.  (107 chars)[0m  [36m⟳[0m [90mReceiving response..  (107 chars)[0m  [36m⟳[0m [90mReceiving response...  (107 chars)[0m  [36m⟳[0m [90mReceiving response  (107 chars)[0m  [36m⟳[0m [90mReceiving response.  (107 chars)[0m  [36m⟳[0m [90mReceiving response..  (107 chars)[0m                                                                                
+  [1m[35m⚡ TOOL CALL[0m [36m→ list_directory[0m
+  [90m{[0m
+  [90m  "path": "logs"[0m
+  [90m}[0m
+[92m  ✓ Result:[0m
+  [90m[logs] — 128 items[0m
+  [90m📁  logs_trade/[0m
+  [90m📄  ai_conversation.log  1.2 KB[0m
+  [90m📄  bot_20260610_132138.log  2.8 MB[0m
+  [90m📄  bot_20260610_133045.log  1.7 MB[0m
+  [90m📄  bot_20260610_134032.log  2.6 MB[0m
+  [90m📄  bot_20260610_134814.log  2.3 MB[0m
+  [90m📄  bot_20260610_183617.log  574.7 KB[0m
+  [90m📄  bot_20260610_201042.log  1.3 MB[0m
+  [90m📄  bot_2026061[90m… (+4329 chars)[0m[0m
+  [90m  … (truncated for display)[0m
+
+
+[90m  ┄[0m [2mStep 7/100[0m [90m┄[0m
+  [36m⟳[0m [90mReceiving response.  (115 chars)[0m  [36m⟳[0m [90mReceiving response..  (132 chars)[0m  [36m⟳[0m [90mReceiving response...  (132 chars)[0m  [36m⟳[0m [90mReceiving response  (132 chars)[0m  [36m⟳[0m [90mReceiving response.  (132 chars)[0m  [36m⟳[0m [90mReceiving response..  (132 chars)[0m  [36m⟳[0m [90mReceiving response...  (132 chars)[0m                                                                                
+  [1m[35m⚡ TOOL CALL[0m [36m→ read_file[0m
+  [90m{[0m
+  [90m  "path": "logs/market_state_EURJPY-OTC.json"[0m
+  [90m}[0m
+[92m  ✓ Result:[0m
+  [90m[logs/market_state_EURJPY-OTC.json | 159 lines][0m
+  [90m1: {[0m
+  [90m2:   "timestamp": "2026-06-10T13:44:00",[0m
+  [90m3:   "symbol": "EURJPY-OTC",[0m
+  [90m4:   "current_price": 185.263965,[0m
+  [90m5:   "market_state": "EXHAUSTION_ZONE",[0m
+  [90m6:   "trend": {[0m
+  [90m7:     "direction": "DOWN",[0m
+  [90m8:     "strength": 100.0[0m
+  [90m9:   },[0m
+  [90m10:   "volatility[90m… (+3869 chars)[0m[0m
+  [90m  … (truncated for display)[0m
+
+
+[90m  ┄[0m [2mStep 8/100[0m [90m┄[0m
+  [36m⟳[0m [90mReceiving response.  (111 chars)[0m  [36m⟳[0m [90mReceiving response..  (257 chars)[0m  [36m⟳[0m [90mReceiving response...  (442 chars)[0m  [36m⟳[0m [90mReceiving response  (656 chars)[0m  [36m⟳[0m [90mReceiving response.  (743 chars)[0m  [36m⟳[0m [90mReceiving response..  (822 chars)[0m  [36m⟳[0m [90mReceiving response...  (843 chars)[0m  [36m⟳[0m [90mReceiving response  (843 chars)[0m  [36m⟳[0m [90mReceiving response.  (843 chars)[0m  [36m⟳[0m [90mReceiving response..  (843 chars)[0m  [36m⟳[0m [90mReceiving response...  (843 chars)[0m  [36m⟳[0m [90mReceiving response  (843 chars)[0m                                                                                
+[92m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[1m[92m✅  TASK COMPLETE[0m
+[92m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+
+Based on the analysis of the current market data for EURJPY-OTC, the technical indicators are showing a bullish setup with strong momentum. The RSI (14) at 76.66 is in overbought territory, but the bullish trend and positive MACD histogram suggest continued upward movement in the short term. The price is currently testing resistance at 184.02561, and with low volatility, a breakout above this level is likely. Therefore, a CALL option with a 3-minute expiry is appropriate to capture the expected upward move, with a confidence level of 85%.
+json
+
+Copy
+
+Download
+
+```
+{
+  "action": "CALL",
+  "confidence": 85,
+  "expiry": 3,
+  "reason": "RSI 76.66 บ่งชี้แรงซื้อที่แข็งแกร่ง แนวโน้ม bullish และ MACD เป็นบวก ราคากำลังทดสอบแนวต้าน 184.02561 ซึ่งมีโอกาสทะลุเนื่องจากความผันผวนต่ำและโมเมนตัมที่ดี เหมาะกับการเข้า CALL ภายใน 3 นาที"
+}
+```
+
+[94m  ℹ [0m 
+Shutting down...
