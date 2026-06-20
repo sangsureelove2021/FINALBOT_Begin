@@ -122,11 +122,12 @@ class PureAIRunner:
                 
             if elapsed >= (duration_mins * 60):
                 try:
-                    # check_win_v4 gets from socket cache directly, much less likely to block
-                    # Returns: (win_status, profit_amount)
-                    win_status, profit = self.executor.api.check_win_v3(int(order_id))
+                    # check_win_v3 gets from socket cache directly, much less likely to block
+                    # Returns: profit_amount
+                    profit = self.executor.api.check_win_v3(int(order_id))
                     pnl = float(profit)
                     won = pnl > 0
+                    win_status = "win" if won else "loss" if pnl < 0 else "tie"
                     self.order_manager.close_trade(
                         order_id=order_id,
                         exit_price=trade.entry_price,
