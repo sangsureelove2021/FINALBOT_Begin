@@ -22,3 +22,5 @@ FIND: Parameter format not correct
 [94m  ℹ [0m Sending task to DeepSeek...
 
 [90m  ┄[0m [2mStep 1/1[0m [90m┄[0m
+[93m  ⚠ [0m [93mResponse may have been delayed — continuing to wait...[0m
+  [36m⟳[0m [90mReceiving response.  (328 chars)[0m
