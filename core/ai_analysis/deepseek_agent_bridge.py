@@ -241,7 +241,37 @@ class DeepSeekAgentBridge:
             ctx = context.__dict__
         else:
             ctx = context if isinstance(context, dict) else {}
+            
+        # --- Advanced Context Mode ---
+        if ctx.get("is_advanced"):
+            payload = dict(ctx)
+            payload.pop("is_advanced", None)
+            json_payload = json.dumps(payload, indent=2, ensure_ascii=False)
+            
+            prompt = f"""You are a professional binary options trader. Analyze the following comprehensive market JSON data and reply with ONLY a valid JSON object.
+CRITICAL INSTRUCTIONS:
+1. DO NOT use any tools.
+2. DO NOT run any shell commands.
+3. DO NOT write or save any files.
+4. Just type the raw JSON text as your normal chat response.
+5. EXTREMELY IMPORTANT: Your JSON must be strictly valid. ALL keys and ALL string values MUST be enclosed in double quotes ("").
+
+You can choose the optimal expiry time (from 1 to 5 minutes) based on market structure and volatility.
+
+MARKET DATA JSON:
+{json_payload}
+
+OUTPUT FORMAT (Return exactly this JSON structure and nothing else):
+{{
+  "action": "CALL",
+  "confidence": 85,
+  "expiry": 3,
+  "reason": "สรุปเหตุผลสำคัญที่สุดที่ตัดสินใจเข้าเทรด เป็นภาษาไทย ความยาว 20 ถึง 40 คำ เท่านั้น"
+}}
+"""
+            return prompt
         
+        # --- Legacy Context Mode ---
         symbol = ctx.get('symbol', getattr(context, 'symbol', 'EURUSD'))
         current_price = ctx.get('current_price', getattr(context, 'current_price', 0))
         rsi = ctx.get('rsi', getattr(context, 'rsi', 50))

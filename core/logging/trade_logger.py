@@ -225,7 +225,8 @@ class TradeLogger:
             "atr": float(atr.iloc[-1]) if not pd.isna(atr.iloc[-1]) else 0.0
         }
         
-        return indicators
+        # ปัดเศษทศนิยมให้เหลือ 5 ตำแหน่งเพื่อประหยัดพื้นที่และ Token AI
+        return {k: round(v, 5) for k, v in indicators.items()}
     
     def _calculate_rsi(self, prices: pd.Series, period: int = 14) -> pd.Series:
         """คำนวณ RSI"""
@@ -328,16 +329,31 @@ class TradeLogger:
                 
                 if isinstance(result, dict):
                     metrics = result.get('metrics', {})
+                    
+                    # Call pattern analyzer if available
+                    patterns_list = []
+                    if self.pattern_analyzer is not None:
+                        pat_res = self.pattern_analyzer.analyze(df)
+                        if isinstance(pat_res, dict):
+                            patterns_list = pat_res.get('patterns_detected', [])
+                            
+                    # Calculate compression quality (100.0 if detected, else 0.0)
+                    comp_quality = 100.0 if metrics.get('compression_detected', False) else 0.0
+                    
+                    # Determine regime
+                    trend_dir = metrics.get('trend_direction', 'NONE')
+                    regime_val = 'ranging' if trend_dir == 'NONE' else 'trending'
+                    
                     market_state.update({
                         'state': result.get('state', 'UNKNOWN'),
-                        'trend_direction': metrics.get('trend_direction', 'NEUTRAL'),
+                        'trend_direction': trend_dir,
                         'trend_type': metrics.get('trend_type', 'neutral'),
                         'trend_strength': metrics.get('trend_strength', 0.0),
-                        'patterns': metrics.get('patterns', []),
+                        'patterns': patterns_list,
                         'atr_percentile': metrics.get('atr_percentile', 50.0),
                         'volatility_label': metrics.get('volatility_regime', 'normal'),
-                        'compression_quality': metrics.get('compression_quality', 0.0),
-                        'regime': metrics.get('volatility_regime', 'ranging')
+                        'compression_quality': comp_quality,
+                        'regime': regime_val
                     })
             except Exception as e:
                 logger.warning(f"MarketStateClassifier failed, using fallback: {e}")
@@ -379,10 +395,10 @@ class TradeLogger:
         candles = []
         for idx, row in recent.iterrows():
             candles.append({
-                "open": float(row['open']),
-                "high": float(row['high']),
-                "low": float(row['low']),
-                "close": float(row['close'])
+                "open": round(float(row['open']), 6),
+                "high": round(float(row['high']), 6),
+                "low": round(float(row['low']), 6),
+                "close": round(float(row['close']), 6)
             })
         return candles
     

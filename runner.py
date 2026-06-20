@@ -34,8 +34,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s | %(levelname)-8s | %(message)s',
     handlers=[
-        logging.FileHandler(log_file_name, encoding='utf-8'),
-        logging.StreamHandler(sys.stdout)
+        logging.FileHandler(log_file_name, encoding='utf-8')
     ]
 )
 logger = logging.getLogger("FINALBOT")
@@ -82,6 +81,7 @@ class PureAIRunner:
         agent_cmd = ai_cfg.get("agent_command", "deepseek-agent")
         timeout_sec = ai_cfg.get("timeout_seconds", 45)
         self.ai_bridge = DeepSeekAgentBridge(agent_command=agent_cmd, timeout_seconds=timeout_sec)
+        self.use_advanced_ai_context = ai_cfg.get("use_advanced_context", True)
         self.trade_logger = TradeLogger()  # Initialize trade logger
         
         self.last_processed_candle = {sym: None for sym in self.symbols}
@@ -135,7 +135,7 @@ class PureAIRunner:
                         notes=f"Settled via IQ Option API (status: {win_status}, pnl: {pnl})",
                         current_time=now
                     )
-                    thai_console_log(f"🏆 Trade {order_id} Settled. PnL: {pnl} | Won: {won}")
+                    thai_console_log(f"🏆 ปิดออเดอร์ {trade.symbol} (ID: {order_id}): {'✅ ชนะ' if won else '❌ แพ้'} | กำไร: {pnl:.2f} บาท")
                 except Exception as e:
                     logger.error(f"Failed to settle trade {order_id}: {e}")
 
@@ -217,25 +217,37 @@ class PureAIRunner:
                 if log_data:
                     log_path = self.trade_logger.save_log(log_data)
                     if log_path:
-                        thai_console_log(f"📝 Trade log saved: {log_path}")
+                        pass # ซ่อนบรรทัด Trade log saved ไม่ให้รกจอ
             except Exception as e:
                 logger.error(f"Trade logging failed for {symbol}: {e}")
             
-            thai_console_log(f"📊 Sending M5 indicators for {symbol} to DeepSeek: Price={current_price:.5f}, RSI={rsi:.2f}, MACD={context.macd:.6f}, EMA20={ema20:.5f}")
+            try:
+                balance = self.data_adapter.api.get_balance()
+                balance_str = f" | ยอดเงิน: {balance:.2f} บาท"
+            except Exception:
+                balance_str = ""
+                
+            thai_console_log(f"📊 ตรวจกราฟ {symbol}{balance_str} | ราคา: {current_price:.5f} | RSI: {rsi:.1f}")
             
             # Call DeepSeek Brain
-            insight = self.ai_bridge.analyze_market(context)
+            ai_context_to_send = context
+            if getattr(self, "use_advanced_ai_context", True) and 'log_data' in locals() and log_data:
+                log_data_copy = dict(log_data)
+                log_data_copy["is_advanced"] = True
+                ai_context_to_send = log_data_copy
+                
+            insight = self.ai_bridge.analyze_market(ai_context_to_send)
             if not insight:
                 continue
                 
             self.last_processed_candle[symbol] = last_ts
             
-            thai_console_log(f"🧠 DeepSeek Decision: {insight.action} | Confidence: {insight.confidence}% | Expiry Chosen: {insight.expiry}m | Reason: {insight.reason}")
+            thai_console_log(f"🧠 AI: {insight.action} ({insight.confidence}%) -> {insight.reason}")
             
             if insight.action in ["CALL", "PUT"] and insight.confidence >= 70:
                 direction = insight.action.lower()
                 expiry_seconds = insight.expiry * 60
-                thai_console_log(f"🔥 Executing {insight.action} on {symbol} with stake {self.stake} ({insight.expiry}m Expiry)")
+                thai_console_log(f"🔥 สั่งเทรด {insight.action} | {symbol} | เงิน: {self.stake} | เวลา: {insight.expiry} นาที")
                 try:
                     # Execute trade using executor's send_order method
                     result = self.executor.send_order(
@@ -255,7 +267,7 @@ class PureAIRunner:
                             entry_price=current_price,
                             expiry=f"M{insight.expiry}"
                         )
-                        thai_console_log(f"✅ Trade executed successfully. Order ID: {order_id}")
+                        thai_console_log(f"   └─ ✅ ออเดอร์เข้าสำเร็จ (ID: {order_id})")
                     else:
                         thai_console_log(f"❌ Execution failed for {symbol}: {result.reason}")
                 except Exception as e:
