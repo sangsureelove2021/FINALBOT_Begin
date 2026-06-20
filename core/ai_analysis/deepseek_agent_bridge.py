@@ -158,7 +158,7 @@ class DeepSeekAgentBridge:
         
         # แปลงขึ้นบรรทัดใหม่เป็นเว้นวรรค
         prompt_clean = prompt.replace('\r', '').replace('\n', ' ')
-        cmd_args = f'"{agent_exec}" --headless "{prompt_clean}" > "{temp_file}" 2>&1'
+        cmd_args = f'"{agent_exec}" "{prompt_clean}" > "{temp_file}" 2>&1'
         use_shell = True
             
         try:
@@ -372,13 +372,16 @@ OUTPUT FORMAT (Return exactly this JSON structure and nothing else):
             return None
     
     def get_fallback_insight(self, context) -> AIInsight:
-        symbol = getattr(context, 'symbol', 'unknown')
+        from core.ai_analysis.fallback_analyzer import FallbackAnalyzer
+        fallback = FallbackAnalyzer()
+        insight = fallback.analyze(context)
+        
         return AIInsight(
-            action='NO_TRADE',
-            confidence=0,
-            expiry=5,
-            reason='Fallback to NO_TRADE',
-            raw_response='',
-            timestamp=datetime.now().isoformat(),
-            symbol=symbol
+            action=insight.action,
+            confidence=insight.confidence,
+            expiry=insight.expiry,
+            reason=insight.reason,
+            raw_response="[FALLBACK] " + insight.reason,
+            timestamp=insight.timestamp,
+            symbol=insight.symbol
         )

@@ -1,0 +1,38 @@
+2026-06-20 18:52:53,839 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-20 18:52:56,604 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-20 18:52:56,623 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-20 18:52:56,638 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-20 18:52:56,644 | INFO     | MarketStateClassifier initialized successfully
+2026-06-20 18:52:58,056 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_115257_EURUSD-OTC.json
+2026-06-20 18:54:13,243 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-20 18:54:13,615 | INFO     | [FALLBACK] Initialized
+2026-06-20 18:54:13,655 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 69.6 (neutral) | MACD 0.00068 > 0 (bullish) | Trend: bullish | Near resistance 1.15465 | Confidence 35% < 40%
+2026-06-20 18:54:14,654 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_115414_EURGBP-OTC.json
+2026-06-20 18:55:29,796 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-20 18:55:30,354 | INFO     | [FALLBACK] Initialized
+2026-06-20 18:55:30,362 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 60.3 (neutral) | MACD -0.00005 < 0 (bearish) | Trend: bullish | Near resistance 0.87026 | Confidence 35% < 40%
+2026-06-20 18:55:31,697 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_115531_EURJPY-OTC.json
+2026-06-20 18:56:46,796 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-20 18:56:47,154 | INFO     | [FALLBACK] Initialized
+2026-06-20 18:56:47,159 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 55.6 (neutral) | MACD 0.03904 > 0 (bullish) | Trend: bearish | Near resistance 183.37894 | Confidence 35% < 40%
+2026-06-20 18:56:48,061 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_115647_GBPUSD-OTC.json
+2026-06-20 18:58:03,144 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-20 18:58:03,699 | INFO     | [FALLBACK] Initialized
+2026-06-20 18:58:03,711 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 62.9 (neutral) | MACD 0.00010 > 0 (bullish) | Trend: bullish | Near resistance 1.35511 | Confidence 35% < 40%
+2026-06-20 18:58:09,873 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_115809_EURUSD-OTC.json
+2026-06-20 18:59:24,986 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-20 18:59:25,452 | INFO     | [FALLBACK] Initialized
+2026-06-20 18:59:25,475 | INFO     | [FALLBACK] Action: PUT, Confidence: 55%, Reason: RSI 73.1 > 70 (overbought) | MACD 0.00077 > 0 (bullish) | Trend: bullish | Near resistance 1.15563
+2026-06-20 18:59:26,696 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_115926_EURGBP-OTC.json
+2026-06-20 19:00:41,825 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-20 19:00:42,218 | INFO     | [FALLBACK] Initialized
+2026-06-20 19:00:42,256 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 59.9 (neutral) | MACD -0.00007 < 0 (bearish) | Trend: bullish | Near resistance 0.87026 | Confidence 35% < 40%
+2026-06-20 19:00:43,212 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_120043_EURJPY-OTC.json
+2026-06-20 19:01:58,323 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-20 19:01:58,747 | INFO     | [FALLBACK] Initialized
+2026-06-20 19:01:58,758 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 57.9 (neutral) | MACD 0.03946 > 0 (bullish) | Trend: bearish | Near resistance 183.37894 | Confidence 35% < 40%
+2026-06-20 19:01:59,765 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_120159_GBPUSD-OTC.json
+2026-06-20 19:03:14,886 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-20 19:03:15,370 | INFO     | [FALLBACK] Initialized
+2026-06-20 19:03:15,408 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 55.8 (neutral) | MACD 0.00005 > 0 (bullish) | Trend: bullish | Near resistance 1.35511 | Confidence 35% < 40%
+2026-06-20 19:03:21,612 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_120321_EURUSD-OTC.json

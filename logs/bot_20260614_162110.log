@@ -1,0 +1,12 @@
+2026-06-14 23:21:11,174 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-14 23:21:14,626 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-14 23:21:14,673 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-14 23:21:14,690 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-14 23:22:03,411 | INFO     | [OK] LIVE order placed: CALL 35 EURJPY-OTC M3 (id=13989299265)
+2026-06-14 23:22:03,430 | INFO     | [TRADE] Trade opened: 13989299265 | CALL 35x EURJPY-OTC @ 184.986655
+2026-06-14 23:22:54,484 | INFO     | [OK] LIVE order placed: CALL 35 EURUSD-OTC M2 (id=13989300933)
+2026-06-14 23:22:54,497 | INFO     | [TRADE] Trade opened: 13989300933 | CALL 35x EURUSD-OTC @ 1.173805
+2026-06-14 23:23:46,812 | INFO     | [OK] LIVE order placed: CALL 35 GBPUSD-OTC M3 (id=13989302873)
+2026-06-14 23:23:46,870 | INFO     | [TRADE] Trade opened: 13989302873 | CALL 35x GBPUSD-OTC @ 1.346525
+2026-06-14 23:24:26,566 | INFO     | [OK] LIVE order placed: CALL 35 EURGBP-OTC M4 (id=13989304588)
+2026-06-14 23:24:26,722 | INFO     | [TRADE] Trade opened: 13989304588 | CALL 35x EURGBP-OTC @ 0.863975

@@ -1,0 +1,5 @@
+2026-06-14 20:21:37,055 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-14 20:21:38,971 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-14 20:21:38,974 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-14 20:21:38,997 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-14 20:22:19,658 | WARNING  | Agent timeout after 40s

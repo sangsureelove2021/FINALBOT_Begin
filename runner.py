@@ -51,6 +51,7 @@ from core.data.iq_option_adapter import IQOptionAdapter
 from execution.iq_option_executor import IQOptionExecutor
 from execution.order_manager import OrderManager
 from core.ai_analysis.deepseek_agent_bridge import DeepSeekAgentBridge
+from core.logging.trade_logger import TradeLogger
 
 class PureAIRunner:
     def __init__(self):
@@ -81,6 +82,7 @@ class PureAIRunner:
         agent_cmd = ai_cfg.get("agent_command", "deepseek-agent")
         timeout_sec = ai_cfg.get("timeout_seconds", 45)
         self.ai_bridge = DeepSeekAgentBridge(agent_command=agent_cmd, timeout_seconds=timeout_sec)
+        self.trade_logger = TradeLogger()  # Initialize trade logger
         
         self.last_processed_candle = {sym: None for sym in self.symbols}
         thai_console_log(f"🚀 Pure AI Bot initialized. Account: {self.account_type} | Stake: {self.stake} | Symbols: {self.symbols}")
@@ -197,6 +199,26 @@ class PureAIRunner:
                 macd=curr_macd - curr_macd_sig,
                 market_state="normal"
             )
+            
+            # --- Trade Logging (data_A.json format) ---
+            try:
+                # Fetch additional timeframes for comprehensive logging
+                candles_m1 = self.data_adapter.get_candles(symbol, 'M1', 100)
+                candles_m15 = self.data_adapter.get_candles(symbol, 'M15', 100)
+                candles_dict = {'M5': candles, 'M1': candles_m1, 'M15': candles_m15}
+                
+                log_data = self.trade_logger.build_log_data(
+                    symbol=symbol,
+                    candles_dict=candles_dict,
+                    primary_timeframe='M5',
+                    ai_context=context
+                )
+                if log_data:
+                    log_path = self.trade_logger.save_log(log_data)
+                    if log_path:
+                        thai_console_log(f"📝 Trade log saved: {log_path}")
+            except Exception as e:
+                logger.error(f"Trade logging failed for {symbol}: {e}")
             
             thai_console_log(f"📊 Sending M5 indicators for {symbol} to DeepSeek: Price={current_price:.5f}, RSI={rsi:.2f}, MACD={context.macd:.6f}, EMA20={ema20:.5f}")
             

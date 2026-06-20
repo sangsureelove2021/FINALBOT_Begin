@@ -1,0 +1,23 @@
+2026-06-14 22:40:54,623 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-14 22:40:57,848 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-14 22:40:57,868 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-14 22:40:57,886 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-14 22:42:13,527 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-14 22:42:57,066 | INFO     | [OK] LIVE order placed: PUT 35 EURUSD-OTC M3 (id=13989214654)
+2026-06-14 22:42:57,074 | INFO     | [TRADE] Trade opened: 13989214654 | PUT 35x EURUSD-OTC @ 1.171875
+2026-06-14 22:43:41,880 | INFO     | [OK] LIVE order placed: CALL 35 GBPUSD-OTC M3 (id=13989216404)
+2026-06-14 22:43:41,888 | INFO     | [TRADE] Trade opened: 13989216404 | CALL 35x GBPUSD-OTC @ 1.345155
+2026-06-14 22:46:02,357 | ERROR    | Parse error: malformed node or string on line 2: Name(id='action', ctx=Load()). Raw response: ╔══════════════════════════════════════════════════╗
+║   🤖  DeepSeek Browser Agent                     ║
+║   AI Coding Agent via Browser Automation         ║
+║   No API key needed — uses chat.deepseek.com     ║
+╚══════════════════════════════════════════════════╝
+
+  ℹ  Working directory : C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT
+  ℹ  Session directory : C:\Users\Administrator\.deepseek-agent\session
+  ℹ  Headless mode     : true
+  ℹ  Debug mode        : false
+
+  ℹ  Launching browser 
+2026-06-14 22:46:47,528 | INFO     | [OK] LIVE order placed: CALL 35 EURGBP-OTC M3 (id=13989222693)
+2026-06-14 22:46:47,538 | INFO     | [TRADE] Trade opened: 13989222693 | CALL 35x EURGBP-OTC @ 0.864025

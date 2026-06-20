@@ -129,21 +129,19 @@ class OrderManager:
         cooldown_mins = 0
         self.symbol_cooldowns[trade.symbol] = now + dt.timedelta(minutes=cooldown_mins)
         
-        # Settle the trade and then log it using our new standard logger
-        from utils.order_logger import log_live_order, log_backtest_order
+        # Settle the trade and then log it using our standard logger
+        from utils.order_logger import log_live_order
         
         outcome = "TIE"
         if pnl > 0:
             outcome = "WIN"
         elif pnl < 0:
             outcome = "LOSS"
-            
-        is_backtest_mode = "backtest" in str(order_id).lower() or notes.startswith("Settled via Backtest")
         
         order_record = {
             "timestamp": trade.entry_time.isoformat() if hasattr(trade, 'entry_time') and trade.entry_time else now.isoformat(),
             "symbol": trade.symbol,
-            "mode": "BACKTEST" if is_backtest_mode else "TRADE",
+            "mode": "TRADE",
             "direction": trade.direction,
             "amount": trade.amount,
             "entry_price": trade.entry_price,
@@ -157,10 +155,7 @@ class OrderManager:
             "notes": notes
         }
         
-        if is_backtest_mode:
-            log_backtest_order(order_record)
-        else:
-            log_live_order(order_record)
+        log_live_order(order_record)
         
         # Move to closed
         del self.active_trades[order_id]

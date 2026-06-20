@@ -1,0 +1,373 @@
+================================================================================
+รายงานการตรวจสอบกระบวนการจำแนกสภาวะตลาดของ FINALBOT
+================================================================================
+
+วันที่ตรวจสอบ: 2026-06-16
+ระบบ: FINALBOT (Binary Options Trading Bot)
+
+วัตถุประสงค์ของรายงาน: เพื่ออธิบายขั้นตอนและกระบวนการที่บอทใช้ในการจำแนกสภาวะตลาด
+โดยอาศัยการอ่านโค้ดจริง โดยไม่ใช้เอกสารประกอบ
+
+================================================================================
+1. ภาพรวมสถาปัตยกรรมของบอท
+================================================================================
+
+บอททำงานเป็น Pipeline แบบหลายชั้น (Multi-stage Pipeline) โดยมีลำดับการทำงานดังนี้:
+
+  [Candles] → [ContextBuilder] → [Tier 1-7 Engines] → [MarketStateClassifier (Tier 2)]
+       → [Scoring] → [Strategies] → [ExecutionGate] → [Signal]
+
+จุดเริ่มต้น: main.py เรียกใช้ BotRunner ซึ่งจะรัน Live Mode หรือ Backtest Mode
+BotRunner จะเรียก Pipeline.execute() สำหรับแต่ละคู่เงิน (symbol) ทุกๆ 1 นาที
+
+================================================================================
+2. ขั้นตอนการสร้างบริบท (Context Building)
+================================================================================
+
+ContextBuilder (core/orchestration/context_builder.py) เป็นตัวรวบรวมข้อมูลจาก Engines
+ทั้งหมด และสร้าง MarketContext ซึ่งเป็นโครงสร้างข้อมูลหลักที่ใช้ตลอดทั้ง Pipeline
+
+ขั้นตอนการสร้าง Context:
+  2.1 รับข้อมูล Candles (DataFrame) ของแต่ละ timeframe (M1, M5, M15, H1)
+  2.2 สร้าง MarketContext เริ่มต้นด้วย price ปัจจุบัน, timestamp, symbol
+  2.3 รัน Engines ทั้งหมดตามลำดับ Tier (1 ถึง 7) โดยแต่ละ Tier จะทำงานตามลำดับ:
+
+      - Tier 1: Engines พื้นฐาน (trend, strength, volatility, structure, mtf)
+      - Tier 2: MarketStateClassifier (ตัวจำแนกสภาวะตลาด) ← หัวใจของการจำแนก
+      - Tier 3: Price Action, Candle Pattern
+      - Tier 4: Detection (trap, noise, liquidity, divergence)
+      - Tier 5: Behavior (transition, conflict, efficiency, persistence)
+      - Tier 6: Synthesis (context synthesis, probability estimation)
+      - Tier 7: Quality (signal quality, confidence framework, explainability)
+
+  2.4 ผลลัพธ์ของแต่ละ Engine จะถูกเก็บใน MarketContext ภายใต้ attribute ต่างๆ เช่น
+      context.trend, context.volatility, context.market_state เป็นต้น
+
+================================================================================
+3. บทบาทของ MarketStateClassifier (Tier 2)
+================================================================================
+
+MarketStateClassifier (core/engines/market_state_classifier.py) เป็น Engine หลัก
+ที่ทำหน้าที่จำแนกสภาวะตลาด โดยจะทำงานหลังจาก Tier 1 (trend, strength, volatility,
+structure, mtf) เสร็จสิ้น เพื่อนำข้อมูลที่ได้มาใช้ในการวิเคราะห์
+
+คลาสนี้ได้รับการออกแบบมาเฉพาะสำหรับการซื้อขาย Binary Options บนกรอบเวลา 5 นาที
+โดยมีการปรับพารามิเตอร์ให้ตอบสนองเร็ว (ADX 10, RSI 7, ใช้ candle ล่าสุด 50 แท่ง)
+
+ฟังก์ชันหลัก: analyze(candles_df, **kwargs)
+  - รับ DataFrame ของราคา (OHLCV) และข้อมูลเสริมจาก Tier 1 (trend_data, strength_data ฯลฯ)
+  - คำนวณตัวชี้วัดทางเทคนิคต่างๆ (ADX, RSI, ATR, Bollinger Bands, Volume ฯลฯ)
+  - จำแนกสภาวะตลาดเป็น 10 ประเภท พร้อมค่า Confidence (0-100)
+  - ส่งออกผลลัพธ์เป็น dict ที่มี keys: state, confidence, quality_score, tradeable, stability, description
+
+================================================================================
+4. ตัวชี้วัดที่ใช้ในการจำแนกสภาวะตลาด
+================================================================================
+
+MarketStateClassifier ใช้ตัวชี้วัดหลักดังนี้ (คำนวณจาก candles และข้อมูล Tier 1):
+
+  4.1 แนวโน้ม (Trend)
+      - trend_direction: 'BULL', 'BEAR', 'NONE'
+      - trend_strength: 0-100 (จาก ADX และความชัน)
+      - adx: ค่า ADX (ใช้ period 10)
+      - trend_type: 'STRONG', 'WEAK', 'CONSOLIDATION'
+
+  4.2 ความแข็งแกร่ง (Strength)
+      - strength_score: 0-100 (จากแรงผลักดันของราคา)
+      - momentum_level: 'HIGH', 'MODERATE', 'LOW'
+      - exhaustion_risk: 0-100 (ความเสี่ยงของการอ่อนแรง)
+
+  4.3 ความผันผวน (Volatility)
+      - atr_percentile: เปอร์เซ็นไทล์ของ ATR (0-100)
+      - bbw: Bollinger Band Width (ดัชนีการบีบตัว)
+      - volatility_regime: 'LOW', 'NORMAL', 'HIGH', 'EXTREME'
+      - compression_detected: True/False (การบีบตัวของกรอบ)
+
+  4.4 โครงสร้างตลาด (Structure)
+      - structure_type: 'TRENDING', 'RANGING', 'BREAKOUT', 'CHOPPY', 'CORRECTIVE'
+      - bos_detected: True/False (Break of Structure)
+      - breakout_prob: 0-100 (โอกาสเกิด Breakout)
+      - reversal_prob: 0-100 (โอกาสเกิด Reversal)
+
+  4.5 Multi-timeframe (MTF)
+      - htf_direction: แนวโน้มในกรอบเวลาที่สูงกว่า (M15, H1)
+      - alignment_score: 0-100 (ความสอดคล้องของแนวโน้มหลายกรอบเวลา)
+      - htf_ltf_conflict: True/False (ความขัดแย้งระหว่างกรอบเวลา)
+
+  4.6 ปริมาณการซื้อขาย (Volume) - ยกเว้น OTC
+      - volume_ratio: อัตราส่วนปริมาณเทียบกับค่าเฉลี่ย
+      - volume_surge: True/False (ปริมาณพุ่งสูง)
+
+  4.7 อื่นๆ
+      - noise_level: 0-1 (ระดับสัญญาณรบกวน/ความไม่แน่นอน)
+      - rsi: ค่า RSI (period 7)
+      - rsi_extreme_bull/bear: True/False (RSI เกิน 70 หรือต่ำกว่า 30)
+      - divergence_detected: True/False (ความแตกต่างของราคาและ RSI)
+      - wick_lower_ratio, wick_upper_ratio: อัตราส่วนของไส้เทียน
+
+================================================================================
+5. ขั้นตอนการจำแนกสภาวะตลาด (Classification Process)
+================================================================================
+
+MarketStateClassifier ใช้ระบบคะแนนแบบถ่วงน้ำหนัก (Weighted Scoring) เพื่อเลือกสภาวะที่เหมาะสมที่สุด
+โดยมีขั้นตอนดังนี้:
+
+  ขั้นตอนที่ 5.1: คำนวณคะแนนดิบ (Raw Scores) สำหรับแต่ละสภาวะ
+      - ใช้ฟังก์ชัน _compute_raw_scores(m)
+      - แต่ละสภาวะมีสูตรการคำนวณเฉพาะที่ใช้ตัวชี้วัดต่าง ๆ กัน
+      - คะแนนอยู่ในช่วง 0-100
+
+  ขั้นตอนที่ 5.2: ใช้ตัวปรับแต่งระดับโลก (Global Modifiers)
+      - ใช้ฟังก์ชัน _apply_global_modifiers(raw_scores, m, is_otc)
+      - ปรับเพิ่ม/ลดคะแนนตามปัจจัยทั่วๆ ไป เช่น
+        * noise_level ต่ำ: เพิ่มคะแนนให้ TRENDING_STRONG และ SIDEWAY_RANGE
+        * volume_surge: เพิ่มคะแนนให้ BREAKOUT_EMERGING, ACCUMULATION, DISTRIBUTION
+        * htf_ltf_conflict: ลดคะแนนทุกสภาวะ (ยกเว้น UNCLEAR)
+        * exhaustion_risk สูง: ลดคะแนน TRENDING_STRONG และ TRENDING_WEAK
+        * anomaly_detected: ลดคะแนนทุกสภาวะ 30 คะแนน
+        * volatility_regime == 'EXTREME': ลดคะแนนทุกสภาวะ (ยกเว้น UNCLEAR)
+
+  ขั้นตอนที่ 5.3: ปรับพิเศษสำหรับ OTC (Over-the-Counter)
+      - หากเป็นคู่ OTC (ชื่อลงท้ายด้วย _OTC) คะแนน LIQUIDITY_VOID จะถูกตั้งเป็น 0
+        เพราะข้อมูลปริมาณการซื้อขายใน OTC ไม่น่าเชื่อถือ
+
+  ขั้นตอนที่ 5.4: เลือกสภาวะที่มีคะแนนสูงสุด
+      - best_state = max(adjusted_scores, key=adjusted_scores.get)
+
+  ขั้นตอนที่ 5.5: คำนวณค่า Confidence
+      - Confidence = 50 + (margin / 100) * 50
+      - โดย margin = คะแนนสูงสุด - คะแนนรองลงมา
+      - ค่า Confidence อยู่ในช่วง 50-100
+
+  ขั้นตอนที่ 5.6: การปรับให้เรียบ (Smoothing) เพื่อป้องกันการเปลี่ยนสถานะบ่อยเกินไป
+      - ใช้ฟังก์ชัน _smooth_state(state, confidence)
+      - เก็บประวัติ 5 สถานะล่าสุด
+      - หากสถานะใดปรากฏอย่างน้อย 3 ครั้งในประวัติ จะใช้สถานะนั้นแทนสถานะปัจจุบัน
+
+================================================================================
+6. รายละเอียดการให้คะแนนของแต่ละสภาวะตลาด
+================================================================================
+
+ต่อไปนี้คือสูตรการคำนวณคะแนนดิบ (Raw Score) สำหรับแต่ละสภาวะ (จาก _compute_raw_scores):
+
+  ------------------------------------------------------------------------------
+  6.1 TRENDING_STRONG (แนวโน้มชัดเจน)
+      คะแนน = (ADX/100)*35 + (trend_strength/100)*30 + (alignment_score/100)*20 + (1-noise_level)*15
+      + โบนัส: direction != 'NONE' (+10), structure_type in ['TRENDING','BREAKOUT'] (+10),
+        bos_detected (+5), alignment_score >= 70 (+10)
+      - ค่าปรับ: noise_level > 0.6 (-20), exhaustion_risk > 70 (-20), htf_ltf_conflict (-15)
+
+  6.2 BREAKOUT_EMERGING (กำลังจะ breakout)
+      คะแนน = max(0, (0.06-bbw)/0.06)*30 + ((100-atr_percentile)/100)*20 + (breakout_prob/100)*25
+             + (1 if bos_detected else 0)*15
+             + volume factor: ถ้า OTC +10, ถ้าไม่ OTC และ volume_ratio>1.5 +10
+      + โบนัส: bbw < 0.04 (+15), atr_percentile < 30 (+10)
+      - ค่าปรับ: noise_level > 0.5 (-15), htf_ltf_conflict (-20)
+
+  6.3 SIDEWAY_RANGE (กรอบข้าง)
+      คะแนน = ((100-ADX)/100)*35 + (1 if structure_type=='RANGING' else 0)*25 + (1-noise_level)*20
+             + (1 if volatility_regime in ['LOW','NORMAL'] else 0)*20
+      + โบนัส: ADX < 18 (+15), noise_level < 0.3 (+10)
+      - ค่าปรับ: bos_detected (-20), breakout_prob > 50 (-15)
+
+  6.4 ACCUMULATION (การสะสม)
+      คะแนน = min(1.0, wick_lower_ratio*2)*35 + (volume factor) + ((100-trend_strength)/100)*20
+             + (1 if structure_type in ['RANGING','CORRECTIVE'] else 0)*20
+      โดย volume factor: ถ้า OTC +25, ถ้าไม่ OTC และ volume_ratio>1.2 +25
+      + โบนัส: volume_ratio > 1.2 (+15), wick_lower_ratio > 0.5 (+10)
+      - ค่าปรับ: bos_detected (-15), divergence_detected (-10)
+
+  6.5 DISTRIBUTION (การกระจาย)
+      คะแนน = min(1.0, wick_upper_ratio*2)*35 + (volume factor) + ((100-trend_strength)/100)*20
+             + (1 if structure_type in ['RANGING','CORRECTIVE'] else 0)*20
+      + โบนัส: volume_ratio > 1.2 (+15), wick_upper_ratio > 0.5 (+10)
+      - ค่าปรับ: bos_detected (-15), divergence_detected (-10)
+
+  6.6 TRENDING_WEAK (แนวโน้มอ่อน)
+      คะแนน = (ADX/100)*30 + (trend_strength/100)*25 + (1-noise_level)*25 + (alignment_score/100)*20
+      + โบนัส: direction != 'NONE' (+10), structure_type in ['TRENDING','CORRECTIVE'] (+5)
+      - ค่าปรับ: exhaustion_risk > 70 (-25), htf_ltf_conflict (-10), noise_level > 0.5 (-15)
+
+  6.7 REVERSAL_FORMING (กำลังเกิดการกลับตัว)
+      คะแนน = (reversal_prob/100)*35 + ((100-ADX)/100)*25 + (1 if divergence_detected else 0)*20
+             + (1-noise_level)*20
+      + โบนัส: RSI < 30 หรือ RSI > 70 (+15), structure_type == 'CORRECTIVE' (+10)
+      - ค่าปรับ: noise_level > 0.5 (-15), htf_ltf_conflict (-10)
+
+  6.8 CHOPPY_UNCERTAIN (ตลาดไร้ทิศทาง สัญญาณรบกวนสูง)
+      คะแนน = noise_level*100*0.6 + ((100-ADX)/100)*20 + (1 if structure_type=='CHOPPY' else 0)*20
+      - ค่าปรับ: trend_strength > 40 (-20), alignment_score > 50 (-15)
+
+  6.9 LIQUIDITY_VOID (สภาพคล่องต่ำมาก)
+      คะแนน = (1 - min(1.0, volume_ratio/0.5))*50 + (1 - min(1.0, ADX/20))*50
+      (เฉพาะกรณีไม่ใช่ OTC; ถ้า OTC คะแนนจะถูกตั้งเป็น 0)
+
+  6.10 UNCLEAR (ไม่ชัดเจน)
+      คะแนนพื้นฐาน = 25 (หรือ 50 ถ้าคะแนนอื่นทั้งหมด < 30)
+      + ค่าปรับ: htf_ltf_conflict หรือ noise_level > 0.6 (+20)
+
+================================================================================
+7. การประเมินคุณภาพและความสามารถในการซื้อขาย
+================================================================================
+
+หลังจากเลือกสภาวะตลาดได้แล้ว MarketStateClassifier จะคำนวณค่าเพิ่มเติม:
+
+  - quality_score: 0-100 (คุณภาพของสัญญาณ) โดยมีค่าพื้นฐานตามสภาวะ:
+      TRENDING_STRONG: 90, BREAKOUT_EMERGING: 85, ACCUMULATION: 80,
+      SIDEWAY_RANGE: 75, TRENDING_WEAK: 65, REVERSAL_FORMING: 60,
+      DISTRIBUTION: 45, CHOPPY_UNCERTAIN: 20, LIQUIDITY_VOID: 10, UNCLEAR: 15
+    แล้วปรับลดตาม noise_level (ลด noise_level*30) และปรับตาม volume
+
+  - tradeable: bool (True ถ้าสภาวะเอื้อต่อการซื้อขาย)
+    โดยปกติสภาวะที่ tradeable ได้แก่: TRENDING_STRONG, BREAKOUT_EMERGING,
+    ACCUMULATION, SIDEWAY_RANGE (บางกรณี), TRENDING_WEAK (บางกรณี)
+    ส่วน CHOPPY_UNCERTAIN, LIQUIDITY_VOID, UNCLEAR มักจะไม่ tradeable
+
+  - stability: 0-100 (ความเสถียรของสภาวะ) คำนวณจากความถี่ที่สภาวะเดียวกันปรากฏในประวัติ
+
+  - description: ข้อความอธิบายสภาวะ (เช่น "Strong uptrend with high momentum")
+
+================================================================================
+8. การนำสภาวะตลาดไปใช้ใน Pipeline ถัดไป
+================================================================================
+
+หลังจาก MarketStateClassifier ทำงานเสร็จ สภาวะตลาดจะถูกเก็บใน context.market_state
+และถูกนำไปใช้ในขั้นตอนต่อไป:
+
+  8.1 การให้คะแนนความเชื่อมั่น (Confidence Scoring)
+      - ConfidenceScorer (core/scoring/confidence_scorer.py) ใช้ market_state
+        เพื่อปรับคะแนนความเชื่อมั่นของสัญญาณ
+
+  8.2 การให้คะแนนการเข้า Trade (Entry Scoring)
+      - EntryScorer ใช้ market_state เพื่อประเมินความเหมาะสมของการเข้า Trade
+
+  8.3 การให้คะแนนการบล็อก (Block Scoring)
+      - BlockScorer ใช้ market_state เพื่อประเมินความเสี่ยงที่จะบล็อกสัญญาณ
+
+  8.4 การเลือกกลยุทธ์ (Strategy Selection)
+      - Pipeline จะวนลูปผ่านกลยุทธ์ที่ลงทะเบียนไว้ (จาก settings.json)
+      - แต่ละกลยุทธ์มีฟังก์ชัน is_eligible(context) ที่จะตรวจสอบว่าสภาวะตลาด
+        เหมาะสมกับกลยุทธ์นั้นหรือไม่
+      - กลยุทธ์ที่ใช้อยู่ในปัจจุบัน (จาก main.py) ได้แก่:
+          * rejection_5m_pa
+          * ema_crossover
+          * macd_crossover
+          * stochastic_crossover
+          * rsi_reversal
+          * bb_rsi_confluence
+          * pin_bar_scalper
+          * engulfing_scalper
+          * rsi_extreme_bounce
+          * ema_ribbon_momentum
+          * pa_snr
+          * sr_fakeout_rejection
+          * triple_confluence
+          * compression_breakout
+          * velocity_layer
+          * fakeout_trap_rider
+          * zscore_bandit
+          * range_bounce_arbitrage
+          * stochastic_sniping
+
+  8.5 การตัดสินใจผ่าน Execution Gate
+      - ปัจจุบัน Execution Gate ถูกบายพาส (ไม่มีการบล็อกสัญญาณ)
+      - แต่ยังคงทำงานเพื่อให้ข้อมูล advisory (คำแนะนำ)
+
+  8.6 การสร้างสัญญาณ (Signal)
+      - Pipeline จะสร้าง Signal object ที่มี action (CALL/PUT/NO_SIGNAL/BLOCKED)
+        confidence, quality, strategy_name, reason และ score_snapshot
+
+================================================================================
+9. สรุปขั้นตอนการจำแนกสภาวะตลาดแบบเต็ม流程
+================================================================================
+
+ขั้นตอนที่ 1: รับข้อมูล Candles (M1, M5, M15, H1) จากแหล่งข้อมูล
+ขั้นตอนที่ 2: ContextBuilder สร้าง MarketContext และรัน Tier 1 Engines:
+             - TrendEngine: วิเคราะห์แนวโน้ม (ADX, direction, strength)
+             - StrengthEngine: วิเคราะห์แรงผลักดัน (momentum, exhaustion)
+             - VolatilityEngine: วิเคราะห์ความผันผวน (ATR, BBW, regime)
+             - StructureEngine: วิเคราะห์โครงสร้าง (swing highs/lows, BOS)
+             - MTFEngine: วิเคราะห์หลายกรอบเวลา (alignment, conflict)
+ขั้นตอนที่ 3: MarketStateClassifier (Tier 2) ทำงาน:
+             3.1 ดึงข้อมูลจาก Tier 1 และคำนวณตัวชี้วัดเพิ่มเติม (RSI, volume, noise ฯลฯ)
+             3.2 คำนวณคะแนนดิบสำหรับ 10 สภาวะ
+             3.3 ปรับคะแนนด้วย Global Modifiers
+             3.4 (OTC) ปรับ LIQUIDITY_VOID = 0
+             3.5 เลือกสภาวะที่มีคะแนนสูงสุด
+             3.6 คำนวณ Confidence
+             3.7 ใช้ Smoothing เพื่อป้องกันการเปลี่ยนสถานะบ่อย
+             3.8 คำนวณ quality_score, tradeable, stability
+             3.9 เก็บผลลัพธ์ใน context.market_state
+ขั้นตอนที่ 4: Pipeline ทำงานต่อ:
+             4.1 ConfidenceScorer, EntryScorer, BlockScorer
+             4.2 วนลูปกลยุทธ์ที่ลงทะเบียน เรียก is_eligible() และ evaluate()
+             4.3 เลือกกลยุทธ์ที่ดีที่สุด (based on entry_score - block_score*0.5)
+             4.4 Execution Gate (บายพาส)
+             4.5 สร้าง Signal สุดท้าย
+ขั้นตอนที่ 5: ส่ง Signal ไปยัง Execution Layer เพื่อดำเนินการซื้อขาย (หรือบันทึก)
+
+================================================================================
+10. ข้อสังเกตเพิ่มเติมจากการตรวจสอบโค้ด
+================================================================================
+
+- บอทถูกออกแบบให้ทำงานบนกรอบเวลา M5 เป็นหลัก แต่ใช้ข้อมูล M1, M15, H1 ประกอบ
+- มีการปรับพารามิเตอร์ให้ตอบสนองเร็ว (ADX period 10, RSI period 7, MIN_CANDLES=50)
+- การใช้ volume เป็นปัจจัยสำคัญ แต่สำหรับ OTC จะถูกตัดทิ้งเนื่องจากข้อมูลไม่น่าเชื่อถือ
+- มีการตรวจจับ Divergence (ราคา- RSI) เพื่อช่วยจับสัญญาณกลับตัว
+- มีการตรวจจับ Compression (BBW ต่ำ) เพื่อจับสัญญาณ breakout
+- มีระบบ Smoothing State เพื่อป้องกันการเปลี่ยนสถานะถี่เกินไป (ต้องมี 3 ใน 5 ครั้ง)
+- Execution Gate ถูกบายพาส (ทั้งหมด approved) แต่ยังคงทำงานเพื่อให้ข้อมูล
+- มีกลยุทธ์ให้เลือกถึง 19 ตัว โดยเลือกจาก settings.json (active_strategies)
+- แต่ละกลยุทธ์จะมีเงื่อนไข is_eligible() ที่ตรวจสอบสภาวะตลาดก่อนทำงาน
+
+================================================================================
+11. แผนภาพสรุปการไหลของข้อมูล
+================================================================================
+
+Candles (M1,M5,M15,H1)
+         │
+         ▼
+   ContextBuilder
+         │
+         ├── Tier 1: Trend, Strength, Volatility, Structure, MTF
+         │         │
+         │         ▼
+         ├── Tier 2: MarketStateClassifier ◄─── หัวใจของการจำแนกสภาวะ
+         │         │
+         │         ▼
+         ├── Tier 3-7: Price Action, Detection, Behavior, Synthesis, Quality
+         │
+         ▼
+   MarketContext (มี market_state, scores, strategy_recommendation)
+         │
+         ▼
+   Scoring (Confidence, Entry, Block)
+         │
+         ▼
+   Strategy Loop (19 กลยุทธ์) → เลือกที่ดีที่สุด
+         │
+         ▼
+   Execution Gate (บายพาส)
+         │
+         ▼
+   Signal (CALL/PUT/NO_SIGNAL/BLOCKED)
+         │
+         ▼
+   Execution Layer (ซื้อขายจริง หรือ บันทึก)
+
+================================================================================
+12. เอกสารอ้างอิง (จากโค้ดที่อ่าน)
+================================================================================
+
+- main.py: จุดเริ่มต้น, โหลด symbols, เรียก BotRunner
+- runner.py: BotRunner, จัดการ Live/Backtest loop
+- core/orchestration/pipeline.py: Pipeline.execute()
+- core/orchestration/context_builder.py: ContextBuilder.build()
+- core/engines/market_state_classifier.py: หัวใจของการจำแนกสภาวะ
+- core/engines/trend_engine.py, strength_engine.py, volatility_engine.py, structure_engine.py, mtf_engine.py: Tier 1
+- core/scoring/confidence_scorer.py, entry_scorer.py, block_scorer.py: การให้คะแนน
+- core/config_loader.py: โหลด settings (active_strategies, account ฯลฯ)
+
+================================================================================
+จบรายงาน
+================================================================================

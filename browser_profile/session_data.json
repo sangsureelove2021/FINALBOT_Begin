@@ -1,0 +1,1001 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "fded558630514a92901bebb829452d3e",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1782039303.460656,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.674633300.1781952902",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1789728902,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "3FOjFBRGwEePawqxyzNS5WCsQqL",
+      "domain": ".tiktok.com",
+      "path": "/",
+      "expires": 1815648939.332363,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.420012945.1781952904",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1816512939.135079,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUksJ_S1YCH2iUH3ZVufzA9TTFOzNi_Z5jk4_fB4k_rNQnZqbgjZAdDLpAiL",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1816512904.252708,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_scid",
+      "value": "_-a0JYBAUw_1_fq18XSYC-P7cKtxKRRM",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1816080904,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "lead_id",
+      "value": "835c7687-9db2-4a7f-b8ea-b47ef2fcebf6",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1813488937.471883,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uid",
+      "value": "38ab5a3a-2b74-48ab-97e6-4d7a0c0d162a",
+      "domain": ".criteo.com",
+      "path": "/",
+      "expires": 1815648940.81931,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ym_uid",
+      "value": "1781952905971583513",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1813488905,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ym_d",
+      "value": "1781952905",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1813488905,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_tt_enable_cookie",
+      "value": "1",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1815648940,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "01KVJAQ03R83XHDCTN2NZH555K_.tt.1",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1815648940,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CountryID",
+      "value": "194",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1784544937,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IsRestrictedCountry",
+      "value": "false",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1784544937,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "brand_id",
+      "value": "1",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1784544937,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "support_email",
+      "value": "support@iqoption.com",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1784544937,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "platform",
+      "value": "15",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1784544937,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IsRegulatedCountry",
+      "value": "false",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1784544937,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lang",
+      "value": "en_US",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1784544937,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "yabs-sid",
+      "value": "1994633631781952905",
+      "domain": "mc.yandex.ru",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "i",
+      "value": "J5gMQAOU5ezCJKob30E0UF7Sw+PMC9ahO6QzSRjXtzpKkYlMWe0Pv1SQOGJ90iMQF6NH6CymbOjXQGwO+94Mc4QPhHg=",
+      "domain": ".yandex.ru",
+      "path": "/",
+      "expires": 1816512905.852732,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "yandexuid",
+      "value": "1027811471781952905",
+      "domain": ".yandex.ru",
+      "path": "/",
+      "expires": 1816512905.852847,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "yuidss",
+      "value": "1027811471781952905",
+      "domain": ".yandex.ru",
+      "path": "/",
+      "expires": 1816512905.852942,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ymex",
+      "value": "2097312905.yrts.1781952905#2097312905.yrtsi.1781952905",
+      "domain": ".yandex.ru",
+      "path": "/",
+      "expires": 1813488905,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".yandex.ru",
+      "path": "/",
+      "expires": 1813488957,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://iqoption.com",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "ad-id",
+      "value": "A7n0Fxq_YUkooxoZzaZpkt4",
+      "domain": ".amazon-adsystem.com",
+      "path": "/",
+      "expires": 1798800940.204688,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ad-privacy",
+      "value": "0",
+      "domain": ".amazon-adsystem.com",
+      "path": "/",
+      "expires": 1816512940.204921,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_did",
+      "value": "web_8025168953703881",
+      "domain": "iqoption.com",
+      "path": "/",
+      "expires": 1813488906,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "kwai_ckid",
+      "value": "1781952906188_74340685977748622",
+      "domain": ".mythad.com",
+      "path": "/",
+      "expires": 1816512940.470958,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "0396A0D21304606B0AB4B7AC12AF6131",
+      "domain": ".bing.com",
+      "path": "/",
+      "expires": 1815648909.764786,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".bat.bing.com",
+      "path": "/",
+      "expires": 1782557707.37408,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ym_isad",
+      "value": "2",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1782024906,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "af_id",
+      "value": "943fbd7e-1c99-44be-bdb9-4f0d904dcf60-p",
+      "domain": ".appsflyersdk.com",
+      "path": "/",
+      "expires": 1816080940.130758,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "identity",
+      "value": "901b317a53bee6be26e4437608f80e9fc28555193d58c6a1b74b07f8385825e33bc681c70ad20ac2b307f9613a564a4b08a3777689e69fb16127f8c5e576b3c6536d2fa1ae20d0200831ff4e3aad6d9c9f8a141cd0d017289fb9ab0a30a253a4272da0bd9115d8e9e3d2689c8d862bebae7bbfa37af986cb19cf02bd11b27500f32ab591465630e11056c1ceab425c2fb8776bff3f8619a6c5ff06d1e9fc06bb4d3619e62c31c6b6e6be07e14bce9d11db07b45f8dfe3206e6be07e14bce9d11fecfc8cc5ec99f427e58a3757ce1eb443d755b4816b7b5da",
+      "domain": "iqoption.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1781952906677.242901268493321664",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1789728940,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "kwai_uuid",
+      "value": "9c2f8fc16b216801c339c9fb31360697",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1813488906,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "afUserId",
+      "value": "943fbd7e-1c99-44be-bdb9-4f0d904dcf60-p",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1816512940.319662,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_k_cp",
+      "value": "1",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1782039307,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "af_id",
+      "value": "943fbd7e-1c99-44be-bdb9-4f0d904dcf60-p",
+      "domain": ".onelink.me",
+      "path": "/",
+      "expires": 1816080907.247837,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AF_SYNC",
+      "value": "1781952907626",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1782557707,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ym_visorc",
+      "value": "b",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1781954740,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAA/03IwQ3AMAgEsImQDgI56DaQNTJ8++zP8nCwY5aYk+K9SpqpgmacY2M77arj0W8rrJD3R7xPS1w8QAAAAA==",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1815648908.446206,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1781952908265",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1787136908.397707,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "536da91e-a535-4788-93c5-0ea50cc9d678",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1787136908.39801,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1787136908.398212,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1781928000000",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1816080908,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CMID",
+      "value": "ajZxjYsFVVAAACVCAAe76wAA",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1813488942.170371,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMPS",
+      "value": "4760",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1789728909.565322,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMPRO",
+      "value": "4760",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1789728942.17054,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid",
+      "value": "243bd409-aae3-4fc3-8e6e-3cce029e0a7e",
+      "domain": ".360yield.com",
+      "path": "/",
+      "expires": 1789728909.592257,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid_lu",
+      "value": "1781952909",
+      "domain": ".360yield.com",
+      "path": "/",
+      "expires": 1789728909.592485,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "XANDR_PANID",
+      "value": "yKKGVXvmECZuRuKFiAKvLVEBsfksfLgkJsu2G3sr9Vw_p6YBMpdMV_nrU0NV4H0iEim3FyzkhrWeK5VPWL86WnkAzIAu-qqNnCLuKO8TSyQ.",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1789728944.136917,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://iqoption.com",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "uuid2",
+      "value": "3542523498010776991",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1789728944.137326,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "KADUSERCOOKIE",
+      "value": "E98DC1DB-279A-4735-B075-A9E57573181E",
+      "domain": ".pubmatic.com",
+      "path": "/",
+      "expires": 1813488909.63469,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid",
+      "value": "15d047a6-48cb-458b-a1ec-2bb275e425ab",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1813488910.360104,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "c",
+      "value": "1781952909",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1813488909.750915,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "data-c",
+      "value": "k-N0Rvnq8JccydDjOplYP2VinCLIhUUmFLJl3slQ~~3",
+      "domain": ".media.net",
+      "path": "/",
+      "expires": 1784544943.346109,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1782557709.765076,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "criteo_dsp",
+      "value": "k--Iw2I68JccydDjOplYP2VinCLIgaYXK_PL9Biw",
+      "domain": ".adingo.jp",
+      "path": "/",
+      "expires": 1816512942.465764,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "pxrc",
+      "value": "CAA=",
+      "domain": ".rlcdn.com",
+      "path": "/",
+      "expires": 1787136943.824912,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid_lu",
+      "value": "1781952910",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1813488910.36036,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1789728942.194916,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://iqoption.com",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "criteo_dsp",
+      "value": "k--Iw2I68JccydDjOplYP2VinCLIgaYXK_PL9Biw",
+      "domain": ".fluctssp.smt.docomo.ne.jp",
+      "path": "/",
+      "expires": 1816512943.655783,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos",
+      "value": "MQM8R5KV-E-CH2M",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1813488942.194513,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MQM8R5KV-E-CH2M",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1813488942.194656,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://iqoption.com",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "TestIfCookieP",
+      "value": "ok",
+      "domain": ".smartadserver.com",
+      "path": "/",
+      "expires": 1816080910.905484,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "csync",
+      "value": "79:k-QoiRsa8JccydDjOplYP2VinCLIiIEnbAn-8UTQ",
+      "domain": ".smartadserver.com",
+      "path": "/",
+      "expires": 1784544943.216015,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "pid",
+      "value": "7671872216520773514",
+      "domain": ".smartadserver.com",
+      "path": "/",
+      "expires": 1789728910.905267,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tluid",
+      "value": "4252440241321609354055",
+      "domain": ".3lift.com",
+      "path": "/",
+      "expires": 1789728942.223601,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tt_viewer",
+      "value": "10140933-2921-4882-b616-d72008b20b63",
+      "domain": ".teads.tv",
+      "path": "/",
+      "expires": 1813402511.033482,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ab",
+      "value": "0001%3ACMLO1DsYj1l3pZN4SLGMQxzlMjILa1Rm",
+      "domain": ".agkn.com",
+      "path": "/",
+      "expires": 1813488911.471587,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_rxuuid",
+      "value": "%7B%22rx_uuid%22%3A%22RX-366f3701-51b3-40b2-b84b-28263653e1c4-004%22%7D",
+      "domain": ".1rx.io",
+      "path": "/",
+      "expires": 1813488911.130575,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_rxuuid",
+      "value": "%7B%22rx_uuid%22%3A%22RX-366f3701-51b3-40b2-b84b-28263653e1c4-004%22%7D",
+      "domain": ".targeting.unrulymedia.com",
+      "path": "/",
+      "expires": 1813488943.375519,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "visitor-id",
+      "value": "4249545115314449000V10",
+      "domain": ".media.net",
+      "path": "/",
+      "expires": 1813488911.668832,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "t_gid",
+      "value": "rtbh-c6c1d93c-0779-4240-b2bc-8a95863b93a3-tuct112ff70f",
+      "domain": ".taboola.com",
+      "path": "/",
+      "expires": 1813488943.831132,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "t_pt_gid",
+      "value": "rtbh-c6c1d93c-0779-4240-b2bc-8a95863b93a3-tuct112ff70f",
+      "domain": ".taboola.com",
+      "path": "/",
+      "expires": 1813488943.83137,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://iqoption.com",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_iidt",
+      "value": "VK/86RyN6mOyxYLaiQbr2EcwHqvz05TwuGZpWtAquxgxmBMVP1v/vl/7CvB0iEMKbXVmhYK9MTxmXg==",
+      "domain": ".fpjs.io",
+      "path": "/",
+      "expires": 1813488915.521813,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_vid_t",
+      "value": "41sYAmbZxDqCAq1v7mop7nsR3B6yv1SZOqRpY2rSgGSk6LfHiGW1XnoRmaif49pYukIPT33SdF5xHg==",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1813488915,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "touch_id",
+      "value": "f58ae78d-c2b2-4001-b3c5-6606f9b45f7d",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1784544937.678763,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "g_state",
+      "value": "{\"i_l\":0,\"i_ll\":1781952938055,\"i_b\":\"5lMmDwLcNP2TcQfjHdI8VDkjC/AJ8wQBHQzvLo84s9A\",\"i_e\":{\"enable_itp_optimization\":24},\"i_et\":1781952938055}",
+      "domain": "iqoption.com",
+      "path": "/",
+      "expires": 1797504938,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_BH1SENMS6L",
+      "value": "GS2.1.s1781952903$o1$g1$t1781952939$j24$l0$h0",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1816512939.551701,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "-Ga0JYBAUw_1_fq18XSYC-P7cKtxKRRMvGylSg",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1816080939,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "7f5b0bd06c9611f1915ffb34c2d8846a",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1782039339,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "7f5b92206c9611f18fa9610f1ce67390",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1815648939,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid_CTE62S3C77UF4VSQNHMG",
+      "value": "1781952905367::PhD3XMWcchvdVEXkKun6.1.1781952940363.1",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1815648940,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid_D8OQ7UJC77UCVEHVOQN0",
+      "value": "1781952905374::9PT4fDPTfq34xpt_yqfy.1.1781952940363.1",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1815648940,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cto_bundle",
+      "value": "t1S0tV9vc21FNzdMSHN6UGhoSmM2WmZsSFNmcm94eFozSDF2SjVhbTduS0dHRmROUCUyRm15JTJCWWtyWFNmZk9CWW8waDN6VjhZak8yaWN1JTJGMUZ1VXo2dzUlMkJhSmRaa3Z4cTltM3RNUnR5MXJydEFQY3BocWR5dkN3UlJ6T01hUXYlMkZRdEpGem1nclZCVDBueE9OcHZiaUhCbkVSRDRnJTNEJTNE",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1816116940,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "SPugT",
+      "value": "1781952942",
+      "domain": ".pubmatic.com",
+      "path": "/",
+      "expires": 1784544942.139018,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "umeh",
+      "value": "!38,0,1844160942,-1",
+      "domain": ".360yield.com",
+      "path": "/",
+      "expires": 1789728942.175163,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "um",
+      "value": "!38,YsI4lXCMoBOBeR1FHB3Oykl.XWWwLUCrwu3Vk3q9WepbuvRReuA-2rYMNUSfxe8yZEvUSg7NxJC2xs3TAxYRky3ejAI,1789728942",
+      "domain": ".360yield.com",
+      "path": "/",
+      "expires": 1789728942.174949,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|3A9lyMklXIl7VGACnLMCbyTEu6rLLKAwhQKi0FByBMzFlnDpp7lP96E4jUH8yd9zWahoWcnqRO6M1KxoLazIt+aleybw1oy9Ba0etFFpiE24DagjZo1cs2mUia7v/s+zY1FllDIoDuJxI0Ee/+50pSOHYGFCtshFcnkMTFG3D13mQdVc7iIhNLYPAdWGRZ6V8p4Q5rMwDzg=",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1813488942.194251,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://iqoption.com",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|3A9lyMklXIl7VGACnLMCbyTEu6rLLKAwhQKi0FByBMzFlnDpp7lP96E4jUH8yd9zWahoWcnqRO6M1KxoLazIt+aleybw1oy9Ba0etFFpiE24DagjZo1cs2mUia7v/s+zY1FllDIoDuJxI0Ee/+50pSOHYGFCtshFcnkMTFG3D13mQdVc7iIhNLYPAdWGRZ6V8p4Q5rMwDzg=",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1813488942.194787,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bh",
+      "value": "EkIiR29vZ2xlIENocm9tZSI7dj0iMTQ5IiwgIkNocm9taXVtIjt2PSIxNDkiLCAiO05vdCBBIEJyYW5kIjt2PSI5OSIaA3g4NiIJMTQ5LjAuMC4wKgI/MDoJIldpbmRvd3MiQgQxMC4wSgI2NFI3IkNocm9taXVtIjt2PSIxNDkuMC43ODI3LjU1IiwiTm90KUE7QnJhbmQiO3Y9IjI0LjAuMC4wImCu49nRBmoe3Mrh/wiS2KGxA5/P4eoD+/rw5w3r//32D9Dwz4cI",
+      "domain": ".yandex.ru",
+      "path": "/",
+      "expires": 1816512942,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cto_bundle",
+      "value": "9CzIM19JcGVuTTkwa0F6cWdDSTJBN0FLYVV2VjFnVXROUmZ5JTJCTENsdGdPdEwyakU1NmVWUjV5WGhlN3gwWW1sSFZEZE1KQXMlMkZKRyUyQiUyQk1OeUlsSFJ4TyUyQjl0JTJCcWVXaG85aFlaVm1QZjVhOGZDYUtNJTJCNnU3ZTNDRSUyQmoxMnFjeWRaS0Z3VCUyRjRHbFQzMSUyQmZZV3d5cG9uaDc0TmNJdyUzRCUzRA",
+      "domain": ".criteo.com",
+      "path": "/",
+      "expires": 1815648942.926305,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://iqoption.com",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "data-c-ts",
+      "value": "1781952943",
+      "domain": ".media.net",
+      "path": "/",
+      "expires": 1784544943.346424,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "rlas3",
+      "value": "HV32PesCHSQ8vbrKjfrnyfHMGLMo5yTbV+8yGNXUpwc=",
+      "domain": ".rlcdn.com",
+      "path": "/",
+      "expires": 1813488943.824294,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "anj",
+      "value": "dTM7k!M4/rCxrEQF']wIg2C%ykbP2h!]taT8i_it:z!9CUYaI%Xy-fCU.+LOIhTeO==y(s>4WqTAH#25S*_(=KDocHOtvV[GW<Myf$B_[<QG=%9sk@3@'s>TNLUsE",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1789728944.137167,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ttcsid",
+      "value": "1781952905369::XdEiTA6tWnnyoK9WDmsI.1.1781952940363.0::1.31003.34749::124746.2.651.418::42870.2.0",
+      "domain": ".iqoption.com",
+      "path": "/",
+      "expires": 1815649030,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "timestamp": "2026-06-20T10:57:11.901Z",
+  "url": "https://iqoption.com/en/login",
+  "isLoggedIn": false
+}

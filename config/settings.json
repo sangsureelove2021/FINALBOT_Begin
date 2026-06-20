@@ -7,7 +7,7 @@
     "iq_password": "2856101607mM@"
   },
   "symbols": [
-    "EURJPY-OTC", "EURUSD-OTC", "GBPUSD-OTC", "EURGBP-OTC"
+    "EURUSD-OTC", "EURGBP-OTC", "EURJPY-OTC", "GBPUSD-OTC"
   ],
   "capital": {
     "starting_balance": 2000,
@@ -24,7 +24,7 @@
     "_note": "Risk management disabled (set to 9999)."
   },
   "execution_gate": {
-    "min_confidence": 65,
+    "min_confidence": 75,
     "max_block_score": 30,
     "_note": "Strict quality threshold for better signals."
   },
