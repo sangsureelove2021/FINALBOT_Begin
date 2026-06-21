@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 # Global file paths
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-LIVE_ORDERS_FILE = PROJECT_ROOT / "logs" / "orders.jsonl"
+LIVE_ORDERS_FILE = PROJECT_ROOT / "logs" / "orders" / "orders.jsonl"
 
 # Ensure directory exists
 LIVE_ORDERS_FILE.parent.mkdir(parents=True, exist_ok=True)

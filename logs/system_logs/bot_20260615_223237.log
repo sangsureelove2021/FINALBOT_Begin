@@ -1,0 +1,47 @@
+2026-06-16 05:32:38,427 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-16 05:32:41,263 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-16 05:32:41,319 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-16 05:32:41,337 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-16 05:33:15,403 | INFO     | [OK] LIVE order placed: CALL 35 EURJPY-OTC M4 (id=13993307464)
+2026-06-16 05:33:15,415 | INFO     | [TRADE] Trade opened: 13993307464 | CALL 35x EURJPY-OTC @ 185.342275
+2026-06-16 05:34:17,762 | INFO     | [OK] LIVE order placed: PUT 35 GBPUSD-OTC M2 (id=13993309537)
+2026-06-16 05:34:17,773 | INFO     | [TRADE] Trade opened: 13993309537 | PUT 35x GBPUSD-OTC @ 1.352085
+2026-06-16 05:34:49,961 | INFO     | [OK] LIVE order placed: CALL 35 EURGBP-OTC M3 (id=13993310594)
+2026-06-16 05:34:49,966 | INFO     | [TRADE] Trade opened: 13993310594 | CALL 35x EURGBP-OTC @ 0.864195
+2026-06-16 05:35:33,502 | INFO     | [OK] LIVE order placed: PUT 35 GBPUSD-OTC M3 (id=13993312437)
+2026-06-16 05:35:33,513 | INFO     | [TRADE] Trade opened: 13993312437 | PUT 35x GBPUSD-OTC @ 1.353075
+2026-06-16 05:36:05,736 | INFO     | [OK] LIVE order placed: CALL 35 EURGBP-OTC M3 (id=13993313439)
+2026-06-16 05:36:05,753 | INFO     | [TRADE] Trade opened: 13993313439 | CALL 35x EURGBP-OTC @ 0.864485
+2026-06-16 05:36:42,389 | INFO     | [OK] LIVE order placed: CALL 35 EURJPY-OTC M3 (id=13993314899)
+2026-06-16 05:36:42,402 | INFO     | [TRADE] Trade opened: 13993314899 | CALL 35x EURJPY-OTC @ 185.344515
+2026-06-16 05:37:14,815 | INFO     | [OK] LIVE order placed: CALL 35 EURUSD-OTC M3 (id=13993316245)
+2026-06-16 05:37:14,832 | INFO     | [TRADE] Trade opened: 13993316245 | CALL 35x EURUSD-OTC @ 1.179615
+2026-06-16 05:37:20,432 | INFO     | [LOSS]: 13993307464 | EURJPY-OTC | P&L: -35.00 THB (+0.00%)
+2026-06-16 05:37:20,445 | INFO     | -> Applied 0 min cooldown for EURJPY-OTC
+2026-06-16 05:37:20,482 | INFO     | [WIN]: 13993309537 | GBPUSD-OTC | P&L: 30.10 THB (+0.00%)
+2026-06-16 05:37:20,496 | INFO     | -> Applied 0 min cooldown for GBPUSD-OTC
+2026-06-16 05:38:00,213 | INFO     | [WIN]: 13993310594 | EURGBP-OTC | P&L: 30.10 THB (+0.00%)
+2026-06-16 05:38:00,251 | INFO     | -> Applied 0 min cooldown for EURGBP-OTC
+2026-06-16 05:39:00,680 | INFO     | [LOSS]: 13993312437 | GBPUSD-OTC | P&L: -35.00 THB (+0.00%)
+2026-06-16 05:39:00,696 | INFO     | -> Applied 0 min cooldown for GBPUSD-OTC
+2026-06-16 05:39:06,973 | INFO     | [WIN]: 13993313439 | EURGBP-OTC | P&L: 30.10 THB (+0.00%)
+2026-06-16 05:39:06,994 | INFO     | -> Applied 0 min cooldown for EURGBP-OTC
+2026-06-16 05:40:00,667 | INFO     | [LOSS]: 13993314899 | EURJPY-OTC | P&L: -35.00 THB (+0.00%)
+2026-06-16 05:40:00,689 | INFO     | -> Applied 0 min cooldown for EURJPY-OTC
+2026-06-16 05:40:39,382 | INFO     | [OK] LIVE order placed: CALL 35 EURJPY-OTC M3 (id=13993323765)
+2026-06-16 05:40:39,404 | INFO     | [TRADE] Trade opened: 13993323765 | CALL 35x EURJPY-OTC @ 185.251755
+2026-06-16 05:41:54,828 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-16 05:43:10,714 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-16 05:44:26,614 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-16 05:44:32,222 | INFO     | [LOSS]: 13993316245 | EURUSD-OTC | P&L: -35.00 THB (+0.00%)
+2026-06-16 05:44:32,269 | INFO     | -> Applied 0 min cooldown for EURUSD-OTC
+2026-06-16 05:44:32,315 | INFO     | [LOSS]: 13993323765 | EURJPY-OTC | P&L: -35.00 THB (+0.00%)
+2026-06-16 05:44:32,335 | INFO     | -> Applied 0 min cooldown for EURJPY-OTC
+2026-06-16 05:46:19,122 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-16 05:47:35,120 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-16 05:48:51,186 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-16 05:50:07,209 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-16 05:51:28,302 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-16 05:52:44,652 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-16 05:54:00,718 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-16 05:55:16,905 | WARNING  | Agent timeout after 75s. Terminating process tree...

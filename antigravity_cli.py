@@ -99,9 +99,9 @@ while True:
 
             elif cmd == "/market":
                 symbol = arg if arg else "EURUSD-OTC"
-                json_path = f"logs/market_state_{symbol}.json"
+                json_path = f"logs/market_state/market_state_{symbol}.json"
                 if not os.path.exists(json_path):
-                    json_path = "logs/market_state.json"
+                    json_path = "logs/market_state/market_state.json"
                 
                 if not os.path.exists(json_path):
                     print(f"ไม่พบไฟล์ข้อมูลตลาดของ {symbol} ในโฟลเดอร์ logs/\n")

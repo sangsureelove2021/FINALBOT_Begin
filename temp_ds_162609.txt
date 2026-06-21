@@ -1,56 +1,0 @@
-
-[36m╔══════════════════════════════════════════════════╗[0m
-[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
-[36m║[0m   [90mAI Coding Agent via Browser Automation[0m         [36m║[0m
-[36m║[0m   [90mNo API key needed — uses chat.deepseek.com[0m     [36m║[0m
-[36m╚══════════════════════════════════════════════════╝[0m
-
-[94m  ℹ [0m Working directory : [36mE:\BOT_FINALBOT13 STG\BOT_FINALBOT[0m
-[94m  ℹ [0m Session directory : [36mC:\Users\BUSOLOVE\.deepseek-agent\session[0m
-[94m  ℹ [0m Headless mode     : [36mtrue[0m
-[94m  ℹ [0m Debug mode        : [36mfalse[0m
-
-[94m  ℹ [0m Launching browser with persistent session...
-[92m  ✓ [0m [92mBrowser ready![0m
-[2m    Navigated to DeepSeek home (new chat)[0m
-FIND: Parameter format not correct
-
-[34m──────────────────────────────────────────────────[0m
-[1m📋 [0m[1m[37mTask: You are a professional binary options trader. Analyze the following market data …[0m
-[34m──────────────────────────────────────────────────[0m
-
-[94m  ℹ [0m Sending task to DeepSeek...
-
-[90m  ┄[0m [2mStep 1/40[0m [90m┄[0m
-[93m  ⚠ [0m [93mResponse may have been delayed — continuing to wait...[0m
-  [36m⟳[0m [90mReceiving response.  (438 chars)[0m  [36m⟳[0m [90mReceiving response..  (438 chars)[0m  [36m⟳[0m [90mReceiving response...  (438 chars)[0m  [36m⟳[0m [90mReceiving response  (438 chars)[0m  [36m⟳[0m [90mReceiving response.  (438 chars)[0m  [36m⟳[0m [90mReceiving response..  (438 chars)[0m                                                                                
-  [1m[35m⚡ TOOL CALL[0m [36m→ run_command[0m
-  [90m{[0m
-  [90m  "command": "echo \"{   action: CALL,   confidence: 85,   expiry: 3,   reason: 'RSI ต่ำกว่า 30 มาก (23.29) บ่งชี้ว่าตลาด Oversold ราคามีโอกาสดีดตัวขึ้น แม้แนวโน้มหลักเป็นขาลง แต่ความผันผวนสูงและ RSI ที่ต่ำมากสนับสนุนการดีดตัวในระยะสั้น หมดอายุ 3 นาทีเหมาะสมกับสภาพคล่องและโมเมนตัมปัจจุบัน' }\"",[0m
-  [90m  "cwd": "E:\\BOT_FINALBOT13 STG\\BOT_FINALBOT"[0m
-  [90m}[0m
-[92m  ✓ Result:[0m
-  [90m"{   action: CALL,   confidence: 85,   expiry: 3,   reason: 'RSI ��ӡ��� 30 �ҡ (23.29) �觪����ҵ�Ҵ Oversold �Ҥ����͡�ʴմ��Ǣ�� ����������ѡ�繢�ŧ ������ѹ�ǹ�٧��� RSI ������ҡʹѺʹع��ôմ����������� ������� 3 �ҷ���������Ѻ��Ҿ���ͧ������������Ѩ�غѹ' }"[0m
-
-
-[90m  ┄[0m [2mStep 2/40[0m [90m┄[0m
-  [36m⟳[0m [90mReceiving response.  (94 chars)[0m  [36m⟳[0m [90mReceiving response..  (214 chars)[0m  [36m⟳[0m [90mReceiving response...  (338 chars)[0m  [36m⟳[0m [90mReceiving response  (440 chars)[0m  [36m⟳[0m [90mReceiving response.  (440 chars)[0m  [36m⟳[0m [90mReceiving response..  (440 chars)[0m  [36m⟳[0m [90mReceiving response...  (440 chars)[0m  [36m⟳[0m [90mReceiving response  (440 chars)[0m  [36m⟳[0m [90mReceiving response.  (440 chars)[0m                                                                                
-  [1m[35m⚡ TOOL CALL[0m [36m→ write_file[0m
-  [90m{[0m
-  [90m  "path": "market_analysis.json",[0m
-  [90m  "content": "{\n  \"action\": \"CALL\",\n  \"confidence\": 85,\n  \"expiry\": 3,\n  \"reason\": \"RSI ต่ำกว่า 30 มาก (23.29) บ่งชี้ว่าตลาด Oversold ราคามีโอกาสดีดตัวขึ้น แม้แนวโน้มหลักเป็นขาลง แต่ความผันผวนสูงและ RSI ที่ต่ำมากสนับสนุนการดีดตัวในระยะสั้น หมดอายุ 3 นาทีเหมาะสมกับสภาพคล่องและโมเมนตัมปัจจุบัน\"\n}"[0m
-  [90m[90m… (+1 chars)[0m[0m
-[92m  ✓ Result:[0m
-  [90m✓ Wrote 621.0 B (6 lines) → market_analysis.json[0m
-
-
-[90m  ┄[0m [2mStep 3/40[0m [90m┄[0m
-  [36m⟳[0m [90mReceiving response.  (188 chars)[0m  [36m⟳[0m [90mReceiving response..  (155 chars)[0m  [36m⟳[0m [90mReceiving response...  (246 chars)[0m  [36m⟳[0m [90mReceiving response  (246 chars)[0m  [36m⟳[0m [90mReceiving response.  (246 chars)[0m  [36m⟳[0m [90mReceiving response..  (246 chars)[0m  [36m⟳[0m [90mReceiving response...  (246 chars)[0m  [36m⟳[0m [90mReceiving response  (246 chars)[0m                                                                                
-[92m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-[1m[92m✅  TASK COMPLETE[0m
-[92m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-
-Task completed successfully. A JSON object has been generated based on the provided market data, saved to `market_analysis.json`. The analysis recommends a CALL action with 85% confidence, a 3-minute expiry, and the reasoning is provided in Thai.
-
-[94m  ℹ [0m 
-Shutting down...

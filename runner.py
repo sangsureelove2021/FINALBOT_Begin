@@ -29,7 +29,7 @@ sys.stderr = SafeStreamWrapper(sys.stderr)
 
 # Configure logging
 os.makedirs("logs", exist_ok=True)
-log_file_name = f"logs/bot_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
+log_file_name = f"logs/system_logs/bot_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s | %(levelname)-8s | %(message)s',
@@ -51,6 +51,7 @@ from execution.iq_option_executor import IQOptionExecutor
 from execution.order_manager import OrderManager
 from core.ai_analysis.deepseek_agent_bridge import DeepSeekAgentBridge
 from core.logging.trade_logger import TradeLogger
+from core.orchestrator import Orchestrator
 
 class PureAIRunner:
     def __init__(self):
@@ -65,10 +66,13 @@ class PureAIRunner:
         self.stake = self.settings.get("capital", {}).get("stake_per_trade", 10)
         
         # Initialize adapter and executor
+        thai_console_log("กำลังเชื่อมต่อ IQ Option...")
         self.data_adapter = IQOptionAdapter(account_type=self.account_type)
         if not self.data_adapter.is_connected():
-            thai_console_log("❌ Failed to connect to IQ Option.")
+            thai_console_log("❌ เชื่อมต่อ IQ Option ล้มเหลว")
             sys.exit(1)
+            
+        thai_console_log("เชื่อมต่อ IQ Option สำเร็จ..")
             
         self.executor = IQOptionExecutor(adapter=self.data_adapter, account_type=self.account_type)
         
@@ -83,19 +87,44 @@ class PureAIRunner:
         self.ai_bridge = DeepSeekAgentBridge(agent_command=agent_cmd, timeout_seconds=timeout_sec)
         self.use_advanced_ai_context = ai_cfg.get("use_advanced_context", True)
         self.trade_logger = TradeLogger()  # Initialize trade logger
+        self.orchestrator = Orchestrator(trade_logger=self.trade_logger)  # Initialize orchestrator
         
         self.last_processed_candle = {sym: None for sym in self.symbols}
-        thai_console_log(f"🚀 Pure AI Bot initialized. Account: {self.account_type} | Stake: {self.stake} | Symbols: {self.symbols}")
+        
+        # Display balance
+        try:
+            balance = self.data_adapter.api.get_balance()
+        except:
+            balance = 0.0
+            
+        acc_short = "Prac.." if self.account_type == "PRACTICE" else "Real"
+        thai_console_log(f"บัญชี {acc_short} | Balance: ${balance:.2f}")
+        
+        # Display assets
+        sym_len = len(self.symbols)
+        sym_list = ", ".join(self.symbols)
+        thai_console_log(f"รายการสินทรัพย์เพื่อเทรด {sym_len} รายการ : {sym_list}")
+        
+        thai_console_log("กำลังเตรียมข้อมูลสินทรัพย์")
+        
+        # Check readiness
+        ready_count = 0
+        not_ready_count = 0
+        for sym in self.symbols:
+            c = self.data_adapter.get_candles(sym, 'M5', 10)
+            if c is not None and not c.empty:
+                ready_count += 1
+            else:
+                not_ready_count += 1
+        
+        thai_console_log(f"ข้อมูลพร้อมเทรด {ready_count} รายการ  ไม่พร้อมเทรด {not_ready_count} รายการ")
+        
+        mode_str = f"[MODE : AI_BOT][Stake:{self.stake}][Profit:2%][Loss:3.5%][Orderlimit:{max_conc}][Time:11.00-23.00]"
+        thai_console_log(mode_str)
+        thai_console_log("รอ 20 วินาที เพื่อเข้าสู่การวิเคราะห์สัญญาณ")
+        import time
+        time.sleep(20)
 
-    def calc_rsi(self, prices, period=14):
-        delta = prices.diff()
-        gain = delta.clip(lower=0)
-        loss = -delta.clip(upper=0)
-        avg_gain = gain.ewm(alpha=1/period, adjust=False).mean()
-        avg_loss = loss.ewm(alpha=1/period, adjust=False).mean()
-        rs = avg_gain / avg_loss.replace(0, 1e-10)
-        rsi = 100 - (100 / (1 + rs))
-        return float(rsi.iloc[-1])
 
     def run_cycle(self):
         # Ensure connection is active before processing (handles WinError 10054 drops)
@@ -137,14 +166,14 @@ class PureAIRunner:
                         notes=f"Settled via IQ Option API (status: {win_status}, pnl: {pnl})",
                         current_time=now
                     )
-                    thai_console_log(f"🏆 ปิดออเดอร์ {trade.symbol} (ID: {order_id}): {'✅ ชนะ' if won else '❌ แพ้'} | กำไร: {pnl:.2f} บาท")
+                    thai_console_log(f"{'✅ ชนะ' if won else '❌ แพ้'} {trade.symbol} (ID: {order_id}) | PnL: {pnl:.2f}")
                 except Exception as e:
                     logger.error(f"Failed to settle trade {order_id}: {e}")
 
         try:
             balance = self.data_adapter.api.get_balance()
             if balance is not None:
-                balance_str = f" | ยอดเงิน: {balance:.2f} บาท"
+                balance_str = f" | 💰 {balance:.2f}"
             else:
                 balance_str = ""
         except Exception:
@@ -158,7 +187,7 @@ class PureAIRunner:
             #     continue
                 
             # Fetch 5-minute candles
-            candles = self.data_adapter.get_candles(symbol, 'M5', 100)
+            candles = self.data_adapter.get_candles(symbol, 'M5', 200)
             if candles.empty or len(candles) < 21:
                 continue
                 
@@ -170,73 +199,54 @@ class PureAIRunner:
             if self.last_processed_candle[symbol] == last_ts:
                 continue
                 
-            close_prices = completed_candles['close']
-            high_prices = completed_candles['high']
-            low_prices = completed_candles['low']
+            # Fetch additional timeframes (200 candles)
+            candles_m1 = self.data_adapter.get_candles(symbol, 'M1', 200)
             
-            # Calculate Indicators
-            ema20 = float(close_prices.ewm(span=20, adjust=False).mean().iloc[-1])
-            ema50 = float(close_prices.ewm(span=50, adjust=False).mean().iloc[-1])
+            # Resample M15 from M5 to save API calls
+            candles_m15 = candles.resample('15min').agg({
+                'open': 'first',
+                'high': 'max',
+                'low': 'min',
+                'close': 'last',
+                'volume': 'sum'
+            }).dropna()
             
-            ma20 = close_prices.rolling(window=20).mean()
-            std20 = close_prices.rolling(window=20).std(ddof=0)
-            bb_upper = float((ma20 + 2 * std20).iloc[-1])
-            bb_lower = float((ma20 - 2 * std20).iloc[-1])
-            bb_mid = float(ma20.iloc[-1])
+            candles_dict = {'M5': completed_candles, 'M1': candles_m1.iloc[:-1] if not candles_m1.empty else pd.DataFrame(), 'M15': candles_m15.iloc[:-1] if not candles_m15.empty else pd.DataFrame()}
             
-            rsi = self.calc_rsi(close_prices, 14)
+            # Export to CSV organized by currency pair
+            save_dir = os.path.join("data", "csv", symbol.replace("-OTC", "_OTC"))
+            os.makedirs(save_dir, exist_ok=True)
+            candles_m1.to_csv(os.path.join(save_dir, "M1.csv"))
+            candles.to_csv(os.path.join(save_dir, "M5.csv"))
+            candles_m15.to_csv(os.path.join(save_dir, "M15.csv"))
             
-            # MACD
-            ema12 = close_prices.ewm(span=12, adjust=False).mean()
-            ema26 = close_prices.ewm(span=26, adjust=False).mean()
-            macd_line = ema12 - ema26
-            signal_line = macd_line.ewm(span=9, adjust=False).mean()
-            curr_macd = float(macd_line.iloc[-1])
-            curr_macd_sig = float(signal_line.iloc[-1])
-            
-            current_price = float(close_prices.iloc[-1])
-            
-            # Create a simple mock context object for the bridge
-            class SimpleContext:
-                def __init__(self, **kwargs):
-                    for k, v in kwargs.items():
-                        setattr(self, k, v)
-            
-            context = SimpleContext(
-                symbol=symbol,
-                current_price=current_price,
-                trend="bullish" if ema20 > ema50 else "bearish",
-                volatility="high" if (bb_upper - bb_lower) / max(bb_mid, 1e-10) > 0.0005 else "low",
-                support_resistance=f"Support: {low_prices.iloc[-10:].min():.5f}, Resistance: {high_prices.iloc[-10:].max():.5f}",
-                rsi=rsi,
-                macd=curr_macd - curr_macd_sig,
-                market_state="normal"
-            )
-            
-            # --- Trade Logging (data_A.json format) ---
+            # --- 1. Orchestrator Data Pipeline ---
+            log_data = None
             try:
-                # Fetch additional timeframes for comprehensive logging
-                candles_m1 = self.data_adapter.get_candles(symbol, 'M1', 100)
-                candles_m15 = self.data_adapter.get_candles(symbol, 'M15', 100)
-                candles_dict = {'M5': candles, 'M1': candles_m1, 'M15': candles_m15}
-                
-                log_data = self.trade_logger.build_log_data(
+                log_data = self.orchestrator.process_cycle(
                     symbol=symbol,
                     candles_dict=candles_dict,
-                    primary_timeframe='M5',
-                    ai_context=context
+                    ai_context=None
                 )
                 if log_data:
                     log_path = self.trade_logger.save_log(log_data)
-                    if log_path:
-                        pass # ซ่อนบรรทัด Trade log saved ไม่ให้รกจอ
+                    
+                # Extract current price and rsi for console log
+                from core.indicator_store import store
+                payload = store.get_payload(symbol)
+                m5_inds = payload.get('m5', {})
+                current_price = m5_inds.get('close', float(completed_candles['close'].iloc[-1]))
+                rsi = m5_inds.get('rsi14', 50.0)
+                
             except Exception as e:
-                logger.error(f"Trade logging failed for {symbol}: {e}")
+                logger.error(f"Orchestrator cycle failed for {symbol}: {e}")
+                current_price = float(completed_candles['close'].iloc[-1])
+                rsi = 50.0
             
-            thai_console_log(f"📊 ตรวจกราฟ {symbol} | ราคา: {current_price:.5f} | RSI: {rsi:.1f}")
+            thai_console_log(f"📊 {symbol}{balance_str}")
             
             # Call DeepSeek Brain
-            ai_context_to_send = context
+            ai_context_to_send = None
             if getattr(self, "use_advanced_ai_context", True) and 'log_data' in locals() and log_data:
                 log_data_copy = dict(log_data)
                 log_data_copy["is_advanced"] = True
@@ -248,12 +258,12 @@ class PureAIRunner:
                 
             self.last_processed_candle[symbol] = last_ts
             
-            thai_console_log(f"🧠 AI: {insight.action} ({insight.confidence}%) -> {insight.reason}")
+            thai_console_log(f"🧠 AI: {insight.action} ({insight.confidence}%)")
             
             if insight.action in ["CALL", "PUT"] and insight.confidence >= 70:
                 direction = insight.action.upper()
                 expiry_seconds = insight.expiry * 60
-                thai_console_log(f"🔥 สั่งเทรด {insight.action} | {symbol} | เงิน: {self.stake} | เวลา: {insight.expiry} นาที")
+                thai_console_log(f"🔥 ยิงออเดอร์ {insight.action} {symbol} ({insight.expiry} นาที)")
                 try:
                     # Execute trade using executor's send_order method
                     result = self.executor.send_order(

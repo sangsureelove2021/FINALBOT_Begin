@@ -1,0 +1,53 @@
+2026-06-15 17:37:11,350 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-15 17:37:14,494 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-15 17:37:14,501 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-15 17:37:14,510 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-15 17:39:19,183 | ERROR    | Parse error: malformed node or string on line 2: Name(id='action', ctx=Load()). Raw response: ╔══════════════════════════════════════════════════╗
+║   🤖  DeepSeek Browser Agent                     ║
+║   AI Coding Agent via Browser Automation         ║
+║   No API key needed — uses chat.deepseek.com     ║
+╚══════════════════════════════════════════════════╝
+
+  ℹ  Working directory : E:\BOT_FINALBOT13 STG\BOT_FINALBOT
+  ℹ  Session directory : C:\Users\BUSOLOVE\.deepseek-agent\session
+  ℹ  Headless mode     : true
+  ℹ  Debug mode        : false
+
+  ℹ  Launching browser with persistent session
+2026-06-15 17:40:31,160 | INFO     | [OK] LIVE order placed: CALL 35 GBPUSD-OTC M3 (id=13991505846)
+2026-06-15 17:40:31,163 | INFO     | [TRADE] Trade opened: 13991505846 | CALL 35x GBPUSD-OTC @ 1.344335
+2026-06-15 17:42:27,552 | INFO     | [OK] LIVE order placed: PUT 35 EURJPY-OTC M5 (id=13991508765)
+2026-06-15 17:42:27,560 | INFO     | [TRADE] Trade opened: 13991508765 | PUT 35x EURJPY-OTC @ 184.767685
+2026-06-15 17:43:59,839 | INFO     | [OK] LIVE order placed: CALL 35 GBPUSD-OTC M4 (id=13991510858)
+2026-06-15 17:43:59,877 | INFO     | [TRADE] Trade opened: 13991510858 | CALL 35x GBPUSD-OTC @ 1.344665
+2026-06-15 17:44:05,211 | INFO     | [WIN]: 13991505846 | GBPUSD-OTC | P&L: 29.75 THB (+0.00%)
+2026-06-15 17:44:05,275 | INFO     | -> Applied 0 min cooldown for GBPUSD-OTC
+2026-06-15 17:47:07,666 | INFO     | [OK] LIVE order placed: CALL 35 EURUSD-OTC M2 (id=13991517192)
+2026-06-15 17:47:07,746 | INFO     | [TRADE] Trade opened: 13991517192 | CALL 35x EURUSD-OTC @ 1.156855
+2026-06-15 17:47:56,829 | INFO     | [OK] LIVE order placed: CALL 35 GBPUSD-OTC M3 (id=13991518388)
+2026-06-15 17:47:56,839 | INFO     | [TRADE] Trade opened: 13991518388 | CALL 35x GBPUSD-OTC @ 1.343115
+2026-06-15 17:48:57,153 | ERROR    | Parse error: invalid syntax (<unknown>, line 2). Raw response: ╔══════════════════════════════════════════════════╗
+║   🤖  DeepSeek Browser Agent                     ║
+║   AI Coding Agent via Browser Automation         ║
+║   No API key needed — uses chat.deepseek.com     ║
+╚══════════════════════════════════════════════════╝
+
+  ℹ  Working directory : E:\BOT_FINALBOT13 STG\BOT_FINALBOT
+  ℹ  Session directory : C:\Users\BUSOLOVE\.deepseek-agent\session
+  ℹ  Headless mode     : true
+  ℹ  Debug mode        : false
+
+  ℹ  Launching browser with persistent session
+2026-06-15 17:49:02,213 | INFO     | [LOSS]: 13991508765 | EURJPY-OTC | P&L: -35.00 THB (+0.00%)
+2026-06-15 17:49:02,231 | INFO     | -> Applied 0 min cooldown for EURJPY-OTC
+2026-06-15 17:49:02,251 | INFO     | [LOSS]: 13991510858 | GBPUSD-OTC | P&L: -35.00 THB (+0.00%)
+2026-06-15 17:49:02,259 | INFO     | -> Applied 0 min cooldown for GBPUSD-OTC
+2026-06-15 17:49:08,431 | INFO     | [WIN]: 13991517192 | EURUSD-OTC | P&L: 29.75 THB (+0.00%)
+2026-06-15 17:49:08,443 | INFO     | -> Applied 0 min cooldown for EURUSD-OTC
+2026-06-15 17:51:05,088 | INFO     | [OK] LIVE order placed: CALL 35 EURUSD-OTC M3 (id=13991523801)
+2026-06-15 17:51:05,099 | INFO     | [TRADE] Trade opened: 13991523801 | CALL 35x EURUSD-OTC @ 1.158095
+2026-06-15 17:51:54,381 | ERROR    | No JSON found in response
+2026-06-15 17:52:57,133 | INFO     | [OK] LIVE order placed: CALL 35 EURGBP-OTC M3 (id=13991526841)
+2026-06-15 17:52:57,143 | INFO     | [TRADE] Trade opened: 13991526841 | CALL 35x EURGBP-OTC @ 0.864115
+2026-06-15 17:53:02,163 | INFO     | [WIN]: 13991518388 | GBPUSD-OTC | P&L: 29.75 THB (+0.00%)
+2026-06-15 17:53:02,181 | INFO     | -> Applied 0 min cooldown for GBPUSD-OTC

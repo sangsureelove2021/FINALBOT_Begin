@@ -1,0 +1,53 @@
+2026-06-18 05:36:55,613 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-18 05:36:58,768 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-18 05:36:58,776 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-18 05:36:58,795 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-18 05:36:58,808 | INFO     | MarketStateClassifier initialized successfully
+2026-06-18 05:36:59,879 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260617_223659_EURUSD.json
+2026-06-18 05:37:03,691 | ERROR    | Agent error (code 1)
+2026-06-18 05:37:03,706 | ERROR    | Error details: 
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automati
+2026-06-18 05:37:04,902 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260617_223704_EURGBP.json
+2026-06-18 05:37:08,473 | ERROR    | Agent error (code 1)
+2026-06-18 05:37:08,509 | ERROR    | Error details: 
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automati
+2026-06-18 05:37:10,071 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260617_223709_EURJPY.json
+2026-06-18 05:37:14,195 | ERROR    | Agent error (code 1)
+2026-06-18 05:37:14,323 | ERROR    | Error details: 
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automati
+2026-06-18 05:37:15,805 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260617_223715_EURUSD-OTC.json
+2026-06-18 05:37:20,609 | ERROR    | Agent error (code 1)
+2026-06-18 05:37:20,636 | ERROR    | Error details: 
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automati
+2026-06-18 05:40:05,049 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260617_224004_EURUSD.json
+2026-06-18 05:40:09,093 | ERROR    | Agent error (code 1)
+2026-06-18 05:40:09,121 | ERROR    | Error details: 
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automati
+2026-06-18 05:40:10,078 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260617_224009_EURGBP.json
+2026-06-18 05:40:13,643 | ERROR    | Agent error (code 1)
+2026-06-18 05:40:13,665 | ERROR    | Error details: 
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automati
+2026-06-18 05:40:14,656 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260617_224014_EURJPY.json
+2026-06-18 05:40:18,296 | ERROR    | Agent error (code 1)
+2026-06-18 05:40:18,320 | ERROR    | Error details: 
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automati
+2026-06-18 05:40:19,277 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260617_224019_EURUSD-OTC.json
+2026-06-18 05:40:29,021 | ERROR    | Agent error (code 1)
+2026-06-18 05:40:29,106 | ERROR    | Error details: 
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automati

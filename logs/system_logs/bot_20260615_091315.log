@@ -1,0 +1,39 @@
+2026-06-15 16:13:18,072 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-15 16:13:21,597 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-15 16:13:21,621 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-15 16:13:21,635 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-15 16:14:16,236 | INFO     | [OK] LIVE order placed: CALL 35 EURJPY-OTC M3 (id=13991372062)
+2026-06-15 16:14:16,239 | INFO     | [TRADE] Trade opened: 13991372062 | CALL 35x EURJPY-OTC @ 184.747075
+2026-06-15 16:15:07,834 | INFO     | [OK] LIVE order placed: CALL 35 EURUSD-OTC M3 (id=13991373237)
+2026-06-15 16:15:07,839 | INFO     | [TRADE] Trade opened: 13991373237 | CALL 35x EURUSD-OTC @ 1.156515
+2026-06-15 16:15:58,301 | INFO     | [OK] LIVE order placed: CALL 35 GBPUSD-OTC M3 (id=13991374426)
+2026-06-15 16:15:58,342 | INFO     | [TRADE] Trade opened: 13991374426 | CALL 35x GBPUSD-OTC @ 1.346355
+2026-06-15 16:16:48,246 | INFO     | [OK] LIVE order placed: CALL 35 EURGBP-OTC M3 (id=13991375895)
+2026-06-15 16:16:48,292 | INFO     | [TRADE] Trade opened: 13991375895 | CALL 35x EURGBP-OTC @ 0.862705
+2026-06-15 16:17:18,403 | INFO     | [WIN]: 13991372062 | EURJPY-OTC | P&L: 29.75 THB (+0.00%)
+2026-06-15 16:17:18,468 | INFO     | -> Applied 15 min cooldown for EURJPY-OTC
+2026-06-15 16:18:13,889 | INFO     | [LOSS]: 13991373237 | EURUSD-OTC | P&L: -35.00 THB (+0.00%)
+2026-06-15 16:18:13,913 | INFO     | -> Applied 45 min cooldown for EURUSD-OTC
+2026-06-15 16:19:06,065 | INFO     | [OK] LIVE order placed: PUT 35 EURUSD-OTC M2 (id=13991379603)
+2026-06-15 16:19:06,145 | INFO     | [COOLDOWN] Cannot trade EURUSD-OTC, cooldown active until 2026-06-15 10:03:13.888492+00:00
+2026-06-15 16:19:11,191 | INFO     | [WIN]: 13991374426 | GBPUSD-OTC | P&L: 29.75 THB (+0.00%)
+2026-06-15 16:19:11,260 | INFO     | -> Applied 15 min cooldown for GBPUSD-OTC
+2026-06-15 16:20:03,197 | INFO     | [LOSS]: 13991375895 | EURGBP-OTC | P&L: -35.00 THB (+0.00%)
+2026-06-15 16:20:03,304 | INFO     | -> Applied 45 min cooldown for EURGBP-OTC
+2026-06-15 16:20:58,191 | ERROR    | No JSON found in response
+2026-06-15 16:22:11,501 | INFO     | [OK] LIVE order placed: PUT 35 EURUSD-OTC M3 (id=13991384194)
+2026-06-15 16:22:11,530 | INFO     | [COOLDOWN] Cannot trade EURUSD-OTC, cooldown active until 2026-06-15 10:03:13.888492+00:00
+2026-06-15 16:23:52,900 | ERROR    | Parse error: invalid syntax (<unknown>, line 2). Raw response: ╔══════════════════════════════════════════════════╗
+║   🤖  DeepSeek Browser Agent                     ║
+║   AI Coding Agent via Browser Automation         ║
+║   No API key needed — uses chat.deepseek.com     ║
+╚══════════════════════════════════════════════════╝
+
+  ℹ  Working directory : E:\BOT_FINALBOT13 STG\BOT_FINALBOT
+  ℹ  Session directory : C:\Users\BUSOLOVE\.deepseek-agent\session
+  ℹ  Headless mode     : true
+  ℹ  Debug mode        : false
+
+  ℹ  Launching browser with persistent session
+2026-06-15 16:26:08,730 | INFO     | [OK] LIVE order placed: PUT 35 EURJPY-OTC M3 (id=13991389708)
+2026-06-15 16:26:08,739 | INFO     | [COOLDOWN] Cannot trade EURJPY-OTC, cooldown active until 2026-06-15 09:32:18.345525+00:00

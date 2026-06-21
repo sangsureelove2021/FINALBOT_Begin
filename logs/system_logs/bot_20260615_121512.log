@@ -1,0 +1,56 @@
+2026-06-15 19:15:12,440 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-15 19:15:15,805 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-15 19:15:15,817 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-15 19:15:15,825 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-15 19:15:45,755 | INFO     | [OK] LIVE order placed: PUT 35 EURJPY-OTC M3 (id=13991688340)
+2026-06-15 19:15:45,759 | INFO     | [TRADE] Trade opened: 13991688340 | PUT 35x EURJPY-OTC @ 184.842945
+2026-06-15 19:16:15,022 | INFO     | [OK] LIVE order placed: CALL 35 EURUSD-OTC M3 (id=13991689607)
+2026-06-15 19:16:15,057 | INFO     | [TRADE] Trade opened: 13991689607 | CALL 35x EURUSD-OTC @ 1.162215
+2026-06-15 19:16:44,055 | WARNING  | Standard parsing failed. Attempting regex extraction. Extracted string: {
+"action": "CALL",
+"confidence": 75,
+"expiry": 5,
+"reason": ราคาอยู่ใกล้แนวต้าน 1.34702 และ RSI 55.28 บ่งบอกโมเมนตัมขาขึ้นเล็กน้อย แม้แนวโน้มหลักเป็นขาลง แต่ความผันผวนต่ำทำให้ราคาอาจใช้เวลาทะลุแนวต้า
+2026-06-15 19:16:44,433 | INFO     | [OK] LIVE order placed: CALL 35 GBPUSD-OTC M5 (id=13991690586)
+2026-06-15 19:16:44,451 | INFO     | [TRADE] Trade opened: 13991690586 | CALL 35x GBPUSD-OTC @ 1.346805
+2026-06-15 19:17:13,333 | WARNING  | Standard parsing failed. Attempting regex extraction. Extracted string: {
+"action": "CALL",
+"confidence": 65,
+"expiry": 5,
+"reason": RSI กำลังเป็นกลาง แนวโน้ม bullish แต่ MACD ติดลบและ volatility ต่ำ เลือก expiry นานขึ้นเพื่อรอให้ราคาทะลุแนวต้านที่ 0.86432
+}
+2026-06-15 19:19:00,664 | INFO     | [WIN]: 13991688340 | EURJPY-OTC | P&L: 30.10 THB (+0.00%)
+2026-06-15 19:19:00,668 | INFO     | -> Applied 0 min cooldown for EURJPY-OTC
+2026-06-15 19:19:19,738 | INFO     | [WIN]: 13991689607 | EURUSD-OTC | P&L: 30.10 THB (+0.00%)
+2026-06-15 19:19:19,764 | INFO     | -> Applied 0 min cooldown for EURUSD-OTC
+2026-06-15 19:20:32,627 | WARNING  | Standard parsing failed. Attempting regex extraction. Extracted string: {
+"action": "CALL",
+"confidence": 85,
+"expiry": 3,
+"reason": สัญญาณ RSI กำลังฟื้นตัวจากโซน oversold แม้แนวโน้มหลักเป็นขาลง แต่ MACD Histogram ติดลบเริ่มบางลง แนวรับใกล้เคียงแข็งแกร่ง คาดราคาจะรีบาวด์ก
+2026-06-15 19:20:33,074 | INFO     | [OK] LIVE order placed: CALL 35 EURJPY-OTC M3 (id=13991699021)
+2026-06-15 19:20:33,077 | INFO     | [TRADE] Trade opened: 13991699021 | CALL 35x EURJPY-OTC @ 184.705275
+2026-06-15 19:21:01,897 | WARNING  | Standard parsing failed. Attempting regex extraction. Extracted string: {
+"action": "CALL",
+"confidence": 85,
+"expiry": 3,
+"reason": แนวโน้ม bullish และ RSI ที่ 55.49 ส่งสัญญาณยังไม่ถึงเขต overbought รองรับการขึ้นต่อ โมเมนตัมจาก MACD ติดลบเล็กน้อยแต่ใกล้เป็นบวก จับทางแนวต
+2026-06-15 19:21:02,451 | INFO     | [OK] LIVE order placed: CALL 35 EURUSD-OTC M3 (id=13991699836)
+2026-06-15 19:21:02,461 | INFO     | [TRADE] Trade opened: 13991699836 | CALL 35x EURUSD-OTC @ 1.161975
+2026-06-15 19:21:31,426 | WARNING  | Standard parsing failed. Attempting regex extraction. Extracted string: {
+"action": "CALL",
+"confidence": 85,
+"expiry": 2,
+"reason": ราคาใกล้แนวต้าน 1.34770 และ RSI(14) อยู่ที่ 58.50 ยังไม่เข้าสู่เขตซื้อเกิน ขณะที่ MACD Histogram เป็นบวกเล็กน้อย 0.00021 สัญญาณโมเมนตัมขึ้น
+2026-06-15 19:21:31,888 | INFO     | [OK] LIVE order placed: CALL 35 GBPUSD-OTC M2 (id=13991701108)
+2026-06-15 19:21:31,898 | INFO     | [TRADE] Trade opened: 13991701108 | CALL 35x GBPUSD-OTC @ 1.347465
+2026-06-15 19:22:01,178 | INFO     | [OK] LIVE order placed: CALL 35 EURGBP-OTC M3 (id=13991701857)
+2026-06-15 19:22:01,250 | INFO     | [TRADE] Trade opened: 13991701857 | CALL 35x EURGBP-OTC @ 0.863335
+2026-06-15 19:22:06,272 | INFO     | [WIN]: 13991690586 | GBPUSD-OTC | P&L: 30.10 THB (+0.00%)
+2026-06-15 19:22:06,286 | INFO     | -> Applied 0 min cooldown for GBPUSD-OTC
+2026-06-15 19:24:00,649 | INFO     | [WIN]: 13991699021 | EURJPY-OTC | P&L: 30.10 THB (+0.00%)
+2026-06-15 19:24:00,673 | INFO     | -> Applied 0 min cooldown for EURJPY-OTC
+2026-06-15 19:24:00,696 | INFO     | [LOSS]: 13991701108 | GBPUSD-OTC | P&L: -35.00 THB (+0.00%)
+2026-06-15 19:24:00,705 | INFO     | -> Applied 0 min cooldown for GBPUSD-OTC
+2026-06-15 19:24:07,080 | INFO     | [WIN]: 13991699836 | EURUSD-OTC | P&L: 30.10 THB (+0.00%)
+2026-06-15 19:24:07,127 | INFO     | -> Applied 0 min cooldown for EURUSD-OTC

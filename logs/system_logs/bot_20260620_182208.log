@@ -1,0 +1,29 @@
+2026-06-21 01:22:09,080 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-21 01:22:12,544 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-21 01:22:12,545 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-21 01:22:12,550 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-21 01:22:12,551 | INFO     | MarketStateClassifier initialized successfully
+2026-06-21 01:22:12,551 | INFO     | CandlePatternAnalyzer initialized successfully
+2026-06-21 01:22:13,699 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_182213_EURUSD-OTC.json
+2026-06-21 01:22:50,955 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_182250_EURGBP-OTC.json
+2026-06-21 01:23:20,665 | INFO     | [OK] LIVE order placed: CALL 35 EURGBP-OTC M3 (id=14007524729)
+2026-06-21 01:23:20,666 | INFO     | [TRADE] Trade opened: 14007524729 | CALL 35x EURGBP-OTC @ 0.870775
+2026-06-21 01:23:21,603 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_182321_EURJPY-OTC.json
+2026-06-21 01:23:52,006 | INFO     | [OK] LIVE order placed: CALL 35 EURJPY-OTC M5 (id=14007525449)
+2026-06-21 01:23:52,007 | INFO     | [TRADE] Trade opened: 14007525449 | CALL 35x EURJPY-OTC @ 183.561745
+2026-06-21 01:23:52,911 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_182352_GBPUSD-OTC.json
+2026-06-21 01:24:23,666 | INFO     | [OK] LIVE order placed: CALL 35 GBPUSD-OTC M2 (id=14007526729)
+2026-06-21 01:24:23,667 | INFO     | [TRADE] Trade opened: 14007526729 | CALL 35x GBPUSD-OTC @ 1.361005
+2026-06-21 01:25:06,125 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_182506_EURUSD-OTC.json
+2026-06-21 01:25:42,925 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_182542_EURGBP-OTC.json
+2026-06-21 01:26:20,168 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_182620_EURJPY-OTC.json
+2026-06-21 01:26:57,922 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_182657_GBPUSD-OTC.json
+2026-06-21 01:27:28,655 | INFO     | [OK] LIVE order placed: CALL 35 GBPUSD-OTC M5 (id=14007533972)
+2026-06-21 01:27:28,655 | INFO     | [TRADE] Trade opened: 14007533972 | CALL 35x GBPUSD-OTC @ 1.360725
+2026-06-21 01:27:33,714 | INFO     | [WIN]: 14007524729 | EURGBP-OTC | P&L: 30.45 THB (+0.00%)
+2026-06-21 01:27:33,714 | INFO     | -> Applied 0 min cooldown for EURGBP-OTC
+2026-06-21 01:27:33,750 | INFO     | [WIN]: 14007526729 | GBPUSD-OTC | P&L: 30.45 THB (+0.00%)
+2026-06-21 01:27:33,751 | INFO     | -> Applied 0 min cooldown for GBPUSD-OTC
+2026-06-21 01:29:00,507 | INFO     | [WIN]: 14007525449 | EURJPY-OTC | P&L: 30.45 THB (+0.00%)
+2026-06-21 01:29:00,508 | INFO     | -> Applied 0 min cooldown for EURJPY-OTC
+2026-06-21 01:30:04,172 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_183004_EURUSD-OTC.json

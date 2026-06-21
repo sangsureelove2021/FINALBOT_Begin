@@ -1,34 +1,0 @@
-
-[36m╔══════════════════════════════════════════════════╗[0m
-[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
-[36m║[0m   [90mAI Coding Agent via Browser Automation[0m         [36m║[0m
-[36m║[0m   [90mNo API key needed — uses chat.deepseek.com[0m     [36m║[0m
-[36m╚══════════════════════════════════════════════════╝[0m
-
-[94m  ℹ [0m Working directory : [36mC:\Users\Administrator\Documents\GitHub\BOT_FINALBOT[0m
-[94m  ℹ [0m Session directory : [36mC:\Users\Administrator\.deepseek-agent\session[0m
-[94m  ℹ [0m Headless mode     : [36mtrue[0m
-[94m  ℹ [0m Debug mode        : [36mfalse[0m
-
-[94m  ℹ [0m Launching browser with persistent session...
-[92m  ✓ [0m [92mBrowser ready![0m
-[2m    Navigated to DeepSeek home (new chat)[0m
-FIND: Parameter format not correct
-
-[34m──────────────────────────────────────────────────[0m
-[1m📋 [0m[1m[37mTask: You are a professional binary options trader. Analyze the following market data …[0m
-[34m──────────────────────────────────────────────────[0m
-
-[94m  ℹ [0m Sending task to DeepSeek...
-
-[90m  ┄[0m [2mStep 1/40[0m [90m┄[0m
-[93m  ⚠ [0m [93mResponse may have been delayed — continuing to wait...[0m
-  [36m⟳[0m [90mReceiving response.  (234 chars)[0m  [36m⟳[0m [90mReceiving response..  (234 chars)[0m  [36m⟳[0m [90mReceiving response...  (234 chars)[0m  [36m⟳[0m [90mReceiving response  (234 chars)[0m  [36m⟳[0m [90mReceiving response.  (234 chars)[0m  [36m⟳[0m [90mReceiving response..  (234 chars)[0m                                                                                
-[92m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-[1m[92m✅  TASK COMPLETE[0m
-[92m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-
-{"action": "CALL", "confidence": 80, "expiry": 3, "reason": "แนวโน้ม bullish, RSI 68.79 บ่งบอกโมเมนตัมขาขึ้น, MACD histogram เป็นบวก, แม้ราคาจะใกล้แนวต้านที่ 185.03704 แต่ความผันผวนต่ำทำให้การเลือก CALL ระยะ 3 นาทีมีความเป็นไปได้สูง"}
-
-[94m  ℹ [0m 
-Shutting down...
