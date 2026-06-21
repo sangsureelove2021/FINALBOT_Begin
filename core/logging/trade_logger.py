@@ -47,6 +47,14 @@ class TradeLogger:
         
         # Cache for candle data to avoid repeated fetches
         self._cache = {}
+        
+        # Initialize CandlePatternAnalyzer if available
+        self.pattern_analyzer = None
+        if CandlePatternAnalyzer is not None:
+            try:
+                self.pattern_analyzer = CandlePatternAnalyzer()
+            except Exception as e:
+                logger.warning(f"Failed to initialize CandlePatternAnalyzer: {e}")
     
     def build_log_data(self,
                        symbol: str,
@@ -132,7 +140,7 @@ class TradeLogger:
         last = df.iloc[-1]
         body = abs(last['close'] - last['open'])
         total_range = last['high'] - last['low']
-        atr = max(indicators.get('atr', 0.0001), 0.0001)
+        atr = max(indicators.get('atr14', indicators.get('atr', 0.0001)), 0.0001)
         
         # 1. Pattern (from CandlePatternAnalyzer)
         pattern = "NONE"

@@ -84,7 +84,7 @@ class MarketStateClassifier(BaseEngine):
             structure_data = kwargs.get('structure_data', {})
             mtf_data = kwargs.get('mtf_data', {})
             symbol = kwargs.get('symbol', '')
-            is_otc = symbol.upper().endswith('_OTC') if isinstance(symbol, str) else False
+            is_otc = (symbol.upper().endswith('_OTC') or symbol.upper().endswith('-OTC')) if isinstance(symbol, str) else False
             
             # Compute core metrics (prioritize engine data, fallback to raw calculations)
             metrics = self._compute_metrics(candles_df, trend_data, strength_data,

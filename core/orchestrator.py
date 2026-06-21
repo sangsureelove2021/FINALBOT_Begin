@@ -37,7 +37,8 @@ class Orchestrator:
             logger.warning(f"No M5 data for {symbol} in Orchestrator")
             return None
             
-        # 1. Get pre-calculated payload from IndicatorStore
+        # 1. Calculate indicators and update IndicatorStore
+        store.calculate_all(symbol, candles_dict)
         payload = store.get_payload(symbol)
         indicators_primary = payload.get('m5', {})
         
@@ -80,7 +81,7 @@ class Orchestrator:
         
         if self.classifier is not None:
             try:
-                result = self.classifier.analyze(primary_df, tier1=tier1)
+                result = self.classifier.analyze(primary_df, tier1=tier1, symbol=symbol)
                 
                 if isinstance(result, dict):
                     metrics = result.get('metrics', {})

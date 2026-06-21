@@ -145,7 +145,19 @@ class IndicatorStore:
             self._store[symbol]['price_action'] = price_action_data
 
     def get_payload(self, symbol: str) -> Dict[str, Any]:
-        return self._store.get(symbol, {})
+        raw = self._store.get(symbol, {})
+        import math
+        def sanitize(v):
+            if isinstance(v, dict):
+                return {k: sanitize(v2) for k, v2 in v.items()}
+            elif isinstance(v, list):
+                return [sanitize(v2) for v2 in v]
+            elif isinstance(v, float):
+                if math.isnan(v) or math.isinf(v):
+                    return 0.0
+                return v
+            return v
+        return sanitize(raw)
 
     def clear_all(self):
         self._store.clear()

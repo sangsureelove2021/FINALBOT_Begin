@@ -1,0 +1,62 @@
+2026-06-22 03:08:44,621 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-22 03:08:48,582 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-22 03:08:48,630 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-22 03:08:48,951 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-22 03:09:21,585 | INFO     | MarketStateClassifier initialized successfully in Orchestrator
+2026-06-22 03:10:04,495 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:10:04,725 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:10:38,798 | ERROR    | No JSON found in response
+2026-06-22 03:10:38,799 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 03:11:20,054 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 03:11:20,476 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 03:12:03,313 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:12:03,431 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:13:18,514 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 03:13:18,928 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 03:14:03,815 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:14:03,936 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:14:38,619 | ERROR    | No JSON found in response
+2026-06-22 03:14:38,619 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 03:15:18,946 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 03:15:19,363 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 03:16:03,163 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:16:03,356 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:17:18,487 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 03:17:18,853 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 03:18:03,823 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:18:03,927 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:19:18,973 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 03:19:19,400 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 03:20:03,915 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:20:04,043 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:21:19,057 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 03:21:19,449 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 03:22:03,283 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:22:03,411 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:22:42,877 | WARNING  | Standard parsing failed. Attempting regex extraction. Extracted string: {
+"name": "list_directory",
+"args": {
+"path": "C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT",
+"recursive": false,
+"show_hidden": true
+}
+}
+2026-06-22 03:22:42,879 | ERROR    | JSON, AST, and Regex parsing all failed. Extracted string: {
+"name": "list_directory",
+"args": {
+"path": "C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT",
+"recursive": false,
+"show_hidden": true
+}
+}
+2026-06-22 03:22:42,879 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 03:23:18,468 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 03:23:18,980 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 03:24:03,867 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:24:03,955 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:25:19,031 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 03:25:19,471 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 03:26:03,287 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:26:03,407 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:26:38,074 | ERROR    | No JSON found in response
+2026-06-22 03:26:38,075 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด

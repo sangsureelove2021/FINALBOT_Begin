@@ -1,0 +1,27 @@
+2026-06-22 02:55:36,828 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-22 02:55:41,245 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-22 02:55:41,261 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-22 02:55:41,581 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-22 02:56:20,794 | INFO     | MarketStateClassifier initialized successfully in Orchestrator
+2026-06-22 02:57:04,430 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 02:57:04,560 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 02:58:19,669 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 02:58:20,095 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 02:59:02,969 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 02:59:03,079 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 02:59:36,605 | ERROR    | No JSON found in response
+2026-06-22 02:59:36,605 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 03:00:18,149 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 03:00:18,472 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 03:01:03,359 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:01:03,454 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:01:37,029 | ERROR    | No JSON found in response
+2026-06-22 03:01:37,029 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 03:02:18,530 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 03:02:18,915 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 03:03:03,884 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:03:03,989 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:04:19,069 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 03:04:19,432 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 03:05:04,011 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 03:05:04,117 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'

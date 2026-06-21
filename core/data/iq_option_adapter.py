@@ -17,7 +17,7 @@ import time
 import pandas as pd
 import numpy as np
 from datetime import datetime, timezone, timedelta
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 import logging
 import os
 
@@ -56,6 +56,7 @@ class IQOptionAdapter(IDataSource):
             except Exception:
                 self.email = os.getenv("IQ_EMAIL", "")
         self.account_type = account_type
+        self.api_token = api_token
         self._connected = False
         self.api = None
 
@@ -86,6 +87,8 @@ class IQOptionAdapter(IDataSource):
         self._connected = True
         mode = "DEMO" if account_type == "PRACTICE" else "REAL MONEY"
         logger.info(f"[CONN] IQ Option connected ({mode})")
+        self._executor = concurrent.futures.ThreadPoolExecutor(max_workers=10)
+        self._conn_lock = threading.Lock()
     
     @staticmethod
     def _normalize_candle_index(df: pd.DataFrame) -> pd.DataFrame:
@@ -134,17 +137,20 @@ class IQOptionAdapter(IDataSource):
         if not self.api:
             return
         try:
+            # Double-checked locking pattern for thread safety
             if not self.api.check_connect():
-                logger.warning("[WARN]  IQ Option connection lost — reconnecting...")
-                ok, reason = self.api.connect()
-                if ok:
-                    try:
-                        self.api.change_balance(self.account_type)
-                    except Exception:
-                        pass
-                    logger.info(" Reconnected")
-                else:
-                    logger.error(f"[ERROR] Reconnect failed: {reason}")
+                with self._conn_lock:
+                    if not self.api.check_connect():
+                        logger.warning("[WARN]  IQ Option connection lost — reconnecting...")
+                        ok, reason = self.api.connect()
+                        if ok:
+                            try:
+                                self.api.change_balance(self.account_type)
+                            except Exception:
+                                pass
+                            logger.info(" Reconnected")
+                        else:
+                            logger.error(f"[ERROR] Reconnect failed: {reason}")
         except Exception as e:
             logger.error(f"[ERROR] ensure_connected error: {e}")
             
@@ -263,20 +269,43 @@ class IQOptionAdapter(IDataSource):
                             df["volume"] = pd.to_numeric(df.get("volume", 0), errors="coerce").fillna(0.0)
                             df = df.dropna(subset=["open", "close", "high", "low"])
                             if not df.empty:
-                                logger.debug(f"[WS] Retrieved {len(df)} live candles for {symbol} ({timeframe})")
-                                return (df[["timestamp", "open", "high", "low", "close", "volume"]]
-                                        .set_index("timestamp").sort_index())
+                                median_close = float(df["close"].median())
+                                symbol_upper = symbol.upper()
+                                if "JPY" in symbol_upper:
+                                    valid = (50.0 <= median_close <= 300.0)
+                                elif "BTC" in symbol_upper:
+                                    valid = (1000.0 <= median_close <= 250000.0)
+                                elif "ETH" in symbol_upper:
+                                    valid = (100.0 <= median_close <= 15000.0)
+                                elif "XAU" in symbol_upper or "GOLD" in symbol_upper:
+                                    valid = (500.0 <= median_close <= 5000.0)
+                                else:
+                                    valid = (0.3 <= median_close <= 10.0)
+                                
+                                if valid:
+                                    logger.debug(f"[WS] Retrieved {len(df)} live candles for {symbol} ({timeframe})")
+                                    return (df[["timestamp", "open", "high", "low", "close", "volume"]]
+                                            .set_index("timestamp").sort_index())
+                                else:
+                                    logger.warning(f"[WARN] [WS] {symbol} median {median_close} out of expected range — falling back to REST")
             except Exception as e:
                 logger.debug(f"[WS] WebSocket candle retrieval bypassed for {symbol} ({timeframe}): {e}")
 
         # 2. Fallback to standard REST HTTP request
         def _fetch() -> Optional[pd.DataFrame]:
-            with _CANDLES_LOCK:
+            # Acquire lock with a timeout to prevent locking other threads forever if this call hangs
+            acquired = _CANDLES_LOCK.acquire(timeout=5.0)
+            if not acquired:
+                logger.warning(f"[LOCK] Failed to acquire candles lock for {symbol} ({timeframe}) within timeout")
+                return None
+            try:
                 try:
                     raw = self.api.get_candles(symbol, size, count, end_timestamp)
                 except Exception as e:
                     logger.error(f"[ERROR] get_candles({symbol}/{timeframe}): {e}")
                     return None
+            finally:
+                _CANDLES_LOCK.release()
             if not raw:
                 return None
             df = pd.DataFrame(raw)
@@ -298,19 +327,28 @@ class IQOptionAdapter(IDataSource):
                 return None
             # Sanity check: reject obviously broken price feeds
             median_close = float(df["close"].median())
-            is_jpy = "JPY" in symbol.upper()
-            if is_jpy and not (50.0 <= median_close <= 300.0):
-                logger.warning(f"[WARN] {symbol} median {median_close} out of JPY range — skip")
-                return None
-            if not is_jpy and not (0.3 <= median_close <= 10.0):
-                logger.warning(f"[WARN] {symbol} median {median_close} out of FX range — skip")
+            symbol_upper = symbol.upper()
+            
+            if "JPY" in symbol_upper:
+                valid = (50.0 <= median_close <= 300.0)
+            elif "BTC" in symbol_upper:
+                valid = (1000.0 <= median_close <= 250000.0)
+            elif "ETH" in symbol_upper:
+                valid = (100.0 <= median_close <= 15000.0)
+            elif "XAU" in symbol_upper or "GOLD" in symbol_upper:
+                valid = (500.0 <= median_close <= 5000.0)
+            else:
+                valid = (0.3 <= median_close <= 10.0)
+                
+            if not valid:
+                logger.warning(f"[WARN] {symbol} median {median_close} out of expected range — skip")
                 return None
             return (df[["timestamp", "open", "high", "low", "close", "volume"]]
                     .set_index("timestamp").sort_index())
 
         try:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as ex:
-                df = ex.submit(_fetch).result(timeout=_CANDLES_TIMEOUT_SEC)
+            future = self._executor.submit(_fetch)
+            df = future.result(timeout=_CANDLES_TIMEOUT_SEC)
         except concurrent.futures.TimeoutError:
             logger.warning(f"[TIMEOUT]  get_candles({symbol}/{timeframe}) timeout — skip")
             return pd.DataFrame()

@@ -141,6 +141,7 @@ class DeepSeekAgentBridge:
         try:
             p = subprocess.Popen(
                 cmd_args,
+                shell=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 creationflags=creation_flags

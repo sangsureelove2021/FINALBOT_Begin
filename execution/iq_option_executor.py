@@ -5,6 +5,7 @@ Send trade orders to IQ Option via the live API.
 """
 
 import logging
+import json
 from datetime import datetime, timezone
 from typing import Dict, Optional
 from dataclasses import dataclass
