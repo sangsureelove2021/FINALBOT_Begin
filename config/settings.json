@@ -7,12 +7,19 @@
     "iq_password": "2856101607mM@"
   },
   "symbols": [
-    "EURUSD-OTC"
+    "EURUSD-OTC",
+    "GBPUSD",
+    "USDJPY",
+    "AUDUSD",
+    "USDCAD",
+    "EURGBP"
   ],
   "capital": {
     "starting_balance": 2000,
     "stake_per_trade": 35,
-    "stake_locked": false
+    "stake_locked": false,
+    "take_profit_percent": 2.0,
+    "stop_loss_percent": 3.5
   },
   "limits": {
     "max_concurrent": 9999,
@@ -29,7 +36,7 @@
     "_note": "Strict quality threshold for better signals."
   },
   "session": {
-    "trading_hours": "00:00-23:59",
+    "trading_hours": "11.00-23.00",
     "timezone": "Asia/Bangkok"
   },
   "active_strategies": [

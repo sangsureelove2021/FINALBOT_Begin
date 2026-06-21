@@ -108,22 +108,48 @@ class PureAIRunner:
         thai_console_log("กำลังเตรียมข้อมูลสินทรัพย์")
         
         # Check readiness
-        ready_count = 0
+        import os
+        import pandas as pd
+        
+        ready_symbols = []
         not_ready_count = 0
         for sym in self.symbols:
-            c = self.data_adapter.get_candles(sym, 'M5', 10)
-            if c is not None and not c.empty:
-                ready_count += 1
-            else:
+            try:
+                # Need M1, M5, M15
+                m1 = self.data_adapter.get_candles(sym, 'M1', 200)
+                m5 = self.data_adapter.get_candles(sym, 'M5', 200)
+                m15 = self.data_adapter.get_candles(sym, 'M15', 200)
+                
+                if (m1 is not None and len(m1) >= 200) and \
+                   (m5 is not None and not m5.empty) and \
+                   (m15 is not None and not m15.empty):
+                   
+                    # Write to CSV
+                    save_dir = os.path.join("data", "csv", sym.replace("-OTC", "_OTC"))
+                    os.makedirs(save_dir, exist_ok=True)
+                    m1.to_csv(os.path.join(save_dir, "M1.csv"))
+                    m5.to_csv(os.path.join(save_dir, "M5.csv"))
+                    m15.to_csv(os.path.join(save_dir, "M15.csv"))
+                    
+                    ready_symbols.append(sym)
+                else:
+                    not_ready_count += 1
+                    logger.warning(f"{sym} data incomplete. Dropped.")
+            except Exception as e:
                 not_ready_count += 1
-        
+                logger.warning(f"Failed to fetch {sym}: {e}")
+                
+        self.symbols = ready_symbols
+        ready_count = len(self.symbols)
         thai_console_log(f"ข้อมูลพร้อมเทรด {ready_count} รายการ  ไม่พร้อมเทรด {not_ready_count} รายการ")
         
-        mode_str = f"[MODE : AI_BOT][Stake:{self.stake}][Profit:2%][Loss:3.5%][Orderlimit:{max_conc}][Time:11.00-23.00]"
+        profit_pct = self.settings.get("capital", {}).get("take_profit_percent", 2.0)
+        loss_pct = self.settings.get("capital", {}).get("stop_loss_percent", 3.5)
+        trade_hours = self.settings.get("session", {}).get("trading_hours", "11.00-23.00")
+        
+        mode_str = f"[MODE : AI_BOT][Stake:{self.stake}][Profit:{profit_pct}%][Loss:{loss_pct}%][Orderlimit:{max_conc}][Time:{trade_hours}]"
         thai_console_log(mode_str)
-        thai_console_log("รอ 20 วินาที เพื่อเข้าสู่การวิเคราะห์สัญญาณ")
-        import time
-        time.sleep(20)
+        thai_console_log("รอให้จบแท่งเทียน 1 m เพื่อเข้าสู่การวิเคราะห์สัญญาณ (เริ่มต้นที่วินาทีที่ 3)...")
 
 
     def run_cycle(self):
@@ -290,10 +316,21 @@ class PureAIRunner:
                     logger.error(f"Execution exception: {e}")
 
     def start(self):
+        import time
+        from datetime import datetime
         while True:
             try:
+                now = datetime.now()
+                # Calculate seconds until the next minute's 3rd second.
+                # If current second is >= 3, we wait until next minute's 3rd second.
+                if now.second < 3:
+                    sleep_sec = 3 - now.second
+                else:
+                    sleep_sec = 60 - now.second + 3
+                
+                time.sleep(sleep_sec)
                 self.run_cycle()
-                time.sleep(5)
+
             except KeyboardInterrupt:
                 thai_console_log("Stopping bot...")
                 break
