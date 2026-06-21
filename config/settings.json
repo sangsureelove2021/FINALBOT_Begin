@@ -4,23 +4,15 @@
     "account_type": "PRACTICE",
     "trading_mode": "Ai_BOT",
     "iq_email": "venuz20152565@gmail.com",
-    "iq_password": "2856101607mM@"
-  },
-  "symbols": [
-    "EURUSD-OTC",
-    "GBPUSD",
-    "USDJPY",
-    "AUDUSD",
-    "USDCAD",
-    "EURGBP"
-  ],
-  "capital": {
-    "starting_balance": 2000,
+    "iq_password": "2856101607mM@",
     "stake_per_trade": 35,
-    "stake_locked": false,
     "take_profit_percent": 2.0,
     "stop_loss_percent": 3.5
   },
+  "symbols": [
+    "EURUSD-OTC",
+    "EURGBP-OTC"
+  ],
   "limits": {
     "max_concurrent": 9999,
     "max_trades_per_session": 9999,

@@ -141,7 +141,7 @@ def load_symbols(path: str = None) -> list:
 
 def main():
     import logging
-    from core.config_loader import get_account_type, get_capital
+    from core.config_loader import get_account_type
     from runner import PureAIRunner, thai_console_log
 
     logger = logging.getLogger("FINALBOT")

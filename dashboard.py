@@ -556,13 +556,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                                 <option value="REAL">REAL (Money)</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>Stake Amount (USD)</label>
-                            <input type="number" id="cfg-stake" step="1" onchange="updateParam('capital.stake_per_trade', parseFloat(this.value))">
-                        </div>
-                        <div class="form-group">
-                            <label>Starting Capital (USD)</label>
-                            <input type="number" id="cfg-capital" step="50" onchange="updateParam('capital.starting_balance', parseFloat(this.value))">
+                        <div class="field-row">
+                            <label>Stake per Trade (USD)</label>
+                            <input type="number" id="cfg-stake" step="1" onchange="updateParam('account.stake_per_trade', parseFloat(this.value))">
                         </div>
                         <div class="form-group">
                             <label>Min Quality Conf (%)</label>
@@ -696,8 +692,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
             // Set inputs values
             document.getElementById('cfg-account-type').value = configData.account?.account_type || "PRACTICE";
-            document.getElementById('cfg-stake').value = configData.capital?.stake_per_trade || 30;
-            document.getElementById('cfg-capital').value = configData.capital?.starting_balance || 2000;
+            document.getElementById('cfg-stake').value = configData.account?.stake_per_trade || 30;
             document.getElementById('cfg-confidence').value = configData.execution_gate?.min_confidence || 80;
             document.getElementById('cfg-block').value = configData.execution_gate?.max_block_score || 40;
             document.getElementById('cfg-max-trades').value = configData.limits?.max_trades_per_session || 999;

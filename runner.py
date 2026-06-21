@@ -62,34 +62,18 @@ class PureAIRunner:
         account_cfg = self.settings.get("account", {})
         self.account_type = account_cfg.get("account_type", "PRACTICE")
         self.symbols = self.settings.get("symbols", ["EURUSD"])
-        self.capital = self.settings.get("capital", {}).get("starting_balance", 1000)
-        self.stake = self.settings.get("capital", {}).get("stake_per_trade", 10)
+        self.stake = account_cfg.get("stake_per_trade", 10)
         
         # Initialize adapter and executor
         thai_console_log("กำลังเชื่อมต่อ IQ Option...")
         self.data_adapter = IQOptionAdapter(account_type=self.account_type)
         if not self.data_adapter.is_connected():
-            thai_console_log("❌ เชื่อมต่อ IQ Option ล้มเหลว")
+            thai_console_log("เชื่อมต่อ IQ Option ล้มเหลว")
             sys.exit(1)
             
         thai_console_log("เชื่อมต่อ IQ Option สำเร็จ..")
             
         self.executor = IQOptionExecutor(adapter=self.data_adapter, account_type=self.account_type)
-        
-        # Pull max_concurrent from settings, default to 5 if not set
-        max_conc = self.settings.get("limits", {}).get("max_concurrent", 5)
-        self.order_manager = OrderManager(max_concurrent=max_conc)
-        
-        # Initialize DeepSeek bridge
-        ai_cfg = self.settings.get("ai_mode", {})
-        agent_cmd = ai_cfg.get("agent_command", "deepseek-agent")
-        timeout_sec = ai_cfg.get("timeout_seconds", 45)
-        self.ai_bridge = DeepSeekAgentBridge(agent_command=agent_cmd, timeout_seconds=timeout_sec)
-        self.use_advanced_ai_context = ai_cfg.get("use_advanced_context", True)
-        self.trade_logger = TradeLogger()  # Initialize trade logger
-        self.orchestrator = Orchestrator(trade_logger=self.trade_logger)  # Initialize orchestrator
-        
-        self.last_processed_candle = {sym: None for sym in self.symbols}
         
         # Display balance
         try:
@@ -97,8 +81,29 @@ class PureAIRunner:
         except:
             balance = 0.0
             
-        acc_short = "Prac.." if self.account_type == "PRACTICE" else "Real"
-        thai_console_log(f"บัญชี {acc_short} | Balance: ${balance:.2f}")
+        thai_console_log(f"บัญชี {self.account_type} | Balance: ${balance:.2f}")
+
+        # Initialize DeepSeek bridge
+        ai_cfg = self.settings.get("ai_mode", {})
+        agent_cmd = ai_cfg.get("agent_command", "deepseek-agent")
+        timeout_sec = ai_cfg.get("timeout_seconds", 45)
+        self.ai_bridge = DeepSeekAgentBridge(agent_command=agent_cmd, timeout_seconds=timeout_sec)
+        
+        thai_console_log("ตรวจเช็คความพร้อม DEEPSEEK AI")
+        ai_reply = self.ai_bridge.check_readiness()
+        if not ai_reply:
+            thai_console_log("Failed to connect to AI. System stopped.")
+            sys.exit(1)
+        thai_console_log(f'"{ai_reply}"')
+        
+        # Pull max_concurrent from settings
+        max_conc = self.settings.get("limits", {}).get("max_concurrent", 5)
+        self.order_manager = OrderManager(max_concurrent=max_conc)
+        self.use_advanced_ai_context = ai_cfg.get("use_advanced_context", True)
+        self.trade_logger = TradeLogger()
+        self.orchestrator = Orchestrator(trade_logger=self.trade_logger)
+        
+        self.last_processed_candle = {sym: None for sym in self.symbols}
         
         # Display assets
         sym_len = len(self.symbols)
@@ -143,8 +148,8 @@ class PureAIRunner:
         ready_count = len(self.symbols)
         thai_console_log(f"ข้อมูลพร้อมเทรด {ready_count} รายการ  ไม่พร้อมเทรด {not_ready_count} รายการ")
         
-        profit_pct = self.settings.get("capital", {}).get("take_profit_percent", 2.0)
-        loss_pct = self.settings.get("capital", {}).get("stop_loss_percent", 3.5)
+        profit_pct = account_cfg.get("take_profit_percent", 2.0)
+        loss_pct = account_cfg.get("stop_loss_percent", 3.5)
         trade_hours = self.settings.get("session", {}).get("trading_hours", "11.00-23.00")
         
         mode_str = f"[MODE : AI_BOT][Stake:{self.stake}][Profit:{profit_pct}%][Loss:{loss_pct}%][Orderlimit:{max_conc}][Time:{trade_hours}]"
@@ -192,128 +197,139 @@ class PureAIRunner:
                         notes=f"Settled via IQ Option API (status: {win_status}, pnl: {pnl})",
                         current_time=now
                     )
-                    thai_console_log(f"{'✅ ชนะ' if won else '❌ แพ้'} {trade.symbol} (ID: {order_id}) | PnL: {pnl:.2f}")
+                    thai_console_log(f"{'ชนะ' if won else 'แพ้'} {trade.symbol} (ID: {order_id}) | PnL: {pnl:.2f}")
                 except Exception as e:
                     logger.error(f"Failed to settle trade {order_id}: {e}")
 
         try:
             balance = self.data_adapter.api.get_balance()
             if balance is not None:
-                balance_str = f" | 💰 {balance:.2f}"
+                balance_str = f" | Balance: {balance:.2f}"
             else:
                 balance_str = ""
         except Exception:
             balance_str = ""
 
-        # Process each symbol
-        for symbol in self.symbols:
-            log_data = None
-            # Allow multiple active trades (removed double trade check)
-            # if self.order_manager.get_active_trades(symbol):
-            #     continue
-                
-            # Fetch 5-minute candles
-            candles = self.data_adapter.get_candles(symbol, 'M5', 200)
-            if candles.empty or len(candles) < 21:
-                continue
-                
-            # Use only completed candles to prevent repainting
-            completed_candles = candles.iloc[:-1]
-            last_ts = completed_candles.index[-1]
-            
-            # Avoid analyzing the same candle twice
-            if self.last_processed_candle[symbol] == last_ts:
-                continue
-                
-            # Fetch additional timeframes (200 candles)
-            candles_m1 = self.data_adapter.get_candles(symbol, 'M1', 200)
-            
-            # Resample M15 from M5 to save API calls
-            candles_m15 = candles.resample('15min').agg({
-                'open': 'first',
-                'high': 'max',
-                'low': 'min',
-                'close': 'last',
-                'volume': 'sum'
-            }).dropna()
-            
-            candles_dict = {'M5': completed_candles, 'M1': candles_m1.iloc[:-1] if not candles_m1.empty else pd.DataFrame(), 'M15': candles_m15.iloc[:-1] if not candles_m15.empty else pd.DataFrame()}
-            
-            # Export to CSV organized by currency pair
-            save_dir = os.path.join("data", "csv", symbol.replace("-OTC", "_OTC"))
-            os.makedirs(save_dir, exist_ok=True)
-            candles_m1.to_csv(os.path.join(save_dir, "M1.csv"))
-            candles.to_csv(os.path.join(save_dir, "M5.csv"))
-            candles_m15.to_csv(os.path.join(save_dir, "M15.csv"))
-            
-            # --- 1. Orchestrator Data Pipeline ---
+        # Process symbols concurrently to prevent AI analysis from blocking the 1-minute loop
+        import concurrent.futures
+        
+        def process_symbol(symbol):
             log_data = None
             try:
-                log_data = self.orchestrator.process_cycle(
-                    symbol=symbol,
-                    candles_dict=candles_dict,
-                    ai_context=None
-                )
-                if log_data:
-                    log_path = self.trade_logger.save_log(log_data)
+                # Fetch M1 candles first for exact 1-minute timestamp tracking
+                candles_m1 = self.data_adapter.get_candles(symbol, 'M1', 200)
+                if candles_m1 is None or candles_m1.empty or len(candles_m1) < 2:
+                    return
+                
+                # Use only completed candles
+                completed_candles_m1 = candles_m1.iloc[:-1]
+                last_ts_m1 = completed_candles_m1.index[-1]
+                
+                # Avoid analyzing the same M1 candle twice (ensures exactly 1 run per minute)
+                if self.last_processed_candle[symbol] == last_ts_m1:
+                    return
+                
+                # Always mark as processed immediately so we don't retry failed candles within the same minute
+                self.last_processed_candle[symbol] = last_ts_m1
+
+                # Fetch 5-minute candles
+                candles = self.data_adapter.get_candles(symbol, 'M5', 200)
+                if candles is None or candles.empty or len(candles) < 21:
+                    return
                     
-                # Extract current price and rsi for console log
-                from core.indicator_store import store
-                payload = store.get_payload(symbol)
-                m5_inds = payload.get('m5', {})
-                current_price = m5_inds.get('close', float(completed_candles['close'].iloc[-1]))
-                rsi = m5_inds.get('rsi14', 50.0)
+                completed_candles = candles.iloc[:-1]
                 
-            except Exception as e:
-                logger.error(f"Orchestrator cycle failed for {symbol}: {e}")
-                current_price = float(completed_candles['close'].iloc[-1])
-                rsi = 50.0
-            
-            thai_console_log(f"📊 {symbol}{balance_str}")
-            
-            # Call DeepSeek Brain
-            ai_context_to_send = None
-            if getattr(self, "use_advanced_ai_context", True) and 'log_data' in locals() and log_data:
-                log_data_copy = dict(log_data)
-                log_data_copy["is_advanced"] = True
-                ai_context_to_send = log_data_copy
+                # Resample M15 from M5 to save API calls
+                candles_m15 = candles.resample('15min').agg({
+                    'open': 'first',
+                    'high': 'max',
+                    'low': 'min',
+                    'close': 'last',
+                    'volume': 'sum'
+                }).dropna()
                 
-            insight = self.ai_bridge.analyze_market(ai_context_to_send)
-            if not insight:
-                continue
+                candles_dict = {'M5': completed_candles, 'M1': completed_candles_m1, 'M15': candles_m15.iloc[:-1] if not candles_m15.empty else pd.DataFrame()}
                 
-            self.last_processed_candle[symbol] = last_ts
-            
-            thai_console_log(f"🧠 AI: {insight.action} ({insight.confidence}%)")
-            
-            if insight.action in ["CALL", "PUT"] and insight.confidence >= 70:
-                direction = insight.action.upper()
-                expiry_seconds = insight.expiry * 60
-                thai_console_log(f"🔥 ยิงออเดอร์ {insight.action} {symbol} ({insight.expiry} นาที)")
+                # Export to CSV organized by currency pair
+                import os
+                save_dir = os.path.join("data", "csv", symbol.replace("-OTC", "_OTC"))
+                os.makedirs(save_dir, exist_ok=True)
+                candles_m1.to_csv(os.path.join(save_dir, "M1.csv"))
+                candles.to_csv(os.path.join(save_dir, "M5.csv"))
+                candles_m15.to_csv(os.path.join(save_dir, "M15.csv"))
+                
+                # --- 1. Orchestrator Data Pipeline ---
                 try:
-                    # Execute trade using executor's send_order method
-                    result = self.executor.send_order(
+                    log_data = self.orchestrator.process_cycle(
                         symbol=symbol,
-                        direction=direction,
-                        amount=self.stake,
-                        expiry=f"M{insight.expiry}"
+                        candles_dict=candles_dict,
+                        ai_context=None
                     )
-                    if result.status == 'executed':
-                        order_id = result.order_id
-                        # Record trade in order manager using its add_trade method
-                        self.order_manager.add_trade(
-                            order_id=str(order_id),
-                            symbol=symbol,
-                            direction=insight.action,
-                            amount=self.stake,
-                            entry_price=current_price,
-                            expiry=f"M{insight.expiry}"
-                        )
-                        thai_console_log(f"   └─ ✅ ออเดอร์เข้าสำเร็จ (ID: {order_id})")
-                    else:
-                        thai_console_log(f"❌ Execution failed for {symbol}: {result.reason}")
+                    if log_data:
+                        log_path = self.trade_logger.save_log(log_data)
+                        
+                    # Extract current price and rsi for console log
+                    from core.indicator_store import store
+                    payload = store.get_payload(symbol)
+                    m5_inds = payload.get('m5', {})
+                    current_price = m5_inds.get('close', float(completed_candles['close'].iloc[-1]))
+                    rsi = m5_inds.get('rsi14', 50.0)
+                    
                 except Exception as e:
-                    logger.error(f"Execution exception: {e}")
+                    logger.error(f"Orchestrator cycle failed for {symbol}: {e}")
+                    current_price = float(completed_candles['close'].iloc[-1])
+                    rsi = 50.0
+                
+                thai_console_log(f"[{symbol}; {current_price:.5f}]{balance_str}")
+                
+                # Call DeepSeek Brain
+                ai_context_to_send = None
+                if getattr(self, "use_advanced_ai_context", True) and 'log_data' in locals() and log_data:
+                    log_data_copy = dict(log_data)
+                    log_data_copy["is_advanced"] = True
+                    ai_context_to_send = log_data_copy
+                    
+                insight = self.ai_bridge.analyze_market(ai_context_to_send)
+                if not insight:
+                    return
+                
+                thai_console_log(f"AI: {insight.action} ({insight.confidence}%)")
+                
+                if insight.action in ["CALL", "PUT"] and insight.confidence >= 70:
+                    direction = insight.action.upper()
+                    expiry_time = insight.expiry
+                    thai_console_log(f"ยิงออเดอร์ {insight.action} {symbol} ({expiry_time} นาที)")
+                    try:
+                        # Execute trade using executor's send_order method
+                        result = self.executor.send_order(
+                            symbol=symbol,
+                            direction=direction,
+                            amount=self.stake,
+                            expiry=f"M{expiry_time}"
+                        )
+                        if result.status == 'executed':
+                            order_id = result.order_id
+                            # Record trade in order manager
+                            self.order_manager.add_trade(
+                                order_id=str(order_id),
+                                symbol=symbol,
+                                direction=insight.action,
+                                amount=self.stake,
+                                entry_price=current_price,
+                                expiry=f"M{insight.expiry}"
+                            )
+                            thai_console_log(f"   └─ ออเดอร์เข้าสำเร็จ (ID: {order_id})")
+                        else:
+                            thai_console_log(f"Execution failed for {symbol}: {result.reason}")
+                    except Exception as e:
+                        logger.error(f"Execution exception: {e}")
+            except Exception as ex:
+                logger.error(f"Symbol {symbol} processing failed: {ex}")
+
+        # Run all symbols concurrently
+        with concurrent.futures.ThreadPoolExecutor(max_workers=len(self.symbols)) as executor:
+            futures = [executor.submit(process_symbol, sym) for sym in self.symbols]
+            concurrent.futures.wait(futures)
 
     def start(self):
         import time

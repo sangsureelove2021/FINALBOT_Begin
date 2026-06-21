@@ -70,8 +70,6 @@ def get_trading_mode() -> str:
     return str(get_account().get("trading_mode", "SIGNALBOT")).strip().upper()
 
 
-def get_capital() -> float:
-    return float(load_settings().get("capital", {}).get("starting_balance", 2000.0))
 
 
 def get_limits() -> Dict[str, Any]:

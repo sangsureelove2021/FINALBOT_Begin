@@ -129,6 +129,48 @@ class DeepSeekAgentBridge:
         
         return None
         
+    def check_readiness(self) -> str:
+        """ทดสอบการเชื่อมต่อ AI ก่อนเริ่มรันระบบจริง"""
+        agent_exec = self.agent_path if self.agent_path else self.agent_command
+        cmd_args = [agent_exec, 'chat', '-m', "System check. Briefly introduce yourself (including your AI model name) and state you are ready to analyze the market. Reply in a single short line in English."]
+        
+        creation_flags = 0
+        if os.name == 'nt':
+            creation_flags = subprocess.CREATE_NO_WINDOW
+            
+        try:
+            p = subprocess.Popen(
+                cmd_args,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                creationflags=creation_flags
+            )
+            stdout_bytes, stderr_bytes = p.communicate(timeout=75)
+            stdout_text = stdout_bytes.decode('utf-8', errors='replace').strip()
+            
+            # ลบ ANSI escape codes ออก
+            ansi_escape = re.compile(r'\x1b\[[0-9;]*[a-zA-Z]')
+            stdout_text = ansi_escape.sub('', stdout_text)
+            
+            # ลบข้อความ UI ของ DeepSeek Agent ออกให้เหลือแค่คำตอบ AI
+            if "TASK COMPLETE" in stdout_text:
+                parts = stdout_text.split("TASK COMPLETE")
+                if len(parts) > 1:
+                    clean_text = parts[-1]
+                    clean_text = re.sub(r'[━═]', '', clean_text)
+                    clean_text = re.sub(r'ℹ|Shutting down\.\.\.', '', clean_text)
+                    # บังคับให้อยู่ในบรรทัดเดียว
+                    clean_text = re.sub(r'\s+', ' ', clean_text).strip()
+                    if clean_text:
+                        return clean_text
+                        
+            if len(stdout_text) > 0:
+                return stdout_text
+            return ""
+        except Exception as e:
+            logger.error(f"AI Readiness check failed: {e}")
+            return ""
+
     def _get_cache_key(self, context) -> str:
         """สร้าง cache key จาก market context"""
         try:
@@ -167,6 +209,10 @@ class DeepSeekAgentBridge:
         cmd_args = [agent_exec, "--no-tui", "--format=json-raw", "--max-iterations=1", prompt]
         use_shell = True
             
+        creation_flags = 0
+        if os.name == 'nt':
+            creation_flags = subprocess.CREATE_NO_WINDOW
+            
         try:
             # ใช้ subprocess.Popen เพื่อควบคุม process tree
             p = subprocess.Popen(
@@ -174,7 +220,8 @@ class DeepSeekAgentBridge:
                 shell=use_shell,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                env=os.environ.copy()
+                env=os.environ.copy(),
+                creationflags=creation_flags
             )
             try:
                 stdout_bytes, stderr_bytes = p.communicate(timeout=self.timeout)
@@ -253,7 +300,6 @@ CRITICAL INSTRUCTIONS:
 6. REASON LENGTH: The "reason" field MUST be in Thai, and MUST be strictly between 20 and 40 words, summarizing the most important factor.
 
 You can choose the optimal expiry time (from 1 to 5 minutes) based on market structure and volatility.
-
 MARKET DATA JSON:
 {json_payload}
 
