@@ -1,0 +1,194 @@
+{
+  "timestamp": "2026-06-20T19:35:36+00:00",
+  "symbol": "EURGBP-OTC",
+  "current_price": 0.869905,
+  "session": "ny_open",
+  "timeframe": "m5",
+  "market_state": "CHOPPY_UNCERTAIN",
+  "direction": "NONE",
+  "trend": "CHOPPY",
+  "strength": 30,
+  "patterns": [],
+  "atr_percentile": 42,
+  "volatility": "NORMAL",
+  "compression_quality": 100.0,
+  "regime": "ranging",
+  "m5": {
+    "ema5": 0.86997,
+    "prev_ema5": 0.87,
+    "ema10": 0.86998,
+    "ema20": 0.86974,
+    "prev_ema20": 0.86973,
+    "ema50": 0.86884,
+    "bb_upper": 0.8708,
+    "bb_lower": 0.86944,
+    "rsi": 55.22217,
+    "rsi7": 48.93161,
+    "rsi14": 55.22217,
+    "macd": 0.00043,
+    "macd_signal": 0.00058,
+    "prev_macd": 0.00047,
+    "prev_signal": 0.00062,
+    "stoch_k": 31.57895,
+    "stoch_d": 33.02799,
+    "prev_stoch_k": 24.64789,
+    "prev_stoch_d": 38.35534,
+    "local_support": 0.86948,
+    "local_resistance": 0.87113,
+    "pivot": 0.86987,
+    "r1": 0.86994,
+    "s1": 0.86983,
+    "atr": 0.00059
+  },
+  "m1": {
+    "ema5": 0.86997,
+    "prev_ema5": 0.87,
+    "ema10": 0.87002,
+    "ema20": 0.87005,
+    "prev_ema20": 0.87007,
+    "ema50": 0.87006,
+    "bb_upper": 0.87036,
+    "bb_lower": 0.86978,
+    "rsi": 45.91802,
+    "rsi7": 41.49298,
+    "rsi14": 45.91802,
+    "macd": -2e-05,
+    "macd_signal": 1e-05,
+    "prev_macd": -1e-05,
+    "prev_signal": 1e-05,
+    "stoch_k": 25.39683,
+    "stoch_d": 29.10053,
+    "prev_stoch_k": 14.28571,
+    "prev_stoch_d": 30.89133,
+    "local_support": 0.86972,
+    "local_resistance": 0.8704,
+    "pivot": 0.86987,
+    "r1": 0.86994,
+    "s1": 0.86983,
+    "atr": 0.00022
+  },
+  "candles m1": [
+    {
+      "open": 0.870335,
+      "high": 0.870405,
+      "low": 0.869985,
+      "close": 0.870015
+    },
+    {
+      "open": 0.870025,
+      "high": 0.870275,
+      "low": 0.869965,
+      "close": 0.870265
+    },
+    {
+      "open": 0.870255,
+      "high": 0.870365,
+      "low": 0.870135,
+      "close": 0.870135
+    },
+    {
+      "open": 0.870145,
+      "high": 0.870165,
+      "low": 0.869725,
+      "close": 0.869815
+    },
+    {
+      "open": 0.869825,
+      "high": 0.870075,
+      "low": 0.869795,
+      "close": 0.869825
+    },
+    {
+      "open": 0.869835,
+      "high": 0.870035,
+      "low": 0.869755,
+      "close": 0.869985
+    },
+    {
+      "open": 0.869995,
+      "high": 0.870175,
+      "low": 0.869965,
+      "close": 0.870155
+    },
+    {
+      "open": 0.870145,
+      "high": 0.870215,
+      "low": 0.870045,
+      "close": 0.870175
+    },
+    {
+      "open": 0.870165,
+      "high": 0.870265,
+      "low": 0.870005,
+      "close": 0.870265
+    },
+    {
+      "open": 0.870255,
+      "high": 0.870255,
+      "low": 0.870055,
+      "close": 0.870165
+    },
+    {
+      "open": 0.870155,
+      "high": 0.870165,
+      "low": 0.869895,
+      "close": 0.870045
+    },
+    {
+      "open": 0.870045,
+      "high": 0.870245,
+      "low": 0.870035,
+      "close": 0.870095
+    },
+    {
+      "open": 0.870065,
+      "high": 0.870225,
+      "low": 0.870035,
+      "close": 0.870145
+    },
+    {
+      "open": 0.870155,
+      "high": 0.870375,
+      "low": 0.870135,
+      "close": 0.870145
+    },
+    {
+      "open": 0.870155,
+      "high": 0.870295,
+      "low": 0.870135,
+      "close": 0.870295
+    },
+    {
+      "open": 0.870305,
+      "high": 0.870355,
+      "low": 0.870145,
+      "close": 0.870165
+    },
+    {
+      "open": 0.870175,
+      "high": 0.870175,
+      "low": 0.869745,
+      "close": 0.869925
+    },
+    {
+      "open": 0.869905,
+      "high": 0.870055,
+      "low": 0.869855,
+      "close": 0.870045
+    },
+    {
+      "open": 0.870045,
+      "high": 0.870065,
+      "low": 0.869825,
+      "close": 0.869835
+    },
+    {
+      "open": 0.869845,
+      "high": 0.869905,
+      "low": 0.869795,
+      "close": 0.869905
+    }
+  ],
+  "triggered_signals": [],
+  "signal_count": 0
+}

@@ -1,0 +1,194 @@
+{
+  "timestamp": "2026-06-20T19:40:43+00:00",
+  "symbol": "GBPUSD-OTC",
+  "current_price": 1.361045,
+  "session": "ny_open",
+  "timeframe": "m5",
+  "market_state": "SIDEWAY_RANGE",
+  "direction": "NONE",
+  "trend": "CHOPPY",
+  "strength": 30,
+  "patterns": [],
+  "atr_percentile": 48,
+  "volatility": "NORMAL",
+  "compression_quality": 0.0,
+  "regime": "ranging",
+  "m5": {
+    "ema5": 1.36093,
+    "prev_ema5": 1.36088,
+    "ema10": 1.36082,
+    "ema20": 1.36078,
+    "prev_ema20": 1.36075,
+    "ema50": 1.36043,
+    "bb_upper": 1.36164,
+    "bb_lower": 1.35981,
+    "rsi": 51.93211,
+    "rsi7": 52.99796,
+    "rsi14": 51.93211,
+    "macd": 6e-05,
+    "macd_signal": 3e-05,
+    "prev_macd": 4e-05,
+    "prev_signal": 2e-05,
+    "stoch_k": 67.97386,
+    "stoch_d": 69.71678,
+    "prev_stoch_k": 92.48366,
+    "prev_stoch_d": 54.46623,
+    "local_support": 1.35896,
+    "local_resistance": 1.36203,
+    "pivot": 1.36128,
+    "r1": 1.36155,
+    "s1": 1.36077,
+    "atr": 0.00117
+  },
+  "m1": {
+    "ema5": 1.36123,
+    "prev_ema5": 1.36132,
+    "ema10": 1.36093,
+    "ema20": 1.3607,
+    "prev_ema20": 1.36067,
+    "ema50": 1.36064,
+    "bb_upper": 1.36216,
+    "bb_lower": 1.35877,
+    "rsi": 54.42093,
+    "rsi7": 54.99169,
+    "rsi14": 54.42093,
+    "macd": 0.00019,
+    "macd_signal": 1e-05,
+    "prev_macd": 0.00019,
+    "prev_signal": -4e-05,
+    "stoch_k": 68.47826,
+    "stoch_d": 85.12377,
+    "prev_stoch_k": 95.65217,
+    "prev_stoch_d": 94.16259,
+    "local_support": 1.35915,
+    "local_resistance": 1.36203,
+    "pivot": 1.36128,
+    "r1": 1.36155,
+    "s1": 1.36077,
+    "atr": 0.00057
+  },
+  "candles m1": [
+    {
+      "open": 1.362005,
+      "high": 1.362025,
+      "low": 1.361645,
+      "close": 1.361945
+    },
+    {
+      "open": 1.361925,
+      "high": 1.361925,
+      "low": 1.361275,
+      "close": 1.361345
+    },
+    {
+      "open": 1.361335,
+      "high": 1.361335,
+      "low": 1.360495,
+      "close": 1.360525
+    },
+    {
+      "open": 1.360515,
+      "high": 1.360645,
+      "low": 1.360175,
+      "close": 1.360565
+    },
+    {
+      "open": 1.360555,
+      "high": 1.360555,
+      "low": 1.359905,
+      "close": 1.359955
+    },
+    {
+      "open": 1.359965,
+      "high": 1.360115,
+      "low": 1.359695,
+      "close": 1.359705
+    },
+    {
+      "open": 1.359715,
+      "high": 1.359985,
+      "low": 1.359415,
+      "close": 1.359445
+    },
+    {
+      "open": 1.359435,
+      "high": 1.359485,
+      "low": 1.359155,
+      "close": 1.359345
+    },
+    {
+      "open": 1.359285,
+      "high": 1.359695,
+      "low": 1.359255,
+      "close": 1.359645
+    },
+    {
+      "open": 1.359655,
+      "high": 1.359975,
+      "low": 1.359155,
+      "close": 1.359895
+    },
+    {
+      "open": 1.359865,
+      "high": 1.359895,
+      "low": 1.359475,
+      "close": 1.359545
+    },
+    {
+      "open": 1.359575,
+      "high": 1.359715,
+      "low": 1.359225,
+      "close": 1.359705
+    },
+    {
+      "open": 1.359695,
+      "high": 1.359935,
+      "low": 1.359475,
+      "close": 1.359475
+    },
+    {
+      "open": 1.359505,
+      "high": 1.360455,
+      "low": 1.359475,
+      "close": 1.360455
+    },
+    {
+      "open": 1.360415,
+      "high": 1.360985,
+      "low": 1.360395,
+      "close": 1.360975
+    },
+    {
+      "open": 1.360975,
+      "high": 1.361035,
+      "low": 1.360545,
+      "close": 1.361035
+    },
+    {
+      "open": 1.361065,
+      "high": 1.361425,
+      "low": 1.361035,
+      "close": 1.361325
+    },
+    {
+      "open": 1.361295,
+      "high": 1.361895,
+      "low": 1.361135,
+      "close": 1.361655
+    },
+    {
+      "open": 1.361635,
+      "high": 1.361915,
+      "low": 1.361515,
+      "close": 1.361795
+    },
+    {
+      "open": 1.361785,
+      "high": 1.361795,
+      "low": 1.361015,
+      "close": 1.361045
+    }
+  ],
+  "triggered_signals": [],
+  "signal_count": 0
+}
