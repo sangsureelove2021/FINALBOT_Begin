@@ -612,9 +612,13 @@ class MarketStateClassifier(BaseEngine):
         ]
         if state not in tradeable_states:
             return False
-        if quality < 40:
+        # อ่านจาก config ที่ส่งเข้ามา หรือใช้ค่า default
+        cfg = self.config or {}
+        min_quality = cfg.get("min_quality_score", 40)
+        max_noise  = cfg.get("max_noise_level", 0.6)
+        if quality < min_quality:
             return False
-        if m.get('noise_level', 0) > 0.6:
+        if m.get('noise_level', 0) > max_noise:
             return False
         return True
     

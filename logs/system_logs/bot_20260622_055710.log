@@ -1,0 +1,20 @@
+2026-06-22 12:57:11,314 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-22 12:57:14,870 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-22 12:57:14,884 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-22 12:57:15,199 | WARNING  | Failed to get server time offset: 'IQ_Option' object has no attribute 'get_server_time'
+2026-06-22 12:57:15,203 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-22 12:57:50,850 | INFO     | MarketStateClassifier initialised
+2026-06-22 12:57:51,961 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-22 12:57:52,874 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:200 M5:200 M15:200
+2026-06-22 12:57:54,156 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-06-22 12:57:55,439 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-06-22 12:57:56,742 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-06-22 12:57:59,035 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-06-22 12:58:02,635 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-06-22 12:58:02,642 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-06-22 12:58:32,965 | ERROR    | No JSON found in response
+2026-06-22 12:58:32,966 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 12:59:02,834 | WARNING  | [WARN] AI สำหรับ EURGBP-OTC กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-22 12:59:02,865 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-06-22 12:59:17,743 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 12:59:18,201 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)

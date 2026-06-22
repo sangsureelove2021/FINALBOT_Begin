@@ -1,0 +1,22 @@
+2026-06-22 13:23:31,656 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-22 13:23:35,668 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-22 13:23:35,682 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-22 13:23:35,932 | WARNING  | Failed to get server time offset: 'IQ_Option' object has no attribute 'get_server_time'
+2026-06-22 13:23:35,939 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-22 13:24:05,568 | INFO     | MarketStateClassifier initialised
+2026-06-22 13:24:07,137 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-22 13:24:08,702 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:200 M5:200 M15:200
+2026-06-22 13:24:11,113 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-06-22 13:24:12,513 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-06-22 13:24:13,891 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-06-22 13:24:15,282 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-06-22 13:25:03,069 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-06-22 13:25:03,097 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-06-22 13:26:02,319 | WARNING  | [WARN] AI สำหรับ EURUSD-OTC กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-22 13:26:02,350 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-06-22 13:26:18,167 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 13:26:18,637 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 13:26:36,283 | ERROR    | No JSON found in response
+2026-06-22 13:26:36,283 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 13:27:02,672 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-06-22 13:27:02,674 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().

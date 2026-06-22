@@ -10,8 +10,7 @@
     "stop_loss_percent": 3.5
   },
   "symbols": [
-    "EURUSD-OTC",
-    "EURGBP-OTC"
+    "EURUSD"
   ],
   "limits": {
     "max_concurrent": 9999,
@@ -47,7 +46,15 @@
     "use_cli_agent": true,
     "agent_command": "deepseek-agent",
     "timeout_seconds": 75,
+    "cache_ttl_seconds": 5,
+    "max_consecutive_failures": 3,
     "fallback_to_traditional": false,
     "weight_in_fusion": 0.4
+  },
+  "thresholds": {
+    "_note": "ค่าตัดสินใจทั้งหมดของระบบ — แก้ได้โดยไม่ต้องแตะโค้ด",
+    "min_confidence": 75,
+    "min_quality_score": 40,
+    "max_noise_level": 0.6
   }
 }

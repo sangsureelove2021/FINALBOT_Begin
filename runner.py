@@ -102,7 +102,19 @@ class PureAIRunner:
         ai_cfg = self.settings.get("ai_mode", {})
         agent_cmd = ai_cfg.get("agent_command", "deepseek-agent")
         timeout_sec = ai_cfg.get("timeout_seconds", 45)
-        self.ai_bridge = DeepSeekAgentBridge(agent_command=agent_cmd, timeout_seconds=timeout_sec)
+        cache_ttl = ai_cfg.get("cache_ttl_seconds", 5)
+        max_failures = ai_cfg.get("max_consecutive_failures", 3)
+        self.ai_bridge = DeepSeekAgentBridge(
+            agent_command=agent_cmd,
+            timeout_seconds=timeout_sec,
+            cache_ttl_seconds=cache_ttl,
+        )
+        self.ai_bridge.max_failures = max_failures
+
+        # โหลด thresholds จาก settings
+        thresholds = self.settings.get("thresholds", {})
+        self.min_confidence = thresholds.get("min_confidence",
+                             self.settings.get("execution_gate", {}).get("min_confidence", 75))
         
         thai_console_log("ตรวจเช็คความพร้อม DEEPSEEK AI")
         ai_reply = self.ai_bridge.check_readiness()
@@ -157,8 +169,21 @@ class PureAIRunner:
         
         mode_str = f"[MODE : AI_BOT][Stake:{self.stake}][Profit:{profit_pct}%][Loss:{loss_pct}%][Orderlimit:{max_conc}][Time:{trade_hours}]"
         thai_console_log(mode_str)
-        thai_console_log("รอให้จบแท่งเทียน 1 m เพื่อเข้าสู่การวิเคราะห์สัญญาณ (เริ่มต้นที่วินาทีที่ 2)...")
+        self._countdown_to_first_candle()
 
+
+    def _countdown_to_first_candle(self):
+        """แสดงเวลาที่จะเริ่มวิเคราะห์ครั้งแรก (แสดงข้อมูลเท่านั้น ไม่ sleep)"""
+        now = datetime.now()
+        if now.second < 2:
+            remaining = 2 - now.second
+        else:
+            remaining = 60 - now.second + 2
+
+        tz_thailand = timezone(timedelta(hours=7))
+        target = datetime.now(tz_thailand) + timedelta(seconds=remaining)
+        target_str = target.strftime('%H:%M:%S')
+        thai_console_log(f"เข้าสู่การวิเคราะห์สัญญาณในอีก {remaining} วินาที  (เริ่ม {target_str})")
 
     def fetch_and_save_data(self, symbol):
         """Delegate all candle management to DataAdapter."""
@@ -170,7 +195,14 @@ class PureAIRunner:
             completed_m1 = candles_dict['M1']
             completed_m5 = candles_dict['M5']
             completed_m15 = candles_dict['M15']
-            
+
+            # --- 0. IndicatorStore warm-up ก่อนเสมอ (ป้องกัน indicators เป็น 0) ---
+            from core.indicator_store import store
+            try:
+                store.calculate_all(symbol, candles_dict)
+            except Exception as e:
+                logger.error(f"IndicatorStore.calculate_all failed for {symbol}: {e}")
+
             # --- 1. Orchestrator Data Pipeline ---
             log_data = None
             try:
@@ -181,25 +213,38 @@ class PureAIRunner:
                 )
                 if log_data:
                     self.trade_logger.save_log(log_data)
-                    
-                # Extract rsi from indicator store
-                from core.indicator_store import store
-                payload = store.get_payload(symbol)
-                m5_inds = payload.get('m5', {})
-                rsi = m5_inds.get('rsi14', 50.0)
-                
             except Exception as e:
                 logger.error(f"Orchestrator cycle failed for {symbol}: {e}")
-                rsi = 50.0
-            
-            thai_console_log(f"[{symbol}; {current_price:.5f}]")
-            
-            # Call DeepSeek Brain
-            ai_context_to_send = None
-            if getattr(self, "use_advanced_ai_context", True) and log_data:
-                log_data_copy = dict(log_data)
-                log_data_copy["is_advanced"] = True
-                ai_context_to_send = log_data_copy
+
+            # ถ้า Orchestrator crash หรือคืน None — สร้าง context จาก IndicatorStore โดยตรง
+            if not log_data:
+                logger.warning(f"Orchestrator returned no data for {symbol} — building fallback context")
+                payload = store.get_payload(symbol)
+                m5 = payload.get('m5', {})
+                log_data = {
+                    "symbol":        symbol,
+                    "current_price": current_price,
+                    "m5":            m5,
+                    "m1":            payload.get('m1', {}),
+                    "m15":           payload.get('m15', {}),
+                    "price_action":  payload.get('price_action', {}),
+                    "market_state":  payload.get('market_state', 'UNCLEAR'),
+                    "analysis": {
+                        "trend_direction": "NONE",
+                        "trend_strength":  0,
+                        "trend_type":      "CHOPPY",
+                        "volatility_regime": "NORMAL",
+                    },
+                    "_fallback": True,
+                }
+
+            # ตรวจสอบว่า indicators มีค่าจริงหรือเป็น 0 ทั้งหมด
+            m5_inds = log_data.get('m5', {})
+            rsi = m5_inds.get('rsi14', 0.0)
+            has_real_data = rsi != 0.0 and m5_inds.get('ema5', 0.0) != 0.0
+            if not has_real_data:
+                logger.warning(f"Indicators for {symbol} are all zero — IndicatorStore may not have warmed up yet, skipping AI call")
+                return
                 
             insight = self.ai_bridge.analyze_market(ai_context_to_send)
             if not insight:
@@ -207,7 +252,7 @@ class PureAIRunner:
             
             thai_console_log(f"AI: {insight.action} ({insight.confidence}%)")
             
-            if insight.action in ["CALL", "PUT"] and insight.confidence >= 70:
+            if insight.action in ["CALL", "PUT"] and insight.confidence >= self.min_confidence:
                 direction = insight.action.upper()
                 expiry_time = insight.expiry
                 thai_console_log(f"ยิงออเดอร์ {insight.action} {symbol} ({expiry_time} นาที)")
@@ -296,10 +341,8 @@ class PureAIRunner:
 
         try:
             balance = self.data_adapter.api.get_balance()
-            if balance is not None:
-                thai_console_log(f"ยอดเงินคงเหลือ: ${balance:.2f}")
         except Exception:
-            pass
+            balance = None
 
         # Run all symbols concurrently for data fetching and CSV writing
         if not self.symbols:
@@ -316,6 +359,7 @@ class PureAIRunner:
             concurrent.futures.wait(futures)
 
         # Step 2: Spawn background AI analysis tasks
+        price_parts = []
         for sym in self.symbols:
             res = None
             for f in futures:
@@ -332,6 +376,7 @@ class PureAIRunner:
                 continue
                 
             completed_m1, completed_m5, completed_m15, current_price = res
+            price_parts.append(f"{sym}:{current_price:.5f}")
             last_ts_m1 = completed_m1.index[-1]
             
             # กันวิเคราะห์แท่งเดิมซ้ำ
@@ -352,6 +397,12 @@ class PureAIRunner:
                 'M15': completed_m15.copy()
             }
             self.ai_executor.submit(self.run_ai_analysis_and_trade, sym, candles_dict, current_price)
+
+        # แสดงสรุปราคาและยอดเงินบรรทัดเดียว
+        if price_parts:
+            price_str = "][".join(price_parts)
+            balance_str = f"${balance:.2f}" if balance is not None else "N/A"
+            thai_console_log(f"[{price_str}] :: TOTAL={balance_str}")
 
 
     def start(self):

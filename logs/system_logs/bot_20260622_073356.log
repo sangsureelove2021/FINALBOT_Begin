@@ -1,0 +1,30 @@
+2026-06-22 14:33:56,995 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-22 14:34:01,519 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-22 14:34:01,532 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-22 14:34:01,846 | WARNING  | Failed to get server time offset: 'IQ_Option' object has no attribute 'get_server_time'
+2026-06-22 14:34:01,851 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-22 14:34:36,046 | INFO     | MarketStateClassifier initialised
+2026-06-22 14:34:37,251 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-22 14:34:38,147 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:200 M5:200 M15:200
+2026-06-22 14:34:39,464 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-06-22 14:34:40,747 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-06-22 14:34:43,031 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-06-22 14:34:44,312 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-06-22 14:35:02,978 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260622_073502_EURUSD-OTC.json
+2026-06-22 14:35:02,984 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260622_073502_EURGBP-OTC.json
+2026-06-22 14:36:03,150 | WARNING  | [WARN] AI สำหรับ EURUSD-OTC กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-22 14:36:03,198 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260622_073603_EURGBP-OTC.json
+2026-06-22 14:36:18,086 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 14:36:18,560 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 14:36:36,253 | ERROR    | No JSON found in response
+2026-06-22 14:36:36,254 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 14:37:02,555 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260622_073702_EURUSD-OTC.json
+2026-06-22 14:37:02,555 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260622_073702_EURGBP-OTC.json
+2026-06-22 14:37:35,577 | ERROR    | No JSON found in response
+2026-06-22 14:37:35,578 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 14:38:02,797 | WARNING  | [WARN] AI สำหรับ EURUSD-OTC กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-22 14:38:02,844 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260622_073802_EURGBP-OTC.json
+2026-06-22 14:38:17,686 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 14:38:18,105 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 14:38:37,424 | ERROR    | No JSON found in response
+2026-06-22 14:38:37,424 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด

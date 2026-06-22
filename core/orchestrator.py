@@ -51,7 +51,9 @@ class Orchestrator:
         # ── Tier-2 classifier ────────────────────────────────────────────
         self.classifier: Optional[MarketStateClassifier] = None
         try:
-            self.classifier = MarketStateClassifier()
+            from core.config_loader import load_settings
+            _cfg = load_settings(reload=False).get("thresholds", {})
+            self.classifier = MarketStateClassifier(config=_cfg)
             logger.info("MarketStateClassifier initialised")
         except Exception as e:
             logger.error(f"Failed to init MarketStateClassifier: {e}")
@@ -131,7 +133,8 @@ class Orchestrator:
         """
         m5_df = candles_dict.get('M5', pd.DataFrame())
         # StructureEngine prefers M15; falls back to M5 if absent
-        structure_df = candles_dict.get('M15') or candles_dict.get('M5', pd.DataFrame())
+        m15 = candles_dict.get('M15')
+        structure_df = m15 if (m15 is not None and not m15.empty) else candles_dict.get('M5', pd.DataFrame())
 
         # Map label → (callable, args, kwargs)
         # NOTE: MTFEngine.analyze() takes candles_dict as kwarg (overrides BaseEngine signature)

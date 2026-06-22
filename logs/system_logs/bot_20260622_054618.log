@@ -22,3 +22,17 @@
 2026-06-22 12:49:02,396 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
 2026-06-22 12:49:38,816 | ERROR    | No JSON found in response
 2026-06-22 12:49:38,817 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 12:50:02,683 | WARNING  | [WARN] AI สำหรับ EURGBP-OTC กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-22 12:50:02,792 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-06-22 12:50:17,487 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 12:50:17,913 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 12:50:35,277 | ERROR    | No JSON found in response
+2026-06-22 12:50:35,278 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 12:51:03,097 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-06-22 12:51:03,134 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-06-22 12:52:02,406 | WARNING  | [WARN] AI สำหรับ EURUSD-OTC กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-22 12:52:02,442 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-06-22 12:52:18,224 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 12:52:18,605 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 12:53:02,789 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-06-22 12:53:02,790 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
