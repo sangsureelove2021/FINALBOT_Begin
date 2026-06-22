@@ -1,5 +1,0 @@
-2026-06-22 01:59:54,561 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
-2026-06-22 01:59:59,006 | INFO     | [CONN] IQ Option connected (DEMO)
-2026-06-22 01:59:59,021 | INFO     | [OK] Executor reusing IQ Option connection from adapter
-2026-06-22 01:59:59,348 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
-2026-06-22 02:01:14,392 | ERROR    | AI Readiness check failed: Command '['C:\\Users\\Administrator\\AppData\\Roaming\\npm\\deepseek-agent.CMD', 'chat', '-m', 'System check. You are DeepSeek AI (model DeepSeek-R4). Please introduce yourself and state that you are ready to analyze the market in English. Keep it under 15 words.']' timed out after 75 seconds

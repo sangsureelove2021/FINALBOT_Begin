@@ -1,1 +1,0 @@
-deepseek-agent --dir "C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT" --interactive

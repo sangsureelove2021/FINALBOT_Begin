@@ -1,1 +1,0 @@
-deepseek-agent --interactive
