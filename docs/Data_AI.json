@@ -1,0 +1,65 @@
+{
+  "timestamp": "2026-06-22T10:35:00+00:00",
+  "symbol": "EURUSD-OTC",
+  "current_price": 1.15391,
+  "session": "london_open",
+
+  "market_state": "TRENDING_STRONG",
+  "m15_bias": "BULLISH",
+
+  "m5": {
+    "ema5": 1.15381,
+    "ema10": 1.15416,
+    "ema20": 1.15432,
+    "ema50": 1.15486,
+    "bb_upper": 1.15691,
+    "bb_lower": 1.15216,
+    "bb_width": 0.00475,
+    "rsi14": 58.4,
+    "macd": 0.00018,
+    "macd_signal": 0.00010,
+    "macd_hist": 0.00008,
+    "stoch_k": 65.2,
+    "stoch_d": 58.1,
+    "adx": 32.5,
+    "atr": 0.00162,
+    "support": 1.15033,
+    "resistance": 1.15762,
+    "pivot": 1.15377,
+    "r1": 1.15439,
+    "s1": 1.15330
+  },
+
+  "m1": {
+    "ema5": 1.15366,
+    "ema20": 1.15357,
+    "rsi14": 54.2,
+    "macd": 0.00012,
+    "macd_signal": 0.00008,
+    "stoch_k": 72.3,
+    "stoch_d": 65.1,
+    "last_candle": "BULLISH"
+  },
+
+  "price_action": {
+    "pattern": "BULLISH_ENGULFING",
+    "last_candle": "BULLISH",
+    "body_strength": "STRONG",
+    "momentum_bias": "BULLISH",
+    "wick_dominance": "LOW_WICK",
+    "rejection_zone": "NEAR_SUPPORT",
+    "trap_alert": "NONE",
+    "sr_interaction": "BOUNCING_FROM_SUPPORT"
+  },
+
+  "analysis": {
+    "trend_direction": "UP",
+    "trend_type": "IMPULSIVE",
+    "trend_strength": 75,
+    "volatility_regime": "NORMAL",
+    "compression_quality": 20,
+    "bos_detected": false,
+    "mtf_alignment": 80,
+    "exhaustion_risk": 15
+  }
+}

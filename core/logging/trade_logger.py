@@ -102,21 +102,74 @@ class TradeLogger:
         # แปลง primary_timeframe เป็น string เช่น "M5" -> "5m"
         tf_str = primary_timeframe.lower() if primary_timeframe.startswith('M') else primary_timeframe
         
-        # สร้างโครงสร้างใหม่ (optimized for AI)
-        log_data = {
-            "timestamp": timestamp,
-            "symbol": symbol,
-            "current_price": current_price,
-            "session": session,
-            "timeframe": tf_str,
-            "market_state": market_state.get('state', 'UNKNOWN'),
-            "m5": indicators_primary,
-            "m1": indicators_detail,
-            "price_action": self._build_price_action(detail_df, indicators_primary),
-            "triggered_signals": [],
-            "signal_count": 0
+        # ── M5 block ────────────────────────────────────────────────────
+        m5_block = {
+            "ema5":       indicators_primary.get('ema5',  0.0),
+            "ema10":      indicators_primary.get('ema10', 0.0),
+            "ema20":      indicators_primary.get('ema20', 0.0),
+            "ema50":      indicators_primary.get('ema50', 0.0),
+            "bb_upper":   indicators_primary.get('bb_upper', 0.0),
+            "bb_lower":   indicators_primary.get('bb_lower', 0.0),
+            "bb_width":   indicators_primary.get('bb_width', 0.0),
+            "rsi14":      indicators_primary.get('rsi14', 50.0),
+            "macd":       indicators_primary.get('macd', 0.0),
+            "macd_signal":indicators_primary.get('macd_signal', 0.0),
+            "macd_hist":  indicators_primary.get('macd_hist', 0.0),
+            "stoch_k":    indicators_primary.get('stoch_k', 50.0),
+            "stoch_d":    indicators_primary.get('stoch_d', 50.0),
+            "adx":        indicators_primary.get('adx', 0.0),
+            "atr":        indicators_primary.get('atr14', indicators_primary.get('atr', 0.0)),
+            "support":    indicators_primary.get('support', 0.0),
+            "resistance": indicators_primary.get('resistance', 0.0),
+            "pivot":      indicators_primary.get('pivot', 0.0),
+            "r1":         indicators_primary.get('r1', 0.0),
+            "s1":         indicators_primary.get('s1', 0.0),
         }
-        
+
+        # ── M1 block ────────────────────────────────────────────────────
+        m1_block = {
+            "ema5":        indicators_detail.get('ema5', 0.0),
+            "ema20":       indicators_detail.get('ema20', 0.0),
+            "rsi14":       indicators_detail.get('rsi14', 50.0),
+            "macd":        indicators_detail.get('macd', 0.0),
+            "macd_signal": indicators_detail.get('macd_signal', 0.0),
+            "stoch_k":     indicators_detail.get('stoch_k', 50.0),
+            "stoch_d":     indicators_detail.get('stoch_d', 50.0),
+            "last_candle": indicators_detail.get('last_candle', 'NEUTRAL'),
+        }
+
+        # ── analysis block — ดึงจาก market_state (output ของ 5 engines) ─
+        analysis_block = {
+            "trend_direction":   market_state.get('trend_direction',   'NONE'),
+            "trend_type":        market_state.get('trend_type',        'CHOPPY'),
+            "trend_strength":    market_state.get('trend_strength',    0),
+            "volatility_regime": market_state.get('volatility_label',  'NORMAL').upper(),
+            "compression_quality": market_state.get('compression_quality', 0.0),
+            "bos_detected":      market_state.get('bos_detected',      False),
+            "mtf_alignment":     market_state.get('mtf_alignment',     50),
+            "exhaustion_risk":   market_state.get('exhaustion_risk',   50),
+        }
+
+        # ── price_action — ดึงจาก IndicatorStore (คำนวณไว้แล้ว) ────────
+        price_action = payload.get('price_action') or \
+                       self._build_price_action(detail_df, indicators_primary)
+
+        # ── สร้าง log_data ───────────────────────────────────────────────
+        log_data = {
+            "timestamp":    timestamp,
+            "symbol":       symbol,
+            "current_price": current_price,
+            "session":      session,
+            "market_state": market_state.get('state', 'UNKNOWN'),
+            "m15_bias":     payload.get('m15', {}).get('bias', 'NEUTRAL'),
+            "m5":           m5_block,
+            "m1":           m1_block,
+            "price_action": price_action,
+            "analysis":     analysis_block,
+            "triggered_signals": [],
+            "signal_count": 0,
+        }
+
         return log_data
     
 

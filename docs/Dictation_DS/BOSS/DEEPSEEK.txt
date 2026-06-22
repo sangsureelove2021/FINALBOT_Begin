@@ -1,4 +1,6 @@
-   deepseek-agent --dir "C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT" --interactive
+deepseek-agent --interactive
+   
+deepseek-agent --dir "C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT" --interactive
 
 
 เปิดอ่านไฟช์  DS_AGENT_PROMPT OVERVIEW.md ในโฟลเดอร์  C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\docs\Dictation_DS เพื่อรับคำสั่งมอบหมายงานจาก Boss
