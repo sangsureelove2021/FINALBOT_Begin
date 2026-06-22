@@ -1,0 +1,97 @@
+"""
+TIER 5 - BEHAVIOR ANALYZER
+
+
+Combined behavioral intelligence engine.
+Reads raw candle data and summarizes overall market "behavior":
+participation, conviction, hesitation, and pressure balance.
+
+This is a synthesis-style engine within Tier 5: it does NOT classify
+market state or emit signals — it only describes how price is behaving.
+"""
+
+import pandas as pd
+import numpy as np
+from typing import Dict, Any
+
+from core.engines.base_engine import BaseEngine
+
+
+class BehaviorAnalyzer(BaseEngine):
+    """Tier 5: Combined Market Behavior Analyzer"""
+
+    ENGINE_NAME = "behavior_analyzer"
+    ENGINE_VERSION = "1.0.0"
+    TIER = 5
+    MIN_CANDLES = 40
+
+    def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
+        recent = candles_df.tail(30)
+
+        conviction = self._conviction(recent)
+        hesitation = self._hesitation(recent)
+        pressure = self._pressure_balance(recent)
+        participation = self._participation(recent)
+
+        # Overall behavior label
+        behavior = self._classify(conviction, hesitation, pressure)
+
+        return {
+            'conviction': conviction,                 # 0-100, how decisive candles are
+            'hesitation': hesitation,                 # 0-100, how indecisive
+            'pressure_balance': float(pressure),      # -100..+100 (buy vs sell)
+            'participation': participation,           # 0-100, volume engagement
+            'behavior': behavior,                     # text label
+            'is_decisive': conviction > 60 and hesitation < 40,
+            'confidence': 70,
+        }
+
+    def _conviction(self, df: pd.DataFrame) -> int:
+        """Average body-to-range ratio — large bodies = conviction."""
+        rng = (df['high'] - df['low']).replace(0, np.nan)
+        body = (df['close'] - df['open']).abs()
+        ratio = (body / rng).fillna(0).mean()
+        return int(min(100, max(0, ratio * 100)))
+
+    def _hesitation(self, df: pd.DataFrame) -> int:
+        """Share of small-body (doji-like) candles — hesitation."""
+        rng = (df['high'] - df['low']).replace(0, np.nan)
+        body = (df['close'] - df['open']).abs()
+        ratio = (body / rng).fillna(0)
+        doji_share = float((ratio < 0.25).mean())
+        return int(min(100, max(0, doji_share * 100)))
+
+    def _pressure_balance(self, df: pd.DataFrame) -> float:
+        """Net buying vs selling pressure, -100 (sell) .. +100 (buy)."""
+        bull = (df['close'] > df['open']).sum()
+        bear = (df['close'] < df['open']).sum()
+        total = bull + bear
+        if total == 0:
+            return 0.0
+        return float(((bull - bear) / total) * 100)
+
+    def _participation(self, df: pd.DataFrame) -> int:
+        """Recent volume vs its own average — engagement level."""
+        if 'volume' not in df or df['volume'].sum() == 0:
+            return 50
+        avg = df['volume'].mean()
+        recent = df['volume'].tail(5).mean()
+        if avg == 0:
+            return 50
+        return int(min(100, max(0, (recent / avg) * 50)))
+
+    def _classify(self, conviction: int, hesitation: int,
+                  pressure: float) -> str:
+        if hesitation > 55:
+            return 'INDECISIVE'
+        if conviction > 60:
+            return 'DECISIVE_BUYING' if pressure > 15 else \
+                   'DECISIVE_SELLING' if pressure < -15 else 'DECISIVE_MIXED'
+        return 'NEUTRAL'
+
+    def get_neutral_state(self) -> Dict[str, Any]:
+        return {
+            'conviction': 0, 'hesitation': 50, 'pressure_balance': 0.0,
+            'participation': 50, 'behavior': 'NEUTRAL',
+            'is_decisive': False, 'confidence': 0,
+        }

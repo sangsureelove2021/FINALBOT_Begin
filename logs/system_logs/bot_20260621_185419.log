@@ -1,0 +1,17 @@
+2026-06-22 01:54:19,597 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-22 01:54:49,952 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-22 01:54:52,597 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-22 01:54:52,633 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-22 01:54:52,634 | INFO     | MarketStateClassifier initialized successfully in Orchestrator
+2026-06-22 01:55:05,406 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 01:55:05,516 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 01:55:35,216 | ERROR    | No JSON found in response
+2026-06-22 01:55:35,217 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 01:56:20,476 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 01:56:20,846 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 01:57:05,459 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 01:57:05,600 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 01:58:20,639 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 01:58:21,084 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 01:59:04,258 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 01:59:04,643 | ERROR    | Orchestrator cycle failed for EURGBP-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'

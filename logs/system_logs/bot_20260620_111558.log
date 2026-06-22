@@ -1,0 +1,22 @@
+2026-06-20 18:15:58,984 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-20 18:16:03,206 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-20 18:16:03,243 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-20 18:16:03,262 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-20 18:16:03,271 | INFO     | MarketStateClassifier initialized successfully
+2026-06-20 18:16:04,292 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_111604_EURUSD.json
+2026-06-20 18:17:19,533 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-20 18:17:19,970 | INFO     | [FALLBACK] Initialized
+2026-06-20 18:17:19,983 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 46.3 (neutral) | MACD -0.00003 < 0 (bearish) | Trend: bullish | Near resistance 1.14769 | Confidence 35% < 40%
+2026-06-20 18:17:21,090 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_111720_EURGBP.json
+2026-06-20 18:18:36,220 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-20 18:18:36,540 | INFO     | [FALLBACK] Initialized
+2026-06-20 18:18:36,587 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 56.3 (neutral) | MACD 0.00000 > 0 (bullish) | Trend: bullish | Near resistance 0.8675 | Confidence 35% < 40%
+2026-06-20 18:18:37,666 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_111837_EURJPY.json
+2026-06-20 18:19:52,766 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-20 18:19:53,293 | INFO     | [FALLBACK] Initialized
+2026-06-20 18:19:53,303 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 48.8 (neutral) | MACD -0.00371 < 0 (bearish) | Trend: bullish | Near resistance 185.1275 | Confidence 35% < 40%
+2026-06-20 18:19:54,358 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_111954_EURUSD-OTC.json
+2026-06-20 18:21:09,517 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-20 18:21:09,905 | INFO     | [FALLBACK] Initialized
+2026-06-20 18:21:09,941 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 61.1 (neutral) | MACD 0.00004 > 0 (bullish) | Trend: bullish | Near resistance 1.14976 | Confidence 35% < 40%
+2026-06-20 18:21:16,964 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_112116_EURUSD-OTC.json

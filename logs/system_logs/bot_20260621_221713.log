@@ -1,0 +1,90 @@
+2026-06-22 05:17:13,494 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-22 05:17:16,808 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-22 05:17:16,821 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-22 05:17:17,152 | WARNING  | Failed to get server time offset: 'IQ_Option' object has no attribute 'get_server_time'
+2026-06-22 05:17:17,157 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-22 05:17:50,721 | INFO     | MarketStateClassifier initialized successfully in Orchestrator
+2026-06-22 05:17:55,681 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-06-22 05:17:58,112 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-06-22 05:17:59,617 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-06-22 05:18:02,069 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-06-22 05:19:02,822 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_221902_EURUSD-OTC.json
+2026-06-22 05:19:02,847 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_221902_EURGBP-OTC.json
+2026-06-22 05:19:36,371 | ERROR    | No JSON found in response
+2026-06-22 05:19:36,372 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 05:20:17,931 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:20:18,424 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:21:03,166 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_222103_EURGBP-OTC.json
+2026-06-22 05:21:03,168 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_222103_EURUSD-OTC.json
+2026-06-22 05:21:37,274 | ERROR    | No JSON found in response
+2026-06-22 05:21:37,274 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 05:22:18,265 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:22:18,738 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:23:03,345 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_222303_EURUSD-OTC.json
+2026-06-22 05:23:03,404 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_222303_EURGBP-OTC.json
+2026-06-22 05:24:18,550 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:24:18,966 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:25:03,695 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_222503_EURUSD-OTC.json
+2026-06-22 05:25:03,709 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_222503_EURGBP-OTC.json
+2026-06-22 05:26:18,838 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:26:19,328 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:27:02,967 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_222702_EURGBP-OTC.json
+2026-06-22 05:27:02,970 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_222702_EURUSD-OTC.json
+2026-06-22 05:27:38,233 | ERROR    | No JSON found in response
+2026-06-22 05:27:38,234 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 05:28:18,068 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:28:18,512 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:29:03,188 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_222903_EURUSD-OTC.json
+2026-06-22 05:29:03,198 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_222903_EURGBP-OTC.json
+2026-06-22 05:30:18,335 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:30:18,703 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:31:03,454 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_223103_EURGBP-OTC.json
+2026-06-22 05:31:03,468 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_223103_EURUSD-OTC.json
+2026-06-22 05:31:38,686 | ERROR    | No JSON found in response
+2026-06-22 05:31:38,686 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 05:32:18,627 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:32:19,540 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:33:03,214 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_223303_EURUSD-OTC.json
+2026-06-22 05:33:03,216 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_223303_EURGBP-OTC.json
+2026-06-22 05:34:18,368 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:34:18,765 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:35:03,582 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_223503_EURGBP-OTC.json
+2026-06-22 05:35:03,585 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_223503_EURUSD-OTC.json
+2026-06-22 05:35:38,055 | ERROR    | No JSON found in response
+2026-06-22 05:35:38,055 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 05:36:18,727 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:36:19,215 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:37:02,900 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_223702_EURUSD-OTC.json
+2026-06-22 05:37:02,908 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_223702_EURGBP-OTC.json
+2026-06-22 05:37:36,672 | ERROR    | No JSON found in response
+2026-06-22 05:37:36,672 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 05:38:18,002 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:38:18,419 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:39:03,051 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_223903_EURUSD-OTC.json
+2026-06-22 05:39:03,053 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_223903_EURGBP-OTC.json
+2026-06-22 05:39:36,451 | ERROR    | No JSON found in response
+2026-06-22 05:39:36,451 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 05:40:18,156 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:40:18,667 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:41:03,382 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_224103_EURUSD-OTC.json
+2026-06-22 05:41:03,384 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_224103_EURGBP-OTC.json
+2026-06-22 05:42:18,522 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:42:19,053 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:43:02,546 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_224302_EURUSD-OTC.json
+2026-06-22 05:43:02,843 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_224302_EURGBP-OTC.json
+2026-06-22 05:44:17,937 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:44:18,445 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:45:03,107 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_224503_EURGBP-OTC.json
+2026-06-22 05:45:03,163 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_224503_EURUSD-OTC.json
+2026-06-22 05:45:37,672 | ERROR    | No JSON found in response
+2026-06-22 05:45:37,672 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 05:46:18,258 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:46:18,783 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:47:03,445 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_224703_EURUSD-OTC.json
+2026-06-22 05:47:03,446 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_224703_EURGBP-OTC.json
+2026-06-22 05:48:18,572 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:48:19,092 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-22 05:49:02,720 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_224902_EURGBP-OTC.json
+2026-06-22 05:49:02,721 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260621_224902_EURUSD-OTC.json
+2026-06-22 05:50:17,865 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-22 05:50:18,378 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)

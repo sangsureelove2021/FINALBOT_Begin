@@ -1,0 +1,38 @@
+2026-06-20 23:47:00,211 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-20 23:47:04,464 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-20 23:47:04,492 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-20 23:47:04,504 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-20 23:47:04,511 | INFO     | MarketStateClassifier initialized successfully
+2026-06-20 23:47:04,519 | INFO     | CandlePatternAnalyzer initialized successfully
+2026-06-20 23:47:05,896 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_164705_EURUSD-OTC.json
+2026-06-20 23:47:08,812 | ERROR    | Agent error (code 1)
+2026-06-20 23:47:08,853 | ERROR    | Error details: 
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automati
+2026-06-20 23:47:08,957 | INFO     | [FALLBACK] Initialized
+2026-06-20 23:47:08,963 | INFO     | [FALLBACK] Action: CALL, Confidence: 45%, Reason: RSI 26.5 < 30 (oversold) | MACD -0.00034 < 0 (bearish) | Trend: bearish
+2026-06-20 23:47:09,987 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_164709_EURGBP-OTC.json
+2026-06-20 23:47:12,452 | ERROR    | Agent error (code 1)
+2026-06-20 23:47:12,461 | ERROR    | Error details: 
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automati
+2026-06-20 23:47:12,473 | INFO     | [FALLBACK] Initialized
+2026-06-20 23:47:12,481 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 57.6 (neutral) | MACD 0.00029 > 0 (bullish) | Trend: bearish | Near resistance 0.86676 | Confidence 35% < 40%
+2026-06-20 23:47:13,538 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_164713_EURJPY-OTC.json
+2026-06-20 23:47:16,306 | ERROR    | Agent error (code 1)
+2026-06-20 23:47:16,406 | ERROR    | Error details: 
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automati
+2026-06-20 23:47:16,454 | INFO     | [FALLBACK] Initialized
+2026-06-20 23:47:16,498 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 63.1 (neutral) | MACD 0.03285 > 0 (bullish) | Trend: bullish | Near resistance 183.71332 | Confidence 35% < 40%
+2026-06-20 23:47:17,788 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_164717_GBPUSD-OTC.json
+2026-06-20 23:47:21,111 | ERROR    | Agent error (code 1)
+2026-06-20 23:47:21,167 | ERROR    | Error details: 
+[36m╔══════════════════════════════════════════════════╗[0m
+[36m║[0m   [1m[96m🤖  DeepSeek Browser Agent[0m                     [36m║[0m
+[36m║[0m   [90mAI Coding Agent via Browser Automati
+2026-06-20 23:47:21,241 | INFO     | [FALLBACK] Initialized
+2026-06-20 23:47:21,305 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 63.4 (neutral) | MACD 0.00027 > 0 (bullish) | Trend: bullish | Near resistance 1.36228 | Confidence 35% < 40%

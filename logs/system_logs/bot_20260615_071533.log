@@ -1,0 +1,34 @@
+2026-06-15 14:15:36,485 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-15 14:15:40,249 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-15 14:15:40,274 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-15 14:15:40,288 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-15 14:16:36,474 | ERROR    | Parse error: malformed node or string on line 2: Name(id='action', ctx=Load()). Raw response: ╔══════════════════════════════════════════════════╗
+║   🤖  DeepSeek Browser Agent                     ║
+║   AI Coding Agent via Browser Automation         ║
+║   No API key needed — uses chat.deepseek.com     ║
+╚══════════════════════════════════════════════════╝
+
+  ℹ  Working directory : E:\BOT_FINALBOT13 STG\BOT_FINALBOT
+  ℹ  Session directory : C:\Users\BUSOLOVE\.deepseek-agent\session
+  ℹ  Headless mode     : true
+  ℹ  Debug mode        : false
+
+  ℹ  Launching browser with persistent session
+2026-06-15 14:17:27,996 | INFO     | [OK] LIVE order placed: CALL 35 EURUSD-OTC M4 (id=13991193205)
+2026-06-15 14:17:28,001 | INFO     | [TRADE] Trade opened: 13991193205 | CALL 35x EURUSD-OTC @ 1.167235
+2026-06-15 14:18:19,464 | INFO     | [OK] LIVE order placed: CALL 35 GBPUSD-OTC M4 (id=13991194558)
+2026-06-15 14:18:19,473 | INFO     | [TRADE] Trade opened: 13991194558 | CALL 35x GBPUSD-OTC @ 1.347135
+2026-06-15 14:21:17,230 | INFO     | [OK] LIVE order placed: CALL 35 EURJPY-OTC M3 (id=13991199002)
+2026-06-15 14:21:17,238 | INFO     | [TRADE] Trade opened: 13991199002 | CALL 35x EURJPY-OTC @ 185.299415
+2026-06-15 14:22:07,090 | ERROR    | Parse error: malformed node or string on line 2: Name(id='action', ctx=Load()). Raw response: ╔══════════════════════════════════════════════════╗
+║   🤖  DeepSeek Browser Agent                     ║
+║   AI Coding Agent via Browser Automation         ║
+║   No API key needed — uses chat.deepseek.com     ║
+╚══════════════════════════════════════════════════╝
+
+  ℹ  Working directory : E:\BOT_FINALBOT13 STG\BOT_FINALBOT
+  ℹ  Session directory : C:\Users\BUSOLOVE\.deepseek-agent\session
+  ℹ  Headless mode     : true
+  ℹ  Debug mode        : false
+
+  ℹ  Launching browser with persistent session

@@ -1,0 +1,51 @@
+2026-06-16 11:17:21,305 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-16 11:17:24,094 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-16 11:17:24,159 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-16 11:17:24,177 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-16 11:18:20,662 | ERROR    | Unexpected error calling agent: 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\core\ai_analysis\deepseek_agent_bridge.py", line 263, in _parse_response
+    response_text = response_text.strip()
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'strip'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\core\ai_analysis\deepseek_agent_bridge.py", line 180, in analyze_market
+    insight = self._parse_response(stdout_text, context)
+  File "C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\core\ai_analysis\deepseek_agent_bridge.py", line 351, in _parse_response
+    logger.error(f"Parse error: {e}. Raw response: {response_text[:500]}")
+                                                    ~~~~~~~~~~~~~^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+2026-06-16 11:19:36,244 | ERROR    | Unexpected error calling agent: Command '['C:\\Users\\Administrator\\AppData\\Roaming\\npm\\deepseek-agent.CMD', '--message', 'You are a professional binary options trader. Analyze the following market data and reply with ONLY a valid JSON object.\nCRITICAL INSTRUCTIONS:\n1. DO NOT use any tools.\n2. DO NOT run any shell commands (like echo).\n3. DO NOT write or save any files.\n4. Just type the raw JSON text as your normal chat response.\n5. EXTREMELY IMPORTANT: Your JSON must be strictly valid. ALL keys and ALL string values MUST be enclosed in double quotes (""). Do not leave strings unquoted.\n\nYou can choose the optimal expiry time (from 1 to 5 minutes) based on market structure and volatility.\n\nMARKET DATA:\nSymbol: EURUSD-OTC\nCurrent Price: 1.175435\nTimestamp: 2026-06-16T11:18:21.167277\n\nMARKET STATE CLASSIFICATION (Tier 2 Engine):\n- State: LIQUIDITY_VOID\n- Confidence: 85%\n- Quality Score: 10\n- Tradeable: False\n- Description: Extremely low volume / dead market. No trading opportunity.\n\nTECHNICAL INDICATORS:\n- RSI (14): 58.65\n- MACD Histogram/Difference: 0.00040\n- Trend: bullish\n- Volatility: low\n- Support/Resistance: Support: 1.17051, Resistance: 1.17654\n\nOUTPUT FORMAT (Return exactly this JSON structure and nothing else):\n{\n  "action": "CALL",\n  "confidence": 85,\n  "expiry": 3,\n  "reason": "Explain reason briefly in Thai"\n}\n']' timed out after 75 seconds
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\core\ai_analysis\deepseek_agent_bridge.py", line 170, in analyze_market
+    stdout_text, stderr_text = p.communicate(timeout=self.timeout)
+                               ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 1664, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['C:\\Users\\Administrator\\AppData\\Roaming\\npm\\deepseek-agent.CMD', '--message', 'You are a professional binary options trader. Analyze the following market data and reply with ONLY a valid JSON object.\nCRITICAL INSTRUCTIONS:\n1. DO NOT use any tools.\n2. DO NOT run any shell commands (like echo).\n3. DO NOT write or save any files.\n4. Just type the raw JSON text as your normal chat response.\n5. EXTREMELY IMPORTANT: Your JSON must be strictly valid. ALL keys and ALL string values MUST be enclosed in double quotes (""). Do not leave strings unquoted.\n\nYou can choose the optimal expiry time (from 1 to 5 minutes) based on market structure and volatility.\n\nMARKET DATA:\nSymbol: EURUSD-OTC\nCurrent Price: 1.175435\nTimestamp: 2026-06-16T11:18:21.167277\n\nMARKET STATE CLASSIFICATION (Tier 2 Engine):\n- State: LIQUIDITY_VOID\n- Confidence: 85%\n- Quality Score: 10\n- Tradeable: False\n- Description: Extremely low volume / dead market. No trading opportunity.\n\nTECHNICAL INDICATORS:\n- RSI (14): 58.65\n- MACD Histogram/Difference: 0.00040\n- Trend: bullish\n- Volatility: low\n- Support/Resistance: Support: 1.17051, Resistance: 1.17654\n\nOUTPUT FORMAT (Return exactly this JSON structure and nothing else):\n{\n  "action": "CALL",\n  "confidence": 85,\n  "expiry": 3,\n  "reason": "Explain reason briefly in Thai"\n}\n']' timed out after 75 seconds
+2026-06-16 11:19:39,575 | ERROR    | Agent error (code 1)
+2026-06-16 11:19:43,017 | ERROR    | Agent error (code 1)
+2026-06-16 11:20:05,830 | ERROR    | Agent error (code 1)
+2026-06-16 11:20:59,437 | ERROR    | Unexpected error calling agent: 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\core\ai_analysis\deepseek_agent_bridge.py", line 263, in _parse_response
+    response_text = response_text.strip()
+                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'strip'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\core\ai_analysis\deepseek_agent_bridge.py", line 180, in analyze_market
+    insight = self._parse_response(stdout_text, context)
+  File "C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\core\ai_analysis\deepseek_agent_bridge.py", line 351, in _parse_response
+    logger.error(f"Parse error: {e}. Raw response: {response_text[:500]}")
+                                                    ~~~~~~~~~~~~~^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+2026-06-16 11:21:01,606 | ERROR    | Agent error (code 3221225786)

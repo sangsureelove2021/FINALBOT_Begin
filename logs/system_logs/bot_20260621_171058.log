@@ -1,0 +1,41 @@
+2026-06-22 00:11:04,496 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-22 00:11:08,049 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-22 00:11:08,109 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-22 00:11:08,113 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-22 00:11:08,114 | INFO     | MarketStateClassifier initialized successfully in Orchestrator
+2026-06-22 00:12:04,604 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:12:38,691 | ERROR    | No JSON found in response
+2026-06-22 00:12:38,691 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 00:12:39,408 | ERROR    | Orchestrator cycle failed for GBPUSD: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:13:08,952 | ERROR    | No JSON found in response
+2026-06-22 00:13:08,953 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 00:13:09,730 | ERROR    | Orchestrator cycle failed for USDJPY: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:13:45,260 | ERROR    | Orchestrator cycle failed for AUDUSD: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:13:46,225 | ERROR    | Orchestrator cycle failed for USDCAD: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:13:46,954 | ERROR    | Orchestrator cycle failed for EURGBP: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:14:04,935 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:14:34,147 | ERROR    | No JSON found in response
+2026-06-22 00:14:34,147 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 00:14:34,834 | ERROR    | Orchestrator cycle failed for GBPUSD: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:15:03,890 | ERROR    | No JSON found in response
+2026-06-22 00:15:03,891 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 00:16:03,979 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:16:33,299 | ERROR    | No JSON found in response
+2026-06-22 00:16:33,300 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 00:16:33,992 | ERROR    | Orchestrator cycle failed for GBPUSD: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:17:02,586 | ERROR    | No JSON found in response
+2026-06-22 00:17:02,587 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 00:18:04,920 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:18:34,338 | ERROR    | No JSON found in response
+2026-06-22 00:18:34,338 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 00:18:35,011 | ERROR    | Orchestrator cycle failed for GBPUSD: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:19:04,003 | ERROR    | No JSON found in response
+2026-06-22 00:19:04,003 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 00:20:04,407 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:20:39,974 | ERROR    | Orchestrator cycle failed for GBPUSD: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:25:04,934 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:25:34,424 | ERROR    | No JSON found in response
+2026-06-22 00:25:34,424 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-22 00:26:04,893 | ERROR    | Orchestrator cycle failed for EURUSD-OTC: 'TradeLogger' object has no attribute 'pattern_analyzer'
+2026-06-22 00:26:34,787 | ERROR    | No JSON found in response
+2026-06-22 00:26:34,788 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด

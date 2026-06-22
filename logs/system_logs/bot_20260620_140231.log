@@ -1,0 +1,33 @@
+2026-06-20 21:02:35,087 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-20 21:02:38,886 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-20 21:02:38,887 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-20 21:02:38,907 | WARNING  | DeepSeek Agent not found in PATH or common locations. Will search again at runtime.
+2026-06-20 21:02:38,908 | INFO     | MarketStateClassifier initialized successfully
+2026-06-20 21:02:40,006 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_140239_EURUSD-OTC.json
+2026-06-20 21:02:40,237 | ERROR    | Agent error (code 1)
+2026-06-20 21:02:40,237 | ERROR    | Error details: '"deepseek-agent"' is not recognized as an internal or external command,
+operable program or batch file.
+
+2026-06-20 21:02:40,237 | INFO     | [FALLBACK] Initialized
+2026-06-20 21:02:40,238 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 57.6 (neutral) | MACD -0.00021 < 0 (bearish) | Trend: bullish | Near resistance 1.15644 | Confidence 35% < 40%
+2026-06-20 21:02:41,151 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_140241_EURGBP-OTC.json
+2026-06-20 21:02:41,235 | ERROR    | Agent error (code 1)
+2026-06-20 21:02:41,235 | ERROR    | Error details: '"deepseek-agent"' is not recognized as an internal or external command,
+operable program or batch file.
+
+2026-06-20 21:02:41,236 | INFO     | [FALLBACK] Initialized
+2026-06-20 21:02:41,236 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 53.3 (neutral) | MACD -0.00003 < 0 (bearish) | Trend: bullish | Near resistance 0.86942 | Confidence 35% < 40%
+2026-06-20 21:02:42,135 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_140242_EURJPY-OTC.json
+2026-06-20 21:02:42,220 | ERROR    | Agent error (code 1)
+2026-06-20 21:02:42,220 | ERROR    | Error details: '"deepseek-agent"' is not recognized as an internal or external command,
+operable program or batch file.
+
+2026-06-20 21:02:42,220 | INFO     | [FALLBACK] Initialized
+2026-06-20 21:02:42,221 | INFO     | [FALLBACK] Action: NO_TRADE, Confidence: 35%, Reason: RSI 50.7 (neutral) | MACD 0.00449 > 0 (bullish) | Trend: bullish | Near resistance 183.47366 | Confidence 35% < 40%
+2026-06-20 21:02:43,329 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_140243_GBPUSD-OTC.json
+2026-06-20 21:02:43,391 | ERROR    | Agent error (code 1)
+2026-06-20 21:02:43,391 | ERROR    | Error details: '"deepseek-agent"' is not recognized as an internal or external command,
+operable program or batch file.
+
+2026-06-20 21:02:43,392 | INFO     | [FALLBACK] Initialized
+2026-06-20 21:02:43,392 | INFO     | [FALLBACK] Action: PUT, Confidence: 55%, Reason: RSI 70.9 > 70 (overbought) | MACD 0.00012 > 0 (bullish) | Trend: bullish | Near resistance 1.36258

@@ -1,0 +1,53 @@
+{
+  "_comment": "FINALBOT settings. account_type=PRACTICE uses the IQ Option demo account (fake money). Change to REAL only after demo testing is complete.",
+  "account": {
+    "account_type": "PRACTICE",
+    "trading_mode": "Ai_BOT",
+    "iq_email": "venuz20152565@gmail.com",
+    "iq_password": "2856101607mM@",
+    "stake_per_trade": 35,
+    "take_profit_percent": 2.0,
+    "stop_loss_percent": 3.5
+  },
+  "symbols": [
+    "EURUSD-OTC",
+    "EURGBP-OTC"
+  ],
+  "limits": {
+    "max_concurrent": 9999,
+    "max_trades_per_session": 9999,
+    "max_daily_profit": 9999,
+    "max_daily_loss": 9999,
+    "max_consecutive_losses": 9999,
+    "cooldown_minutes_after_loss": 0,
+    "_note": "Risk management disabled (set to 9999)."
+  },
+  "execution_gate": {
+    "min_confidence": 75,
+    "max_block_score": 30,
+    "_note": "Strict quality threshold for better signals."
+  },
+  "session": {
+    "trading_hours": "11.00-23.00",
+    "timezone": "Asia/Bangkok"
+  },
+  "active_strategies": [
+    "fakeout_trap_rider",
+    "velocity_layer",
+    "stochastic_sniping",
+    "zscore_bandit",
+    "range_bounce_arbitrage"
+  ],
+  "backtest": {
+    "start_date": "2026-05-08 00:00:00",
+    "end_date": "2026-05-08 23:59:59"
+  },
+  "ai_mode": {
+    "enabled": true,
+    "use_cli_agent": true,
+    "agent_command": "deepseek-agent",
+    "timeout_seconds": 75,
+    "fallback_to_traditional": false,
+    "weight_in_fusion": 0.4
+  }
+}

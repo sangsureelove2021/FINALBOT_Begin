@@ -1,0 +1,44 @@
+deepseek-agent --interactive
+   
+deepseek-agent --dir "C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT" --interactive
+
+
+เปิดอ่านไฟช์  DS_AGENT_PROMPT OVERVIEW.md ในโฟลเดอร์  C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\docs\Dictation_DS เพื่อรับคำสั่งมอบหมายงานจาก Boss
+
+
+เปิดอ่านไฟช์  User_To_Deepseek.txt ในโฟลเดอร์  C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\docs\Dictation_DS เพื่อรับคำสั่งมอบหมายงานจาก Boss
+
+
+
+
+ฉันต้องการทราบว่าบอทนี้ C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT มีการเรียกใช้ข้อมูลราคาจาก โบรกเกอร์ใด ใช้วิธีการดึงข้อมูลแบบใด และดึงข้อมูลราคา TF ใดบ้าง ข้อมูลที่ดึงมาถูกนำไปใช้ในจุดของบอทบ้าง
+
+ฉันต้องการให้ตรวจสอบในทุกโฟลเดอร์ หรือทุกไฟล์ ในบอทนี้ C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT เพื่อค้นหาข้อผิดพลาดที่ทำให้บอทไม่สมบูรณ์  ฉันต้องการที่จะรันบอทจริง แล้วไม่พบปัญหาใด ๆ 
+
+อ่านและวิเคราะห์ไฟล์  ชื่อ ai data.txt ใน  C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\docs ประบให้บอทบันทึดข้อมูลราตาและคณิตศาสตร์ ตามรูปแบบในไฟล์  ai data.txt
+- บอทมีการบันทึกข้อมูลโดยปกติอยู่แล้ว แต่พบว่ามีข้อมูลหลายบรรทัดไม่ถูกต้อง คุณจะต้องปรับการทำงานของบอท  ให้คำนวณและบันทึกข้อมูลที่ถูกต้อง ตามรูปแบบนั้น  อย่าทำให้บอทพังหรือไปแก้ไขจนระบบบอทพเงนด
+
+
+อ่านไฟล์ ล่าสุด 1 ไฟล์  ในโฟลเดอร์  ใน C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\logs\logs_trade ตรวจสอบข้อมูล ทีล่ะ แถว แล้วรายงานมา ว่าข้อมูลแถวใด ซ้ำซ้อน หรือ มีความผิดปกติ
+
+อ่าาน ไฟล์  AI01-DeepSeek Browser Agen.md   ใน  C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\docs
+อ่าน ไฟล์  AI02-บันทึกการทำงาน DeepSeek Browser Agent.md  ใน  C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\docs
+
+C:\Users\Administrator\.gemini\antigravity\brain\5bd39548-8880-4c02-9da4-2d9371e77e3a\.system_generated\logs\transcript.jsonl
+
+จาก  Boss
+ถึง AI Model
+   สำหรับคำถามที่ว่า เวอร์ชันของ DeepSeek Browser Agent คือ เวอร์ชันใด  ต้องบอกท่าน AI Model ทุกตัวว่า Boss ผิดหวังเป็นอย่างมาก กับคำตอบ  วิธีการที่จะรู้คำตอบได้ว่า DeepSeek Browser Agent คือ เวอร์ชันใด  คำตอบคือ ท่านจะต้องไปถามมันเอง... และวิธีการที่จะไปหามันนั้น อยู่ในเอสารที่ Boss ให้เข้าไปอ่าน... 
+    สิ่งที่ Boss  อยากเห็นคือ AI ตัวใด ตัวหนึ่ง  รวม 8 โมเดลนี้... สั่งรัน แล้วเข้าไปถามมัน...
+
+
+14:22:07 - 🧠 DeepSeek Decision: NO_TRADE | Confidence: 0% | Expiry Chosen: 5m | Reason: Fallback to NO_TRADE
+
+ผิด... 
+และ มึงไม่ได้เข้าใจ DeepSeek Browser Agent เลย
+อย่าเดา อย่ามโน อย่าคิดไปเอง และหยุดการสนทนา และหยุดคิดด้วย
+
+C:\Users\Administrator\.gemini\antigravity\brain\efeff24c-efc2-42c6-8212-f1817ef936f2\.system_generated\logs
+
+
+{   "mcpServers": {     "deepseek-subagent": {       "command": "npx",       "args": [         "-y",         "deepseek-as-subagent"       ],       "env": {         "OPENAI_BASE_URL": "https://api.deepseek.com/v1",         "OPENAI_API_KEY": "sk-7122860420e34f02ae0267a8124e9f53"       }     }   } }
