@@ -39,11 +39,15 @@ logging.basicConfig(
 )
 logger = logging.getLogger("FINALBOT")
 
+import threading
+_PRINT_LOCK = threading.Lock()
+
 def thai_console_log(msg: str):
     tz_thailand = timezone(timedelta(hours=7))
     thai_time_str = datetime.now(tz_thailand).strftime('%H:%M:%S')
-    print(f"{thai_time_str} - {msg}")
-    sys.stdout.flush()
+    with _PRINT_LOCK:
+        print(f"{thai_time_str} - {msg}")
+        sys.stdout.flush()
 
 # Core imports
 from core.data.iq_option_adapter import IQOptionAdapter
@@ -133,8 +137,6 @@ class PureAIRunner:
         
         # Check readiness
         import os
-        import pandas as pd
-        
         ready_symbols = []
         not_ready_count = 0
         for sym in self.symbols:
@@ -177,6 +179,11 @@ class PureAIRunner:
         ready_count = len(self.symbols)
         thai_console_log(f"ข้อมูลพร้อมเทรด {ready_count} รายการ  ไม่พร้อมเทรด {not_ready_count} รายการ")
         
+        # Initialize background AI executor and running flags
+        import concurrent.futures
+        self.ai_executor = concurrent.futures.ThreadPoolExecutor(max_workers=max(1, len(self.symbols)))
+        self.ai_running = {sym: False for sym in self.symbols}
+        
         # Subscribe to WebSocket streams for live data
         for sym in self.symbols:
             self.data_adapter.start_stream(sym, 'M1', 200)
@@ -189,6 +196,250 @@ class PureAIRunner:
         mode_str = f"[MODE : AI_BOT][Stake:{self.stake}][Profit:{profit_pct}%][Loss:{loss_pct}%][Orderlimit:{max_conc}][Time:{trade_hours}]"
         thai_console_log(mode_str)
         thai_console_log("รอให้จบแท่งเทียน 1 m เพื่อเข้าสู่การวิเคราะห์สัญญาณ (เริ่มต้นที่วินาทีที่ 2)...")
+
+
+    def fetch_and_save_data(self, symbol):
+        try:
+            # ใช้เวลาที่ซิงโครไนซ์กับโบรกเกอร์เพื่อหลีกเลี่ยง Clock Drift
+            broker_now_epoch = time.time() + self.time_offset
+            now_naive = datetime.fromtimestamp(broker_now_epoch, timezone.utc).replace(tzinfo=None)
+            current_min = now_naive.minute
+            
+            # ============================================================
+            # STEP 1: M1 — ดึงทุก 1 นาที
+            # ============================================================
+            if self.store_m1[symbol] is None:
+                # ครั้งแรก: ดึง 200 แท่ง
+                candles_m1 = self.data_adapter.get_candles(symbol, 'M1', 200)
+                if candles_m1 is None or candles_m1.empty or len(candles_m1) < 2:
+                    return None
+                self.store_m1[symbol] = candles_m1
+            else:
+                # ครั้งต่อไป: ดึง 5 แท่ง (1 ใหม่ + 4 ย้อนหลังเช็คความถูกต้อง)
+                fresh_m1 = self.data_adapter.get_candles(symbol, 'M1', 5)
+                if fresh_m1 is not None and not fresh_m1.empty:
+                    # ตรวจจับ Data Gap: ถ้าแท่งสุดท้ายใน store ห่างจากแท่งแรกที่ดึงมาเกิน 5 นาที = เน็ตหลุด
+                    last_stored_ts = self.store_m1[symbol].index[-1]
+                    first_fresh_ts = fresh_m1.index[0]
+                    gap_seconds = (first_fresh_ts - last_stored_ts).total_seconds()
+                    if gap_seconds > 300:  # ห่างเกิน 5 นาที = มี gap
+                        logger.warning(f"[GAP] M1 {symbol}: detected {gap_seconds:.0f}s gap — refetching 200 candles")
+                        full_m1 = self.data_adapter.get_candles(symbol, 'M1', 200)
+                        if full_m1 is not None and not full_m1.empty:
+                            self.store_m1[symbol] = full_m1
+                    else:
+                        # เช็คความถูกต้อง: เฉพาะแท่งที่ปิดสมบูรณ์แล้ว (ไม่รวม forming candle)
+                        overlap = self.store_m1[symbol].index.intersection(fresh_m1.index)
+                        if len(overlap) > 0:
+                            # ตัดแท่งสุดท้ายออก (forming candle) ก่อนเทียบ
+                            check_idx = overlap[:-1] if len(overlap) > 1 else overlap
+                            if len(check_idx) > 0:
+                                old_vals = self.store_m1[symbol].loc[check_idx[-4:]]
+                                new_vals = fresh_m1.loc[check_idx[-4:]]
+                                mismatch = (old_vals['close'] != new_vals['close']).any()
+                                if mismatch:
+                                    logger.warning(f"[VERIFY] M1 {symbol}: mismatch in completed candles — corrected")
+                        # รวมข้อมูลใหม่เข้า store
+                        combined = pd.concat([self.store_m1[symbol], fresh_m1])
+                        combined = combined[~combined.index.duplicated(keep='last')].sort_index()
+                        self.store_m1[symbol] = combined.tail(200)
+            
+            candles_m1 = self.store_m1[symbol]
+            
+            # ตัดแท่งที่กำลังวิ่ง (Forming Candle)
+            if (now_naive - candles_m1.index[-1]).total_seconds() < 60:
+                completed_m1 = candles_m1.iloc[:-1]
+            else:
+                completed_m1 = candles_m1
+            
+            if completed_m1.empty:
+                return None
+            
+            # เขียน M1 CSV ทุก 1 นาที
+            save_dir = os.path.join("data", "csv", symbol.replace("-OTC", "_OTC"))
+            os.makedirs(save_dir, exist_ok=True)
+            completed_m1.to_csv(os.path.join(save_dir, "M1.csv"))
+            
+            # ============================================================
+            # STEP 2: M5 — ดึงทุก 5 นาที
+            # ============================================================
+            block_5m = current_min // 5
+            
+            if self.store_m5[symbol] is None:
+                # ครั้งแรก: ดึง 200 แท่ง
+                candles_m5 = self.data_adapter.get_candles(symbol, 'M5', 200)
+                if candles_m5 is None or candles_m5.empty or len(candles_m5) < 21:
+                    return None
+                self.store_m5[symbol] = candles_m5
+                self.last_block_m5[symbol] = block_5m
+            elif block_5m != self.last_block_m5[symbol]:
+                # ทุก 5 นาที: ดึง 5 แท่ง (1 ใหม่ + 4 ย้อนหลังเช็คความถูกต้อง)
+                fresh_m5 = self.data_adapter.get_candles(symbol, 'M5', 5)
+                if fresh_m5 is not None and not fresh_m5.empty:
+                    # ตรวจจับ Data Gap
+                    last_stored_ts = self.store_m5[symbol].index[-1]
+                    first_fresh_ts = fresh_m5.index[0]
+                    gap_seconds = (first_fresh_ts - last_stored_ts).total_seconds()
+                    if gap_seconds > 1500:  # ห่างเกิน 25 นาที (5 แท่ง M5) = มี gap
+                        logger.warning(f"[GAP] M5 {symbol}: detected {gap_seconds:.0f}s gap — refetching 200 candles")
+                        full_m5 = self.data_adapter.get_candles(symbol, 'M5', 200)
+                        if full_m5 is not None and not full_m5.empty:
+                            self.store_m5[symbol] = full_m5
+                    else:
+                        # เช็คความถูกต้อง: เฉพาะแท่งที่ปิดสมบูรณ์แล้ว
+                        overlap = self.store_m5[symbol].index.intersection(fresh_m5.index)
+                        if len(overlap) > 0:
+                            check_idx = overlap[:-1] if len(overlap) > 1 else overlap
+                            if len(check_idx) > 0:
+                                old_vals = self.store_m5[symbol].loc[check_idx[-4:]]
+                                new_vals = fresh_m5.loc[check_idx[-4:]]
+                                mismatch = (old_vals['close'] != new_vals['close']).any()
+                                if mismatch:
+                                    logger.warning(f"[VERIFY] M5 {symbol}: mismatch in completed candles — corrected")
+                        combined = pd.concat([self.store_m5[symbol], fresh_m5])
+                        combined = combined[~combined.index.duplicated(keep='last')].sort_index()
+                        self.store_m5[symbol] = combined.tail(200)
+                    self.last_block_m5[symbol] = block_5m
+                else:
+                    logger.warning(f"[FETCH] Failed to fetch M5 for {symbol} — will retry next minute")
+            
+            candles_m5 = self.store_m5[symbol]
+            
+            # ตัดแท่งที่กำลังวิ่ง
+            if (now_naive - candles_m5.index[-1]).total_seconds() < 300:
+                completed_m5 = candles_m5.iloc[:-1]
+            else:
+                completed_m5 = candles_m5
+            
+            # เขียน M5 CSV เฉพาะรอบที่ block 5 นาทีเปลี่ยน (ไม่เขียนซ้ำทุกนาที)
+            if block_5m != self._m5_csv_written.get(symbol, -1):
+                completed_m5.to_csv(os.path.join(save_dir, "M5.csv"))
+                self._m5_csv_written[symbol] = block_5m
+            
+            block_15m = current_min // 15
+            m5_updated = (self.last_block_m5[symbol] == block_5m)
+            if self.store_m15[symbol] is None or (block_15m != self.last_block_m15[symbol] and m5_updated):
+                # คำนวณ M15 จาก store M5 (Resample 3 แท่ง M5 = 1 แท่ง M15)
+                candles_m15_calc = candles_m5.resample('15min').agg({
+                    'open': 'first',
+                    'high': 'max',
+                    'low': 'min',
+                    'close': 'last',
+                    'volume': 'sum'
+                }).dropna()
+                
+                if not candles_m15_calc.empty:
+                    # ตัดแท่งที่กำลังวิ่ง
+                    if (now_naive - candles_m15_calc.index[-1]).total_seconds() < 900:
+                        completed_m15_calc = candles_m15_calc.iloc[:-1]
+                    else:
+                        completed_m15_calc = candles_m15_calc
+                    
+                    if self.store_m15[symbol] is None:
+                        self.store_m15[symbol] = completed_m15_calc
+                    else:
+                        # รวมข้อมูล M15 ที่คำนวณเข้ากับข้อมูลเดิมที่ดึงมาตอนเริ่มต้น
+                        combined_m15 = pd.concat([self.store_m15[symbol], completed_m15_calc])
+                        combined_m15 = combined_m15[~combined_m15.index.duplicated(keep='last')].sort_index()
+                        self.store_m15[symbol] = combined_m15.tail(200)
+                        
+                    self.last_block_m15[symbol] = block_15m
+                    
+                    # เขียน M15 CSV ทุก 15 นาที
+                    self.store_m15[symbol].to_csv(os.path.join(save_dir, "M15.csv"))
+                else:
+                    logger.warning(f"[CALC] Resampled M15 empty for {symbol} — will retry next minute")
+            
+            candles_m15 = self.store_m15[symbol]
+            if candles_m15 is not None and not candles_m15.empty:
+                if (now_naive - candles_m15.index[-1]).total_seconds() < 900:
+                    completed_m15 = candles_m15.iloc[:-1]
+                else:
+                    completed_m15 = candles_m15
+            else:
+                completed_m15 = pd.DataFrame()
+                
+            current_price = float(candles_m1['close'].iloc[-1])
+            return (symbol, (completed_m1, completed_m5, completed_m15, current_price))
+            
+        except Exception as ex:
+            logger.error(f"Symbol {symbol} data fetching/saving failed: {ex}")
+            return None
+
+    def run_ai_analysis_and_trade(self, symbol, candles_dict, current_price):
+        try:
+            completed_m1 = candles_dict['M1']
+            completed_m5 = candles_dict['M5']
+            completed_m15 = candles_dict['M15']
+            
+            # --- 1. Orchestrator Data Pipeline ---
+            log_data = None
+            try:
+                log_data = self.orchestrator.process_cycle(
+                    symbol=symbol,
+                    candles_dict=candles_dict,
+                    ai_context=None
+                )
+                if log_data:
+                    self.trade_logger.save_log(log_data)
+                    
+                # Extract rsi from indicator store
+                from core.indicator_store import store
+                payload = store.get_payload(symbol)
+                m5_inds = payload.get('m5', {})
+                rsi = m5_inds.get('rsi14', 50.0)
+                
+            except Exception as e:
+                logger.error(f"Orchestrator cycle failed for {symbol}: {e}")
+                rsi = 50.0
+            
+            thai_console_log(f"[{symbol}; {current_price:.5f}]")
+            
+            # Call DeepSeek Brain
+            ai_context_to_send = None
+            if getattr(self, "use_advanced_ai_context", True) and log_data:
+                log_data_copy = dict(log_data)
+                log_data_copy["is_advanced"] = True
+                ai_context_to_send = log_data_copy
+                
+            insight = self.ai_bridge.analyze_market(ai_context_to_send)
+            if not insight:
+                return
+            
+            thai_console_log(f"AI: {insight.action} ({insight.confidence}%)")
+            
+            if insight.action in ["CALL", "PUT"] and insight.confidence >= 70:
+                direction = insight.action.upper()
+                expiry_time = insight.expiry
+                thai_console_log(f"ยิงออเดอร์ {insight.action} {symbol} ({expiry_time} นาที)")
+                try:
+                    # Execute trade using executor's send_order method
+                    result = self.executor.send_order(
+                        symbol=symbol,
+                        direction=direction,
+                        amount=self.stake,
+                        expiry=f"M{expiry_time}"
+                    )
+                    if result.status == 'executed':
+                        order_id = result.order_id
+                        # Record trade in order manager
+                        self.order_manager.add_trade(
+                            order_id=str(order_id),
+                            symbol=symbol,
+                            direction=insight.action,
+                            amount=self.stake,
+                            entry_price=current_price,
+                            expiry=f"M{insight.expiry}"
+                        )
+                        thai_console_log(f"   └─ ออเดอร์เข้าสำเร็จ (ID: {order_id})")
+                    else:
+                        thai_console_log(f"Execution failed for {symbol}: {result.reason}")
+                except Exception as e:
+                    logger.error(f"Execution exception: {e}")
+        except Exception as ex:
+            logger.error(f"Background AI task failed for {symbol}: {ex}")
+        finally:
+            self.ai_running[symbol] = False
 
 
     def run_cycle(self):
@@ -246,267 +497,61 @@ class PureAIRunner:
         try:
             balance = self.data_adapter.api.get_balance()
             if balance is not None:
-                balance_str = f" | Balance: {balance:.2f}"
-            else:
-                balance_str = ""
+                thai_console_log(f"ยอดเงินคงเหลือ: ${balance:.2f}")
         except Exception:
-            balance_str = ""
+            pass
 
-        # Process symbols concurrently to prevent AI analysis from blocking the 1-minute loop
-        import concurrent.futures
-        
-        def process_symbol(symbol):
-            log_data = None
-            try:
-                # ใช้เวลาที่ซิงโครไนซ์กับโบรกเกอร์เพื่อหลีกเลี่ยง Clock Drift
-                broker_now_epoch = time.time() + self.time_offset
-                now_naive = datetime.fromtimestamp(broker_now_epoch, timezone.utc).replace(tzinfo=None)
-                current_min = now_naive.minute
-                
-                # ============================================================
-                # STEP 1: M1 — ดึงทุก 1 นาที
-                # ============================================================
-                if self.store_m1[symbol] is None:
-                    # ครั้งแรก: ดึง 200 แท่ง
-                    candles_m1 = self.data_adapter.get_candles(symbol, 'M1', 200)
-                    if candles_m1 is None or candles_m1.empty or len(candles_m1) < 2:
-                        return
-                    self.store_m1[symbol] = candles_m1
-                else:
-                    # ครั้งต่อไป: ดึง 5 แท่ง (1 ใหม่ + 4 ย้อนหลังเช็คความถูกต้อง)
-                    fresh_m1 = self.data_adapter.get_candles(symbol, 'M1', 5)
-                    if fresh_m1 is not None and not fresh_m1.empty:
-                        # ตรวจจับ Data Gap: ถ้าแท่งสุดท้ายใน store ห่างจากแท่งแรกที่ดึงมาเกิน 5 นาที = เน็ตหลุด
-                        last_stored_ts = self.store_m1[symbol].index[-1]
-                        first_fresh_ts = fresh_m1.index[0]
-                        gap_seconds = (first_fresh_ts - last_stored_ts).total_seconds()
-                        if gap_seconds > 300:  # ห่างเกิน 5 นาที = มี gap
-                            logger.warning(f"[GAP] M1 {symbol}: detected {gap_seconds:.0f}s gap — refetching 200 candles")
-                            full_m1 = self.data_adapter.get_candles(symbol, 'M1', 200)
-                            if full_m1 is not None and not full_m1.empty:
-                                self.store_m1[symbol] = full_m1
-                        else:
-                            # เช็คความถูกต้อง: เฉพาะแท่งที่ปิดสมบูรณ์แล้ว (ไม่รวม forming candle)
-                            overlap = self.store_m1[symbol].index.intersection(fresh_m1.index)
-                            if len(overlap) > 0:
-                                # ตัดแท่งสุดท้ายออก (forming candle) ก่อนเทียบ
-                                check_idx = overlap[:-1] if len(overlap) > 1 else overlap
-                                if len(check_idx) > 0:
-                                    old_vals = self.store_m1[symbol].loc[check_idx[-4:]]
-                                    new_vals = fresh_m1.loc[check_idx[-4:]]
-                                    mismatch = (old_vals['close'] != new_vals['close']).any()
-                                    if mismatch:
-                                        logger.warning(f"[VERIFY] M1 {symbol}: mismatch in completed candles — corrected")
-                            # รวมข้อมูลใหม่เข้า store
-                            combined = pd.concat([self.store_m1[symbol], fresh_m1])
-                            combined = combined[~combined.index.duplicated(keep='last')].sort_index()
-                            self.store_m1[symbol] = combined.tail(200)
-                
-                candles_m1 = self.store_m1[symbol]
-                
-                # ตัดแท่งที่กำลังวิ่ง (Forming Candle)
-                if (now_naive - candles_m1.index[-1]).total_seconds() < 60:
-                    completed_m1 = candles_m1.iloc[:-1]
-                else:
-                    completed_m1 = candles_m1
-                
-                if completed_m1.empty:
-                    return
-                
-                # เขียน M1 CSV ทุก 1 นาที
-                save_dir = os.path.join("data", "csv", symbol.replace("-OTC", "_OTC"))
-                os.makedirs(save_dir, exist_ok=True)
-                completed_m1.to_csv(os.path.join(save_dir, "M1.csv"))
-                
-                # ============================================================
-                # STEP 2: M5 — ดึงทุก 5 นาที
-                # ============================================================
-                block_5m = current_min // 5
-                
-                if self.store_m5[symbol] is None:
-                    # ครั้งแรก: ดึง 200 แท่ง
-                    candles_m5 = self.data_adapter.get_candles(symbol, 'M5', 200)
-                    if candles_m5 is None or candles_m5.empty or len(candles_m5) < 21:
-                        return
-                    self.store_m5[symbol] = candles_m5
-                    self.last_block_m5[symbol] = block_5m
-                elif block_5m != self.last_block_m5[symbol]:
-                    # ทุก 5 นาที: ดึง 5 แท่ง (1 ใหม่ + 4 ย้อนหลังเช็คความถูกต้อง)
-                    fresh_m5 = self.data_adapter.get_candles(symbol, 'M5', 5)
-                    if fresh_m5 is not None and not fresh_m5.empty:
-                        # ตรวจจับ Data Gap
-                        last_stored_ts = self.store_m5[symbol].index[-1]
-                        first_fresh_ts = fresh_m5.index[0]
-                        gap_seconds = (first_fresh_ts - last_stored_ts).total_seconds()
-                        if gap_seconds > 1500:  # ห่างเกิน 25 นาที (5 แท่ง M5) = มี gap
-                            logger.warning(f"[GAP] M5 {symbol}: detected {gap_seconds:.0f}s gap — refetching 200 candles")
-                            full_m5 = self.data_adapter.get_candles(symbol, 'M5', 200)
-                            if full_m5 is not None and not full_m5.empty:
-                                self.store_m5[symbol] = full_m5
-                        else:
-                            # เช็คความถูกต้อง: เฉพาะแท่งที่ปิดสมบูรณ์แล้ว
-                            overlap = self.store_m5[symbol].index.intersection(fresh_m5.index)
-                            if len(overlap) > 0:
-                                check_idx = overlap[:-1] if len(overlap) > 1 else overlap
-                                if len(check_idx) > 0:
-                                    old_vals = self.store_m5[symbol].loc[check_idx[-4:]]
-                                    new_vals = fresh_m5.loc[check_idx[-4:]]
-                                    mismatch = (old_vals['close'] != new_vals['close']).any()
-                                    if mismatch:
-                                        logger.warning(f"[VERIFY] M5 {symbol}: mismatch in completed candles — corrected")
-                            combined = pd.concat([self.store_m5[symbol], fresh_m5])
-                            combined = combined[~combined.index.duplicated(keep='last')].sort_index()
-                            self.store_m5[symbol] = combined.tail(200)
-                        self.last_block_m5[symbol] = block_5m
-                    else:
-                        logger.warning(f"[FETCH] Failed to fetch M5 for {symbol} — will retry next minute")
-                
-                candles_m5 = self.store_m5[symbol]
-                
-                # ตัดแท่งที่กำลังวิ่ง
-                if (now_naive - candles_m5.index[-1]).total_seconds() < 300:
-                    completed_m5 = candles_m5.iloc[:-1]
-                else:
-                    completed_m5 = candles_m5
-                
-                # เขียน M5 CSV เฉพาะรอบที่ block 5 นาทีเปลี่ยน (ไม่เขียนซ้ำทุกนาที)
-                if block_5m != self._m5_csv_written.get(symbol, -1):
-                    completed_m5.to_csv(os.path.join(save_dir, "M5.csv"))
-                    self._m5_csv_written[symbol] = block_5m
-                
-                block_15m = current_min // 15
-                m5_updated = (self.last_block_m5[symbol] == block_5m)
-                if self.store_m15[symbol] is None or (block_15m != self.last_block_m15[symbol] and m5_updated):
-                    # คำนวณ M15 จาก store M5 (Resample 3 แท่ง M5 = 1 แท่ง M15)
-                    candles_m15_calc = candles_m5.resample('15min').agg({
-                        'open': 'first',
-                        'high': 'max',
-                        'low': 'min',
-                        'close': 'last',
-                        'volume': 'sum'
-                    }).dropna()
-                    
-                    if not candles_m15_calc.empty:
-                        # ตัดแท่งที่กำลังวิ่ง
-                        if (now_naive - candles_m15_calc.index[-1]).total_seconds() < 900:
-                            completed_m15_calc = candles_m15_calc.iloc[:-1]
-                        else:
-                            completed_m15_calc = candles_m15_calc
-                        
-                        if self.store_m15[symbol] is None:
-                            self.store_m15[symbol] = completed_m15_calc
-                        else:
-                            # รวมข้อมูล M15 ที่คำนวณเข้ากับข้อมูลเดิมที่ดึงมาตอนเริ่มต้น
-                            combined_m15 = pd.concat([self.store_m15[symbol], completed_m15_calc])
-                            combined_m15 = combined_m15[~combined_m15.index.duplicated(keep='last')].sort_index()
-                            self.store_m15[symbol] = combined_m15.tail(200)
-                            
-                        self.last_block_m15[symbol] = block_15m
-                        
-                        # เขียน M15 CSV ทุก 15 นาที
-                        self.store_m15[symbol].to_csv(os.path.join(save_dir, "M15.csv"))
-                    else:
-                        logger.warning(f"[CALC] Resampled M15 empty for {symbol} — will retry next minute")
-                
-                candles_m15 = self.store_m15[symbol]
-                if candles_m15 is not None and not candles_m15.empty:
-                    if (now_naive - candles_m15.index[-1]).total_seconds() < 900:
-                        completed_m15 = candles_m15.iloc[:-1]
-                    else:
-                        completed_m15 = candles_m15
-                else:
-                    completed_m15 = pd.DataFrame()
-                
-                # ============================================================
-                # STEP 4: ส่งข้อมูลไปวิเคราะห์
-                # ============================================================
-                if completed_m1.empty:
-                    return
-                last_ts_m1 = completed_m1.index[-1]
-                
-                # กันวิเคราะห์แท่งเดิมซ้ำ
-                if self.last_processed_candle[symbol] == last_ts_m1:
-                    return
-                self.last_processed_candle[symbol] = last_ts_m1
-                
-                candles_dict = {'M1': completed_m1, 'M5': completed_m5, 'M15': completed_m15}
-                
-                # --- 1. Orchestrator Data Pipeline ---
-                try:
-                    log_data = self.orchestrator.process_cycle(
-                        symbol=symbol,
-                        candles_dict=candles_dict,
-                        ai_context=None
-                    )
-                    if log_data:
-                        log_path = self.trade_logger.save_log(log_data)
-                        
-                    # Extract current price from M1 (real-time) and rsi from indicator store
-                    from core.indicator_store import store
-                    payload = store.get_payload(symbol)
-                    m5_inds = payload.get('m5', {})
-                    current_price = float(candles_m1['close'].iloc[-1])  # M1 ล่าสุด = ราคาเรียลไทม์
-                    rsi = m5_inds.get('rsi14', 50.0)
-                    
-                except Exception as e:
-                    logger.error(f"Orchestrator cycle failed for {symbol}: {e}")
-                    current_price = float(candles_m1['close'].iloc[-1])
-                    rsi = 50.0
-                
-                thai_console_log(f"[{symbol}; {current_price:.5f}]{balance_str}")
-                
-                # Call DeepSeek Brain
-                ai_context_to_send = None
-                if getattr(self, "use_advanced_ai_context", True) and 'log_data' in locals() and log_data:
-                    log_data_copy = dict(log_data)
-                    log_data_copy["is_advanced"] = True
-                    ai_context_to_send = log_data_copy
-                    
-                insight = self.ai_bridge.analyze_market(ai_context_to_send)
-                if not insight:
-                    return
-                
-                thai_console_log(f"AI: {insight.action} ({insight.confidence}%)")
-                
-                if insight.action in ["CALL", "PUT"] and insight.confidence >= 70:
-                    direction = insight.action.upper()
-                    expiry_time = insight.expiry
-                    thai_console_log(f"ยิงออเดอร์ {insight.action} {symbol} ({expiry_time} นาที)")
-                    try:
-                        # Execute trade using executor's send_order method
-                        result = self.executor.send_order(
-                            symbol=symbol,
-                            direction=direction,
-                            amount=self.stake,
-                            expiry=f"M{expiry_time}"
-                        )
-                        if result.status == 'executed':
-                            order_id = result.order_id
-                            # Record trade in order manager
-                            self.order_manager.add_trade(
-                                order_id=str(order_id),
-                                symbol=symbol,
-                                direction=insight.action,
-                                amount=self.stake,
-                                entry_price=current_price,
-                                expiry=f"M{insight.expiry}"
-                            )
-                            thai_console_log(f"   └─ ออเดอร์เข้าสำเร็จ (ID: {order_id})")
-                        else:
-                            thai_console_log(f"Execution failed for {symbol}: {result.reason}")
-                    except Exception as e:
-                        logger.error(f"Execution exception: {e}")
-            except Exception as ex:
-                logger.error(f"Symbol {symbol} processing failed: {ex}")
-
-        # Run all symbols concurrently
+        # Run all symbols concurrently for data fetching and CSV writing
         if not self.symbols:
             logger.warning("[WARN] ไม่มีคู่เงินใดๆ ที่พร้อมทำงานในรอบนี้")
             return
             
+        import concurrent.futures
+        
+        # Step 1: Fetch and save data concurrently (highly optimized, no AI blocking)
+        futures = []
         with concurrent.futures.ThreadPoolExecutor(max_workers=len(self.symbols)) as executor:
-            futures = [executor.submit(process_symbol, sym) for sym in self.symbols]
+            for sym in self.symbols:
+                futures.append(executor.submit(self.fetch_and_save_data, sym))
             concurrent.futures.wait(futures)
+
+        # Step 2: Spawn background AI analysis tasks
+        for sym in self.symbols:
+            res = None
+            for f in futures:
+                try:
+                    result_val = f.result()
+                    if result_val and result_val[0] == sym:
+                        res = result_val[1]
+                        break
+                except Exception as e:
+                    logger.error(f"Error getting future result for {sym}: {e}")
+            
+            if res is None:
+                continue
+                
+            completed_m1, completed_m5, completed_m15, current_price = res
+            last_ts_m1 = completed_m1.index[-1]
+            
+            # กันวิเคราะห์แท่งเดิมซ้ำ
+            if self.last_processed_candle[sym] == last_ts_m1:
+                continue
+                
+            # ตรวจสอบการรันซ้ำของ AI
+            if self.ai_running.get(sym, False):
+                logger.warning(f"[WARN] AI สำหรับ {sym} กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน")
+                continue
+                
+            self.last_processed_candle[sym] = last_ts_m1
+            self.ai_running[sym] = True
+            
+            candles_dict = {
+                'M1': completed_m1.copy(),
+                'M5': completed_m5.copy(),
+                'M15': completed_m15.copy()
+            }
+            self.ai_executor.submit(self.run_ai_analysis_and_trade, sym, candles_dict, current_price)
+
 
     def start(self):
         import time
