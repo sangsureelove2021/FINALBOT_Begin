@@ -132,8 +132,7 @@ class DeepSeekAgentBridge:
     def check_readiness(self) -> str:
         """ทดสอบการเชื่อมต่อ AI ก่อนเริ่มรันระบบจริง"""
         agent_exec = self.agent_path if self.agent_path else self.agent_command
-        prompt = "Ping test. CRITICAL: DO NOT use any tools. DO NOT run any shell commands. Just reply with 'READY' and your AI model name within 30 seconds."
-        cmd_args = [agent_exec, "--no-tui", "--max-iterations=1", prompt]
+        cmd_args = [agent_exec, "--headless", "--no-tui", "--max-iterations=1", "System check. Briefly introduce yourself (including your AI model name) and state you are ready to analyze the market. Reply in a single short line in English."]
 
         
         creation_flags = 0
