@@ -1,0 +1,110 @@
+2026-06-24 20:48:48,343 | INFO     | CSV Logger started (async mode)
+2026-06-24 20:48:48,571 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-24 20:48:51,560 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-24 20:48:51,625 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-24 20:48:52,507 | WARNING  | Failed to get server time offset: 'IQ_Option' object has no attribute 'get_server_time'
+2026-06-24 20:48:52,510 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-24 20:49:33,455 | INFO     | MarketStateClassifier initialised
+2026-06-24 20:49:34,698 | INFO     | [DataAdapter] EURUSD initialised — M1:200 M5:200 M15:200
+2026-06-24 20:49:35,711 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-24 20:49:36,749 | INFO     | [DataAdapter] EURGBP initialised — M1:200 M5:200 M15:200
+2026-06-24 20:49:37,644 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:200 M5:200 M15:200
+2026-06-24 20:49:38,974 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=200)
+2026-06-24 20:49:41,282 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=200)
+2026-06-24 20:49:42,571 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-06-24 20:49:43,858 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-06-24 20:49:46,142 | INFO     | [WS] Subscribed live candles stream for EURGBP (M1, count=200)
+2026-06-24 20:49:47,636 | INFO     | [WS] Subscribed live candles stream for EURGBP (M5, count=200)
+2026-06-24 20:49:48,950 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-06-24 20:49:51,239 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-06-24 20:50:03,061 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135003.json
+2026-06-24 20:50:03,062 | ERROR    | Background AI task failed for EURUSD: Object of type int64 is not JSON serializable
+2026-06-24 20:50:03,146 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135003.json
+2026-06-24 20:50:03,147 | ERROR    | Background AI task failed for EURGBP: Object of type int64 is not JSON serializable
+2026-06-24 20:50:03,148 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135003.json
+2026-06-24 20:50:03,148 | ERROR    | Background AI task failed for EURUSD-OTC: Object of type bool is not JSON serializable
+2026-06-24 20:50:03,148 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135003.json
+2026-06-24 20:50:03,148 | ERROR    | Background AI task failed for EURGBP-OTC: Object of type bool is not JSON serializable
+2026-06-24 20:51:03,633 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135103.json
+2026-06-24 20:51:03,633 | ERROR    | Background AI task failed for EURUSD-OTC: Object of type bool is not JSON serializable
+2026-06-24 20:51:03,633 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135103.json
+2026-06-24 20:51:03,633 | ERROR    | Background AI task failed for EURGBP-OTC: Object of type bool is not JSON serializable
+2026-06-24 20:51:03,644 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135103.json
+2026-06-24 20:51:03,644 | ERROR    | Background AI task failed for EURUSD: Object of type int64 is not JSON serializable
+2026-06-24 20:51:03,644 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135103.json
+2026-06-24 20:51:03,645 | ERROR    | Background AI task failed for EURGBP: Object of type int64 is not JSON serializable
+2026-06-24 20:52:03,085 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135203.json
+2026-06-24 20:52:03,086 | ERROR    | Background AI task failed for EURGBP-OTC: Object of type bool is not JSON serializable
+2026-06-24 20:52:03,086 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135203.json
+2026-06-24 20:52:03,087 | ERROR    | Background AI task failed for EURUSD-OTC: Object of type bool is not JSON serializable
+2026-06-24 20:52:03,086 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135203.json
+2026-06-24 20:52:03,087 | ERROR    | Background AI task failed for EURGBP: Object of type int64 is not JSON serializable
+2026-06-24 20:52:03,087 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135203.json
+2026-06-24 20:52:03,087 | ERROR    | Background AI task failed for EURUSD: Object of type int64 is not JSON serializable
+2026-06-24 20:53:03,527 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135303.json
+2026-06-24 20:53:03,527 | ERROR    | Background AI task failed for EURUSD: Object of type int64 is not JSON serializable
+2026-06-24 20:53:03,545 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135303.json
+2026-06-24 20:53:03,545 | ERROR    | Background AI task failed for EURUSD-OTC: Object of type bool is not JSON serializable
+2026-06-24 20:53:03,545 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135303.json
+2026-06-24 20:53:03,545 | ERROR    | Background AI task failed for EURGBP-OTC: Object of type bool is not JSON serializable
+2026-06-24 20:53:03,545 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135303.json
+2026-06-24 20:53:03,546 | ERROR    | Background AI task failed for EURGBP: Object of type int64 is not JSON serializable
+2026-06-24 20:54:03,243 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135403.json
+2026-06-24 20:54:03,243 | ERROR    | Background AI task failed for EURGBP-OTC: Object of type bool is not JSON serializable
+2026-06-24 20:54:03,251 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135403.json
+2026-06-24 20:54:03,252 | ERROR    | Background AI task failed for EURGBP: Object of type int64 is not JSON serializable
+2026-06-24 20:54:03,252 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135403.json
+2026-06-24 20:54:03,252 | ERROR    | Background AI task failed for EURUSD-OTC: Object of type bool is not JSON serializable
+2026-06-24 20:54:03,252 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135403.json
+2026-06-24 20:54:03,252 | ERROR    | Background AI task failed for EURUSD: Object of type int64 is not JSON serializable
+2026-06-24 20:55:02,731 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135502.json
+2026-06-24 20:55:02,731 | ERROR    | Background AI task failed for EURGBP-OTC: Object of type bool is not JSON serializable
+2026-06-24 20:55:02,735 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135502.json
+2026-06-24 20:55:02,735 | ERROR    | Background AI task failed for EURUSD: Object of type int64 is not JSON serializable
+2026-06-24 20:55:02,743 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135502.json
+2026-06-24 20:55:02,743 | ERROR    | Background AI task failed for EURUSD-OTC: Object of type bool is not JSON serializable
+2026-06-24 20:55:02,743 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135502.json
+2026-06-24 20:55:02,743 | ERROR    | Background AI task failed for EURGBP: Object of type int64 is not JSON serializable
+2026-06-24 20:56:03,440 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135603.json
+2026-06-24 20:56:03,440 | ERROR    | Background AI task failed for EURUSD-OTC: Object of type bool is not JSON serializable
+2026-06-24 20:56:03,451 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135603.json
+2026-06-24 20:56:03,451 | ERROR    | Background AI task failed for EURGBP-OTC: Object of type bool is not JSON serializable
+2026-06-24 20:56:03,451 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135603.json
+2026-06-24 20:56:03,451 | ERROR    | Background AI task failed for EURGBP: Object of type int64 is not JSON serializable
+2026-06-24 20:56:03,451 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_135603.json
+2026-06-24 20:56:03,452 | ERROR    | Background AI task failed for EURUSD: Object of type int64 is not JSON serializable
+2026-06-25 02:32:58,363 | ERROR    | [WinError 10054] An existing connection was forcibly closed by the remote host
+2026-06-25 02:33:37,561 | WARNING  | [WARN]  IQ Option connection lost — reconnecting...
+2026-06-25 02:33:47,713 | INFO     |  Reconnected
+2026-06-25 02:33:48,721 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193348.json
+2026-06-25 02:33:48,722 | ERROR    | Background AI task failed for EURUSD-OTC: Object of type bool is not JSON serializable
+2026-06-25 02:33:48,722 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193348.json
+2026-06-25 02:33:48,722 | ERROR    | Background AI task failed for EURUSD: Object of type int64 is not JSON serializable
+2026-06-25 02:33:48,722 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193348.json
+2026-06-25 02:33:48,723 | ERROR    | Background AI task failed for EURGBP: Object of type int64 is not JSON serializable
+2026-06-25 02:33:48,731 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193348.json
+2026-06-25 02:33:48,731 | ERROR    | Background AI task failed for EURGBP-OTC: Object of type bool is not JSON serializable
+2026-06-25 02:34:03,125 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193403.json
+2026-06-25 02:34:03,126 | ERROR    | Background AI task failed for EURGBP-OTC: Object of type bool is not JSON serializable
+2026-06-25 02:34:03,139 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193403.json
+2026-06-25 02:34:03,139 | ERROR    | Background AI task failed for EURGBP: Object of type int64 is not JSON serializable
+2026-06-25 02:34:03,140 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193403.json
+2026-06-25 02:34:03,142 | ERROR    | Background AI task failed for EURUSD-OTC: Object of type bool is not JSON serializable
+2026-06-25 02:34:03,142 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193403.json
+2026-06-25 02:34:03,142 | ERROR    | Background AI task failed for EURUSD: Object of type int64 is not JSON serializable
+2026-06-25 02:35:03,823 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193503.json
+2026-06-25 02:35:03,824 | ERROR    | Background AI task failed for EURGBP: Object of type int64 is not JSON serializable
+2026-06-25 02:35:03,825 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193503.json
+2026-06-25 02:35:03,825 | ERROR    | Background AI task failed for EURUSD-OTC: Object of type bool is not JSON serializable
+2026-06-25 02:35:03,824 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193503.json
+2026-06-25 02:35:03,826 | ERROR    | Background AI task failed for EURUSD: Object of type int64 is not JSON serializable
+2026-06-25 02:35:03,835 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193503.json
+2026-06-25 02:35:03,835 | ERROR    | Background AI task failed for EURGBP-OTC: Object of type bool is not JSON serializable
+2026-06-25 02:36:03,215 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193603.json
+2026-06-25 02:36:03,215 | ERROR    | Background AI task failed for EURGBP: Object of type int64 is not JSON serializable
+2026-06-25 02:36:03,226 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193603.json
+2026-06-25 02:36:03,226 | ERROR    | Background AI task failed for EURGBP-OTC: Object of type bool is not JSON serializable
+2026-06-25 02:36:03,226 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193603.json
+2026-06-25 02:36:03,226 | ERROR    | Background AI task failed for EURUSD: Object of type int64 is not JSON serializable
+2026-06-25 02:36:03,226 | INFO     | Indicator snapshot saved: logs\process\indicator_20260624_193603.json
+2026-06-25 02:36:03,227 | ERROR    | Background AI task failed for EURUSD-OTC: Object of type bool is not JSON serializable

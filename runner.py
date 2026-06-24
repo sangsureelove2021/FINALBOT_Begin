@@ -126,7 +126,9 @@ class PureAIRunner:
         max_conc = self.settings.get("limits", {}).get("max_concurrent", 5)
         self.order_manager = OrderManager(max_concurrent=max_conc)
         self.use_advanced_ai_context = ai_cfg.get("use_advanced_context", True)
-        self.trade_logger = TradeLogger()
+        
+        from core.indicator_store import store
+        self.trade_logger = TradeLogger(indicator_store=store)
         self.orchestrator = Orchestrator(trade_logger=self.trade_logger)
         
         self.last_processed_candle = {sym: None for sym in self.symbols}
