@@ -53,11 +53,8 @@ class IEngine(ABC):
         """
         pass
     
-    def validate_input(self, candles_df: pd.DataFrame, min_candles: int = 100) -> bool:
+    def validate_input(self, payload: Dict[str, Any]) -> bool:
         """Common input validation"""
-        if candles_df is None or candles_df.empty:
+        if not payload or not isinstance(payload, dict):
             return False
-        if len(candles_df) < min_candles:
-            return False
-        required = ['open', 'high', 'low', 'close']
-        return all(col in candles_df.columns for col in required)
+        return True

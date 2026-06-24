@@ -1,7 +1,6 @@
 import sys
 import logging
 import os
-import json
 import time
 from datetime import datetime, timezone, timedelta
 import pandas as pd
@@ -245,7 +244,11 @@ class PureAIRunner:
             if not has_real_data:
                 logger.warning(f"Indicators for {symbol} are all zero — IndicatorStore may not have warmed up yet, skipping AI call")
                 return
-                
+
+            # สร้าง advanced context จาก log_data เพื่อส่งให้ AI ครบทุก field
+            ai_context_to_send = dict(log_data)
+            ai_context_to_send["is_advanced"] = True
+
             insight = self.ai_bridge.analyze_market(ai_context_to_send)
             if not insight:
                 return
@@ -352,30 +355,26 @@ class PureAIRunner:
         import concurrent.futures
         
         # Step 1: Fetch and save data concurrently (highly optimized, no AI blocking)
-        futures = []
+        sym_futures = {}
         with concurrent.futures.ThreadPoolExecutor(max_workers=len(self.symbols)) as executor:
             for sym in self.symbols:
-                futures.append(executor.submit(self.fetch_and_save_data, sym))
-            concurrent.futures.wait(futures)
+                sym_futures[sym] = executor.submit(self.fetch_and_save_data, sym)
+            concurrent.futures.wait(sym_futures.values())
 
         # Step 2: Spawn background AI analysis tasks
         price_parts = []
         for sym in self.symbols:
-            res = None
-            for f in futures:
-                try:
-                    result_val = f.result()
-                    # DataAdapter.update returns (symbol, m1, m5, m15, price)
-                    if result_val and result_val[0] == sym:
-                        res = result_val[1:]   # (m1, m5, m15, price)
-                        break
-                except Exception as e:
-                    logger.error(f"Error getting future result for {sym}: {e}")
-            
-            if res is None:
+            try:
+                result_val = sym_futures[sym].result()
+            except Exception as e:
+                logger.error(f"Error getting future result for {sym}: {e}")
                 continue
-                
-            completed_m1, completed_m5, completed_m15, current_price = res
+
+            if not result_val:
+                continue
+
+            # DataAdapter.update returns (symbol, m1, m5, m15, price)
+            completed_m1, completed_m5, completed_m15, current_price = result_val[1:]
             price_parts.append(f"{sym}:{current_price:.5f}")
             last_ts_m1 = completed_m1.index[-1]
             

@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-06-24T07:26:02+00:00",
+  "symbol": "EURUSD",
+  "current_price": 1.135495,
+  "session": "asian",
+  "market_state": "SIDEWAY_RANGE",
+  "m15_bias": "BEARISH",
+  "m5": {
+    "ema5": 1.1356274691419554,
+    "ema10": 1.1358875588460364,
+    "ema20": 1.136180490648882,
+    "ema50": 1.1365236607327474,
+    "bb_upper": 1.1375951945731668,
+    "bb_lower": 1.1352453054268332,
+    "bb_width": 0.00206779943100592,
+    "rsi14": 33.04427012545422,
+    "macd": -0.00030670932164156284,
+    "macd_signal": -0.00017175252713688547,
+    "macd_hist": -0.00013495679450467737,
+    "stoch_k": 14.988814317672311,
+    "stoch_d": 14.016708366640728,
+    "adx": 24.70888516094119,
+    "atr": 0.0003539245539927639,
+    "support": 1.13516,
+    "resistance": 1.137525,
+    "pivot": 1.1355283333333335,
+    "r1": 1.1357416666666669,
+    "s1": 1.135376666666667
+  },
+  "m1": {
+    "ema5": 1.1354926168176311,
+    "ema20": 1.1355662134873372,
+    "rsi14": 39.858783924106014,
+    "macd": -0.00011794392188857472,
+    "macd_signal": -0.0001558871270764957,
+    "stoch_k": 33.3333333333136,
+    "stoch_d": 50.8817363423133,
+    "last_candle": "BEARISH"
+  },
+  "price_action": {
+    "pattern": "NONE",
+    "last_candle": "BEARISH",
+    "body_strength": "WEAK",
+    "rejection_zone": "NEAR_SUPPORT",
+    "wick_dominance": "BALANCED",
+    "momentum_bias": "BEARISH",
+    "move_quality": "NORMAL",
+    "trap_alert": "BULL_TRAP",
+    "sr_interaction": "NONE"
+  },
+  "analysis": {
+    "trend_direction": "NONE",
+    "trend_type": "CHOPPY",
+    "trend_strength": 0,
+    "volatility_regime": "NORMAL",
+    "compression_quality": 0.0,
+    "bos_detected": false,
+    "mtf_alignment": 50,
+    "exhaustion_risk": 50
+  },
+  "triggered_signals": [],
+  "signal_count": 0
+}

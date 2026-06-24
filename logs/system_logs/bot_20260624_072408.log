@@ -1,0 +1,55 @@
+2026-06-24 14:24:08,315 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-24 14:24:12,073 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-24 14:24:12,135 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-24 14:24:12,639 | WARNING  | Failed to get server time offset: 'IQ_Option' object has no attribute 'get_server_time'
+2026-06-24 14:24:12,646 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-24 14:24:45,258 | INFO     | MarketStateClassifier initialised
+2026-06-24 14:24:46,377 | INFO     | [DataAdapter] EURUSD initialised — M1:200 M5:200 M15:200
+2026-06-24 14:24:47,741 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=200)
+2026-06-24 14:24:50,059 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=200)
+2026-06-24 14:25:02,436 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_072502_EURUSD.json
+2026-06-24 14:25:02,436 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:26:02,737 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_072602_EURUSD.json
+2026-06-24 14:26:02,737 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:27:03,046 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_072703_EURUSD.json
+2026-06-24 14:27:03,046 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:28:02,427 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_072802_EURUSD.json
+2026-06-24 14:28:02,428 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:29:02,729 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_072902_EURUSD.json
+2026-06-24 14:29:02,729 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:30:03,095 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_073003_EURUSD.json
+2026-06-24 14:30:03,095 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:31:02,405 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_073102_EURUSD.json
+2026-06-24 14:31:02,405 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:32:02,745 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_073202_EURUSD.json
+2026-06-24 14:32:02,745 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:33:03,050 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_073303_EURUSD.json
+2026-06-24 14:33:03,050 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:34:02,384 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_073402_EURUSD.json
+2026-06-24 14:34:02,384 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:35:02,723 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_073502_EURUSD.json
+2026-06-24 14:35:02,723 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:36:03,006 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_073603_EURUSD.json
+2026-06-24 14:36:03,006 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:37:02,420 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_073702_EURUSD.json
+2026-06-24 14:37:02,420 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:38:02,715 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_073802_EURUSD.json
+2026-06-24 14:38:02,715 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:39:03,011 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_073903_EURUSD.json
+2026-06-24 14:39:03,011 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:40:02,414 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_074002_EURUSD.json
+2026-06-24 14:40:02,414 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:41:02,708 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_074102_EURUSD.json
+2026-06-24 14:41:02,708 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:42:03,007 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_074203_EURUSD.json
+2026-06-24 14:42:03,007 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:43:02,393 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_074302_EURUSD.json
+2026-06-24 14:43:02,393 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:44:02,758 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_074402_EURUSD.json
+2026-06-24 14:44:02,758 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:45:03,082 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_074503_EURUSD.json
+2026-06-24 14:45:03,082 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:46:02,415 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_074602_EURUSD.json
+2026-06-24 14:46:02,415 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined
+2026-06-24 14:47:02,732 | INFO     | Trade log saved: logs\logs_ai\trade_log_20260624_074702_EURUSD.json
+2026-06-24 14:47:02,732 | ERROR    | Background AI task failed for EURUSD: name 'ai_context_to_send' is not defined

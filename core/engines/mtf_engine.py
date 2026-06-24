@@ -20,7 +20,7 @@ class MTFEngine(BaseEngine):
     TIER = 1
     MIN_CANDLES = 50
     
-    def analyze(self, candles_dict: Dict[str, pd.DataFrame] = None, **kwargs) -> Dict[str, Any]:
+    def analyze(self, payload: Dict[str, Any], candles_dict: Dict[str, pd.DataFrame] = None, **kwargs) -> Dict[str, Any]:
         """MTF analyzes across timeframes"""
         try:
             if not candles_dict:

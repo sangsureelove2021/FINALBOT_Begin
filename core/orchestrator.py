@@ -92,11 +92,20 @@ class Orchestrator:
 
         # ── Step 2: Run 5 Tier-1 engines in parallel ────────────────────
         trend_data, strength_data, volatility_data, structure_data, mtf_data = \
-            self._run_engines_parallel(candles_dict)
+            self._run_engines_parallel(symbol, candles_dict)
+
+        # ── Step 2.5: Save Engine outputs to SSOT ───────────────────────
+        store.set_engine_output(symbol, 'trend', trend_data)
+        store.set_engine_output(symbol, 'strength', strength_data)
+        store.set_engine_output(symbol, 'volatility', volatility_data)
+        store.set_engine_output(symbol, 'structure', structure_data)
+        store.set_engine_output(symbol, 'mtf', mtf_data)
 
         # ── Step 3: Market state classification ─────────────────────────
+        payload = store.get_payload(symbol)
+        
         market_state = self._classify(
-            primary_df=primary_df,
+            payload=payload,
             symbol=symbol,
             trend_data=trend_data,
             strength_data=strength_data,
@@ -104,6 +113,9 @@ class Orchestrator:
             structure_data=structure_data,
             mtf_data=mtf_data,
         )
+
+        # Save Classifier outputs to SSOT
+        store.set_classified(symbol, market_state)
 
         # ── Step 4: Build log payload ────────────────────────────────────
         log_data = self.trade_logger.build_log_data(
@@ -122,28 +134,21 @@ class Orchestrator:
 
     def _run_engines_parallel(
         self,
+        symbol: str,
         candles_dict: Dict[str, pd.DataFrame],
     ):
         """
         Submit all 5 Tier-1 engines to a ThreadPoolExecutor simultaneously.
-
-        Returns
-        -------
-        (trend_data, strength_data, volatility_data, structure_data, mtf_data)
         """
-        m5_df = candles_dict.get('M5', pd.DataFrame())
-        # StructureEngine prefers M15; falls back to M5 if absent
-        m15 = candles_dict.get('M15')
-        structure_df = m15 if (m15 is not None and not m15.empty) else candles_dict.get('M5', pd.DataFrame())
-
-        # Map label → (callable, args, kwargs)
-        # NOTE: MTFEngine.analyze() takes candles_dict as kwarg (overrides BaseEngine signature)
+        payload = store.get_payload(symbol)
+        
+        # MTFEngine can still receive candles_dict if needed, but we pass payload to all.
         tasks: Dict[str, tuple] = {
-            'trend':      (self.trend_engine.analyze,      (m5_df,),        {}),
-            'strength':   (self.strength_engine.analyze,   (m5_df,),        {}),
-            'volatility': (self.volatility_engine.analyze, (m5_df,),        {}),
-            'structure':  (self.structure_engine.analyze,  (structure_df,), {}),
-            'mtf':        (self.mtf_engine.analyze,        (),              {'candles_dict': candles_dict}),
+            'trend':      (self.trend_engine.analyze,      (payload,),      {}),
+            'strength':   (self.strength_engine.analyze,   (payload,),      {}),
+            'volatility': (self.volatility_engine.analyze, (payload,),      {}),
+            'structure':  (self.structure_engine.analyze,  (payload,),      {}),
+            'mtf':        (self.mtf_engine.analyze,        (payload,),      {'candles_dict': candles_dict}),
         }
 
         results: Dict[str, Any] = {}
@@ -183,7 +188,7 @@ class Orchestrator:
 
     def _classify(
         self,
-        primary_df: pd.DataFrame,
+        payload: dict,
         symbol: str,
         trend_data: dict,
         strength_data: dict,
@@ -218,7 +223,7 @@ class Orchestrator:
 
         try:
             result = self.classifier.analyze(
-                primary_df,
+                payload,
                 trend_data=trend_data,
                 strength_data=strength_data,
                 volatility_data=volatility_data,

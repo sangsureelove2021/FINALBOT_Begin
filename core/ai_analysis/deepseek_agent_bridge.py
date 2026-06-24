@@ -263,17 +263,20 @@ class DeepSeekAgentBridge:
             else:
                 logger.warning("AI parse failed — ข้ามรอบนี้ ไม่เทรด")
                 return None
-        except FileNotFoundError as e:
-            # พยายามค้นหาอีกครั้ง (อาจมีการติดตั้งระหว่างรัน)
-            self.agent_path = self._find_agent_executable()
-            if self.agent_path:
-                logger.info("Re-attempting with newly found agent executable")
-                return self.analyze_market(context)  # recursive retry once
-            else:
-                logger.error(f"Agent command '{self.agent_command}' not found even after search. Is deepseek-agent installed?")
-                self.consecutive_failures = self.max_failures
-                logger.warning("AI not found — ข้ามรอบนี้ ไม่เทรด")
-                return None
+        except FileNotFoundError:
+            # พยายามค้นหาอีกครั้ง (อาจมีการติดตั้งระหว่างรัน) — retry ครั้งเดียวเท่านั้น
+            if not getattr(self, '_retried_once', False):
+                self.agent_path = self._find_agent_executable()
+                if self.agent_path:
+                    logger.info("Re-attempting with newly found agent executable")
+                    self._retried_once = True
+                    result = self.analyze_market(context)
+                    self._retried_once = False
+                    return result
+            logger.error(f"Agent command '{self.agent_command}' not found even after search. Is deepseek-agent installed?")
+            self.consecutive_failures = self.max_failures
+            logger.warning("AI not found — ข้ามรอบนี้ ไม่เทรด")
+            return None
         except Exception as e:
             logger.exception(f"Unexpected error calling agent: {e}")
             self.consecutive_failures += 1
@@ -292,27 +295,30 @@ class DeepSeekAgentBridge:
             payload.pop("is_advanced", None)
             json_payload = json.dumps(payload, indent=2, ensure_ascii=False)
             
-            prompt = f"""You are a professional binary options trader. Analyze the following comprehensive market JSON data and reply with ONLY a valid JSON object.
-CRITICAL INSTRUCTIONS:
-1. DO NOT use any tools.
-2. DO NOT run any shell commands.
-3. DO NOT write or save any files.
-4. Just type the raw JSON text as your normal chat response.
-5. EXTREMELY IMPORTANT: Your JSON must be strictly valid. ALL keys and ALL string values MUST be enclosed in double quotes ("").
-6. REASON LENGTH: The "reason" field MUST be in Thai, and MUST be strictly between 20 and 40 words, summarizing the most important factor.
+            prompt = f"""You are a professional binary options trader (NOT a coding assistant).
+Your ONLY job right now is to read the market data below and output a JSON trading decision.
 
-You can choose the optimal expiry time (from 1 to 5 minutes) based on market structure and volatility.
-MARKET DATA JSON:
+ABSOLUTE RULES — VIOLATION = TASK FAILURE:
+- You are 100% DONE after typing the JSON. Do NOT call any tool.
+- Do NOT call read_file, write_file, run_command, or ANY other tool.
+- Do NOT output a tool_call block.
+- Output ONLY the raw JSON object. Nothing before it. Nothing after it.
+- All keys and string values MUST use double quotes.
+- The "reason" field MUST be in Thai, 20-40 words.
+
+EXPIRY: Choose 1-5 minutes based on volatility and trend strength.
+ACTION: Must be exactly "CALL", "PUT", or "NO_TRADE".
+
+MARKET DATA:
 {json_payload}
 
-OUTPUT FORMAT (Return exactly this JSON structure and nothing else):
+YOUR FINAL RESPONSE (raw JSON only, no tool_call, no prose):
 {{
   "action": "CALL",
   "confidence": 85,
   "expiry": 3,
-  "reason": "Explain the most important reason in Thai (20-40 words)"
-}}
-"""
+  "reason": "เหตุผลสำคัญที่สุดเป็นภาษาไทย 20-40 คำ"
+}}"""
             return prompt
         
         # --- Legacy Context Mode ---
@@ -324,15 +330,19 @@ OUTPUT FORMAT (Return exactly this JSON structure and nothing else):
         volatility = ctx.get('volatility', getattr(context, 'volatility', 'medium'))
         support_resistance = ctx.get('support_resistance', getattr(context, 'support_resistance', 'N/A'))
         
-        prompt = f"""You are a professional binary options trader. Analyze the following market data and reply with ONLY a valid JSON object.
-CRITICAL INSTRUCTIONS:
-1. DO NOT use any tools.
-2. DO NOT run any shell commands (like echo).
-3. DO NOT write or save any files.
-4. Just type the raw JSON text as your normal chat response.
-5. EXTREMELY IMPORTANT: Your JSON must be strictly valid. ALL keys and ALL string values MUST be enclosed in double quotes (""). Do not leave strings unquoted.
+        prompt = f"""You are a professional binary options trader (NOT a coding assistant).
+Your ONLY job right now is to read the market data below and output a JSON trading decision.
 
-You can choose the optimal expiry time (from 1 to 5 minutes) based on market structure and volatility.
+ABSOLUTE RULES — VIOLATION = TASK FAILURE:
+- You are 100% DONE after typing the JSON. Do NOT call any tool.
+- Do NOT call read_file, write_file, run_command, or ANY other tool.
+- Do NOT output a tool_call block.
+- Output ONLY the raw JSON object. Nothing before it. Nothing after it.
+- All keys and string values MUST use double quotes.
+- The "reason" field MUST be in Thai, 20-40 words.
+
+EXPIRY: Choose 1-5 minutes based on volatility and trend strength.
+ACTION: Must be exactly "CALL", "PUT", or "NO_TRADE".
 
 MARKET DATA:
 Symbol: {symbol}
@@ -346,16 +356,15 @@ TECHNICAL INDICATORS:
 - Volatility: {volatility}
 - Support/Resistance: {support_resistance}
 
-OUTPUT FORMAT (Return exactly this JSON structure and nothing else):
+YOUR FINAL RESPONSE (raw JSON only, no tool_call, no prose):
 {{
   "action": "CALL",
   "confidence": 85,
   "expiry": 3,
-  "reason": "Explain reason briefly in Thai"
-}}
-"""
+  "reason": "เหตุผลสำคัญที่สุดเป็นภาษาไทย 20-40 คำ"
+}}"""
         return prompt
-    
+
     def _parse_response(self, response_text: str, context) -> Optional[AIInsight]:
         try:
             response_text = response_text.strip()

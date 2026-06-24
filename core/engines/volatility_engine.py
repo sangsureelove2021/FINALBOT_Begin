@@ -21,25 +21,38 @@ class VolatilityEngine(BaseEngine):
     TIER = 1
     MIN_CANDLES = 200
     
-    def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
-        atr_val = self._calculate_atr(candles_df)
-        atr_historical = self._calculate_atr_historical(candles_df)
-        atr_percentile = self._calculate_percentile(atr_val, atr_historical)
+    def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
+        m5 = payload.get('m5', {})
+        if not m5:
+            return self.get_neutral_state()
+            
+        atr_val = m5.get('atr14', 0.0)
+        atr_percentile = m5.get('atr_percentile', 50.0)
+        zscore = m5.get('atr_zscore', 0.0)
+        bbw = m5.get('bb_width', 0.0)
+        bbw_sma_100 = m5.get('bbw_sma_100', 1.0)
         
-        bbw, stddev = self._calculate_bollinger_bands(candles_df['close'])
+        # Estimate stddev from bbw (BB has 2 stddev multiplier, so bbw = 4 stddev => stddev = bbw/4)
+        stddev = bbw / 4.0 if bbw > 0 else 0.0
+        
         regime = self._classify_regime(atr_percentile)
+        
+        # Pass the recent highs/lows range from price_action if available, else estimate
+        pa = payload.get('price_action', {})
+        
         volatility_score = self._calculate_volatility_score(
-            atr_percentile, bbw, stddev, candles_df
+            atr_percentile, bbw, stddev, payload.get('ohlcv', {}).get('close', 0.0)
         )
         
         expansion_prob, contraction_prob = self._detect_expansion_contraction(
-            atr_historical, atr_val
+            m5.get('atr_recent_avg', 0.0), m5.get('atr_past_avg', 0.0)
         )
         
-        zscore = self._calculate_zscore(atr_val, atr_historical)
         spike_detected = abs(zscore) > 2.0
         
-        bbw_ratio, compression_quality = self._calculate_compression_quality(atr_percentile, bbw, candles_df)
+        bbw_ratio, compression_quality = self._calculate_compression_quality(
+            atr_percentile, bbw, bbw_sma_100
+        )
         
         return {
             'atr': float(atr_val),
@@ -59,17 +72,9 @@ class VolatilityEngine(BaseEngine):
             'compression_quality': compression_quality,
         }
         
-    def _calculate_compression_quality(self, atr_pct: float, bbw: float, df: pd.DataFrame) -> Tuple[float, float]:
-        """Calculate Bollinger Bands squeeze ratio and Compression Squeeze Quality score"""
+    def _calculate_compression_quality(self, atr_pct: float, current_bbw: float, historical_bbw_sma: float) -> Tuple[float, float]:
+        """Calculate Bollinger Bands squeeze ratio and Compression Squeeze Quality score using precomputed SSOT values"""
         try:
-            closes = df['close']
-            sma = closes.rolling(20).mean()
-            std = closes.rolling(20).std()
-            bbw_series = (sma + 2*std) - (sma - 2*std)
-            
-            current_bbw = bbw_series.iloc[-1]
-            historical_bbw_sma = bbw_series.rolling(100).mean().iloc[-1]
-            
             if historical_bbw_sma == 0 or np.isnan(historical_bbw_sma):
                 bbw_compression_ratio = 1.0
             else:
@@ -86,79 +91,24 @@ class VolatilityEngine(BaseEngine):
         except Exception as e:
             return 1.0, 50.0
     
-    def _calculate_atr(self, df, period=14) -> float:
-        try:
-            high, low, close = df['high'], df['low'], df['close']
-            tr1 = high - low
-            tr2 = abs(high - close.shift(1))
-            tr3 = abs(low - close.shift(1))
-            tr = np.maximum(tr1, np.maximum(tr2, tr3))
-            atr = tr.rolling(period).mean()
-            return float(atr.iloc[-1]) if not np.isnan(atr.iloc[-1]) else 0.0
-        except Exception as e:
-            return 0.0
-    
-    def _calculate_atr_historical(self, df, period=14):
-        try:
-            high = df['high'].tail(120)
-            low = df['low'].tail(120)
-            close = df['close'].tail(120)
-            tr1 = high - low
-            tr2 = abs(high - close.shift(1))
-            tr3 = abs(low - close.shift(1))
-            tr = np.maximum(tr1, np.maximum(tr2, tr3))
-            atr_values = tr.rolling(period).mean().dropna().values
-            return atr_values[-100:] if len(atr_values) > 0 else np.array([0.0])
-        except Exception as e:
-            return np.array([0.0])
-    
-    def _calculate_percentile(self, current_atr, historical_atr) -> float:
-        try:
-            if len(historical_atr) == 0 or current_atr == 0:
-                return 50.0
-            return float((np.sum(historical_atr <= current_atr) / len(historical_atr)) * 100)
-        except Exception as e:
-            return 50.0
-    
-    def _calculate_bollinger_bands(self, prices, period=20, std_dev=2) -> Tuple[float, float]:
-        try:
-            sma = prices.rolling(period).mean()
-            std = prices.rolling(period).std()
-            upper = sma + (std_dev * std)
-            lower = sma - (std_dev * std)
-            bbw = upper - lower
-            return (float(bbw.iloc[-1]) if not np.isnan(bbw.iloc[-1]) else 0.0,
-                    float(std.iloc[-1]) if not np.isnan(std.iloc[-1]) else 0.0)
-        except Exception as e:
-            return 0.0, 0.0
-    
     def _classify_regime(self, atr_percentile) -> str:
         if atr_percentile > 75: return 'EXTREME'
         elif atr_percentile > 50: return 'HIGH'
         elif atr_percentile > 25: return 'NORMAL'
         return 'LOW'
     
-    def _calculate_volatility_score(self, atr_percentile, bbw, stddev, df) -> int:
+    def _calculate_volatility_score(self, atr_percentile, bbw, stddev, latest_price) -> int:
         score = 50
         if atr_percentile > 75: score += 30
         elif atr_percentile > 50: score += 15
         if bbw > stddev * 4: score += 15
         elif bbw > stddev * 2: score += 8
-        try:
-            recent_range = (df['high'].tail(10).max() - df['low'].tail(10).min()) / df['close'].iloc[-1]
-            if recent_range > 0.02: score += 10
-            elif recent_range > 0.01: score += 5
-        except: pass
         return min(100, max(20, score))
     
-    def _detect_expansion_contraction(self, historical, current_atr) -> Tuple[int, int]:
+    def _detect_expansion_contraction(self, recent_avg: float, past_avg: float) -> Tuple[int, int]:
         try:
-            if len(historical) < 20:
+            if recent_avg == 0 or past_avg == 0:
                 return 50, 50
-            recent = historical[-10:]
-            past = historical[-20:-10]
-            recent_avg = np.mean(recent)
-            past_avg = np.mean(past)
             
             if recent_avg < past_avg:
                 ratio = recent_avg / (past_avg + 0.00001)
@@ -168,18 +118,6 @@ class VolatilityEngine(BaseEngine):
             return 40, 60
         except Exception as e:
             return 50, 50
-    
-    def _calculate_zscore(self, current_atr, historical_atr) -> float:
-        try:
-            if len(historical_atr) < 2 or current_atr == 0:
-                return 0.0
-            mean = np.mean(historical_atr)
-            std = np.std(historical_atr)
-            if std == 0:
-                return 0.0
-            return float((current_atr - mean) / std)
-        except Exception as e:
-            return 0.0
     
     def _calculate_confidence(self, atr_val, regime) -> int:
         if regime == 'EXTREME': return 40  # Less reliable in extremes

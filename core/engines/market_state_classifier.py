@@ -54,30 +54,24 @@ class MarketStateClassifier(BaseEngine):
         super().__init__(config)
         self._state_history = deque(maxlen=self._max_history)
     
-    def analyze(self, candles_df: pd.DataFrame = None, **kwargs) -> Dict[str, Any]:
+    def analyze(self, payload: Dict[str, Any] = None, **kwargs) -> Dict[str, Any]:
         """
-        Analyze market state based on candle data and optional precomputed
-        intelligence from other Tier 1 engines.
+        Analyze market state based on SSOT payload and precomputed Tier 1 data.
         
         Args:
-            candles_df: OHLCV DataFrame with columns 'open', 'high', 'low', 'close', 'volume'
-            **kwargs: Optionally accepts precomputed data:
-                - trend_data: output from TrendIntelligenceEngine
-                - strength_data: output from StrengthIntelligenceEngine
-                - volatility_data: output from VolatilityIntelligenceEngine
-                - structure_data: output from StructureIntelligenceEngine
-                - mtf_data: output from MTFIntelligenceEngine
-                - symbol: trading pair symbol (e.g., 'EURUSD-OTC')
-        
-        Returns:
-            Dictionary with keys: state, confidence, quality_score, tradeable,
-            stability, description, and metrics (for debugging).
+            payload: SSOT dictionary containing 'm5', 'price_action', 'ohlcv'
+            **kwargs:
+                - trend_data
+                - strength_data
+                - volatility_data
+                - structure_data
+                - mtf_data
+                - symbol
         """
         try:
-            if candles_df is None or len(candles_df) < self.MIN_CANDLES:
-                return self._get_neutral_state("Insufficient data")
+            if not payload or 'm5' not in payload:
+                return self._get_neutral_state("Insufficient payload data")
             
-            # Extract precomputed data if available (for better accuracy)
             trend_data = kwargs.get('trend_data', {})
             strength_data = kwargs.get('strength_data', {})
             volatility_data = kwargs.get('volatility_data', {})
@@ -86,15 +80,11 @@ class MarketStateClassifier(BaseEngine):
             symbol = kwargs.get('symbol', '')
             is_otc = (symbol.upper().endswith('_OTC') or symbol.upper().endswith('-OTC')) if isinstance(symbol, str) else False
             
-            # Compute core metrics (prioritize engine data, fallback to raw calculations)
-            metrics = self._compute_metrics(candles_df, trend_data, strength_data,
+            metrics = self._compute_metrics(payload, trend_data, strength_data,
                                             volatility_data, structure_data, mtf_data,
                                             is_otc=is_otc)
             
-            # Classify state
             state, confidence = self._classify_state(metrics, is_otc=is_otc)
-            
-            # Apply state transition smoothing
             state = self._smooth_state(state, confidence)
             
             quality_score = self._calculate_quality_score(state, metrics)
@@ -109,109 +99,77 @@ class MarketStateClassifier(BaseEngine):
                 'tradeable': tradeable,
                 'stability': int(stability),
                 'description': description,
-                'metrics': metrics  # for debugging/explainability
+                'metrics': metrics
             }
             
         except Exception as e:
-            print(f"[ERR] MarketStateClassifier error: {e}")
+            import traceback
+            traceback.print_exc()
             return self._get_neutral_state(f"Error: {str(e)}")
     
-    def _compute_metrics(self, df: pd.DataFrame,
+    def _compute_metrics(self, payload: Dict[str, Any],
                         trend_data: Dict, strength_data: Dict,
                         volatility_data: Dict, structure_data: Dict,
                         mtf_data: Dict, is_otc: bool = False) -> Dict[str, Any]:
-        """
-        Compute or extract all necessary metrics for classification.
-        Prioritizes precomputed engine outputs; falls back to raw calculations.
         
-        For OTC pairs (is_otc=True), volume_ratio is forced to 1.0 to avoid
-        LIQUIDITY_VOID misclassification since volume data is not reliable in OTC markets.
-        """
-        close = df['close'].values
-        high = df['high'].values
-        low = df['low'].values
-        volume = df['volume'].values if 'volume' in df.columns else None
+        m5 = payload.get('m5', {})
+        pa = payload.get('price_action', {})
+        meta = payload.get('ohlcv', {})
         
-        # Trend metrics (optimized periods for 5-min)
-        if trend_data:
-            trend_direction = trend_data.get('direction', 'NONE')
-            trend_strength = trend_data.get('strength', 0)
-            trend_slope = trend_data.get('slope', 0)
-            trend_type = trend_data.get('type', 'CHOPPY')
-        else:
-            trend_direction, trend_strength, trend_slope, trend_type = self._calc_trend_metrics_optimized(df)
+        close = meta.get('close', 0.0)
         
-        # Strength metrics with faster ADX (period 10) and RSI (period 7)
-        if strength_data:
-            adx = strength_data.get('adx', 20)
-            rsi = strength_data.get('rsi', 50)
-            momentum_level = strength_data.get('momentum_level', 'NORMAL')
-            strength_score = strength_data.get('strength_score', 50)
-        else:
-            adx, rsi, momentum_level, strength_score = self._calc_strength_metrics_optimized(df)
+        # Engine Data
+        trend_direction = trend_data.get('direction', 'NONE')
+        trend_strength = trend_data.get('strength', 0)
+        trend_slope = trend_data.get('slope', 0)
+        trend_type = trend_data.get('type', 'CHOPPY')
         
-        # Volatility metrics
-        if volatility_data:
-            atr_percentile = volatility_data.get('atr_percentile', 50)
-            bbw = volatility_data.get('bbw', 0)
-            volatility_regime = volatility_data.get('regime', 'NORMAL')
-            volatility_score = volatility_data.get('volatility_score', 50)
-        else:
-            atr_percentile, bbw, volatility_regime, volatility_score = self._calc_volatility_metrics(df)
+        adx = strength_data.get('adx', 20)
+        rsi = strength_data.get('rsi', 50)
+        momentum_level = strength_data.get('momentum_level', 'NORMAL')
+        strength_score = strength_data.get('strength_score', 50)
         
-        # Structure metrics (including dynamic probabilities)
-        if structure_data:
-            structure_type = structure_data.get('structure_type', 'RANGING')
-            bos_detected = structure_data.get('bos_detected', False)
-            breakout_prob = structure_data.get('breakout_probability', 0)
-            reversal_prob = structure_data.get('reversal_probability', 0)
-        else:
-            # Compute dynamic probabilities using volatility and price action
-            structure_type, bos_detected, breakout_prob, reversal_prob = self._compute_dynamic_probabilities_optimized(
-                df, adx, bbw, atr_percentile, volatility_regime
-            )
+        atr_percentile = volatility_data.get('atr_percentile', 50)
+        bbw = volatility_data.get('bbw', 0.05)
+        volatility_regime = volatility_data.get('regime', 'NORMAL')
+        volatility_score = volatility_data.get('volatility_score', 50)
         
-        # MTF metrics (improved with 15/30/60 minute alignment for 5-min)
-        if mtf_data:
-            alignment_score = mtf_data.get('alignment_score', 0)
-            htf_direction = mtf_data.get('htf_direction', 'NONE')
-        else:
-            alignment_score, htf_direction = self._calc_mtf_metrics_optimized(df)
+        structure_type = structure_data.get('structure_type', 'RANGING')
+        bos_detected = structure_data.get('bos_detected', False)
+        breakout_prob = structure_data.get('breakout_probability', 30)
+        reversal_prob = structure_data.get('reversal_probability', 30)
         
-        # Volume metrics
-        # For OTC: force volume_ratio to 1.0 to avoid LIQUIDITY_VOID misclassification
-        if is_otc:
-            volume_ratio = 1.0
-        else:
-            volume_ratio = self._calc_volume_ratio(df)
+        alignment_score = mtf_data.get('alignment_score', 50)
+        htf_direction = mtf_data.get('htf_direction', 'NONE')
         
-        # Noise level (optimized with weighted efficiency)
-        noise_level = self._calc_noise_level_optimized(df)
+        # Payload Data
+        volume_ratio = 1.0 if is_otc else m5.get('volume_ratio', 1.0)
+        volume_surge = volume_ratio > 1.5
         
-        # RSI extreme flags
+        # Noise level from move_quality
+        move_quality = pa.get('move_quality', 'NORMAL')
+        noise_level = 0.2 if move_quality == 'CLEAN_TRENDING' else 0.8 if move_quality == 'NOISY' else 0.5
+        
         rsi_extreme_bull = rsi > 75
         rsi_extreme_bear = rsi < 25
         
-        # Price vs moving averages (faster MAs)
-        ma10 = pd.Series(close).rolling(10).mean().iloc[-1] if len(close) >= 10 else close[-1]
-        ma20 = pd.Series(close).rolling(20).mean().iloc[-1] if len(close) >= 20 else close[-1]
-        price_above_ma20 = close[-1] > ma20
-        price_above_ma50 = close[-1] > pd.Series(close).rolling(50).mean().iloc[-1] if len(close) >= 50 else close[-1] > ma20
+        price_above_ma20 = close > m5.get('ema20', close)
+        price_above_ma50 = close > m5.get('ema50', close)
         
-        # Wick patterns
-        wick_lower_ratio, wick_upper_ratio = self._detect_wick_pattern_optimized(df)
+        wick_dominance = pa.get('wick_dominance', 'BALANCED')
+        wick_lower_ratio = 0.6 if wick_dominance == 'HIGH_LOWER_WICK' else 0.3
+        wick_upper_ratio = 0.6 if wick_dominance == 'HIGH_UPPER_WICK' else 0.3
         
-        # Volatility compression detection
-        compression_detected = self._detect_volatility_compression_optimized(df, bbw, atr_percentile)
+        compression_detected = bbw < 0.05 or m5.get('box_tightness', 10.0) < 1.0
         
-        # NEW: Momentum divergence (for early reversal detection)
-        divergence_detected = self._detect_momentum_divergence(df, rsi)
-        
-        # NEW: Volume surge confirmation for breakouts
-        volume_surge = volume_ratio > 1.5
-        
-        # Adaptive thresholds based on recent volatility
-        adaptive_adx_threshold = self._get_adaptive_adx_threshold(close, atr_percentile)
+        sr_interaction = pa.get('sr_interaction', 'NONE')
+        divergence_detected = False
+        if rsi < 35 and sr_interaction == 'NEAR_SUPPORT':
+            divergence_detected = True
+        elif rsi > 65 and sr_interaction == 'NEAR_RESISTANCE':
+            divergence_detected = True
+            
+        adaptive_adx_threshold = 18 if atr_percentile < 60 else 28 if atr_percentile > 140 else 22
         
         return {
             'trend_direction': trend_direction,
@@ -671,364 +629,4 @@ class MarketStateClassifier(BaseEngine):
             'metrics': {'error': reason}
         }
     
-    # ==================== Optimized Helper Calculation Methods ====================
-    
-    def _calc_trend_metrics_optimized(self, df: pd.DataFrame) -> tuple:
-        """Faster trend detection for 5-min using EMA5 and EMA10."""
-        close = df['close'].values
-        n = len(close)
-        if n < 15:
-            return 'NONE', 0, 0, 'CHOPPY'
-        
-        # Use faster EMAs: EMA5 (25 min) and EMA10 (50 min)
-        ema5 = pd.Series(close).ewm(span=5, adjust=False).mean().iloc[-1]
-        ema10 = pd.Series(close).ewm(span=10, adjust=False).mean().iloc[-1]
-        slope = (ema5 - ema10) / (ema10 + 1e-9)
-        
-        # Higher highs / higher lows detection
-        recent_highs = max(close[-8:])
-        recent_lows = min(close[-8:])
-        prior_highs = max(close[-16:-8]) if n >= 16 else recent_highs
-        prior_lows = min(close[-16:-8]) if n >= 16 else recent_lows
-        
-        if recent_highs > prior_highs and recent_lows > prior_lows:
-            direction = 'UP'
-            strength = min(100, 50 + abs(slope) * 800)
-        elif recent_highs < prior_highs and recent_lows < prior_lows:
-            direction = 'DOWN'
-            strength = min(100, 50 + abs(slope) * 800)
-        else:
-            direction = 'NONE'
-            strength = 30
-        
-        trend_type = 'IMPULSIVE' if abs(slope) > 0.008 else 'CORRECTIVE' if abs(slope) > 0.002 else 'CHOPPY'
-        return direction, int(strength), float(slope), trend_type
-    
-    def _calc_strength_metrics_optimized(self, df: pd.DataFrame) -> tuple:
-        """Faster ADX (period 10) and RSI (period 7) for 5-min responsiveness."""
-        close = df['close']
-        # ADX with period 10 (50 minutes) instead of 14 (70 minutes)
-        adx = self._calculate_adx(df, period=10)
-        # RSI with period 7 (35 minutes) for faster reversal detection
-        delta = close.diff()
-        gain = (delta.where(delta > 0, 0)).ewm(span=7, adjust=False).mean()
-        loss = (-delta.where(delta < 0, 0)).ewm(span=7, adjust=False).mean()
-        rs = gain / (loss + 1e-9)
-        rsi = 100 - (100 / (1 + rs))
-        current_rsi = rsi.iloc[-1] if len(rsi) > 0 else 50
-        
-        # Momentum level
-        if current_rsi > 65:
-            momentum = 'STRONG'
-            strength_score = 70 + (current_rsi - 65) / 35 * 30
-        elif current_rsi < 35:
-            momentum = 'WEAK'
-            strength_score = 70 - (35 - current_rsi) / 35 * 30
-        else:
-            momentum = 'NORMAL'
-            strength_score = 50 + (current_rsi - 50) / 15 * 20
-        
-        return int(adx), int(current_rsi), momentum, int(strength_score)
-    
-    def _calc_volatility_metrics(self, df: pd.DataFrame) -> tuple:
-        """Calculate volatility metrics: ATR percentile, BBW, regime, score."""
-        close = df['close'].values
-        high = df['high'].values
-        low = df['low'].values
-        n = len(close)
-        
-        if n < 20:
-            return 50, 0.05, 'NORMAL', 50
-        
-        # ATR (period 10 for 5-min responsiveness)
-        tr = np.zeros(n)
-        for i in range(1, n):
-            tr[i] = max(high[i] - low[i], abs(high[i] - close[i-1]), abs(low[i] - close[i-1]))
-        atr = pd.Series(tr).rolling(10).mean().iloc[-1]
-        
-        # ATR percentile based on recent 50 periods
-        atr_history = pd.Series(tr).rolling(10).mean().iloc[-50:] if n >= 50 else pd.Series(tr).rolling(10).mean()
-        atr_percentile = 50
-        if len(atr_history) > 0:
-            current_atr = atr_history.iloc[-1] if len(atr_history) > 0 else atr
-            atr_percentile = min(100, max(0, (current_atr / (atr_history.mean() + 1e-9)) * 50))
-        
-        # Bollinger Band Width (BBW)
-        ma20 = pd.Series(close).rolling(20).mean()
-        std20 = pd.Series(close).rolling(20).std()
-        bbw = (2 * std20.iloc[-1]) / (ma20.iloc[-1] + 1e-9) if len(ma20) > 0 else 0.05
-        
-        # Volatility regime
-        if atr_percentile < 30:
-            regime = 'LOW'
-            score = 30
-        elif atr_percentile < 60:
-            regime = 'NORMAL'
-            score = 50
-        elif atr_percentile < 85:
-            regime = 'HIGH'
-            score = 70
-        else:
-            regime = 'EXTREME'
-            score = 85
-        
-        return int(atr_percentile), float(bbw), regime, score
-    
-    def _calc_mtf_metrics_optimized(self, df: pd.DataFrame) -> tuple:
-        """
-        Simplified MTF alignment using M5 vs M15/M30/H1 approximation.
-        Since we only have M5 data, we use a heuristic based on rolling windows.
-        """
-        close = df['close'].values
-        n = len(close)
-        if n < 30:
-            return 50, 'NONE'
-        
-        # Approximate higher timeframe directions using different window sizes
-        # M15 = 3 candles, M30 = 6 candles, H1 = 12 candles
-        m15_slope = (close[-1] - close[-3]) / (close[-3] + 1e-9) if n >= 3 else 0
-        m30_slope = (close[-1] - close[-6]) / (close[-6] + 1e-9) if n >= 6 else 0
-        h1_slope = (close[-1] - close[-12]) / (close[-12] + 1e-9) if n >= 12 else 0
-        
-        # Determine directions
-        m15_dir = 'UP' if m15_slope > 0.001 else 'DOWN' if m15_slope < -0.001 else 'NONE'
-        m30_dir = 'UP' if m30_slope > 0.001 else 'DOWN' if m30_slope < -0.001 else 'NONE'
-        h1_dir = 'UP' if h1_slope > 0.001 else 'DOWN' if h1_slope < -0.001 else 'NONE'
-        
-        # Count alignment
-        up_count = sum([1 for d in [m15_dir, m30_dir, h1_dir] if d == 'UP'])
-        down_count = sum([1 for d in [m15_dir, m30_dir, h1_dir] if d == 'DOWN'])
-        
-        if up_count >= 2:
-            htf_direction = 'UP'
-            alignment = 60 + up_count * 15
-        elif down_count >= 2:
-            htf_direction = 'DOWN'
-            alignment = 60 + down_count * 15
-        elif up_count == 0 and down_count == 0:
-            htf_direction = 'NONE'
-            alignment = 50
-        else:
-            htf_direction = 'MIXED'
-            alignment = 40
-        
-        return int(min(100, alignment)), htf_direction
-    
-    def _calc_volume_ratio(self, df: pd.DataFrame) -> float:
-        """Calculate volume ratio (current volume / average volume)."""
-        if 'volume' not in df.columns:
-            return 1.0
-        volume = df['volume'].values
-        if len(volume) < 10:
-            return 1.0
-        avg_volume = np.mean(volume[-20:]) if len(volume) >= 20 else np.mean(volume)
-        if avg_volume == 0:
-            return 1.0
-        return volume[-1] / avg_volume
-    
-    def _calc_noise_level_optimized(self, df: pd.DataFrame) -> float:
-        """Calculate noise level using weighted efficiency (0-1)."""
-        close = df['close'].values
-        n = len(close)
-        if n < 20:
-            return 0.5
-        
-        # Calculate efficiency: net move / total movement
-        total_move = sum(abs(close[i] - close[i-1]) for i in range(1, n))
-        net_move = abs(close[-1] - close[0])
-        efficiency = net_move / (total_move + 1e-9)
-        
-        # Adjust for trending markets (efficiency can be high even with noise)
-        price_range = max(close[-n:]) - min(close[-n:])
-        candle_body_ratio = abs(close[-1] - close[-2]) / (price_range + 1e-9) if n >= 2 else 0
-        
-        noise = max(0, min(1, 1 - efficiency))
-        if candle_body_ratio > 0.3:
-            noise = max(0, noise - 0.15)
-        
-        return noise
-    
-    def _detect_momentum_divergence(self, df: pd.DataFrame, rsi: float) -> bool:
-        """
-        Detect bullish/bearish divergence between price and RSI momentum.
-        Returns True if divergence detected.
-        """
-        close = df['close'].values
-        if len(close) < 20:
-            return False
-        
-        # Simplified: price at support with RSI oversold but rising = bullish divergence
-        if rsi < 35 and close[-1] > min(close[-5:]):
-            return True
-        # Price at resistance, RSI overbought but falling = bearish divergence
-        if rsi > 65 and close[-1] < max(close[-5:]):
-            return True
-        
-        return False
-    
-    def _get_adaptive_adx_threshold(self, close: np.ndarray, atr_percentile: float) -> int:
-        """
-        Return ADX threshold adjusted for current volatility regime.
-        In low volatility, ADX tends to be lower; adjust thresholds downward.
-        """
-        if atr_percentile < 60:
-            return 18  # lower threshold in low volatility
-        elif atr_percentile > 140:
-            return 28  # higher threshold in high volatility
-        else:
-            return 22  # normal threshold
-    
-    def _calculate_adx(self, df: pd.DataFrame, period: int = 14) -> float:
-        """Standard ADX calculation with Wilder smoothing."""
-        try:
-            high = df['high']
-            low = df['low']
-            close = df['close']
-            
-            tr1 = high - low
-            tr2 = abs(high - close.shift(1))
-            tr3 = abs(low - close.shift(1))
-            tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
-            
-            up_move = high.diff()
-            down_move = -low.diff()
-            pos_dm = pd.Series(np.where((up_move > down_move) & (up_move > 0), up_move, 0))
-            neg_dm = pd.Series(np.where((down_move > up_move) & (down_move > 0), down_move, 0))
-            
-            def wilder_smooth(series, per):
-                smoothed = series.rolling(per, min_periods=per).mean()
-                for i in range(per, len(series)):
-                    smoothed.iloc[i] = (smoothed.iloc[i-1] * (per - 1) + series.iloc[i]) / per
-                return smoothed
-            
-            smoothed_tr = wilder_smooth(tr, period)
-            smoothed_pos_dm = wilder_smooth(pos_dm, period)
-            smoothed_neg_dm = wilder_smooth(neg_dm, period)
-            
-            pos_di = 100 * (smoothed_pos_dm / (smoothed_tr + 1e-9))
-            neg_di = 100 * (smoothed_neg_dm / (smoothed_tr + 1e-9))
-            
-            dx = 100 * (abs(pos_di - neg_di) / (pos_di + neg_di + 1e-9))
-            adx = wilder_smooth(dx, period)
-            
-            return float(adx.iloc[-1]) if not np.isnan(adx.iloc[-1]) else 20.0
-        except Exception as e:
-            print(f"[WARN] ADX calculation failed: {e}")
-            return 20.0
-    
-    def _compute_dynamic_probabilities_optimized(self, df: pd.DataFrame, adx: float,
-                                                 bbw: float, atr_percentile: float,
-                                                 volatility_regime: str) -> tuple:
-        """
-        Compute breakout and reversal probabilities using price action and volatility.
-        Returns (structure_type, bos_detected, breakout_prob, reversal_prob).
-        """
-        close = df['close'].values
-        high = df['high'].values
-        low = df['low'].values
-        n = len(close)
-        
-        if n < 30:
-            return 'RANGING', False, 30, 30
-        
-        # Identify recent swing highs and lows
-        swing_highs = []
-        swing_lows = []
-        for i in range(5, n-5):
-            if high[i] > max(high[i-5:i]) and high[i] > max(high[i+1:i+6]):
-                swing_highs.append(high[i])
-            if low[i] < min(low[i-5:i]) and low[i] < min(low[i+1:i+6]):
-                swing_lows.append(low[i])
-        
-        # Determine structure type based on trend and range
-        if len(swing_highs) > 0 and len(swing_lows) > 0:
-            recent_range = max(close[-20:]) - min(close[-20:])
-            avg_range = np.mean([high[i] - low[i] for i in range(max(0, n-30), n)])
-            if recent_range > avg_range * 2:
-                structure_type = 'BREAKOUT'
-            elif recent_range < avg_range * 0.8:
-                structure_type = 'RANGING'
-            else:
-                structure_type = 'TRENDING' if adx > 25 else 'RANGING'
-        else:
-            structure_type = 'RANGING'
-        
-        # BOS detection: price breaking recent swing levels
-        bos_detected = False
-        if len(swing_highs) > 0 and close[-1] > max(swing_highs[-3:]) * 1.002:
-            bos_detected = True
-        elif len(swing_lows) > 0 and close[-1] < min(swing_lows[-3:]) * 0.998:
-            bos_detected = True
-        
-        # Breakout probability
-        if bbw < 0.05 and volatility_regime == 'LOW':
-            breakout_prob = 60 + (0.05 - bbw) * 200
-        elif adx > 30 and volatility_regime in ['LOW', 'NORMAL']:
-            breakout_prob = 50 + (adx - 30) / 2
-        else:
-            breakout_prob = 30 + (atr_percentile / 200) * 20
-        
-        # Reversal probability
-        if adx > 50 and atr_percentile > 80:
-            reversal_prob = 40 + (adx - 50) / 2
-        elif atr_percentile > 120:
-            reversal_prob = 50
-        else:
-            reversal_prob = 30
-        
-        return structure_type, bos_detected, int(min(100, breakout_prob)), int(min(100, reversal_prob))
-    
-    def _detect_wick_pattern_optimized(self, df: pd.DataFrame) -> tuple:
-        """
-        Detect wick patterns: ratio of lower wick to body, upper wick to body.
-        Returns (lower_wick_ratio, upper_wick_ratio) as fractions of candle range.
-        """
-        close = df['close'].values
-        high = df['high'].values
-        low = df['low'].values
-        n = len(close)
-        
-        if n < 5:
-            return 0.3, 0.3
-        
-        lower_wicks = []
-        upper_wicks = []
-        
-        for i in range(max(0, n-10), n):
-            body_low = min(close[i], close[i-1] if i > 0 else close[i])
-            body_high = max(close[i], close[i-1] if i > 0 else close[i])
-            candle_range = high[i] - low[i] + 1e-9
-            
-            lower_wick = (min(close[i], body_low) - low[i]) / candle_range
-            upper_wick = (high[i] - max(close[i], body_high)) / candle_range
-            
-            lower_wicks.append(lower_wick)
-            upper_wicks.append(upper_wick)
-        
-        return np.mean(lower_wicks), np.mean(upper_wicks)
-    
-    def _detect_volatility_compression_optimized(self, df: pd.DataFrame, bbw: float, atr_percentile: float) -> bool:
-        """Detect volatility compression (tightening ranges)."""
-        close = df['close'].values
-        high = df['high'].values
-        low = df['low'].values
-        n = len(close)
-        
-        if n < 20:
-            return False
-        
-        # Check BBW compression
-        if bbw < 0.06 and bbw > 0.01:
-            return True
-        
-        # Check ATR compression
-        if atr_percentile < 40:
-            return True
-        
-        # Check recent range contraction
-        recent_range = max(close[-10:]) - min(close[-10:])
-        prior_range = max(close[-20:-10]) - min(close[-20:-10]) if n >= 20 else recent_range
-        if prior_range > 0 and recent_range / prior_range < 0.7:
-            return True
-        
-        return False
+

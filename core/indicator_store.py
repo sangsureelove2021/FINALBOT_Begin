@@ -1,452 +1,824 @@
 """
-IndicatorStore — Central Indicator Cache for FINALBOT
-
-Flow:
-    DataAdapter.update() → candles_dict
-        → IndicatorStore.calculate_all(symbol, candles_dict)
-            → store._store[symbol]  (ดึงด้วย get_payload)
-                → Orchestrator / AI Bridge
-
-Rules:
-    • คำนวณแต่ละ timeframe เฉพาะเมื่อมีแท่งใหม่ (ตรวจ last_ts)
-    • indicator แต่ละตัวแยก try/except — ตัวหนึ่งพังไม่กระทบตัวอื่น
-    • ผล NaN / Inf ถูก sanitize เป็น 0.0 ก่อนส่งออก
+indicator_store.py
+------------------
+Single Source of Truth (SSOT) สำหรับ FINALBOT
+- คำนวณ Raw Indicators (Layer 1) ครั้งเดียว (รวม ADX, Volume Ratio, Slope)
+- ให้ Engine (Layer 2) และ Classifier (Layer 3) อ่าน/เขียน
+- บันทึก CSV แบบ Async (ไม่บล็อก Main Loop)
+- รองรับ OTC (บังคับ Volume = 1.0)
+- รองรับการทำงานแบบ Parallel 5 คู่
 """
 
-import math
-import logging
 import pandas as pd
 import numpy as np
+import threading
+import queue
+import csv
+import os
+import json
 from datetime import datetime, timedelta
-from typing import Dict, Any, Optional, Tuple
+from typing import Dict, Any, Optional, List, Tuple
+from dataclasses import dataclass, field
+import logging
 
-from ta.trend import EMAIndicator, MACD, ADXIndicator
-from ta.momentum import RSIIndicator, StochasticOscillator, ROCIndicator
-from ta.volatility import BollingerBands, AverageTrueRange
-
+# ---------- Logging Setup ----------
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
+# ---------- Configuration ----------
+class Config:
+    ENABLE_CSV_LOGGING = True
+    CSV_LOG_INTERVAL = 1  # บันทึกทุก 1 รอบ (ถ้า 5 = ทุก 5 รอบ)
+    CSV_LOG_DIR = "logs/market_snapshots/"
+    ROUND_DECIMALS = 6
+    ADX_PERIOD = 14
+    VOLUME_MA_PERIOD = 20
+    SLOPE_PERIOD = 10  # ใช้ 10 แท่งล่าสุดสำหรับ Linear Regression
 
+# ---------- Core Class ----------
 class IndicatorStore:
-    def __init__(self):
-        self._store: Dict[str, Dict[str, Any]] = {}
-        self._last_ts: Dict[str, Dict[str, Optional[pd.Timestamp]]] = {}
+    """
+    จัดเก็บ Indicator ทั้งหมด (Layer 1, 2, 3) สำหรับทุกคู่เงิน
+    - Layer 1: Raw Indicators (คำนวณจาก OHLCV โดยตรง)
+    - Layer 2: Engine Outputs (trend, strength, volatility, structure, mtf)
+    - Layer 3: Classified Result (market_state, state_confidence, etc.)
+    """
 
-    # ------------------------------------------------------------------
-    # Public API
-    # ------------------------------------------------------------------
+    def __init__(self, enable_csv: bool = True):
+        self._data: Dict[str, Dict[str, Any]] = {}
+        self._lock = threading.Lock()  # ป้องกันข้อมูลชนกัน (ถ้ามี multi-thread เขียนพร้อมกัน)
+        
+        # CSV Logger (Async)
+        self._csv_queue = queue.Queue()
+        self._csv_enabled = enable_csv and Config.ENABLE_CSV_LOGGING
+        self._csv_worker_thread = None
+        self._csv_counter = 0  # ใช้นับรอบสำหรับ CSV_LOG_INTERVAL
 
-    def calculate_all(
-        self,
-        symbol: str,
-        candles_dict: Dict[str, pd.DataFrame],
-        session: str = "asian",
-    ) -> Dict[str, Any]:
-        """คำนวณ indicator ทุก timeframe — ข้ามถ้าแท่งล่าสุดยังเป็น timestamp เดิม"""
-        now = datetime.utcnow()
+        if self._csv_enabled:
+            os.makedirs(Config.CSV_LOG_DIR, exist_ok=True)
+            self._csv_worker_thread = threading.Thread(
+                target=self._csv_worker, daemon=True, name="CSVLogger"
+            )
+            self._csv_worker_thread.start()
+            logger.info("CSV Logger started (async mode)")
 
-        if symbol not in self._store:
-            self._store[symbol] = {
-                'm15': {}, 'm5': {}, 'm1': {},
-                'price_action': {},
-                'market_state': 'UNCLEAR',
-                'session': session,
-                'timestamp': now.isoformat(),
-                'expires_at': now + timedelta(seconds=60),
+    # ========================
+    # LAYER 1: RAW INDICATORS (คำนวณจาก OHLCV)
+    # ========================
+    @staticmethod
+    def calculate_raw_indicators(df_m1: pd.DataFrame, df_m5: pd.DataFrame, symbol: str = "") -> Dict[str, Any]:
+        """
+        คำนวณ Indicator ดิบ (Layer 1) จาก DataFrame M1 และ M5
+        - ใช้ Pandas Vectorization (เร็วมาก)
+        - ส่งคืน dict ที่มี structure เหมือน SPEC_INDICATOR_STORE.md
+        - รองรับ OTC: ถ้า symbol มี 'OTC' จะบังคับ Volume = 1.0
+        """
+        # ------------------------------------------------------------
+        # 0. OTC Volume Filter
+        # ------------------------------------------------------------
+        is_otc = "OTC" in symbol.upper() if symbol else False
+        if is_otc:
+            # ถ้าเป็น OTC ให้เปลี่ยน Volume ทั้งหมดเป็น 1.0 (เพราะไม่มี Volume จริง)
+            df_m5 = df_m5.copy()
+            df_m5['volume'] = 1.0
+            df_m1 = df_m1.copy()
+            df_m1['volume'] = 1.0
+            logger.debug(f"OTC detected: {symbol} → Volume forced to 1.0")
+
+        # ------------------------------------------------------------
+        # 1. M5 Indicators
+        # ------------------------------------------------------------
+        m5 = {}
+        close_m5 = df_m5['close']
+        high_m5 = df_m5['high']
+        low_m5 = df_m5['low']
+        open_m5 = df_m5['open']
+        volume_m5 = df_m5['volume']
+
+        # EMA
+        m5['ema5'] = round(close_m5.ewm(span=5, adjust=False).mean().iloc[-1], Config.ROUND_DECIMALS)
+        m5['ema10'] = round(close_m5.ewm(span=10, adjust=False).mean().iloc[-1], Config.ROUND_DECIMALS)
+        m5['ema20'] = round(close_m5.ewm(span=20, adjust=False).mean().iloc[-1], Config.ROUND_DECIMALS)
+        m5['ema50'] = round(close_m5.ewm(span=50, adjust=False).mean().iloc[-1], Config.ROUND_DECIMALS)
+        m5['ema100'] = round(close_m5.ewm(span=100, adjust=False).mean().iloc[-1], Config.ROUND_DECIMALS)
+        m5['ema200'] = round(close_m5.ewm(span=200, adjust=False).mean().iloc[-1], Config.ROUND_DECIMALS)
+
+        # Bollinger Bands (20, 2)
+        sma20 = close_m5.rolling(window=20).mean()
+        std20 = close_m5.rolling(window=20).std()
+        m5['bb_upper'] = round((sma20 + 2 * std20).iloc[-1], Config.ROUND_DECIMALS)
+        m5['bb_lower'] = round((sma20 - 2 * std20).iloc[-1], Config.ROUND_DECIMALS)
+        bbw_series = (sma20 + 2 * std20) - (sma20 - 2 * std20)
+        m5['bb_width'] = round(bbw_series.iloc[-1], Config.ROUND_DECIMALS)
+        m5['bbw_sma_100'] = round(bbw_series.rolling(window=100).mean().iloc[-1], Config.ROUND_DECIMALS) if len(bbw_series) >= 100 else m5['bb_width']
+
+        # RSI (7, 14)
+        def calc_rsi(series, period):
+            delta = series.diff()
+            gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
+            loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()
+            rs = gain / loss
+            rsi = 100 - (100 / (1 + rs))
+            return rsi.iloc[-1]
+
+        m5['rsi7'] = round(calc_rsi(close_m5, 7), 2)
+        m5['rsi14'] = round(calc_rsi(close_m5, 14), 2)
+
+        # MACD (12, 26, 9)
+        exp12 = close_m5.ewm(span=12, adjust=False).mean()
+        exp26 = close_m5.ewm(span=26, adjust=False).mean()
+        macd_line = exp12 - exp26
+        macd_signal = macd_line.ewm(span=9, adjust=False).mean()
+        m5['macd'] = round(macd_line.iloc[-1], Config.ROUND_DECIMALS)
+        m5['macd_signal'] = round(macd_signal.iloc[-1], Config.ROUND_DECIMALS)
+        m5['macd_hist'] = round((macd_line - macd_signal).iloc[-1], Config.ROUND_DECIMALS)
+
+        # Stochastic (14, 3, 3)
+        low_min = low_m5.rolling(window=14).min()
+        high_max = high_m5.rolling(window=14).max()
+        stoch_k_raw = 100 * (close_m5 - low_min) / (high_max - low_min)
+        stoch_k = stoch_k_raw.rolling(window=3).mean()
+        stoch_d = stoch_k.rolling(window=3).mean()
+        m5['stoch_k'] = round(stoch_k.iloc[-1], 2)
+        m5['stoch_d'] = round(stoch_d.iloc[-1], 2)
+
+        # ATR (14)
+        high_low = high_m5 - low_m5
+        high_close = np.abs(high_m5 - close_m5.shift())
+        low_close = np.abs(low_m5 - close_m5.shift())
+        ranges = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
+        atr_series = ranges.rolling(window=14).mean().dropna()
+        if len(atr_series) > 0:
+            current_atr = atr_series.iloc[-1]
+            m5['atr14'] = round(current_atr, Config.ROUND_DECIMALS)
+            m5['atr_percentile'] = round((np.sum(atr_series <= current_atr) / len(atr_series)) * 100, 2)
+            m5['atr_zscore'] = round((current_atr - atr_series.mean()) / (atr_series.std() + 1e-9), 2)
+            
+            recent_atr_avg = atr_series.tail(10).mean()
+            past_atr_avg = atr_series.iloc[-20:-10].mean() if len(atr_series) >= 20 else recent_atr_avg
+            m5['atr_recent_avg'] = round(recent_atr_avg, Config.ROUND_DECIMALS)
+            m5['atr_past_avg'] = round(past_atr_avg, Config.ROUND_DECIMALS)
+        else:
+            m5['atr14'] = 0.0
+            m5['atr_percentile'] = 50.0
+            m5['atr_zscore'] = 0.0
+            m5['atr_recent_avg'] = 0.0
+            m5['atr_past_avg'] = 0.0
+
+        # ================================================================
+        # ✅ ADX, DI+, DI- (Wilder's Smoothing) — ตาม SPEC_ENGINES.md
+        # ================================================================
+        def calc_adx(high, low, close, period=14):
+            """คำนวณ ADX, DI+, DI- แบบ Wilder's Smoothing"""
+            # True Range
+            tr1 = high - low
+            tr2 = abs(high - close.shift())
+            tr3 = abs(low - close.shift())
+            tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+            
+            # Directional Movement
+            up_move = high - high.shift()
+            down_move = low.shift() - low
+            
+            plus_dm = np.where((up_move > down_move) & (up_move > 0), up_move, 0)
+            minus_dm = np.where((down_move > up_move) & (down_move > 0), down_move, 0)
+            
+            # Wilder's Smoothing (EMA with alpha = 1/period)
+            tr_smooth = tr.ewm(alpha=1/period, adjust=False).mean()
+            plus_dm_smooth = pd.Series(plus_dm).ewm(alpha=1/period, adjust=False).mean()
+            minus_dm_smooth = pd.Series(minus_dm).ewm(alpha=1/period, adjust=False).mean()
+            
+            # DI+
+            di_plus = 100 * (plus_dm_smooth / tr_smooth)
+            di_minus = 100 * (minus_dm_smooth / tr_smooth)
+            
+            # DX
+            dx = 100 * abs(di_plus - di_minus) / (di_plus + di_minus + 0.000001)
+            
+            # ADX = Smooth DX
+            adx = dx.ewm(alpha=1/period, adjust=False).mean()
+            
+            return {
+                'adx': round(adx.iloc[-1], 2),
+                'di_plus': round(di_plus.iloc[-1], 2),
+                'di_minus': round(di_minus.iloc[-1], 2),
+                'dx': round(dx.iloc[-1], 2)
             }
-        if symbol not in self._last_ts:
-            self._last_ts[symbol] = {'M1': None, 'M5': None, 'M15': None}
+        
+        adx_result = calc_adx(high_m5, low_m5, close_m5, Config.ADX_PERIOD)
+        m5['adx'] = adx_result['adx']
+        m5['di_plus'] = adx_result['di_plus']
+        m5['di_minus'] = adx_result['di_minus']
+        m5['dx'] = adx_result['dx']
 
-        self._store[symbol]['session'] = session
-        self._store[symbol]['timestamp'] = now.isoformat()
-        self._store[symbol]['expires_at'] = now + timedelta(seconds=60)
+        # ================================================================
+        # ✅ ROC (Rate of Change) — ตาม SPEC_ENGINES.md
+        # ================================================================
+        m5['roc'] = round(((close_m5.iloc[-1] / close_m5.iloc[-10]) - 1) * 100, 4) if len(close_m5) >= 10 else 0.0
 
-        # ── M15 ─────────────────────────────────────────────────────────
-        df15 = candles_dict.get('M15')
-        if df15 is not None and not df15.empty:
-            ts15 = df15.index[-1]
-            if ts15 != self._last_ts[symbol]['M15']:
-                self._store[symbol]['m15'] = self._calculate_m15(df15)
-                self._last_ts[symbol]['M15'] = ts15
-
-        # ── M5 ──────────────────────────────────────────────────────────
-        df5 = candles_dict.get('M5')
-        if df5 is not None and not df5.empty:
-            ts5 = df5.index[-1]
-            if ts5 != self._last_ts[symbol]['M5']:
-                self._store[symbol]['m5'] = self._calculate_m5(df5)
-                self._store[symbol]['current_price'] = float(df5['close'].iloc[-1])
-                self._last_ts[symbol]['M5'] = ts5
-                # Price Action ใช้ timestamp cache เดียวกับ M5
-                self._store[symbol]['price_action'] = self._calculate_price_action(
-                    df5, self._store[symbol].get('m5', {})
-                )
-
-        # ── M1 ──────────────────────────────────────────────────────────
-        df1 = candles_dict.get('M1')
-        if df1 is not None and not df1.empty:
-            ts1 = df1.index[-1]
-            if ts1 != self._last_ts[symbol]['M1']:
-                self._store[symbol]['m1'] = self._calculate_m1(df1)
-                self._last_ts[symbol]['M1'] = ts1
-
-        return self._store[symbol]
-
-    def update_market_state(
-        self,
-        symbol: str,
-        m15_bias: str,
-        m5_market_state: str,
-        price_action_data: Dict[str, Any],
-    ) -> None:
-        if symbol not in self._store:
-            return
-        if 'm15' in self._store[symbol]:
-            self._store[symbol]['m15']['bias'] = m15_bias
-        if 'm5' in self._store[symbol]:
-            self._store[symbol]['m5']['market_state'] = m5_market_state
-        self._store[symbol]['market_state'] = m5_market_state
-        self._store[symbol]['price_action'] = price_action_data
-
-    def get_payload(self, symbol: str) -> Dict[str, Any]:
-        """คืนผลลัพธ์ indicator โดย sanitize NaN/Inf เป็น 0.0"""
-        return _sanitize(self._store.get(symbol, {}))
-
-    def clear_all(self) -> None:
-        self._store.clear()
-        self._last_ts.clear()
-
-    # ------------------------------------------------------------------
-    # Timeframe calculators
-    # ------------------------------------------------------------------
-
-    def _calculate_m15(self, df: pd.DataFrame) -> Dict[str, float]:
-        res = self._calculate_basic(df)
-        if not res:
-            return res
-        sup, res_ = _calc_sr(df, lookback=50)
-        res['support'] = sup
-        res['resistance'] = res_
-
-        # M15 bias จาก EMA20 vs EMA50
-        try:
-            ema20 = res.get('ema20', 0.0)
-            ema50 = res.get('ema50', 0.0)
-            if ema20 > ema50:
-                res['bias'] = 'BULLISH'
-            elif ema20 < ema50:
-                res['bias'] = 'BEARISH'
+        # ================================================================
+        # ✅ VOLUME RATIO & MA20 — (ใช้ยืนยัน Breakout, Accumulation)
+        # ================================================================
+        volume_ma20 = volume_m5.rolling(window=Config.VOLUME_MA_PERIOD).mean()
+        current_volume = volume_m5.iloc[-1]
+        m5['volume'] = round(current_volume, 2)
+        m5['volume_ma20'] = round(volume_ma20.iloc[-1], 2)
+        m5['volume_ratio'] = round(current_volume / (volume_ma20.iloc[-1] + 0.000001), 3)  # + epsilon ป้องกัน div by zero
+        
+        # Volume Spike Detection (ratio > 2.0)
+        m5['volume_spike'] = m5['volume_ratio'] > 2.0
+        
+        # Volume Trend (ใช้ Slope ของ Volume 5 แท่งล่าสุด)
+        vol_slice = volume_m5.tail(5)
+        if len(vol_slice) >= 5:
+            x = np.arange(5)
+            slope, _ = np.polyfit(x, vol_slice.values, 1)
+            if slope > 0.5:
+                m5['volume_trend'] = 'RISING'
+            elif slope < -0.5:
+                m5['volume_trend'] = 'FALLING'
             else:
-                res['bias'] = 'NEUTRAL'
-        except Exception as e:
-            logger.debug(f"M15 bias calc failed: {e}")
-            res['bias'] = 'NEUTRAL'
+                m5['volume_trend'] = 'STABLE'
+        else:
+            m5['volume_trend'] = 'STABLE'
 
-        return res
+        # ================================================================
+        # ✅ LINEAR REGRESSION SLOPE — (Trend Engine ต้องใช้)
+        # ================================================================
+        def calc_slope(series, period=Config.SLOPE_PERIOD):
+            """คำนวณความชันของ Linear Regression จาก n แท่งล่าสุด"""
+            if len(series) < period:
+                return 0.0
+            y = series.tail(period).values
+            x = np.arange(period)
+            slope, _ = np.polyfit(x, y, 1)
+            return slope
+        
+        m5['slope_10'] = round(calc_slope(close_m5, 10), Config.ROUND_DECIMALS)
+        m5['slope_20'] = round(calc_slope(close_m5, 20), Config.ROUND_DECIMALS)
+        m5['slope_50'] = round(calc_slope(close_m5, 50), Config.ROUND_DECIMALS)
 
-    def _calculate_m5(self, df: pd.DataFrame) -> Dict[str, float]:
-        res = self._calculate_basic(df)
-        if not res:
-            return res
+        # Support / Resistance (ใช้ Swing High/Low จาก 5 แท่งล่าสุด)
+        last_n = df_m5.tail(20)
+        swing_high = last_n['high'].max()
+        swing_low = last_n['low'].min()
+        m5['support'] = round(swing_low, Config.ROUND_DECIMALS)
+        m5['resistance'] = round(swing_high, Config.ROUND_DECIMALS)
 
-        _safe(res, 'ema5',  lambda: float(EMAIndicator(close=df['close'], window=5).ema_indicator().iloc[-1]))
-        _safe(res, 'ema10', lambda: float(EMAIndicator(close=df['close'], window=10).ema_indicator().iloc[-1]))
+        # Pivot Points (Standard)
+        last_candle = df_m5.iloc[-1]
+        pivot = (last_candle['high'] + last_candle['low'] + last_candle['close']) / 3
+        m5['pivot'] = round(pivot, Config.ROUND_DECIMALS)
+        m5['r1'] = round((2 * pivot) - last_candle['low'], Config.ROUND_DECIMALS)
+        m5['r2'] = round(pivot + (last_candle['high'] - last_candle['low']), Config.ROUND_DECIMALS)
+        m5['s1'] = round((2 * pivot) - last_candle['high'], Config.ROUND_DECIMALS)
+        m5['s2'] = round(pivot - (last_candle['high'] - last_candle['low']), Config.ROUND_DECIMALS)
 
-        _safe_group(res, {
-            'bb_lower': lambda: float(BollingerBands(close=df['close'], window=20, window_dev=2).bollinger_lband().iloc[-1]),
-            'bb_upper': lambda: float(BollingerBands(close=df['close'], window=20, window_dev=2).bollinger_hband().iloc[-1]),
-            'bb_width': lambda: float(BollingerBands(close=df['close'], window=20, window_dev=2).bollinger_wband().iloc[-1]) / 100.0,
-        })
+        # Box Metrics (Duration & Tightness)
+        highs = df_m5['high'].tail(50).values
+        lows = df_m5['low'].tail(50).values
+        if len(highs) >= 20:
+            ref_high = max(highs[-20:])
+            ref_low = min(lows[-20:])
+            ref_range = ref_high - ref_low
+            box_dur = 0
+            for i in range(len(highs) - 1, -1, -1):
+                if ref_low <= highs[i] <= ref_high and ref_low <= lows[i] <= ref_high:
+                    box_dur += 1
+                else:
+                    break
+            m5['box_duration'] = box_dur
+            m5['box_tightness'] = round(ref_range / (m5.get('atr14', 0.0001) + 1e-9), 2)
+        else:
+            m5['box_duration'] = 10
+            m5['box_tightness'] = 2.5
 
-        _safe(res, 'rsi7',  lambda: float(RSIIndicator(close=df['close'], window=7).rsi().iloc[-1]))
-        _safe(res, 'rsi14', lambda: float(RSIIndicator(close=df['close'], window=14).rsi().iloc[-1]))
+        # ------------------------------------------------------------
+        # 2. M1 Indicators (เฉพาะที่จำเป็น)
+        # ------------------------------------------------------------
+        m1 = {}
+        close_m1 = df_m1['close']
+        high_m1 = df_m1['high']
+        low_m1 = df_m1['low']
+        open_m1 = df_m1['open']
+        volume_m1 = df_m1['volume']
 
-        _safe_group(res, {
-            'macd':        lambda: float(MACD(close=df['close'], window_slow=26, window_fast=12, window_sign=9).macd().iloc[-1]),
-            'macd_hist':   lambda: float(MACD(close=df['close'], window_slow=26, window_fast=12, window_sign=9).macd_diff().iloc[-1]),
-            'macd_signal': lambda: float(MACD(close=df['close'], window_slow=26, window_fast=12, window_sign=9).macd_signal().iloc[-1]),
-        })
+        m1['ema5'] = round(close_m1.ewm(span=5, adjust=False).mean().iloc[-1], Config.ROUND_DECIMALS)
+        m1['ema20'] = round(close_m1.ewm(span=20, adjust=False).mean().iloc[-1], Config.ROUND_DECIMALS)
+        
+        m1['rsi14'] = round(calc_rsi(close_m1, 14), 2)
 
-        _safe_group(res, {
-            'adx':      lambda: float(ADXIndicator(high=df['high'], low=df['low'], close=df['close'], window=14).adx().iloc[-1]),
-            'di_plus':  lambda: float(ADXIndicator(high=df['high'], low=df['low'], close=df['close'], window=14).adx_pos().iloc[-1]),
-            'di_minus': lambda: float(ADXIndicator(high=df['high'], low=df['low'], close=df['close'], window=14).adx_neg().iloc[-1]),
-        })
+        exp12_m1 = close_m1.ewm(span=12, adjust=False).mean()
+        exp26_m1 = close_m1.ewm(span=26, adjust=False).mean()
+        macd_line_m1 = exp12_m1 - exp26_m1
+        macd_signal_m1 = macd_line_m1.ewm(span=9, adjust=False).mean()
+        m1['macd'] = round(macd_line_m1.iloc[-1], Config.ROUND_DECIMALS)
+        m1['macd_signal'] = round(macd_signal_m1.iloc[-1], Config.ROUND_DECIMALS)
 
-        _safe(res, 'roc10', lambda: float(ROCIndicator(close=df['close'], window=10).roc().iloc[-1]))
+        low_min_m1 = low_m1.rolling(window=14).min()
+        high_max_m1 = high_m1.rolling(window=14).max()
+        stoch_k_raw_m1 = 100 * (close_m1 - low_min_m1) / (high_max_m1 - low_min_m1)
+        stoch_k_m1 = stoch_k_raw_m1.rolling(window=3).mean()
+        stoch_d_m1 = stoch_k_m1.rolling(window=3).mean()
+        m1['stoch_k'] = round(stoch_k_m1.iloc[-1], 2)
+        m1['stoch_d'] = round(stoch_d_m1.iloc[-1], 2)
 
-        _safe_group(res, {
-            'stoch_k': lambda: float(StochasticOscillator(high=df['high'], low=df['low'], close=df['close'], window=14, smooth_window=3).stoch().iloc[-1]),
-            'stoch_d': lambda: float(StochasticOscillator(high=df['high'], low=df['low'], close=df['close'], window=14, smooth_window=3).stoch_signal().iloc[-1]),
-        })
+        high_low_m1 = high_m1 - low_m1
+        high_close_m1 = np.abs(high_m1 - close_m1.shift())
+        low_close_m1 = np.abs(low_m1 - close_m1.shift())
+        ranges_m1 = pd.concat([high_low_m1, high_close_m1, low_close_m1], axis=1).max(axis=1)
+        m1['atr14'] = round(ranges_m1.rolling(window=14).mean().iloc[-1], Config.ROUND_DECIMALS)
 
-        _safe(res, 'atr14', lambda: float(AverageTrueRange(high=df['high'], low=df['low'], close=df['close'], window=14).average_true_range().iloc[-1]))
+        last_n_m1 = df_m1.tail(20)
+        m1['support'] = round(last_n_m1['low'].min(), Config.ROUND_DECIMALS)
+        m1['resistance'] = round(last_n_m1['high'].max(), Config.ROUND_DECIMALS)
+        m1['bb_upper'] = round((close_m1.rolling(20).mean() + 2*close_m1.rolling(20).std()).iloc[-1], Config.ROUND_DECIMALS)
+        m1['bb_lower'] = round((close_m1.rolling(20).mean() - 2*close_m1.rolling(20).std()).iloc[-1], Config.ROUND_DECIMALS)
+        m1['volume'] = round(volume_m1.iloc[-1], 2)
+        m1['volume_ratio'] = round(volume_m1.iloc[-1] / (volume_m1.rolling(20).mean().iloc[-1] + 0.000001), 3)
 
-        sup, res_ = _calc_sr(df, lookback=20)
-        res['support'] = sup
-        res['resistance'] = res_
+        # ------------------------------------------------------------
+        # 3. Price Action (จาก M5 แท่งล่าสุด 2 แท่ง)
+        # ------------------------------------------------------------
+        pa = {}
+        last = df_m5.iloc[-1]
+        prev = df_m5.iloc[-2] if len(df_m5) > 1 else last
 
-        try:
-            h, l, c = float(df['high'].iloc[-2]), float(df['low'].iloc[-2]), float(df['close'].iloc[-2])
-            pivot = (h + l + c) / 3
-            res['pivot'] = pivot
-            res['r1'] = (2 * pivot) - l
-            res['s1'] = (2 * pivot) - h
-            res['r2'] = pivot + (h - l)
-            res['s2'] = pivot - (h - l)
-        except Exception as e:
-            logger.debug(f"Pivot calc failed: {e}")
+        # Last Candle Bias
+        if last['close'] > last['open']:
+            pa['last_candle'] = 'BULLISH'
+        elif last['close'] < last['open']:
+            pa['last_candle'] = 'BEARISH'
+        else:
+            pa['last_candle'] = 'DOJI'
 
-        return res
+        # Body Strength
+        body = abs(last['close'] - last['open'])
+        avg_body = abs(df_m5['close'] - df_m5['open']).rolling(20).mean().iloc[-1]
+        if body > avg_body * 1.5:
+            pa['body_strength'] = 'STRONG'
+        elif body > avg_body * 0.8:
+            pa['body_strength'] = 'MEDIUM'
+        else:
+            pa['body_strength'] = 'WEAK'
 
-    def _calculate_m1(self, df: pd.DataFrame) -> Dict[str, float]:
-        res: Dict[str, float] = {}
-        if len(df) < 50:
-            return res
+        # Wick Dominance
+        upper_wick = last['high'] - max(last['close'], last['open'])
+        lower_wick = min(last['close'], last['open']) - last['low']
+        total_wick = upper_wick + lower_wick + 0.000001
+        if upper_wick / total_wick > 0.6:
+            pa['wick_dominance'] = 'HIGH_UPPER_WICK'
+        elif lower_wick / total_wick > 0.6:
+            pa['wick_dominance'] = 'HIGH_LOWER_WICK'
+        else:
+            pa['wick_dominance'] = 'BALANCED'
 
-        _safe(res, 'ema5',  lambda: float(EMAIndicator(close=df['close'], window=5).ema_indicator().iloc[-1]))
-        _safe(res, 'ema20', lambda: float(EMAIndicator(close=df['close'], window=20).ema_indicator().iloc[-1]))
+        # Momentum Bias (ใช้ Volume Ratio ด้วย)
+        vol_ratio = m5['volume_ratio']
+        if last['close'] > prev['close'] and vol_ratio > 1.2:
+            pa['momentum_bias'] = 'BULLISH'
+        elif last['close'] < prev['close'] and vol_ratio > 1.2:
+            pa['momentum_bias'] = 'BEARISH'
+        else:
+            pa['momentum_bias'] = 'NEUTRAL'
 
-        _safe_group(res, {
-            'bb_lower': lambda: float(BollingerBands(close=df['close'], window=20, window_dev=2).bollinger_lband().iloc[-1]),
-            'bb_upper': lambda: float(BollingerBands(close=df['close'], window=20, window_dev=2).bollinger_hband().iloc[-1]),
-        })
+        # Move Quality
+        range_last = last['high'] - last['low']
+        avg_range = (df_m5['high'] - df_m5['low']).rolling(20).mean().iloc[-1]
+        if range_last > avg_range * 1.3 and pa['body_strength'] == 'STRONG' and vol_ratio > 1.3:
+            pa['move_quality'] = 'CLEAN_TRENDING'
+        elif range_last > avg_range * 0.8:
+            pa['move_quality'] = 'NORMAL'
+        else:
+            pa['move_quality'] = 'NOISY'
 
-        _safe(res, 'rsi14', lambda: float(RSIIndicator(close=df['close'], window=14).rsi().iloc[-1]))
+        # Pattern Detection (Engulfing / Doji / Hammer)
+        pa['pattern'] = 'NONE'
+        if (last['close'] > last['open'] and prev['close'] < prev['open'] and 
+            last['close'] > prev['open'] and last['open'] < prev['close']):
+            pa['pattern'] = 'BULLISH_ENGULFING'
+        elif (last['close'] < last['open'] and prev['close'] > prev['open'] and 
+              last['close'] < prev['open'] and last['open'] > prev['close']):
+            pa['pattern'] = 'BEARISH_ENGULFING'
+        elif body < avg_body * 0.2:
+            pa['pattern'] = 'DOJI'
+        elif (pa['last_candle'] == 'BULLISH' and lower_wick > body * 2 and upper_wick < body * 0.5):
+            pa['pattern'] = 'HAMMER'
 
-        _safe_group(res, {
-            'macd':        lambda: float(MACD(close=df['close'], window_slow=26, window_fast=12, window_sign=9).macd().iloc[-1]),
-            'macd_signal': lambda: float(MACD(close=df['close'], window_slow=26, window_fast=12, window_sign=9).macd_signal().iloc[-1]),
-        })
+        # Trap Alert (ใช้ Volume ด้วย)
+        pa['trap_alert'] = 'NONE'
+        if (pa['last_candle'] == 'BEARISH' and last['close'] > prev['close'] and 
+            last['high'] > prev['high'] and vol_ratio < 1.0):
+            pa['trap_alert'] = 'BEAR_TRAP'
+        elif (pa['last_candle'] == 'BULLISH' and last['close'] < prev['close'] and 
+              last['low'] < prev['low'] and vol_ratio < 1.0):
+            pa['trap_alert'] = 'BULL_TRAP'
 
-        _safe_group(res, {
-            'stoch_k': lambda: float(StochasticOscillator(high=df['high'], low=df['low'], close=df['close'], window=14, smooth_window=3).stoch().iloc[-1]),
-            'stoch_d': lambda: float(StochasticOscillator(high=df['high'], low=df['low'], close=df['close'], window=14, smooth_window=3).stoch_signal().iloc[-1]),
-        })
+        # SR Interaction
+        price = last['close']
+        support = m5['support']
+        resistance = m5['resistance']
+        range_sr = resistance - support
+        if range_sr == 0:
+            pa['sr_interaction'] = 'NONE'
+        else:
+            dist_to_support = (price - support) / range_sr
+            if dist_to_support < 0.15:
+                pa['sr_interaction'] = 'NEAR_SUPPORT'
+            elif dist_to_support > 0.85:
+                pa['sr_interaction'] = 'NEAR_RESISTANCE'
+            elif price > resistance:
+                pa['sr_interaction'] = 'BREAKING_ABOVE_RESISTANCE'
+            elif price < support:
+                pa['sr_interaction'] = 'BREAKING_BELOW_SUPPORT'
+            else:
+                pa['sr_interaction'] = 'MIDDLE'
 
-        _safe(res, 'atr14', lambda: float(AverageTrueRange(high=df['high'], low=df['low'], close=df['close'], window=14).average_true_range().iloc[-1]))
+        # Rejection Zone
+        pa['rejection_zone'] = 'NONE'
+        if pa['sr_interaction'] in ['NEAR_SUPPORT', 'BREAKING_BELOW_SUPPORT']:
+            pa['rejection_zone'] = 'SUPPORT_ZONE'
+        elif pa['sr_interaction'] in ['NEAR_RESISTANCE', 'BREAKING_ABOVE_RESISTANCE']:
+            pa['rejection_zone'] = 'RESISTANCE_ZONE'
 
-        sup, res_ = _calc_sr(df, lookback=20)
-        res['support'] = sup
-        res['resistance'] = res_
-
-        # last_candle สำหรับ M1 entry confirmation
-        try:
-            c_m1 = float(df['close'].iloc[-1])
-            o_m1 = float(df['open'].iloc[-1])
-            res['last_candle'] = 'BULLISH' if c_m1 > o_m1 else 'BEARISH' if c_m1 < o_m1 else 'NEUTRAL'
-        except Exception:
-            res['last_candle'] = 'NEUTRAL'
-
-        return res
-
-    def _calculate_basic(self, df: pd.DataFrame) -> Dict[str, float]:
-        """EMA 20/50/100/200 + close — ใช้ร่วมกันทุก timeframe"""
-        res: Dict[str, float] = {}
-        if len(df) < 50:
-            return res
-        _safe(res, 'ema20',  lambda: float(EMAIndicator(close=df['close'], window=20).ema_indicator().iloc[-1]))
-        _safe(res, 'ema50',  lambda: float(EMAIndicator(close=df['close'], window=50).ema_indicator().iloc[-1]))
-        _safe(res, 'ema100', lambda: float(EMAIndicator(close=df['close'], window=100).ema_indicator().iloc[-1]))
-        _safe(res, 'ema200', lambda: float(EMAIndicator(close=df['close'], window=200).ema_indicator().iloc[-1]))
-        res['close'] = float(df['close'].iloc[-1])
-        return res
-
-    def _calculate_price_action(self, df: pd.DataFrame, m5_data: Dict[str, Any] = None) -> Dict[str, Any]:
-        """
-        คำนวณ Price Action จาก M5 candles — 9 indicators ทุกตัวแยก try/except
-        """
-        default: Dict[str, Any] = {
-            'pattern':        'NONE',
-            'last_candle':    'NEUTRAL',
-            'body_strength':  'WEAK',
-            'rejection_zone': 'MIDDLE',
-            'wick_dominance': 'BALANCED',
-            'momentum_bias':  'NEUTRAL',
-            'move_quality':   'NORMAL',
-            'trap_alert':     'NONE',
-            'sr_interaction': 'NONE',
+        # ------------------------------------------------------------
+        # 4. Metadata & Price
+        # ------------------------------------------------------------
+        meta = {
+            'close': round(last['close'], Config.ROUND_DECIMALS),
+            'high': round(last['high'], Config.ROUND_DECIMALS),
+            'low': round(last['low'], Config.ROUND_DECIMALS),
+            'open': round(last['open'], Config.ROUND_DECIMALS)
         }
 
-        if df is None or len(df) < 5:
-            return default
+        # ------------------------------------------------------------
+        # สรุป Layer 1
+        # ------------------------------------------------------------
+        return {
+            'm5': m5,
+            'm1': m1,
+            'price_action': pa,
+            'ohlcv': meta
+        }
 
-        res = dict(default)
-        m5 = m5_data or {}
+    # ========================
+    # CORE METHODS (GET / SET)
+    # ========================
+    def _ensure_symbol(self, symbol: str):
+        """สร้างโครงสร้างข้อมูลของ symbol ถ้ายังไม่มี"""
+        with self._lock:
+            if symbol not in self._data:
+                self._data[symbol] = {
+                    'meta': {},
+                    'raw': {},
+                    'engines': {},
+                    'classified': {},
+                    'decision': {}
+                }
 
-        # ── pattern ──────────────────────────────────────────────────────
-        try:
-            o1 = float(df['open'].iloc[-2]);  h1 = float(df['high'].iloc[-2])
-            l1 = float(df['low'].iloc[-2]);   c1 = float(df['close'].iloc[-2])
-            o0 = float(df['open'].iloc[-1]);  h0 = float(df['high'].iloc[-1])
-            l0 = float(df['low'].iloc[-1]);   c0 = float(df['close'].iloc[-1])
+    def set_raw(self, symbol: str, raw_data: Dict[str, Any]):
+        """บันทึก Layer 1 (Raw Indicators)"""
+        self._ensure_symbol(symbol)
+        with self._lock:
+            self._data[symbol]['raw'] = raw_data
+            # อัปเดต Meta
+            self._data[symbol]['meta']['current_price'] = raw_data.get('ohlcv', {}).get('close', 0.0)
+            self._data[symbol]['meta']['timestamp'] = datetime.utcnow().isoformat() + 'Z'
 
-            body0 = abs(c0 - o0)
-            body1 = abs(c1 - o1)
-            rng0  = (h0 - l0) or 1e-10
-            uw0   = h0 - max(o0, c0)
-            lw0   = min(o0, c0) - l0
+    def set_engine_output(self, symbol: str, engine_name: str, data: Dict[str, Any]):
+        """บันทึก Output ของ Engine (Layer 2)"""
+        self._ensure_symbol(symbol)
+        with self._lock:
+            if 'engines' not in self._data[symbol]:
+                self._data[symbol]['engines'] = {}
+            self._data[symbol]['engines'][engine_name] = data
 
-            if body0 < rng0 * 0.1:
-                res['pattern'] = 'DOJI'
-            elif lw0 >= body0 * 2 and uw0 <= body0 * 0.5 and c0 >= l0 + rng0 * 0.6:
-                res['pattern'] = 'HAMMER'
-            elif uw0 >= body0 * 2 and lw0 <= body0 * 0.5 and c0 <= l0 + rng0 * 0.4:
-                res['pattern'] = 'SHOOTING_STAR'
-            elif c1 < o1 and c0 > o0 and o0 <= c1 and c0 >= o1 and body0 > body1:
-                res['pattern'] = 'BULLISH_ENGULFING'
-            elif c1 > o1 and c0 < o0 and o0 >= c1 and c0 <= o1 and body0 > body1:
-                res['pattern'] = 'BEARISH_ENGULFING'
-        except Exception as e:
-            logger.debug(f"PA pattern: {e}")
+    def set_classified(self, symbol: str, data: Dict[str, Any]):
+        """บันทึกผลลัพธ์จาก MarketStateClassifier (Layer 3)"""
+        self._ensure_symbol(symbol)
+        with self._lock:
+            self._data[symbol]['classified'] = data
 
-        # ── last_candle ───────────────────────────────────────────────────
-        try:
-            c = float(df['close'].iloc[-1]); o = float(df['open'].iloc[-1])
-            res['last_candle'] = 'BULLISH' if c > o else 'BEARISH' if c < o else 'NEUTRAL'
-        except Exception as e:
-            logger.debug(f"PA last_candle: {e}")
+    def set_decision(self, symbol: str, action: str, confidence: int, expiry: int, reason: str):
+        """บันทึก Decision สุดท้าย (จาก AI_BOT หรือ AUTO_BOT)"""
+        self._ensure_symbol(symbol)
+        with self._lock:
+            self._data[symbol]['decision'] = {
+                'action': action,
+                'confidence': confidence,
+                'expiry': expiry,
+                'reason': reason,
+                'timestamp': datetime.utcnow().isoformat() + 'Z'
+            }
+        # ถ้าเปิด CSV Logging ให้บันทึกอัตโนมัติ
+        if self._csv_enabled:
+            self._enqueue_csv(symbol)
 
-        # ── body_strength (body / ATR) ────────────────────────────────────
-        try:
-            atr = float(AverageTrueRange(
-                high=df['high'], low=df['low'], close=df['close'], window=14
-            ).average_true_range().iloc[-1])
-            body = abs(float(df['close'].iloc[-1]) - float(df['open'].iloc[-1]))
-            r = body / atr if atr > 0 else 0
-            res['body_strength'] = 'STRONG' if r > 0.6 else 'MEDIUM' if r >= 0.3 else 'WEAK'
-        except Exception as e:
-            logger.debug(f"PA body_strength: {e}")
-
-        # ── rejection_zone (vs BB bands) ──────────────────────────────────
-        try:
-            bb_upper = m5.get('bb_upper', 0.0)
-            bb_lower = m5.get('bb_lower', 0.0)
-            price = float(df['close'].iloc[-1])
-            if bb_upper > bb_lower > 0:
-                thr = (bb_upper - bb_lower) * 0.15
-                if price >= bb_upper - thr:
-                    res['rejection_zone'] = 'NEAR_RESISTANCE'
-                elif price <= bb_lower + thr:
-                    res['rejection_zone'] = 'NEAR_SUPPORT'
+    def get(self, symbol: str, layer: str, *keys) -> Optional[Any]:
+        """
+        ดึงข้อมูลจาก Store
+        layer: 'raw', 'engines', 'classified', 'decision', 'meta'
+        keys: ชื่อฟิลด์ซ้อนกัน เช่น get('EURUSD', 'engines', 'trend', 'direction')
+        """
+        with self._lock:
+            data = self._data.get(symbol, {})
+            layer_data = data.get(layer, {})
+            for key in keys:
+                if isinstance(layer_data, dict):
+                    layer_data = layer_data.get(key)
                 else:
-                    res['rejection_zone'] = 'MIDDLE'
-        except Exception as e:
-            logger.debug(f"PA rejection_zone: {e}")
+                    return None
+            return layer_data
 
-        # ── wick_dominance ────────────────────────────────────────────────
-        try:
-            oc = float(df['open'].iloc[-1]); cc = float(df['close'].iloc[-1])
-            hc = float(df['high'].iloc[-1]); lc = float(df['low'].iloc[-1])
-            bd = abs(cc - oc)
-            uw = hc - max(oc, cc)
-            lw = min(oc, cc) - lc
-            if uw > bd * 1.5:
-                res['wick_dominance'] = 'HIGH_WICK'
-            elif lw > bd * 1.5:
-                res['wick_dominance'] = 'LOW_WICK'
-            else:
-                res['wick_dominance'] = 'BALANCED'
-        except Exception as e:
-            logger.debug(f"PA wick_dominance: {e}")
+    def get_full_snapshot(self, symbol: str) -> Dict[str, Any]:
+        """ดึงข้อมูลทั้งหมดของ symbol หนึ่ง (ใช้สำหรับสร้าง JSON ส่ง AI)"""
+        with self._lock:
+            return self._data.get(symbol, {})
 
-        # ── momentum_bias (last 3 candles) ────────────────────────────────
-        try:
-            cls3 = df['close'].values[-3:]
-            opn3 = df['open'].values[-3:]
-            bulls = sum(1 for i in range(len(cls3)) if cls3[i] > opn3[i])
-            bears = sum(1 for i in range(len(cls3)) if cls3[i] < opn3[i])
-            res['momentum_bias'] = 'BULLISH' if bulls > bears else 'BEARISH' if bears > bulls else 'NEUTRAL'
-        except Exception as e:
-            logger.debug(f"PA momentum_bias: {e}")
+    def get_all_symbols(self) -> List[str]:
+        """รายชื่อคู่เงินทั้งหมดที่มีข้อมูล"""
+        with self._lock:
+            return list(self._data.keys())
 
-        # ── move_quality (efficiency) ─────────────────────────────────────
-        try:
-            closes = df['close'].values[-10:]
-            if len(closes) >= 3:
-                net   = abs(float(closes[-1]) - float(closes[0]))
-                total = sum(abs(float(closes[i+1]) - float(closes[i])) for i in range(len(closes)-1))
-                if total > 0:
-                    eff = net / total
-                    res['move_quality'] = (
-                        'CLEAN_TRENDING' if eff >= 0.75
-                        else 'NORMAL'    if eff >= 0.50
-                        else 'NOISY'     if eff >= 0.25
-                        else 'CHAOTIC'
-                    )
-        except Exception as e:
-            logger.debug(f"PA move_quality: {e}")
+    # ========================
+    # PROCESS PAIR (หลัก)
+    # ========================
+    def process_pair(self, symbol: str, df_m1: pd.DataFrame, df_m5: pd.DataFrame) -> Dict[str, Any]:
+        """
+        ขั้นตอนหลัก: คำนวณ Layer 1 (Raw Indicators) จาก DataFrame
+        - ใช้สำหรับเรียกในรอบหลัก
+        - คืนค่า dict ของ Layer 1 ที่คำนวณได้ (เผื่อต้องการใช้ต่อ)
+        """
+        logger.debug(f"Processing {symbol} ...")
+        
+        # คำนวณ Raw Indicators (ส่ง symbol เข้าไปด้วยเพื่อเช็ค OTC)
+        raw = self.calculate_raw_indicators(df_m1, df_m5, symbol)
+        
+        # บันทึกลง Store (Layer 1)
+        self.set_raw(symbol, raw)
+        
+        # คืนค่าให้ Engine ตัวอื่นไปใช้ต่อ
+        return raw
 
-        # ── trap_alert ────────────────────────────────────────────────────
-        try:
-            ot = float(df['open'].iloc[-1]); ct = float(df['close'].iloc[-1])
-            ht = float(df['high'].iloc[-1]); lt = float(df['low'].iloc[-1])
-            rng_t = (ht - lt) or 1e-10
-            mid_t = lt + rng_t * 0.5
-            uw_t  = ht - max(ot, ct)
-            lw_t  = min(ot, ct) - lt
-            if uw_t > rng_t * 0.2 and ct < mid_t:
-                res['trap_alert'] = 'BULL_TRAP'
-            elif lw_t > rng_t * 0.2 and ct > mid_t:
-                res['trap_alert'] = 'BEAR_TRAP'
-        except Exception as e:
-            logger.debug(f"PA trap_alert: {e}")
+    def calculate_all(self, symbol: str, candles_dict: Dict[str, pd.DataFrame], session: str = "asian") -> Dict[str, Any]:
+        """
+        Backward compatibility wrapper สำหรับ Orchestrator รุ่นเก่า
+        เรียกใช้ process_pair อัตโนมัติจาก candles_dict
+        """
+        df_m1 = candles_dict.get('M1')
+        df_m5 = candles_dict.get('M5')
+        
+        if df_m1 is None or df_m5 is None or df_m1.empty or df_m5.empty:
+            logger.warning(f"Missing M1 or M5 data for {symbol} in calculate_all")
+            return {}
 
-        # ── sr_interaction ────────────────────────────────────────────────
-        try:
-            support    = m5.get('support', 0.0)
-            resistance = m5.get('resistance', 0.0)
-            cp  = float(df['close'].iloc[-1])
-            pp  = float(df['close'].iloc[-2]) if len(df) >= 2 else cp
-            if support > 0 and resistance > 0:
-                thr = (resistance - support) * 0.03
-                if cp > resistance and pp <= resistance:
-                    res['sr_interaction'] = 'BREAKING_ABOVE_RESISTANCE'
-                elif cp < support and pp >= support:
-                    res['sr_interaction'] = 'BREAKING_BELOW_SUPPORT'
-                elif abs(cp - support) <= thr and cp > pp:
-                    res['sr_interaction'] = 'BOUNCING_FROM_SUPPORT'
-                elif abs(cp - resistance) <= thr and cp < pp:
-                    res['sr_interaction'] = 'BOUNCING_FROM_RESISTANCE'
-        except Exception as e:
-            logger.debug(f"PA sr_interaction: {e}")
+        return self.process_pair(symbol, df_m1, df_m5)
 
-        return res
+    def get_payload(self, symbol: str) -> Dict[str, Any]:
+        """Backward compatibility wrapper สำหรับเก่าที่เรียก get_payload()"""
+        snapshot = self.get_full_snapshot(symbol)
+        return snapshot.get('raw', {})
 
+    # ========================
+    # ASYNC CSV LOGGING
+    # ========================
+    def _enqueue_csv(self, symbol: str):
+        """ใส่ข้อมูลลง Queue เพื่อให้ CSV Worker เขียนแบบ Async"""
+        self._csv_counter += 1
+        if self._csv_counter % Config.CSV_LOG_INTERVAL != 0:
+            return  # ข้ามรอบตาม Config
 
-# ------------------------------------------------------------------
-# Module-level helpers
-# ------------------------------------------------------------------
+        with self._lock:
+            full_data = self._data.get(symbol, {})
+            if not full_data:
+                return
 
-def _safe(res: dict, key: str, fn) -> None:
-    try:
-        res[key] = fn()
-    except Exception as e:
-        logger.debug(f"Indicator '{key}' failed: {e}")
-        res[key] = 0.0
+            # Flatten ข้อมูลให้เป็น 1 แถว (Row)
+            row = {
+                'timestamp': full_data.get('meta', {}).get('timestamp', ''),
+                'symbol': symbol,
+                'price': full_data.get('meta', {}).get('current_price', 0.0),
+                
+                # Layer 3: Classified
+                'market_state': full_data.get('classified', {}).get('state', 'UNCLEAR'),
+                'state_conf': full_data.get('classified', {}).get('state_confidence', 0),
+                'regime_quality': full_data.get('classified', {}).get('regime_quality', 0),
+                
+                # Layer 2: Engines (เฉพาะค่าสำคัญ)
+                'trend_dir': full_data.get('engines', {}).get('trend', {}).get('direction', 'NONE'),
+                'trend_strength': full_data.get('engines', {}).get('trend', {}).get('strength', 0),
+                'adx': full_data.get('raw', {}).get('m5', {}).get('adx', 0),
+                'rsi14': full_data.get('raw', {}).get('m5', {}).get('rsi14', 0),
+                'vol_regime': full_data.get('engines', {}).get('volatility', {}).get('regime', 'NORMAL'),
+                'struct_type': full_data.get('engines', {}).get('structure', {}).get('structure_type', 'NONE'),
+                'mtf_harmony': full_data.get('engines', {}).get('mtf', {}).get('harmony', 'MIXED'),
+                'bos_detected': full_data.get('engines', {}).get('structure', {}).get('bos_detected', False),
+                
+                # Volume
+                'volume': full_data.get('raw', {}).get('m5', {}).get('volume', 0),
+                'volume_ratio': full_data.get('raw', {}).get('m5', {}).get('volume_ratio', 0),
+                'volume_trend': full_data.get('raw', {}).get('m5', {}).get('volume_trend', 'STABLE'),
+                'volume_spike': full_data.get('raw', {}).get('m5', {}).get('volume_spike', False),
+                
+                # Decision
+                'final_action': full_data.get('decision', {}).get('action', 'PENDING'),
+                'final_conf': full_data.get('decision', {}).get('confidence', 0),
+                'expiry': full_data.get('decision', {}).get('expiry', 0),
+                'reason': full_data.get('decision', {}).get('reason', ''),
+            }
+            self._csv_queue.put(row)
 
+    def _csv_worker(self):
+        """Worker Thread สำหรับเขียน CSV (ทำงานพื้นหลัง)"""
+        while True:
+            try:
+                row = self._csv_queue.get(timeout=1.0)
+                if row is None:
+                    break
+                
+                date_str = row['timestamp'][:10] if row['timestamp'] else datetime.utcnow().strftime('%Y-%m-%d')
+                symbol = row['symbol']
+                
+                # สร้างโฟลเดอร์รายวัน
+                day_dir = os.path.join(Config.CSV_LOG_DIR, date_str)
+                os.makedirs(day_dir, exist_ok=True)
+                
+                file_path = os.path.join(day_dir, f"{symbol}_{date_str}.csv")
+                
+                # เขียนไฟล์ (append)
+                file_exists = os.path.isfile(file_path)
+                with open(file_path, 'a', newline='', encoding='utf-8') as f:
+                    writer = csv.DictWriter(f, fieldnames=row.keys())
+                    if not file_exists:
+                        writer.writeheader()
+                    writer.writerow(row)
+                    
+            except queue.Empty:
+                continue
+            except Exception as e:
+                logger.error(f"CSV Worker error: {e}")
 
-def _safe_group(res: dict, mapping: dict) -> None:
-    for key, fn in mapping.items():
-        _safe(res, key, fn)
+    def shutdown(self):
+        """ปิดระบบ (หยุด CSV Worker)"""
+        if self._csv_worker_thread and self._csv_worker_thread.is_alive():
+            self._csv_queue.put(None)
+            self._csv_worker_thread.join(timeout=2.0)
+            logger.info("CSV Logger shutdown complete")
 
+    # ========================
+    # CLEANUP
+    # ========================
+    def clear_all(self):
+        """ล้างข้อมูลทั้งหมด (ใช้ตอนหมดรอบ)"""
+        with self._lock:
+            self._data.clear()
+        logger.debug("IndicatorStore cleared")
 
-def _calc_sr(df: pd.DataFrame, lookback: int = 20) -> Tuple[float, float]:
-    try:
-        return float(df['low'].tail(lookback).min()), float(df['high'].tail(lookback).max())
-    except Exception:
-        return 0.0, 0.0
+    def clear_symbol(self, symbol: str):
+        """ล้างข้อมูลเฉพาะคู่"""
+        with self._lock:
+            if symbol in self._data:
+                del self._data[symbol]
 
-
-def _sanitize(v: Any) -> Any:
-    if isinstance(v, dict):
-        return {k: _sanitize(v2) for k, v2 in v.items()}
-    if isinstance(v, list):
-        return [_sanitize(v2) for v2 in v]
-    if isinstance(v, float) and (math.isnan(v) or math.isinf(v)):
-        return 0.0
-    return v
-
-
-# Singleton
+# Global Singleton Instance สำหรับให้ไฟล์อื่น import ไปใช้
 store = IndicatorStore()
+
+
+# =================================================================
+# ตัวอย่างการใช้งาน (Parallel Processing สำหรับ 5 คู่)
+# =================================================================
+def run_parallel_processing(store: IndicatorStore, symbols_data: Dict[str, Tuple[pd.DataFrame, pd.DataFrame]]):
+    """
+    ฟังก์ชันสำหรับประมวลผล Layer 1 แบบ Parallel (หลายคู่พร้อมกัน)
+    symbols_data: {'EURUSD': (df_m1, df_m5), 'GBPUSD': (df_m1, df_m5), ...}
+    """
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    import time
+
+    results = {}
+    start = time.perf_counter()
+
+    with ThreadPoolExecutor(max_workers=len(symbols_data)) as executor:
+        future_to_symbol = {
+            executor.submit(store.process_pair, symbol, df_m1, df_m5): symbol
+            for symbol, (df_m1, df_m5) in symbols_data.items()
+        }
+        
+        for future in as_completed(future_to_symbol):
+            symbol = future_to_symbol[future]
+            try:
+                raw = future.result()
+                results[symbol] = raw
+                logger.info(f"✅ {symbol} processed in {time.perf_counter() - start:.3f}s")
+            except Exception as e:
+                logger.error(f"❌ {symbol} failed: {e}")
+                results[symbol] = None
+
+    elapsed = time.perf_counter() - start
+    logger.info(f"✨ All pairs processed in {elapsed:.3f} seconds")
+    return results
+
+
+# =================================================================
+# EXAMPLE USAGE (ถ้ารันไฟล์นี้โดยตรง)
+# =================================================================
+if __name__ == "__main__":
+    """
+    ตัวอย่างการใช้งาน (สำหรับทดสอบ)
+    """
+    print("=" * 50)
+    print("INDICATOR STORE - TEST MODE (WITH ADX, VOLUME, SLOPE)")
+    print("=" * 50)
+
+    # สร้างข้อมูลตัวอย่าง
+    from datetime import datetime, timedelta
+    import random
+
+    def generate_sample_data(symbol: str, base_price: float):
+        """สร้าง Dataframe ตัวอย่าง 200 แถว"""
+        np.random.seed(42)
+        dates = pd.date_range(end=datetime.utcnow(), periods=200, freq='1min')
+        prices = base_price + np.cumsum(np.random.normal(0, 0.0003, 200))
+        df = pd.DataFrame({
+            'open': prices + np.random.normal(0, 0.0001, 200),
+            'high': prices + np.abs(np.random.normal(0.0002, 0.0002, 200)),
+            'low': prices - np.abs(np.random.normal(0.0002, 0.0002, 200)),
+            'close': prices,
+            'volume': np.random.randint(100, 500, 200)
+        }, index=dates)
+        df['open'] = df['open'].shift(1).fillna(df['close'])
+        return df
+
+    # สร้าง Store
+    store = IndicatorStore(enable_csv=True)
+
+    # สร้างข้อมูล 5 คู่ (รวม OTC)
+    pairs = {
+        'EURUSD': (generate_sample_data('EURUSD', 1.1054), generate_sample_data('EURUSD', 1.1054).resample('5min').last().ffill()),
+        'GBPUSD': (generate_sample_data('GBPUSD', 1.2650), generate_sample_data('GBPUSD', 1.2650).resample('5min').last().ffill()),
+        'USDJPY-OTC': (generate_sample_data('USDJPY-OTC', 155.20), generate_sample_data('USDJPY-OTC', 155.20).resample('5min').last().ffill()),  # ← OTC
+        'AUDUSD': (generate_sample_data('AUDUSD', 0.6650), generate_sample_data('AUDUSD', 0.6650).resample('5min').last().ffill()),
+        'NZDUSD': (generate_sample_data('NZDUSD', 0.6150), generate_sample_data('NZDUSD', 0.6150).resample('5min').last().ffill()),
+    }
+
+    # แก้ไข M5 ให้เป็นช่วง 5 นาทีจริงๆ
+    for k in pairs:
+        m1 = pairs[k][0]
+        m5 = m1.resample('5min').agg({
+            'open': 'first',
+            'high': 'max',
+            'low': 'min',
+            'close': 'last',
+            'volume': 'sum'
+        }).dropna()
+        pairs[k] = (m1, m5)
+
+    # รัน Parallel Processing
+    print("\n🔄 Processing 5 pairs in parallel (including OTC)...")
+    results = run_parallel_processing(store, pairs)
+
+    # ตรวจสอบผลลัพธ์
+    print("\n📊 RESULTS (Check ADX, Volume Ratio, Slope):")
+    for symbol in pairs.keys():
+        snapshot = store.get_full_snapshot(symbol)
+        raw = snapshot.get('raw', {})
+        m5 = raw.get('m5', {})
+        pa = raw.get('price_action', {})
+        print(f"\n  {symbol}:")
+        print(f"    Price: {m5.get('ema5', 'N/A')}")
+        print(f"    RSI14: {m5.get('rsi14', 'N/A')}")
+        print(f"    ADX: {m5.get('adx', 'N/A')} (DI+: {m5.get('di_plus', 'N/A')}, DI-: {m5.get('di_minus', 'N/A')})")
+        print(f"    Volume Ratio: {m5.get('volume_ratio', 'N/A')} (Spike: {m5.get('volume_spike', 'N/A')})")
+        print(f"    Volume Trend: {m5.get('volume_trend', 'N/A')}")
+        print(f"    Slope (10): {m5.get('slope_10', 'N/A')}")
+        print(f"    Pattern: {pa.get('pattern', 'NONE')}")
+
+    # ทดสอบ Set Engine Output และ Classified
+    store.set_engine_output('EURUSD', 'trend', {'direction': 'UP', 'strength': 70, 'type': 'IMPULSIVE'})
+    store.set_engine_output('EURUSD', 'strength', {'adx': 32, 'momentum_level': 'STRONG'})
+    store.set_engine_output('EURUSD', 'volatility', {'regime': 'NORMAL'})
+    store.set_engine_output('EURUSD', 'structure', {'structure_type': 'TRENDING', 'bos_detected': False})
+    store.set_engine_output('EURUSD', 'mtf', {'harmony': 'GOOD'})
+    store.set_classified('EURUSD', {'state': 'TRENDING_STRONG', 'state_confidence': 85})
+    
+    # บันทึก Decision (จะ Trigger CSV Logging)
+    store.set_decision('EURUSD', 'CALL', 85, 3, 'Strong trend confirmed with volume')
+    
+    # ดึงข้อมูลเพื่อแสดง
+    print("\n📈 EURUSD Full Snapshot (ตัวอย่าง):")
+    snapshot = store.get_full_snapshot('EURUSD')
+    print(json.dumps({
+        'price': snapshot.get('meta', {}).get('current_price'),
+        'market_state': snapshot.get('classified', {}).get('state'),
+        'trend_dir': snapshot.get('engines', {}).get('trend', {}).get('direction'),
+        'adx': snapshot.get('raw', {}).get('m5', {}).get('adx'),
+        'volume_ratio': snapshot.get('raw', {}).get('m5', {}).get('volume_ratio'),
+        'final_action': snapshot.get('decision', {}).get('action')
+    }, indent=2))
+
+    # ปิดระบบ
+    store.shutdown()
+    print("\n✅ Test complete. Check CSV logs in:", Config.CSV_LOG_DIR)

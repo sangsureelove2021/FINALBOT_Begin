@@ -62,37 +62,42 @@ class TrendEngine(BaseEngine):
                 'conf_mom_med': 1.0,
             }
             
-    def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
-        """Analyze trend"""
-        # Calculate EMAs
-        ema_values = self._calculate_emas(candles_df)
+    def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
+        """Analyze trend using pre-calculated SSOT payload"""
+        m5 = payload.get('m5', {})
+        latest_price = payload.get('ohlcv', {}).get('close', 0.0)
         
-        latest_price = candles_df['close'].iloc[-1]
+        if not m5 or latest_price == 0.0:
+            return self.get_neutral_state()
+            
         thresholds = self._get_thresholds(latest_price)
+        
+        ema20 = m5.get('ema20', 0.0)
+        ema50 = m5.get('ema50', 0.0)
+        ema100 = m5.get('ema100', 0.0)
+        ema200 = m5.get('ema200', 0.0)
         
         # Direction
         direction = self._determine_direction(
             price=latest_price,
-            ema20=ema_values['ema20'].iloc[-1],
-            ema50=ema_values['ema50'].iloc[-1],
-            ema100=ema_values['ema100'].iloc[-1],
-            ema200=ema_values['ema200'].iloc[-1],
+            ema20=ema20,
+            ema50=ema50,
+            ema100=ema100,
+            ema200=ema200,
         )
         
-        # Calculate slope and momentum
-        slope = self._calculate_slope(candles_df['close'].tail(20))
-        momentum = self._calculate_momentum(candles_df['close'])
+        # Get slope and momentum directly from SSOT
+        slope = m5.get('slope_10', 0.0)
+        momentum = m5.get('roc', 0.0)
         
         # Determine trend type
         trend_type = self._analyze_trend_type(slope, momentum, direction, thresholds)
         
         # Calculate confidence
-        confidence = self._score_confidence(direction, slope, ema_values, momentum, candles_df, thresholds)
+        confidence = self._score_confidence(direction, slope, ema20, momentum, latest_price, thresholds)
         
         # Reversal risk
-        reversal_risk = self._calculate_reversal_risk(
-            candles_df, direction, slope, ema_values
-        )
+        reversal_risk = self._calculate_reversal_risk(direction, slope, ema20, latest_price)
         
         # Sustain probability
         sustain_probability = self._calculate_sustain_probability(
@@ -110,14 +115,6 @@ class TrendEngine(BaseEngine):
             'sustain_probability': sustain_probability,
         }
     
-    def _calculate_emas(self, df: pd.DataFrame) -> Dict[str, pd.Series]:
-        return {
-            'ema20': df['close'].ewm(span=20, adjust=False).mean(),
-            'ema50': df['close'].ewm(span=50, adjust=False).mean(),
-            'ema100': df['close'].ewm(span=100, adjust=False).mean(),
-            'ema200': df['close'].ewm(span=200, adjust=False).mean(),
-        }
-    
     def _determine_direction(self, price, ema20, ema50, ema100, ema200) -> str:
         if price > ema20 > ema50 > ema100:
             return 'UP'
@@ -125,22 +122,7 @@ class TrendEngine(BaseEngine):
             return 'DOWN'
         return 'NONE'
     
-    def _calculate_slope(self, prices: pd.Series) -> float:
-        try:
-            x = np.arange(len(prices))
-            y = prices.values
-            return float(np.polyfit(x, y, 1)[0])
-        except Exception as e:
-            return 0.0
-    
-    def _calculate_momentum(self, prices: pd.Series, period: int = 14) -> float:
-        if len(prices) < period + 1:
-            return 0.0
-        current = prices.iloc[-1]
-        past = prices.iloc[-(period + 1)]
-        if past == 0:
-            return 0.0
-        return float(((current - past) / abs(past)) * 100)
+
     
     def _analyze_trend_type(self, slope, momentum, direction, thresholds) -> str:
         if direction == 'NONE':
@@ -154,7 +136,7 @@ class TrendEngine(BaseEngine):
             return 'CORRECTIVE'
         return 'CHOPPY'
     
-    def _score_confidence(self, direction, slope, ema_values, momentum, df, thresholds) -> int:
+    def _score_confidence(self, direction, slope, ema20, momentum, latest_price, thresholds) -> int:
         if direction == 'NONE':
             return 20
         score = 50
@@ -168,28 +150,24 @@ class TrendEngine(BaseEngine):
             score += 15
         elif abs_momentum > thresholds['conf_mom_med']:
             score += 10
-        latest_price = df['close'].iloc[-1]
-        ema20 = ema_values['ema20'].iloc[-1]
+        
         if ema20 != 0:
             distance = abs(latest_price - ema20) / abs(latest_price)
             if distance < 0.01:
                 score += 5
         return min(100, max(20, score))
     
-    def _calculate_reversal_risk(self, df, direction, slope, ema_values) -> int:
+    def _calculate_reversal_risk(self, direction, slope, ema20, latest_price) -> int:
         if direction == 'NONE':
             return 50
         risk = 30
         try:
-            recent_slope = self._calculate_slope(df['close'].tail(10))
-            older_slope = self._calculate_slope(df['close'].iloc[-50:-30])
-            if abs(recent_slope) < abs(older_slope) * 0.5:
-                risk += 20
-            latest_price = df['close'].iloc[-1]
-            ema20 = ema_values['ema20'].iloc[-1]
+            # We no longer have full df to calculate older_slope, so we rely on price extension from EMA
             if ema20 != 0:
                 distance = abs(latest_price - ema20) / abs(ema20)
                 if distance > 0.02:
+                    risk += 25
+                elif distance > 0.01:
                     risk += 15
         except Exception as e:
             pass

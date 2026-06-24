@@ -41,7 +41,7 @@ class BaseEngine(IEngine):
     def tier(self) -> int:
         return self.TIER
     
-    def analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
+    def analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
         """
         Standard analyze entry point. Wraps _analyze with safety.
         """
@@ -49,11 +49,11 @@ class BaseEngine(IEngine):
         
         try:
             # Validate input
-            if not self.validate_input(candles_df, self.MIN_CANDLES):
+            if not self.validate_input(payload):
                 return self.get_neutral_state()
             
             # Run actual analysis
-            result = self._analyze(candles_df, **kwargs)
+            result = self._analyze(payload, **kwargs)
             
             # Track timing
             self._last_execution_time_ms = (time.time() - start_time) * 1000
@@ -64,7 +64,7 @@ class BaseEngine(IEngine):
             print(f" {self.engine_name} error: {e}")
             return self.get_neutral_state()
     
-    def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
+    def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
         """
         Override this in subclasses.
         Contains the actual analysis logic.
