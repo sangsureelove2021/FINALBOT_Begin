@@ -133,7 +133,7 @@ function validateConfigValue(key, value) {
     GENERATION_POLL   : v => typeof v === 'number' && v >= 100 && v <= 5000,
     TOOL_TIMEOUT      : v => typeof v === 'number' && v >= 1000,
     MODEL             : v => ['deepseek','gemini'].includes(String(v).toLowerCase()),
-    ACTIVE_PROFILE    : v => ['default','backend','frontend','data-science','devops'].includes(v),
+    ACTIVE_PROFILE    : v => ['default','backend','frontend','data-science','devops','trading'].includes(v),
     OUTPUT_FORMAT     : v => ['text','markdown','json','json-raw','minimal','silent'].includes(v),
     HEADLESS          : v => typeof v === 'boolean',
     DEBUG             : v => typeof v === 'boolean',
