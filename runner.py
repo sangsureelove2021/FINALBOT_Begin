@@ -210,8 +210,10 @@ class PureAIRunner:
                     candles_dict=candles_dict,
                     ai_context=None
                 )
-                if log_data:
-                    self.trade_logger.save_log(log_data)
+                # บันทึกไฟล์ indicator_YYYYMMDD_HHMMSS.json ทันทีที่ได้ข้อมูลครบ
+                if hasattr(self, 'trade_logger') and self.trade_logger:
+                    self.trade_logger.save_indicator_snapshot(symbol)
+                    
             except Exception as e:
                 logger.error(f"Orchestrator cycle failed for {symbol}: {e}")
 

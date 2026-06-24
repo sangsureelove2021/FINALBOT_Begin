@@ -117,17 +117,11 @@ class Orchestrator:
         # Save Classifier outputs to SSOT
         store.set_classified(symbol, market_state)
 
-        # ── Step 4: Build log payload ────────────────────────────────────
-        log_data = self.trade_logger.build_log_data(
-            symbol=symbol,
-            candles_dict=candles_dict,
-            market_state=market_state,
-            primary_timeframe='M5',
-            ai_context=ai_context,
-        )
-
-        return log_data
-
+        # ── Step 4: Return final payload to Runner ───────────────────────
+        # Bypass TradeLogger as requested by user. Return SSOT payload directly.
+        final_payload = store.get_payload(symbol)
+        final_payload['symbol'] = symbol
+        return final_payload
     # ------------------------------------------------------------------
     # Private — parallel engine execution
     # ------------------------------------------------------------------

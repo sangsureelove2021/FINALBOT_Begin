@@ -417,8 +417,9 @@ class IndicatorStore:
               last['low'] < prev['low'] and vol_ratio < 1.0):
             pa['trap_alert'] = 'BULL_TRAP'
 
-        # SR Interaction
-        price = last['close']
+        # SR Interaction (ใช้ราคาเรียลไทม์จาก M1)
+        last_m1 = df_m1.iloc[-1]
+        price = last_m1['close']
         support = m5['support']
         resistance = m5['resistance']
         range_sr = resistance - support
@@ -445,13 +446,13 @@ class IndicatorStore:
             pa['rejection_zone'] = 'RESISTANCE_ZONE'
 
         # ------------------------------------------------------------
-        # 4. Metadata & Price
+        # 4. Metadata & Price (ใช้ราคาล่าสุดจาก M1 เพื่อไม่ให้ข้อมูลดีเลย์ 5 นาที)
         # ------------------------------------------------------------
         meta = {
-            'close': round(last['close'], Config.ROUND_DECIMALS),
-            'high': round(last['high'], Config.ROUND_DECIMALS),
-            'low': round(last['low'], Config.ROUND_DECIMALS),
-            'open': round(last['open'], Config.ROUND_DECIMALS)
+            'close': round(last_m1['close'], Config.ROUND_DECIMALS),
+            'high': round(last_m1['high'], Config.ROUND_DECIMALS),
+            'low': round(last_m1['low'], Config.ROUND_DECIMALS),
+            'open': round(last_m1['open'], Config.ROUND_DECIMALS)
         }
 
         # ------------------------------------------------------------
