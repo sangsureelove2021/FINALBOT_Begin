@@ -8,8 +8,13 @@ that the strategy and execution gate will use.
 This is the LAST WORD on "how confident are we" before strategy decision.
 """
 
+import logging
+import traceback
 from typing import Dict, Any
 from core.orchestration.base_engine import BaseEngine
+from core.models.market_context import MarketContext
+
+logger = logging.getLogger(__name__)
 
 
 class ConfidenceFramework(BaseEngine):
@@ -19,11 +24,15 @@ class ConfidenceFramework(BaseEngine):
     ENGINE_VERSION = "1.0.0"
     TIER = 7
     
-    def analyze(self, context=None, **kwargs) -> Dict[str, Any]:
+    def analyze(self, payload: Any = None, **kwargs) -> Dict[str, Any]:
         """Calibrate final confidence"""
         try:
-            ctx = context or kwargs.get('context')
+            ctx = payload or kwargs.get('context')
             if ctx is None:
+                return self.get_neutral_state()
+            
+            if not isinstance(ctx, MarketContext):
+                logger.error(f"Invalid context type in ConfidenceFramework: {type(ctx)}")
                 return self.get_neutral_state()
             
             # Base confidence from quality
@@ -55,7 +64,7 @@ class ConfidenceFramework(BaseEngine):
                 'confidence': int(final),
             }
         except Exception as e:
-            print(f" ConfidenceFramework error: {e}")
+            logger.exception("Error in ConfidenceFramework.analyze")
             return self.get_neutral_state()
     
     def _apply_calibration(self, ctx, raw: float) -> float:

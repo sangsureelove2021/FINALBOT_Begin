@@ -52,7 +52,9 @@ def _load_engine_classes() -> Dict[str, type]:
             module = importlib.import_module(full_name)
         except Exception as e:
             # If a module fails to import we skip it but log the error for debugging.
+            import traceback
             print(f"[WARN] Failed to import {full_name}: {e}")
+            traceback.print_exc()
             continue
         for _, obj in inspect.getmembers(module, inspect.isclass):
             if issubclass(obj, BaseEngine) and obj is not BaseEngine:

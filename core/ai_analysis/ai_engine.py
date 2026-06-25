@@ -6,6 +6,8 @@ from typing import Optional, Dict, Any
 from dataclasses import dataclass
 
 
+import traceback
+
 @dataclass
 class AIInsight:
     action: str  # "CALL", "PUT", "NO_TRADE"
@@ -26,6 +28,10 @@ class AIAnalysisEngine:
             agent_command: command name or path to deepseek-agent executable
             timeout_seconds: timeout waiting for agent response (seconds)
         """
+        if not isinstance(agent_command, str):
+            raise TypeError(f"agent_command must be a string, got {type(agent_command)}")
+        if not isinstance(timeout_seconds, int):
+            raise TypeError(f"timeout_seconds must be an integer, got {type(timeout_seconds)}")
         self.agent_command = agent_command
         self.timeout = timeout_seconds
         self.cache = {}  # store last result if market similar
@@ -41,6 +47,9 @@ class AIAnalysisEngine:
         Returns:
             AIInsight
         """
+        if context is None:
+            raise TypeError("context cannot be None")
+
         # 1. Build prompt from MarketContext
         prompt = self._build_prompt(context)
 
@@ -69,10 +78,12 @@ class AIAnalysisEngine:
 
         except subprocess.TimeoutExpired:
             print(f"⏱️ Agent timeout after {self.timeout} seconds")
+            traceback.print_exc()
             self._failure_count += 1
             return self._fallback_insight()
         except Exception as e:
             print(f"❌ subprocess failed: {e}")
+            traceback.print_exc()
             self._failure_count += 1
             return self._fallback_insight()
 

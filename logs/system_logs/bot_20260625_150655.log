@@ -1,0 +1,16 @@
+2026-06-25 22:06:55,542 | INFO     | กำลังเชื่อมต่อ IQ Option...
+2026-06-25 22:06:55,677 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-25 22:06:58,624 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-25 22:06:58,625 | INFO     | เชื่อมต่อ IQ Option สำเร็จ..
+2026-06-25 22:06:58,625 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-25 22:06:59,184 | INFO     | บัญชี PRACTICE | Balance: $2050.40
+2026-06-25 22:06:59,184 | WARNING  | Failed to get server time offset: 'IQ_Option' object has no attribute 'get_server_time'
+2026-06-25 22:06:59,187 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-25 22:06:59,187 | INFO     | Trading Mode: AI AUTO_BOT
+2026-06-25 22:06:59,187 | INFO     | ตรวจเช็คความพร้อม DEEPSEEK AI
+2026-06-25 22:07:36,937 | INFO     | "I'm DeepSeek Agent, an AI coding assistant. Ready to analyze the market."
+2026-06-25 22:07:36,937 | INFO     | MarketStateClassifier initialised
+2026-06-25 22:07:36,937 | INFO     | รายการสินทรัพย์เพื่อเทรด 4 รายการ : EURUSD, EURUSD-OTC, EURGBP, EURGBP-OTC
+2026-06-25 22:07:36,937 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์
+2026-06-25 22:07:38,102 | INFO     | [DataAdapter] EURUSD initialised — M1:200 M5:200 M15:200
+2026-06-25 22:07:38,974 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200

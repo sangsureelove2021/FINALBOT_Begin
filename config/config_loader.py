@@ -29,6 +29,8 @@ def _find_settings_file() -> Path:
 
 def load_settings(reload: bool = False) -> Dict[str, Any]:
     """Load (and cache) settings.json. Set reload=True to re-read from disk."""
+    if not isinstance(reload, bool):
+        raise TypeError("reload must be a boolean")
     global _CACHE
     if _CACHE is None or reload:
         path = _find_settings_file()

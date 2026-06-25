@@ -39,7 +39,10 @@ class ExplainabilityEngine(BaseEngine):
                 'confidence': 100,
             }
         except Exception as e:
-            print(f" ExplainabilityEngine error: {e}")
+            import logging
+            import traceback
+            logging.exception(f" ExplainabilityEngine error: {e}")
+            traceback.print_exc()
             return self.get_neutral_state()
     
     def _gather_supporting_factors(self, ctx) -> List[str]:
@@ -137,7 +140,10 @@ class ExplainabilityEngine(BaseEngine):
     
     def _compose_summary(self, ctx, supporting, opposing) -> str:
         """One-paragraph plain summary"""
-        state = ctx.market_state.get('state', 'UNKNOWN')
+        if isinstance(ctx.market_state, dict):
+            state = ctx.market_state.get('state', 'UNKNOWN')
+        else:
+            state = str(ctx.market_state) if ctx.market_state else 'UNKNOWN'
         direction = ctx.move_probability.get('direction', 'NEUTRAL')
         confidence = ctx.confidence_framework.get('final_confidence', 0)
         

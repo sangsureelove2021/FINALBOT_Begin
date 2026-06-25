@@ -9,10 +9,12 @@ import logging
 logger = logging.getLogger("BotStrategy")
 
 class BotStrategyProcessor:
-    def __init__(self, config=None):
+    def __init__(self, config: dict = None):
+        if config is not None and not isinstance(config, dict):
+            raise TypeError(f"config must be a dictionary, got {type(config)}")
         self.config = config or {}
     
-    def analyze_market(self, context_data: dict):
+    def analyze_market(self, context_data: dict) -> dict:
         """
         Analyze the market context using standard algorithms.
         
@@ -22,8 +24,19 @@ class BotStrategyProcessor:
         Returns:
             A signal object or dict containing action (CALL, PUT, WAIT), confidence, etc.
         """
+        if not isinstance(context_data, dict):
+            logger.warning(f"Invalid context_data type: {type(context_data)}. Expected dict.")
+            return {
+                "action": "WAIT",
+                "confidence": 0,
+                "expiry": 5,
+                "reason": "Invalid context_data type"
+            }
+
         # Placeholder for standard strategy logic
         symbol = context_data.get('symbol', 'UNKNOWN')
+        if not isinstance(symbol, str):
+            symbol = str(symbol)
         
         # Default fallback
         return {

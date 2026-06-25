@@ -110,6 +110,10 @@ class ContextBuilder(IContextBuilder):
                 context.mark_engine_executed(engine.engine_name)
                 
             except Exception as e:
+                import logging
+                import traceback
+                logging.exception(f"{engine.engine_name} failed: {e}")
+                traceback.print_exc()
                 context.add_error(f"{engine.engine_name} failed: {str(e)}")
     
     def _apply_engine_result(self, context: MarketContext,
@@ -151,11 +155,7 @@ class ContextBuilder(IContextBuilder):
         
         attr = mapping.get(engine_name)
         if attr and hasattr(context, attr):
-            if engine_name == 'market_state_classifier':
-                # Revert to dict to avoid crashes in ContextSynthesizer & ExplainabilityEngine
-                setattr(context, attr, result)
-            else:
-                setattr(context, attr, result)
+            setattr(context, attr, result)
     
     def _empty_context(self, symbol: str, timeframe: str) -> MarketContext:
         """Return empty context when no data available"""

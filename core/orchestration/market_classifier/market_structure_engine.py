@@ -18,7 +18,7 @@ class MarketStructureEngine(BaseEngine):
 
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         # operate on the last `lookback` rows
-        if candles_df is None or len(candles_df) < self.lookback:
+        if candles_df is None or not isinstance(candles_df, pd.DataFrame) or candles_df.empty or len(candles_df) < self.lookback:
             return self.get_neutral_state()
 
         df = candles_df.copy()
@@ -27,27 +27,31 @@ class MarketStructureEngine(BaseEngine):
         highs = recent['high'].tolist()
         lows = recent['low'].tolist()
 
-        # split into recent and previous windows
+        # split into recent, previous, and older windows
         recent_highs = highs[-5:]
         recent_lows = lows[-5:]
         prev_highs = highs[-10:-5] or highs[:max(0, len(highs)-5)]
         prev_lows = lows[-10:-5] or lows[:max(0, len(lows)-5)]
+        older_highs = highs[-15:-10] or highs[:max(0, len(highs)-10)]
+        older_lows = lows[-15:-10] or lows[:max(0, len(lows)-10)]
 
         try:
             current_high = max(recent_highs)
             prev_high = max(prev_highs)
+            older_high = max(older_highs)
             current_low = min(recent_lows)
             prev_low = min(prev_lows)
+            older_low = min(older_lows)
         except ValueError:
             return self.get_neutral_state()
 
         # วิเคราะห์โครงสร้าง
         if current_high > prev_high and current_low > prev_low:
             structure = "BULLISH"
-            regime = "STRONG_TREND" if (current_high - prev_high) > (prev_high - max(prev_highs)) else "WEAK_TREND"
+            regime = "STRONG_TREND" if (current_high - prev_high) > (prev_high - older_high) else "WEAK_TREND"
         elif current_high < prev_high and current_low < prev_low:
             structure = "BEARISH"
-            regime = "STRONG_TREND" if (prev_low - current_low) > (min(prev_lows) - prev_low) else "WEAK_TREND"
+            regime = "STRONG_TREND" if (prev_low - current_low) > (older_low - prev_low) else "WEAK_TREND"
         else:
             structure = "RANGING"
             avg_range = recent['high'].sub(recent['low']).tail(5).mean()

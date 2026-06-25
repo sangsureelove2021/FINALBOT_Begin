@@ -40,7 +40,7 @@ def _import_engine(module_name: str) -> Any:
     try:
         mod = importlib.import_module(full_name)
     except Exception as exc:
-        logger.warning(f"[AI Registry] Failed to import %s: %s", full_name, exc)
+        logger.warning(f"[AI Registry] Failed to import %s: %s", full_name, exc, exc_info=True)
         return None
 
     # Find a subclass of BaseEngine (skip the abstract BaseEngine itself)

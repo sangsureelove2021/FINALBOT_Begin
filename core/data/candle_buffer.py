@@ -46,6 +46,16 @@ class CandleBuffer:
             timeframe: 'M1', 'M5', etc.
             candles: DataFrame with [open, high, low, close, volume]
         """
+        if not isinstance(symbol, str):
+            raise TypeError("symbol must be a string")
+        if not isinstance(timeframe, str):
+            raise TypeError("timeframe must be a string")
+        if not isinstance(candles, pd.DataFrame):
+            raise TypeError("candles must be a pandas DataFrame")
+        if candles.empty:
+            logger.warning(f"Attempted to append empty DataFrame for {symbol}_{timeframe}")
+            return
+            
         key = f"{symbol}_{timeframe}"
         
         if key in self.buffers:
@@ -70,6 +80,10 @@ class CandleBuffer:
         Returns:
             DataFrame or None if not found
         """
+        if not isinstance(symbol, str):
+            raise TypeError("symbol must be a string")
+        if not isinstance(timeframe, str):
+            raise TypeError("timeframe must be a string")
         key = f"{symbol}_{timeframe}"
         return self.buffers.get(key)
     
@@ -84,10 +98,21 @@ class CandleBuffer:
         Returns:
             DataFrame or None if not enough data
         """
+        if not isinstance(symbol, str):
+            raise TypeError("symbol must be a string")
+        if not isinstance(timeframe, str):
+            raise TypeError("timeframe must be a string")
+        if not isinstance(count, int):
+            raise TypeError("count must be an integer")
+            
         df = self.get(symbol, timeframe)
-        if df is None or len(df) < count:
-            return df
-        return df.iloc[-count:]
+        if df is None:
+            return None
+        if df.empty:
+            return df.copy()
+        if len(df) < count:
+            return df.copy()
+        return df.iloc[-count:].copy()
     
     def set_incomplete(self, symbol: str, timeframe: str, 
                       is_incomplete: bool) -> None:
@@ -97,12 +122,22 @@ class CandleBuffer:
         Args:
             is_incomplete: True if last bar is still open
         """
+        if not isinstance(symbol, str):
+            raise TypeError("symbol must be a string")
+        if not isinstance(timeframe, str):
+            raise TypeError("timeframe must be a string")
+        if not isinstance(is_incomplete, bool):
+            raise TypeError("is_incomplete must be a boolean")
         key = f"{symbol}_{timeframe}"
         self.incomplete_flags[key] = is_incomplete
         logger.debug(f"[SYNC] {symbol}/{timeframe} incomplete: {is_incomplete}")
     
     def is_incomplete(self, symbol: str, timeframe: str) -> bool:
         """Check if last candle is still forming."""
+        if not isinstance(symbol, str):
+            raise TypeError("symbol must be a string")
+        if not isinstance(timeframe, str):
+            raise TypeError("timeframe must be a string")
         key = f"{symbol}_{timeframe}"
         return self.incomplete_flags.get(key, False)
     
@@ -115,6 +150,11 @@ class CandleBuffer:
             symbol: If None, clear all symbols
             timeframe: If None, clear all timeframes for symbol
         """
+        if symbol is not None and not isinstance(symbol, str):
+            raise TypeError("symbol must be a string or None")
+        if timeframe is not None and not isinstance(timeframe, str):
+            raise TypeError("timeframe must be a string or None")
+            
         if symbol is None:
             self.buffers.clear()
             self.incomplete_flags.clear()

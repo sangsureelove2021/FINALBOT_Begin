@@ -23,6 +23,17 @@ class Candle:
     tick_count: Optional[int] = None
     
     def __post_init__(self):
+        if not isinstance(self.timestamp, datetime):
+            raise TypeError(f"timestamp must be a datetime object, got {type(self.timestamp)}")
+        for field_name in ['open', 'high', 'low', 'close', 'volume']:
+            val = getattr(self, field_name)
+            if not isinstance(val, (int, float)):
+                raise TypeError(f"{field_name} must be int or float, got {type(val)}")
+        if self.spread is not None and not isinstance(self.spread, (int, float)):
+            raise TypeError(f"spread must be int, float or None, got {type(self.spread)}")
+        if self.tick_count is not None and not isinstance(self.tick_count, int):
+            raise TypeError(f"tick_count must be int or None, got {type(self.tick_count)}")
+
         if self.high < self.low:
             raise ValueError(f"High ({self.high}) < Low ({self.low})")
         if self.high < max(self.open, self.close):

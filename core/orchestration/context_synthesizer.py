@@ -57,7 +57,10 @@ class ContextSynthesizer(BaseEngine):
                 'confidence': clarity,
             }
         except Exception as e:
-            print(f" ContextSynthesizer error: {e}")
+            import logging
+            import traceback
+            logging.exception(f" ContextSynthesizer error: {e}")
+            traceback.print_exc()
             return self.get_neutral_state()
     
     def _synthesize_direction(self, ctx):
@@ -158,7 +161,10 @@ class ContextSynthesizer(BaseEngine):
     
     def _compose_market_read(self, ctx, bias, clarity, risk) -> str:
         """Human-readable market summary"""
-        state = ctx.market_state.get('state', 'UNKNOWN')
+        if isinstance(ctx.market_state, dict):
+            state = ctx.market_state.get('state', 'UNKNOWN')
+        else:
+            state = str(ctx.market_state) if ctx.market_state else 'UNKNOWN'
         
         if risk > 65:
             return f"{state} but HIGH RISK - caution advised"
@@ -174,7 +180,12 @@ class ContextSynthesizer(BaseEngine):
             return False
         if clarity < 40:
             return False
-        if not ctx.market_state.get('tradeable', False):
+        if isinstance(ctx.market_state, dict):
+            tradeable = ctx.market_state.get('tradeable', False)
+        else:
+            tradeable = False
+            
+        if not tradeable:
             return False
         return True
     

@@ -86,13 +86,18 @@ def setup_pipeline(registry=None):
 
 def load_symbols(path: str = None) -> list:
     """Load trading pairs from settings.json (single source of truth), with fallback to symbols.txt."""
+    if path is not None and not isinstance(path, str):
+        raise TypeError("path must be a string or None")
     try:
         from config.config_loader import get_symbols
         symbols = get_symbols()
         if symbols:
+            if not isinstance(symbols, list):
+                raise TypeError("get_symbols() must return a list")
             return symbols
-    except Exception:
-        pass
+    except Exception as e:
+        import logging
+        logging.getLogger("FINALBOT").exception("Failed to load symbols from settings.json, falling back to file")
 
     p = Path(path) if path else SYMBOLS_FILE
     if not p.is_file():

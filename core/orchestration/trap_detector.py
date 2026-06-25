@@ -77,6 +77,8 @@ class TrapDetector(BaseEngine):
             
             return False, 'NONE'
         except Exception as e:
+            import logging
+            logging.warning(f"TrapDetector._detect_false_breakout failed: {e}")
             return False, 'NONE'
     
     def _detect_stop_hunt(self, df):
@@ -96,6 +98,8 @@ class TrapDetector(BaseEngine):
                     return True
             return False
         except Exception as e:
+            import logging
+            logging.warning(f"TrapDetector._detect_stop_hunt failed: {e}")
             return False
     
     def _detect_rejection_wick(self, df):
@@ -115,6 +119,8 @@ class TrapDetector(BaseEngine):
                 return True
             return False
         except Exception as e:
+            import logging
+            logging.warning(f"TrapDetector._detect_rejection_wick failed: {e}")
             return False
     
     def _calculate_trap_score(self, fb, sh, rw, df) -> int:

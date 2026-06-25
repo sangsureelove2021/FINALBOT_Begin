@@ -20,6 +20,13 @@ class CandlePatternAnalyzer(BaseEngine):
     MIN_CANDLES = 10
     
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
+        if not isinstance(candles_df, pd.DataFrame):
+            raise TypeError(f"candles_df must be a pandas DataFrame, got {type(candles_df)}")
+        
+        required_cols = {'open', 'high', 'low', 'close'}
+        if candles_df.empty or len(candles_df) < self.MIN_CANDLES or not required_cols.issubset(candles_df.columns):
+            return self.get_neutral_state()
+
         patterns_detected = []
         
         # Check various patterns
@@ -51,91 +58,70 @@ class CandlePatternAnalyzer(BaseEngine):
         }
     
     def _is_bullish_engulfing(self, df) -> bool:
-        try:
-            prev = df.iloc[-2]
-            curr = df.iloc[-1]
-            return (prev['close'] < prev['open'] and  # Previous bearish
-                    curr['close'] > curr['open'] and  # Current bullish
-                    curr['open'] < prev['close'] and  # Opens below prev close
-                    curr['close'] > prev['open'])     # Closes above prev open
-        except Exception as e:
-            return False
+        prev = df.iloc[-2]
+        curr = df.iloc[-1]
+        return (prev['close'] < prev['open'] and  # Previous bearish
+                curr['close'] > curr['open'] and  # Current bullish
+                curr['open'] < prev['close'] and  # Opens below prev close
+                curr['close'] > prev['open'])     # Closes above prev open
     
     def _is_bearish_engulfing(self, df) -> bool:
-        try:
-            prev = df.iloc[-2]
-            curr = df.iloc[-1]
-            return (prev['close'] > prev['open'] and
-                    curr['close'] < curr['open'] and
-                    curr['open'] > prev['close'] and
-                    curr['close'] < prev['open'])
-        except Exception as e:
-            return False
+        prev = df.iloc[-2]
+        curr = df.iloc[-1]
+        return (prev['close'] > prev['open'] and
+                curr['close'] < curr['open'] and
+                curr['open'] > prev['close'] and
+                curr['close'] < prev['open'])
     
     def _is_hammer(self, df) -> bool:
-        try:
-            c = df.iloc[-1]
-            body = abs(c['close'] - c['open'])
-            lower_wick = min(c['open'], c['close']) - c['low']
-            upper_wick = c['high'] - max(c['open'], c['close'])
-            total = c['high'] - c['low']
-            if total == 0:
-                return False
-            return (lower_wick > body * 2 and
-                    upper_wick < body * 0.5 and
-                    body / total > 0.1)
-        except Exception as e:
+        c = df.iloc[-1]
+        body = abs(c['close'] - c['open'])
+        lower_wick = min(c['open'], c['close']) - c['low']
+        upper_wick = c['high'] - max(c['open'], c['close'])
+        total = c['high'] - c['low']
+        if total == 0:
             return False
+        return (lower_wick > body * 2 and
+                upper_wick < body * 0.5 and
+                body / total > 0.1)
     
     def _is_shooting_star(self, df) -> bool:
-        try:
-            c = df.iloc[-1]
-            body = abs(c['close'] - c['open'])
-            lower_wick = min(c['open'], c['close']) - c['low']
-            upper_wick = c['high'] - max(c['open'], c['close'])
-            total = c['high'] - c['low']
-            if total == 0:
-                return False
-            return (upper_wick > body * 2 and
-                    lower_wick < body * 0.5 and
-                    body / total > 0.1)
-        except Exception as e:
+        c = df.iloc[-1]
+        body = abs(c['close'] - c['open'])
+        lower_wick = min(c['open'], c['close']) - c['low']
+        upper_wick = c['high'] - max(c['open'], c['close'])
+        total = c['high'] - c['low']
+        if total == 0:
             return False
+        return (upper_wick > body * 2 and
+                lower_wick < body * 0.5 and
+                body / total > 0.1)
     
     def _is_doji(self, df) -> bool:
-        try:
-            c = df.iloc[-1]
-            body = abs(c['close'] - c['open'])
-            total = c['high'] - c['low']
-            if total == 0:
-                return False
-            return body / total < 0.1
-        except Exception as e:
+        c = df.iloc[-1]
+        body = abs(c['close'] - c['open'])
+        total = c['high'] - c['low']
+        if total == 0:
             return False
+        return body / total < 0.1
     
     def _is_morning_star(self, df) -> bool:
-        try:
-            c1 = df.iloc[-3]
-            c2 = df.iloc[-2]
-            c3 = df.iloc[-1]
-            return (c1['close'] < c1['open'] and  # First bearish
-                    abs(c2['close'] - c2['open']) < abs(c1['close'] - c1['open']) * 0.5 and  # Small body
-                    c3['close'] > c3['open'] and  # Third bullish
-                    c3['close'] > (c1['open'] + c1['close']) / 2)  # Closes above midpoint
-        except Exception as e:
-            return False
+        c1 = df.iloc[-3]
+        c2 = df.iloc[-2]
+        c3 = df.iloc[-1]
+        return (c1['close'] < c1['open'] and  # First bearish
+                abs(c2['close'] - c2['open']) < abs(c1['close'] - c1['open']) * 0.5 and  # Small body
+                c3['close'] > c3['open'] and  # Third bullish
+                c3['close'] > (c1['open'] + c1['close']) / 2)  # Closes above midpoint
     
     def _is_evening_star(self, df) -> bool:
-        try:
-            c1 = df.iloc[-3]
-            c2 = df.iloc[-2]
-            c3 = df.iloc[-1]
-            return (c1['close'] > c1['open'] and
-                    abs(c2['close'] - c2['open']) < abs(c1['close'] - c1['open']) * 0.5 and
-                    c3['close'] < c3['open'] and
-                    c3['close'] < (c1['open'] + c1['close']) / 2)
-        except Exception as e:
-            return False
+        c1 = df.iloc[-3]
+        c2 = df.iloc[-2]
+        c3 = df.iloc[-1]
+        return (c1['close'] > c1['open'] and
+                abs(c2['close'] - c2['open']) < abs(c1['close'] - c1['open']) * 0.5 and
+                c3['close'] < c3['open'] and
+                c3['close'] < (c1['open'] + c1['close']) / 2)
     
     def _determine_bias(self, patterns: List[str]) -> str:
         bullish = ['BULLISH_ENGULFING', 'HAMMER', 'MORNING_STAR']

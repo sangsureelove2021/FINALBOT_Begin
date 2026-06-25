@@ -6,8 +6,10 @@ Scores the overall quality of a potential signal.
 Combines edge, clarity, risk, and confirmation into a single quality grade.
 """
 
+import traceback
 from typing import Dict, Any
 from core.orchestration.base_engine import BaseEngine
+from core.models.market_context import MarketContext
 
 
 class SignalQualityScorer(BaseEngine):
@@ -23,6 +25,9 @@ class SignalQualityScorer(BaseEngine):
             ctx = context or kwargs.get('context')
             if ctx is None:
                 return self.get_neutral_state()
+            
+            if not isinstance(ctx, MarketContext):
+                raise TypeError(f"ctx must be an instance of MarketContext, got {type(ctx)}")
             
             # Component scores
             edge_score = self._score_edge(ctx)
@@ -53,7 +58,7 @@ class SignalQualityScorer(BaseEngine):
                 'confidence': quality_score,
             }
         except Exception as e:
-            print(f" SignalQualityScorer error: {e}")
+            traceback.print_exc()
             return self.get_neutral_state()
     
     def _score_edge(self, ctx) -> float:

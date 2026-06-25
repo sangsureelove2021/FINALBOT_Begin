@@ -113,9 +113,10 @@ class Pipeline:
                 
                 if combined > best_score:
                     best_score = combined
-                    best = result
-                    best['strategy_name'] = strategy.strategy_name
+                    best = {**result, 'strategy_name': strategy.strategy_name}
             except Exception as e:
+                import traceback
+                traceback.print_exc()
                 context.add_warning(f"Strategy {strategy.strategy_name} error: {e}")
         
         if best is None:

@@ -59,6 +59,8 @@ class LiquidityEngine(BaseEngine):
             
             return sorted(equal, reverse=True)[:3]
         except Exception as e:
+            import logging
+            logging.warning(f"LiquidityEngine._find_equal_highs failed: {e}")
             return []
     
     def _find_equal_lows(self, df, tolerance=0.0008) -> List[float]:
@@ -79,11 +81,21 @@ class LiquidityEngine(BaseEngine):
             
             return sorted(equal)[:3]
         except Exception as e:
+            import logging
+            logging.warning(f"LiquidityEngine._find_equal_lows failed: {e}")
             return []
     
     def _detect_sweep(self, df):
         """Detect liquidity sweep: price spikes past a level then reverses"""
+        if not isinstance(df, pd.DataFrame):
+            import logging
+            logging.error(f"LiquidityEngine._detect_sweep expected pd.DataFrame, got {type(df)}")
+            return False, 'NONE'
+            
         try:
+            if len(df) < 5:
+                return False, 'NONE'
+                
             recent = df.tail(15)
             highs = recent['high'].values
             lows = recent['low'].values
@@ -107,6 +119,8 @@ class LiquidityEngine(BaseEngine):
             
             return False, 'NONE'
         except Exception as e:
+            import logging
+            logging.exception("LiquidityEngine._detect_sweep failed")
             return False, 'NONE'
     
     def _score_liquidity(self, equal_highs, equal_lows) -> int:

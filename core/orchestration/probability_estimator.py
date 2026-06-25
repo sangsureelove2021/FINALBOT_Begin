@@ -58,7 +58,10 @@ class ProbabilityEstimator(BaseEngine):
                 'confidence': estimate_confidence,
             }
         except Exception as e:
-            print(f" ProbabilityEstimator error: {e}")
+            import logging
+            import traceback
+            logging.exception(f" ProbabilityEstimator error: {e}")
+            traceback.print_exc()
             return self.get_neutral_state()
     
     def _estimate_up_probability(self, ctx) -> int:

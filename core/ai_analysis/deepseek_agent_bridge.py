@@ -180,7 +180,7 @@ class DeepSeekAgentBridge:
                 return stdout_text
             return ""
         except Exception as e:
-            logger.error(f"AI Readiness check failed: {e}")
+            logger.exception(f"AI Readiness check failed: {e}")
             return ""
 
     def _get_cache_key(self, context) -> str:
@@ -196,7 +196,7 @@ class DeepSeekAgentBridge:
             minute_key = datetime.now().strftime('%Y%m%d%H%M')
             return f"{symbol}_{last_price}_{minute_key}"
         except Exception as e:
-            logger.warning(f"Cache key generation error: {e}")
+            logger.warning(f"Cache key generation error: {e}", exc_info=True)
             return datetime.now().strftime('%Y%m%d%H%M%S')
     
     def analyze_market(self, context) -> Optional[AIInsight]:
@@ -257,14 +257,21 @@ class DeepSeekAgentBridge:
             except subprocess.TimeoutExpired:
                 logger.warning(f"Agent timeout after {self.timeout}s. Terminating process tree...")
                 if sys.platform == 'win32':
-                    subprocess.run(f"taskkill /F /T /PID {p.pid}", shell=True, capture_output=True)
+                    try:
+                        subprocess.run(f"taskkill /F /T /PID {p.pid}", shell=True, capture_output=True)
+                    except Exception:
+                        logger.exception("Failed to run taskkill on win32 process tree")
                 else:
                     # บน Unix/Mac ทำลาย process group
                     try:
                         import signal
                         os.killpg(os.getpgid(p.pid), signal.SIGTERM)
-                    except:
-                        p.kill()
+                    except Exception:
+                        logger.exception("Failed to kill process group using killpg, falling back to p.kill()")
+                        try:
+                            p.kill()
+                        except Exception:
+                            logger.exception("Failed to kill process via p.kill()")
                 p.wait()
                 self.consecutive_failures += 1
                 logger.warning(f"AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout {self.timeout}s)")
@@ -427,9 +434,11 @@ YOUR FINAL RESPONSE (raw JSON only, no tool_call, no prose):
             try:
                 data = json.loads(json_str)
             except Exception as json_e:
+                logger.debug("JSON parsing failed, falling back to AST", exc_info=True)
                 try:
                     data = ast.literal_eval(json_str)
                 except Exception as ast_e:
+                    logger.debug("AST parsing failed, falling back to Regex", exc_info=True)
                     # Final aggressive fallback: manually extract values using regex
                     logger.warning(f"Standard parsing failed. Attempting regex extraction. Extracted string: {json_str[:200]}")
                     data = {}
@@ -468,8 +477,14 @@ YOUR FINAL RESPONSE (raw JSON only, no tool_call, no prose):
                 conf_val = data.get('confidence', 0)
                 if isinstance(conf_val, str):
                     conf_val = re.sub(r'[^\d]', '', conf_val)
-                confidence = int(conf_val) if conf_val else 0
-            except:
+                    confidence = int(conf_val) if conf_val else 0
+                elif isinstance(conf_val, (int, float)):
+                    confidence = int(conf_val)
+                else:
+                    logger.warning(f"Unexpected type for confidence: {type(conf_val)}")
+                    confidence = 0
+            except Exception:
+                logger.exception("Failed to parse confidence value")
                 confidence = 0
             confidence = max(0, min(100, confidence))
             
@@ -496,6 +511,6 @@ YOUR FINAL RESPONSE (raw JSON only, no tool_call, no prose):
             )
             
         except Exception as e:
-            logger.error(f"Parse error: {e}. Raw response: {response_text[:500]}")
+            logger.exception(f"Parse error: {e}. Raw response: {response_text[:500]}")
             return None
     

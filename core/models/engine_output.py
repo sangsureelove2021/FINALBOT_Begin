@@ -34,6 +34,23 @@ class EngineOutput:
     execution_time_ms: Optional[float] = None  # How long it took
     
     def __post_init__(self):
+        if not isinstance(self.engine_name, str):
+            raise TypeError(f"engine_name must be a string, got {type(self.engine_name)}")
+        if not isinstance(self.engine_version, str):
+            raise TypeError(f"engine_version must be a string, got {type(self.engine_version)}")
+        if not isinstance(self.timestamp, datetime):
+            raise TypeError(f"timestamp must be a datetime object, got {type(self.timestamp)}")
+        if not isinstance(self.data, dict):
+            raise TypeError(f"data must be a dictionary, got {type(self.data)}")
+        if not isinstance(self.confidence, int):
+            raise TypeError(f"confidence must be an integer, got {type(self.confidence)}")
+        if not isinstance(self.warnings, tuple):
+            raise TypeError(f"warnings must be a tuple, got {type(self.warnings)}")
+        if self.error is not None and not isinstance(self.error, str):
+            raise TypeError(f"error must be a string or None, got {type(self.error)}")
+        if self.execution_time_ms is not None and not isinstance(self.execution_time_ms, (int, float)):
+            raise TypeError(f"execution_time_ms must be a float/int or None, got {type(self.execution_time_ms)}")
+
         if not 0 <= self.confidence <= 100:
             raise ValueError(f"Confidence must be 0-100, got {self.confidence}")
     

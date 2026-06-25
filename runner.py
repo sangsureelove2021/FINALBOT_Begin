@@ -45,7 +45,7 @@ class PureAIRunner:
         try:
             balance = self.data_adapter.api.get_balance()
         except Exception as e:
-            logger.warning(f"Failed to get balance: {e}")
+            logger.exception("Failed to get balance")
             balance = 0.0
             
         ConsoleUI.show_account_info(self.account_type, balance)
@@ -57,7 +57,7 @@ class PureAIRunner:
             ConsoleUI.show_time_offset(self.time_offset)
         except Exception as e:
             self.time_offset = 0.0
-            logger.warning(f"Failed to get server time offset: {e}")
+            logger.exception("Failed to get server time offset")
 
         # โหลด trading_mode
         from config.config_loader import get_trading_mode
@@ -160,10 +160,18 @@ class PureAIRunner:
 
     def fetch_and_save_data(self, symbol):
         """Delegate all candle management to DataAdapter."""
+        if not isinstance(symbol, str):
+            raise TypeError("symbol must be a string")
         broker_epoch = time.time() + self.time_offset
         return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
 
     def run_ai_analysis_and_trade(self, symbol, candles_dict, current_price):
+        if not isinstance(symbol, str):
+            raise TypeError("symbol must be a string")
+        if not isinstance(candles_dict, dict):
+            raise TypeError("candles_dict must be a dictionary")
+        if not isinstance(current_price, (int, float)):
+            raise TypeError("current_price must be a float or int")
         try:
             # --- 1. Orchestrator Data Pipeline ---
             log_data = None
@@ -174,7 +182,7 @@ class PureAIRunner:
                     ai_context=None
                 )
             except Exception as e:
-                logger.error(f"Orchestrator cycle failed for {symbol}: {e}")
+                logger.exception(f"Orchestrator cycle failed for {symbol}")
 
             # ถ้า Orchestrator crash หรือคืน None — ให้หยุดทำรายการ (ไม่ดึงจากที่อื่นแล้ว)
             if not log_data:
@@ -207,7 +215,7 @@ class PureAIRunner:
                         try:
                             self.orchestrator._save_formatted_json(symbol, log_data)
                         except Exception as e:
-                            logger.error(f"Failed to update JSON with AI reason: {e}")
+                            logger.exception(f"Failed to update JSON with AI reason for {symbol}")
             else:
                 if self.bot_strategy:
                     # Use standard BotStrategyProcessor with orchestrator payload
@@ -253,12 +261,12 @@ class PureAIRunner:
                         else:
                             ConsoleUI.show_order_failed(symbol, result.reason)
                     except Exception as e:
-                        logger.error(f"Execution exception: {e}")
+                        logger.exception("Execution exception")
                 else:
                     # SIGNAL Mode - do not execute
                     ConsoleUI.show_signal_only(insight.action, symbol, expiry_time, self.trading_mode)
         except Exception as ex:
-            logger.error(f"Background AI task failed for {symbol}: {ex}")
+            logger.exception(f"Background AI task failed for {symbol}")
         finally:
             self.ai_running[symbol] = False
 
@@ -268,7 +276,7 @@ class PureAIRunner:
         try:
             self.data_adapter.ensure_connected()
         except Exception as e:
-            logger.error(f"Failed to check/restore connection: {e}")
+            logger.exception("Failed to check/restore connection")
             return
 
         # Settle expired trades
@@ -284,7 +292,7 @@ class PureAIRunner:
                 else:
                     duration_mins = int(expiry_val)
             except Exception as e:
-                logger.warning(f"Failed to parse expiry: {e}")
+                logger.exception("Failed to parse expiry")
                 duration_mins = 5
                 
             if elapsed >= (duration_mins * 60):
@@ -302,9 +310,10 @@ class PureAIRunner:
                     try:
                         m1_store = self.candle_adapter._store_m1.get(trade.symbol)
                         if m1_store is not None and not m1_store.empty:
-                            exit_price = float(m1_store['close'].iloc[-1])
-                    except Exception:
-                        pass
+                            if 'close' in m1_store.columns and len(m1_store) > 0:
+                                exit_price = float(m1_store['close'].iloc[-1])
+                    except Exception as e:
+                        logger.exception(f"Failed to get exit price from M1 store for {trade.symbol}")
                         
                     self.order_manager.close_trade(
                         order_id=order_id,
@@ -315,11 +324,12 @@ class PureAIRunner:
                     )
                     ConsoleUI.show_trade_result(won, trade.symbol, order_id, pnl)
                 except Exception as e:
-                    logger.error(f"Failed to settle trade {order_id}: {e}")
+                    logger.exception(f"Failed to settle trade {order_id}")
 
         try:
             balance = self.data_adapter.api.get_balance()
-        except Exception:
+        except Exception as e:
+            logger.exception("Failed to get balance in run_cycle")
             balance = None
 
         # Run all symbols concurrently for data fetching and CSV writing
@@ -342,7 +352,7 @@ class PureAIRunner:
             try:
                 result_val = sym_futures[sym].result()
             except Exception as e:
-                logger.error(f"Error getting future result for {sym}: {e}")
+                logger.exception(f"Error getting future result for {sym}")
                 continue
 
             if not result_val:
@@ -351,6 +361,11 @@ class PureAIRunner:
             # DataAdapter.update returns (symbol, m1, m5, m15, price)
             completed_m1, completed_m5, completed_m15, current_price = result_val[1:]
             prices_dict[sym] = current_price
+            
+            if completed_m1 is None or completed_m1.empty:
+                logger.warning(f"completed_m1 is empty for {sym} - skipping AI cycle")
+                continue
+                
             last_ts_m1 = completed_m1.index[-1]
             
             # กันวิเคราะห์แท่งเดิมซ้ำ
@@ -397,9 +412,7 @@ class PureAIRunner:
                 ConsoleUI.show_stopping()
                 break
             except Exception as e:
-                logger.error(f"Error in main loop: {e}")
-                import traceback
-                traceback.print_exc()
+                logger.exception("Error in main loop")
                 time.sleep(5)
 
 if __name__ == "__main__":

@@ -15,8 +15,14 @@ class AIFusionGate:
             strategy_weight: weight given to traditional strategies (0-1)
             veto_enabled: if True, NO_TRADE from AI cuts confidence by 50%
         """
-        self.ai_weight = ai_weight
-        self.strategy_weight = strategy_weight
+        if not isinstance(ai_weight, (int, float)):
+            raise TypeError(f"ai_weight must be a float or int, got {type(ai_weight)}")
+        if not isinstance(strategy_weight, (int, float)):
+            raise TypeError(f"strategy_weight must be a float or int, got {type(strategy_weight)}")
+        if not isinstance(veto_enabled, bool):
+            raise TypeError(f"veto_enabled must be a bool, got {type(veto_enabled)}")
+        self.ai_weight = float(ai_weight)
+        self.strategy_weight = float(strategy_weight)
         self.veto_enabled = veto_enabled
 
     def fuse_signals(self, traditional_signals: List[Dict[str, Any]], ai_insight: AIInsight) -> Dict[str, Any]:
@@ -30,6 +36,10 @@ class AIFusionGate:
         Returns:
             dict with keys: action, entry_score, block_score, confidence, ai_reason, ai_raw
         """
+        if not isinstance(traditional_signals, list):
+            raise TypeError(f"traditional_signals must be a list, got {type(traditional_signals)}")
+        if not isinstance(ai_insight, AIInsight):
+            raise TypeError(f"ai_insight must be an AIInsight instance, got {type(ai_insight)}")
         avg_entry_score = self._calc_avg_entry_score(traditional_signals)
         avg_strategy_conf = self._calc_avg_confidence(traditional_signals)
 

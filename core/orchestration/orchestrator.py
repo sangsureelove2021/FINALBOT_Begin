@@ -72,6 +72,7 @@ class Orchestrator:
             logger.info("MarketStateClassifier initialised")
         except Exception as e:
             logger.error(f"Failed to init MarketStateClassifier: {e}")
+            traceback.print_exc()
 
         self.csv_dir = os.path.join("logs", "all_process")
         os.makedirs(self.csv_dir, exist_ok=True)
@@ -111,6 +112,7 @@ class Orchestrator:
         # ── 0. Handle OTC Volume ────────────────────────────────────────
         is_otc = "OTC" in symbol.upper()
         if is_otc:
+            candles_dict = {k: v.copy() for k, v in candles_dict.items()}
             for tf in ['M1', 'M5', 'M15']:
                 if tf in candles_dict and not candles_dict[tf].empty:
                     # Modify in place safely
@@ -165,6 +167,7 @@ class Orchestrator:
             return None
 
         # ── 5. Market State Classifier ──────────────────────────────────
+        state_data = None
         try:
             if self.classifier:
                 state_data = self.classifier.analyze(
@@ -190,7 +193,11 @@ class Orchestrator:
             m5_data = final_payload.get('m5', {})
             atr = m5_data.get('atr14', 0)
             close_price = final_payload.get('meta', {}).get('close', 1)
-            expected_vol = round((atr / close_price) * 100, 3) if close_price else 0.0
+            import math
+            try:
+                expected_vol = round((atr / close_price) * 100, 3) if (close_price and not math.isnan(close_price)) else 0.0
+            except (ZeroDivisionError, ValueError, TypeError):
+                expected_vol = 0.0
 
             final_payload['signals'] = {
                 'triggered': [],
@@ -204,7 +211,7 @@ class Orchestrator:
 
             final_payload['market_context'] = {
                 'state': final_payload.get('market_state', 'UNCLEAR'),
-                'description': state_data.get('description', 'NONE') if 'state_data' in locals() and state_data else 'NONE',
+                'description': state_data.get('description', 'NONE') if state_data else 'NONE',
                 'volatility_regime': final_payload.get('analysis', {}).get('volatility_regime', 'NORMAL'),
                 'news_impact': news_impact,
                 'expected_volatility_%': expected_vol,
@@ -212,10 +219,10 @@ class Orchestrator:
             }
 
             final_payload['decision_layer'] = {
-                'tradeable': state_data.get('tradeable', True) if 'state_data' in locals() and state_data else True,
+                'tradeable': state_data.get('tradeable', True) if state_data else True,
                 'tradeable_reason': 'Passed basic checks',
                 'confidence_score': 0,
-                'stability_score': state_data.get('metrics', {}).get('alignment_score', 50) if 'state_data' in locals() and state_data else 50,
+                'stability_score': state_data.get('metrics', {}).get('alignment_score', 50) if state_data else 50,
                 'quality_score': 50,
                 'risk_level': 'MEDIUM',
                 'suggested_expiry_minutes': 5,
@@ -224,18 +231,21 @@ class Orchestrator:
             }
         except Exception as e:
             self._log_red(f"Group B formatting failed for {symbol}: {e}")
+            traceback.print_exc()
 
         # ── 5.5 Deduplicate Payload ──────────────────────────────────────
         try:
             final_payload = self._deduplicate_payload(final_payload)
         except Exception as e:
             logger.warning(f"Dedup payload failed for: {e}")
+            traceback.print_exc()
 
         # ── 6. Save Full Payload to CSV ─────────────────────────────────
         try:
             self._save_full_csv(symbol, final_payload, candles_dict.get('M1'))
         except Exception as e:
             self._log_red(f"Full CSV Saving failed for {symbol}: {e}")
+            traceback.print_exc()
 
         # ── 7. Format Payload ───────────────────────────────────────────
         try:
@@ -378,18 +388,19 @@ class Orchestrator:
             formatted["analysis"]["bos_detected"] = False
         if formatted["decision_layer"]["tradeable"] == "NONE":
             formatted["decision_layer"]["tradeable"] = False
-        if formatted["price_action"]["pattern"] == "NONE":
-            formatted["price_action"]["pattern"] = "NONE"
+        
 
         return formatted
 
     def _run_engines_parallel(self, symbol: str, payload: dict):
+        import copy
+        safe_payload = copy.deepcopy(payload)
         tasks: Dict[str, tuple] = {
-            'trend':      (self.trend_engine.analyze,      (payload,),      {}),
-            'strength':   (self.strength_engine.analyze,   (payload,),      {}),
-            'volatility': (self.volatility_engine.analyze, (payload,),      {}),
-            'structure':  (self.structure_engine.analyze,  (payload,),      {}),
-            'mtf':        (self.mtf_engine.analyze,        (payload,),      {})
+            'trend':      (self.trend_engine.analyze,      (safe_payload,),      {}),
+            'strength':   (self.strength_engine.analyze,   (safe_payload,),      {}),
+            'volatility': (self.volatility_engine.analyze, (safe_payload,),      {}),
+            'structure':  (self.structure_engine.analyze,  (safe_payload,),      {}),
+            'mtf':        (self.mtf_engine.analyze,        (safe_payload,),      {})
         }
 
         results: Dict[str, Any] = {}
@@ -404,6 +415,7 @@ class Orchestrator:
                     results[label] = future.result()
                 except Exception as exc:
                     self._log_red(f"{label}_engine raised: {exc}")
+                    traceback.print_exc()
                     engine_map = {
                         'trend': self.trend_engine, 'strength': self.strength_engine,
                         'volatility': self.volatility_engine, 'structure': self.structure_engine,

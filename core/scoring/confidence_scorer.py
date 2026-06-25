@@ -4,8 +4,12 @@ Confidence Scorer
 Calculates final confidence from multiple sources.
 """
 
+import logging
+import traceback
 from typing import Dict, List
 from core.models.market_context import MarketContext
+
+logger = logging.getLogger(__name__)
 
 
 class ConfidenceScorer:
@@ -30,35 +34,43 @@ class ConfidenceScorer:
         """
         Compute final confidence 0-100.
         """
-        components = []
-        
-        # 1. Tier 1 confidence average
-        tier1_conf = self._tier1_confidence(context)
-        components.append(('tier1', tier1_conf, 0.30))
-        
-        # 2. Market state quality
-        state_conf = self._market_state_quality(context)
-        components.append(('state', state_conf, 0.25))
-        
-        # 3. Score agreement
-        agreement = self._score_agreement(context)
-        components.append(('agreement', agreement, 0.20))
-        
-        # 4. Risk factor penalty
-        risk_score = self._risk_score(context)
-        components.append(('risk', risk_score, 0.15))
-        
-        # 5. Data quality
-        data_quality = self._data_quality(context)
-        components.append(('data', data_quality, 0.10))
-        
-        # Weighted average
-        total = sum(score * weight for _, score, weight in components)
-        total_weight = sum(weight for _, _, weight in components)
-        
-        final = total / total_weight if total_weight > 0 else 0
-        
-        return int(max(0, min(100, final)))
+        if not isinstance(context, MarketContext):
+            logger.error(f"Invalid context type in ConfidenceScorer.score: {type(context)}")
+            return 0
+            
+        try:
+            components = []
+            
+            # 1. Tier 1 confidence average
+            tier1_conf = self._tier1_confidence(context)
+            components.append(('tier1', tier1_conf, 0.30))
+            
+            # 2. Market state quality
+            state_conf = self._market_state_quality(context)
+            components.append(('state', state_conf, 0.25))
+            
+            # 3. Score agreement
+            agreement = self._score_agreement(context)
+            components.append(('agreement', agreement, 0.20))
+            
+            # 4. Risk factor penalty
+            risk_score = self._risk_score(context)
+            components.append(('risk', risk_score, 0.15))
+            
+            # 5. Data quality
+            data_quality = self._data_quality(context)
+            components.append(('data', data_quality, 0.10))
+            
+            # Weighted average
+            total = sum(score * weight for _, score, weight in components)
+            total_weight = sum(weight for _, _, weight in components)
+            
+            final = total / total_weight if total_weight > 0 else 0
+            
+            return int(max(0, min(100, final)))
+        except Exception as e:
+            logger.exception("Error in ConfidenceScorer.score")
+            return 0
     
     def _tier1_confidence(self, context: MarketContext) -> float:
         """Average confidence from Tier 1 engines"""

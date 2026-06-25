@@ -39,6 +39,9 @@ class FallbackAnalyzer:
         """
         วิเคราะห์จาก MarketContext
         """
+        if context is None:
+            raise TypeError("context cannot be None")
+
         symbol = getattr(context, 'symbol', 'unknown')
         rsi = getattr(context, 'rsi', 50)
         macd = getattr(context, 'macd', 0)
@@ -108,8 +111,8 @@ class FallbackAnalyzer:
                             confidence += 10
                             action = "PUT"
                             reason_parts.append(f"Near resistance {resist}")
-                except:
-                    pass
+                except Exception as e:
+                    logger.exception(f"Error parsing resistance level: {e}")
 
         # 5. จำกัด confidence
         confidence = min(100, confidence)
