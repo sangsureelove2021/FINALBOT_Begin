@@ -10,7 +10,7 @@ from typing import Dict, Any
 import pandas as pd
 
 from core.models.market_context import MarketContext
-from core.engines.engine_registry import EngineRegistry
+from core.orchestration.engine_registry import EngineRegistry
 from core.interfaces.context_interface import IContextBuilder
 
 

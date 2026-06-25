@@ -23,6 +23,16 @@ from typing import Optional, Dict, Any
 from dataclasses import dataclass, asdict
 from datetime import datetime
 
+from monitoring.console_dashboard import ConsoleUI
+
+class NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if hasattr(obj, 'item'):
+            return obj.item()
+        if hasattr(obj, 'tolist'):
+            return obj.tolist()
+        return super().default(obj)
+
 logger = logging.getLogger("DeepSeekAgent")
 
 
@@ -185,13 +195,28 @@ class DeepSeekAgentBridge:
                 
             minute_key = datetime.now().strftime('%Y%m%d%H%M')
             return f"{symbol}_{last_price}_{minute_key}"
-        except:
+        except Exception as e:
+            logger.warning(f"Cache key generation error: {e}")
             return datetime.now().strftime('%Y%m%d%H%M%S')
     
     def analyze_market(self, context) -> Optional[AIInsight]:
         """
         วิเคราะห์ตลาดโดยเรียก DeepSeek Agent
         """
+        # --- Data Validation (Separation of Concerns) ---
+        if isinstance(context, dict):
+            symbol = context.get('meta', {}).get('symbol', context.get('symbol', 'UNKNOWN'))
+            timeframes = context.get('timeframes', {})
+            m5_inds = timeframes.get('m5', {})
+            rsi = m5_inds.get('rsi', 0.0)
+            ema5 = m5_inds.get('ema5', 0.0)
+            
+            has_real_data = rsi != 0.0 and ema5 != 0.0
+            if not has_real_data:
+                logger.warning(f"Indicators for {symbol} are all zero — warming up, skipping AI call")
+                return None
+        # -----------------------------------------------
+        
         cache_key = self._get_cache_key(context)
         if cache_key in self._cache:
             cached_time, cached_insight = self._cache[cache_key]
@@ -225,6 +250,7 @@ class DeepSeekAgentBridge:
                 env=os.environ.copy(),
                 creationflags=creation_flags
             )
+            ConsoleUI.show_ai_prompt_sent()
             try:
                 stdout_bytes, stderr_bytes = p.communicate(timeout=self.timeout)
                 stdout_text = stdout_bytes.decode('utf-8', errors='replace')
@@ -293,7 +319,7 @@ class DeepSeekAgentBridge:
         if ctx.get("is_advanced"):
             payload = dict(ctx)
             payload.pop("is_advanced", None)
-            json_payload = json.dumps(payload, indent=2, ensure_ascii=False)
+            json_payload = json.dumps(payload, indent=2, ensure_ascii=False, cls=NumpyEncoder)
             
             prompt = f"""You are a professional binary options trader (NOT a coding assistant).
 Your ONLY job right now is to read the market data below and output a JSON trading decision.
@@ -455,7 +481,7 @@ YOUR FINAL RESPONSE (raw JSON only, no tool_call, no prose):
             reason = data.get('reason', 'No reason provided')[:500]
             
             if isinstance(context, dict):
-                symbol = context.get('symbol', 'unknown')
+                symbol = context.get('meta', {}).get('symbol', context.get('symbol', 'unknown'))
             else:
                 symbol = getattr(context, 'symbol', 'unknown')
             

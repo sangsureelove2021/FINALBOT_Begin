@@ -1,0 +1,84 @@
+2026-06-25 19:07:13,502 | INFO     | กำลังเชื่อมต่อ IQ Option...
+2026-06-25 19:07:13,696 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-25 19:07:16,159 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-25 19:07:16,166 | INFO     | เชื่อมต่อ IQ Option สำเร็จ..
+2026-06-25 19:07:16,167 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-25 19:07:16,724 | INFO     | บัญชี PRACTICE | Balance: $2050.40
+2026-06-25 19:07:16,724 | WARNING  | Failed to get server time offset: 'IQ_Option' object has no attribute 'get_server_time'
+2026-06-25 19:07:16,726 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-25 19:07:16,734 | INFO     | Trading Mode: AI AUTO_BOT
+2026-06-25 19:07:16,740 | INFO     | ตรวจเช็คความพร้อม DEEPSEEK AI
+2026-06-25 19:07:54,386 | INFO     | "I am DeepSeek Agent (DeepSeek-V3), ready to analyze the market."
+2026-06-25 19:07:54,387 | INFO     | MarketStateClassifier initialised
+2026-06-25 19:07:54,391 | INFO     | รายการสินทรัพย์เพื่อเทรด 4 รายการ : EURUSD, EURUSD-OTC, EURGBP, EURGBP-OTC
+2026-06-25 19:07:54,396 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์
+2026-06-25 19:07:55,494 | INFO     | [DataAdapter] EURUSD initialised — M1:200 M5:200 M15:200
+2026-06-25 19:07:56,443 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-25 19:07:57,397 | INFO     | [DataAdapter] EURGBP initialised — M1:200 M5:200 M15:200
+2026-06-25 19:07:58,300 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:200 M5:200 M15:200
+2026-06-25 19:07:58,339 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-06-25 19:07:59,640 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=200)
+2026-06-25 19:08:00,907 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=200)
+2026-06-25 19:08:03,205 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-06-25 19:08:04,581 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-06-25 19:08:05,884 | INFO     | [WS] Subscribed live candles stream for EURGBP (M1, count=200)
+2026-06-25 19:08:08,168 | INFO     | [WS] Subscribed live candles stream for EURGBP (M5, count=200)
+2026-06-25 19:08:09,499 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-06-25 19:08:10,802 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-06-25 19:08:10,811 | INFO     | [MODE : AI_BOT][Stake:35][Profit:100.0%][Loss:100.0%][Orderlimit:9999][Time:11.00-23.00]
+2026-06-25 19:08:10,818 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 52 วินาที  (เริ่ม 19:09:02)
+2026-06-25 19:09:03,142 | INFO     | [EURUSD:1.13405][EURUSD-OTC:1.13498][EURGBP:0.86179][EURGBP-OTC:0.86589] :: TOTAL=$2050.40
+2026-06-25 19:09:03,303 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:09:03,307 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
+2026-06-25 19:09:03,308 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-25 19:09:03,309 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:10:02,653 | INFO     | [EURUSD:1.13416][EURUSD-OTC:1.13495][EURGBP:0.86182][EURGBP-OTC:0.86574] :: TOTAL=$2050.40
+2026-06-25 19:10:02,778 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:10:02,780 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
+2026-06-25 19:10:02,787 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-25 19:10:02,787 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:11:03,012 | INFO     | [EURUSD:1.13410][EURUSD-OTC:1.13464][EURGBP:0.86182][EURGBP-OTC:0.86554] :: TOTAL=$2050.40
+2026-06-25 19:11:03,161 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
+2026-06-25 19:11:03,170 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:11:03,171 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:11:03,171 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-25 19:12:02,414 | INFO     | [EURUSD:1.13414][EURUSD-OTC:1.13437][EURGBP:0.86189][EURGBP-OTC:0.86569] :: TOTAL=$2050.40
+2026-06-25 19:12:02,460 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
+2026-06-25 19:12:02,461 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-25 19:12:02,463 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:12:02,464 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:13:02,740 | INFO     | [EURUSD:1.13417][EURUSD-OTC:1.13424][EURGBP:0.86191][EURGBP-OTC:0.86550] :: TOTAL=$2050.40
+2026-06-25 19:13:02,889 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-25 19:13:02,890 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:13:02,891 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:13:02,892 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
+2026-06-25 19:14:03,095 | INFO     | [EURUSD:1.13407][EURUSD-OTC:1.13353][EURGBP:0.86196][EURGBP-OTC:0.86547] :: TOTAL=$2050.40
+2026-06-25 19:14:03,230 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:14:03,235 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-25 19:14:03,235 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
+2026-06-25 19:14:03,236 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:15:02,670 | INFO     | [EURUSD:1.13416][EURUSD-OTC:1.13366][EURGBP:0.86195][EURGBP-OTC:0.86547] :: TOTAL=$2050.40
+2026-06-25 19:15:02,818 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:15:02,820 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-25 19:15:02,823 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:15:02,825 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
+2026-06-25 19:16:03,016 | INFO     | [EURUSD:1.13417][EURUSD-OTC:1.13444][EURGBP:0.86199][EURGBP-OTC:0.86540] :: TOTAL=$2050.40
+2026-06-25 19:16:03,125 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
+2026-06-25 19:16:03,126 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:16:03,126 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:16:03,131 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-25 19:17:02,469 | INFO     | [EURUSD:1.13406][EURUSD-OTC:1.13444][EURGBP:0.86199][EURGBP-OTC:0.86540] :: TOTAL=$2050.40
+2026-06-25 19:17:02,613 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-25 19:17:02,621 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
+2026-06-25 19:17:02,623 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:17:02,624 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:18:02,882 | INFO     | [EURUSD:1.13396][EURUSD-OTC:1.13451][EURGBP:0.86202][EURGBP-OTC:0.86530] :: TOTAL=$2050.40
+2026-06-25 19:18:02,987 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
+2026-06-25 19:18:02,992 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-25 19:18:02,993 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:18:02,993 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:19:03,200 | INFO     | [EURUSD:1.13410][EURUSD-OTC:1.13438][EURGBP:0.86204][EURGBP-OTC:0.86545] :: TOTAL=$2050.40
+2026-06-25 19:19:03,352 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
+2026-06-25 19:19:03,353 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-25 19:19:03,354 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
+2026-06-25 19:19:03,354 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call

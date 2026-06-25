@@ -1,0 +1,93 @@
+{
+    "meta": {
+        "timestamp": "2026-06-25T21:33:02.586152",
+        "symbol": "EURGBP",
+        "session": "NEW YORK",
+        "price": 0.86159,
+        "data_age_ms": 62675,
+        "data_quality": "HIGH"
+    },
+    "market_context": {
+        "state": "ACCUMULATION",
+        "description": "Smart money accumulation. Bullish bias, look for breakout.",
+        "volatility_regime": "EXTREME",
+        "news_impact": "LOW",
+        "expected_volatility_%": 0.025,
+        "recent_ai_memory": []
+    },
+    "timeframes": {
+        "m1": {
+            "last_candle": 0.86159,
+            "ema5": 0.861597,
+            "ema20": 0.861532,
+            "rsi": 68.75,
+            "stoch_k": 83.33,
+            "stoch_d": 81.49,
+            "macd": 4.9e-05,
+            "macd_signal": 4e-05
+        },
+        "m5": {
+            "bias": "BULLISH",
+            "ema5": 0.86149,
+            "ema10": 0.861458,
+            "ema20": 0.861491,
+            "ema50": 0.861606,
+            "bb_upper": 0.861791,
+            "bb_lower": 0.861114,
+            "bb_width": 0.000677,
+            "rsi": 56.11,
+            "stoch_k": 84.61,
+            "stoch_d": 69.92,
+            "macd": -5.9e-05,
+            "macd_signal": -8.6e-05,
+            "adx": 25.7,
+            "atr": 0.000219,
+            "support": 0.861055,
+            "resistance": 0.861835,
+            "pivot": 0.861573
+        },
+        "m15": {
+            "bias": "BEARISH"
+        }
+    },
+    "price_action": {
+        "pattern": "DOJI",
+        "last_candle_bias": "BULLISH",
+        "body_strength": "WEAK",
+        "wick_dominance": "LOW",
+        "momentum_bias": "NEUTRAL",
+        "move_quality": "CHOPPY",
+        "trap_alert": false,
+        "sr_interaction": "NONE"
+    },
+    "volume": {
+        "tick_volume": 1501,
+        "volume_momentum": "FALLING",
+        "volume_vs_average": 0.954
+    },
+    "analysis": {
+        "trend_direction": "NONE",
+        "trend_type": "CHOPPY",
+        "trend_strength_score": 40,
+        "mtf_alignment_%": 50,
+        "compression_quality_%": 21.011371512481638,
+        "exhaustion_risk_%": 40,
+        "bos_detected": false
+    },
+    "signals": {
+        "triggered": [],
+        "count": 0,
+        "top_signal": "NO"
+    },
+    "decision_layer": {
+        "tradeable": true,
+        "tradeable_reason": "Passed basic checks",
+        "confidence_score": 0,
+        "stability_score": 50,
+        "quality_score": 50,
+        "risk_level": "MEDIUM",
+        "suggested_expiry_minutes": 5,
+        "suggested_action": "WAIT",
+        "final_reason_th": "รอการวิเคราะห์จาก AI"
+    }
+}

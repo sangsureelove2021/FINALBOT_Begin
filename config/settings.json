@@ -2,7 +2,7 @@
   "_comment": "FINALBOT settings. account_type=PRACTICE uses the IQ Option demo account (fake money). Change to REAL only after demo testing is complete.",
   "account": {
     "account_type": "PRACTICE",
-    "trading_mode": "Ai_BOT",
+    "trading_mode": "AI AUTO_BOT",
     "iq_email": "venuz20152565@gmail.com",
     "iq_password": "2856101607mM@",
     "stake_per_trade": 35,

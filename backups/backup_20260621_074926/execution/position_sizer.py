@@ -100,7 +100,7 @@ class PositionSizer:
 
         if confidence is not None:
             # Binary Options Mode: Load base stake from config/settings.json.
-            from core.config_loader import load_settings
+            from config.config_loader import load_settings
             try:
                 base_stake = float(load_settings().get("capital", {}).get("stake_per_trade", 30.0))
             except Exception as e:

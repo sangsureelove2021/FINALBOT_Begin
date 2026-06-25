@@ -55,7 +55,7 @@ from core.logging.trade_logger import TradeLogger
 class PureAIRunner:
     def __init__(self):
         # Load settings
-        from core.config_loader import load_settings
+        from config.config_loader import load_settings
         self.settings = load_settings(reload=False)
         
         account_cfg = self.settings.get("account", {})

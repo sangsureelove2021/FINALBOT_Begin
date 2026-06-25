@@ -53,8 +53,12 @@ class IEngine(ABC):
         """
         pass
     
-    def validate_input(self, payload: Dict[str, Any]) -> bool:
+    def validate_input(self, payload: Any) -> bool:
         """Common input validation"""
-        if not payload or not isinstance(payload, dict):
+        if payload is None:
             return False
+        if isinstance(payload, pd.DataFrame):
+            return not payload.empty
+        if isinstance(payload, dict):
+            return bool(payload)
         return True

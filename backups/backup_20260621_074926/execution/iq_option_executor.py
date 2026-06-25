@@ -67,7 +67,7 @@ class IQOptionExecutor:
         # Otherwise connect with own credentials (env > settings.json)
         if not (email and password):
             try:
-                from core.config_loader import get_iq_credentials
+                from config.config_loader import get_iq_credentials
                 email, password = get_iq_credentials()
             except Exception:
                 email = email or os.getenv("IQ_EMAIL", "")

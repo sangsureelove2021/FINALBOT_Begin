@@ -1,0 +1,34 @@
+2026-06-25 18:42:04,596 | INFO     | กำลังเชื่อมต่อ IQ Option...
+2026-06-25 18:42:04,803 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-25 18:42:07,348 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-25 18:42:07,356 | INFO     | เชื่อมต่อ IQ Option สำเร็จ..
+2026-06-25 18:42:07,357 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-25 18:42:08,115 | INFO     | บัญชี PRACTICE | Balance: $2050.40
+2026-06-25 18:42:08,115 | WARNING  | Failed to get server time offset: 'IQ_Option' object has no attribute 'get_server_time'
+2026-06-25 18:42:08,117 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-25 18:42:08,125 | INFO     | Trading Mode: AI AUTO_BOT
+2026-06-25 18:42:08,133 | INFO     | ตรวจเช็คความพร้อม DEEPSEEK AI
+2026-06-25 18:42:48,487 | INFO     | "I'm DeepSeek Agent (DeepSeek-V3), ready to analyze the market."
+2026-06-25 18:42:48,487 | INFO     | MarketStateClassifier initialised
+2026-06-25 18:42:48,494 | INFO     | รายการสินทรัพย์เพื่อเทรด 4 รายการ : EURUSD, EURUSD-OTC, EURGBP, EURGBP-OTC
+2026-06-25 18:42:48,501 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์
+2026-06-25 18:42:49,532 | INFO     | [DataAdapter] EURUSD initialised — M1:200 M5:200 M15:200
+2026-06-25 18:42:50,505 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-25 18:42:51,522 | INFO     | [DataAdapter] EURGBP initialised — M1:200 M5:200 M15:200
+2026-06-25 18:42:52,516 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:200 M5:200 M15:200
+2026-06-25 18:42:52,542 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-06-25 18:42:53,832 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=200)
+2026-06-25 18:42:56,138 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=200)
+2026-06-25 18:42:57,572 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-06-25 18:42:58,881 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-06-25 18:43:01,190 | INFO     | [WS] Subscribed live candles stream for EURGBP (M1, count=200)
+2026-06-25 18:43:02,660 | INFO     | [WS] Subscribed live candles stream for EURGBP (M5, count=200)
+2026-06-25 18:43:05,064 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-06-25 18:43:06,390 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-06-25 18:43:06,427 | INFO     | [MODE : AI_BOT][Stake:35][Profit:100.0%][Loss:100.0%][Orderlimit:9999][Time:11.00-23.00]
+2026-06-25 18:43:06,438 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 56 วินาที  (เริ่ม 18:44:02)
+2026-06-25 18:44:02,841 | INFO     | [EURUSD:1.13384][EURUSD-OTC:1.13430][EURGBP:0.86159][EURGBP-OTC:0.86652] :: TOTAL=$2050.40
+2026-06-25 18:44:03,896 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-25 18:44:04,342 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
+2026-06-25 18:44:04,720 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
+2026-06-25 18:44:04,748 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call

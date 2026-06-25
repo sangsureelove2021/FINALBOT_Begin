@@ -1,0 +1,6 @@
+2026-06-25 09:35:21,827 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-25 09:35:25,193 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-25 09:35:25,193 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-25 09:35:25,923 | WARNING  | Failed to get server time offset: 'IQ_Option' object has no attribute 'get_server_time'
+2026-06-25 09:35:25,926 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-25 09:36:40,948 | ERROR    | AI Readiness check failed: Command '['C:\\Users\\BUSOLOVE\\AppData\\Roaming\\npm\\deepseek-agent.CMD', '--headless', '--no-tui', '--max-iterations=1', 'System check. Briefly introduce yourself (including your AI model name) and state you are ready to analyze the market. Reply in a single short line in English.']' timed out after 75 seconds

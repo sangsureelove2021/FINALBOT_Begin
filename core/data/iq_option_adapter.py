@@ -51,7 +51,7 @@ class IQOptionAdapter(IDataSource):
             self.email, self.password = email, password
         else:
             try:
-                from core.config_loader import get_iq_credentials
+                from config.config_loader import get_iq_credentials
                 self.email, self.password = get_iq_credentials()
             except Exception:
                 self.email = os.getenv("IQ_EMAIL", "")

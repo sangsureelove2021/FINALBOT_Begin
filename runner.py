@@ -5,48 +5,9 @@ import time
 from datetime import datetime, timezone, timedelta
 import pandas as pd
 
-# Safe stream wrapper for Windows console to prevent encoding errors
-class SafeStreamWrapper:
-    def __init__(self, original_stream):
-        self.original_stream = original_stream
-    def write(self, data):
-        try:
-            self.original_stream.write(data)
-        except Exception:
-            try:
-                self.original_stream.write(data.encode('ascii', errors='backslashreplace').decode('ascii'))
-            except Exception:
-                pass
-    def flush(self):
-        if hasattr(self.original_stream, 'flush'):
-            self.original_stream.flush()
-    def __getattr__(self, attr):
-        return getattr(self.original_stream, attr)
+from monitoring.console_dashboard import ConsoleUI, logger, setup_logging
 
-sys.stdout = SafeStreamWrapper(sys.stdout)
-sys.stderr = SafeStreamWrapper(sys.stderr)
-
-# Configure logging
-os.makedirs("logs/system_logs", exist_ok=True)
-log_file_name = f"logs/system_logs/bot_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s | %(levelname)-8s | %(message)s',
-    handlers=[
-        logging.FileHandler(log_file_name, encoding='utf-8')
-    ]
-)
-logger = logging.getLogger("FINALBOT")
-
-import threading
-_PRINT_LOCK = threading.Lock()
-
-def thai_console_log(msg: str):
-    tz_thailand = timezone(timedelta(hours=7))
-    thai_time_str = datetime.now(tz_thailand).strftime('%H:%M:%S')
-    with _PRINT_LOCK:
-        print(f"{thai_time_str} - {msg}")
-        sys.stdout.flush()
+setup_logging()
 
 # Core imports
 from core.data.iq_option_adapter import IQOptionAdapter
@@ -54,13 +15,13 @@ from core.data.data_adapter import DataAdapter
 from execution.iq_option_executor import IQOptionExecutor
 from execution.order_manager import OrderManager
 from core.ai_analysis.deepseek_agent_bridge import DeepSeekAgentBridge
-from core.logging.trade_logger import TradeLogger
-from core.orchestrator import Orchestrator
+
+from core.orchestration.orchestrator import Orchestrator
 
 class PureAIRunner:
     def __init__(self):
         # Load settings
-        from core.config_loader import load_settings
+        from config.config_loader import load_settings
         self.settings = load_settings(reload=False)
         
         account_cfg = self.settings.get("account", {})
@@ -69,13 +30,13 @@ class PureAIRunner:
         self.stake = account_cfg.get("stake_per_trade", 10)
         
         # Initialize adapter and executor
-        thai_console_log("กำลังเชื่อมต่อ IQ Option...")
+        ConsoleUI.show_connection_attempt()
         self.data_adapter = IQOptionAdapter(account_type=self.account_type)
         if not self.data_adapter.is_connected():
-            thai_console_log("เชื่อมต่อ IQ Option ล้มเหลว")
+            ConsoleUI.show_connection_failed()
             sys.exit(1)
             
-        thai_console_log("เชื่อมต่อ IQ Option สำเร็จ..")
+        ConsoleUI.show_connection_success()
             
         self.executor = IQOptionExecutor(adapter=self.data_adapter, account_type=self.account_type)
         self.candle_adapter = DataAdapter(iq_adapter=self.data_adapter, base_dir="data/DATA IQ")
@@ -83,19 +44,24 @@ class PureAIRunner:
         # Display balance
         try:
             balance = self.data_adapter.api.get_balance()
-        except:
+        except Exception as e:
+            logger.warning(f"Failed to get balance: {e}")
             balance = 0.0
             
-        thai_console_log(f"บัญชี {self.account_type} | Balance: ${balance:.2f}")
+        ConsoleUI.show_account_info(self.account_type, balance)
 
         # Calculate time offset between local clock and IQ Option server clock
         try:
             server_time = self.data_adapter.api.get_server_time()
             self.time_offset = server_time - time.time()
-            thai_console_log(f"เวลาเซิร์ฟเวอร์โบรกเกอร์ต่างจากเครื่อง: {self.time_offset:.2f} วินาที")
+            ConsoleUI.show_time_offset(self.time_offset)
         except Exception as e:
             self.time_offset = 0.0
             logger.warning(f"Failed to get server time offset: {e}")
+
+        # โหลด trading_mode
+        from config.config_loader import get_trading_mode
+        self.trading_mode = get_trading_mode()
 
         # Initialize DeepSeek bridge
         ai_cfg = self.settings.get("ai_mode", {})
@@ -115,30 +81,38 @@ class PureAIRunner:
         self.min_confidence = thresholds.get("min_confidence",
                              self.settings.get("execution_gate", {}).get("min_confidence", 75))
         
-        thai_console_log("ตรวจเช็คความพร้อม DEEPSEEK AI")
-        ai_reply = self.ai_bridge.check_readiness()
-        if not ai_reply:
-            thai_console_log("Failed to connect to AI. System stopped.")
-            sys.exit(1)
-        thai_console_log(f'"{ai_reply}"')
+        ConsoleUI.show_trading_mode(self.trading_mode)
+        if "AI" in self.trading_mode:
+            ConsoleUI.show_ai_checking()
+            ai_reply = self.ai_bridge.check_readiness()
+            if not ai_reply:
+                ConsoleUI.show_ai_failed()
+                sys.exit(1)
+            ConsoleUI.show_ai_reply(ai_reply)
         
         # Pull max_concurrent from settings
         max_conc = self.settings.get("limits", {}).get("max_concurrent", 5)
         self.order_manager = OrderManager(max_concurrent=max_conc)
         self.use_advanced_ai_context = ai_cfg.get("use_advanced_context", True)
         
-        from core.indicator_store import store
-        self.trade_logger = TradeLogger(indicator_store=store)
-        self.orchestrator = Orchestrator(trade_logger=self.trade_logger)
+        from core.orchestration.indicator_store.indicator_store import store
+        if "AI" in self.trading_mode:
+            self.orchestrator = Orchestrator()
+            self.pipeline = None
+            self.bot_strategy = None
+        else:
+            self.orchestrator = Orchestrator() # Keep orchestrator for fallback if needed, or just let store handle calculation
+            from main import setup_pipeline
+            self.pipeline = setup_pipeline()
+            from core.bot_strategy.strategy import BotStrategyProcessor
+            self.bot_strategy = BotStrategyProcessor(self.settings)
         
         self.last_processed_candle = {sym: None for sym in self.symbols}
 
         # Display assets
-        sym_len = len(self.symbols)
-        sym_list = ", ".join(self.symbols)
-        thai_console_log(f"รายการสินทรัพย์เพื่อเทรด {sym_len} รายการ : {sym_list}")
+        ConsoleUI.show_asset_list(self.symbols)
         
-        thai_console_log("กำลังเตรียมข้อมูลสินทรัพย์")
+        ConsoleUI.show_data_prep_start()
         
         # Warm-up: fetch 200 candles per symbol and write initial CSVs via DataAdapter
         ready_symbols = []
@@ -151,8 +125,7 @@ class PureAIRunner:
                 logger.warning(f"{sym} data incomplete. Dropped.")
                 
         self.symbols = ready_symbols
-        ready_count = len(self.symbols)
-        thai_console_log(f"ข้อมูลพร้อมเทรด {ready_count} รายการ  ไม่พร้อมเทรด {not_ready_count} รายการ")
+        ConsoleUI.show_data_prep_result(len(self.symbols), not_ready_count)
         
         # Initialize background AI executor and running flags
         import concurrent.futures
@@ -168,8 +141,7 @@ class PureAIRunner:
         loss_pct = account_cfg.get("stop_loss_percent", 3.5)
         trade_hours = self.settings.get("session", {}).get("trading_hours", "11.00-23.00")
         
-        mode_str = f"[MODE : AI_BOT][Stake:{self.stake}][Profit:{profit_pct}%][Loss:{loss_pct}%][Orderlimit:{max_conc}][Time:{trade_hours}]"
-        thai_console_log(mode_str)
+        ConsoleUI.show_mode_summary(self.stake, profit_pct, loss_pct, max_conc, trade_hours)
         self._countdown_to_first_candle()
 
 
@@ -184,7 +156,7 @@ class PureAIRunner:
         tz_thailand = timezone(timedelta(hours=7))
         target = datetime.now(tz_thailand) + timedelta(seconds=remaining)
         target_str = target.strftime('%H:%M:%S')
-        thai_console_log(f"เข้าสู่การวิเคราะห์สัญญาณในอีก {remaining} วินาที  (เริ่ม {target_str})")
+        ConsoleUI.show_countdown(remaining, target_str)
 
     def fetch_and_save_data(self, symbol):
         """Delegate all candle management to DataAdapter."""
@@ -193,17 +165,6 @@ class PureAIRunner:
 
     def run_ai_analysis_and_trade(self, symbol, candles_dict, current_price):
         try:
-            completed_m1 = candles_dict['M1']
-            completed_m5 = candles_dict['M5']
-            completed_m15 = candles_dict['M15']
-
-            # --- 0. IndicatorStore warm-up ก่อนเสมอ (ป้องกัน indicators เป็น 0) ---
-            from core.indicator_store import store
-            try:
-                store.calculate_all(symbol, candles_dict)
-            except Exception as e:
-                logger.error(f"IndicatorStore.calculate_all failed for {symbol}: {e}")
-
             # --- 1. Orchestrator Data Pipeline ---
             log_data = None
             try:
@@ -212,81 +173,90 @@ class PureAIRunner:
                     candles_dict=candles_dict,
                     ai_context=None
                 )
-                # บันทึกไฟล์ indicator_YYYYMMDD_HHMMSS.json ทันทีที่ได้ข้อมูลครบ
-                if hasattr(self, 'trade_logger') and self.trade_logger:
-                    self.trade_logger.save_indicator_snapshot(symbol)
-                    
             except Exception as e:
                 logger.error(f"Orchestrator cycle failed for {symbol}: {e}")
 
-            # ถ้า Orchestrator crash หรือคืน None — สร้าง context จาก IndicatorStore โดยตรง
+            # ถ้า Orchestrator crash หรือคืน None — ให้หยุดทำรายการ (ไม่ดึงจากที่อื่นแล้ว)
             if not log_data:
-                logger.warning(f"Orchestrator returned no data for {symbol} — building fallback context")
-                payload = store.get_payload(symbol)
-                m5 = payload.get('m5', {})
-                log_data = {
-                    "symbol":        symbol,
-                    "current_price": current_price,
-                    "m5":            m5,
-                    "m1":            payload.get('m1', {}),
-                    "m15":           payload.get('m15', {}),
-                    "price_action":  payload.get('price_action', {}),
-                    "market_state":  payload.get('market_state', 'UNCLEAR'),
-                    "analysis": {
-                        "trend_direction": "NONE",
-                        "trend_strength":  0,
-                        "trend_type":      "CHOPPY",
-                        "volatility_regime": "NORMAL",
-                    },
-                    "_fallback": True,
-                }
-
-            # ตรวจสอบว่า indicators มีค่าจริงหรือเป็น 0 ทั้งหมด
-            m5_inds = log_data.get('m5', {})
-            rsi = m5_inds.get('rsi14', 0.0)
-            has_real_data = rsi != 0.0 and m5_inds.get('ema5', 0.0) != 0.0
-            if not has_real_data:
-                logger.warning(f"Indicators for {symbol} are all zero — IndicatorStore may not have warmed up yet, skipping AI call")
+                logger.warning(f"Orchestrator returned no data for {symbol} — skipping AI call")
                 return
 
-            # สร้าง advanced context จาก log_data เพื่อส่งให้ AI ครบทุก field
+            # สร้าง advanced context จาก log_data เพื่อส่งให้ AI และ Bot
             ai_context_to_send = dict(log_data)
             ai_context_to_send["is_advanced"] = True
+            ai_context_to_send["current_price"] = current_price
 
-            insight = self.ai_bridge.analyze_market(ai_context_to_send)
+            # Data structure for unified signal handling
+            from collections import namedtuple
+            Insight = namedtuple('Insight', ['action', 'confidence', 'expiry'])
+            insight = None
+
+            if "AI" in self.trading_mode:
+                ai_insight = self.ai_bridge.analyze_market(ai_context_to_send)
+                if ai_insight:
+                    self.orchestrator.update_ai_memory(symbol, ai_insight.action, ai_insight.reason)
+                    insight = Insight(action=ai_insight.action, confidence=ai_insight.confidence, expiry=ai_insight.expiry)
+                    ConsoleUI.show_insight("AI", insight.action, insight.confidence)
+                    
+                    # Update the JSON with AI results
+                    if log_data and 'decision_layer' in log_data:
+                        log_data['decision_layer']['final_reason_th'] = ai_insight.reason
+                        log_data['decision_layer']['suggested_action'] = ai_insight.action
+                        log_data['decision_layer']['suggested_expiry_minutes'] = ai_insight.expiry
+                        log_data['decision_layer']['confidence_score'] = ai_insight.confidence
+                        try:
+                            self.orchestrator._save_formatted_json(symbol, log_data)
+                        except Exception as e:
+                            logger.error(f"Failed to update JSON with AI reason: {e}")
+            else:
+                if self.bot_strategy:
+                    # Use standard BotStrategyProcessor with orchestrator payload
+                    res = self.bot_strategy.analyze_market(ai_context_to_send)
+                    insight = Insight(action=res.get('action', 'WAIT'), confidence=res.get('confidence', 0), expiry=res.get('expiry', 5))
+                    ConsoleUI.show_insight("BOT Strategy", insight.action, insight.confidence)
+                elif self.pipeline:
+                    # pipeline using orchestrator payload
+                    bot_signal = self.pipeline.execute(symbol, ai_context_to_send, 'M5')
+                    if bot_signal:
+                        insight = Insight(action=bot_signal.action, confidence=bot_signal.confidence, expiry=5)
+                        ConsoleUI.show_insight("BOT Pipeline", insight.action, insight.confidence)
+
             if not insight:
                 return
-            
-            thai_console_log(f"AI: {insight.action} ({insight.confidence}%)")
             
             if insight.action in ["CALL", "PUT"] and insight.confidence >= self.min_confidence:
                 direction = insight.action.upper()
                 expiry_time = insight.expiry
-                thai_console_log(f"ยิงออเดอร์ {insight.action} {symbol} ({expiry_time} นาที)")
-                try:
-                    # Execute trade using executor's send_order method
-                    result = self.executor.send_order(
-                        symbol=symbol,
-                        direction=direction,
-                        amount=self.stake,
-                        expiry=f"M{expiry_time}"
-                    )
-                    if result.status == 'executed':
-                        order_id = result.order_id
-                        # Record trade in order manager
-                        self.order_manager.add_trade(
-                            order_id=str(order_id),
+                
+                if "AUTO" in self.trading_mode:
+                    ConsoleUI.show_order_execution(insight.action, symbol, expiry_time)
+                    try:
+                        # Execute trade using executor's send_order method
+                        result = self.executor.send_order(
                             symbol=symbol,
-                            direction=insight.action,
+                            direction=direction,
                             amount=self.stake,
-                            entry_price=current_price,
-                            expiry=f"M{insight.expiry}"
+                            expiry=f"M{expiry_time}"
                         )
-                        thai_console_log(f"   └─ ออเดอร์เข้าสำเร็จ (ID: {order_id})")
-                    else:
-                        thai_console_log(f"Execution failed for {symbol}: {result.reason}")
-                except Exception as e:
-                    logger.error(f"Execution exception: {e}")
+                        if result.status == 'executed':
+                            order_id = result.order_id
+                            # Record trade in order manager
+                            self.order_manager.add_trade(
+                                order_id=str(order_id),
+                                symbol=symbol,
+                                direction=insight.action,
+                                amount=self.stake,
+                                entry_price=current_price,
+                                expiry=f"M{insight.expiry}"
+                            )
+                            ConsoleUI.show_order_success(order_id)
+                        else:
+                            ConsoleUI.show_order_failed(symbol, result.reason)
+                    except Exception as e:
+                        logger.error(f"Execution exception: {e}")
+                else:
+                    # SIGNAL Mode - do not execute
+                    ConsoleUI.show_signal_only(insight.action, symbol, expiry_time, self.trading_mode)
         except Exception as ex:
             logger.error(f"Background AI task failed for {symbol}: {ex}")
         finally:
@@ -313,7 +283,8 @@ class PureAIRunner:
                     duration_mins = int(expiry_val[1:])
                 else:
                     duration_mins = int(expiry_val)
-            except:
+            except Exception as e:
+                logger.warning(f"Failed to parse expiry: {e}")
                 duration_mins = 5
                 
             if elapsed >= (duration_mins * 60):
@@ -342,7 +313,7 @@ class PureAIRunner:
                         notes=f"Settled via IQ Option API (status: {win_status}, pnl: {pnl})",
                         current_time=now
                     )
-                    thai_console_log(f"{'ชนะ' if won else 'แพ้'} {trade.symbol} (ID: {order_id}) | PnL: {pnl:.2f}")
+                    ConsoleUI.show_trade_result(won, trade.symbol, order_id, pnl)
                 except Exception as e:
                     logger.error(f"Failed to settle trade {order_id}: {e}")
 
@@ -366,7 +337,7 @@ class PureAIRunner:
             concurrent.futures.wait(sym_futures.values())
 
         # Step 2: Spawn background AI analysis tasks
-        price_parts = []
+        prices_dict = {}
         for sym in self.symbols:
             try:
                 result_val = sym_futures[sym].result()
@@ -379,7 +350,7 @@ class PureAIRunner:
 
             # DataAdapter.update returns (symbol, m1, m5, m15, price)
             completed_m1, completed_m5, completed_m15, current_price = result_val[1:]
-            price_parts.append(f"{sym}:{current_price:.5f}")
+            prices_dict[sym] = current_price
             last_ts_m1 = completed_m1.index[-1]
             
             # กันวิเคราะห์แท่งเดิมซ้ำ
@@ -402,10 +373,8 @@ class PureAIRunner:
             self.ai_executor.submit(self.run_ai_analysis_and_trade, sym, candles_dict, current_price)
 
         # แสดงสรุปราคาและยอดเงินบรรทัดเดียว
-        if price_parts:
-            price_str = "][".join(price_parts)
-            balance_str = f"${balance:.2f}" if balance is not None else "N/A"
-            thai_console_log(f"[{price_str}] :: TOTAL={balance_str}")
+        if prices_dict:
+            ConsoleUI.show_prices_and_balance(prices_dict, balance)
 
 
     def start(self):
@@ -425,10 +394,12 @@ class PureAIRunner:
                 self.run_cycle()
 
             except KeyboardInterrupt:
-                thai_console_log("Stopping bot...")
+                ConsoleUI.show_stopping()
                 break
             except Exception as e:
                 logger.error(f"Error in main loop: {e}")
+                import traceback
+                traceback.print_exc()
                 time.sleep(5)
 
 if __name__ == "__main__":

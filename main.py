@@ -10,33 +10,6 @@ import sys
 import os
 from pathlib import Path
 
-# Safe stream wrapper to prevent UnicodeEncodeError in IDLE and Windows consoles
-class SafeStreamWrapper:
-    def __init__(self, original_stream):
-        self.original_stream = original_stream
-        self.encoding = getattr(original_stream, 'encoding', None) or 'utf-8'
-
-    def write(self, data):
-        try:
-            self.original_stream.write(data)
-        except Exception:
-            try:
-                # Force fallback to pure ASCII with backslashreplace, which is 100% encodable in any stream/IDE
-                safe_data = data.encode('ascii', errors='backslashreplace').decode('ascii')
-                self.original_stream.write(safe_data)
-            except Exception:
-                pass
-
-    def flush(self):
-        if hasattr(self.original_stream, 'flush'):
-            self.original_stream.flush()
-
-    def __getattr__(self, attr):
-        return getattr(self.original_stream, attr)
-
-# Wrap stdout and stderr safely
-sys.stdout = SafeStreamWrapper(sys.stdout)
-sys.stderr = SafeStreamWrapper(sys.stderr)
 
 
 
@@ -44,15 +17,15 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 SYMBOLS_FILE = PROJECT_ROOT / "symbols.txt"
 
 # Make setup_engines importable as `from main import setup_engines`
-from core.engines.engine_setup import setup_engines  # noqa: F401
+from core.orchestration.engine_setup import setup_engines  # noqa: F401
 
 
 def setup_pipeline(registry=None):
     """Build a ready-to-run Pipeline from settings.json active_strategies."""
-    from core.config_loader import load_settings, get_execution_gate
+    from config.config_loader import load_settings, get_execution_gate
     from core.orchestration.context_builder import ContextBuilder
     from core.orchestration.pipeline import Pipeline
-    from core.orchestration.execution_gate import ExecutionGate
+    from execution.execution_gate import ExecutionGate
     from strategy.compression_breakout.strategy import CompressionBreakoutStrategy
     from strategy.trend_following.triple_confluence import TripleConfluenceStrategy
     from strategy.reversal_strategy.bb_rsi_confluence import BBRSIConfluenceStrategy
@@ -114,7 +87,7 @@ def setup_pipeline(registry=None):
 def load_symbols(path: str = None) -> list:
     """Load trading pairs from settings.json (single source of truth), with fallback to symbols.txt."""
     try:
-        from core.config_loader import get_symbols
+        from config.config_loader import get_symbols
         symbols = get_symbols()
         if symbols:
             return symbols
@@ -141,17 +114,20 @@ def load_symbols(path: str = None) -> list:
 
 def main():
     import logging
-    from core.config_loader import get_account_type
-    from runner import PureAIRunner, thai_console_log
+    from config.config_loader import get_account_type
+    from runner import PureAIRunner
+    from monitoring.console_dashboard import ConsoleUI, setup_logging
+
+    setup_logging()
 
     logger = logging.getLogger("FINALBOT")
-    thai_console_log("FINALBOT Starting...")
+    ConsoleUI.show_startup()
     symbols = load_symbols()
-    thai_console_log(f"คู่เงิน ({len(symbols)}): {', '.join(symbols)}")
+    ConsoleUI.show_symbols_loaded(symbols)
 
     bot = PureAIRunner()
 
-    thai_console_log("เริ่ม Live Mode — วิเคราะห์ทุกแท่ง M1 (Ctrl+C หยุด)")
+    ConsoleUI.show_live_mode_start()
     bot.start()
 
 

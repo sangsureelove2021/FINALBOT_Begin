@@ -52,7 +52,7 @@ class ExecutionGuard:
         
         # Parse trading hours (e.g. "17:00-23:00")
         try:
-            from core.config_loader import get_session
+            from config.config_loader import get_session
             session = get_session()
             hours_str = session.get("trading_hours", "17:00-23:00")
             start_str, end_str = hours_str.split("-")

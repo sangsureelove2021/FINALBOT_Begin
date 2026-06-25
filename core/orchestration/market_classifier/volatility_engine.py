@@ -1,0 +1,134 @@
+"""
+TIER 1 - VOLATILITY ENGINE
+
+
+Measure market volatility using ATR, Bollinger Bands, and historical percentile.
+Classify volatility regime and detect compression/expansion.
+"""
+
+import numpy as np
+import pandas as pd
+from typing import Dict, Any, Tuple
+
+from core.orchestration.base_engine import BaseEngine
+
+
+class VolatilityEngine(BaseEngine):
+    """Tier 1: Volatility Engine"""
+    
+    ENGINE_NAME = "volatility_engine"
+    ENGINE_VERSION = "1.0.0"
+    TIER = 1
+    MIN_CANDLES = 200
+    
+    def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
+        m5 = payload.get('m5', {})
+        if not m5:
+            return self.get_neutral_state()
+            
+        atr_val = m5.get('atr14', 0.0)
+        atr_percentile = m5.get('atr_percentile', 50.0)
+        zscore = m5.get('atr_zscore', 0.0)
+        bbw = m5.get('bb_width', 0.0)
+        bbw_sma_100 = m5.get('bbw_sma_100', 1.0)
+        
+        # Estimate stddev from bbw (BB has 2 stddev multiplier, so bbw = 4 stddev => stddev = bbw/4)
+        stddev = bbw / 4.0 if bbw > 0 else 0.0
+        
+        regime = self._classify_regime(atr_percentile)
+        
+        # Pass the recent highs/lows range from price_action if available, else estimate
+        pa = payload.get('price_action', {})
+        
+        volatility_score = self._calculate_volatility_score(
+            atr_percentile, bbw, stddev, payload.get('ohlcv', {}).get('close', 0.0)
+        )
+        
+        expansion_prob, contraction_prob = self._detect_expansion_contraction(
+            m5.get('atr_recent_avg', 0.0), m5.get('atr_past_avg', 0.0)
+        )
+        
+        spike_detected = abs(zscore) > 2.0
+        
+        bbw_ratio, compression_quality = self._calculate_compression_quality(
+            atr_percentile, bbw, bbw_sma_100
+        )
+        
+        return {
+            'atr': float(atr_val),
+            'atr_percentile': float(atr_percentile),
+            'bbw': float(bbw),
+            'stddev': float(stddev),
+            'regime': regime,
+            'volatility_score': volatility_score,
+            'expansion_probability': expansion_prob,
+            'contraction_probability': contraction_prob,
+            'volatility_zscore': float(zscore),
+            'spike_detected': bool(spike_detected),
+            'confidence': self._calculate_confidence(atr_val, regime),
+            
+            # Enhancement 2: Compression metrics
+            'bbw_compression_ratio': bbw_ratio,
+            'compression_quality': compression_quality,
+        }
+        
+    def _calculate_compression_quality(self, atr_pct: float, current_bbw: float, historical_bbw_sma: float) -> Tuple[float, float]:
+        """Calculate Bollinger Bands squeeze ratio and Compression Squeeze Quality score using precomputed SSOT values"""
+        try:
+            if historical_bbw_sma == 0 or np.isnan(historical_bbw_sma):
+                bbw_compression_ratio = 1.0
+            else:
+                bbw_compression_ratio = float(current_bbw / historical_bbw_sma)
+                
+            # Compute quality 0-100: lower ratio & lower atr_pct = higher quality squeeze
+            quality = 100.0
+            if bbw_compression_ratio > 0.8:
+                quality -= (bbw_compression_ratio - 0.8) * 100
+            quality -= max(0.0, (atr_pct - 20.0) * 0.8)
+            
+            compression_quality = float(max(0.0, min(100.0, quality)))
+            return bbw_compression_ratio, compression_quality
+        except Exception as e:
+            return 1.0, 50.0
+    
+    def _classify_regime(self, atr_percentile) -> str:
+        if atr_percentile > 75: return 'EXTREME'
+        elif atr_percentile > 50: return 'HIGH'
+        elif atr_percentile > 25: return 'NORMAL'
+        return 'LOW'
+    
+    def _calculate_volatility_score(self, atr_percentile, bbw, stddev, latest_price) -> int:
+        score = 50
+        if atr_percentile > 75: score += 30
+        elif atr_percentile > 50: score += 15
+        if bbw > stddev * 4: score += 15
+        elif bbw > stddev * 2: score += 8
+        return min(100, max(20, score))
+    
+    def _detect_expansion_contraction(self, recent_avg: float, past_avg: float) -> Tuple[int, int]:
+        try:
+            if recent_avg == 0 or past_avg == 0:
+                return 50, 50
+            
+            if recent_avg < past_avg:
+                ratio = recent_avg / (past_avg + 0.00001)
+                if ratio < 0.8:
+                    return 70, 30
+                return 55, 45
+            return 40, 60
+        except Exception as e:
+            return 50, 50
+    
+    def _calculate_confidence(self, atr_val, regime) -> int:
+        if regime == 'EXTREME': return 40  # Less reliable in extremes
+        elif regime == 'LOW': return 65
+        return 80  # Normal/High volatility = good info
+    
+    def get_neutral_state(self) -> Dict[str, Any]:
+        return {
+            'atr': 0.0, 'atr_percentile': 50.0, 'bbw': 0.0, 'stddev': 0.0,
+            'regime': 'NORMAL', 'volatility_score': 50,
+            'expansion_probability': 50, 'contraction_probability': 50,
+            'volatility_zscore': 0.0, 'spike_detected': False,
+            'confidence': 0,
+        }

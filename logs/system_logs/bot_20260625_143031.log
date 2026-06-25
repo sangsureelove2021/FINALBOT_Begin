@@ -1,0 +1,103 @@
+2026-06-25 21:30:32,008 | INFO     | กำลังเชื่อมต่อ IQ Option...
+2026-06-25 21:30:32,057 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-25 21:30:34,975 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-25 21:30:35,038 | INFO     | เชื่อมต่อ IQ Option สำเร็จ..
+2026-06-25 21:30:35,039 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-25 21:30:35,542 | INFO     | บัญชี PRACTICE | Balance: $2050.40
+2026-06-25 21:30:35,542 | WARNING  | Failed to get server time offset: 'IQ_Option' object has no attribute 'get_server_time'
+2026-06-25 21:30:35,545 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-25 21:30:35,551 | INFO     | Trading Mode: AI AUTO_BOT
+2026-06-25 21:30:35,558 | INFO     | ตรวจเช็คความพร้อม DEEPSEEK AI
+2026-06-25 21:31:16,860 | INFO     | "I'm DeepSeek Agent (based on DeepSeek-V3), ready to analyze the market."
+2026-06-25 21:31:16,860 | INFO     | MarketStateClassifier initialised
+2026-06-25 21:31:16,868 | INFO     | รายการสินทรัพย์เพื่อเทรด 4 รายการ : EURUSD, EURUSD-OTC, EURGBP, EURGBP-OTC
+2026-06-25 21:31:16,874 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์
+2026-06-25 21:31:18,138 | INFO     | [DataAdapter] EURUSD initialised — M1:200 M5:200 M15:200
+2026-06-25 21:31:19,119 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-25 21:31:19,976 | INFO     | [DataAdapter] EURGBP initialised — M1:200 M5:200 M15:200
+2026-06-25 21:31:20,972 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:200 M5:200 M15:200
+2026-06-25 21:31:20,994 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-06-25 21:31:23,264 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=200)
+2026-06-25 21:31:24,588 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=200)
+2026-06-25 21:31:25,886 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-06-25 21:31:28,178 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-06-25 21:31:29,545 | INFO     | [WS] Subscribed live candles stream for EURGBP (M1, count=200)
+2026-06-25 21:31:30,832 | INFO     | [WS] Subscribed live candles stream for EURGBP (M5, count=200)
+2026-06-25 21:31:33,170 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-06-25 21:31:34,616 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-06-25 21:31:34,625 | INFO     | [MODE : AI_BOT][Stake:35][Profit:100.0%][Loss:100.0%][Orderlimit:9999][Time:11.00-23.00]
+2026-06-25 21:31:34,634 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 28 วินาที  (เริ่ม 21:32:02)
+2026-06-25 21:32:03,082 | INFO     | [EURUSD:1.13732][EURUSD-OTC:1.13319][EURGBP:0.86165][EURGBP-OTC:0.86204] :: TOTAL=$2050.40
+2026-06-25 21:32:04,669 | ERROR    | Failed to fetch or save news data: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\check_news.py", line 41, in check_news_impact
+    response.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python314\Lib\site-packages\requests\models.py", line 1167, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+2026-06-25 21:32:04,697 | ERROR    | Failed to fetch or save news data: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\check_news.py", line 41, in check_news_impact
+    response.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python314\Lib\site-packages\requests\models.py", line 1167, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+2026-06-25 21:32:04,710 | ERROR    | Background AI task failed for EURUSD-OTC: Object of type int64 is not JSON serializable
+2026-06-25 21:32:04,747 | ERROR    | Background AI task failed for EURGBP: Object of type int64 is not JSON serializable
+2026-06-25 21:32:04,756 | ERROR    | Failed to fetch or save news data: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\check_news.py", line 41, in check_news_impact
+    response.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python314\Lib\site-packages\requests\models.py", line 1167, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+2026-06-25 21:32:04,759 | ERROR    | Failed to fetch or save news data: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\check_news.py", line 41, in check_news_impact
+    response.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python314\Lib\site-packages\requests\models.py", line 1167, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+2026-06-25 21:32:04,830 | ERROR    | Background AI task failed for EURUSD: Object of type int64 is not JSON serializable
+2026-06-25 21:32:04,832 | ERROR    | Background AI task failed for EURGBP-OTC: Object of type int64 is not JSON serializable
+2026-06-25 21:33:02,650 | INFO     | [EURUSD:1.13732][EURUSD-OTC:1.13295][EURGBP:0.86160][EURGBP-OTC:0.86199] :: TOTAL=$2050.40
+2026-06-25 21:33:04,214 | ERROR    | Failed to fetch or save news data: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\check_news.py", line 41, in check_news_impact
+    response.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python314\Lib\site-packages\requests\models.py", line 1167, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+2026-06-25 21:33:04,273 | ERROR    | Background AI task failed for EURGBP: Object of type int64 is not JSON serializable
+2026-06-25 21:33:04,643 | ERROR    | Failed to fetch or save news data: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\check_news.py", line 41, in check_news_impact
+    response.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python314\Lib\site-packages\requests\models.py", line 1167, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+2026-06-25 21:33:04,665 | ERROR    | Background AI task failed for EURUSD-OTC: Object of type int64 is not JSON serializable
+2026-06-25 21:33:04,713 | ERROR    | Failed to fetch or save news data: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\check_news.py", line 41, in check_news_impact
+    response.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python314\Lib\site-packages\requests\models.py", line 1167, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+2026-06-25 21:33:04,747 | ERROR    | Background AI task failed for EURUSD: Object of type int64 is not JSON serializable
+2026-06-25 21:33:04,785 | ERROR    | Failed to fetch or save news data: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\check_news.py", line 41, in check_news_impact
+    response.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python314\Lib\site-packages\requests\models.py", line 1167, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://www.forexfactory.com/?date=2026-06-25
+2026-06-25 21:33:04,820 | ERROR    | Background AI task failed for EURGBP-OTC: Object of type int64 is not JSON serializable

@@ -1,0 +1,26 @@
+2026-06-25 12:33:55,569 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-25 12:33:58,790 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-25 12:33:58,833 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-25 12:33:59,333 | WARNING  | Failed to get server time offset: 'IQ_Option' object has no attribute 'get_server_time'
+2026-06-25 12:33:59,338 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-25 12:34:40,019 | INFO     | MarketStateClassifier initialised
+2026-06-25 12:34:41,109 | INFO     | [DataAdapter] EURUSD initialised — M1:200 M5:200 M15:200
+2026-06-25 12:34:41,977 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-25 12:34:42,927 | INFO     | [DataAdapter] EURGBP initialised — M1:200 M5:200 M15:200
+2026-06-25 12:34:43,799 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:200 M5:200 M15:200
+2026-06-25 12:34:46,107 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=200)
+2026-06-25 12:34:47,403 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=200)
+2026-06-25 12:34:48,674 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-06-25 12:34:49,943 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-06-25 12:34:52,215 | INFO     | [WS] Subscribed live candles stream for EURGBP (M1, count=200)
+2026-06-25 12:34:53,566 | INFO     | [WS] Subscribed live candles stream for EURGBP (M5, count=200)
+2026-06-25 12:34:54,882 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-06-25 12:34:57,195 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-06-25 12:35:02,893 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
+2026-06-25 12:35:02,897 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-25 12:35:02,898 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
+2026-06-25 12:35:02,899 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
+2026-06-25 12:36:03,318 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-25 12:36:03,320 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
+2026-06-25 12:36:03,322 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
+2026-06-25 12:36:03,322 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
