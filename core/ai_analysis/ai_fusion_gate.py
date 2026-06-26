@@ -1,5 +1,5 @@
 from typing import List, Dict, Any
-from .ai_engine import AIInsight
+from .model_ai_base import AIInsight
 
 
 class AIFusionGate:

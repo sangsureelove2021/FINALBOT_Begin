@@ -277,8 +277,11 @@ class IndicatorStore:
         volume_m1 = df_m1['volume']
 
         m1['ema5'] = round(close_m1.ewm(span=5, adjust=False).mean().iloc[-1], Config.ROUND_DECIMALS)
+        m1['ema10'] = round(close_m1.ewm(span=10, adjust=False).mean().iloc[-1], Config.ROUND_DECIMALS)
         m1['ema20'] = round(close_m1.ewm(span=20, adjust=False).mean().iloc[-1], Config.ROUND_DECIMALS)
+        m1['ema50'] = round(close_m1.ewm(span=50, adjust=False).mean().iloc[-1], Config.ROUND_DECIMALS)
         
+        m1['rsi7'] = round(calc_rsi(close_m1, 7), 2)
         m1['rsi14'] = round(calc_rsi(close_m1, 14), 2)
 
         exp12_m1 = close_m1.ewm(span=12, adjust=False).mean()
@@ -307,6 +310,13 @@ class IndicatorStore:
         m1['resistance'] = round(last_n_m1['high'].max(), Config.ROUND_DECIMALS)
         m1['bb_upper'] = round((close_m1.rolling(20, min_periods=1).mean() + 2*close_m1.rolling(20, min_periods=1).std().fillna(0)).iloc[-1], Config.ROUND_DECIMALS)
         m1['bb_lower'] = round((close_m1.rolling(20, min_periods=1).mean() - 2*close_m1.rolling(20, min_periods=1).std().fillna(0)).iloc[-1], Config.ROUND_DECIMALS)
+        
+        last_candle_m1 = df_m1.iloc[-1]
+        pivot_m1 = (last_candle_m1['high'] + last_candle_m1['low'] + last_candle_m1['close']) / 3
+        m1['pivot'] = round(pivot_m1, Config.ROUND_DECIMALS)
+        m1['r1'] = round((2 * pivot_m1) - last_candle_m1['low'], Config.ROUND_DECIMALS)
+        m1['s1'] = round((2 * pivot_m1) - last_candle_m1['high'], Config.ROUND_DECIMALS)
+        
         m1['volume'] = round(volume_m1.iloc[-1], 2)
         m1['volume_ratio'] = round(volume_m1.iloc[-1] / (volume_m1.rolling(20, min_periods=1).mean().iloc[-1] + 0.000001), 3)
 

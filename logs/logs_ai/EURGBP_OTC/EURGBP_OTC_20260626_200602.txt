@@ -1,0 +1,60 @@
+timestamp: 2026-06-26T20:06:02.533320
+symbol: EURGBP-OTC
+current_price: 0.860125
+session: london
+timeframe: m5
+market_state: ACCUMULATION
+
+m5:
+  ema5: 0.860527
+  ema10: 0.86024
+  ema20: 0.859608
+  ema50: 0.859141
+  bb_upper: 0.862133
+  bb_lower: 0.856355
+  rsi7: 45.22
+  rsi14: 72.4
+  macd: 0.000709
+  macd_signal: 0.000561
+  stoch_k: 83.27
+  stoch_d: 89.09
+  support: 0.856325
+  resistance: 0.861175
+  pivot: 0.860438
+  r1: 0.860612
+  s1: 0.860152
+  atr: 0.000666
+
+m1:
+  ema5: 0.860374
+  ema10: 0.860486
+  ema20: 0.86054
+  ema50: 0.860221
+  bb_upper: 0.861166
+  bb_lower: 0.860183
+  rsi7: 25.15
+  rsi14: 40.13
+  macd: -3e-06
+  macd_signal: 8.5e-05
+  stoch_k: 20.71
+  stoch_d: 24.86
+  support: 0.860065
+  resistance: 0.861175
+  pivot: 0.860192
+  r1: 0.860318
+  s1: 0.859998
+  atr: 0.000336
+
+price_action:
+  pattern: NONE
+  last_candle: BEARISH
+  body_strength: WEAK
+  rejection_zone: AT_PIVOT
+  wick_dominance: LOW_WICK
+  momentum_bias: BULLISH
+  move_quality: NORMAL
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+
+triggered_signals: 
+signal_count: 0

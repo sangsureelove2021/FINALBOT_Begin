@@ -1,0 +1,111 @@
+{
+    "meta": {
+        "timestamp": "2026-06-26T21:04:03.156669",
+        "symbol": "EURUSD",
+        "session": "NEW YORK",
+        "price": 1.142085,
+        "data_age_ms": 63317,
+        "data_quality": "HIGH"
+    },
+    "market_context": {
+        "state": "SIDEWAY_RANGE",
+        "description": "Price ranging between clear levels. Suitable for mean-reversion strategies.",
+        "volatility_regime": "EXTREME",
+        "news_impact": "LOW",
+        "expected_volatility_%": 0.059,
+        "recent_ai_memory": []
+    },
+    "timeframes": {
+        "m1": {
+            "last_candle": 1.142085,
+            "ema5": 1.142254,
+            "ema10": 1.142202,
+            "ema20": 1.142136,
+            "ema50": 1.142025,
+            "bb_upper": 1.14255,
+            "bb_lower": 1.141508,
+            "rsi7": 54.32,
+            "rsi14": 56.7,
+            "macd": 6.2e-05,
+            "macd_signal": 2.2e-05,
+            "stoch_k": 54.15,
+            "stoch_d": 62.82,
+            "support": 1.14166,
+            "resistance": 1.142845,
+            "pivot": 1.142197,
+            "r1": 1.142318,
+            "s1": 1.141963,
+            "atr": 0.00024
+        },
+        "m5": {
+            "bias": "BULLISH",
+            "ema5": 1.142203,
+            "ema10": 1.142061,
+            "ema20": 1.141694,
+            "ema50": 1.140924,
+            "bb_upper": 1.143268,
+            "bb_lower": 1.139995,
+            "bb_width": 0.003273,
+            "rsi7": 64.44,
+            "rsi14": 65.81,
+            "stoch_k": 52.91,
+            "stoch_d": 55.04,
+            "macd": 0.000482,
+            "macd_signal": 0.000473,
+            "adx": 30.36,
+            "atr": 0.000676,
+            "support": 1.13998,
+            "resistance": 1.1434,
+            "pivot": 1.142272,
+            "r1": 1.142758,
+            "s1": 1.142028
+        },
+        "m15": {
+            "bias": "BULLISH"
+        }
+    },
+    "price_action": {
+        "pattern": "MORNING_STAR",
+        "last_candle_bias": "BULLISH",
+        "last_candle": "BULLISH",
+        "body_strength": "WEAK",
+        "rejection_zone": "AT_PIVOT",
+        "wick_dominance": "LOW_WICK",
+        "momentum_bias": "BULLISH",
+        "move_quality": "NOISY",
+        "trap_alert": "NONE",
+        "sr_interaction": "TESTING_PIVOT"
+    },
+    "volume": {
+        "tick_volume": 1299,
+        "volume_momentum": "FALLING",
+        "volume_vs_average": 0.871
+    },
+    "analysis": {
+        "trend_direction": "UP",
+        "trend_type": "CORRECTIVE",
+        "trend_strength_score": 60,
+        "mtf_alignment_%": 50,
+        "compression_quality_%": 0.0,
+        "exhaustion_risk_%": 30,
+        "bos_detected": false
+    },
+    "signals": {
+        "triggered": [],
+        "count": 0,
+        "top_signal": "NO"
+    },
+    "decision_layer": {
+        "tradeable": false,
+        "tradeable_reason": "Passed basic checks",
+        "confidence_score": 0,
+        "stability_score": 50,
+        "quality_score": 50,
+        "risk_level": "MEDIUM",
+        "suggested_expiry_minutes": 5,
+        "suggested_action": "WAIT",
+        "final_reason_th": "รอการวิเคราะห์จาก AI"
+    },
+    "raw_text_prompt": "timestamp: 2026-06-26T21:04:03.156669\nsymbol: EURUSD\ncurrent_price: 1.142085\nsession: new york\ntimeframe: m5\nmarket_state: SIDEWAY_RANGE\n\nm5:\n  ema5: 1.142203\n  ema10: 1.142061\n  ema20: 1.141694\n  ema50: 1.140924\n  bb_upper: 1.143268\n  bb_lower: 1.139995\n  rsi7: 64.44\n  rsi14: 65.81\n  macd: 0.000482\n  macd_signal: 0.000473\n  stoch_k: 52.91\n  stoch_d: 55.04\n  support: 1.13998\n  resistance: 1.1434\n  pivot: 1.142272\n  r1: 1.142758\n  s1: 1.142028\n  atr: 0.000676\n\nm1:\n  ema5: 1.142254\n  ema10: 1.142202\n  ema20: 1.142136\n  ema50: 1.142025\n  bb_upper: 1.14255\n  bb_lower: 1.141508\n  rsi7: 54.32\n  rsi14: 56.7\n  macd: 6.2e-05\n  macd_signal: 2.2e-05\n  stoch_k: 54.15\n  stoch_d: 62.82\n  support: 1.14166\n  resistance: 1.142845\n  pivot: 1.142197\n  r1: 1.142318\n  s1: 1.141963\n  atr: 0.00024\n\nprice_action:\n  pattern: MORNING_STAR\n  last_candle: BULLISH\n  body_strength: WEAK\n  rejection_zone: AT_PIVOT\n  wick_dominance: LOW_WICK\n  momentum_bias: BULLISH\n  move_quality: NOISY\n  trap_alert: NONE\n  sr_interaction: TESTING_PIVOT\n\ntriggered_signals: \nsignal_count: 0",
+    "text_prompt": "timestamp: 2026-06-26T21:04:03.156669\nsymbol: EURUSD\ncurrent_price: 1.142085\nsession: new york\ntimeframe: m5\nmarket_state: SIDEWAY_RANGE\n\nm5:\n  ema5: 1.142203\n  ema10: 1.142061\n  ema20: 1.141694\n  ema50: 1.140924\n  bb_upper: 1.143268\n  bb_lower: 1.139995\n  rsi7: 64.44\n  rsi14: 65.81\n  macd: 0.000482\n  macd_signal: 0.000473\n  stoch_k: 52.91\n  stoch_d: 55.04\n  support: 1.13998\n  resistance: 1.1434\n  pivot: 1.142272\n  r1: 1.142758\n  s1: 1.142028\n  atr: 0.000676\n\nm1:\n  ema5: 1.142254\n  ema10: 1.142202\n  ema20: 1.142136\n  ema50: 1.142025\n  bb_upper: 1.14255\n  bb_lower: 1.141508\n  rsi7: 54.32\n  rsi14: 56.7\n  macd: 6.2e-05\n  macd_signal: 2.2e-05\n  stoch_k: 54.15\n  stoch_d: 62.82\n  support: 1.14166\n  resistance: 1.142845\n  pivot: 1.142197\n  r1: 1.142318\n  s1: 1.141963\n  atr: 0.00024\n\nprice_action:\n  pattern: MORNING_STAR\n  last_candle: BULLISH\n  body_strength: WEAK\n  rejection_zone: AT_PIVOT\n  wick_dominance: LOW_WICK\n  momentum_bias: BULLISH\n  move_quality: NOISY\n  trap_alert: NONE\n  sr_interaction: TESTING_PIVOT\n\ntriggered_signals: \nsignal_count: 0"
+}

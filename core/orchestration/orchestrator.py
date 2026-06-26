@@ -18,6 +18,7 @@ import numpy as np
 import os
 import csv
 import json
+import yaml
 import traceback
 from typing import Dict, Any, Optional
 from datetime import datetime
@@ -79,7 +80,10 @@ class Orchestrator:
 
         self.json_dir = os.path.join("logs", "json_process")
         os.makedirs(self.json_dir, exist_ok=True)
-        
+
+        self.ai_log_dir = os.path.join("logs", "logs_ai")
+        os.makedirs(self.ai_log_dir, exist_ok=True)
+
         self.ai_memory = []
 
     def update_ai_memory(self, symbol: str, action: str, reason: str):
@@ -251,9 +255,24 @@ class Orchestrator:
         try:
             formatted_payload = self._format_payload(final_payload)
             try:
+                # Generate YAML text representation and store in RAM
+                yaml_text = self._generate_yaml_text(symbol, formatted_payload)
+                formatted_payload["raw_text_prompt"] = yaml_text
+                formatted_payload["text_prompt"] = yaml_text
+            except Exception as e:
+                self._log_red(f"YAML generation failed for {symbol}: {e}")
+                traceback.print_exc()
+                
+            try:
                 self._save_formatted_json(symbol, formatted_payload)
             except Exception as e:
                 self._log_red(f"JSON Saving failed for {symbol}: {e}")
+            # ── 8. Save AI Input CSV ────────────────────────────────────
+            try:
+                self._save_ai_input_csv(symbol, formatted_payload)
+            except Exception as e:
+                self._log_red(f"AI Input CSV Saving failed for {symbol}: {e}")
+                traceback.print_exc()
             return formatted_payload
         except Exception as e:
             self._log_red(f"Payload Formatting failed for {symbol}: {e}")
@@ -304,12 +323,23 @@ class Orchestrator:
                 "m1": {
                     "last_candle": _get(p, ['meta', 'close']),
                     "ema5": _get(p, ['m1', 'ema5']),
+                    "ema10": _get(p, ['m1', 'ema10']),
                     "ema20": _get(p, ['m1', 'ema20']),
-                    "rsi": _get(p, ['m1', 'rsi14']),
+                    "ema50": _get(p, ['m1', 'ema50']),
+                    "bb_upper": _get(p, ['m1', 'bb_upper']),
+                    "bb_lower": _get(p, ['m1', 'bb_lower']),
+                    "rsi7": _get(p, ['m1', 'rsi7']),
+                    "rsi14": _get(p, ['m1', 'rsi14']),
+                    "macd": _get(p, ['m1', 'macd']),
+                    "macd_signal": _get(p, ['m1', 'macd_signal']),
                     "stoch_k": _get(p, ['m1', 'stoch_k']),
                     "stoch_d": _get(p, ['m1', 'stoch_d']),
-                    "macd": _get(p, ['m1', 'macd']),
-                    "macd_signal": _get(p, ['m1', 'macd_signal'])
+                    "support": _get(p, ['m1', 'support']),
+                    "resistance": _get(p, ['m1', 'resistance']),
+                    "pivot": _get(p, ['m1', 'pivot']),
+                    "r1": _get(p, ['m1', 'r1']),
+                    "s1": _get(p, ['m1', 's1']),
+                    "atr": _get(p, ['m1', 'atr14'])
                 },
                 "m5": {
                     "bias": _get(p, ['m5', 'bias']),
@@ -320,7 +350,8 @@ class Orchestrator:
                     "bb_upper": _get(p, ['m5', 'bb_upper']),
                     "bb_lower": _get(p, ['m5', 'bb_lower']),
                     "bb_width": _get(p, ['m5', 'bb_width']),
-                    "rsi": _get(p, ['m5', 'rsi14']),
+                    "rsi7": _get(p, ['m5', 'rsi7']),
+                    "rsi14": _get(p, ['m5', 'rsi14']),
                     "stoch_k": _get(p, ['m5', 'stoch_k']),
                     "stoch_d": _get(p, ['m5', 'stoch_d']),
                     "macd": _get(p, ['m5', 'macd']),
@@ -329,7 +360,9 @@ class Orchestrator:
                     "atr": _get(p, ['m5', 'atr14']),
                     "support": _get(p, ['m5', 'support']),
                     "resistance": _get(p, ['m5', 'resistance']),
-                    "pivot": _get(p, ['m5', 'pivot'])
+                    "pivot": _get(p, ['m5', 'pivot']),
+                    "r1": _get(p, ['m5', 'r1']),
+                    "s1": _get(p, ['m5', 's1'])
                 },
                 "m15": {
                     "bias": _get(p, ['m15', 'bias'])
@@ -338,7 +371,9 @@ class Orchestrator:
             "price_action": {
                 "pattern": _get(p, ['price_action', 'pattern']),
                 "last_candle_bias": _get(p, ['price_action', 'last_candle_bias']),
+                "last_candle": _get(p, ['price_action', 'last_candle']),
                 "body_strength": _get(p, ['price_action', 'body_strength']),
+                "rejection_zone": _get(p, ['price_action', 'rejection_zone']),
                 "wick_dominance": _get(p, ['price_action', 'wick_dominance']),
                 "momentum_bias": _get(p, ['price_action', 'momentum_bias']),
                 "move_quality": _get(p, ['price_action', 'move_quality']),
@@ -542,6 +577,50 @@ class Orchestrator:
         date_str = datetime.now().strftime('%Y%m%d')
         filename = f"{symbol.replace('-', '_')}_{date_str}.json"
         filepath = os.path.join(self.json_dir, filename)
-        
+
         with open(filepath, mode='w', encoding='utf-8') as f:
             json.dump(formatted_payload, f, ensure_ascii=False, indent=4, cls=NumpyEncoder)
+
+    def _generate_yaml_text(self, symbol: str, fp: dict) -> str:
+        """Generates a YAML string from the formatted payload."""
+        try:
+            # Use yaml.dump for clean, robust YAML generation
+            # allow_unicode=True ensures Thai characters are handled correctly
+            # sort_keys=False preserves the order from the dictionary
+            return yaml.dump(fp, allow_unicode=True, sort_keys=False, indent=2)
+        except Exception as e:
+            self._log_red(f"YAML generation failed: {e}")
+            traceback.print_exc()
+            # Fallback to a simple JSON representation if yaml fails for any reason
+            return json.dumps(fp, indent=2, cls=NumpyEncoder, ensure_ascii=False)
+
+    def _save_ai_input_csv(self, symbol: str, fp: dict):
+        """
+        บันทึกข้อมูลที่จะส่งให้ AI เป็นไฟล์ Text รายนาที แยกตามโฟลเดอร์คู่เงิน
+        โฟลเดอร์: logs/logs_ai/{SYMBOL_OTC}/
+        ไฟล์: logs/logs_ai/{SYMBOL_OTC}/{SYMBOL_OTC}_{YYYYMMDD}_{HHMMSS}.txt
+        """
+        if not isinstance(fp, dict):
+            return
+
+        # Replace '-' with '_' for folder and filename formatting
+        sym_dir_name = symbol.replace('-', '_')
+        
+        # Ensure subdirectory exists
+        target_dir = os.path.join(self.ai_log_dir, sym_dir_name)
+        os.makedirs(target_dir, exist_ok=True)
+        
+        # Format current time to _YYYYMMDD_HHMMSS
+        now_dt = datetime.now()
+        date_time_str = now_dt.strftime('%Y%m%d_%H%M%S')
+        filename = f"{sym_dir_name}_{date_time_str}.txt"
+        filepath = os.path.join(target_dir, filename)
+
+        # Generate YAML formatted text block
+        yaml_text = self._generate_yaml_text(symbol, fp)
+
+        # Write to file
+        with open(filepath, mode='w', encoding='utf-8') as f:
+            f.write(yaml_text)
+
+        logger.debug(f"[AI-TXT] saved log for {symbol} → {filepath}")

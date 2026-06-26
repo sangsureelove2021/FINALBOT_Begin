@@ -23,47 +23,13 @@ def check_news_impact(symbol="EURUSD"):
         # 2. กำหนดชื่อไฟล์ข่าวคือ logs/calendar_logs/calendar_{YYYY-MM-DD}.json
         calendar_file = os.path.join(log_dir, f"calendar_{today_str}.json")
         
-        needs_update = True
         file_exists = os.path.exists(calendar_file)
         
-        # 4. ตรวจสอบว่าไฟล์มีอยู่และอายุไฟล์เกิน 15 นาทีหรือยัง?
-        if file_exists:
-            mtime = os.path.getmtime(calendar_file)
-            mtime_dt = datetime.fromtimestamp(mtime, timezone.utc)
+        # ผู้ใช้งานตั้งใจให้ดึงจากไฟล์ในเครื่องแทนการยิง API เพื่อแก้ปัญหา 429 Too Many Requests
+        if not file_exists:
+            logging.warning(f"Calendar file {calendar_file} not found. Skipping web fetch.")
+            return "LOW"
             
-            if (now_utc - mtime_dt).total_seconds() < 900:
-                needs_update = False
-                
-        if needs_update:
-            try:
-                url = "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
-                response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
-                response.raise_for_status()
-                events_data = response.json()
-                
-                # Bug #1 fix: กรองเฉพาะข่าววันนี้จาก weekly calendar
-                today_events = []
-                for e in events_data:
-                    d = e.get('date', '')
-                    if not d:
-                        continue
-                    try:
-                        evt_dt = datetime.fromisoformat(d).astimezone(timezone.utc)
-                        if evt_dt.strftime('%Y-%m-%d') == today_str:
-                            today_events.append(e)
-                    except ValueError:
-                        continue
-                events_data = today_events
-                
-                with open(calendar_file, "w", encoding="utf-8") as f:
-                    json.dump(events_data, f, ensure_ascii=False, indent=4)
-            except Exception as e:
-                logging.exception(f"Failed to fetch or save news data: {e}")
-                traceback.print_exc()
-                if not os.path.exists(calendar_file):
-                    # ถ้าโหลดใหม่ไม่สำเร็จ และไม่มีไฟล์เดิมอยู่เลย ให้ถือว่าหาข่าวไม่ได้
-                    return "LOW"
-                    
         # 4. (ต่อ) เปิดไฟล์ปฏิทินขึ้นมาโหลดข้อมูล Events เพื่อคำนวณหา Impact ต่อ
         with open(calendar_file, "r", encoding="utf-8") as f:
             events = json.load(f)

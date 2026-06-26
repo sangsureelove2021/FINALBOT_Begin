@@ -1,0 +1,92 @@
+2026-06-26 07:23:25,990 | INFO     | กำลังเชื่อมต่อ IQ Option...
+2026-06-26 07:23:27,253 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-26 07:23:30,058 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-26 07:23:30,066 | INFO     | เชื่อมต่อ IQ Option สำเร็จ..
+2026-06-26 07:23:30,066 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-26 07:23:30,623 | INFO     | บัญชี PRACTICE | Balance: $2050.40
+2026-06-26 07:23:30,623 | ERROR    | Failed to get server time offset
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 55, in __init__
+    server_time = self.data_adapter.api.get_server_time()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'IQ_Option' object has no attribute 'get_server_time'. Did you mean: 'get_server_timestamp'?
+2026-06-26 07:23:30,627 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-26 07:23:30,634 | INFO     | Trading Mode: AI AUTO_BOT
+2026-06-26 07:23:30,642 | INFO     | ตรวจเช็คความพร้อม DEEPSEEK AI
+2026-06-26 07:24:09,505 | INFO     | "DeepSeek Agent ready to analyze the market."
+2026-06-26 07:24:09,506 | INFO     | MarketStateClassifier initialised
+2026-06-26 07:24:09,511 | INFO     | รายการสินทรัพย์เพื่อเทรด 4 รายการ : EURUSD, EURUSD-OTC, EURGBP, EURGBP-OTC
+2026-06-26 07:24:09,515 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์
+2026-06-26 07:24:10,684 | INFO     | [DataAdapter] EURUSD initialised — M1:200 M5:200 M15:200
+2026-06-26 07:24:11,532 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-26 07:24:12,371 | INFO     | [DataAdapter] EURGBP initialised — M1:200 M5:200 M15:200
+2026-06-26 07:24:13,300 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:200 M5:200 M15:200
+2026-06-26 07:24:13,319 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-06-26 07:24:14,635 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=200)
+2026-06-26 07:24:15,961 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=200)
+2026-06-26 07:24:18,235 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-06-26 07:24:19,612 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-06-26 07:24:20,910 | INFO     | [WS] Subscribed live candles stream for EURGBP (M1, count=200)
+2026-06-26 07:24:22,221 | INFO     | [WS] Subscribed live candles stream for EURGBP (M5, count=200)
+2026-06-26 07:24:23,558 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-06-26 07:24:24,819 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-06-26 07:24:24,884 | INFO     | [MODE : AI_BOT][Stake:35][Profit:100.0%][Loss:100.0%][Orderlimit:9999][Time:06.00-23.00]
+2026-06-26 07:24:24,895 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 38 วินาที  (เริ่ม 07:25:02)
+2026-06-26 07:25:03,291 | INFO     | [EURUSD:1.13644][EURUSD-OTC:1.11905][EURGBP:0.86142][EURGBP-OTC:0.86516] :: TOTAL=$2050.40
+2026-06-26 07:25:03,701 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:25:03,704 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:25:03,708 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:25:03,710 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:25:31,541 | ERROR    | No JSON found in response
+2026-06-26 07:25:31,541 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-26 07:26:02,721 | WARNING  | [WARN] AI สำหรับ EURUSD กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-26 07:26:02,721 | WARNING  | [WARN] AI สำหรับ EURUSD-OTC กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-26 07:26:02,721 | WARNING  | [WARN] AI สำหรับ EURGBP-OTC กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-26 07:26:02,732 | INFO     | [EURUSD:1.13636][EURUSD-OTC:1.11801][EURGBP:0.86140][EURGBP-OTC:0.86469] :: TOTAL=$2050.40
+2026-06-26 07:26:02,848 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:26:18,701 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-26 07:26:18,717 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-26 07:26:18,718 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-26 07:26:19,059 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-26 07:26:19,061 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-26 07:26:19,061 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-26 07:26:30,464 | ERROR    | No JSON found in response
+2026-06-26 07:26:30,464 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-26 07:27:03,057 | INFO     | [EURUSD:1.13633][EURUSD-OTC:1.11843][EURGBP:0.86140][EURGBP-OTC:0.86477] :: TOTAL=$2050.40
+2026-06-26 07:27:03,319 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:27:03,330 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:27:03,342 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:27:03,353 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:27:36,414 | ERROR    | No JSON found in response
+2026-06-26 07:27:36,414 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-26 07:28:02,389 | WARNING  | [WARN] AI สำหรับ EURUSD กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-26 07:28:02,389 | WARNING  | [WARN] AI สำหรับ EURGBP กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-26 07:28:02,392 | WARNING  | [WARN] AI สำหรับ EURGBP-OTC กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-26 07:28:02,413 | INFO     | [EURUSD:1.13630][EURUSD-OTC:1.11847][EURGBP:0.86142][EURGBP-OTC:0.86496] :: TOTAL=$2050.40
+2026-06-26 07:28:02,459 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:28:18,325 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-26 07:28:18,340 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-26 07:28:18,356 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-26 07:28:18,612 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-26 07:28:18,614 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-26 07:28:18,614 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-26 07:28:33,985 | ERROR    | No JSON found in response
+2026-06-26 07:28:33,985 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-26 07:29:02,799 | INFO     | [EURUSD:1.13643][EURUSD-OTC:1.11810][EURGBP:0.86143][EURGBP-OTC:0.86486] :: TOTAL=$2050.40
+2026-06-26 07:29:03,049 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:29:03,060 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:29:03,070 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:29:03,079 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:29:31,350 | ERROR    | No JSON found in response
+2026-06-26 07:29:31,350 | WARNING  | AI parse failed — ข้ามรอบนี้ ไม่เทรด
+2026-06-26 07:30:03,195 | WARNING  | [WARN] AI สำหรับ EURUSD กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-26 07:30:03,195 | WARNING  | [WARN] AI สำหรับ EURUSD-OTC กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-26 07:30:03,196 | WARNING  | [WARN] AI สำหรับ EURGBP กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน
+2026-06-26 07:30:03,237 | INFO     | [EURUSD:1.13648][EURUSD-OTC:1.11807][EURGBP:0.86143][EURGBP-OTC:0.86504] :: TOTAL=$2050.40
+2026-06-26 07:30:03,259 | INFO     | ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...
+2026-06-26 07:30:18,064 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-26 07:30:18,065 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-26 07:30:18,080 | WARNING  | Agent timeout after 75s. Terminating process tree...
+2026-06-26 07:30:18,381 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-26 07:30:18,382 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)
+2026-06-26 07:30:18,383 | WARNING  | AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout 75s)

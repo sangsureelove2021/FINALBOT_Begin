@@ -1,0 +1,60 @@
+timestamp: 2026-06-26T19:47:02.557011
+symbol: EURGBP
+current_price: 0.86403
+session: london
+timeframe: m5
+market_state: SIDEWAY_RANGE
+
+m5:
+  ema5: 0.863387
+  ema10: 0.863113
+  ema20: 0.862894
+  ema50: 0.862678
+  bb_upper: 0.863559
+  bb_lower: 0.861937
+  rsi7: 90.07
+  rsi14: 85.44
+  macd: 0.000214
+  macd_signal: 8e-05
+  stoch_k: 93.74
+  stoch_d: 92.27
+  support: 0.862355
+  resistance: 0.863795
+  pivot: 0.86371
+  r1: 0.86381
+  s1: 0.863625
+  atr: 0.000227
+
+m1:
+  ema5: 0.863841
+  ema10: 0.863729
+  ema20: 0.863521
+  ema50: 0.863137
+  bb_upper: 0.864141
+  bb_lower: 0.862828
+  rsi7: 92.78
+  rsi14: 84.77
+  macd: 0.000269
+  macd_signal: 0.000252
+  stoch_k: 94.16
+  stoch_d: 94.13
+  support: 0.862885
+  resistance: 0.864105
+  pivot: 0.863982
+  r1: 0.864153
+  s1: 0.863858
+  atr: 0.000141
+
+price_action:
+  pattern: NONE
+  last_candle: BULLISH
+  body_strength: WEAK
+  rejection_zone: NONE
+  wick_dominance: LOW_WICK
+  momentum_bias: NEUTRAL
+  move_quality: NORMAL
+  trap_alert: NONE
+  sr_interaction: NONE
+
+triggered_signals: 
+signal_count: 0

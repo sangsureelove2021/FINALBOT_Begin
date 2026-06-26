@@ -22,12 +22,12 @@
     "_note": "Risk management disabled (set to 9999)."
   },
   "execution_gate": {
-    "min_confidence": 70,
+    "min_confidence": 60,
     "max_block_score": 30,
     "_note": "Strict quality threshold for better signals."
   },
   "session": {
-    "trading_hours": "11.00-23.00",
+    "trading_hours": "06.00-23.00",
     "timezone": "Asia/Bangkok"
   },
   "active_strategies": [
@@ -53,7 +53,7 @@
   },
   "thresholds": {
     "_note": "ค่าตัดสินใจทั้งหมดของระบบ — แก้ได้โดยไม่ต้องแตะโค้ด",
-    "min_confidence": 70,
+    "min_confidence": 60,
     "min_quality_score": 30,
     "max_noise_level": 0.6
   }

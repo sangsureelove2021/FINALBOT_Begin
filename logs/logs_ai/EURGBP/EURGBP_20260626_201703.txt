@@ -1,0 +1,60 @@
+timestamp: 2026-06-26T20:17:03.021408
+symbol: EURGBP
+current_price: 0.86402
+session: london
+timeframe: m5
+market_state: UNCLEAR
+
+m5:
+  ema5: 0.864143
+  ema10: 0.863917
+  ema20: 0.863519
+  ema50: 0.863021
+  bb_upper: 0.864902
+  bb_lower: 0.861616
+  rsi7: 56.97
+  rsi14: 67.16
+  macd: 0.00045
+  macd_signal: 0.000338
+  stoch_k: 64.23
+  stoch_d: 75.26
+  support: 0.862355
+  resistance: 0.86517
+  pivot: 0.86402
+  r1: 0.864125
+  s1: 0.86392
+  atr: 0.000414
+
+m1:
+  ema5: 0.864026
+  ema10: 0.864095
+  ema20: 0.86416
+  ema50: 0.863922
+  bb_upper: 0.865136
+  bb_lower: 0.863615
+  rsi7: 40.63
+  rsi14: 9.03
+  macd: -2.1e-05
+  macd_signal: 5.6e-05
+  stoch_k: 10.62
+  stoch_d: 7.75
+  support: 0.863915
+  resistance: 0.86517
+  pivot: 0.864007
+  r1: 0.864058
+  s1: 0.863968
+  atr: 0.000112
+
+price_action:
+  pattern: DOJI
+  last_candle: BEARISH
+  body_strength: WEAK
+  rejection_zone: AT_PIVOT
+  wick_dominance: LOW_WICK
+  momentum_bias: NEUTRAL
+  move_quality: NOISY
+  trap_alert: TRUE
+  sr_interaction: TESTING_PIVOT
+
+triggered_signals: 
+signal_count: 0

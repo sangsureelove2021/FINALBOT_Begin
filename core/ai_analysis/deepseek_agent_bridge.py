@@ -227,19 +227,50 @@ class DeepSeekAgentBridge:
         
         # ใช้ executable path ที่ตรวจพบ (หรือ fallback เป็น command name)
         agent_exec = self.agent_path if self.agent_path else self.agent_command
-        
-        # รันผ่าน shell=True เพื่อให้โหลด NPM environment สำเร็จ และรองรับการทำความสะอาดโปรเซสลูก
-        # เพิ่ม flags เพื่อบังคับให้ส่งเฉพาะข้อความ JSON กลับมา:
-        # --no-tui: ปิด TUI decorations (กรอบ, สี, spinner)
-        # --format=json-raw: output เป็น JSON เท่านั้น
-        # --max-iterations=1: ไม่ให้เรียก tools (run_command, write_file) แค่ตอบ JSON
-        cmd_args = [agent_exec, "--headless", "--no-tui", "--format=json-raw", "--max-iterations=1", prompt]
-        use_shell = True
-            
+
+        # ──────────────────────────────────────────────────────────────
+        # FIX: Windows shell=True ตีความ " ใน JSON ผิด → prompt ถูกตัด
+        # แก้โดย: เขียน prompt ลง temp file แล้วส่ง path ผ่าน arg แทน
+        # ใช้ shell=False + cmd /c สำหรับ .CMD files บน Windows
+        # ──────────────────────────────────────────────────────────────
+        import tempfile
+        tmp_file = None
+        try:
+            tmp_fd, tmp_path = tempfile.mkstemp(suffix='.txt', prefix='bot_prompt_')
+            with os.fdopen(tmp_fd, 'w', encoding='utf-8') as f:
+                f.write(prompt)
+            tmp_file = tmp_path
+        except Exception:
+            logger.exception("Failed to write prompt temp file — falling back to inline arg")
+            tmp_path = None
+
+        # สร้าง flag list (ไม่มี profile flag เพราะ system prompt แก้ไขตรงแล้ว)
+        agent_flags = ["--headless", "--no-tui", "--format=json-raw", "--max-iterations=1"]
+
+        if tmp_path and os.path.exists(tmp_path):
+            # ใช้ temp file เพื่อหลีกเลี่ยง shell quoting issues
+            task_arg = f"@read_task_file:{tmp_path}"
+            # Fallback: ถ้า agent ไม่รองรับ @read_task_file ให้ส่ง path แทน
+            # (agent จะเห็น path ไม่ใช่ข้อมูลตลาด → ใช้ plain prompt แทน)
+            task_arg = prompt  # ยังคงส่ง prompt ตรง แต่ผ่าน shell=False
+        else:
+            task_arg = prompt
+
+        # บน Windows ใช้ shell=False + cmd /c เพื่อหลีกเลี่ยง cmd.exe quote parsing
+        if os.name == 'nt':
+            if agent_exec.lower().endswith(('.cmd', '.bat', '.ps1')):
+                cmd_args = ['cmd', '/c', agent_exec] + agent_flags + [task_arg]
+            else:
+                cmd_args = [agent_exec] + agent_flags + [task_arg]
+            use_shell = False
+        else:
+            cmd_args = [agent_exec] + agent_flags + [task_arg]
+            use_shell = False
+
         creation_flags = 0
         if os.name == 'nt':
             creation_flags = subprocess.CREATE_NO_WINDOW
-            
+
         try:
             # ใช้ subprocess.Popen เพื่อควบคุม process tree
             p = subprocess.Popen(
@@ -317,86 +348,12 @@ class DeepSeekAgentBridge:
             return None
 
     def _build_prompt(self, context) -> str:
+        from core.ai_analysis.Prompt_AI_Context import build_prompt
         if hasattr(context, '__dict__'):
-            ctx = context.__dict__
+            ctx = dict(context.__dict__)
         else:
-            ctx = context if isinstance(context, dict) else {}
-            
-        # --- Advanced Context Mode ---
-        if ctx.get("is_advanced"):
-            payload = dict(ctx)
-            payload.pop("is_advanced", None)
-            json_payload = json.dumps(payload, indent=2, ensure_ascii=False, cls=NumpyEncoder)
-            
-            prompt = f"""You are a professional binary options trader (NOT a coding assistant).
-Your ONLY job right now is to read the market data below and output a JSON trading decision.
-
-ABSOLUTE RULES — VIOLATION = TASK FAILURE:
-- You are 100% DONE after typing the JSON. Do NOT call any tool.
-- Do NOT call read_file, write_file, run_command, or ANY other tool.
-- Do NOT output a tool_call block.
-- Output ONLY the raw JSON object. Nothing before it. Nothing after it.
-- All keys and string values MUST use double quotes.
-- The "reason" field MUST be in Thai, 20-40 words.
-
-EXPIRY: Choose 1-5 minutes based on volatility and trend strength.
-ACTION: Must be exactly "CALL", "PUT", or "NO_TRADE".
-
-MARKET DATA:
-{json_payload}
-
-YOUR FINAL RESPONSE (raw JSON only, no tool_call, no prose):
-{{
-  "action": "CALL",
-  "confidence": 85,
-  "expiry": 3,
-  "reason": "เหตุผลสำคัญที่สุดเป็นภาษาไทย 20-40 คำ"
-}}"""
-            return prompt
-        
-        # --- Legacy Context Mode ---
-        symbol = ctx.get('symbol', getattr(context, 'symbol', 'EURUSD'))
-        current_price = ctx.get('current_price', getattr(context, 'current_price', 0))
-        rsi = ctx.get('rsi', getattr(context, 'rsi', 50))
-        macd = ctx.get('macd', getattr(context, 'macd', 0))
-        trend = ctx.get('trend', getattr(context, 'trend', 'neutral'))
-        volatility = ctx.get('volatility', getattr(context, 'volatility', 'medium'))
-        support_resistance = ctx.get('support_resistance', getattr(context, 'support_resistance', 'N/A'))
-        
-        prompt = f"""You are a professional binary options trader (NOT a coding assistant).
-Your ONLY job right now is to read the market data below and output a JSON trading decision.
-
-ABSOLUTE RULES — VIOLATION = TASK FAILURE:
-- You are 100% DONE after typing the JSON. Do NOT call any tool.
-- Do NOT call read_file, write_file, run_command, or ANY other tool.
-- Do NOT output a tool_call block.
-- Output ONLY the raw JSON object. Nothing before it. Nothing after it.
-- All keys and string values MUST use double quotes.
-- The "reason" field MUST be in Thai, 20-40 words.
-
-EXPIRY: Choose 1-5 minutes based on volatility and trend strength.
-ACTION: Must be exactly "CALL", "PUT", or "NO_TRADE".
-
-MARKET DATA:
-Symbol: {symbol}
-Current Price: {current_price}
-Timestamp: {datetime.now().isoformat()}
-
-TECHNICAL INDICATORS:
-- RSI (14): {rsi:.2f}
-- MACD Histogram/Difference: {macd:.5f}
-- Trend: {trend}
-- Volatility: {volatility}
-- Support/Resistance: {support_resistance}
-
-YOUR FINAL RESPONSE (raw JSON only, no tool_call, no prose):
-{{
-  "action": "CALL",
-  "confidence": 85,
-  "expiry": 3,
-  "reason": "เหตุผลสำคัญที่สุดเป็นภาษาไทย 20-40 คำ"
-}}"""
-        return prompt
+            ctx = dict(context) if isinstance(context, dict) else {}
+        return build_prompt(ctx)
 
     def _parse_response(self, response_text: str, context) -> Optional[AIInsight]:
         try:

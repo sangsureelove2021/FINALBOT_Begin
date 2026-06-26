@@ -1,0 +1,60 @@
+timestamp: 2026-06-26T20:07:02.924039
+symbol: EURUSD-OTC
+current_price: 1.141425
+session: london
+timeframe: m5
+market_state: ACCUMULATION
+
+m5:
+  ema5: 1.141558
+  ema10: 1.141294
+  ema20: 1.140528
+  ema50: 1.13761
+  bb_upper: 1.143394
+  bb_lower: 1.137426
+  rsi7: 49.46
+  rsi14: 62.98
+  macd: 0.001091
+  macd_signal: 0.00111
+  stoch_k: 64.21
+  stoch_d: 69.69
+  support: 1.136225
+  resistance: 1.143375
+  pivot: 1.141558
+  r1: 1.142172
+  s1: 1.140522
+  atr: 0.001339
+
+m1:
+  ema5: 1.141282
+  ema10: 1.141478
+  ema20: 1.141613
+  ema50: 1.141296
+  bb_upper: 1.142576
+  bb_lower: 1.140801
+  rsi7: 41.84
+  rsi14: 47.05
+  macd: -7.3e-05
+  macd_signal: 6.6e-05
+  stoch_k: 19.68
+  stoch_d: 19.77
+  support: 1.140475
+  resistance: 1.142715
+  pivot: 1.141125
+  r1: 1.141725
+  s1: 1.140825
+  atr: 0.000704
+
+price_action:
+  pattern: NONE
+  last_candle: BEARISH
+  body_strength: WEAK
+  rejection_zone: AT_PIVOT
+  wick_dominance: HIGH_WICK
+  momentum_bias: NEUTRAL
+  move_quality: NOISY
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+
+triggered_signals: 
+signal_count: 0
