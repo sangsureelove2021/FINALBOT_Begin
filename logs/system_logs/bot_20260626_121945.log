@@ -617,3 +617,8 @@ websocket._exceptions.WebSocketConnectionClosedException: Connection is already 
 2026-06-26 21:04:03,382 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
 2026-06-26 21:04:03,383 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
 2026-06-26 21:04:03,393 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
+2026-06-26 21:05:02,796 | INFO     | [EURUSD:1.14206][EURUSD-OTC:1.14254][EURGBP:0.86357][EURGBP-OTC:0.86220] :: TOTAL=$2050.40
+2026-06-26 21:05:02,931 | WARNING  | Indicators for EURGBP-OTC are all zero — warming up, skipping AI call
+2026-06-26 21:05:02,932 | WARNING  | Indicators for EURUSD are all zero — warming up, skipping AI call
+2026-06-26 21:05:02,936 | WARNING  | Indicators for EURUSD-OTC are all zero — warming up, skipping AI call
+2026-06-26 21:05:02,944 | WARNING  | Indicators for EURGBP are all zero — warming up, skipping AI call
