@@ -59,9 +59,8 @@ class LiquidityEngine(BaseEngine):
             
             return sorted(equal, reverse=True)[:3]
         except Exception as e:
-            import logging
-            logging.warning(f"LiquidityEngine._find_equal_highs failed: {e}")
-            return []
+            raise Exception(str(e))
+
     
     def _find_equal_lows(self, df, tolerance=0.0008) -> List[float]:
         """Find clusters of similar lows (resting liquidity)"""
@@ -81,16 +80,15 @@ class LiquidityEngine(BaseEngine):
             
             return sorted(equal)[:3]
         except Exception as e:
-            import logging
-            logging.warning(f"LiquidityEngine._find_equal_lows failed: {e}")
-            return []
+            raise Exception(str(e))
+
     
     def _detect_sweep(self, df):
         """Detect liquidity sweep: price spikes past a level then reverses"""
         if not isinstance(df, pd.DataFrame):
             import logging
             logging.error(f"LiquidityEngine._detect_sweep expected pd.DataFrame, got {type(df)}")
-            return False, 'NONE'
+            raise TypeError(f"LiquidityEngine._detect_sweep expected pd.DataFrame, got {type(df)}")
             
         try:
             if len(df) < 5:
@@ -119,9 +117,8 @@ class LiquidityEngine(BaseEngine):
             
             return False, 'NONE'
         except Exception as e:
-            import logging
-            logging.exception("LiquidityEngine._detect_sweep failed")
-            return False, 'NONE'
+            raise Exception(str(e))
+
     
     def _score_liquidity(self, equal_highs, equal_lows) -> int:
         """Score liquidity presence 0-100"""
@@ -130,10 +127,3 @@ class LiquidityEngine(BaseEngine):
         score += len(equal_lows) * 12
         return min(100, score)
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'equal_highs': [], 'equal_lows': [],
-            'liquidity_above': False, 'liquidity_below': False,
-            'liquidity_sweep_detected': False, 'sweep_type': 'NONE',
-            'liquidity_score': 30, 'confidence': 0,
-        }

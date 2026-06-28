@@ -1,0 +1,86 @@
+2026-06-27 15:16:52,659 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.ai_analysis.ai_fusion_gate
+2026-06-27 15:16:52,660 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.ai_analysis.deepseek_agent_bridge
+2026-06-27 15:16:52,661 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.ai_analysis.fallback_analyzer
+2026-06-27 15:16:52,661 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.ai_analysis.prompt_ai_context
+2026-06-27 15:16:52,662 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.bot_strategy.strategy
+2026-06-27 15:16:52,662 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.data.candle_buffer
+2026-06-27 15:16:52,663 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.data.data_adapter
+2026-06-27 15:16:52,663 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.data.data_source
+2026-06-27 15:16:52,663 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.data.data_validator
+2026-06-27 15:16:52,663 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.data.iq_option_adapter
+2026-06-27 15:16:52,664 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.data.timeframe_sync
+2026-06-27 15:16:52,665 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.exceptions.context_exceptions
+2026-06-27 15:16:52,665 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.exceptions.engine_exceptions
+2026-06-27 15:16:52,665 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.exceptions.validation_exceptions
+2026-06-27 15:16:52,666 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.interfaces.context_interface
+2026-06-27 15:16:52,666 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.interfaces.engine_interface
+2026-06-27 15:16:52,666 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.interfaces.strategy_interface
+2026-06-27 15:16:52,667 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.logging.performance_tracker_signal
+2026-06-27 15:16:52,668 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.logging.signal_learning
+2026-06-27 15:16:52,668 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.models.candle
+2026-06-27 15:16:52,668 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.models.engine_output
+2026-06-27 15:16:52,668 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.models.market_context
+2026-06-27 15:16:52,668 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.models.score
+2026-06-27 15:16:52,668 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.models.signal
+2026-06-27 15:16:52,669 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.orchestration.base_engine
+2026-06-27 15:16:52,786 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.orchestration.check_news
+2026-06-27 15:16:52,787 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.orchestration.context_builder
+2026-06-27 15:16:52,788 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.orchestration.engine_registry
+2026-06-27 15:16:52,821 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.orchestration.pipeline
+2026-06-27 15:16:52,822 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.orchestration.signal_throttle
+2026-06-27 15:16:52,822 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.scoring.block_scorer
+2026-06-27 15:16:52,822 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.scoring.confidence_scorer
+2026-06-27 15:16:52,822 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.scoring.entry_scorer
+2026-06-27 15:16:52,822 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.scoring.score_aggregator
+2026-06-27 15:16:52,823 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.scoring.score_normalizer
+2026-06-27 15:16:52,823 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.orchestration.advanced_tools.analytical_utils
+2026-06-27 15:16:52,824 | INFO     | [AI Registry] No concrete BaseEngine subclass in core.orchestration.indicator_store.indicator_store
+2026-06-27 15:16:52,842 | INFO     | กำลังเชื่อมต่อ IQ Option...
+2026-06-27 15:16:52,889 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-27 15:16:56,453 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-27 15:16:56,473 | INFO     | เชื่อมต่อ IQ Option สำเร็จ..
+2026-06-27 15:16:56,474 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-27 15:16:56,864 | INFO     | บัญชี PRACTICE | Balance: $2050.40
+2026-06-27 15:16:56,864 | ERROR    | Failed to get server time offset
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 55, in __init__
+    server_time = self.data_adapter.api.get_server_time()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'IQ_Option' object has no attribute 'get_server_time'. Did you mean: 'get_server_timestamp'?
+2026-06-27 15:16:56,867 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-27 15:16:56,874 | INFO     | Trading Mode: AI AUTO_BOT
+2026-06-27 15:16:56,880 | INFO     | ตรวจเช็คความพร้อม DEEPSEEK AI
+2026-06-27 15:17:24,252 | INFO     | "I am DeepSeek, an AI market analyst with 10+ years of binary options expertise. Ready."
+2026-06-27 15:17:24,252 | INFO     | MarketStateClassifier initialised
+2026-06-27 15:17:24,259 | INFO     | รายการสินทรัพย์เพื่อเทรด 4 รายการ : EURJPY-OTC, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+2026-06-27 15:17:24,265 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์
+2026-06-27 15:17:25,332 | INFO     | [DataAdapter] EURJPY-OTC initialised — M1:200 M5:200 M15:200
+2026-06-27 15:17:26,209 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-27 15:17:27,084 | INFO     | [DataAdapter] GBPUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-27 15:17:28,086 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:200 M5:200 M15:200
+2026-06-27 15:17:28,148 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-06-27 15:17:29,512 | INFO     | [WS] Subscribed live candles stream for EURJPY-OTC (M1, count=200)
+2026-06-27 15:17:30,790 | INFO     | [WS] Subscribed live candles stream for EURJPY-OTC (M5, count=200)
+2026-06-27 15:17:33,101 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-06-27 15:17:34,467 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-06-27 15:17:35,741 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M1, count=200)
+2026-06-27 15:17:38,026 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M5, count=200)
+2026-06-27 15:17:39,531 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-06-27 15:17:40,812 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-06-27 15:17:40,815 | INFO     | [MODE : AI_BOT][Stake:35][Profit:100.0%][Loss:100.0%][Orderlimit:9999][Time:06.00-23.00]
+2026-06-27 15:17:40,817 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 22 วินาที  (เริ่ม 15:18:02)
+2026-06-27 15:18:03,191 | INFO     | [EURJPY-OTC:183.41663][EURUSD-OTC:1.13844][GBPUSD-OTC:1.34861][EURGBP-OTC:0.86077] :: TOTAL=$2050.40
+2026-06-27 15:18:03,272 | WARNING  | Calendar file E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\calendar_logs\calendar_2026-06-27.json not found. Skipping web fetch.
+2026-06-27 15:18:03,283 | WARNING  | Calendar file E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\calendar_logs\calendar_2026-06-27.json not found. Skipping web fetch.
+2026-06-27 15:18:03,283 | WARNING  | Calendar file E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\calendar_logs\calendar_2026-06-27.json not found. Skipping web fetch.
+2026-06-27 15:18:03,299 | WARNING  | Calendar file E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\calendar_logs\calendar_2026-06-27.json not found. Skipping web fetch.
+2026-06-27 15:19:02,555 | INFO     | [EURJPY-OTC:183.40868][EURUSD-OTC:1.13799][GBPUSD-OTC:1.34854][EURGBP-OTC:0.86059] :: TOTAL=$2050.40
+2026-06-27 15:19:02,664 | WARNING  | Calendar file E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\calendar_logs\calendar_2026-06-27.json not found. Skipping web fetch.
+2026-06-27 15:19:02,667 | WARNING  | Calendar file E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\calendar_logs\calendar_2026-06-27.json not found. Skipping web fetch.
+2026-06-27 15:19:02,667 | WARNING  | Calendar file E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\calendar_logs\calendar_2026-06-27.json not found. Skipping web fetch.
+2026-06-27 15:19:02,669 | WARNING  | Calendar file E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\calendar_logs\calendar_2026-06-27.json not found. Skipping web fetch.
+2026-06-27 15:20:02,956 | INFO     | [EURJPY-OTC:183.40315][EURUSD-OTC:1.13824][GBPUSD-OTC:1.34902][EURGBP-OTC:0.86059] :: TOTAL=$2050.40
+2026-06-27 15:20:03,084 | WARNING  | Calendar file E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\calendar_logs\calendar_2026-06-27.json not found. Skipping web fetch.
+2026-06-27 15:20:03,094 | WARNING  | Calendar file E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\calendar_logs\calendar_2026-06-27.json not found. Skipping web fetch.
+2026-06-27 15:20:03,096 | WARNING  | Calendar file E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\calendar_logs\calendar_2026-06-27.json not found. Skipping web fetch.
+2026-06-27 15:20:03,103 | WARNING  | Calendar file E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\calendar_logs\calendar_2026-06-27.json not found. Skipping web fetch.

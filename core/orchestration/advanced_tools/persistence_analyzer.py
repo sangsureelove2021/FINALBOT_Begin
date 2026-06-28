@@ -85,7 +85,9 @@ class PersistenceAnalyzer(BaseEngine):
             
             return float(expansion_persistence), float(fatigue_risk)
         except Exception as e:
-            return 50.0, 20.0
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _autocorrelation(self, df, lag=1) -> float:
         """Autocorrelation of returns (-1 to 1)"""
@@ -104,7 +106,9 @@ class PersistenceAnalyzer(BaseEngine):
             corr = np.corrcoef(r1, r2)[0, 1]
             return float(corr) if not np.isnan(corr) else 0.0
         except Exception as e:
-            return 0.0
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _max_consecutive_run(self, df) -> int:
         """Longest run of same-direction candles"""
@@ -124,7 +128,9 @@ class PersistenceAnalyzer(BaseEngine):
             
             return int(max_run)
         except Exception as e:
-            return 1
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _trend_persistence(self, df) -> float:
         """How long has trend held (0-100)"""
@@ -142,7 +148,9 @@ class PersistenceAnalyzer(BaseEngine):
             persistence = abs(recent_consistency - 0.5) * 200
             return float(min(100, persistence))
         except Exception as e:
-            return 50.0
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _calculate_persistence(self, autocorr, run, trend_persist) -> int:
         """Aggregate persistence score 0-100"""
@@ -174,10 +182,3 @@ class PersistenceAnalyzer(BaseEngine):
             return 'MEAN_REVERTING'
         return 'RANDOM'
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'persistence_score': 40, 'autocorrelation': 0.0,
-            'max_consecutive_run': 1, 'trend_persistence': 50.0,
-            'is_persistent': False, 'behavior': 'RANDOM',
-            'confidence': 0,
-        }

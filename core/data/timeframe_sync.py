@@ -48,22 +48,18 @@ class TimeframeSync:
             New dict with each DataFrame trimmed to <= reference time.
         """
         if not candles:
-            return {}
+            raise Exception("No candles provided for synchronization")
 
         ref = as_of or self._reference_time(candles)
         if ref is None:
-            return candles
+            raise Exception("Could not determine reference time for synchronization")
 
         synced: Dict[str, pd.DataFrame] = {}
         for tf, df in candles.items():
             if df is None or df.empty:
                 synced[tf] = df
                 continue
-            try:
-                synced[tf] = df[df.index <= ref]
-            except TypeError:
-                # Index not datetime-comparable — pass through untouched
-                synced[tf] = df
+            synced[tf] = df[df.index <= ref]
         return synced
 
     def is_aligned(self, candles: Dict[str, pd.DataFrame]) -> bool:
@@ -74,11 +70,8 @@ class TimeframeSync:
         for tf, df in candles.items():
             if df is None or df.empty:
                 continue
-            try:
-                if df.index[-1] > ref:
-                    return False
-            except (TypeError, IndexError):
-                continue
+            if df.index[-1] > ref:
+                return False
         return True
 
     def resample(self, base_df: pd.DataFrame,
@@ -94,8 +87,8 @@ class TimeframeSync:
         Returns:
             Resampled OHLCV DataFrame.
         """
-        from_m = TF_MINUTES.get(from_tf)
-        to_m = TF_MINUTES.get(to_tf)
+        from_m = TF_MINUTES[from_tf]
+        to_m = TF_MINUTES[to_tf]
         if not from_m or not to_m or to_m <= from_m:
             raise ValueError(f"Cannot resample {from_tf} -> {to_tf}")
 
@@ -109,18 +102,12 @@ class TimeframeSync:
 
     def _reference_time(self, candles: Dict[str, pd.DataFrame]):
         """Last timestamp of the primary timeframe (fallback: earliest last)."""
-        primary_df = candles.get(self.primary)
+        primary_df = candles[self.primary]
         if primary_df is not None and not primary_df.empty:
-            try:
-                return primary_df.index[-1]
-            except IndexError:
-                pass
+            return primary_df.index[-1]
         # Fallback: the oldest "last candle" among all timeframes
         lasts = []
         for df in candles.values():
             if df is not None and not df.empty:
-                try:
-                    lasts.append(df.index[-1])
-                except IndexError:
-                    continue
+                lasts.append(df.index[-1])
         return min(lasts) if lasts else None

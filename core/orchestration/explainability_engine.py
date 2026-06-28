@@ -20,9 +20,9 @@ class ExplainabilityEngine(BaseEngine):
     def analyze(self, context=None, **kwargs) -> Dict[str, Any]:
         """Generate explanation of the analysis"""
         try:
-            ctx = context or kwargs.get('context')
+            ctx = context or kwargs['context']
             if ctx is None:
-                return self.get_neutral_state()
+                raise ValueError("FAIL-FAST: Neutral state removed")
             
             supporting = self._gather_supporting_factors(ctx)
             opposing = self._gather_opposing_factors(ctx)
@@ -39,43 +39,39 @@ class ExplainabilityEngine(BaseEngine):
                 'confidence': 100,
             }
         except Exception as e:
-            import logging
-            import traceback
-            logging.exception(f" ExplainabilityEngine error: {e}")
-            traceback.print_exc()
-            return self.get_neutral_state()
+            raise
     
     def _gather_supporting_factors(self, ctx) -> List[str]:
         """Factors supporting a trade"""
         factors = []
         
-        trend_dir = ctx.trend.get('direction', 'NONE')
+        trend_dir = ctx.trend['direction']
         if trend_dir != 'NONE':
-            conf = ctx.trend.get('confidence', 0)
+            conf = ctx.trend['confidence']
             factors.append(f"Trend is {trend_dir} (confidence {conf})")
         
-        mtf_align = ctx.mtf.get('alignment_score', 0)
+        mtf_align = ctx.mtf['alignment_score']
         if mtf_align >= 70:
             factors.append(f"Strong MTF alignment ({mtf_align})")
         
-        clarity = ctx.synthesized_context.get('market_clarity', 0)
+        clarity = ctx.synthesized_context['market_clarity']
         if clarity >= 65:
             factors.append(f"Clear market picture ({clarity})")
         
-        edge = ctx.move_probability.get('edge', 0)
+        edge = ctx.move_probability['edge']
         if edge >= 10:
             factors.append(f"Statistical edge present ({edge})")
         
-        efficiency = ctx.efficiency.get('overall_efficiency', 0)
+        efficiency = ctx.efficiency['overall_efficiency']
         if efficiency >= 65:
             factors.append(f"Efficient price movement ({efficiency})")
         
-        quality = ctx.signal_quality.get('quality_score', 0)
+        quality = ctx.signal_quality['quality_score']
         if quality >= 70:
-            grade = ctx.signal_quality.get('grade', '?')
+            grade = ctx.signal_quality['grade']
             factors.append(f"Good signal quality (grade {grade})")
         
-        confirmation = ctx.signal_quality.get('confirmation_score', 0)
+        confirmation = ctx.signal_quality['confirmation_score']
         if confirmation >= 70:
             factors.append(f"Multiple engines confirm direction ({confirmation:.0f})")
         
@@ -85,33 +81,33 @@ class ExplainabilityEngine(BaseEngine):
         """Factors against a trade"""
         factors = []
         
-        if ctx.traps.get('trap_detected'):
-            trap_type = ctx.traps.get('trap_type', 'unknown')
+        if ctx.traps['trap_detected']:
+            trap_type = ctx.traps['trap_type']
             factors.append(f"Trap detected ({trap_type})")
         
-        if ctx.anomaly.get('anomaly_detected'):
+        if ctx.anomaly['anomaly_detected']:
             factors.append(f"Statistical anomaly detected")
         
-        noise = ctx.noise.get('noise_level', 0)
+        noise = ctx.noise['noise_level']
         if noise > 60:
             factors.append(f"High market noise ({noise})")
         
-        conflict = ctx.conflict.get('conflict_score', 0)
+        conflict = ctx.conflict['conflict_score']
         if conflict > 50:
             factors.append(f"Conflicting signals ({conflict})")
         
-        if ctx.transition.get('in_transition'):
-            t_type = ctx.transition.get('transition_type', 'unknown')
+        if ctx.transition['in_transition']:
+            t_type = ctx.transition['transition_type']
             factors.append(f"Market in transition ({t_type})")
         
-        exhaustion = ctx.strength.get('exhaustion_risk', 0)
+        exhaustion = ctx.strength['exhaustion_risk']
         if exhaustion > 65:
             factors.append(f"Momentum exhaustion risk ({exhaustion})")
         
-        if ctx.mtf.get('htf_ltf_conflict'):
+        if ctx.mtf['htf_ltf_conflict']:
             factors.append("Higher/Lower timeframe conflict")
         
-        if ctx.trend.get('type') == 'CHOPPY':
+        if ctx.trend['type'] == 'CHOPPY':
             factors.append("Choppy market - no clear direction")
         
         return factors
@@ -121,19 +117,19 @@ class ExplainabilityEngine(BaseEngine):
         drivers = []
         
         # The dominant factor is usually the synthesized read
-        market_read = ctx.synthesized_context.get('market_read', '')
+        market_read = ctx.synthesized_context['market_read']
         if market_read:
             drivers.append(market_read)
         
         # Probability direction
-        prob_dir = ctx.move_probability.get('direction', 'NEUTRAL')
-        up_prob = ctx.move_probability.get('up_probability', 50)
+        prob_dir = ctx.move_probability['direction']
+        up_prob = ctx.move_probability['up_probability']
         if prob_dir != 'NEUTRAL':
             drivers.append(f"Probability favors {prob_dir} ({up_prob}% up)")
         
         # Confidence tier
-        conf_tier = ctx.confidence_framework.get('confidence_tier', 'UNKNOWN')
-        final_conf = ctx.confidence_framework.get('final_confidence', 0)
+        conf_tier = ctx.confidence_framework['confidence_tier']
+        final_conf = ctx.confidence_framework['final_confidence']
         drivers.append(f"Confidence: {conf_tier} ({final_conf})")
         
         return drivers[:3]
@@ -141,11 +137,11 @@ class ExplainabilityEngine(BaseEngine):
     def _compose_summary(self, ctx, supporting, opposing) -> str:
         """One-paragraph plain summary"""
         if isinstance(ctx.market_state, dict):
-            state = ctx.market_state.get('state', 'UNKNOWN')
+            state = ctx.market_state['state']
         else:
             state = str(ctx.market_state) if ctx.market_state else 'UNKNOWN'
-        direction = ctx.move_probability.get('direction', 'NEUTRAL')
-        confidence = ctx.confidence_framework.get('final_confidence', 0)
+        direction = ctx.move_probability['direction']
+        confidence = ctx.confidence_framework['final_confidence']
         
         sup_count = len(supporting)
         opp_count = len(opposing)
@@ -160,10 +156,3 @@ class ExplainabilityEngine(BaseEngine):
             f"conditions are {verdict}."
         )
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'summary': 'No explanation available - insufficient data',
-            'supporting_factors': [], 'opposing_factors': [],
-            'key_drivers': [], 'factor_balance': 0,
-            'explanation_available': False, 'confidence': 0,
-        }

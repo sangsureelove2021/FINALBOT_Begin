@@ -25,7 +25,7 @@ class CandlePatternAnalyzer(BaseEngine):
         
         required_cols = {'open', 'high', 'low', 'close'}
         if candles_df.empty or len(candles_df) < self.MIN_CANDLES or not required_cols.issubset(candles_df.columns):
-            return self.get_neutral_state()
+            raise ValueError("FAIL-FAST: Neutral state removed")
 
         patterns_detected = []
         
@@ -136,9 +136,3 @@ class CandlePatternAnalyzer(BaseEngine):
             return 'BEARISH'
         return 'NEUTRAL'
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'patterns_detected': [], 'pattern_count': 0,
-            'pattern_strength': 0, 'bias': 'NEUTRAL',
-            'last_candle_color': 'NEUTRAL', 'confidence': 0,
-        }

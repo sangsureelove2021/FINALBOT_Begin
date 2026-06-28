@@ -19,7 +19,7 @@ class MarketStructureEngine(BaseEngine):
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         # operate on the last `lookback` rows
         if candles_df is None or not isinstance(candles_df, pd.DataFrame) or candles_df.empty or len(candles_df) < self.lookback:
-            return self.get_neutral_state()
+            raise ValueError("FAIL-FAST: Neutral state removed")
 
         df = candles_df.copy()
         recent = df.tail(self.lookback)
@@ -43,7 +43,7 @@ class MarketStructureEngine(BaseEngine):
             prev_low = min(prev_lows)
             older_low = min(older_lows)
         except ValueError:
-            return self.get_neutral_state()
+            raise ValueError("FAIL-FAST: Neutral state removed")
 
         # วิเคราะห์โครงสร้าง
         if current_high > prev_high and current_low > prev_low:
@@ -73,6 +73,3 @@ class MarketStructureEngine(BaseEngine):
             "last_low": float(current_low),
             "trend_strength": float(abs(current_high - prev_high) + abs(current_low - prev_low)),
         }
-
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {"status": "INSUFFICIENT_DATA", "regime": "UNKNOWN", "structure": "UNKNOWN", "confidence": 0}

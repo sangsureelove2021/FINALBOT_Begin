@@ -52,7 +52,7 @@ class BaseEngine(IEngine):
         try:
             # Validate input
             if not self.validate_input(payload):
-                return self.get_neutral_state()
+                raise ValueError("FAIL-FAST: Neutral state removed")
             
             # Run actual analysis
             result = self._analyze(payload, **kwargs)
@@ -63,9 +63,7 @@ class BaseEngine(IEngine):
             return result
             
         except Exception as e:
-            logging.exception(f"{self.engine_name} error: {e}")
-            traceback.print_exc()
-            return self.get_neutral_state()
+            raise
     
     def _analyze(self, payload: Any, **kwargs) -> Dict[str, Any]:
         """
@@ -74,11 +72,6 @@ class BaseEngine(IEngine):
         """
         raise NotImplementedError("Subclasses must implement _analyze()")
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        """
-        Override in subclasses with engine-specific neutral state.
-        """
-        return {'confidence': 0, 'error': 'not_implemented'}
     
     def to_engine_output(self, data: Dict[str, Any], 
                         confidence: int = 50) -> EngineOutput:

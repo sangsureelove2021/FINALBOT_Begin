@@ -72,7 +72,7 @@ class IndicatorStore:
 
         # Bollinger Bands (20, 2)
         sma20 = close_m5.rolling(window=20, min_periods=1).mean()
-        std20 = close_m5.rolling(window=20, min_periods=1).std().fillna(0)
+        std20 = close_m5.rolling(window=20, min_periods=1).std(ddof=0).fillna(0)
         m5['bb_upper'] = round((sma20 + 2 * std20).iloc[-1], Config.ROUND_DECIMALS)
         m5['bb_lower'] = round((sma20 - 2 * std20).iloc[-1], Config.ROUND_DECIMALS)
         bbw_series = (sma20 + 2 * std20) - (sma20 - 2 * std20)
@@ -82,8 +82,8 @@ class IndicatorStore:
         # RSI (7, 14)
         def calc_rsi(series, period):
             delta = series.diff()
-            gain = (delta.where(delta > 0, 0)).rolling(window=period, min_periods=1).mean().fillna(0)
-            loss = (-delta.where(delta < 0, 0)).rolling(window=period, min_periods=1).mean().replace(0, 1e-9).fillna(1e-9)
+            gain = (delta.where(delta > 0, 0)).ewm(alpha=1/period, adjust=False).mean().fillna(0)
+            loss = (-delta.where(delta < 0, 0)).ewm(alpha=1/period, adjust=False).mean().replace(0, 1e-9).fillna(1e-9)
             rs = gain / loss
             rsi = 100 - (100 / (1 + rs))
             return rsi.iloc[-1] if not pd.isna(rsi.iloc[-1]) else 50.0
@@ -114,7 +114,7 @@ class IndicatorStore:
         high_close = np.abs(high_m5 - close_m5.shift())
         low_close = np.abs(low_m5 - close_m5.shift())
         ranges = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
-        atr_series = ranges.rolling(window=14, min_periods=1).mean().dropna()
+        atr_series = ranges.ewm(alpha=1/14, adjust=False).mean().dropna()
         if len(atr_series) > 0:
             current_atr = atr_series.iloc[-1]
             m5['atr14'] = round(current_atr, Config.ROUND_DECIMALS)
@@ -195,26 +195,14 @@ class IndicatorStore:
         # ================================================================
         volume_ma20 = volume_m5.rolling(window=Config.VOLUME_MA_PERIOD, min_periods=1).mean()
         current_volume = volume_m5.iloc[-1]
-        m5['volume'] = round(current_volume, 2)
+        m5['volume'] = current_volume
         m5['volume_ma20'] = round(volume_ma20.iloc[-1], 2)
-        m5['volume_ratio'] = round(current_volume / (volume_ma20.iloc[-1] + 0.000001), 3)
+        m5['volume_ratio'] = min(round(current_volume / (volume_ma20.iloc[-1] + 0.000001), 3), 10.0)
         
         # Volume Spike Detection
         m5['volume_spike'] = bool(m5['volume_ratio'] > 2.0)
         
-        # Volume Trend
-        vol_slice = volume_m5.tail(5)
-        if len(vol_slice) >= 5:
-            x = np.arange(5)
-            slope, _ = np.polyfit(x, vol_slice.values, 1)
-            if slope > 0.5:
-                m5['volume_trend'] = 'RISING'
-            elif slope < -0.5:
-                m5['volume_trend'] = 'FALLING'
-            else:
-                m5['volume_trend'] = 'STABLE'
-        else:
-            m5['volume_trend'] = 'STABLE'
+
 
         # ================================================================
         # LINEAR REGRESSION SLOPE
@@ -231,12 +219,7 @@ class IndicatorStore:
         m5['slope_20'] = round(calc_slope(close_m5, 20), Config.ROUND_DECIMALS)
         m5['slope_50'] = round(calc_slope(close_m5, 50), Config.ROUND_DECIMALS)
 
-        # Support / Resistance (Fractals)
-        last_n = df_m5.tail(20)
-        swing_high = last_n['high'].max()
-        swing_low = last_n['low'].min()
-        m5['support'] = round(swing_low, Config.ROUND_DECIMALS)
-        m5['resistance'] = round(swing_high, Config.ROUND_DECIMALS)
+
 
         # Pivot Points
         last_candle = df_m5.iloc[-1]
@@ -261,7 +244,7 @@ class IndicatorStore:
                 else:
                     break
             m5['box_duration'] = box_dur
-            m5['box_tightness'] = round(ref_range / (m5.get('atr14', 0.0001) + 1e-9), 2)
+            m5['box_tightness'] = round(ref_range / (m5['atr14'] + 1e-9), 2)
         else:
             m5['box_duration'] = 10
             m5['box_tightness'] = 2.5
@@ -303,13 +286,10 @@ class IndicatorStore:
         high_close_m1 = np.abs(high_m1 - close_m1.shift())
         low_close_m1 = np.abs(low_m1 - close_m1.shift())
         ranges_m1 = pd.concat([high_low_m1, high_close_m1, low_close_m1], axis=1).max(axis=1)
-        m1['atr14'] = round(ranges_m1.rolling(window=14, min_periods=1).mean().iloc[-1], Config.ROUND_DECIMALS)
+        m1['atr14'] = round(ranges_m1.ewm(alpha=1/14, adjust=False).mean().iloc[-1], Config.ROUND_DECIMALS)
 
-        last_n_m1 = df_m1.tail(20)
-        m1['support'] = round(last_n_m1['low'].min(), Config.ROUND_DECIMALS)
-        m1['resistance'] = round(last_n_m1['high'].max(), Config.ROUND_DECIMALS)
-        m1['bb_upper'] = round((close_m1.rolling(20, min_periods=1).mean() + 2*close_m1.rolling(20, min_periods=1).std().fillna(0)).iloc[-1], Config.ROUND_DECIMALS)
-        m1['bb_lower'] = round((close_m1.rolling(20, min_periods=1).mean() - 2*close_m1.rolling(20, min_periods=1).std().fillna(0)).iloc[-1], Config.ROUND_DECIMALS)
+        m1['bb_upper'] = round((close_m1.rolling(20, min_periods=1).mean() + 2*close_m1.rolling(20, min_periods=1).std(ddof=0).fillna(0)).iloc[-1], Config.ROUND_DECIMALS)
+        m1['bb_lower'] = round((close_m1.rolling(20, min_periods=1).mean() - 2*close_m1.rolling(20, min_periods=1).std(ddof=0).fillna(0)).iloc[-1], Config.ROUND_DECIMALS)
         
         last_candle_m1 = df_m1.iloc[-1]
         pivot_m1 = (last_candle_m1['high'] + last_candle_m1['low'] + last_candle_m1['close']) / 3
@@ -317,8 +297,8 @@ class IndicatorStore:
         m1['r1'] = round((2 * pivot_m1) - last_candle_m1['low'], Config.ROUND_DECIMALS)
         m1['s1'] = round((2 * pivot_m1) - last_candle_m1['high'], Config.ROUND_DECIMALS)
         
-        m1['volume'] = round(volume_m1.iloc[-1], 2)
-        m1['volume_ratio'] = round(volume_m1.iloc[-1] / (volume_m1.rolling(20, min_periods=1).mean().iloc[-1] + 0.000001), 3)
+        m1['volume'] = volume_m1.iloc[-1]
+        m1['volume_ratio'] = min(round(volume_m1.iloc[-1] / (volume_m1.rolling(20, min_periods=1).mean().iloc[-1] + 0.000001), 3), 10.0)
 
         # ------------------------------------------------------------
         # 2.5. M15 Indicators
@@ -326,8 +306,11 @@ class IndicatorStore:
         m15 = {}
         if df_m15 is not None and not df_m15.empty:
             close_m15 = df_m15['close']
-            ema20_m15 = close_m15.ewm(span=20, adjust=False).mean().iloc[-1]
-            m15['bias'] = 'BULLISH' if close_m15.iloc[-1] > ema20_m15 else 'BEARISH'
+            if len(close_m15) >= 20:
+                ema20_m15 = close_m15.ewm(span=20, adjust=False).mean().iloc[-1]
+                m15['bias'] = 'BULLISH' if close_m15.iloc[-1] > ema20_m15 else 'BEARISH'
+            else:
+                m15['bias'] = 'NO'
         else:
             m15['bias'] = 'NO'
 
@@ -356,7 +339,7 @@ class IndicatorStore:
             else:
                 data_age_ms = 0
         except:
-            data_age_ms = 0
+            raise
             
         data_quality = "HIGH" if data_age_ms < 120000 else "LOW" # 2 mins threshold
 
@@ -398,16 +381,22 @@ class IndicatorStore:
         with self._lock:
             self._data[symbol]['raw'] = raw_data
 
-    def get(self, symbol: str, layer: str, *keys) -> Optional[Any]:
+    def get(self, symbol: str, layer: str, *keys) -> Any:
         """ดึงข้อมูลจาก Store"""
         with self._lock:
-            data = self._data.get(symbol, {})
-            layer_data = data.get(layer, {})
+            if symbol not in self._data:
+                raise KeyError(f"Symbol '{symbol}' not found in IndicatorStore")
+            data = self._data[symbol]
+            if layer not in data:
+                raise KeyError(f"Layer '{layer}' not found for symbol '{symbol}'")
+            layer_data = data[layer]
             for key in keys:
                 if isinstance(layer_data, dict):
-                    layer_data = layer_data.get(key)
+                    if key not in layer_data:
+                        raise KeyError(f"Key '{key}' not found")
+                    layer_data = layer_data[key]
                 else:
-                    return None
+                    raise ValueError(f"Expected dict but got {type(layer_data).__name__} when accessing '{key}'")
             if isinstance(layer_data, dict):
                 return copy.deepcopy(layer_data)
             return layer_data
@@ -415,7 +404,7 @@ class IndicatorStore:
     def get_full_snapshot(self, symbol: str) -> Dict[str, Any]:
         """ดึงข้อมูลทั้งหมดของ symbol หนึ่ง"""
         with self._lock:
-            return copy.deepcopy(self._data.get(symbol, {}))
+            return copy.deepcopy(self._data[symbol])
 
     def get_all_symbols(self) -> List[str]:
         """รายชื่อคู่เงินทั้งหมดที่มีข้อมูล"""
@@ -425,7 +414,7 @@ class IndicatorStore:
     def get_payload(self, symbol: str) -> Dict[str, Any]:
         """คืนค่า Raw Indicator ({'m5': ..., 'm1': ..., 'ohlcv': ...})"""
         snapshot = self.get_full_snapshot(symbol)
-        return snapshot.get('raw', {})
+        return snapshot['raw']
 
     # ========================
     # PROCESS PAIR (หลัก)
@@ -446,13 +435,13 @@ class IndicatorStore:
 
     def calculate_all(self, symbol: str, candles_dict: Dict[str, pd.DataFrame], session: str = "asian") -> Dict[str, Any]:
         """Backward compatibility wrapper"""
-        df_m1 = candles_dict.get('M1')
-        df_m5 = candles_dict.get('M5')
-        df_m15 = candles_dict.get('M15')
+        df_m1 = candles_dict['M1']
+        df_m5 = candles_dict['M5']
+        df_m15 = candles_dict['M15']
         
         if df_m1 is None or df_m5 is None or df_m1.empty or df_m5.empty:
-            logger.warning(f"Missing M1 or M5 data for {symbol} in calculate_all")
-            return {}
+            logger.error(f"Missing M1 or M5 data for {symbol} in calculate_all")
+            raise Exception(f"Missing M1 or M5 data for {symbol}")
 
         return self.process_pair(symbol, df_m1, df_m5, df_m15)
 
@@ -497,8 +486,7 @@ def run_parallel_processing(store: IndicatorStore, symbols_data: Dict[str, Tuple
                 results[symbol] = raw
                 logger.info(f"✅ {symbol} processed in {time.perf_counter() - start:.3f}s")
             except Exception as e:
-                logger.error(f"❌ {symbol} failed: {e}")
-                results[symbol] = None
+                raise
 
     elapsed = time.perf_counter() - start
     logger.info(f"✨ All pairs processed in {elapsed:.3f} seconds")

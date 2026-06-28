@@ -46,7 +46,7 @@ class ContextBuilder(IContextBuilder):
             Populated MarketContext
         """
         # Initialize context
-        primary_df = candles.get(timeframe)
+        primary_df = candles[timeframe]
         
         if primary_df is None or primary_df.empty:
             return self._empty_context(symbol, timeframe)
@@ -83,8 +83,8 @@ class ContextBuilder(IContextBuilder):
                     result = engine.analyze(candles_dict=candles)
                 elif tier_num == 2 and engine.engine_name == 'market_state_classifier':
                     # M5 binary strategies: classify on M5 candles (fallback M15 → primary)
-                    m5_df = candles.get('M5')
-                    m15_df = candles.get('M15')
+                    m5_df = candles['M5']
+                    m15_df = candles['M15']
                     if m5_df is not None and len(m5_df) >= 100:
                         result = engine.analyze(m5_df)
                     elif m15_df is not None and not m15_df.empty:
@@ -92,14 +92,14 @@ class ContextBuilder(IContextBuilder):
                     else:
                         # Fallback to primary if M15 is missing
                         tier1 = {
-                            'direction': context.trend.get('direction', 'NONE') if context.trend else 'NONE',
-                            'atr_percentile': context.volatility.get('atr_percentile', 50.0) if context.volatility else 50.0,
-                            'trend_strength': context.trend.get('strength', 0) if context.trend else 0,
-                            'strength': context.strength.get('strength_score', 0) if context.strength else 0,
-                            'type': context.trend.get('type', '') if context.trend else '',
-                            'regime': context.volatility.get('regime', 'NORMAL') if context.volatility else 'NORMAL',
-                            'exhaustion_risk': context.strength.get('exhaustion_risk', 0) if context.strength else 0,
-                            'bos_detected': context.structure.get('bos_detected', False) if context.structure else False,
+                            'direction': context.trend['direction'] if context.trend else 'NONE',
+                            'atr_percentile': context.volatility['atr_percentile'] if context.volatility else 50.0,
+                            'trend_strength': context.trend['strength'] if context.trend else 0,
+                            'strength': context.strength['strength_score'] if context.strength else 0,
+                            'type': context.trend['type'] if context.trend else '',
+                            'regime': context.volatility['regime'] if context.volatility else 'NORMAL',
+                            'exhaustion_risk': context.strength['exhaustion_risk'] if context.strength else 0,
+                            'bos_detected': context.structure['bos_detected'] if context.structure else False,
                         }
                         result = engine.analyze(primary_df, tier1=tier1)
                 else:
@@ -110,11 +110,7 @@ class ContextBuilder(IContextBuilder):
                 context.mark_engine_executed(engine.engine_name)
                 
             except Exception as e:
-                import logging
-                import traceback
-                logging.exception(f"{engine.engine_name} failed: {e}")
-                traceback.print_exc()
-                context.add_error(f"{engine.engine_name} failed: {str(e)}")
+                raise
     
     def _apply_engine_result(self, context: MarketContext,
                              engine_name: str, result: Dict[str, Any]) -> None:
@@ -153,7 +149,7 @@ class ContextBuilder(IContextBuilder):
             'behavior_analyzer': 'orderflow',  # Map to closest field
         }
         
-        attr = mapping.get(engine_name)
+        attr = mapping[engine_name]
         if attr and hasattr(context, attr):
             setattr(context, attr, result)
     

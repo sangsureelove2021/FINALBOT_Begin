@@ -65,7 +65,5 @@ def setup_engines(config: dict = None) -> EngineRegistry:
             engine = cls(config) if config else cls()
             registry.register(engine)
         except Exception as e:
-            print(f"WARN: could not register {cls.__name__}: {e}")
-            import traceback
-            traceback.print_exc()
+            raise
     return registry

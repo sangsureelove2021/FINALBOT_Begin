@@ -21,30 +21,30 @@ class StructureEngine(BaseEngine):
     MIN_CANDLES = 100
     
     def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-        m5 = payload.get('m5', {})
-        pa = payload.get('price_action', {})
+        m5 = payload['m5']
+        pa = payload['price_action']
         if not m5:
-            return self.get_neutral_state()
+            raise ValueError("FAIL-FAST: Neutral state removed")
             
-        support = m5.get('support', 0.0)
-        resistance = m5.get('resistance', 0.0)
-        s1 = m5.get('s1', support)
-        r1 = m5.get('r1', resistance)
+        support = m5['support']
+        resistance = m5['resistance']
+        s1 = m5['s1']
+        r1 = m5['r1']
         
         support_levels = [s for s in sorted([support, s1]) if s > 0][:3]
         resistance_levels = [r for r in sorted([resistance, r1]) if r > 0][:3]
         
-        sr_interaction = pa.get('sr_interaction', 'NONE')
-        move_quality = pa.get('move_quality', 'NORMAL')
+        sr_interaction = pa['sr_interaction']
+        move_quality = pa['move_quality']
         
         struct_type = self._determine_structure_type(sr_interaction, move_quality)
         bos_detected, bos_type = self._detect_bos(sr_interaction)
-        key_zones = self._find_key_zones(support_levels, resistance_levels, m5.get('pivot', 0.0))
+        key_zones = self._find_key_zones(support_levels, resistance_levels, m5['pivot'])
         proximity = self._check_proximity(sr_interaction)
         struct_score = self._score_structure(support_levels, resistance_levels)
         
-        box_duration = m5.get('box_duration', 10)
-        box_tightness = m5.get('box_tightness', 2.5)
+        box_duration = m5['box_duration']
+        box_tightness = m5['box_tightness']
         
         return {
             'support_levels': support_levels,
@@ -86,7 +86,7 @@ class StructureEngine(BaseEngine):
                 'middle': float(pivot),
             }
         except Exception as e:
-            return {'strong_support': 0, 'strong_resistance': 0, 'middle': 0}
+            raise Exception(str(e))
     
     def _check_proximity(self, sr_interaction: str) -> str:
         if sr_interaction in ['NEAR_SUPPORT', 'NEAR_RESISTANCE']:
@@ -104,12 +104,3 @@ class StructureEngine(BaseEngine):
         if len(supports) > 0 and len(resistances) > 0: score += 10
         return min(100, score)
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'support_levels': [], 'resistance_levels': [],
-            'structure_type': 'RANGING', 'structure_score': 30,
-            'bos_detected': False, 'bos_type': 'NONE',
-            'key_zones': {'strong_support': 0, 'strong_resistance': 0, 'middle': 0},
-            'zone_proximity': 'FAR', 'breakout_probability': 30,
-            'reversal_probability': 50, 'confidence': 0,
-        }

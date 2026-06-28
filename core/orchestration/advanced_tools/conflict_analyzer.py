@@ -65,7 +65,9 @@ class ConflictAnalyzer(BaseEngine):
                 return 'DOWN'
             return 'NONE'
         except Exception as e:
-            return 'NONE'
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _momentum_direction(self, df) -> str:
         try:
@@ -77,7 +79,9 @@ class ConflictAnalyzer(BaseEngine):
                 return 'DOWN'
             return 'NONE'
         except Exception as e:
-            return 'NONE'
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _candle_direction(self, df) -> str:
         try:
@@ -90,7 +94,9 @@ class ConflictAnalyzer(BaseEngine):
                 return 'DOWN'
             return 'NONE'
         except Exception as e:
-            return 'NONE'
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _count_conflicts(self, directions: List[str]) -> int:
         """Count pairs that conflict"""
@@ -120,11 +126,3 @@ class ConflictAnalyzer(BaseEngine):
         
         return int(min(100, conflict))
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'conflict_detected': False, 'conflict_score': 0,
-            'agreement_score': 50, 'ema_direction': 'NONE',
-            'momentum_direction': 'NONE', 'candle_direction': 'NONE',
-            'conflicting_signals': 0, 'all_aligned': False,
-            'confidence': 0,
-        }

@@ -46,20 +46,30 @@ class AdvancedToolsManager:
         pa_data = self.price_action.analyze(df_m5)
         
         # Format Price Action for Group B
-        patterns = candle_data.get('patterns_detected', [])
+        patterns = candle_data['patterns_detected']
         
         # Use simple heuristic for body strength and wick dominance
-        body_size = pa_data.get('recent_body_size', 0)
-        wick_ratio = pa_data.get('wick_to_body_ratio', 0)
+        body_size = pa_data['recent_body_size']
+        wick_ratio = pa_data['wick_to_body_ratio']
         
-        m5_basic = basic_payload.get('m5', {})
-        meta_basic = basic_payload.get('meta', {})
-        close_price = meta_basic.get('close', 0)
-        support = m5_basic.get('support', 0)
-        resistance = m5_basic.get('resistance', 0)
-        atr = m5_basic.get('atr14', 0)
+        m5_basic = basic_payload['m5']
+        meta_basic = basic_payload['meta']
+        close_price = meta_basic['close']
         
-        pivot = m5_basic.get('pivot', 0)
+        # Override support/resistance with fractal logic from PA if available
+        fractal_support = pa_data['fractal_support']
+        fractal_resistance = pa_data['fractal_resistance']
+        
+        support = fractal_support if fractal_support > 0 else m5_basic['support']
+        resistance = fractal_resistance if fractal_resistance > 0 else m5_basic['resistance']
+        atr = m5_basic['atr14']
+        
+        # Inject back into m5 to prevent data loss in the 69-field contract
+        m5_basic['support'] = support
+        m5_basic['resistance'] = resistance
+        m5_basic['volume_trend'] = pa_data['volume_momentum']
+        
+        pivot = m5_basic['pivot']
         rejection_zone = "NONE"
         sr_interaction = "NONE"
         if close_price and isinstance(close_price, (int, float)) and close_price > 0:
@@ -82,8 +92,8 @@ class AdvancedToolsManager:
                 sr_interaction = "TESTING_SUPPORT"
         
         # trap_alert mapping
-        trap_detected = trap_data.get('trap_detected', False)
-        trap_type = trap_data.get('trap_type', 'NONE')
+        trap_detected = trap_data['trap_detected']
+        trap_type = trap_data['trap_type']
         trap_alert = "NONE"
         if trap_detected:
             if trap_type == 'bear':
@@ -95,15 +105,16 @@ class AdvancedToolsManager:
 
         results['price_action'] = {
             'pattern': patterns[0] if patterns else 'NONE',
-            'last_candle_bias': candle_data.get('last_candle_color', 'NEUTRAL'),
-            'last_candle': candle_data.get('last_candle_color', 'NEUTRAL'),
+            'last_candle_bias': candle_data['last_candle_color'],
+            'last_candle': candle_data['last_candle_color'],
             'body_strength': 'STRONG' if body_size > 0.1 else 'WEAK',
             'rejection_zone': rejection_zone,
             'wick_dominance': 'HIGH_WICK' if wick_ratio > 1.0 else 'LOW_WICK',
-            'momentum_bias': pa_data.get('directional_bias', 'NEUTRAL'),
-            'move_quality': 'CLEAN' if pa_data.get('move_type') == 'CLEAN_TRENDING' else ('CHAOTIC' if pa_data.get('move_type') == 'CHAOTIC' else ('NOISY' if pa_data.get('move_type') == 'NOISY' else 'NORMAL')),
+            'momentum_bias': pa_data['directional_bias'],
+            'move_quality': 'CLEAN' if pa_data['move_type'] == 'CLEAN_TRENDING' else ('CHAOTIC' if pa_data['move_type'] == 'CHAOTIC' else ('NOISY' if pa_data['move_type'] == 'NOISY' else 'NORMAL')),
             'trap_alert': trap_alert,
-            'sr_interaction': sr_interaction
+            'sr_interaction': sr_interaction,
+            'volume_momentum': pa_data['volume_momentum']
         }
             
         # Run all specialized analyzers

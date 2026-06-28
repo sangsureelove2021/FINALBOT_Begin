@@ -70,14 +70,14 @@ class MarketStateClassifier(BaseEngine):
         """
         try:
             if not payload or 'm5' not in payload:
-                return self._get_neutral_state("Insufficient payload data")
+                raise ValueError("FAIL-FAST: Neutral state removed")
             
-            trend_data = kwargs.get('trend_data', {})
-            strength_data = kwargs.get('strength_data', {})
-            volatility_data = kwargs.get('volatility_data', {})
-            structure_data = kwargs.get('structure_data', {})
-            mtf_data = kwargs.get('mtf_data', {})
-            symbol = kwargs.get('symbol', '')
+            trend_data = kwargs['trend_data']
+            strength_data = kwargs['strength_data']
+            volatility_data = kwargs['volatility_data']
+            structure_data = kwargs['structure_data']
+            mtf_data = kwargs['mtf_data']
+            symbol = kwargs['symbol']
             is_otc = (symbol.upper().endswith('_OTC') or symbol.upper().endswith('-OTC')) if isinstance(symbol, str) else False
             
             metrics = self._compute_metrics(payload, trend_data, strength_data,
@@ -103,66 +103,64 @@ class MarketStateClassifier(BaseEngine):
             }
             
         except Exception as e:
-            import traceback
-            traceback.print_exc()
-            return self._get_neutral_state(f"Error: {str(e)}")
+            raise Exception(str(e))
     
     def _compute_metrics(self, payload: Dict[str, Any],
                         trend_data: Dict, strength_data: Dict,
                         volatility_data: Dict, structure_data: Dict,
                         mtf_data: Dict, is_otc: bool = False) -> Dict[str, Any]:
         
-        m5 = payload.get('m5', {})
-        pa = payload.get('price_action', {})
-        meta = payload.get('ohlcv', {})
+        m5 = payload['m5']
+        pa = payload['price_action']
+        meta = payload['ohlcv']
         
-        close = meta.get('close', 0.0)
+        close = meta['close']
         
         # Engine Data
-        trend_direction = trend_data.get('direction', 'NONE')
-        trend_strength = trend_data.get('strength', 0)
-        trend_slope = trend_data.get('slope', 0)
-        trend_type = trend_data.get('type', 'CHOPPY')
+        trend_direction = trend_data['direction']
+        trend_strength = trend_data['strength']
+        trend_slope = trend_data['slope']
+        trend_type = trend_data['type']
         
-        adx = strength_data.get('adx', 20)
-        rsi = strength_data.get('rsi', 50)
-        momentum_level = strength_data.get('momentum_level', 'NORMAL')
-        strength_score = strength_data.get('strength_score', 50)
+        adx = strength_data['adx']
+        rsi = strength_data['rsi']
+        momentum_level = strength_data['momentum_level']
+        strength_score = strength_data['strength_score']
         
-        atr_percentile = volatility_data.get('atr_percentile', 50)
-        bbw = volatility_data.get('bbw', 0.05)
-        volatility_regime = volatility_data.get('regime', 'NORMAL')
-        volatility_score = volatility_data.get('volatility_score', 50)
+        atr_percentile = volatility_data['atr_percentile']
+        bbw = volatility_data['bbw']
+        volatility_regime = volatility_data['regime']
+        volatility_score = volatility_data['volatility_score']
         
-        structure_type = structure_data.get('structure_type', 'RANGING')
-        bos_detected = structure_data.get('bos_detected', False)
-        breakout_prob = structure_data.get('breakout_probability', 30)
-        reversal_prob = structure_data.get('reversal_probability', 30)
+        structure_type = structure_data['structure_type']
+        bos_detected = structure_data['bos_detected']
+        breakout_prob = structure_data['breakout_probability']
+        reversal_prob = structure_data['reversal_probability']
         
-        alignment_score = mtf_data.get('alignment_score', 50)
-        htf_direction = mtf_data.get('htf_direction', 'NONE')
+        alignment_score = mtf_data['alignment_score']
+        htf_direction = mtf_data['htf_direction']
         
         # Payload Data
-        volume_ratio = 1.0 if is_otc else m5.get('volume_ratio', 1.0)
+        volume_ratio = 1.0 if is_otc else m5['volume_ratio']
         volume_surge = volume_ratio > 1.5
         
         # Noise level from move_quality
-        move_quality = pa.get('move_quality', 'NORMAL')
+        move_quality = pa['move_quality']
         noise_level = 0.2 if move_quality == 'CLEAN_TRENDING' else 0.8 if move_quality == 'NOISY' else 0.5
         
         rsi_extreme_bull = rsi > 75
         rsi_extreme_bear = rsi < 25
         
-        price_above_ma20 = close > m5.get('ema20', close)
-        price_above_ma50 = close > m5.get('ema50', close)
+        price_above_ma20 = close > m5['ema20']
+        price_above_ma50 = close > m5['ema50']
         
-        wick_dominance = pa.get('wick_dominance', 'BALANCED')
+        wick_dominance = pa['wick_dominance']
         wick_lower_ratio = 0.6 if wick_dominance == 'HIGH_LOWER_WICK' else 0.3
         wick_upper_ratio = 0.6 if wick_dominance == 'HIGH_UPPER_WICK' else 0.3
         
-        compression_detected = bbw < 0.05 or m5.get('box_tightness', 10.0) < 1.0
+        compression_detected = bbw < 0.05 or m5['box_tightness'] < 1.0
         
-        sr_interaction = pa.get('sr_interaction', 'NONE')
+        sr_interaction = pa['sr_interaction']
         divergence_detected = False
         if rsi < 35 and sr_interaction == 'NEAR_SUPPORT':
             divergence_detected = True
@@ -256,26 +254,26 @@ class MarketStateClassifier(BaseEngine):
         scores = {}
         
         # Extract metrics
-        adx = m.get('adx', 0)
-        trend_strength = m.get('trend_strength', 0)
-        direction = m.get('trend_direction', 'NONE')
-        atr_percentile = m.get('atr_percentile', 50)
-        bbw = m.get('bbw', 0.08)
-        volatility_regime = m.get('volatility_regime', 'NORMAL')
-        structure_type = m.get('structure_type', 'RANGING')
-        bos_detected = m.get('bos_detected', False)
-        breakout_prob = m.get('breakout_prob', 30)
-        reversal_prob = m.get('reversal_prob', 30)
-        volume_ratio = m.get('volume_ratio', 1.0)
-        is_otc = m.get('is_otc', False)
-        noise_level = m.get('noise_level', 0.5)
-        alignment_score = m.get('alignment_score', 50)
-        htf_ltf_conflict = m.get('htf_ltf_conflict', False)
-        exhaustion_risk = m.get('exhaustion_risk', 30)
-        divergence_detected = m.get('divergence_detected', False)
-        rsi = m.get('rsi', 50)
-        wick_lower_ratio = m.get('wick_lower_ratio', 0.3)
-        wick_upper_ratio = m.get('wick_upper_ratio', 0.3)
+        adx = m['adx']
+        trend_strength = m['trend_strength']
+        direction = m['trend_direction']
+        atr_percentile = m['atr_percentile']
+        bbw = m['bbw']
+        volatility_regime = m['volatility_regime']
+        structure_type = m['structure_type']
+        bos_detected = m['bos_detected']
+        breakout_prob = m['breakout_prob']
+        reversal_prob = m['reversal_prob']
+        volume_ratio = m['volume_ratio']
+        is_otc = m['is_otc']
+        noise_level = m['noise_level']
+        alignment_score = m['alignment_score']
+        htf_ltf_conflict = m['htf_ltf_conflict']
+        exhaustion_risk = m['exhaustion_risk']
+        divergence_detected = m['divergence_detected']
+        rsi = m['rsi']
+        wick_lower_ratio = m['wick_lower_ratio']
+        wick_upper_ratio = m['wick_upper_ratio']
         
         # ----- TRENDING_STRONG -----
         score = (adx / 100) * 35
@@ -455,13 +453,13 @@ class MarketStateClassifier(BaseEngine):
         """Apply global boosts and penalties to all state scores."""
         adjusted = dict(scores)
         
-        noise_level = m.get('noise_level', 0.5)
-        htf_ltf_conflict = m.get('htf_ltf_conflict', False)
-        exhaustion_risk = m.get('exhaustion_risk', 30)
-        anomaly_detected = m.get('anomaly_detected', False)
-        volatility_regime = m.get('volatility_regime', 'NORMAL')
-        volume_ratio = m.get('volume_ratio', 1.0)
-        is_otc = m.get('is_otc', False)
+        noise_level = m['noise_level']
+        htf_ltf_conflict = m['htf_ltf_conflict']
+        exhaustion_risk = m['exhaustion_risk']
+        anomaly_detected = m['anomaly_detected']
+        volatility_regime = m['volatility_regime']
+        volume_ratio = m['volume_ratio']
+        is_otc = m['is_otc']
         
         # Global modifiers
         modifiers = []
@@ -549,14 +547,14 @@ class MarketStateClassifier(BaseEngine):
             'LIQUIDITY_VOID': 10,
             'UNCLEAR': 15
         }
-        quality = state_quality.get(state, 50)
+        quality = state_quality[state]
         
         # Adjust based on noise level
-        noise_penalty = int(m.get('noise_level', 0) * 30)
+        noise_penalty = int(m['noise_level'] * 30)
         quality = max(0, quality - noise_penalty)
         
         # Adjust based on volume
-        volume_ratio = m.get('volume_ratio', 1.0)
+        volume_ratio = m['volume_ratio']
         if volume_ratio < 0.5:
             quality = max(0, quality - 20)
         
@@ -572,19 +570,19 @@ class MarketStateClassifier(BaseEngine):
             return False
         # อ่านจาก config ที่ส่งเข้ามา หรือใช้ค่า default
         cfg = self.config or {}
-        min_quality = cfg.get("min_quality_score", 40)
-        max_noise  = cfg.get("max_noise_level", 0.6)
+        min_quality = cfg["min_quality_score"]
+        max_noise  = cfg["max_noise_level"]
         if quality < min_quality:
             return False
-        if m.get('noise_level', 0) > max_noise:
+        if m['noise_level'] > max_noise:
             return False
         return True
     
     def _compute_stability(self, m: Dict[str, Any]) -> float:
         """Compute market stability score (0-100)."""
-        noise = m.get('noise_level', 0)
-        volatility = m.get('volatility_score', 50) / 100
-        adx = m.get('adx', 0) / 50
+        noise = m['noise_level']
+        volatility = m['volatility_score'] / 100
+        adx = m['adx'] / 50
         
         stability = 100 * (1 - noise) * (1 - volatility * 0.3) * (0.5 + 0.5 * min(1, adx))
         return min(100, max(0, stability))
@@ -603,30 +601,19 @@ class MarketStateClassifier(BaseEngine):
             'LIQUIDITY_VOID': 'Extremely low volume / dead market. No trading opportunity.',
             'UNCLEAR': 'Mixed signals or insufficient data. Exercise caution.'
         }
-        base = descriptions.get(state, 'Market state could not be clearly determined.')
+        base = descriptions[state]
         # Add extra details if helpful
         if state in ['BREAKOUT_EMERGING', 'REVERSAL_FORMING']:
             extra = []
-            if m.get('breakout_prob', 0) > 0:
-                extra.append(f"breakout prob: {m.get('breakout_prob', 0):.0f}%")
-            if m.get('reversal_prob', 0) > 0:
-                extra.append(f"reversal prob: {m.get('reversal_prob', 0):.0f}%")
-            if m.get('divergence_detected', False):
+            if m['breakout_prob'] > 0:
+                extra.append(f"breakout prob: {m['breakout_prob']:.0f}%")
+            if m['reversal_prob'] > 0:
+                extra.append(f"reversal prob: {m['reversal_prob']:.0f}%")
+            if m['divergence_detected']:
                 extra.append("divergence detected")
             if extra:
                 return f"{base} ({', '.join(extra)})"
         return base
     
-    def _get_neutral_state(self, reason: str) -> Dict[str, Any]:
-        """Return neutral/fallback state when analysis cannot be performed."""
-        return {
-            'state': 'UNCLEAR',
-            'confidence': 0,
-            'quality_score': 30,
-            'tradeable': False,
-            'stability': 30,
-            'description': f'Unable to classify: {reason}',
-            'metrics': {'error': reason}
-        }
     
 

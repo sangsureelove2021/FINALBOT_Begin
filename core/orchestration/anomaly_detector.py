@@ -71,9 +71,8 @@ class AnomalyDetector(BaseEngine):
             zscore = (recent_range - mean_range) / std_range
             return abs(zscore) > 3.0
         except Exception as e:
-            import logging
-            logging.warning(f"AnomalyDetector._detect_range_anomaly failed: {e}")
-            return False
+            raise Exception(str(e))
+
     
     def _detect_gap(self, df) -> bool:
         """Detect price gap between candles"""
@@ -95,9 +94,8 @@ class AnomalyDetector(BaseEngine):
             
             return False
         except Exception as e:
-            import logging
-            logging.warning(f"AnomalyDetector._detect_gap failed: {e}")
-            return False
+            raise Exception(str(e))
+
     
     def _detect_volume_anomaly(self, df) -> bool:
         """Detect abnormal volume spike"""
@@ -117,9 +115,8 @@ class AnomalyDetector(BaseEngine):
             zscore = (recent_vol - mean_vol) / std_vol
             return zscore > 3.0
         except Exception as e:
-            import logging
-            logging.warning(f"AnomalyDetector._detect_volume_anomaly failed: {e}")
-            return False
+            raise Exception(str(e))
+
     
     def _detect_body_anomaly(self, df) -> bool:
         """Detect abnormally large candle body"""
@@ -136,9 +133,8 @@ class AnomalyDetector(BaseEngine):
             zscore = (recent_body - mean_body) / std_body
             return zscore > 3.0
         except Exception as e:
-            import logging
-            logging.warning(f"AnomalyDetector._detect_body_anomaly failed: {e}")
-            return False
+            raise Exception(str(e))
+
     
     def _calculate_anomaly_score(self, anomalies: List[str]) -> int:
         """Score 0-100 for anomaly severity"""
@@ -153,11 +149,3 @@ class AnomalyDetector(BaseEngine):
             return 'LOW'
         return 'NONE'
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'anomaly_detected': False, 'anomalies': [],
-            'anomaly_count': 0, 'anomaly_score': 0,
-            'range_anomaly': False, 'gap_anomaly': False,
-            'volume_anomaly': False, 'severity': 'NONE',
-            'confidence': 0,
-        }

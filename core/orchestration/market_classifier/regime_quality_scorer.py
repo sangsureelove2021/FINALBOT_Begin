@@ -53,7 +53,7 @@ class RegimeQualityScorer(BaseEngine):
                 return min(100, int(50 + ratio * 100))
             return 50
         except Exception as e:
-            return 50
+            raise Exception(str(e))
     
     def _calculate_cleanliness(self, df: pd.DataFrame) -> int:
         """How clean (vs noisy) is the price action?"""
@@ -70,7 +70,7 @@ class RegimeQualityScorer(BaseEngine):
             cleanliness = max(20, min(100, 100 - wick_ratio * 100))
             return int(cleanliness)
         except Exception as e:
-            return 50
+            raise Exception(str(e))
     
     def _calculate_directionality(self, df: pd.DataFrame) -> int:
         """How directional are moves?"""
@@ -85,11 +85,5 @@ class RegimeQualityScorer(BaseEngine):
             efficiency = (total_move / path_length) * 100
             return int(min(100, efficiency))
         except Exception as e:
-            return 50
+            raise Exception(str(e))
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'consistency_score': 50, 'cleanliness_score': 50,
-            'directionality_score': 50, 'overall_quality': 50,
-            'is_tradeable_regime': False, 'confidence': 0,
-        }

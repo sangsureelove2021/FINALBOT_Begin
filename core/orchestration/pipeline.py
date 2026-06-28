@@ -60,12 +60,8 @@ class Pipeline:
         context = self.context_builder.build(symbol, candles, timeframe)
         self.last_context = context
         
-        # Skip error checks for now (MarketContext doesn't have has_errors method)
-        # TODO: Implement error tracking in MarketContext
-        # if context.has_errors() and len(context.errors) > 5:
-        #     return self._create_blocked_signal(
-        #         symbol, timeframe, context, "Too many errors in context build"
-        #     )
+        # Continue to scoring phase without error checks as requested
+
         
         # === STAGE 2: Compute scores ===
         context.set_score('confidence', self.confidence_scorer.score(context))
@@ -77,15 +73,18 @@ class Pipeline:
         recommendation = self._evaluate_strategies(context)
         context.strategy_recommendation = recommendation
         
-        if recommendation.get('action') in ('NO_SIGNAL', 'NO_SETUP'):
+        if recommendation['action'] in ('NO_SIGNAL', 'NO_SETUP'):
             return self._create_no_signal(symbol, timeframe, context, recommendation)
         
-        # === STAGE 4: Execution Gate — BYPASSED (ด่านทั้งหมดยกเลิก) ===
-        # Gate still runs for advisory data, but never blocks
+        # === STAGE 4: Execution Gate ===
         if self.execution_gate:
             gate_decision = self.execution_gate.evaluate(context, recommendation)
             context.execution_decision = gate_decision
-            # Gate always returns approved=True now, no blocking
+            
+            if not gate_decision['approved']:
+                return self._create_blocked_signal(
+                    symbol, timeframe, context, gate_decision['reason']
+                )
         
         # === STAGE 5: Final signal ===
         return self._create_signal(symbol, timeframe, context, recommendation)
@@ -107,17 +106,15 @@ class Pipeline:
                 result = strategy.evaluate(context)
                 
                 # Combined score: entry quality minus block penalty
-                entry = result.get('entry_score', 50)
-                block = result.get('block_score', 0)
+                entry = result['entry_score']
+                block = result['block_score']
                 combined = entry - (block * 0.5)
                 
                 if combined > best_score:
                     best_score = combined
                     best = {**result, 'strategy_name': strategy.strategy_name}
             except Exception as e:
-                import traceback
-                traceback.print_exc()
-                context.add_warning(f"Strategy {strategy.strategy_name} error: {e}")
+                raise
         
         if best is None:
             return {'action': 'NO_SIGNAL', 'confidence': 0,
@@ -128,11 +125,11 @@ class Pipeline:
     def _create_signal(self, symbol: str, timeframe: str,
                       context: MarketContext, recommendation: Dict) -> Signal:
         """Create actionable signal"""
-        action_str = recommendation.get('action', 'NO_SIGNAL')
+        action_str = recommendation['action']
         action = SignalAction[action_str] if action_str in SignalAction.__members__ \
                  else SignalAction.NO_SIGNAL
         
-        confidence = recommendation.get('confidence', 50)
+        confidence = recommendation['confidence']
         quality = self._compute_quality(confidence)
         
         return Signal(
@@ -143,8 +140,8 @@ class Pipeline:
             action=action,
             confidence=confidence,
             quality=quality,
-            strategy_name=recommendation.get('strategy_name', 'unknown'),
-            reason=recommendation.get('reason', ''),
+            strategy_name=recommendation['strategy_name'],
+            reason=recommendation['reason'],
             score_snapshot={
                 'confidence': context.get_score('confidence'),
                 'entry': context.get_score('entry'),
@@ -162,10 +159,10 @@ class Pipeline:
             symbol=symbol,
             timeframe=timeframe,
             action=SignalAction.NO_SIGNAL,
-            confidence=recommendation.get('confidence', 0),
+            confidence=recommendation['confidence'],
             quality=SignalQuality.LOW,
-            strategy_name=recommendation.get('strategy_name', 'none'),
-            reason=recommendation.get('reason', 'No clear opportunity'),
+            strategy_name=recommendation['strategy_name'],
+            reason=recommendation['reason'],
         )
     
     def _create_blocked_signal(self, symbol: str, timeframe: str,

@@ -58,7 +58,7 @@ class MarketPressureAnalyzer(BaseEngine):
                 close_position = (candle['close'] - candle['low']) / rng
                 
                 # Weight by volume if available
-                weight = candle.get('volume', 1.0)
+                weight = candle['volume']
                 
                 buy_score += close_position * weight
                 total_weight += weight
@@ -68,7 +68,7 @@ class MarketPressureAnalyzer(BaseEngine):
             
             return int((buy_score / total_weight) * 100)
         except Exception as e:
-            return 50
+            raise Exception(str(e))
     
     def _detect_absorption(self, df) -> bool:
         """Detect absorption: high volume but little price movement"""
@@ -92,7 +92,7 @@ class MarketPressureAnalyzer(BaseEngine):
             
             return False
         except Exception as e:
-            return False
+            raise Exception(str(e))
     
     def _effort_vs_result(self, df) -> str:
         """Compare effort (volume) vs result (price move)"""
@@ -120,12 +120,5 @@ class MarketPressureAnalyzer(BaseEngine):
             else:
                 return 'NORMAL'
         except Exception as e:
-            return 'UNKNOWN'
+            raise Exception(str(e))
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'buy_pressure': 50, 'sell_pressure': 50,
-            'dominant_side': 'BALANCED', 'absorption_detected': False,
-            'effort_vs_result': 'UNKNOWN', 'pressure_imbalance': 0,
-            'confidence': 0,
-        }

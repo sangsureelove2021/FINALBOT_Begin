@@ -25,14 +25,6 @@ from datetime import datetime
 
 from monitoring.console_dashboard import ConsoleUI
 
-class NumpyEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if hasattr(obj, 'item'):
-            return obj.item()
-        if hasattr(obj, 'tolist'):
-            return obj.tolist()
-        return super().default(obj)
-
 logger = logging.getLogger("DeepSeekAgent")
 
 
@@ -76,10 +68,7 @@ class DeepSeekAgentBridge:
         
         # Auto-detect the actual executable path on Windows
         self.agent_path = self._find_agent_executable()
-        if self.agent_path:
-            logger.info(f"DeepSeek Agent found at: {self.agent_path}")
-        else:
-            logger.warning(f"DeepSeek Agent not found in PATH or common locations. Will search again at runtime.")
+        logger.info(f"DeepSeek Agent found at: {self.agent_path}")
     
     def _find_agent_executable(self) -> Optional[str]:
         r"""
@@ -111,13 +100,15 @@ class DeepSeekAgentBridge:
                 return found
         
         # 2. ค้นหาในโฟลเดอร์ npm global (Windows)
-        appdata = os.environ.get('APPDATA', '')
-        npm_dirs = []
-        if appdata:
-            npm_dirs.append(os.path.join(appdata, 'npm'))
-        userprofile = os.environ.get('USERPROFILE', '')
-        if userprofile:
-            npm_dirs.append(os.path.join(userprofile, 'AppData', 'Roaming', 'npm'))
+        if 'APPDATA' not in os.environ:
+            raise KeyError("Missing APPDATA in os.environ")
+        appdata = os.environ['APPDATA']
+        npm_dirs = [os.path.join(appdata, 'npm')]
+        
+        if 'USERPROFILE' not in os.environ:
+            raise KeyError("Missing USERPROFILE in os.environ")
+        userprofile = os.environ['USERPROFILE']
+        npm_dirs.append(os.path.join(userprofile, 'AppData', 'Roaming', 'npm'))
         
         for npm_dir in npm_dirs:
             if os.path.isdir(npm_dir):
@@ -137,11 +128,11 @@ class DeepSeekAgentBridge:
                         logger.debug(f"Found {name} in Scripts: {candidate}")
                         return candidate
         
-        return None
+        raise Exception("Agent executable not found")
         
     def check_readiness(self) -> str:
         """ทดสอบการเชื่อมต่อ AI ก่อนเริ่มรันระบบจริง"""
-        agent_exec = self.agent_path if self.agent_path else self.agent_command
+        agent_exec = self.agent_path
         cmd_args = [agent_exec, "--headless", "--no-tui", "--max-iterations=1", "System check. Briefly introduce yourself (including your AI model name) and state you are ready to analyze the market. Reply in a single short line in English."]
 
         
@@ -178,26 +169,26 @@ class DeepSeekAgentBridge:
                         
             if len(stdout_text) > 0:
                 return stdout_text
-            return ""
+            raise Exception("AI Readiness check failed: empty output")
         except Exception as e:
             logger.exception(f"AI Readiness check failed: {e}")
-            return ""
+            raise Exception(str(e))
 
     def _get_cache_key(self, context) -> str:
         """สร้าง cache key จาก market context"""
         try:
             if isinstance(context, dict):
-                last_price = context.get('current_price', 0)
-                symbol = context.get('symbol', 'unknown')
+                last_price = context['current_price']
+                symbol = context['symbol']
             else:
-                last_price = getattr(context, 'current_price', 0)
-                symbol = getattr(context, 'symbol', 'unknown')
+                last_price = getattr(context, 'current_price')
+                symbol = getattr(context, 'symbol')
                 
             minute_key = datetime.now().strftime('%Y%m%d%H%M')
             return f"{symbol}_{last_price}_{minute_key}"
         except Exception as e:
             logger.warning(f"Cache key generation error: {e}", exc_info=True)
-            return datetime.now().strftime('%Y%m%d%H%M%S')
+            raise e
     
     def analyze_market(self, context) -> Optional[AIInsight]:
         """
@@ -205,16 +196,19 @@ class DeepSeekAgentBridge:
         """
         # --- Data Validation (Separation of Concerns) ---
         if isinstance(context, dict):
-            symbol = context.get('meta', {}).get('symbol', context.get('symbol', 'UNKNOWN'))
-            timeframes = context.get('timeframes', {})
-            m5_inds = timeframes.get('m5', {})
-            rsi = m5_inds.get('rsi', 0.0)
-            ema5 = m5_inds.get('ema5', 0.0)
+            if 'meta' in context and 'symbol' in context['meta']:
+                symbol = context['meta']['symbol']
+            else:
+                symbol = context['symbol']
+            timeframes = context['timeframes']
+            m5_inds = timeframes['m5']
+            rsi = m5_inds['rsi']
+            ema5 = m5_inds['ema5']
             
             has_real_data = rsi != 0.0 and ema5 != 0.0
             if not has_real_data:
                 logger.warning(f"Indicators for {symbol} are all zero — warming up, skipping AI call")
-                return None
+                raise ValueError(f"Indicators for {symbol} are all zero - missing real data")
         # -----------------------------------------------
         
         cache_key = self._get_cache_key(context)
@@ -226,7 +220,7 @@ class DeepSeekAgentBridge:
         prompt = self._build_prompt(context)
         
         # ใช้ executable path ที่ตรวจพบ (หรือ fallback เป็น command name)
-        agent_exec = self.agent_path if self.agent_path else self.agent_command
+        agent_exec = self.agent_path
 
         # ──────────────────────────────────────────────────────────────
         # FIX: Windows shell=True ตีความ " ใน JSON ผิด → prompt ถูกตัด
@@ -235,14 +229,15 @@ class DeepSeekAgentBridge:
         # ──────────────────────────────────────────────────────────────
         import tempfile
         tmp_file = None
+        tmp_path = None
         try:
             tmp_fd, tmp_path = tempfile.mkstemp(suffix='.txt', prefix='bot_prompt_')
             with os.fdopen(tmp_fd, 'w', encoding='utf-8') as f:
                 f.write(prompt)
             tmp_file = tmp_path
-        except Exception:
+        except OSError as e:
             logger.exception("Failed to write prompt temp file — falling back to inline arg")
-            tmp_path = None
+            raise Exception(str(e))
 
         # สร้าง flag list (ไม่มี profile flag เพราะ system prompt แก้ไขตรงแล้ว)
         agent_flags = ["--headless", "--no-tui", "--format=json-raw", "--max-iterations=1"]
@@ -250,9 +245,6 @@ class DeepSeekAgentBridge:
         if tmp_path and os.path.exists(tmp_path):
             # ใช้ temp file เพื่อหลีกเลี่ยง shell quoting issues
             task_arg = f"@read_task_file:{tmp_path}"
-            # Fallback: ถ้า agent ไม่รองรับ @read_task_file ให้ส่ง path แทน
-            # (agent จะเห็น path ไม่ใช่ข้อมูลตลาด → ใช้ plain prompt แทน)
-            task_arg = prompt  # ยังคงส่ง prompt ตรง แต่ผ่าน shell=False
         else:
             task_arg = prompt
 
@@ -290,23 +282,19 @@ class DeepSeekAgentBridge:
                 if sys.platform == 'win32':
                     try:
                         subprocess.run(f"taskkill /F /T /PID {p.pid}", shell=True, capture_output=True)
-                    except Exception:
-                        logger.exception("Failed to run taskkill on win32 process tree")
+                    except subprocess.SubprocessError as e:
+                        raise Exception("Failed to run taskkill on win32 process tree") from e
                 else:
                     # บน Unix/Mac ทำลาย process group
                     try:
                         import signal
                         os.killpg(os.getpgid(p.pid), signal.SIGTERM)
-                    except Exception:
-                        logger.exception("Failed to kill process group using killpg, falling back to p.kill()")
-                        try:
-                            p.kill()
-                        except Exception:
-                            logger.exception("Failed to kill process via p.kill()")
+                    except OSError as e:
+                        raise Exception("Failed to kill process group using killpg") from e
                 p.wait()
                 self.consecutive_failures += 1
                 logger.warning(f"AI timeout — ข้ามรอบนี้ ไม่เทรด (timeout {self.timeout}s)")
-                return None
+                raise TimeoutError(f"AI timeout after {self.timeout}s")
                 
             if p.returncode != 0:
                 logger.error(f"Agent error (code {p.returncode})")
@@ -317,7 +305,7 @@ class DeepSeekAgentBridge:
                     logger.error(f"Stderr: {stderr_text[:200]}")
                 self.consecutive_failures += 1
                 logger.warning("AI error — ข้ามรอบนี้ ไม่เทรด")
-                return None
+                raise Exception(f"Agent error (code {p.returncode}), stderr: {stderr_text}")
             
             self.consecutive_failures = 0
             insight = self._parse_response(stdout_text, context)
@@ -326,26 +314,24 @@ class DeepSeekAgentBridge:
                 return insight
             else:
                 logger.warning("AI parse failed — ข้ามรอบนี้ ไม่เทรด")
-                return None
+                raise Exception("AI parse failed")
         except FileNotFoundError:
-            # พยายามค้นหาอีกครั้ง (อาจมีการติดตั้งระหว่างรัน) — retry ครั้งเดียวเท่านั้น
-            if not getattr(self, '_retried_once', False):
-                self.agent_path = self._find_agent_executable()
-                if self.agent_path:
-                    logger.info("Re-attempting with newly found agent executable")
-                    self._retried_once = True
-                    result = self.analyze_market(context)
-                    self._retried_once = False
-                    return result
-            logger.error(f"Agent command '{self.agent_command}' not found even after search. Is deepseek-agent installed?")
+            logger.error(f"Agent command '{self.agent_command}' not found. Is deepseek-agent installed?")
             self.consecutive_failures = self.max_failures
             logger.warning("AI not found — ข้ามรอบนี้ ไม่เทรด")
-            return None
+            raise FileNotFoundError(f"Agent command '{self.agent_command}' not found")
         except Exception as e:
             logger.exception(f"Unexpected error calling agent: {e}")
             self.consecutive_failures += 1
             logger.warning("AI unexpected error — ข้ามรอบนี้ ไม่เทรด")
-            return None
+            raise Exception(str(e))
+        finally:
+            if tmp_path and os.path.exists(tmp_path):
+                try:
+                    os.unlink(tmp_path)
+                except Exception as cleanup_e:
+                    logger.warning(f"Failed to delete temp file {tmp_path}: {cleanup_e}")
+                    raise Exception(str(cleanup_e))
 
     def _build_prompt(self, context) -> str:
         from core.ai_analysis.Prompt_AI_Context import build_prompt
@@ -368,7 +354,7 @@ class DeepSeekAgentBridge:
             end_idx = response_text.rfind('}') + 1
             if start_idx == -1 or end_idx == 0 or start_idx > end_idx:
                 logger.error(f"No JSON found in response")
-                return None
+                raise ValueError("No JSON found in response")
             
             json_str = response_text[start_idx:end_idx]
             
@@ -390,72 +376,58 @@ class DeepSeekAgentBridge:
             data = None
             try:
                 data = json.loads(json_str)
-            except Exception as json_e:
-                logger.debug("JSON parsing failed, falling back to AST", exc_info=True)
-                try:
-                    data = ast.literal_eval(json_str)
-                except Exception as ast_e:
-                    logger.debug("AST parsing failed, falling back to Regex", exc_info=True)
-                    # Final aggressive fallback: manually extract values using regex
-                    logger.warning(f"Standard parsing failed. Attempting regex extraction. Extracted string: {json_str[:200]}")
-                    data = {}
-                    
-                    action_match = re.search(r'"?action"?\s*:\s*"?([A-Z_]+)"?', json_str, re.IGNORECASE)
-                    if action_match:
-                        data["action"] = action_match.group(1).upper()
-                        
-                    conf_match = re.search(r'"?confidence"?\s*:\s*(\d+)', json_str, re.IGNORECASE)
-                    if conf_match:
-                        data["confidence"] = int(conf_match.group(1))
-                        
-                    exp_match = re.search(r'"?expiry"?\s*:\s*(\d+)', json_str, re.IGNORECASE)
-                    if exp_match:
-                        data["expiry"] = int(exp_match.group(1))
-                        
-                    # Capture reason - anything from reason: up to the closing } or another key
-                    reason_match = re.search(r'"?reason"?\s*:\s*"?([^}]+)"?\s*}?\s*', json_str, re.IGNORECASE | re.DOTALL)
-                    if reason_match:
-                        data["reason"] = reason_match.group(1).strip().strip('"').strip("'")
-                    
-                    if not data:
-                        logger.error(f"JSON, AST, and Regex parsing all failed. Extracted string: {json_str[:200]}")
-                        return None
+            except json.JSONDecodeError as json_e:
+                logger.error(f"JSON parsing failed. Extracted string: {json_str[:200]}")
+                raise json_e
             
             if not isinstance(data, dict):
                 logger.error(f"Parsed data is not a dictionary: {type(data)}")
-                return None
+                raise TypeError(f"Parsed data is not a dictionary: {type(data)}")
                 
-            action = data.get('action', 'NO_TRADE')
-            action = action.upper() if isinstance(action, str) else 'NO_TRADE'
+            if 'action' not in data:
+                raise KeyError("Missing 'action' in response data")
+            action = data['action']
+            if not isinstance(action, str):
+                raise TypeError("'action' must be a string")
+            action = action.upper()
             if action not in ['CALL', 'PUT', 'NO_TRADE']:
-                action = 'NO_TRADE'
+                raise ValueError(f"Invalid action: {action}")
             
+            if 'confidence' not in data:
+                raise KeyError("Missing 'confidence' in response data")
+            conf_val = data['confidence']
             try:
-                conf_val = data.get('confidence', 0)
                 if isinstance(conf_val, str):
                     conf_val = re.sub(r'[^\d]', '', conf_val)
-                    confidence = int(conf_val) if conf_val else 0
+                    if not conf_val:
+                        raise ValueError("Empty confidence string")
+                    confidence = int(conf_val)
                 elif isinstance(conf_val, (int, float)):
                     confidence = int(conf_val)
                 else:
-                    logger.warning(f"Unexpected type for confidence: {type(conf_val)}")
-                    confidence = 0
-            except Exception:
+                    raise TypeError(f"Unexpected type for confidence: {type(conf_val)}")
+            except Exception as e:
                 logger.exception("Failed to parse confidence value")
-                confidence = 0
+                raise Exception(str(e))
             confidence = max(0, min(100, confidence))
             
-            # Extract expiry (default to 5 minutes if missing or out of bounds)
-            expiry = int(data.get('expiry', 5))
+            if 'expiry' not in data:
+                raise KeyError("Missing 'expiry' in response data")
+            expiry = int(data['expiry'])
             if expiry < 1 or expiry > 15:
-                expiry = 5
+                raise ValueError(f"Invalid expiry: {expiry}")
             
-            reason = data.get('reason', 'No reason provided')[:500]
+            if 'reason' not in data:
+                raise KeyError("Missing 'reason' in response data")
+            reason = data['reason'][:500]
             
             if isinstance(context, dict):
-                symbol = context.get('meta', {}).get('symbol', context.get('symbol', 'unknown'))
+                if 'meta' in context and 'symbol' in context['meta']:
+                    symbol = context['meta']['symbol']
+                else:
+                    symbol = context['symbol']
             else:
-                symbol = getattr(context, 'symbol', 'unknown')
+                symbol = getattr(context, 'symbol')
             
             return AIInsight(
                 action=action,
@@ -468,6 +440,6 @@ class DeepSeekAgentBridge:
             )
             
         except Exception as e:
-            logger.exception(f"Parse error: {e}. Raw response: {response_text[:500]}")
-            return None
+                logger.exception(f"Parse error: {e}. Raw response: {response_text[:500]}")
+                raise Exception(str(e))
     

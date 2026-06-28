@@ -99,7 +99,9 @@ class ContinuationAnalyzer(BaseEngine):
                     
             return retest_detected, retest_quality, retest_type
         except Exception as e:
-            return False, 0.0, 'NONE'
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _assess_pullback(self, df) -> int:
         """Assess if recent pullback is healthy (0-100)"""
@@ -126,7 +128,9 @@ class ContinuationAnalyzer(BaseEngine):
             else:
                 return 20  # Overextended
         except Exception as e:
-            return 50
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _momentum_intact(self, df) -> bool:
         """Is momentum still supporting the move?"""
@@ -140,7 +144,9 @@ class ContinuationAnalyzer(BaseEngine):
             # Momentum intact if same direction
             return np.sign(recent_roc) == np.sign(older_roc) and abs(recent_roc) > 0.1
         except Exception as e:
-            return False
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _volume_support(self, df) -> bool:
         """Does volume support the move?"""
@@ -154,7 +160,9 @@ class ContinuationAnalyzer(BaseEngine):
             # Volume supports if recent >= past
             return recent_vol >= past_vol * 0.8
         except Exception as e:
-            return True
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _calculate_continuation_probability(self, pullback, momentum, 
                                            volume, df) -> int:
@@ -183,14 +191,9 @@ class ContinuationAnalyzer(BaseEngine):
             if abs(slope) > 0.0005:
                 prob += 10
         except Exception as e:
-            pass
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
         
         return int(min(95, max(5, prob)))
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'continuation_probability': 50, 'reversal_probability': 50,
-            'pullback_health': 50, 'momentum_intact': False,
-            'volume_supports_move': False, 'bias': 'NEUTRAL',
-            'confidence': 0,
-        }

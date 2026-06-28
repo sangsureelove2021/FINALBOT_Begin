@@ -62,36 +62,37 @@ class BehaviorAnalyzer(BaseEngine):
         return int(min(100, max(0, doji_share * 100)))
 
     def _pressure_balance(self, df: pd.DataFrame) -> float:
-        """Net buying vs selling pressure, -100 (sell) .. +100 (buy)."""
-        bull = (df['close'] > df['open']).sum()
-        bear = (df['close'] < df['open']).sum()
+        """Net buying vs selling pressure based on Net Range."""
+        bull = df.loc[df['close'] > df['open']].apply(lambda r: r['close'] - r['open'], axis=1).sum()
+        bear = df.loc[df['close'] < df['open']].apply(lambda r: r['open'] - r['close'], axis=1).sum()
         total = bull + bear
         if total == 0:
             return 0.0
         return float(((bull - bear) / total) * 100)
 
     def _participation(self, df: pd.DataFrame) -> int:
-        """Recent volume vs its own average — engagement level."""
-        if 'volume' not in df or df['volume'].sum() == 0:
+        """Recent volume vs its baseline average — engagement level."""
+        if 'volume' not in df or df['volume'].sum() == 0 or len(df) <= 5:
             return 50
-        avg = df['volume'].mean()
+        baseline_df = df.iloc[:-5]
+        avg = baseline_df['volume'].mean()
         recent = df['volume'].tail(5).mean()
-        if avg == 0:
+        if avg == 0 or pd.isna(avg):
             return 50
         return int(min(100, max(0, (recent / avg) * 50)))
 
     def _classify(self, conviction: int, hesitation: int,
                   pressure: float) -> str:
-        if hesitation > 55:
-            return 'INDECISIVE'
         if conviction > 60:
             return 'DECISIVE_BUYING' if pressure > 15 else \
                    'DECISIVE_SELLING' if pressure < -15 else 'DECISIVE_MIXED'
+                   
+        # Check for creeping trends (high consistent pressure despite low conviction)
+        if abs(pressure) > 60:
+            return 'CREEPING_BUYING' if pressure > 0 else 'CREEPING_SELLING'
+            
+        if hesitation > 55:
+            return 'INDECISIVE'
+            
         return 'NEUTRAL'
 
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'conviction': 0, 'hesitation': 50, 'pressure_balance': 0.0,
-            'participation': 50, 'behavior': 'NEUTRAL',
-            'is_decisive': False, 'confidence': 0,
-        }

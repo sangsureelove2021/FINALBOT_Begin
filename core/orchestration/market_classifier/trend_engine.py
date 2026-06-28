@@ -64,18 +64,18 @@ class TrendEngine(BaseEngine):
             
     def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
         """Analyze trend using pre-calculated SSOT payload"""
-        m5 = payload.get('m5', {})
-        latest_price = payload.get('ohlcv', {}).get('close', 0.0)
+        m5 = payload['m5']
+        latest_price = payload['ohlcv']['close']
         
         if not m5 or latest_price == 0.0:
-            return self.get_neutral_state()
+            raise ValueError("FAIL-FAST: Neutral state removed")
             
         thresholds = self._get_thresholds(latest_price)
         
-        ema20 = m5.get('ema20', 0.0)
-        ema50 = m5.get('ema50', 0.0)
-        ema100 = m5.get('ema100', 0.0)
-        ema200 = m5.get('ema200', 0.0)
+        ema20 = m5['ema20']
+        ema50 = m5['ema50']
+        ema100 = m5['ema100']
+        ema200 = m5['ema200']
         
         # Direction
         direction = self._determine_direction(
@@ -87,8 +87,8 @@ class TrendEngine(BaseEngine):
         )
         
         # Get slope and momentum directly from SSOT
-        slope = m5.get('slope_10', 0.0)
-        momentum = m5.get('roc', 0.0)
+        slope = m5['slope_10']
+        momentum = m5['roc']
         
         # Determine trend type
         trend_type = self._analyze_trend_type(slope, momentum, direction, thresholds)
@@ -170,7 +170,7 @@ class TrendEngine(BaseEngine):
                 elif distance > 0.01:
                     risk += 15
         except Exception as e:
-            pass
+            raise Exception(str(e))
         return min(100, max(10, risk))
     
     def _calculate_sustain_probability(self, direction, slope, momentum, thresholds) -> int:
@@ -201,9 +201,3 @@ class TrendEngine(BaseEngine):
             return 40
         return 20
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'direction': 'NONE', 'strength': 0, 'slope': 0.0,
-            'momentum': 0.0, 'type': 'CHOPPY', 'confidence': 0,
-            'reversal_risk': 50, 'sustain_probability': 50,
-        }

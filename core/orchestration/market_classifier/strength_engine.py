@@ -23,17 +23,17 @@ class StrengthEngine(BaseEngine):
     
     def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
         """Analyze momentum strength using SSOT payload"""
-        m5 = payload.get('m5', {})
+        m5 = payload['m5']
         if not m5:
-            return self.get_neutral_state()
+            raise ValueError("FAIL-FAST: Neutral state removed")
             
-        adx_val = m5.get('adx', 0.0)
-        di_plus = m5.get('di_plus', 0.0)
-        di_minus = m5.get('di_minus', 0.0)
-        rsi_val = m5.get('rsi14', 50.0)
-        macd_val = m5.get('macd', 0.0)
-        macd_hist = m5.get('macd_hist', 0.0)
-        roc_val = m5.get('roc', 0.0)
+        adx_val = m5['adx']
+        di_plus = m5['di_plus']
+        di_minus = m5['di_minus']
+        rsi_val = m5['rsi14']
+        macd_val = m5['macd']
+        macd_hist = m5['macd_hist']
+        roc_val = m5['roc']
         
         momentum_level = self._classify_momentum_level(adx_val)
         divergence = self._detect_divergence(roc_val, rsi_val, macd_hist)
@@ -75,7 +75,7 @@ class StrengthEngine(BaseEngine):
                 return 'BULLISH'
             return 'NONE'
         except Exception as e:
-            return 'NONE'
+            raise
     
     def _calculate_strength_score(self, adx, rsi, macd_abs, roc_abs) -> int:
         score = 50
@@ -98,13 +98,7 @@ class StrengthEngine(BaseEngine):
         try:
             if macd_val < 0 and roc_val > 0:
                 risk += 10
-        except: pass
+        except Exception as e:
+            raise
         return min(100, max(10, risk))
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'adx': 0, 'di_plus': 0, 'di_minus': 0, 'rsi': 50,
-            'macd': 0, 'momentum_level': 'NORMAL', 'roc': 0,
-            'divergence': 'NONE', 'strength_score': 50,
-            'exhaustion_risk': 50, 'confidence': 0,
-        }

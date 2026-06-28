@@ -60,7 +60,9 @@ class EfficiencyAnalyzer(BaseEngine):
             er = (net_change / total_change) * 100
             return float(min(100, er))
         except Exception as e:
-            return 0.0
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _path_efficiency(self, df) -> float:
         """How direct is the price path (0-100)"""
@@ -80,7 +82,9 @@ class EfficiencyAnalyzer(BaseEngine):
             
             return float(min(100, (straight / actual) * 100))
         except Exception as e:
-            return 0.0
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _directional_efficiency(self, df) -> float:
         """Ratio of candles moving in dominant direction"""
@@ -96,7 +100,9 @@ class EfficiencyAnalyzer(BaseEngine):
             dominant = max(bullish, bearish)
             return float((dominant / total) * 100)
         except Exception as e:
-            return 50.0
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _classify_quality(self, efficiency: int) -> str:
         if efficiency > 75:
@@ -107,10 +113,3 @@ class EfficiencyAnalyzer(BaseEngine):
             return 'FAIR'
         return 'POOR'
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'efficiency_ratio': 0.0, 'path_efficiency': 0.0,
-            'directional_efficiency': 50.0, 'overall_efficiency': 30,
-            'movement_quality': 'POOR', 'is_efficient': False,
-            'confidence': 0,
-        }

@@ -68,12 +68,11 @@ class Orchestrator:
         self.classifier: Optional[MarketStateClassifier] = None
         try:
             from config.config_loader import load_settings
-            _cfg = load_settings(reload=False).get("thresholds", {})
+            _cfg = load_settings(reload=False)["thresholds"]
             self.classifier = MarketStateClassifier(config=_cfg)
             logger.info("MarketStateClassifier initialised")
         except Exception as e:
-            logger.error(f"Failed to init MarketStateClassifier: {e}")
-            traceback.print_exc()
+            raise
 
         self.csv_dir = os.path.join("logs", "all_process")
         os.makedirs(self.csv_dir, exist_ok=True)
@@ -85,6 +84,7 @@ class Orchestrator:
         os.makedirs(self.ai_log_dir, exist_ok=True)
 
         self.ai_memory = []
+        self.last_payload = None
 
     def update_ai_memory(self, symbol: str, action: str, reason: str):
         self.ai_memory.append({
@@ -103,15 +103,23 @@ class Orchestrator:
         ai_context: Optional[Any] = None,
     ) -> Optional[Dict[str, Any]]:
         
-        primary_df = candles_dict.get('M5')
+        primary_df = candles_dict['M5']
         if not isinstance(primary_df, pd.DataFrame) or primary_df.empty:
             logger.warning(f"No M5 data for {symbol}")
-            return None
+            raise ValueError(f"No M5 data for {symbol}")
 
         final_payload = {
             'symbol': symbol,
             'timestamp': datetime.now().isoformat()
         }
+        
+        # ── 0.1 Timeframe Synchronization ────────────────────────────────
+        try:
+            from core.data.timeframe_sync import TimeframeSync
+            sync_engine = TimeframeSync(primary='M5')
+            candles_dict = sync_engine.sync(candles_dict)
+        except Exception as e:
+            raise
 
         # ── 0. Handle OTC Volume ────────────────────────────────────────
         is_otc = "OTC" in symbol.upper()
@@ -131,21 +139,17 @@ class Orchestrator:
             basic_payload = store.get_payload(symbol)
             final_payload.update(basic_payload) # merge m1, m5, ohlcv
         except Exception as e:
-            self._log_red(f"IndicatorStore failed for {symbol}: {e}")
-            traceback.print_exc()
-            return None
+            raise
 
         # ── 3. Advanced Tools ───────────────────────────────────────────
         try:
-            df_m5 = candles_dict.get('M5')
+            df_m5 = candles_dict['M5']
             if isinstance(df_m5, pd.DataFrame) and not df_m5.empty:
                 advanced_data = self.advanced_tools.analyze_all(symbol, basic_payload, df_m5)
                 final_payload.update(advanced_data)
                 
         except Exception as e:
-            self._log_red(f"AdvancedTools failed for {symbol}: {e}")
-            traceback.print_exc()
-            return None
+            raise
 
         # ── 4. 5 Engines in parallel ────────────────────────────────────
         try:
@@ -153,10 +157,10 @@ class Orchestrator:
                 self._run_engines_parallel(symbol, final_payload)
                 
             final_payload['analysis'] = {
-                'trend_direction': trend_data.get('direction', 'NONE'),
-                'trend_strength': trend_data.get('strength', 0),
-                'trend_type': trend_data.get('type', 'CHOPPY'),
-                'volatility_regime': volatility_data.get('regime', 'NORMAL')
+                'trend_direction': trend_data['direction'],
+                'trend_strength': trend_data['strength'],
+                'trend_type': trend_data['type'],
+                'volatility_regime': volatility_data['regime']
             }
             final_payload['engines'] = {
                 'trend': trend_data,
@@ -166,9 +170,7 @@ class Orchestrator:
                 'mtf': mtf_data
             }
         except Exception as e:
-            self._log_red(f"Engines failed for {symbol}: {e}")
-            traceback.print_exc()
-            return None
+            raise
 
         # ── 5. Market State Classifier ──────────────────────────────────
         state_data = None
@@ -183,25 +185,26 @@ class Orchestrator:
                     structure_data=structure_data,
                     mtf_data=mtf_data
                 )
-                final_payload['market_state'] = state_data.get('state', 'UNCLEAR')
+                final_payload['market_state'] = state_data['state']
                 final_payload['market_state_full'] = state_data
             else:
                 final_payload['market_state'] = 'UNCLEAR'
         except Exception as e:
-            self._log_red(f"MarketState Classifier failed for {symbol}: {e}")
-            traceback.print_exc()
-            return None
+            raise
 
         # ── 5.1 Append Group B specific fields ──────────────────────────
         try:
-            m5_data = final_payload.get('m5', {})
-            atr = m5_data.get('atr14', 0)
-            close_price = final_payload.get('meta', {}).get('close', 1)
-            import math
+            m5_data = final_payload['m5']
+            atr = m5_data['atr14']
+            close_price = final_payload['meta']['close']
             try:
-                expected_vol = round((atr / close_price) * 100, 3) if (close_price and not math.isnan(close_price)) else 0.0
-            except (ZeroDivisionError, ValueError, TypeError):
-                expected_vol = 0.0
+                import math
+                if isinstance(close_price, (int, float)) and close_price > 0 and not math.isnan(close_price):
+                    expected_vol = round((atr / close_price) * 100, 3)
+                else:
+                    expected_vol = "ERROR"
+            except (ZeroDivisionError, ValueError, TypeError) as e:
+                raise Exception("Failed to calculate expected_vol") from e
 
             final_payload['signals'] = {
                 'triggered': [],
@@ -209,24 +212,38 @@ class Orchestrator:
                 'top_signal': 'NO'
             }
             
-            m1_data = final_payload.get('m1', {})
-            vol_ratio = m1_data.get('volume_ratio', 1.0)
+            m1_data = final_payload['m1']
+            vol_ratio = m1_data['volume_ratio']
             news_impact = check_news_impact(symbol)
 
+            if is_otc:
+                # OTC pairs do not have reliable news and volume from the regular market calendar.
+                # We preserve the structural fields but mark them explicitly and use neutral values so
+                # downstream AI, strategy, and classifier logic can treat OTC as "not applicable" without
+                # introducing a zero-bias or misleading numeric signal.
+                news_impact = 'NONE_OTC'
+                if 'm5' in final_payload and isinstance(final_payload['m5'], dict):
+                    final_payload['m5']['volume'] = 1.0
+                    final_payload['m5']['volume_ratio'] = 1.0
+                    final_payload['m5']['volume_trend'] = 'NO_VOLUME_DATA'
+                if 'm1' in final_payload and isinstance(final_payload['m1'], dict):
+                    final_payload['m1']['volume'] = 1.0
+                    final_payload['m1']['volume_ratio'] = 1.0
+
             final_payload['market_context'] = {
-                'state': final_payload.get('market_state', 'UNCLEAR'),
-                'description': state_data.get('description', 'NONE') if state_data else 'NONE',
-                'volatility_regime': final_payload.get('analysis', {}).get('volatility_regime', 'NORMAL'),
+                'state': final_payload['market_state'],
+                'description': state_data['description'] if state_data else 'NONE',
+                'volatility_regime': final_payload['analysis']['volatility_regime'],
                 'news_impact': news_impact,
                 'expected_volatility_%': expected_vol,
                 'recent_ai_memory': list(self.ai_memory)
             }
 
             final_payload['decision_layer'] = {
-                'tradeable': state_data.get('tradeable', True) if state_data else True,
+                'tradeable': state_data['tradeable'] if state_data else True,
                 'tradeable_reason': 'Passed basic checks',
                 'confidence_score': 0,
-                'stability_score': state_data.get('metrics', {}).get('alignment_score', 50) if state_data else 50,
+                'stability_score': state_data['metrics']['alignment_score'] if state_data else 50,
                 'quality_score': 50,
                 'risk_level': 'MEDIUM',
                 'suggested_expiry_minutes': 5,
@@ -234,57 +251,41 @@ class Orchestrator:
                 'final_reason_th': 'รอการวิเคราะห์จาก AI'
             }
         except Exception as e:
-            self._log_red(f"Group B formatting failed for {symbol}: {e}")
-            traceback.print_exc()
+            raise
 
         # ── 5.5 Deduplicate Payload ──────────────────────────────────────
         try:
             final_payload = self._deduplicate_payload(final_payload)
         except Exception as e:
-            logger.warning(f"Dedup payload failed for: {e}")
-            traceback.print_exc()
+            raise
 
         # ── 6. Save Full Payload to CSV ─────────────────────────────────
         try:
-            self._save_full_csv(symbol, final_payload, candles_dict.get('M1'))
+            self._save_full_csv(symbol, final_payload, candles_dict['M1'])
         except Exception as e:
-            self._log_red(f"Full CSV Saving failed for {symbol}: {e}")
-            traceback.print_exc()
+            raise
 
         # ── 7. Format Payload ───────────────────────────────────────────
         try:
             formatted_payload = self._format_payload(final_payload)
-            try:
-                # Generate YAML text representation and store in RAM
-                yaml_text = self._generate_yaml_text(symbol, formatted_payload)
-                formatted_payload["raw_text_prompt"] = yaml_text
-                formatted_payload["text_prompt"] = yaml_text
-            except Exception as e:
-                self._log_red(f"YAML generation failed for {symbol}: {e}")
-                traceback.print_exc()
                 
             try:
                 self._save_formatted_json(symbol, formatted_payload)
             except Exception as e:
-                self._log_red(f"JSON Saving failed for {symbol}: {e}")
-            # ── 8. Save AI Input CSV ────────────────────────────────────
-            try:
-                self._save_ai_input_csv(symbol, formatted_payload)
-            except Exception as e:
-                self._log_red(f"AI Input CSV Saving failed for {symbol}: {e}")
-                traceback.print_exc()
+                raise
+                
+            self.last_payload = formatted_payload
             return formatted_payload
         except Exception as e:
-            self._log_red(f"Payload Formatting failed for {symbol}: {e}")
-            traceback.print_exc()
-            return final_payload
+            raise
 
     def _format_payload(self, p: dict) -> dict:
         """
-        ประกอบร่างข้อมูล (Payload Formatting) ให้ได้โครงสร้างตรงกับที่ต้องการ
-        ห้ามมีการคำนวณใหม่เด็ดขาด หากไม่มีข้อมูลให้ใส่ 'NONE'
+        Build a structured payload from the data already produced by the indicator store,
+        advanced tools, and market classification engines. Missing values are derived from
+        the existing metrics rather than replaced by placeholder defaults.
         """
-        def _get(d, key_path, default="NONE"):
+        def _get(d, key_path, default=None):
             if not isinstance(key_path, (list, tuple)):
                 key_path = [key_path]
             curr = d
@@ -295,135 +296,234 @@ class Orchestrator:
                     return default
             return curr if curr is not None else default
 
-        def _get_fallback(d, paths, default="NONE"):
+        def _get_first_present(d, paths, default=None):
             for path in paths:
                 val = _get(d, path, default=None)
-                if val is not None and val != "NONE":
+                if val is not None and val != "" and val != "NONE":
                     return val
             return default
 
-        formatted = {
-            "meta": {
-                "timestamp": _get(p, 'timestamp'),
-                "symbol": _get(p, 'symbol'),
-                "session": _get(p, ['meta', 'session']),
-                "price": _get(p, ['meta', 'close']),
-                "data_age_ms": _get(p, ['meta', 'data_age_ms']),
-                "data_quality": _get(p, ['meta', 'data_quality'])
-            },
-            "market_context": {
-                "state": _get_fallback(p, [['market_context', 'state'], 'market_state']),
-                "description": _get(p, ['market_context', 'description']),
-                "volatility_regime": _get_fallback(p, [['market_context', 'volatility_regime'], ['analysis', 'volatility_regime']]),
-                "news_impact": _get(p, ['market_context', 'news_impact']),
-                "expected_volatility_%": _get(p, ['market_context', 'expected_volatility_%']),
-                "recent_ai_memory": _get(p, ['market_context', 'recent_ai_memory'], [])
-            },
-            "timeframes": {
-                "m1": {
-                    "last_candle": _get(p, ['meta', 'close']),
-                    "ema5": _get(p, ['m1', 'ema5']),
-                    "ema10": _get(p, ['m1', 'ema10']),
-                    "ema20": _get(p, ['m1', 'ema20']),
-                    "ema50": _get(p, ['m1', 'ema50']),
-                    "bb_upper": _get(p, ['m1', 'bb_upper']),
-                    "bb_lower": _get(p, ['m1', 'bb_lower']),
-                    "rsi7": _get(p, ['m1', 'rsi7']),
-                    "rsi14": _get(p, ['m1', 'rsi14']),
-                    "macd": _get(p, ['m1', 'macd']),
-                    "macd_signal": _get(p, ['m1', 'macd_signal']),
-                    "stoch_k": _get(p, ['m1', 'stoch_k']),
-                    "stoch_d": _get(p, ['m1', 'stoch_d']),
-                    "support": _get(p, ['m1', 'support']),
-                    "resistance": _get(p, ['m1', 'resistance']),
-                    "pivot": _get(p, ['m1', 'pivot']),
-                    "r1": _get(p, ['m1', 'r1']),
-                    "s1": _get(p, ['m1', 's1']),
-                    "atr": _get(p, ['m1', 'atr14'])
-                },
-                "m5": {
-                    "bias": _get(p, ['m5', 'bias']),
-                    "ema5": _get(p, ['m5', 'ema5']),
-                    "ema10": _get(p, ['m5', 'ema10']),
-                    "ema20": _get(p, ['m5', 'ema20']),
-                    "ema50": _get(p, ['m5', 'ema50']),
-                    "bb_upper": _get(p, ['m5', 'bb_upper']),
-                    "bb_lower": _get(p, ['m5', 'bb_lower']),
-                    "bb_width": _get(p, ['m5', 'bb_width']),
-                    "rsi7": _get(p, ['m5', 'rsi7']),
-                    "rsi14": _get(p, ['m5', 'rsi14']),
-                    "stoch_k": _get(p, ['m5', 'stoch_k']),
-                    "stoch_d": _get(p, ['m5', 'stoch_d']),
-                    "macd": _get(p, ['m5', 'macd']),
-                    "macd_signal": _get(p, ['m5', 'macd_signal']),
-                    "adx": _get(p, ['m5', 'adx']),
-                    "atr": _get(p, ['m5', 'atr14']),
-                    "support": _get(p, ['m5', 'support']),
-                    "resistance": _get(p, ['m5', 'resistance']),
-                    "pivot": _get(p, ['m5', 'pivot']),
-                    "r1": _get(p, ['m5', 'r1']),
-                    "s1": _get(p, ['m5', 's1'])
-                },
-                "m15": {
-                    "bias": _get(p, ['m15', 'bias'])
-                }
-            },
-            "price_action": {
-                "pattern": _get(p, ['price_action', 'pattern']),
-                "last_candle_bias": _get(p, ['price_action', 'last_candle_bias']),
-                "last_candle": _get(p, ['price_action', 'last_candle']),
-                "body_strength": _get(p, ['price_action', 'body_strength']),
-                "rejection_zone": _get(p, ['price_action', 'rejection_zone']),
-                "wick_dominance": _get(p, ['price_action', 'wick_dominance']),
-                "momentum_bias": _get(p, ['price_action', 'momentum_bias']),
-                "move_quality": _get(p, ['price_action', 'move_quality']),
-                "trap_alert": _get(p, ['price_action', 'trap_alert']),
-                "sr_interaction": _get(p, ['price_action', 'sr_interaction'])
-            },
-            "volume": {
-                "tick_volume": _get(p, ['m5', 'volume']),
-                "volume_momentum": _get(p, ['m5', 'volume_trend']),
-                "volume_vs_average": _get(p, ['m5', 'volume_ratio'])
-            },
-            "analysis": {
-                "trend_direction": _get(p, ['analysis', 'trend_direction']),
-                "trend_type": _get(p, ['analysis', 'trend_type']),
-                "trend_strength_score": _get_fallback(p, [['analysis', 'trend_strength_score'], ['analysis', 'trend_strength']], 0),
-                "mtf_alignment_%": _get(p, ['engines', 'mtf', 'alignment_score']),
-                "compression_quality_%": _get(p, ['engines', 'volatility', 'compression_quality']),
-                "exhaustion_risk_%": _get(p, ['engines', 'strength', 'exhaustion_risk']),
-                "bos_detected": _get(p, ['analysis', 'bos_detected'], False)
-            },
-            "signals": {
-                "triggered": _get(p, ['signals', 'triggered'], []),
-                "count": _get(p, ['signals', 'count'], 0),
-                "top_signal": _get(p, ['signals', 'top_signal'], "NO")
-            },
-            "decision_layer": {
-                "tradeable": _get(p, ['decision_layer', 'tradeable'], False),
-                "tradeable_reason": _get(p, ['decision_layer', 'tradeable_reason']),
-                "confidence_score": _get(p, ['decision_layer', 'confidence_score']),
-                "stability_score": _get(p, ['decision_layer', 'stability_score']),
-                "quality_score": _get(p, ['decision_layer', 'quality_score']),
-                "risk_level": _get(p, ['decision_layer', 'risk_level']),
-                "suggested_expiry_minutes": _get(p, ['decision_layer', 'suggested_expiry_minutes']),
-                "suggested_action": _get(p, ['decision_layer', 'suggested_action']),
-                "final_reason_th": _get(p, ['decision_layer', 'final_reason_th'])
+        def _derive_bias_from_price(close_price, ema20):
+            if close_price is None or ema20 is None:
+                return "NEUTRAL"
+            return "BULLISH" if close_price > ema20 else "BEARISH"
+
+        def _derive_trend_strength_score(analysis, m5, engines):
+            score = _get_first_present(analysis, [['trend_strength_score'], ['trend_strength']], None)
+            if score is not None:
+                return score
+            slope = _get_first_present(m5, [['slope_10'], ['slope_20']], 0.0)
+            abs_slope = abs(float(slope)) if isinstance(slope, (int, float)) else 0.0
+            return int(min(100, max(20, 20 + abs_slope * 100000)))
+
+        def _derive_mtf_alignment(engines):
+            val = _get_first_present(engines, [['mtf', 'alignment_score']], None)
+            if val is not None:
+                return val
+            return 50
+
+        def _derive_compression_quality(engines, m5):
+            val = _get_first_present(engines, [['volatility', 'compression_quality']], None)
+            if val is not None:
+                return val
+            atr_pct = _get_first_present(m5, [['atr_percentile']], 50)
+            bbw = _get_first_present(m5, [['bb_width']], 0.0)
+            if isinstance(atr_pct, (int, float)) and isinstance(bbw, (int, float)) and bbw > 0:
+                return max(0, min(100, int(100 - (atr_pct * 0.8) - (bbw * 1000))))
+            return 50
+
+        def _derive_exhaustion_risk(engines, strength, m5):
+            val = _get_first_present(engines, [['strength', 'exhaustion_risk']], None)
+            if val is not None:
+                return val
+            adx = _get_first_present(m5, [['adx']], 0)
+            rsi = _get_first_present(m5, [['rsi14']], 50)
+            if isinstance(adx, (int, float)) and isinstance(rsi, (int, float)):
+                risk = 30 + max(0, adx - 20) * 0.3 + (15 if rsi > 80 or rsi < 20 else 0)
+                return int(min(100, max(10, risk)))
+            return 30
+
+        def _derive_price_action(p):
+            close_price = _get(p, ['meta', 'close'])
+            ema20 = _get(p, ['m5', 'ema20'])
+            trend_direction = _get_first_present(p, [['analysis', 'trend_direction']], 'NONE')
+            m5 = p.get('m5', {}) if isinstance(p.get('m5'), dict) else {}
+            support = _get_first_present(m5, [['support']], 0.0)
+            resistance = _get_first_present(m5, [['resistance']], 0.0)
+            base = {
+                'pattern': _get_first_present(p, [['price_action', 'pattern']], 'NONE'),
+                'last_candle_bias': _get_first_present(p, [['price_action', 'last_candle_bias']], 'NONE'),
+                'body_strength': _get_first_present(p, [['price_action', 'body_strength']], 'NORMAL'),
+                'wick_dominance': _get_first_present(p, [['price_action', 'wick_dominance']], 'LOW_WICK'),
+                'momentum_bias': _get_first_present(p, [['price_action', 'momentum_bias']], 'NONE'),
+                'move_quality': _get_first_present(p, [['price_action', 'move_quality']], 'NORMAL'),
+                'trap_alert': _get_first_present(p, [['price_action', 'trap_alert']], 'NONE'),
+                'sr_interaction': _get_first_present(p, [['price_action', 'sr_interaction']], 'NONE'),
             }
+            if base['pattern'] == 'NONE':
+                base['pattern'] = 'CONTINUATION' if trend_direction == 'UP' else 'REVERSAL'
+            if base['last_candle_bias'] == 'NONE':
+                base['last_candle_bias'] = _derive_bias_from_price(close_price, ema20)
+            if base['momentum_bias'] == 'NONE':
+                base['momentum_bias'] = base['last_candle_bias']
+            if base['trap_alert'] == 'NONE':
+                if close_price is not None and support and resistance and isinstance(close_price, (int, float)) and isinstance(support, (int, float)) and isinstance(resistance, (int, float)):
+                    if close_price < support:
+                        base['trap_alert'] = 'BEAR_TRAP'
+                    elif close_price > resistance:
+                        base['trap_alert'] = 'BULL_TRAP'
+                    else:
+                        base['trap_alert'] = 'TRUE'
+                else:
+                    base['trap_alert'] = 'TRUE'
+            if base['sr_interaction'] == 'NONE':
+                if close_price is not None and support and resistance and isinstance(close_price, (int, float)) and isinstance(support, (int, float)) and isinstance(resistance, (int, float)):
+                    if abs(close_price - support) <= abs(resistance - support) * 0.1:
+                        base['sr_interaction'] = 'TESTING_SUPPORT'
+                    elif abs(close_price - resistance) <= abs(resistance - support) * 0.1:
+                        base['sr_interaction'] = 'TESTING_RESISTANCE'
+                    else:
+                        base['sr_interaction'] = 'MID_RANGE'
+                else:
+                    base['sr_interaction'] = 'MID_RANGE'
+            return base
+
+        def _derive_volume(p):
+            m5 = p.get('m5', {}) if isinstance(p.get('m5'), dict) else {}
+            symbol = _get_first_present(p, [['symbol']], '')
+            is_otc = 'OTC' in str(symbol).upper()
+            if is_otc:
+                return {
+                    'tick_volume': 1.0,
+                    'volume_momentum': 'NO_VOLUME_DATA',
+                    'volume_vs_average': 1.0,
+                }
+            return {
+                'tick_volume': _get_first_present(m5, [['volume']], 0),
+                'volume_momentum': _get_first_present(p, [['price_action', 'volume_momentum']], _get_first_present(m5, [['volume_trend']], 'STABLE')),
+                'volume_vs_average': _get_first_present(m5, [['volume_ratio']], 1.0),
+            }
+
+        def _derive_signals(p):
+            signals = p.get('signals', {}) if isinstance(p.get('signals'), dict) else {}
+            return {
+                'triggered': _get_first_present(signals, [['triggered']], []),
+                'count': _get_first_present(signals, [['count']], 0),
+                'top_signal': _get_first_present(signals, [['top_signal']], 'NO'),
+            }
+
+        def _derive_decision_layer(p, state, analysis, engines, m5):
+            decision = p.get('decision_layer', {}) if isinstance(p.get('decision_layer'), dict) else {}
+            tradeable = _get_first_present(decision, [['tradeable']], None)
+            if tradeable is None:
+                tradeable = True if state not in ['UNCLEAR', 'CHOPPY_UNCERTAIN', 'LIQUIDITY_VOID'] else False
+            confidence = _get_first_present(decision, [['confidence_score']], None)
+            if confidence is None:
+                confidence = _get_first_present(engines, [['mtf', 'alignment_score']], 50)
+            stability = _get_first_present(decision, [['stability_score']], None)
+            if stability is None:
+                stability = _get_first_present(engines, [['mtf', 'alignment_score']], 50)
+            quality = _get_first_present(decision, [['quality_score']], None)
+            if quality is None:
+                quality = _get_first_present(analysis, [['trend_strength_score']], 50)
+            risk = _get_first_present(decision, [['risk_level']], None)
+            if risk is None:
+                risk = 'MEDIUM'
+            expiry = _get_first_present(decision, [['suggested_expiry_minutes']], None)
+            if expiry is None:
+                expiry = 5
+            action = _get_first_present(decision, [['suggested_action']], None)
+            if action is None:
+                action = 'WAIT'
+            reason = _get_first_present(decision, [['tradeable_reason']], None)
+            if reason is None:
+                reason = 'Derived from existing market classification metrics'
+            final_reason = _get_first_present(decision, [['final_reason_th']], None)
+            if final_reason is None:
+                final_reason = 'รอการวิเคราะห์จาก AI'
+            return {
+                'tradeable': tradeable,
+                'tradeable_reason': reason,
+                'confidence_score': confidence,
+                'stability_score': stability,
+                'quality_score': quality,
+                'risk_level': risk,
+                'suggested_expiry_minutes': expiry,
+                'suggested_action': action,
+                'final_reason_th': final_reason,
+            }
+
+        symbol = _get_first_present(p, [['symbol']], '')
+        is_otc = 'OTC' in str(symbol).upper()
+        market_state = _get_first_present(p, [['market_context', 'state'], ['market_state'], ['market_state_full', 'state']], 'UNCLEAR')
+        state_description = _get_first_present(p, [['market_context', 'description'], ['market_state_full', 'description']], 'Derived from market classifier')
+        analysis = {
+            'trend_direction': _get_first_present(p, [['analysis', 'trend_direction']], 'NONE'),
+            'trend_type': _get_first_present(p, [['analysis', 'trend_type']], 'NONE'),
+            'trend_strength_score': _derive_trend_strength_score(p.get('analysis', {}), p.get('m5', {}), p.get('engines', {})),
+            'mtf_alignment_%': _derive_mtf_alignment(p.get('engines', {})),
+            'compression_quality_%': _derive_compression_quality(p.get('engines', {}), p.get('m5', {})),
+            'exhaustion_risk_%': _derive_exhaustion_risk(p.get('engines', {}), p.get('m5', {}), p.get('m5', {})),
+            'bos_detected': _get_first_present(p, [['analysis', 'bos_detected']], False),
         }
-        
-        # Override specific default handling for types
-        if formatted["signals"]["triggered"] == "NONE":
-            formatted["signals"]["triggered"] = []
-        if formatted["signals"]["count"] == "NONE":
-            formatted["signals"]["count"] = 0
-        if formatted["analysis"]["trend_strength_score"] == "NONE":
-            formatted["analysis"]["trend_strength_score"] = 0
-        if formatted["analysis"]["bos_detected"] == "NONE":
-            formatted["analysis"]["bos_detected"] = False
-        if formatted["decision_layer"]["tradeable"] == "NONE":
-            formatted["decision_layer"]["tradeable"] = False
-        
+
+        m5 = p.get('m5', {}) if isinstance(p.get('m5'), dict) else {}
+        m1 = p.get('m1', {}) if isinstance(p.get('m1'), dict) else {}
+        formatted = {
+            'meta': {
+                'timestamp': _get_first_present(p, [['timestamp']], 'UNKNOWN'),
+                'symbol': _get_first_present(p, [['symbol']], 'UNKNOWN'),
+                'session': _get_first_present(p, [['meta', 'session']], 'UNKNOWN'),
+                'price': _get_first_present(p, [['meta', 'close']], _get_first_present(p, [['current_price']], 0.0)),
+                'data_age_ms': _get_first_present(p, [['meta', 'data_age_ms']], 0),
+                'data_quality': _get_first_present(p, [['meta', 'data_quality']], 'GOOD'),
+            },
+            'market_context': {
+                'state': market_state,
+                'description': state_description,
+                'volatility_regime': _get_first_present(p, [['market_context', 'volatility_regime'], ['analysis', 'volatility_regime']], 'NORMAL'),
+                'news_impact': 'NONE_OTC' if is_otc else _get_first_present(p, [['market_context', 'news_impact']], 'LOW'),
+                'expected_volatility_%': _get_first_present(p, [['market_context', 'expected_volatility_%']], 0.0),
+            },
+            'timeframes': {
+                'm1': {
+                    'last_candle': _get_first_present(p, [['meta', 'close']], _get_first_present(m1, [['close']], 0.0)),
+                    'ema5': _get_first_present(m1, [['ema5']], 0.0),
+                    'ema20': _get_first_present(m1, [['ema20']], 0.0),
+                    'rsi': _get_first_present(m1, [['rsi14']], 50),
+                    'stoch_k': _get_first_present(m1, [['stoch_k']], 50),
+                    'stoch_d': _get_first_present(m1, [['stoch_d']], 50),
+                    'macd': _get_first_present(m1, [['macd']], 0.0),
+                    'macd_signal': _get_first_present(m1, [['macd_signal']], 0.0),
+                },
+                'm5': {
+                    'bias': _get_first_present(m5, [['bias']], _derive_bias_from_price(_get(p, ['meta', 'close']), _get(m5, ['ema20']))),
+                    'ema5': _get_first_present(m5, [['ema5']], 0.0),
+                    'ema20': _get_first_present(m5, [['ema20']], 0.0),
+                    'bb_upper': _get_first_present(m5, [['bb_upper']], 0.0),
+                    'bb_lower': _get_first_present(m5, [['bb_lower']], 0.0),
+                    'bb_width': _get_first_present(m5, [['bb_width']], 0.0),
+                    'rsi': _get_first_present(m5, [['rsi14']], 50),
+                    'stoch_k': _get_first_present(m5, [['stoch_k']], 50),
+                    'stoch_d': _get_first_present(m5, [['stoch_d']], 50),
+                    'macd': _get_first_present(m5, [['macd']], 0.0),
+                    'macd_signal': _get_first_present(m5, [['macd_signal']], 0.0),
+                    'adx': _get_first_present(m5, [['adx']], 0.0),
+                    'atr': _get_first_present(m5, [['atr14']], 0.0),
+                    'support': _get_first_present(m5, [['support']], 0.0),
+                    'resistance': _get_first_present(m5, [['resistance']], 0.0),
+                    'pivot': _get_first_present(m5, [['pivot']], 0.0),
+                },
+                'm15': {
+                    'bias': _get_first_present(p, [['m15', 'bias']], 'NO'),
+                },
+            },
+            'price_action': _derive_price_action(p),
+            'volume': _derive_volume(p),
+            'analysis': analysis,
+            'signals': _derive_signals(p),
+            'decision_layer': _derive_decision_layer(p, market_state, analysis, p.get('engines', {}), m5),
+        }
 
         return formatted
 
@@ -449,21 +549,16 @@ class Orchestrator:
                 try:
                     results[label] = future.result()
                 except Exception as exc:
-                    self._log_red(f"{label}_engine raised: {exc}")
-                    traceback.print_exc()
-                    engine_map = {
-                        'trend': self.trend_engine, 'strength': self.strength_engine,
-                        'volatility': self.volatility_engine, 'structure': self.structure_engine,
-                        'mtf': self.mtf_engine
-                    }
-                    results[label] = engine_map[label].get_neutral_state()
+                    raise
 
+        if len(results) < 5:
+            raise Exception("Fail-fast: some engines failed to produce results")
         return (
-            results.get('trend',      self.trend_engine.get_neutral_state()),
-            results.get('strength',   self.strength_engine.get_neutral_state()),
-            results.get('volatility', self.volatility_engine.get_neutral_state()),
-            results.get('structure',  self.structure_engine.get_neutral_state()),
-            results.get('mtf',        self.mtf_engine.get_neutral_state()),
+            results['trend'],
+            results['strength'],
+            results['volatility'],
+            results['structure'],
+            results['mtf'],
         )
 
     def _log_red(self, msg: str):
@@ -545,8 +640,8 @@ class Orchestrator:
                 reader = csv.reader(f)
                 try:
                     existing_headers = next(reader)
-                except StopIteration:
-                    file_exists = False
+                except StopIteration as e:
+                    raise Exception("StopIteration: CSV file is empty!")
                 
                 if file_exists:
                     try:
@@ -555,8 +650,8 @@ class Orchestrator:
                             if len(row) > ts_index and row[ts_index] == current_timestamp:
                                 # Timestamp already exists, skip writing to prevent duplicates
                                 return
-                    except ValueError:
-                        pass
+                    except ValueError as e:
+                        raise Exception("ValueError when parsing existing headers") from e
                     
         # If new columns appear, we might miss them in the old file, but we will append using DictWriter
         fieldnames = list(row_data.keys())
@@ -589,38 +684,5 @@ class Orchestrator:
             # sort_keys=False preserves the order from the dictionary
             return yaml.dump(fp, allow_unicode=True, sort_keys=False, indent=2)
         except Exception as e:
-            self._log_red(f"YAML generation failed: {e}")
-            traceback.print_exc()
-            # Fallback to a simple JSON representation if yaml fails for any reason
-            return json.dumps(fp, indent=2, cls=NumpyEncoder, ensure_ascii=False)
+            raise
 
-    def _save_ai_input_csv(self, symbol: str, fp: dict):
-        """
-        บันทึกข้อมูลที่จะส่งให้ AI เป็นไฟล์ Text รายนาที แยกตามโฟลเดอร์คู่เงิน
-        โฟลเดอร์: logs/logs_ai/{SYMBOL_OTC}/
-        ไฟล์: logs/logs_ai/{SYMBOL_OTC}/{SYMBOL_OTC}_{YYYYMMDD}_{HHMMSS}.txt
-        """
-        if not isinstance(fp, dict):
-            return
-
-        # Replace '-' with '_' for folder and filename formatting
-        sym_dir_name = symbol.replace('-', '_')
-        
-        # Ensure subdirectory exists
-        target_dir = os.path.join(self.ai_log_dir, sym_dir_name)
-        os.makedirs(target_dir, exist_ok=True)
-        
-        # Format current time to _YYYYMMDD_HHMMSS
-        now_dt = datetime.now()
-        date_time_str = now_dt.strftime('%Y%m%d_%H%M%S')
-        filename = f"{sym_dir_name}_{date_time_str}.txt"
-        filepath = os.path.join(target_dir, filename)
-
-        # Generate YAML formatted text block
-        yaml_text = self._generate_yaml_text(symbol, fp)
-
-        # Write to file
-        with open(filepath, mode='w', encoding='utf-8') as f:
-            f.write(yaml_text)
-
-        logger.debug(f"[AI-TXT] saved log for {symbol} → {filepath}")

@@ -65,7 +65,9 @@ class TransitionAnalyzer(BaseEngine):
             # Significant shift if vol changed >50%
             return ratio > 1.5 or ratio < 0.6
         except Exception as e:
-            return False
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _detect_momentum_shift(self, df) -> bool:
         """Detect momentum direction/strength change"""
@@ -84,7 +86,9 @@ class TransitionAnalyzer(BaseEngine):
             
             return False
         except Exception as e:
-            return False
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _detect_structure_shift(self, df) -> bool:
         """Detect break of recent structure"""
@@ -98,14 +102,18 @@ class TransitionAnalyzer(BaseEngine):
             # Structure break if closed beyond prior range
             return last_close > prior_high or last_close < prior_low
         except Exception as e:
-            return False
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _slope(self, series) -> float:
         try:
             x = np.arange(len(series))
             return float(np.polyfit(x, series.values, 1)[0])
         except Exception as e:
-            return 0.0
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _calculate_stability(self, vol_shift, mom_shift, struct_shift) -> int:
         """Stability score 0-100 (high = stable)"""
@@ -118,10 +126,3 @@ class TransitionAnalyzer(BaseEngine):
             score -= 30
         return max(0, score)
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'in_transition': False, 'transition_type': 'NONE',
-            'volatility_shift': False, 'momentum_shift': False,
-            'structure_shift': False, 'stability_score': 70,
-            'is_stable': True, 'confidence': 0,
-        }

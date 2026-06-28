@@ -77,9 +77,8 @@ class TrapDetector(BaseEngine):
             
             return False, 'NONE'
         except Exception as e:
-            import logging
-            logging.warning(f"TrapDetector._detect_false_breakout failed: {e}")
-            return False, 'NONE'
+            raise Exception(str(e))
+
     
     def _detect_stop_hunt(self, df):
         """Detect quick spike beyond a level that retraces fast"""
@@ -98,9 +97,8 @@ class TrapDetector(BaseEngine):
                     return True
             return False
         except Exception as e:
-            import logging
-            logging.warning(f"TrapDetector._detect_stop_hunt failed: {e}")
-            return False
+            raise Exception(str(e))
+
     
     def _detect_rejection_wick(self, df):
         """Detect strong rejection wick on last candle"""
@@ -119,9 +117,8 @@ class TrapDetector(BaseEngine):
                 return True
             return False
         except Exception as e:
-            import logging
-            logging.warning(f"TrapDetector._detect_rejection_wick failed: {e}")
-            return False
+            raise Exception(str(e))
+
     
     def _calculate_trap_score(self, fb, sh, rw, df) -> int:
         """Score 0-100 for trap likelihood"""
@@ -134,10 +131,3 @@ class TrapDetector(BaseEngine):
             score += 25
         return min(100, score)
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'trap_detected': False, 'trap_type': 'NONE',
-            'trap_score': 0, 'false_breakout': False,
-            'stop_hunt': False, 'rejection_wick': False,
-            'confidence': 0,
-        }

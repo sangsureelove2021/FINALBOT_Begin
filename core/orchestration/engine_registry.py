@@ -33,11 +33,11 @@ class EngineRegistry:
     
     def get(self, name: str) -> Optional[BaseEngine]:
         """Get engine by name"""
-        return self._engines.get(name)
+        return self._engines[name]
     
     def get_by_tier(self, tier: int) -> List[BaseEngine]:
         """Get all engines in a tier"""
-        names = self._tier_map.get(tier, [])
+        names = self._tier_map[tier]
         return [self._engines[n] for n in names if n in self._engines]
     
     def list_engines(self) -> List[str]:

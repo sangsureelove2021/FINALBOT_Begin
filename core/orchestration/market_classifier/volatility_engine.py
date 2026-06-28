@@ -22,15 +22,15 @@ class VolatilityEngine(BaseEngine):
     MIN_CANDLES = 200
     
     def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-        m5 = payload.get('m5', {})
+        m5 = payload['m5']
         if not m5:
-            return self.get_neutral_state()
+            raise ValueError("FAIL-FAST: Neutral state removed")
             
-        atr_val = m5.get('atr14', 0.0)
-        atr_percentile = m5.get('atr_percentile', 50.0)
-        zscore = m5.get('atr_zscore', 0.0)
-        bbw = m5.get('bb_width', 0.0)
-        bbw_sma_100 = m5.get('bbw_sma_100', 1.0)
+        atr_val = m5['atr14']
+        atr_percentile = m5['atr_percentile']
+        zscore = m5['atr_zscore']
+        bbw = m5['bb_width']
+        bbw_sma_100 = m5['bbw_sma_100']
         
         # Estimate stddev from bbw (BB has 2 stddev multiplier, so bbw = 4 stddev => stddev = bbw/4)
         stddev = bbw / 4.0 if bbw > 0 else 0.0
@@ -38,14 +38,14 @@ class VolatilityEngine(BaseEngine):
         regime = self._classify_regime(atr_percentile)
         
         # Pass the recent highs/lows range from price_action if available, else estimate
-        pa = payload.get('price_action', {})
+        pa = payload['price_action']
         
         volatility_score = self._calculate_volatility_score(
-            atr_percentile, bbw, stddev, payload.get('ohlcv', {}).get('close', 0.0)
+            atr_percentile, bbw, stddev, payload['ohlcv']['close']
         )
         
         expansion_prob, contraction_prob = self._detect_expansion_contraction(
-            m5.get('atr_recent_avg', 0.0), m5.get('atr_past_avg', 0.0)
+            m5['atr_recent_avg'], m5['atr_past_avg']
         )
         
         spike_detected = abs(zscore) > 2.0
@@ -89,7 +89,7 @@ class VolatilityEngine(BaseEngine):
             compression_quality = float(max(0.0, min(100.0, quality)))
             return bbw_compression_ratio, compression_quality
         except Exception as e:
-            return 1.0, 50.0
+            raise Exception(str(e))
     
     def _classify_regime(self, atr_percentile) -> str:
         if atr_percentile > 75: return 'EXTREME'
@@ -117,18 +117,10 @@ class VolatilityEngine(BaseEngine):
                 return 55, 45
             return 40, 60
         except Exception as e:
-            return 50, 50
+            raise Exception(str(e))
     
     def _calculate_confidence(self, atr_val, regime) -> int:
         if regime == 'EXTREME': return 40  # Less reliable in extremes
         elif regime == 'LOW': return 65
         return 80  # Normal/High volatility = good info
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'atr': 0.0, 'atr_percentile': 50.0, 'bbw': 0.0, 'stddev': 0.0,
-            'regime': 'NORMAL', 'volatility_score': 50,
-            'expansion_probability': 50, 'contraction_probability': 50,
-            'volatility_zscore': 0.0, 'spike_detected': False,
-            'confidence': 0,
-        }

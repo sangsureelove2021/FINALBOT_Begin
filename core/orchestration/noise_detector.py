@@ -67,9 +67,8 @@ class NoiseDetector(BaseEngine):
             chop = 100 * np.log10(atr_sum / price_range) / np.log10(period)
             return float(np.clip(chop, 0, 100))
         except Exception as e:
-            import logging
-            logging.warning(f"NoiseDetector._calculate_choppiness failed: {e}")
-            return 50.0
+            raise Exception(str(e))
+
     
     def _detect_whipsaw(self, df) -> bool:
         """Detect rapid back-and-forth price action"""
@@ -84,9 +83,8 @@ class NoiseDetector(BaseEngine):
             # Whipsaw if many direction changes
             return sign_changes >= 6
         except Exception as e:
-            import logging
-            logging.warning(f"NoiseDetector._detect_whipsaw failed: {e}")
-            return False
+            raise Exception(str(e))
+
     
     def _wick_noise_ratio(self, df) -> float:
         """Ratio of wicks to bodies (high = noisy)"""
@@ -101,9 +99,8 @@ class NoiseDetector(BaseEngine):
             
             return float(wicks.sum() / bodies.sum())
         except Exception as e:
-            import logging
-            logging.warning(f"NoiseDetector._wick_noise_ratio failed: {e}")
-            return 0.5
+            raise Exception(str(e))
+
     
     def _count_direction_changes(self, df) -> int:
         """Count how many times direction changed in last 20 candles"""
@@ -113,9 +110,8 @@ class NoiseDetector(BaseEngine):
             signs = np.sign(changes)
             return int((signs != signs.shift(1)).sum())
         except Exception as e:
-            import logging
-            logging.warning(f"NoiseDetector._count_direction_changes failed: {e}")
-            return 0
+            raise Exception(str(e))
+
     
     def _calculate_noise_level(self, chop, whipsaw, wick_noise, dir_changes) -> int:
         """Aggregate noise score 0-100"""
@@ -145,10 +141,3 @@ class NoiseDetector(BaseEngine):
             return 'MODERATE'
         return 'CLEAN'
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'noise_level': 50, 'noise_category': 'MODERATE',
-            'choppiness_index': 50.0, 'whipsaw_detected': False,
-            'wick_noise_ratio': 0.5, 'direction_changes': 0,
-            'is_clean': False, 'confidence': 0,
-        }

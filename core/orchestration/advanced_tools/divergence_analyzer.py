@@ -62,7 +62,9 @@ class DivergenceAnalyzer(BaseEngine):
             rs = avg_gain / avg_loss.replace(0, np.nan)
             return 100 - (100 / (1 + rs))
         except Exception as e:
-            return pd.Series([50] * len(prices), index=prices.index)
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _calculate_macd_hist(self, prices) -> pd.Series:
         try:
@@ -72,7 +74,9 @@ class DivergenceAnalyzer(BaseEngine):
             signal_line = macd_line.ewm(span=9).mean()
             return macd_line - signal_line
         except Exception as e:
-            return pd.Series([0] * len(prices), index=prices.index)
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _check_divergence(self, prices, indicator):
         """
@@ -110,7 +114,9 @@ class DivergenceAnalyzer(BaseEngine):
             
             return False, 'NONE'
         except Exception as e:
-            return False, 'NONE'
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _divergence_strength(self, rsi_div, macd_div, rsi_type, macd_type) -> int:
         """Score 0-100 for divergence strength"""
@@ -122,10 +128,3 @@ class DivergenceAnalyzer(BaseEngine):
             return 50  # Single indicator
         return 0
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'divergence_detected': False, 'divergence_type': 'NONE',
-            'rsi_divergence': False, 'macd_divergence': False,
-            'divergence_strength': 0, 'both_confirm': False,
-            'confidence': 0,
-        }

@@ -18,8 +18,11 @@ from core.ai_analysis.deepseek_agent_bridge import DeepSeekAgentBridge
 
 from core.orchestration.orchestrator import Orchestrator
 
+ย่อยนั่นแหละ
 class PureAIRunner:
     def __init__(self):
+        self._ensure_calendar_news()
+        
         # Load settings
         from config.config_loader import load_settings
         self.settings = load_settings(reload=False)
@@ -84,11 +87,14 @@ class PureAIRunner:
         ConsoleUI.show_trading_mode(self.trading_mode)
         if "AI" in self.trading_mode:
             ConsoleUI.show_ai_checking()
-            ai_reply = self.ai_bridge.check_readiness()
-            if not ai_reply:
-                ConsoleUI.show_ai_failed()
-                sys.exit(1)
-            ConsoleUI.show_ai_reply(ai_reply)
+            try:
+                ai_reply = self.ai_bridge.check_readiness()
+                if ai_reply:
+                    ConsoleUI.show_ai_reply(ai_reply)
+                else:
+                    logger.warning("AI readiness returned an empty reply; continuing with prompt logging only.")
+            except Exception as exc:
+                logger.warning(f"AI bridge readiness check failed; continuing with prompt logging only: {exc}")
         
         # Pull max_concurrent from settings
         max_conc = self.settings.get("limits", {}).get("max_concurrent", 5)
@@ -144,6 +150,27 @@ class PureAIRunner:
         ConsoleUI.show_mode_summary(self.stake, profit_pct, loss_pct, max_conc, trade_hours)
         self._countdown_to_first_candle()
 
+    def _ensure_calendar_news(self):
+        """ตรวจสอบว่าไฟล์ข่าวของวันนี้มีหรือยัง ถ้ายังไม่มีให้รัน calendar_news.py"""
+        try:
+            import subprocess
+            now_utc = datetime.now(timezone.utc)
+            today_str = now_utc.strftime("%Y-%m-%d")
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            log_dir = os.path.join(base_dir, "logs", "calendar_logs")
+            calendar_file = os.path.join(log_dir, f"calendar_{today_str}.json")
+            
+            if not os.path.exists(calendar_file):
+                logger.info(f"[NEWS] Calendar file for today ({today_str}) not found. Running calendar_news.py...")
+                script_path = os.path.join(base_dir, "calendar_news.py")
+                if os.path.exists(script_path):
+                    # ให้รันแบบรอจนกว่าจะโหลดเสร็จ (Synchronous) บอทจะได้มีข่าวใช้ตอนรัน Cycle แรกทันที
+                    subprocess.run([sys.executable, script_path], check=False)
+                    logger.info("[NEWS] calendar_news.py executed successfully.")
+                else:
+                    logger.warning(f"[NEWS] calendar_news.py script not found at {script_path}")
+        except Exception as e:
+            logger.exception("Failed to check or run calendar_news.py")
 
     def _countdown_to_first_candle(self):
         """แสดงเวลาที่จะเริ่มวิเคราะห์ครั้งแรก (แสดงข้อมูลเท่านั้น ไม่ sleep)"""
@@ -189,42 +216,34 @@ class PureAIRunner:
                 logger.warning(f"Orchestrator returned no data for {symbol} — skipping AI call")
                 return
 
-            # สร้าง advanced context จาก log_data เพื่อส่งให้ AI และ Bot
-            ai_context_to_send = dict(log_data)
-            ai_context_to_send["is_advanced"] = True
-            ai_context_to_send["current_price"] = current_price
-
             # Data structure for unified signal handling
             from collections import namedtuple
             Insight = namedtuple('Insight', ['action', 'confidence', 'expiry'])
             insight = None
 
             if "AI" in self.trading_mode:
-                ai_insight = self.ai_bridge.analyze_market(ai_context_to_send)
-                if ai_insight:
-                    self.orchestrator.update_ai_memory(symbol, ai_insight.action, ai_insight.reason)
-                    insight = Insight(action=ai_insight.action, confidence=ai_insight.confidence, expiry=ai_insight.expiry)
-                    ConsoleUI.show_insight("AI", insight.action, insight.confidence)
-                    
-                    # Update the JSON with AI results
-                    if log_data and 'decision_layer' in log_data:
-                        log_data['decision_layer']['final_reason_th'] = ai_insight.reason
-                        log_data['decision_layer']['suggested_action'] = ai_insight.action
-                        log_data['decision_layer']['suggested_expiry_minutes'] = ai_insight.expiry
-                        log_data['decision_layer']['confidence_score'] = ai_insight.confidence
-                        try:
-                            self.orchestrator._save_formatted_json(symbol, log_data)
-                        except Exception as e:
-                            logger.exception(f"Failed to update JSON with AI reason for {symbol}")
+                # --- Pipeline Step: Runner uses the payload created in orchestrator memory ---
+                try:
+                    from core.ai_analysis.prompt_ai_context import build_prompt
+                    prompt_payload = getattr(self.orchestrator, "last_payload", None) or log_data
+                    if prompt_payload:
+                        build_prompt(prompt_payload)
+                        logger.info(f"[PROMPT] Prompt file generated for {symbol}")
+                        insight = Insight(action="WAIT", confidence=0, expiry=5)
+                        ConsoleUI.show_insight("PROMPT", "SAVED", 0)
+                    else:
+                        logger.warning(f"No payload available for prompt generation for {symbol}")
+                except Exception as e:
+                    logger.exception(f"Runner failed to trigger prompt building for {symbol}: {e}")
             else:
                 if self.bot_strategy:
                     # Use standard BotStrategyProcessor with orchestrator payload
-                    res = self.bot_strategy.analyze_market(ai_context_to_send)
+                    res = self.bot_strategy.analyze_market(log_data)
                     insight = Insight(action=res.get('action', 'WAIT'), confidence=res.get('confidence', 0), expiry=res.get('expiry', 5))
                     ConsoleUI.show_insight("BOT Strategy", insight.action, insight.confidence)
                 elif self.pipeline:
                     # pipeline using orchestrator payload
-                    bot_signal = self.pipeline.execute(symbol, ai_context_to_send, 'M5')
+                    bot_signal = self.pipeline.execute(symbol, log_data, 'M5')
                     if bot_signal:
                         insight = Insight(action=bot_signal.action, confidence=bot_signal.confidence, expiry=5)
                         ConsoleUI.show_insight("BOT Pipeline", insight.action, insight.confidence)
@@ -278,6 +297,13 @@ class PureAIRunner:
         except Exception as e:
             logger.exception("Failed to check/restore connection")
             return
+            
+        # สั่งให้ศูนย์ข่าวคำนวณและเตรียมข้อมูลข่าว/OTC ไว้ล่วงหน้า 1 นาทีสำหรับทุกคู่เงิน
+        try:
+            from core.orchestration import check_news
+            check_news.update_all_news_impact(self.symbols)
+        except Exception as e:
+            logger.exception("Failed to update precalculated news")
 
         # Settle expired trades
         now = datetime.now(timezone.utc)

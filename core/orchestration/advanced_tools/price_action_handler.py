@@ -33,12 +33,21 @@ class PriceActionHandler(BaseEngine):
         # Recent direction
         directional_bias = self._recent_directional_bias(candles_df.tail(20))
         
+        # Fractal S/R
+        fractal_sr = self._fractal_support_resistance(candles_df)
+        
+        # Relative Volume Momentum
+        vol_momentum = self._relative_volume_momentum(candles_df)
+        
         return {
             'recent_body_size': float(recent_body_size),
             'wick_to_body_ratio': float(wick_dominance),
             'momentum_strength': momentum_strength,
             'move_type': move_type,
             'directional_bias': directional_bias,
+            'fractal_support': fractal_sr['support'],
+            'fractal_resistance': fractal_sr['resistance'],
+            'volume_momentum': vol_momentum,
             'price_action_quality': self._quality_score(
                 recent_body_size, wick_dominance, momentum_strength
             ),
@@ -53,68 +62,140 @@ class PriceActionHandler(BaseEngine):
                 return 0.0
             return float(bodies.mean() / avg_price * 100)
         except Exception as e:
-            return 0.0
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _wick_to_body_ratio(self, df: pd.DataFrame) -> float:
         try:
             bodies = (df['close'] - df['open']).abs()
             ranges = df['high'] - df['low']
             wicks = ranges - bodies
-            if bodies.sum() == 0:
-                return 0.0
-            return float(wicks.sum() / bodies.sum())
+            sum_bodies = bodies.sum()
+            if sum_bodies == 0:
+                avg_price = df['close'].mean()
+                return float((wicks.sum() / avg_price * 100) if avg_price > 0 else 0.0)
+            return float(wicks.sum() / sum_bodies)
         except Exception as e:
-            return 0.0
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _candle_momentum(self, df: pd.DataFrame) -> int:
         """How much directional momentum (0-100)"""
         try:
-            bullish_count = (df['close'] > df['open']).sum()
-            bearish_count = (df['close'] < df['open']).sum()
-            total = len(df)
-            if total == 0:
+            bull_ranges = df.loc[df['close'] > df['open']].apply(lambda r: r['close'] - r['open'], axis=1).sum()
+            bear_ranges = df.loc[df['close'] < df['open']].apply(lambda r: r['open'] - r['close'], axis=1).sum()
+            total_range = bull_ranges + bear_ranges
+            if total_range == 0:
                 return 0
             
-            # If one side dominates
-            dominance = max(bullish_count, bearish_count) / total
+            dominance = max(bull_ranges, bear_ranges) / total_range
             return int(dominance * 100)
         except Exception as e:
-            return 50
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _classify_move(self, df: pd.DataFrame) -> str:
         try:
             closes = df['close'].tail(20)
+            highs = df['high'].tail(20)
+            lows = df['low'].tail(20)
+            
             total_move = abs(closes.iloc[-1] - closes.iloc[0])
-            path_length = closes.diff().abs().sum()
+            
+            tr1 = highs - lows
+            tr2 = (highs - closes.shift()).abs()
+            tr3 = (lows - closes.shift()).abs()
+            tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+            path_length = tr.sum()
             
             if path_length == 0:
                 return 'STAGNANT'
             
             efficiency = total_move / path_length
             
-            if efficiency > 0.7:
+            if efficiency > 0.6:
                 return 'CLEAN_TRENDING'
-            elif efficiency > 0.4:
+            elif efficiency > 0.3:
                 return 'NORMAL'
-            elif efficiency > 0.2:
+            elif efficiency > 0.15:
                 return 'NOISY'
             else:
                 return 'CHAOTIC'
         except Exception as e:
-            return 'NORMAL'
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _recent_directional_bias(self, df: pd.DataFrame) -> str:
         try:
-            bullish = (df['close'] > df['open']).sum()
-            bearish = (df['close'] < df['open']).sum()
+            bull_range = df.loc[df['close'] > df['open']].apply(lambda r: r['close'] - r['open'], axis=1).sum()
+            bear_range = df.loc[df['close'] < df['open']].apply(lambda r: r['open'] - r['close'], axis=1).sum()
             
-            if bullish > bearish * 1.5:
+            if bull_range > bear_range * 1.5:
                 return 'BULLISH'
-            elif bearish > bullish * 1.5:
+            elif bear_range > bull_range * 1.5:
                 return 'BEARISH'
             return 'NEUTRAL'
         except Exception as e:
-            return 'NEUTRAL'
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
+            
+    def _fractal_support_resistance(self, df: pd.DataFrame) -> Dict[str, float]:
+        """Finds Proper Fractal Highs and Lows (2 lower highs before/after)"""
+        try:
+            if len(df) < 5:
+                return {'support': float(df['low'].min()), 'resistance': float(df['high'].max())}
+                
+            highs = df['high'].values
+            lows = df['low'].values
+            
+            resistances = []
+            supports = []
+            
+            for i in range(2, len(df) - 2):
+                if highs[i] > highs[i-1] and highs[i] > highs[i-2] and highs[i] > highs[i+1] and highs[i] > highs[i+2]:
+                    resistances.append(highs[i])
+                if lows[i] < lows[i-1] and lows[i] < lows[i-2] and lows[i] < lows[i+1] and lows[i] < lows[i+2]:
+                    supports.append(lows[i])
+                    
+            return {
+                'support': float(supports[-1]) if supports else float(df['low'].min()),
+                'resistance': float(resistances[-1]) if resistances else float(df['high'].max())
+            }
+        except Exception as e:
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
+            
+    def _relative_volume_momentum(self, df: pd.DataFrame) -> str:
+        """Compares current volume to a rolling median/percentile instead of a static slope"""
+        try:
+            if 'volume' not in df.columns or len(df) < 20:
+                return 'NEUTRAL'
+                
+            rolling_median_vol = df['volume'].rolling(window=20).median()
+            current_vol = df['volume'].iloc[-1]
+            median_vol = rolling_median_vol.iloc[-1]
+            
+            if pd.isna(median_vol) or median_vol == 0:
+                return 'NEUTRAL'
+                
+            vol_ratio = current_vol / median_vol
+            
+            if vol_ratio >= 1.5:
+                return 'HIGH_MOMENTUM'
+            elif vol_ratio <= 0.5:
+                return 'LOW_MOMENTUM'
+            else:
+                return 'NORMAL'
+        except Exception as e:
+            import logging
+            logging.getLogger(__name__).exception(f"Error: {e}")
+            raise Exception(str(e))
     
     def _quality_score(self, body_size: float, wick_ratio: float, 
                       momentum: int) -> int:
@@ -129,10 +210,3 @@ class PriceActionHandler(BaseEngine):
             score += 10
         return min(100, score)
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'recent_body_size': 0.0, 'wick_to_body_ratio': 0.0,
-            'momentum_strength': 0, 'move_type': 'NORMAL',
-            'directional_bias': 'NEUTRAL', 'price_action_quality': 50,
-            'confidence': 0,
-        }

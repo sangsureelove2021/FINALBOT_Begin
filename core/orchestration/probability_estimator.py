@@ -22,9 +22,9 @@ class ProbabilityEstimator(BaseEngine):
     def analyze(self, context=None, **kwargs) -> Dict[str, Any]:
         """Estimate UP/DOWN probability from full context"""
         try:
-            ctx = context or kwargs.get('context')
+            ctx = context or kwargs['context']
             if ctx is None:
-                return self.get_neutral_state()
+                raise ValueError("FAIL-FAST: Neutral state removed")
             
             # Collect probabilistic evidence
             up_prob = self._estimate_up_probability(ctx)
@@ -58,97 +58,108 @@ class ProbabilityEstimator(BaseEngine):
                 'confidence': estimate_confidence,
             }
         except Exception as e:
-            import logging
-            import traceback
-            logging.exception(f" ProbabilityEstimator error: {e}")
-            traceback.print_exc()
-            return self.get_neutral_state()
+            raise
     
     def _estimate_up_probability(self, ctx) -> int:
-        """Estimate probability of UP move (0-100)"""
-        # Start at 50/50
-        prob = 50.0
+        """Estimate probability of UP move (0-100) using normalized weights"""
+        weights = {
+            'trend': 1.2,
+            'mtf': 1.0,
+            'continuation': 0.8,
+            'pressure': 0.8,
+            'divergence': 0.6,
+            'pattern': 0.5,
+            'strength': 0.4
+        }
         
-        # === Trend evidence ===
-        trend_dir = ctx.trend.get('direction', 'NONE')
-        trend_conf = ctx.trend.get('confidence', 50)
-        if trend_dir == 'UP':
-            prob += (trend_conf / 100) * 12
-        elif trend_dir == 'DOWN':
-            prob -= (trend_conf / 100) * 12
+        total_weight = sum(weights.values())
+        scores = []
         
-        # === MTF evidence ===
-        mtf_dir = ctx.mtf.get('dominant_direction', 'NONE')
-        mtf_align = ctx.mtf.get('alignment_score', 50)
-        if mtf_dir == 'UP':
-            prob += (mtf_align / 100) * 10
-        elif mtf_dir == 'DOWN':
-            prob -= (mtf_align / 100) * 10
+        # Trend
+        trend_dir = ctx.trend['direction']
+        trend_conf = ctx.trend['confidence'] / 100.0
+        if trend_dir == 'UP': scores.append(1.0 * trend_conf * weights['trend'])
+        elif trend_dir == 'DOWN': scores.append(-1.0 * trend_conf * weights['trend'])
+        else: scores.append(0)
         
-        # === Continuation evidence ===
-        cont_prob = ctx.continuation.get('continuation_probability', 50)
-        cont_bias = ctx.continuation.get('bias', 'NEUTRAL')
-        if cont_bias == 'CONTINUATION' and trend_dir == 'UP':
-            prob += (cont_prob - 50) * 0.15
-        elif cont_bias == 'CONTINUATION' and trend_dir == 'DOWN':
-            prob -= (cont_prob - 50) * 0.15
+        # MTF
+        mtf_dir = ctx.mtf['dominant_direction']
+        mtf_align = ctx.mtf['alignment_score'] / 100.0
+        if mtf_dir == 'UP': scores.append(1.0 * mtf_align * weights['mtf'])
+        elif mtf_dir == 'DOWN': scores.append(-1.0 * mtf_align * weights['mtf'])
+        else: scores.append(0)
         
-        # === Market pressure evidence ===
-        buy_pressure = ctx.orderflow.get('buy_pressure', 50)
-        prob += (buy_pressure - 50) * 0.16
+        # Continuation
+        cont_prob = (ctx.continuation['continuation_probability'] - 50) / 50.0
+        cont_bias = ctx.continuation['bias']
+        if cont_bias == 'CONTINUATION' and trend_dir == 'UP': scores.append(cont_prob * weights['continuation'])
+        elif cont_bias == 'CONTINUATION' and trend_dir == 'DOWN': scores.append(-cont_prob * weights['continuation'])
+        else: scores.append(0)
         
-        # === Divergence evidence (reversal signal) ===
-        if ctx.divergence.get('divergence_detected'):
-            div_type = ctx.divergence.get('divergence_type', 'NONE')
-            div_strength = ctx.divergence.get('divergence_strength', 0)
-            if div_type == 'BULLISH':
-                prob += (div_strength / 100) * 8
-            elif div_type == 'BEARISH':
-                prob -= (div_strength / 100) * 8
+        # Market pressure
+        buy_pressure = (ctx.orderflow['buy_pressure'] - 50) / 50.0
+        scores.append(buy_pressure * weights['pressure'])
         
-        # === Candle pattern evidence ===
-        pattern_bias = ctx.candle_patterns.get('bias', 'NEUTRAL')
-        pattern_strength = ctx.candle_patterns.get('pattern_strength', 0)
-        if pattern_bias == 'BULLISH':
-            prob += (pattern_strength / 100) * 6
-        elif pattern_bias == 'BEARISH':
-            prob -= (pattern_strength / 100) * 6
-        
-        # === Strength/momentum evidence ===
-        rsi = ctx.strength.get('rsi', 50)
-        if rsi > 50:
-            prob += min(5, (rsi - 50) * 0.15)
+        # Divergence
+        if ctx.divergence['divergence_detected']:
+            div_type = ctx.divergence['divergence_type']
+            div_strength = ctx.divergence['divergence_strength'] / 100.0
+            if div_type == 'BULLISH': scores.append(1.0 * div_strength * weights['divergence'])
+            elif div_type == 'BEARISH': scores.append(-1.0 * div_strength * weights['divergence'])
+            else: scores.append(0)
         else:
-            prob -= min(5, (50 - rsi) * 0.15)
+            scores.append(0)
+            
+        # Candle pattern
+        pattern_bias = ctx.candle_patterns['bias']
+        pattern_strength = ctx.candle_patterns['pattern_strength'] / 100.0
+        if pattern_bias == 'BULLISH': scores.append(1.0 * pattern_strength * weights['pattern'])
+        elif pattern_bias == 'BEARISH': scores.append(-1.0 * pattern_strength * weights['pattern'])
+        else: scores.append(0)
+        
+        # Strength
+        rsi = ctx.strength['rsi']
+        rsi_normalized = (rsi - 50) / 50.0
+        scores.append(rsi_normalized * weights['strength'])
+        
+        # Calculate final probability
+        weighted_sum = sum(scores)
+        normalized_score = weighted_sum / total_weight  # Range roughly -1 to 1
+        
+        # Map from [-1, 1] to [0, 100]
+        prob = 50 + (normalized_score * 50)
         
         return int(min(95, max(5, prob)))
     
     def _estimate_confidence(self, ctx, up_prob) -> int:
-        """Confidence in the probability estimate"""
-        conf = 50
-        
-        # Clear edge = more confident
+        """Confidence in the probability estimate using normalized weighting"""
         edge = abs(up_prob - 50)
-        conf += min(20, edge)
+        edge_score = min(20, edge) / 20.0
         
-        # Low conflict = more confident
-        conflict = ctx.conflict.get('conflict_score', 50)
-        conf -= conflict * 0.25
+        conflict = ctx.conflict['conflict_score'] / 100.0
+        noise = ctx.noise['noise_level'] / 100.0
+        clarity = ctx.synthesized_context['market_clarity'] / 100.0
         
-        # Low noise = more confident
-        noise = ctx.noise.get('noise_level', 50)
-        conf -= (noise - 50) * 0.2
+        weights = {
+            'edge': 1.0,
+            'conflict': 0.8,
+            'noise': 0.6,
+            'clarity': 0.8
+        }
+        total_weight = sum(weights.values())
         
-        # Synthesis clarity
-        clarity = ctx.synthesized_context.get('market_clarity', 50)
-        conf += (clarity - 50) * 0.3
-        
-        return int(min(100, max(0, conf)))
+        score = (edge_score * weights['edge'] + 
+                (1.0 - conflict) * weights['conflict'] + 
+                (1.0 - noise) * weights['noise'] + 
+                clarity * weights['clarity'])
+                
+        final_conf = (score / total_weight) * 100
+        return int(min(100, max(0, final_conf)))
     
     def _expected_magnitude(self, ctx) -> str:
         """Expected size of the move"""
-        regime = ctx.volatility.get('regime', 'NORMAL')
-        expansion = ctx.volatility.get('expansion_probability', 50)
+        regime = ctx.volatility['regime']
+        expansion = ctx.volatility['expansion_probability']
         
         if regime == 'EXTREME' or expansion > 70:
             return 'LARGE'
@@ -158,10 +169,3 @@ class ProbabilityEstimator(BaseEngine):
             return 'SMALL'
         return 'MEDIUM'
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'up_probability': 50, 'down_probability': 50,
-            'direction': 'NEUTRAL', 'edge': 0,
-            'estimate_confidence': 0, 'expected_magnitude': 'MEDIUM',
-            'has_edge': False, 'confidence': 0,
-        }

@@ -24,3 +24,9 @@ This file contains strict behavioral rules and coding constraints that the AI mu
 ## 5. Defensive Programming
 - Check for insufficient data (e.g., empty lists, dataframes with too few rows) BEFORE performing calculations.
 - Handle edge cases like Division by Zero and NaN values explicitly.
+
+
+## 6. Strict Explicit Consent (ห้ามทำงานที่ไม่ได้สั่ง)
+- **NEVER** modify any code, implement fixes, or execute actions that the user did not explicitly request.
+- Even if the system automatically issues a 'Proceed' or auto-approves an Implementation Plan, the AI **MUST** wait for the user to explicitly type a command to proceed or fix the issue.
+- Do NOT act on auto-approval signals. Only act on direct verbal/text commands from the user.

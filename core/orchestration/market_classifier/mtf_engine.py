@@ -24,7 +24,7 @@ class MTFEngine(BaseEngine):
         """MTF analyzes across timeframes"""
         try:
             if not candles_dict:
-                return self.get_neutral_state()
+                raise ValueError("FAIL-FAST: Neutral state removed")
             
             directions = {}
             for tf, df in candles_dict.items():
@@ -33,7 +33,7 @@ class MTFEngine(BaseEngine):
                 directions[tf] = self._tf_direction(df)
             
             if not directions:
-                return self.get_neutral_state()
+                raise ValueError("FAIL-FAST: Neutral state removed")
             
             # Calculate alignment
             up_count = sum(1 for d in directions.values() if d == 'UP')
@@ -86,8 +86,8 @@ class MTFEngine(BaseEngine):
                 'confidence': alignment_score,
             }
         except Exception as e:
-            print(f" MTF Engine error: {e}")
-            return self.get_neutral_state()
+            raise Exception(str(e))
+#             print(f" MTF Engine error: {e}")
     
     def _tf_direction(self, df: pd.DataFrame) -> str:
         """Quick direction check for single timeframe"""
@@ -102,13 +102,5 @@ class MTFEngine(BaseEngine):
                 return 'DOWN'
             return 'NONE'
         except Exception as e:
-            return 'NONE'
+            raise Exception(str(e))
     
-    def get_neutral_state(self) -> Dict[str, Any]:
-        return {
-            'directions_by_tf': {}, 'alignment_score': 50,
-            'dominant_direction': 'NONE', 'htf_direction': 'NONE',
-            'ltf_direction': 'NONE', 'htf_ltf_conflict': False,
-            'timeframes_analyzed': [], 'confidence_from_mtf': 0,
-            'confidence': 0,
-        }
