@@ -1,0 +1,79 @@
+ID:GBPUSDOTC20260703022404
+meta:
+  timestamp: '2026-07-03T02:24:04.560141'
+  symbol: GBPUSD-OTC
+  session: NEW YORK
+  price: 1.304525
+  data_age_ms: 244641
+  data_quality: HIGH
+  data_age_ms_m1: 244641
+  data_quality_m1: STALE
+  data_age_ms_m5: 244641
+  data_quality_m5: HIGH
+market_context:
+  state: SIDEWAY_RANGE
+  description: Price ranging between clear levels. Suitable for mean-reversion strategies.
+  volatility_regime: LOW
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.087
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.305212
+    ema20: 1.305245
+    rsi: 40.94
+    stoch_k: 27.78
+    stoch_d: 49.3
+    macd: 0.000124
+    macd_signal: 0.00017
+  m5:
+    bias: BEARISH
+    ema5: 1.304807
+    ema10: 1.304974
+    ema20: 1.305392
+    ema50: 1.306555
+    bb_upper: 1.307392
+    bb_lower: 1.303458
+    bb_width: 0.003934
+    rsi: 41.0
+    stoch_k: 40.62
+    stoch_d: 42.51
+    macd: -0.000578
+    macd_signal: -0.000592
+    adx: 16.95
+    atr: 0.001132
+    support: 1.303545
+    resistance: 1.306695
+    pivot: 1.304585
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: DOWN
+  trend_type: IMPULSIVE
+  trend_strength_score: 80
+  mtf_alignment_%: 66
+  compression_quality_%: 95.67
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 60
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

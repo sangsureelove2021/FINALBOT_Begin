@@ -1,0 +1,40 @@
+2026-07-02 19:50:43,645 | INFO     | [NEWS] Calendar file for today (2026-07-02) not found. Running calendar_news.py...
+2026-07-02 19:50:43,671 | INFO     | ตรวจสอบข่าว: ไม่พบไฟล์ของวันนี้ (2026-07-02) กำลังดึงข่าวอัตโนมัติ...
+2026-07-02 19:50:44,000 | INFO     | [NEWS] calendar_news.py executed successfully.
+2026-07-02 19:50:44,044 | INFO     | ตรวจสอบข่าว: ดึงข้อมูลข่าวและอัปเดตไฟล์สำเร็จ
+2026-07-02 19:50:44,053 | INFO     | กำลังเชื่อมต่อ IQ Option...
+2026-07-02 19:50:44,098 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-07-02 19:50:46,711 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-07-02 19:50:46,727 | INFO     | เชื่อมต่อ IQ Option สำเร็จ..
+2026-07-02 19:50:46,728 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-07-02 19:50:47,231 | INFO     | บัญชี PRACTICE | Balance: $2050.26
+2026-07-02 19:50:47,231 | ERROR    | Failed to get server time offset
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 57, in __init__
+    server_time = self.data_adapter.api.get_server_time()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'IQ_Option' object has no attribute 'get_server_time'. Did you mean: 'get_server_timestamp'?
+2026-07-02 19:50:47,235 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-07-02 19:50:47,241 | INFO     | Trading Mode: AI AUTO_BOT
+2026-07-02 19:50:47,241 | INFO     | MarketStateClassifier initialised
+2026-07-02 19:50:47,248 | INFO     | รายการสินทรัพย์เพื่อเทรด 4 รายการ : EURUSD, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+2026-07-02 19:50:47,254 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์
+2026-07-02 19:50:48,388 | INFO     | [DataAdapter] EURUSD initialised — M1:200 M5:200 M15:200
+2026-07-02 19:50:49,245 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-07-02 19:50:50,092 | INFO     | [DataAdapter] GBPUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-07-02 19:50:50,986 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:200 M5:200 M15:200
+2026-07-02 19:50:50,991 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-07-02 19:50:53,356 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=200)
+2026-07-02 19:50:54,654 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=200)
+2026-07-02 19:50:55,972 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-07-02 19:50:57,345 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-07-02 19:50:58,645 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M1, count=200)
+2026-07-02 19:50:59,950 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M5, count=200)
+2026-07-02 19:51:01,343 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-07-02 19:51:02,637 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-07-02 19:51:02,691 | INFO     | [MODE : AI_BOT][Stake:35][Profit:100.0%][Loss:100.0%][Orderlimit:9999][Time:06.00-23.00]
+2026-07-02 19:51:02,691 | INFO     | [NEWS] Calendar file for today (2026-07-02) not found. Running calendar_news.py...
+2026-07-02 19:51:02,704 | INFO     | ตรวจสอบข่าว: ไม่พบไฟล์ของวันนี้ (2026-07-02) กำลังดึงข่าวอัตโนมัติ...
+2026-07-02 19:51:03,063 | INFO     | [NEWS] calendar_news.py executed successfully.
+2026-07-02 19:51:03,074 | INFO     | ตรวจสอบข่าว: ดึงข้อมูลข่าวและอัปเดตไฟล์สำเร็จ
+2026-07-02 19:51:03,081 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 59 วินาที  (เริ่ม 19:52:02)

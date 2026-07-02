@@ -174,88 +174,55 @@ class IQOptionAdapter(IDataSource):
             elif isinstance(end_time, (int, float)):
                 end_timestamp = float(end_time)
 
-        # 1. Try fetching from live WebSocket Stream buffer first (0ms latency fallback)
-        # Bypass WS stream if we want historical pagination (end_time is set)
-        if end_time is None:
+        # REST HTTP request (Single Source of Truth)
+        with _CANDLES_LOCK:
             try:
-                raw_dict = self.api.get_realtime_candles(symbol, size)
-                if raw_dict and isinstance(raw_dict, dict) and len(raw_dict) >= count * 0.8:
-                    raw = list(raw_dict.values())
-                    df = pd.DataFrame(raw)
-                    if not df.empty:
-                        df = df.rename(columns={"max": "high", "min": "low"})
-                        need = {"from", "open", "close", "high", "low"}
-                        if need.issubset(df.columns):
-                            df["timestamp"] = pd.to_datetime(df["from"], unit="s")
-                            for col in ("open", "close", "high", "low"):
-                                df[col] = pd.to_numeric(df[col], errors="coerce")
-                            df["volume"] = pd.to_numeric(df["volume"], errors="coerce").fillna(0.0)
-                            df = df.dropna(subset=["open", "close", "high", "low"])
-                            if not df.empty:
-                                median_close = float(df["close"].median())
-                                symbol_upper = symbol.upper()
-                                if "JPY" in symbol_upper:
-                                    valid = (50.0 <= median_close <= 300.0)
-                                elif "BTC" in symbol_upper:
-                                    valid = (1000.0 <= median_close <= 250000.0)
-                                elif "ETH" in symbol_upper:
-                                    valid = (100.0 <= median_close <= 15000.0)
-                                elif "XAU" in symbol_upper or "GOLD" in symbol_upper:
-                                    valid = (500.0 <= median_close <= 5000.0)
-                                else:
-                                    valid = (0.3 <= median_close <= 10.0)
-                                
-                                if valid:
-                                    logger.debug(f"[WS] Retrieved {len(df)} live candles for {symbol} ({timeframe})")
-                                    return (df[["timestamp", "open", "high", "low", "close", "volume"]]
-                                            .set_index("timestamp").sort_index())
-                                else:
-                                    raise ValueError("Price out of expected range")
+                raw = self.api.get_candles(symbol, size, count, end_timestamp)
             except Exception as e:
-                logger.exception(f"WebSocket fetch failed for {symbol}: {e}"); raise Exception(str(e))
-            raise Exception("WebSocket fetch failed: no valid data returned")
+                raise RuntimeError(f"REST fetch failed for {symbol}: {e}")
 
-        # 2. Fallback to standard REST HTTP request
-        def _fetch() -> Optional[pd.DataFrame]:
-            with _CANDLES_LOCK:
-                try:
-                    raw = self.api.get_candles(symbol, size, count, end_timestamp)
-                except Exception as e:
-                    logger.exception(f"REST fetch failed for {symbol}: {e}"); raise Exception(str(e))
-            if not raw:
-                raise Exception("REST fetch failed: no data returned")
-            df = pd.DataFrame(raw)
-            if df.empty:
-                raise Exception("REST fetch failed: empty dataframe")
-            df = df.rename(columns={"max": "high", "min": "low"})
-            need = {"from", "open", "close", "high", "low"}
-            if not need.issubset(df.columns):
-                raise Exception("REST fetch failed: missing columns")
-            df["timestamp"] = pd.to_datetime(df["from"], unit="s")
-            for col in ("open", "close", "high", "low"):
-                df[col] = pd.to_numeric(df[col], errors="coerce")
-            if "volume" in df.columns:
-                df["volume"] = pd.to_numeric(df["volume"], errors="coerce").fillna(0.0)
-            else:
+        if not raw:
+            raise ValueError(f"REST fetch returned no data for {symbol}")
+
+        df = pd.DataFrame(raw)
+        if df.empty:
+            raise ValueError(f"REST fetch returned empty dataframe for {symbol}")
+
+        df = df.rename(columns={"max": "high", "min": "low"})
+        need = {"from", "open", "close", "high", "low"}
+        if not need.issubset(df.columns):
+            raise ValueError(f"REST fetch missing required columns for {symbol}: {need - set(df.columns)}")
+            
+        df["timestamp"] = pd.to_datetime(df["from"], unit="s")
+        for col in ("open", "close", "high", "low"):
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+        
+        is_otc = "OTC" in symbol.upper()
+
+        if "volume" in df.columns:
+            df["volume"] = pd.to_numeric(df["volume"], errors="coerce").fillna(0.0)
+        else:
+            if is_otc:
                 df["volume"] = 0.0
-            df = df.dropna(subset=["open", "close", "high", "low"])
-            if df.empty:
-                raise Exception("REST fetch failed: empty dataframe after dropna")
-            # Sanity check: reject obviously broken price feeds
-            median_close = float(df["close"].median())
-            is_jpy = "JPY" in symbol.upper()
-            if is_jpy and not (50.0 <= median_close <= 300.0):
-                raise Exception(f"{symbol} median {median_close} out of JPY range")
-            if not is_jpy and not (0.3 <= median_close <= 10.0):
-                raise Exception(f"{symbol} median {median_close} out of FX range")
-            return (df[["timestamp", "open", "high", "low", "close", "volume"]]
-                    .set_index("timestamp").sort_index())
+            else:
+                raise ValueError(f"Volume column missing for non-OTC symbol {symbol}")
 
-        try:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as ex:
-                df = ex.submit(_fetch).result(timeout=_CANDLES_TIMEOUT_SEC)
-        except concurrent.futures.TimeoutError as e:
-            logger.exception(f"REST fetch timeout for {symbol}: {e}"); raise Exception(str(e))
-        if df is None:
-            raise Exception("REST fetch returned None")
-        return df
+        df = df.dropna(subset=["open", "close", "high", "low"])
+        if df.empty:
+            raise ValueError(f"Empty dataframe after dropna for {symbol}")
+
+        # Validate volume for non-OTC: IQ Option must send real volume
+        if not is_otc:
+            if df["volume"].sum() == 0:
+                raise ValueError(f"Volume is all zeros for non-OTC symbol {symbol} — broker data error")
+
+        # Sanity check: reject obviously broken price feeds
+        median_close = float(df["close"].median())
+        is_jpy = "JPY" in symbol.upper()
+        if is_jpy and not (50.0 <= median_close <= 300.0):
+            raise ValueError(f"{symbol} median {median_close} out of JPY range")
+        if not is_jpy and not (0.3 <= median_close <= 10.0):
+            raise ValueError(f"{symbol} median {median_close} out of FX range")
+            
+        return (df[["timestamp", "open", "high", "low", "close", "volume"]]
+                .set_index("timestamp").sort_index())

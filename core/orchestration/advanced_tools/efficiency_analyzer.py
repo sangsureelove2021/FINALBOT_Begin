@@ -21,6 +21,9 @@ class EfficiencyAnalyzer(BaseEngine):
     TIER = 5
     MIN_CANDLES = 40
     
+    def get_neutral_state(self) -> Dict[str, Any]:
+        return {}
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         # Kaufman Efficiency Ratio
         efficiency_ratio = self._kaufman_efficiency(candles_df, period=20)

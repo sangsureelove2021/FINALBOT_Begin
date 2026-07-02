@@ -20,6 +20,9 @@ class NoiseDetector(BaseEngine):
     TIER = 4
     MIN_CANDLES = 50
     
+    def get_neutral_state(self) -> dict:
+        return {}
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         choppiness = self._calculate_choppiness(candles_df)
         whipsaw = self._detect_whipsaw(candles_df)

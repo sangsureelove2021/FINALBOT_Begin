@@ -20,6 +20,9 @@ class ContinuationAnalyzer(BaseEngine):
     TIER = 5
     MIN_CANDLES = 50
     
+    def get_neutral_state(self) -> Dict[str, Any]:
+        return {}
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         pullback_health = self._assess_pullback(candles_df)
         momentum_intact = self._momentum_intact(candles_df)
@@ -152,11 +155,11 @@ class ContinuationAnalyzer(BaseEngine):
         """Does volume support the move?"""
         try:
             if 'volume' not in df.columns:
-                return True  # Assume support if no volume data
-            
+                raise ValueError("volume column missing — cannot assess volume support")
+
             recent_vol = df['volume'].tail(10).mean()
             past_vol = df['volume'].tail(30).mean()
-            
+
             # Volume supports if recent >= past
             return recent_vol >= past_vol * 0.8
         except Exception as e:

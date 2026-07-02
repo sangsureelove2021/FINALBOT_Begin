@@ -24,7 +24,7 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 # บังคับให้ Console พิมพ์ UTF-8
-if sys.stdout.encoding.lower() != 'utf-8':
+if getattr(sys.stdout, 'encoding', None) and sys.stdout.encoding.lower() != 'utf-8':
     try:
         sys.stdout.reconfigure(encoding='utf-8')
     except AttributeError:

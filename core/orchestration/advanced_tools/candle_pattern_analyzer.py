@@ -19,6 +19,9 @@ class CandlePatternAnalyzer(BaseEngine):
     TIER = 3
     MIN_CANDLES = 10
     
+    def get_neutral_state(self) -> Dict[str, Any]:
+        return {}
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         if not isinstance(candles_df, pd.DataFrame):
             raise TypeError(f"candles_df must be a pandas DataFrame, got {type(candles_df)}")

@@ -1,0 +1,64 @@
+2026-07-02 19:53:02,160 | INFO     | [NEWS] Calendar file for today (2026-07-02) not found. Running calendar_news.py...
+2026-07-02 19:53:02,207 | INFO     | ตรวจสอบข่าว: ไม่พบไฟล์ของวันนี้ (2026-07-02) กำลังดึงข่าวอัตโนมัติ...
+2026-07-02 19:53:03,585 | INFO     | [NEWS] calendar_news.py executed successfully.
+2026-07-02 19:53:03,600 | INFO     | ตรวจสอบข่าว: ดึงข้อมูลข่าวและอัปเดตไฟล์สำเร็จ
+2026-07-02 19:53:03,607 | INFO     | กำลังเชื่อมต่อ IQ Option...
+2026-07-02 19:53:03,653 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-07-02 19:53:06,430 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-07-02 19:53:06,474 | INFO     | เชื่อมต่อ IQ Option สำเร็จ..
+2026-07-02 19:53:06,475 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-07-02 19:53:06,869 | INFO     | บัญชี PRACTICE | Balance: $2050.26
+2026-07-02 19:53:06,869 | ERROR    | Failed to get server time offset
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 57, in __init__
+    server_time = self.data_adapter.api.get_server_time()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'IQ_Option' object has no attribute 'get_server_time'. Did you mean: 'get_server_timestamp'?
+2026-07-02 19:53:06,872 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-07-02 19:53:06,881 | INFO     | Trading Mode: AI AUTO_BOT
+2026-07-02 19:53:06,881 | INFO     | MarketStateClassifier initialised
+2026-07-02 19:53:06,889 | INFO     | รายการสินทรัพย์เพื่อเทรด 4 รายการ : EURUSD, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+2026-07-02 19:53:06,897 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์
+2026-07-02 19:53:07,912 | INFO     | [DataAdapter] EURUSD initialised — M1:200 M5:200 M15:200
+2026-07-02 19:53:08,758 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-07-02 19:53:09,683 | INFO     | [DataAdapter] GBPUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-07-02 19:53:10,633 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:200 M5:200 M15:200
+2026-07-02 19:53:10,639 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-07-02 19:53:11,920 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=200)
+2026-07-02 19:53:13,187 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=200)
+2026-07-02 19:53:15,502 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-07-02 19:53:16,766 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-07-02 19:53:18,044 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M1, count=200)
+2026-07-02 19:53:20,390 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M5, count=200)
+2026-07-02 19:53:21,831 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-07-02 19:53:23,096 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-07-02 19:53:23,115 | INFO     | [MODE : AI_BOT][Stake:35][Profit:100.0%][Loss:100.0%][Orderlimit:9999][Time:06.00-23.00]
+2026-07-02 19:53:23,127 | INFO     | ตรวจสอบข่าว: พบไฟล์ข้อมูลข่าวของวันนี้ (2026-07-02) พร้อมใช้งาน
+2026-07-02 19:53:23,136 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 39 วินาที  (เริ่ม 19:54:02)
+2026-07-02 19:54:03,675 | INFO     | [EURUSD:1.14578][EURUSD-OTC:1.14295][GBPUSD-OTC:1.30944][EURGBP-OTC:0.84654] :: TOTAL=$2050.26
+2026-07-02 19:54:03,913 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSDOTC\EURUSDOTC20260702195403.txt
+2026-07-02 19:54:03,918 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\GBPUSDOTC\GBPUSDOTC20260702195403.txt
+2026-07-02 19:54:03,921 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-07-02 19:54:03,926 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-07-02 19:54:03,928 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURGBPOTC\EURGBPOTC20260702195403.txt
+2026-07-02 19:54:03,929 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSD\EURUSD20260702195403.txt
+2026-07-02 19:54:03,933 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-07-02 19:54:03,937 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-07-02 19:55:05,294 | INFO     | [EURUSD:1.14563][EURUSD-OTC:1.14353][GBPUSD-OTC:1.30947][EURGBP-OTC:0.84652] :: TOTAL=$2050.26
+2026-07-02 19:55:05,497 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSD\EURUSD20260702195505.txt
+2026-07-02 19:55:05,504 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURGBPOTC\EURGBPOTC20260702195505.txt
+2026-07-02 19:55:05,511 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSDOTC\EURUSDOTC20260702195505.txt
+2026-07-02 19:55:05,511 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\GBPUSDOTC\GBPUSDOTC20260702195505.txt
+2026-07-02 19:55:05,537 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-07-02 19:55:05,541 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-07-02 19:55:05,544 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-07-02 19:55:05,549 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-07-02 19:56:03,806 | INFO     | [EURUSD:1.14539][EURUSD-OTC:1.14392][GBPUSD-OTC:1.31002][EURGBP-OTC:0.84632] :: TOTAL=$2050.26
+2026-07-02 19:56:03,983 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSD\EURUSD20260702195603.txt
+2026-07-02 19:56:03,990 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSDOTC\EURUSDOTC20260702195603.txt
+2026-07-02 19:56:03,992 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\GBPUSDOTC\GBPUSDOTC20260702195603.txt
+2026-07-02 19:56:03,993 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURGBPOTC\EURGBPOTC20260702195603.txt
+2026-07-02 19:56:04,050 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-07-02 19:56:04,054 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-07-02 19:56:04,058 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-07-02 19:56:04,062 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)

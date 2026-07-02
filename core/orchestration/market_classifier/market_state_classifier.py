@@ -91,6 +91,14 @@ class MarketStateClassifier(BaseEngine):
             tradeable = self._is_tradeable(state, quality_score, metrics)
             stability = self._compute_stability(metrics)
             description = self._describe_state(state, metrics)
+            # Determine Risk Level
+            risk_level = 'HIGH' if metrics['noise_level'] > 0.5 or metrics['volatility_regime'] == 'EXTREME' else ('LOW' if metrics['noise_level'] < 0.25 and metrics['volatility_regime'] == 'NORMAL' else 'MEDIUM')
+            
+            # Action and Expiry
+            action = 'WAIT'
+            if state in ['TRENDING_STRONG', 'BREAKOUT_EMERGING'] and tradeable:
+                action = 'PREPARE_TO_TRADE'
+            expiry = 5
             
             return {
                 'state': state,
@@ -99,6 +107,9 @@ class MarketStateClassifier(BaseEngine):
                 'tradeable': tradeable,
                 'stability': int(stability),
                 'description': description,
+                'risk_level': risk_level,
+                'suggested_action': action,
+                'suggested_expiry': expiry,
                 'metrics': metrics
             }
             
@@ -268,8 +279,8 @@ class MarketStateClassifier(BaseEngine):
         is_otc = m['is_otc']
         noise_level = m['noise_level']
         alignment_score = m['alignment_score']
-        htf_ltf_conflict = m['htf_ltf_conflict']
-        exhaustion_risk = m['exhaustion_risk']
+        htf_ltf_conflict = m.get('htf_ltf_conflict', False)
+        exhaustion_risk = m.get('exhaustion_risk', 0.0)
         divergence_detected = m['divergence_detected']
         rsi = m['rsi']
         wick_lower_ratio = m['wick_lower_ratio']
@@ -453,10 +464,10 @@ class MarketStateClassifier(BaseEngine):
         """Apply global boosts and penalties to all state scores."""
         adjusted = dict(scores)
         
-        noise_level = m['noise_level']
-        htf_ltf_conflict = m['htf_ltf_conflict']
-        exhaustion_risk = m['exhaustion_risk']
-        anomaly_detected = m['anomaly_detected']
+        noise_level = m.get('noise_level', 0.0)
+        htf_ltf_conflict = m.get('htf_ltf_conflict', False)
+        exhaustion_risk = m.get('exhaustion_risk', 0.0)
+        anomaly_detected = m.get('anomaly_detected', False)
         volatility_regime = m['volatility_regime']
         volume_ratio = m['volume_ratio']
         is_otc = m['is_otc']

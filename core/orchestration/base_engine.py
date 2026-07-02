@@ -65,6 +65,9 @@ class BaseEngine(IEngine):
         except Exception as e:
             raise
     
+    def get_neutral_state(self) -> dict:
+        return {}
+
     def _analyze(self, payload: Any, **kwargs) -> Dict[str, Any]:
         """
         Override this in subclasses.

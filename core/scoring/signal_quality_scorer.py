@@ -59,7 +59,7 @@ class SignalQualityScorer(BaseEngine):
             }
         except Exception as e:
             traceback.print_exc()
-            return self.get_neutral_state()
+            raise
     
     def _score_edge(self, ctx) -> float:
         """Score the statistical edge (0-100)"""

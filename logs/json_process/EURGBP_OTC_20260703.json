@@ -1,0 +1,91 @@
+{
+    "meta": {
+        "timestamp": "2026-07-03T02:35:05.432369",
+        "symbol": "EURGBP-OTC",
+        "session": "NEW YORK",
+        "price": 0.847805,
+        "data_age_ms": 305482,
+        "data_quality": "HIGH",
+        "data_age_ms_m1": 305482,
+        "data_quality_m1": "STALE",
+        "data_age_ms_m5": 305482,
+        "data_quality_m5": "HIGH",
+        "price_m5": 0.847805
+    },
+    "market_context": {
+        "state": "SIDEWAY_RANGE",
+        "description": "Price ranging between clear levels. Suitable for mean-reversion strategies.",
+        "volatility_regime": "EXTREME",
+        "news_impact": "NONE_OTC",
+        "expected_volatility_%": 0.08
+    },
+    "timeframes": {
+        "m1": {
+            "last_candle": "BEARISH",
+            "ema5": 0.847906,
+            "ema20": 0.848088,
+            "rsi": 40.34,
+            "stoch_k": 44.44,
+            "stoch_d": 51.13,
+            "macd": -0.000167,
+            "macd_signal": -0.000164
+        },
+        "m5": {
+            "bias": "BEARISH",
+            "ema5": 0.848018,
+            "ema10": 0.848158,
+            "ema20": 0.848086,
+            "ema50": 0.847685,
+            "bb_upper": 0.84956,
+            "bb_lower": 0.847087,
+            "bb_width": 0.002473,
+            "rsi": 49.17,
+            "stoch_k": 13.82,
+            "stoch_d": 14.29,
+            "macd": 0.000182,
+            "macd_signal": 0.000318,
+            "adx": 18.91,
+            "atr": 0.000676,
+            "support": 0.847605,
+            "resistance": 0.849455,
+            "pivot": 0.847762
+        },
+        "m15": {
+            "bias": "BULLISH"
+        }
+    },
+    "price_action": {
+        "pattern": "DOJI",
+        "last_candle_bias": "BEARISH",
+        "body_strength": "WEAK",
+        "wick_dominance": "LOW_WICK",
+        "momentum_bias": "NEUTRAL",
+        "move_quality": "CHAOTIC",
+        "trap_alert": "TRUE",
+        "sr_interaction": "TESTING_PIVOT"
+    },
+    "volume": {
+        "tick_volume": 1.0,
+        "volume_momentum": "NO_VOLUME_DATA",
+        "volume_vs_average": 1.0
+    },
+    "analysis": {
+        "trend_direction": "NONE",
+        "trend_type": "CHOPPY",
+        "trend_strength_score": 80,
+        "mtf_alignment_%": 33,
+        "compression_quality_%": 34.07,
+        "exhaustion_risk_%": 30,
+        "bos_detected": false
+    },
+    "decision_layer": {
+        "tradeable": true,
+        "stability_score": 33,
+        "quality_score": 60,
+        "risk_level": "HIGH",
+        "confidence_score": "รอการวิเคราะห์จาก AI",
+        "suggested_expiry_minutes": "รอการวิเคราะห์จาก AI",
+        "suggested_action": "รอการวิเคราะห์จาก AI",
+        "final_reason_th": "รอการวิเคราะห์จาก AI"
+    }
+}

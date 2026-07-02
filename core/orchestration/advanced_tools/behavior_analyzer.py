@@ -25,6 +25,14 @@ class BehaviorAnalyzer(BaseEngine):
     TIER = 5
     MIN_CANDLES = 40
 
+    def get_neutral_state(self) -> Dict[str, Any]:
+        return {
+            'participation': 'LOW',
+            'conviction': 'NEUTRAL',
+            'hesitation': 'HIGH',
+            'pressure_balance': 'BALANCED'
+        }
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         recent = candles_df.tail(30)
 
@@ -72,13 +80,17 @@ class BehaviorAnalyzer(BaseEngine):
 
     def _participation(self, df: pd.DataFrame) -> int:
         """Recent volume vs its baseline average — engagement level."""
-        if 'volume' not in df or df['volume'].sum() == 0 or len(df) <= 5:
-            return 50
+        if 'volume' not in df.columns:
+            raise ValueError("volume column missing — cannot compute participation")
+        if df['volume'].sum() == 0:
+            raise ValueError("volume is all zeros — cannot compute participation")
+        if len(df) <= 5:
+            raise ValueError(f"Not enough candles for participation (need >5, got {len(df)})")
         baseline_df = df.iloc[:-5]
         avg = baseline_df['volume'].mean()
         recent = df['volume'].tail(5).mean()
         if avg == 0 or pd.isna(avg):
-            return 50
+            raise ValueError("baseline volume average is zero or NaN")
         return int(min(100, max(0, (recent / avg) * 50)))
 
     def _classify(self, conviction: int, hesitation: int,

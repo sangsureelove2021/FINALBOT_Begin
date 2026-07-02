@@ -10,7 +10,7 @@
     "stop_loss_percent": 100.0
   },
   "symbols": [
-    "EURJPY-OTC", "EURUSD-OTC", "GBPUSD-OTC", "EURGBP-OTC"
+    "EURUSD", "EURUSD-OTC", "GBPUSD-OTC", "EURGBP-OTC"
   ],
   "limits": {
     "max_concurrent": 9999,
@@ -27,7 +27,7 @@
     "_note": "Strict quality threshold for better signals."
   },
   "session": {
-    "trading_hours": "06.00-23.00",
+    "trading_hours": "01.00-23.00",
     "timezone": "Asia/Bangkok"
   },
   "active_strategies": [

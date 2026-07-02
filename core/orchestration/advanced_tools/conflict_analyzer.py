@@ -21,6 +21,9 @@ class ConflictAnalyzer(BaseEngine):
     TIER = 5
     MIN_CANDLES = 50
     
+    def get_neutral_state(self) -> Dict[str, Any]:
+        return {}
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         # Multiple direction indicators
         ema_direction = self._ema_direction(candles_df)
@@ -51,7 +54,7 @@ class ConflictAnalyzer(BaseEngine):
             'candle_direction': candle_direction,
             'conflicting_signals': conflicts,
             'all_aligned': len(set(valid_dirs)) <= 1 and len(valid_dirs) > 0,
-            'confidence': 75,
+            'confidence': int(agreement),
         }
     
     def _ema_direction(self, df) -> str:

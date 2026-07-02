@@ -21,6 +21,9 @@ class LiquidityEngine(BaseEngine):
     TIER = 4
     MIN_CANDLES = 50
     
+    def get_neutral_state(self) -> dict:
+        return {}
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         equal_highs = self._find_equal_highs(candles_df)
         equal_lows = self._find_equal_lows(candles_df)

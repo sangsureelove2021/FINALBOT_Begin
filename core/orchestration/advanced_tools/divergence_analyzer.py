@@ -21,6 +21,9 @@ class DivergenceAnalyzer(BaseEngine):
     TIER = 4
     MIN_CANDLES = 60
     
+    def get_neutral_state(self) -> Dict[str, Any]:
+        return {}
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         rsi = self._calculate_rsi(candles_df['close'])
         macd_hist = self._calculate_macd_hist(candles_df['close'])

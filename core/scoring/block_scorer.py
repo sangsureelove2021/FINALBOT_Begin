@@ -71,7 +71,7 @@ class BlockScorer:
             return int(max(0, min(100, score)))
         except Exception as e:
             logger.exception("Error in BlockScorer.score")
-            return 0
+            raise
     
     def get_block_reasons(self, context: MarketContext) -> list:
         """Return list of human-readable block reasons"""
@@ -112,4 +112,4 @@ class BlockScorer:
             return reasons
         except Exception as e:
             logger.exception("Error in BlockScorer.get_block_reasons")
-            return []
+            raise

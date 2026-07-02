@@ -38,7 +38,7 @@ class AdvancedToolsManager:
         results = {}
         
         if not isinstance(df_m5, pd.DataFrame) or df_m5.empty:
-            return results
+            raise ValueError(f"advanced_tools.analyze_all: df_m5 is empty or invalid for symbol {symbol}")
         
         # Run specialized analyzers
         candle_data = self.candle_pattern.analyze(df_m5)

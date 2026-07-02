@@ -19,6 +19,9 @@ class RegimeQualityScorer(BaseEngine):
     TIER = 2
     MIN_CANDLES = 100
     
+    def get_neutral_state(self) -> dict:
+        return {}
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         # Calculate regime metrics
         consistency = self._calculate_consistency(candles_df)
@@ -61,9 +64,10 @@ class RegimeQualityScorer(BaseEngine):
             highs = df['high'].tail(30)
             lows = df['low'].tail(30)
             closes = df['close'].tail(30)
+            opens = df['open'].tail(30)
             
             # Calculate average wick size relative to body
-            wicks = (highs - lows) - abs(closes - closes.shift(1).fillna(closes.iloc[0]))
+            wicks = (highs - lows) - abs(closes - opens)
             wick_ratio = wicks.mean() / (highs.mean() - lows.mean() + 0.00001)
             
             # Lower wicks = cleaner

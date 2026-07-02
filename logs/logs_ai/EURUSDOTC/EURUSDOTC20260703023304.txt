@@ -1,0 +1,100 @@
+คุณคือผู้เชี่ยวชาญด้านการวิเคราะห์ตลาด Binary Options ที่มีประสบการณ์มากกว่า 10 ปี คุณเชี่ยวชาญด้านการวิเคราะห์เชิงเทคนิคอย่างลึกซึ้ง ครอบคลุมทุกมิติของตลาด
+
+═════════════════════════════════════════════════════════════
+ข้อมูลสำคัญเพื่อนำไปวิเคราะห์สัญญาณ คุณต้องส่งผลการวิเคราะห์กลับมา ภายใน 15 วินาที หลังจากได้รับข้อมูลนี้
+═════════════════════════════════════════════════════════════
+
+ID:EURUSDOTC20260703023304
+meta:
+  timestamp: '2026-07-03T02:33:04.413837'
+  symbol: EURUSD-OTC
+  session: NEW YORK
+  price: 1.159675
+  data_age_ms: 184491
+  data_quality: HIGH
+  data_age_ms_m1: 184491
+  data_quality_m1: STALE
+  data_age_ms_m5: 184491
+  data_quality_m5: HIGH
+  price_m5: 1.159675
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: EXTREME
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.145
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 1.159656
+    ema20: 1.158991
+    rsi: 59.73
+    stoch_k: 56.37
+    stoch_d: 62.65
+    macd: 0.00087
+    macd_signal: 0.000971
+  m5:
+    bias: BULLISH
+    ema5: 1.159351
+    ema10: 1.158284
+    ema20: 1.157174
+    ema50: 1.154944
+    bb_upper: 1.160222
+    bb_lower: 1.153381
+    bb_width: 0.00684
+    rsi: 67.2
+    stoch_k: 84.45
+    stoch_d: 87.82
+    macd: 0.001309
+    macd_signal: 0.000921
+    adx: 26.42
+    atr: 0.001687
+    support: 1.154785
+    resistance: 1.161145
+    pivot: 1.160202
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: BULLISH
+  move_quality: NOISY
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: UP
+  trend_type: IMPULSIVE
+  trend_strength_score: 100
+  mtf_alignment_%: 100
+  compression_quality_%: 8.21
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: false
+  stability_score: 100
+  quality_score: 56
+  risk_level: HIGH
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI
+
+
+═══════════════════════════════════════════
+OUTPUT FORMAT — กฎเด็ดขาด
+═══════════════════════════════════════════
+
+อ่านข้อมูล JSON ตลาดที่ให้มาแล้ว output เฉพาะ JSON นี้เท่านั้น:
+{"action":"__","confidence":___,"expiry":__,"reason":_______"}
+
+กฎ output:
+- action: "CALL" | "PUT" | "NO_TRADE"
+- confidence: ตัวเลขจำนวนเต็ม 0-100
+- expiry: ตัวเลขจำนวนเต็ม 1-5 (นาที)
+- reason: ภาษาไทย 20-40 คำ อธิบายเหตุผลหลักที่ทำให้ตัดสินใจ

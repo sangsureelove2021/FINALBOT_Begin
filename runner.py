@@ -18,7 +18,6 @@ from core.ai_analysis.deepseek_agent_bridge import DeepSeekAgentBridge
 
 from core.orchestration.orchestrator import Orchestrator
 
-ย่อยนั่นแหละ
 class PureAIRunner:
     def __init__(self):
         self._ensure_calendar_news()
@@ -85,16 +84,6 @@ class PureAIRunner:
                              self.settings.get("execution_gate", {}).get("min_confidence", 75))
         
         ConsoleUI.show_trading_mode(self.trading_mode)
-        if "AI" in self.trading_mode:
-            ConsoleUI.show_ai_checking()
-            try:
-                ai_reply = self.ai_bridge.check_readiness()
-                if ai_reply:
-                    ConsoleUI.show_ai_reply(ai_reply)
-                else:
-                    logger.warning("AI readiness returned an empty reply; continuing with prompt logging only.")
-            except Exception as exc:
-                logger.warning(f"AI bridge readiness check failed; continuing with prompt logging only: {exc}")
         
         # Pull max_concurrent from settings
         max_conc = self.settings.get("limits", {}).get("max_concurrent", 5)
@@ -140,35 +129,41 @@ class PureAIRunner:
         
         # Subscribe to WebSocket streams for live data
         for sym in self.symbols:
-            self.data_adapter.start_stream(sym, 'M1', 200)
-            self.data_adapter.start_stream(sym, 'M5', 200)
+            self.data_adapter.start_stream(sym, 'M1', 250)
+            self.data_adapter.start_stream(sym, 'M5', 250)
         
         profit_pct = account_cfg.get("take_profit_percent", 2.0)
         loss_pct = account_cfg.get("stop_loss_percent", 3.5)
         trade_hours = self.settings.get("session", {}).get("trading_hours", "11.00-23.00")
         
         ConsoleUI.show_mode_summary(self.stake, profit_pct, loss_pct, max_conc, trade_hours)
+        self._ensure_calendar_news()
         self._countdown_to_first_candle()
 
     def _ensure_calendar_news(self):
         """ตรวจสอบว่าไฟล์ข่าวของวันนี้มีหรือยัง ถ้ายังไม่มีให้รัน calendar_news.py"""
         try:
             import subprocess
-            now_utc = datetime.now(timezone.utc)
-            today_str = now_utc.strftime("%Y-%m-%d")
+            from datetime import datetime
+            today_str = datetime.now().strftime("%Y-%m-%d")
             base_dir = os.path.dirname(os.path.abspath(__file__))
             log_dir = os.path.join(base_dir, "logs", "calendar_logs")
             calendar_file = os.path.join(log_dir, f"calendar_{today_str}.json")
             
             if not os.path.exists(calendar_file):
                 logger.info(f"[NEWS] Calendar file for today ({today_str}) not found. Running calendar_news.py...")
+                ConsoleUI.show_news_status(f"ตรวจสอบข่าว: ไม่พบไฟล์ของวันนี้ ({today_str}) กำลังดึงข่าวอัตโนมัติ...")
                 script_path = os.path.join(base_dir, "calendar_news.py")
                 if os.path.exists(script_path):
                     # ให้รันแบบรอจนกว่าจะโหลดเสร็จ (Synchronous) บอทจะได้มีข่าวใช้ตอนรัน Cycle แรกทันที
                     subprocess.run([sys.executable, script_path], check=False)
                     logger.info("[NEWS] calendar_news.py executed successfully.")
+                    ConsoleUI.show_news_status("ตรวจสอบข่าว: ดึงข้อมูลข่าวและอัปเดตไฟล์สำเร็จ")
                 else:
                     logger.warning(f"[NEWS] calendar_news.py script not found at {script_path}")
+                    ConsoleUI.show_news_status("ตรวจสอบข่าว: ไม่พบสคริปต์ดึงข่าว!")
+            else:
+                ConsoleUI.show_news_status(f"ตรวจสอบข่าว: พบไฟล์ข้อมูลข่าวของวันนี้ ({today_str}) พร้อมใช้งาน")
         except Exception as e:
             logger.exception("Failed to check or run calendar_news.py")
 
@@ -192,11 +187,9 @@ class PureAIRunner:
         broker_epoch = time.time() + self.time_offset
         return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
 
-    def run_ai_analysis_and_trade(self, symbol, candles_dict, current_price):
+    def run_ai_analysis_and_trade(self, symbol, current_price):
         if not isinstance(symbol, str):
             raise TypeError("symbol must be a string")
-        if not isinstance(candles_dict, dict):
-            raise TypeError("candles_dict must be a dictionary")
         if not isinstance(current_price, (int, float)):
             raise TypeError("current_price must be a float or int")
         try:
@@ -205,7 +198,6 @@ class PureAIRunner:
             try:
                 log_data = self.orchestrator.process_cycle(
                     symbol=symbol,
-                    candles_dict=candles_dict,
                     ai_context=None
                 )
             except Exception as e:
@@ -222,19 +214,9 @@ class PureAIRunner:
             insight = None
 
             if "AI" in self.trading_mode:
-                # --- Pipeline Step: Runner uses the payload created in orchestrator memory ---
-                try:
-                    from core.ai_analysis.prompt_ai_context import build_prompt
-                    prompt_payload = getattr(self.orchestrator, "last_payload", None) or log_data
-                    if prompt_payload:
-                        build_prompt(prompt_payload)
-                        logger.info(f"[PROMPT] Prompt file generated for {symbol}")
-                        insight = Insight(action="WAIT", confidence=0, expiry=5)
-                        ConsoleUI.show_insight("PROMPT", "SAVED", 0)
-                    else:
-                        logger.warning(f"No payload available for prompt generation for {symbol}")
-                except Exception as e:
-                    logger.exception(f"Runner failed to trigger prompt building for {symbol}: {e}")
+                # Runner just waits. Orchestrator already saved the prompt context.
+                insight = Insight(action="WAIT", confidence=0, expiry=5)
+                # ConsoleUI.show_insight("PROMPT", "SAVED BY ORCHESTRATOR", 0)
             else:
                 if self.bot_strategy:
                     # Use standard BotStrategyProcessor with orchestrator payload
@@ -384,18 +366,15 @@ class PureAIRunner:
             if not result_val:
                 continue
 
-            # DataAdapter.update returns (symbol, m1, m5, m15, price)
-            completed_m1, completed_m5, completed_m15, current_price = result_val[1:]
+            # DataAdapter.update returns (symbol, price)
+            current_price = result_val[1]
             prices_dict[sym] = current_price
             
-            if completed_m1 is None or completed_m1.empty:
-                logger.warning(f"completed_m1 is empty for {sym} - skipping AI cycle")
-                continue
-                
-            last_ts_m1 = completed_m1.index[-1]
+            import time
+            current_minute = int(time.time()) // 60
             
             # กันวิเคราะห์แท่งเดิมซ้ำ
-            if self.last_processed_candle[sym] == last_ts_m1:
+            if self.last_processed_candle.get(sym) == current_minute:
                 continue
                 
             # ตรวจสอบการรันซ้ำของ AI
@@ -403,15 +382,10 @@ class PureAIRunner:
                 logger.warning(f"[WARN] AI สำหรับ {sym} กำลังทำงานค้างอยู่จากนาทีที่แล้ว — ข้ามการเรียก AI รอบนี้เพื่อป้องกันโหลดทับซ้อน")
                 continue
                 
-            self.last_processed_candle[sym] = last_ts_m1
+            self.last_processed_candle[sym] = current_minute
             self.ai_running[sym] = True
             
-            candles_dict = {
-                'M1': completed_m1.copy(),
-                'M5': completed_m5.copy(),
-                'M15': completed_m15.copy()
-            }
-            self.ai_executor.submit(self.run_ai_analysis_and_trade, sym, candles_dict, current_price)
+            self.ai_executor.submit(self.run_ai_analysis_and_trade, sym, current_price)
 
         # แสดงสรุปราคาและยอดเงินบรรทัดเดียว
         if prices_dict:

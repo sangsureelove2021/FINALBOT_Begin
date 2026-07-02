@@ -1,0 +1,75 @@
+ID:EURGBPOTC20260703020005
+meta:
+  timestamp: '2026-07-03T02:00:05.064763'
+  symbol: EURGBP-OTC
+  session: NEW YORK
+  price: 0.847895
+  data_age_ms: 305139
+  data_quality: HIGH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: EXTREME
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.081
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 0.847916
+    ema20: 0.848138
+    rsi: 40.59
+    stoch_k: 14.67
+    stoch_d: 17.77
+    macd: -0.000174
+    macd_signal: -0.000147
+  m5:
+    bias: BULLISH
+    ema5: 0.848364
+    ema10: 0.848278
+    ema20: 0.847967
+    ema50: 0.847499
+    bb_upper: 0.849527
+    bb_lower: 0.846248
+    bb_width: 0.003279
+    rsi: 58.56
+    stoch_k: 49.46
+    stoch_d: 49.78
+    macd: 0.000401
+    macd_signal: 0.0004
+    adx: 23.27
+    atr: 0.00069
+    support: 0.847645
+    resistance: 0.849625
+    pivot: 0.848462
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: MORNING_STAR
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: BULLISH
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: TESTING_SUPPORT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 60
+  mtf_alignment_%: 33
+  compression_quality_%: 0.0
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 33
+  quality_score: 65
+  risk_level: HIGH
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

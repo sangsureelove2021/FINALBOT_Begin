@@ -21,6 +21,9 @@ class AnomalyDetector(BaseEngine):
     TIER = 5
     MIN_CANDLES = 50
     
+    def get_neutral_state(self) -> dict:
+        return {}
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         anomalies = []
         

@@ -1,0 +1,395 @@
+2026-06-30 19:54:02,381 | INFO     | กำลังเชื่อมต่อ IQ Option...
+2026-06-30 19:54:02,434 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-30 19:54:05,318 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-30 19:54:05,318 | INFO     | เชื่อมต่อ IQ Option สำเร็จ..
+2026-06-30 19:54:05,319 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-30 19:54:05,760 | INFO     | บัญชี PRACTICE | Balance: $2050.40
+2026-06-30 19:54:05,760 | ERROR    | Failed to get server time offset
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 57, in __init__
+    server_time = self.data_adapter.api.get_server_time()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'IQ_Option' object has no attribute 'get_server_time'. Did you mean: 'get_server_timestamp'?
+2026-06-30 19:54:05,764 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-30 19:54:05,764 | INFO     | Trading Mode: AI AUTO_BOT
+2026-06-30 19:54:05,765 | INFO     | MarketStateClassifier initialised
+2026-06-30 19:54:05,765 | INFO     | รายการสินทรัพย์เพื่อเทรด 4 รายการ : EURUSD, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+2026-06-30 19:54:05,765 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์
+2026-06-30 19:54:06,824 | INFO     | [DataAdapter] EURUSD initialised — M1:200 M5:200 M15:200
+2026-06-30 19:54:07,835 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-30 19:54:08,738 | INFO     | [DataAdapter] GBPUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-30 19:54:09,730 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:200 M5:200 M15:200
+2026-06-30 19:54:09,730 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-06-30 19:54:11,025 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=200)
+2026-06-30 19:54:12,303 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=200)
+2026-06-30 19:54:13,608 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-06-30 19:54:15,899 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-06-30 19:54:17,187 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M1, count=200)
+2026-06-30 19:54:18,479 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M5, count=200)
+2026-06-30 19:54:20,746 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-06-30 19:54:22,206 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-06-30 19:54:22,206 | INFO     | [MODE : AI_BOT][Stake:35][Profit:100.0%][Loss:100.0%][Orderlimit:9999][Time:06.00-23.00]
+2026-06-30 19:54:22,206 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 40 วินาที  (เริ่ม 19:55:02)
+2026-06-30 19:55:04,782 | INFO     | [EURUSD:1.14023][EURUSD-OTC:1.14176][GBPUSD-OTC:1.32963][EURGBP-OTC:0.85720] :: TOTAL=$2050.40
+2026-06-30 19:55:04,989 | ERROR    | Orchestrator cycle failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 87, in analyze
+    state, confidence = self._classify_state(metrics, is_otc=is_otc)
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 215, in _classify_state
+    raw_scores = self._compute_raw_scores(m)
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 271, in _compute_raw_scores
+    htf_ltf_conflict = m['htf_ltf_conflict']
+                       ~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'htf_ltf_conflict'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 193, in run_ai_analysis_and_trade
+    log_data = self.orchestrator.process_cycle(
+        symbol=symbol,
+        ai_context=None
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\orchestrator.py", line 200, in process_cycle
+    state_data = self.classifier.analyze(
+        payload=final_payload,
+    ...<5 lines>...
+        mtf_data=mtf_data
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 106, in analyze
+    raise Exception(str(e))
+Exception: 'htf_ltf_conflict'
+2026-06-30 19:55:05,041 | ERROR    | Orchestrator cycle failed for EURUSD
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 87, in analyze
+    state, confidence = self._classify_state(metrics, is_otc=is_otc)
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 215, in _classify_state
+    raw_scores = self._compute_raw_scores(m)
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 271, in _compute_raw_scores
+    htf_ltf_conflict = m['htf_ltf_conflict']
+                       ~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'htf_ltf_conflict'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 193, in run_ai_analysis_and_trade
+    log_data = self.orchestrator.process_cycle(
+        symbol=symbol,
+        ai_context=None
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\orchestrator.py", line 200, in process_cycle
+    state_data = self.classifier.analyze(
+        payload=final_payload,
+    ...<5 lines>...
+        mtf_data=mtf_data
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 106, in analyze
+    raise Exception(str(e))
+Exception: 'htf_ltf_conflict'
+2026-06-30 19:55:05,043 | WARNING  | Orchestrator returned no data for GBPUSD-OTC — skipping AI call
+2026-06-30 19:55:05,047 | ERROR    | Orchestrator cycle failed for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 87, in analyze
+    state, confidence = self._classify_state(metrics, is_otc=is_otc)
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 215, in _classify_state
+    raw_scores = self._compute_raw_scores(m)
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 271, in _compute_raw_scores
+    htf_ltf_conflict = m['htf_ltf_conflict']
+                       ~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'htf_ltf_conflict'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 193, in run_ai_analysis_and_trade
+    log_data = self.orchestrator.process_cycle(
+        symbol=symbol,
+        ai_context=None
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\orchestrator.py", line 200, in process_cycle
+    state_data = self.classifier.analyze(
+        payload=final_payload,
+    ...<5 lines>...
+        mtf_data=mtf_data
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 106, in analyze
+    raise Exception(str(e))
+Exception: 'htf_ltf_conflict'
+2026-06-30 19:55:05,047 | WARNING  | Orchestrator returned no data for EURUSD — skipping AI call
+2026-06-30 19:55:05,048 | ERROR    | Orchestrator cycle failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 87, in analyze
+    state, confidence = self._classify_state(metrics, is_otc=is_otc)
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 215, in _classify_state
+    raw_scores = self._compute_raw_scores(m)
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 271, in _compute_raw_scores
+    htf_ltf_conflict = m['htf_ltf_conflict']
+                       ~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'htf_ltf_conflict'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 193, in run_ai_analysis_and_trade
+    log_data = self.orchestrator.process_cycle(
+        symbol=symbol,
+        ai_context=None
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\orchestrator.py", line 200, in process_cycle
+    state_data = self.classifier.analyze(
+        payload=final_payload,
+    ...<5 lines>...
+        mtf_data=mtf_data
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 106, in analyze
+    raise Exception(str(e))
+Exception: 'htf_ltf_conflict'
+2026-06-30 19:55:05,049 | WARNING  | Orchestrator returned no data for EURUSD-OTC — skipping AI call
+2026-06-30 19:55:05,050 | WARNING  | Orchestrator returned no data for EURGBP-OTC — skipping AI call
+2026-06-30 19:56:04,418 | INFO     | [EURUSD:1.14017][EURUSD-OTC:1.14183][GBPUSD-OTC:1.32943][EURGBP-OTC:0.85745] :: TOTAL=$2050.40
+2026-06-30 19:56:04,609 | ERROR    | Orchestrator cycle failed for EURUSD
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 87, in analyze
+    state, confidence = self._classify_state(metrics, is_otc=is_otc)
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 215, in _classify_state
+    raw_scores = self._compute_raw_scores(m)
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 271, in _compute_raw_scores
+    htf_ltf_conflict = m['htf_ltf_conflict']
+                       ~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'htf_ltf_conflict'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 193, in run_ai_analysis_and_trade
+    log_data = self.orchestrator.process_cycle(
+        symbol=symbol,
+        ai_context=None
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\orchestrator.py", line 200, in process_cycle
+    state_data = self.classifier.analyze(
+        payload=final_payload,
+    ...<5 lines>...
+        mtf_data=mtf_data
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 106, in analyze
+    raise Exception(str(e))
+Exception: 'htf_ltf_conflict'
+2026-06-30 19:56:04,641 | WARNING  | Orchestrator returned no data for EURUSD — skipping AI call
+2026-06-30 19:56:04,640 | ERROR    | Orchestrator cycle failed for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 87, in analyze
+    state, confidence = self._classify_state(metrics, is_otc=is_otc)
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 215, in _classify_state
+    raw_scores = self._compute_raw_scores(m)
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 271, in _compute_raw_scores
+    htf_ltf_conflict = m['htf_ltf_conflict']
+                       ~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'htf_ltf_conflict'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 193, in run_ai_analysis_and_trade
+    log_data = self.orchestrator.process_cycle(
+        symbol=symbol,
+        ai_context=None
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\orchestrator.py", line 200, in process_cycle
+    state_data = self.classifier.analyze(
+        payload=final_payload,
+    ...<5 lines>...
+        mtf_data=mtf_data
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 106, in analyze
+    raise Exception(str(e))
+Exception: 'htf_ltf_conflict'
+2026-06-30 19:56:04,669 | WARNING  | Orchestrator returned no data for EURUSD-OTC — skipping AI call
+2026-06-30 19:56:04,668 | ERROR    | Orchestrator cycle failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 87, in analyze
+    state, confidence = self._classify_state(metrics, is_otc=is_otc)
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 215, in _classify_state
+    raw_scores = self._compute_raw_scores(m)
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 271, in _compute_raw_scores
+    htf_ltf_conflict = m['htf_ltf_conflict']
+                       ~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'htf_ltf_conflict'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 193, in run_ai_analysis_and_trade
+    log_data = self.orchestrator.process_cycle(
+        symbol=symbol,
+        ai_context=None
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\orchestrator.py", line 200, in process_cycle
+    state_data = self.classifier.analyze(
+        payload=final_payload,
+    ...<5 lines>...
+        mtf_data=mtf_data
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 106, in analyze
+    raise Exception(str(e))
+Exception: 'htf_ltf_conflict'
+2026-06-30 19:56:04,672 | WARNING  | Orchestrator returned no data for EURGBP-OTC — skipping AI call
+2026-06-30 19:56:04,672 | ERROR    | Orchestrator cycle failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 87, in analyze
+    state, confidence = self._classify_state(metrics, is_otc=is_otc)
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 215, in _classify_state
+    raw_scores = self._compute_raw_scores(m)
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 271, in _compute_raw_scores
+    htf_ltf_conflict = m['htf_ltf_conflict']
+                       ~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'htf_ltf_conflict'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 193, in run_ai_analysis_and_trade
+    log_data = self.orchestrator.process_cycle(
+        symbol=symbol,
+        ai_context=None
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\orchestrator.py", line 200, in process_cycle
+    state_data = self.classifier.analyze(
+        payload=final_payload,
+    ...<5 lines>...
+        mtf_data=mtf_data
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 106, in analyze
+    raise Exception(str(e))
+Exception: 'htf_ltf_conflict'
+2026-06-30 19:56:04,674 | WARNING  | Orchestrator returned no data for GBPUSD-OTC — skipping AI call
+2026-06-30 19:57:03,768 | INFO     | [EURUSD:1.14009][EURUSD-OTC:1.14152][GBPUSD-OTC:1.32923][EURGBP-OTC:0.85765] :: TOTAL=$2050.40
+2026-06-30 19:57:04,012 | ERROR    | Orchestrator cycle failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 87, in analyze
+    state, confidence = self._classify_state(metrics, is_otc=is_otc)
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 215, in _classify_state
+    raw_scores = self._compute_raw_scores(m)
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 271, in _compute_raw_scores
+    htf_ltf_conflict = m['htf_ltf_conflict']
+                       ~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'htf_ltf_conflict'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 193, in run_ai_analysis_and_trade
+    log_data = self.orchestrator.process_cycle(
+        symbol=symbol,
+        ai_context=None
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\orchestrator.py", line 200, in process_cycle
+    state_data = self.classifier.analyze(
+        payload=final_payload,
+    ...<5 lines>...
+        mtf_data=mtf_data
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 106, in analyze
+    raise Exception(str(e))
+Exception: 'htf_ltf_conflict'
+2026-06-30 19:57:04,014 | ERROR    | Orchestrator cycle failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 87, in analyze
+    state, confidence = self._classify_state(metrics, is_otc=is_otc)
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 215, in _classify_state
+    raw_scores = self._compute_raw_scores(m)
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 271, in _compute_raw_scores
+    htf_ltf_conflict = m['htf_ltf_conflict']
+                       ~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'htf_ltf_conflict'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 193, in run_ai_analysis_and_trade
+    log_data = self.orchestrator.process_cycle(
+        symbol=symbol,
+        ai_context=None
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\orchestrator.py", line 200, in process_cycle
+    state_data = self.classifier.analyze(
+        payload=final_payload,
+    ...<5 lines>...
+        mtf_data=mtf_data
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 106, in analyze
+    raise Exception(str(e))
+Exception: 'htf_ltf_conflict'
+2026-06-30 19:57:04,014 | ERROR    | Orchestrator cycle failed for EURUSD
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 87, in analyze
+    state, confidence = self._classify_state(metrics, is_otc=is_otc)
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 215, in _classify_state
+    raw_scores = self._compute_raw_scores(m)
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 271, in _compute_raw_scores
+    htf_ltf_conflict = m['htf_ltf_conflict']
+                       ~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'htf_ltf_conflict'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 193, in run_ai_analysis_and_trade
+    log_data = self.orchestrator.process_cycle(
+        symbol=symbol,
+        ai_context=None
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\orchestrator.py", line 200, in process_cycle
+    state_data = self.classifier.analyze(
+        payload=final_payload,
+    ...<5 lines>...
+        mtf_data=mtf_data
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 106, in analyze
+    raise Exception(str(e))
+Exception: 'htf_ltf_conflict'
+2026-06-30 19:57:04,015 | WARNING  | Orchestrator returned no data for EURGBP-OTC — skipping AI call
+2026-06-30 19:57:04,015 | ERROR    | Orchestrator cycle failed for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 87, in analyze
+    state, confidence = self._classify_state(metrics, is_otc=is_otc)
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 215, in _classify_state
+    raw_scores = self._compute_raw_scores(m)
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 271, in _compute_raw_scores
+    htf_ltf_conflict = m['htf_ltf_conflict']
+                       ~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'htf_ltf_conflict'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 193, in run_ai_analysis_and_trade
+    log_data = self.orchestrator.process_cycle(
+        symbol=symbol,
+        ai_context=None
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\orchestrator.py", line 200, in process_cycle
+    state_data = self.classifier.analyze(
+        payload=final_payload,
+    ...<5 lines>...
+        mtf_data=mtf_data
+    )
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\orchestration\market_classifier\market_state_classifier.py", line 106, in analyze
+    raise Exception(str(e))
+Exception: 'htf_ltf_conflict'
+2026-06-30 19:57:04,016 | WARNING  | Orchestrator returned no data for GBPUSD-OTC — skipping AI call
+2026-06-30 19:57:04,018 | WARNING  | Orchestrator returned no data for EURUSD — skipping AI call
+2026-06-30 19:57:04,019 | WARNING  | Orchestrator returned no data for EURUSD-OTC — skipping AI call

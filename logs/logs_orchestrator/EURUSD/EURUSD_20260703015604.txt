@@ -1,0 +1,75 @@
+ID:EURUSD20260703015604
+meta:
+  timestamp: '2026-07-03T01:56:04.165578'
+  symbol: EURUSD
+  session: NEW YORK
+  price: 1.14334
+  data_age_ms: 364200
+  data_quality: MEDIUM
+market_context:
+  state: SIDEWAY_RANGE
+  description: Price ranging between clear levels. Suitable for mean-reversion strategies.
+  volatility_regime: NORMAL
+  news_impact: LOW
+  expected_volatility_%: 0.025
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.143345
+    ema20: 1.143387
+    rsi: 46.24
+    stoch_k: 29.96
+    stoch_d: 25.59
+    macd: -8.0e-06
+    macd_signal: 1.5e-05
+  m5:
+    bias: BEARISH
+    ema5: 1.143357
+    ema10: 1.143342
+    ema20: 1.143381
+    ema50: 1.143524
+    bb_upper: 1.143635
+    bb_lower: 1.142864
+    bb_width: 0.000771
+    rsi: 46.94
+    stoch_k: 54.06
+    stoch_d: 63.69
+    macd: -9.2e-05
+    macd_signal: -0.000143
+    adx: 17.85
+    atr: 0.000287
+    support: 1.142955
+    resistance: 1.143705
+    pivot: 1.143337
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 411
+  volume_momentum: NORMAL
+  volume_vs_average: 0.703
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 20
+  mtf_alignment_%: 33
+  compression_quality_%: 82.26
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 33
+  quality_score: 60
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

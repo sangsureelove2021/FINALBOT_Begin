@@ -20,6 +20,9 @@ class StructureEngine(BaseEngine):
     TIER = 1
     MIN_CANDLES = 100
     
+    def get_neutral_state(self) -> dict:
+        return {}
+
     def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
         m5 = payload['m5']
         pa = payload['price_action']

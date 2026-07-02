@@ -178,11 +178,11 @@ class DeepSeekAgentBridge:
         """สร้าง cache key จาก market context"""
         try:
             if isinstance(context, dict):
-                last_price = context['current_price']
-                symbol = context['symbol']
+                last_price = context.get('meta', {}).get('price', context.get('current_price'))
+                symbol = context.get('meta', {}).get('symbol', context.get('symbol'))
             else:
-                last_price = getattr(context, 'current_price')
-                symbol = getattr(context, 'symbol')
+                last_price = getattr(context, 'current_price', 0.0)
+                symbol = getattr(context, 'symbol', 'UNKNOWN')
                 
             minute_key = datetime.now().strftime('%Y%m%d%H%M')
             return f"{symbol}_{last_price}_{minute_key}"
@@ -333,13 +333,19 @@ class DeepSeekAgentBridge:
                     logger.warning(f"Failed to delete temp file {tmp_path}: {cleanup_e}")
                     raise Exception(str(cleanup_e))
 
-    def _build_prompt(self, context) -> str:
-        from core.ai_analysis.Prompt_AI_Context import build_prompt
-        if hasattr(context, '__dict__'):
-            ctx = dict(context.__dict__)
-        else:
-            ctx = dict(context) if isinstance(context, dict) else {}
-        return build_prompt(ctx)
+    def _build_prompt(self, context):
+        try:
+            from core.ai_analysis.prompt_ai_context import build_prompt
+            
+            # Extract strategy type from market state if available
+            if hasattr(context, '__dict__'):
+                ctx = dict(context.__dict__)
+            else:
+                ctx = dict(context) if isinstance(context, dict) else {}
+            return build_prompt(ctx)
+        except Exception as e:
+            logger.exception(f"Error building prompt: {e}")
+            raise e
 
     def _parse_response(self, response_text: str, context) -> Optional[AIInsight]:
         try:

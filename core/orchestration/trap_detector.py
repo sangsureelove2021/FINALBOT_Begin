@@ -21,6 +21,9 @@ class TrapDetector(BaseEngine):
     TIER = 4
     MIN_CANDLES = 50
     
+    def get_neutral_state(self) -> dict:
+        return {}
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         false_breakout, fb_type = self._detect_false_breakout(candles_df)
         stop_hunt = self._detect_stop_hunt(candles_df)

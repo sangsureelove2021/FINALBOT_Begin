@@ -1,0 +1,75 @@
+ID:EURUSDOTC20260703020005
+meta:
+  timestamp: '2026-07-03T02:00:05.053005'
+  symbol: EURUSD-OTC
+  session: NEW YORK
+  price: 1.156055
+  data_age_ms: 305098
+  data_quality: HIGH
+market_context:
+  state: SIDEWAY_RANGE
+  description: Price ranging between clear levels. Suitable for mean-reversion strategies.
+  volatility_regime: NORMAL
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.131
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 1.155772
+    ema20: 1.155469
+    rsi: 57.44
+    stoch_k: 74.64
+    stoch_d: 71.87
+    macd: 5.9e-05
+    macd_signal: -7.2e-05
+  m5:
+    bias: BEARISH
+    ema5: 1.155488
+    ema10: 1.15556
+    ema20: 1.155398
+    ema50: 1.153709
+    bb_upper: 1.15746
+    bb_lower: 1.153978
+    bb_width: 0.003482
+    rsi: 51.22
+    stoch_k: 42.48
+    stoch_d: 41.27
+    macd: 0.000432
+    macd_signal: 0.000665
+    adx: 16.65
+    atr: 0.001515
+    support: 1.154155
+    resistance: 1.157745
+    pivot: 1.155592
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: HIGH_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: UP
+  trend_type: IMPULSIVE
+  trend_strength_score: 100
+  mtf_alignment_%: 33
+  compression_quality_%: 83.87
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 33
+  quality_score: 60
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

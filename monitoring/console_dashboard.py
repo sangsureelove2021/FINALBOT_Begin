@@ -142,6 +142,10 @@ class ConsoleUI:
         thai_console_log(mode_str)
 
     @staticmethod
+    def show_news_status(msg):
+        thai_console_log(msg)
+
+    @staticmethod
     def show_countdown(remaining, target_str):
         thai_console_log(f"เข้าสู่การวิเคราะห์สัญญาณในอีก {remaining} วินาที  (เริ่ม {target_str})")
 

@@ -1,0 +1,92 @@
+{
+    "meta": {
+        "timestamp": "2026-06-30T21:58:03.852766",
+        "symbol": "EURUSD-OTC",
+        "session": "NEW YORK",
+        "price": 1.138865,
+        "data_age_ms": 183885,
+        "data_quality": "LOW"
+    },
+    "market_context": {
+        "state": "BREAKOUT_EMERGING",
+        "description": "Volatility expansion after compression. Potential breakout opportunity. (breakout prob: 30%, reversal prob: 50%)",
+        "volatility_regime": "LOW",
+        "news_impact": "NONE_OTC",
+        "expected_volatility_%": 0.129
+    },
+    "timeframes": {
+        "m1": {
+            "last_candle": 1.138865,
+            "ema5": 1.139409,
+            "ema20": 1.140587,
+            "rsi": 27.02,
+            "stoch_k": 6.98,
+            "stoch_d": 7.22,
+            "macd": -0.000718,
+            "macd_signal": -0.000522
+        },
+        "m5": {
+            "bias": "BEARISH",
+            "ema5": 1.140031,
+            "ema10": 1.14096,
+            "ema20": 1.141631,
+            "ema50": 1.142325,
+            "bb_upper": 1.145478,
+            "bb_lower": 1.139297,
+            "bb_width": 0.006182,
+            "rsi": 34.61,
+            "stoch_k": 6.16,
+            "stoch_d": 13.16,
+            "macd": -0.000571,
+            "macd_signal": -3.9e-05,
+            "adx": 18.72,
+            "atr": 0.001468,
+            "support": 1.140055,
+            "resistance": 1.141985,
+            "pivot": 1.138922
+        },
+        "m15": {
+            "bias": "BEARISH"
+        }
+    },
+    "price_action": {
+        "pattern": "DOJI",
+        "last_candle_bias": "BEARISH",
+        "body_strength": "WEAK",
+        "wick_dominance": "HIGH_WICK",
+        "momentum_bias": "BEARISH",
+        "move_quality": "CHAOTIC",
+        "trap_alert": "NONE",
+        "sr_interaction": "TESTING_PIVOT"
+    },
+    "volume": {
+        "tick_volume": 1.0,
+        "volume_momentum": "NO_VOLUME_DATA",
+        "volume_vs_average": 1.0
+    },
+    "analysis": {
+        "trend_direction": "DOWN",
+        "trend_type": "IMPULSIVE",
+        "trend_strength_score": 100,
+        "mtf_alignment_%": 100,
+        "compression_quality_%": 100.0,
+        "exhaustion_risk_%": 30,
+        "bos_detected": false
+    },
+    "signals": {
+        "triggered": [],
+        "count": 0,
+        "top_signal": "NO"
+    },
+    "decision_layer": {
+        "tradeable": true,
+        "tradeable_reason": "Passed basic checks",
+        "confidence_score": 0,
+        "stability_score": 100,
+        "quality_score": 50,
+        "risk_level": "MEDIUM",
+        "suggested_expiry_minutes": 5,
+        "suggested_action": "WAIT",
+        "final_reason_th": "รอการวิเคราะห์จาก AI"
+    }
+}

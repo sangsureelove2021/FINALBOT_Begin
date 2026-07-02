@@ -1,0 +1,96 @@
+คุณคือผู้เชี่ยวชาญด้านการวิเคราะห์ตลาด Binary Options ที่มีประสบการณ์มากกว่า 10 ปี คุณเชี่ยวชาญด้านการวิเคราะห์เชิงเทคนิคอย่างลึกซึ้ง ครอบคลุมทุกมิติของตลาด
+
+═════════════════════════════════════════════════════════════
+ข้อมูลสำคัญเพื่อนำไปวิเคราะห์สัญญาณ คุณต้องส่งผลการวิเคราะห์กลับมา ภายใน 15 วินาที หลังจากได้รับข้อมูลนี้
+═════════════════════════════════════════════════════════════
+
+ID:GBPUSDOTC20260703015403
+meta:
+  timestamp: '2026-07-03T01:54:03.814460'
+  symbol: GBPUSD-OTC
+  session: NEW YORK
+  price: 1.304305
+  data_age_ms: 243889
+  data_quality: HIGH
+market_context:
+  state: BREAKOUT_EMERGING
+  description: 'Volatility expansion after compression. Potential breakout opportunity.
+    (breakout prob: 30%, reversal prob: 50%)'
+  volatility_regime: NORMAL
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.088
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.304757
+    ema20: 1.305333
+    rsi: 33.77
+    stoch_k: 16.27
+    stoch_d: 14.12
+    macd: -0.000207
+    macd_signal: -3.1e-05
+  m5:
+    bias: BEARISH
+    ema5: 1.305132
+    ema10: 1.305437
+    ema20: 1.305921
+    ema50: 1.307052
+    bb_upper: 1.307847
+    bb_lower: 1.304149
+    bb_width: 0.003698
+    rsi: 40.43
+    stoch_k: 30.37
+    stoch_d: 43.28
+    macd: -0.000609
+    macd_signal: -0.000534
+    adx: 18.18
+    atr: 0.001143
+    support: 1.303895
+    resistance: 1.306695
+    pivot: 1.304478
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: DOJI
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: 'TRUE'
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: DOWN
+  trend_type: IMPULSIVE
+  trend_strength_score: 80
+  mtf_alignment_%: 100
+  compression_quality_%: 93.92
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 100
+  quality_score: 70
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI
+
+
+═══════════════════════════════════════════
+OUTPUT FORMAT — กฎเด็ดขาด
+═══════════════════════════════════════════
+
+อ่านข้อมูล JSON ตลาดที่ให้มาแล้ว output เฉพาะ JSON นี้เท่านั้น:
+{"action":"__","confidence":___,"expiry":__,"reason":_______"}
+
+กฎ output:
+- action: "CALL" | "PUT" | "NO_TRADE"
+- confidence: ตัวเลขจำนวนเต็ม 0-100
+- expiry: ตัวเลขจำนวนเต็ม 1-5 (นาที)
+- reason: ภาษาไทย 20-40 คำ อธิบายเหตุผลหลักที่ทำให้ตัดสินใจ

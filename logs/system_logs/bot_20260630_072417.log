@@ -1,0 +1,29 @@
+2026-06-30 14:24:17,358 | INFO     | [NEWS] Calendar file for today (2026-06-30) not found. Running calendar_news.py...
+2026-06-30 14:24:19,299 | INFO     | [NEWS] calendar_news.py executed successfully.
+2026-06-30 14:24:19,301 | INFO     | กำลังเชื่อมต่อ IQ Option...
+2026-06-30 14:24:19,356 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-30 14:24:22,077 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-30 14:24:22,078 | INFO     | เชื่อมต่อ IQ Option สำเร็จ..
+2026-06-30 14:24:22,078 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-30 14:24:22,594 | INFO     | บัญชี PRACTICE | Balance: $2050.40
+2026-06-30 14:24:22,594 | ERROR    | Failed to get server time offset
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 57, in __init__
+    server_time = self.data_adapter.api.get_server_time()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'IQ_Option' object has no attribute 'get_server_time'. Did you mean: 'get_server_timestamp'?
+2026-06-30 14:24:22,598 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-30 14:24:22,599 | INFO     | Trading Mode: AI AUTO_BOT
+2026-06-30 14:24:22,599 | INFO     | ตรวจเช็คความพร้อม DEEPSEEK AI
+2026-06-30 14:25:37,624 | ERROR    | AI Readiness check failed: Command '['C:\\Users\\BUSOLOVE\\AppData\\Roaming\\npm\\deepseek-agent.CMD', '--headless', '--no-tui', '--max-iterations=1', 'System check. Briefly introduce yourself (including your AI model name) and state you are ready to analyze the market. Reply in a single short line in English.']' timed out after 75 seconds
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\core\ai_analysis\deepseek_agent_bridge.py", line 151, in check_readiness
+    stdout_bytes, stderr_bytes = p.communicate(timeout=75)
+                                 ~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python314\Lib\subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python314\Lib\subprocess.py", line 1664, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['C:\\Users\\BUSOLOVE\\AppData\\Roaming\\npm\\deepseek-agent.CMD', '--headless', '--no-tui', '--max-iterations=1', 'System check. Briefly introduce yourself (including your AI model name) and state you are ready to analyze the market. Reply in a single short line in English.']' timed out after 75 seconds
+2026-06-30 14:25:37,632 | WARNING  | AI bridge readiness check failed; continuing with prompt logging only: Command '['C:\\Users\\BUSOLOVE\\AppData\\Roaming\\npm\\deepseek-agent.CMD', '--headless', '--no-tui', '--max-iterations=1', 'System check. Briefly introduce yourself (including your AI model name) and state you are ready to analyze the market. Reply in a single short line in English.']' timed out after 75 seconds

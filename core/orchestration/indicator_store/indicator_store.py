@@ -211,8 +211,12 @@ class IndicatorStore:
             if len(series) < period:
                 return 0.0
             y = series.tail(period).values
+            if np.any(np.isnan(y)):
+                raise ValueError(f"NaN detected in slope series (period={period}) — cannot compute linear regression")
             x = np.arange(period)
             slope, _ = np.polyfit(x, y, 1)
+            if np.isnan(slope):
+                raise ValueError(f"np.polyfit returned NaN slope — data may be degenerate")
             return slope
         
         m5['slope_10'] = round(calc_slope(close_m5, 10), Config.ROUND_DECIMALS)
@@ -244,7 +248,9 @@ class IndicatorStore:
                 else:
                     break
             m5['box_duration'] = box_dur
-            m5['box_tightness'] = round(ref_range / (m5['atr14'] + 1e-9), 2)
+            if m5['atr14'] <= 0:
+                raise ValueError(f"ATR14 is zero or negative ({m5['atr14']}) — cannot compute box_tightness")
+            m5['box_tightness'] = round(ref_range / m5['atr14'], 2)
         else:
             m5['box_duration'] = 10
             m5['box_tightness'] = 2.5
@@ -286,7 +292,13 @@ class IndicatorStore:
         high_close_m1 = np.abs(high_m1 - close_m1.shift())
         low_close_m1 = np.abs(low_m1 - close_m1.shift())
         ranges_m1 = pd.concat([high_low_m1, high_close_m1, low_close_m1], axis=1).max(axis=1)
-        m1['atr14'] = round(ranges_m1.ewm(alpha=1/14, adjust=False).mean().iloc[-1], Config.ROUND_DECIMALS)
+        atr_series_m1 = ranges_m1.ewm(alpha=1/14, adjust=False).mean().dropna()
+        if atr_series_m1.empty:
+            raise ValueError("M1 ATR series is empty after dropna — cannot compute atr14")
+        atr14_m1 = atr_series_m1.iloc[-1]
+        if np.isnan(atr14_m1):
+            raise ValueError("M1 ATR14 is NaN — data may be corrupt")
+        m1['atr14'] = round(atr14_m1, Config.ROUND_DECIMALS)
 
         m1['bb_upper'] = round((close_m1.rolling(20, min_periods=1).mean() + 2*close_m1.rolling(20, min_periods=1).std(ddof=0).fillna(0)).iloc[-1], Config.ROUND_DECIMALS)
         m1['bb_lower'] = round((close_m1.rolling(20, min_periods=1).mean() - 2*close_m1.rolling(20, min_periods=1).std(ddof=0).fillna(0)).iloc[-1], Config.ROUND_DECIMALS)
@@ -304,7 +316,20 @@ class IndicatorStore:
         # 2.5. M15 Indicators
         # ------------------------------------------------------------
         m15 = {}
+        import time
         if df_m15 is not None and not df_m15.empty:
+            try:
+                last_ts_m15 = df_m15.index[-1]
+                if hasattr(last_ts_m15, 'timestamp'):
+                    m15_age_ms = int((time.time() - last_ts_m15.timestamp()) * 1000)
+                else:
+                    m15_age_ms = 0
+            except:
+                m15_age_ms = 0
+                
+            if m15_age_ms > 1200000:
+                raise ValueError(f"FAIL-FAST: M15 data is STALE (age: {m15_age_ms} ms). No fallback allowed.")
+                
             close_m15 = df_m15['close']
             if len(close_m15) >= 20:
                 ema20_m15 = close_m15.ewm(span=20, adjust=False).mean().iloc[-1]
@@ -333,15 +358,31 @@ class IndicatorStore:
             session_name = "ASIAN"
             
         try:
-            last_ts = df_m1.index[-1]
-            if hasattr(last_ts, 'timestamp'):
-                data_age_ms = int((time.time() - last_ts.timestamp()) * 1000)
+            last_ts_m1 = df_m1.index[-1]
+            last_ts_m5 = df_m5.index[-1]
+            if hasattr(last_ts_m1, 'timestamp'):
+                data_age_ms = int((time.time() - last_ts_m1.timestamp()) * 1000)
             else:
                 data_age_ms = 0
+            if hasattr(last_ts_m5, 'timestamp'):
+                data_age_ms_m5 = int((time.time() - last_ts_m5.timestamp()) * 1000)
+            else:
+                data_age_ms_m5 = 0
         except:
             raise
             
-        data_quality = "HIGH" if data_age_ms < 120000 else "LOW" # 2 mins threshold
+        def _data_quality(age_ms: int, high_limit: int = 360000, med_limit: int = 480000, low_limit: int = 600000) -> str:
+            if age_ms < high_limit:
+                return "HIGH"
+            elif age_ms < med_limit:
+                return "MEDIUM"
+            elif age_ms < low_limit:
+                return "LOW"
+            return "STALE"
+
+        data_quality = _data_quality(data_age_ms)  # legacy M1 freshness
+        data_quality_m1 = _data_quality(data_age_ms, 60000, 120000, 180000)
+        data_quality_m5 = _data_quality(data_age_ms_m5)
 
         meta = {
             'close': round(last_m1_candle['close'], Config.ROUND_DECIMALS),
@@ -350,7 +391,11 @@ class IndicatorStore:
             'open': round(last_m1_candle['open'], Config.ROUND_DECIMALS),
             'session': session_name,
             'data_age_ms': max(0, data_age_ms),
-            'data_quality': data_quality
+            'data_quality': data_quality,
+            'data_age_ms_m1': max(0, data_age_ms),
+            'data_quality_m1': data_quality_m1,
+            'data_age_ms_m5': max(0, data_age_ms_m5),
+            'data_quality_m5': data_quality_m5,
         }
 
         # ------------------------------------------------------------

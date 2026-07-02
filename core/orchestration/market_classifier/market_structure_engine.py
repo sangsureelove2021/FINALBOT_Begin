@@ -16,6 +16,9 @@ class MarketStructureEngine(BaseEngine):
         super().__init__(config)
         self.lookback = 15  # ดูย้อนหลัง 15 แท่งเพื่อความแม่นยำ
 
+    def get_neutral_state(self) -> dict:
+        return {}
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         # operate on the last `lookback` rows
         if candles_df is None or not isinstance(candles_df, pd.DataFrame) or candles_df.empty or len(candles_df) < self.lookback:

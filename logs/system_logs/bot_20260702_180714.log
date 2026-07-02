@@ -1,0 +1,54 @@
+2026-07-03 01:07:15,066 | INFO     | ตรวจสอบข่าว: พบไฟล์ข้อมูลข่าวของวันนี้ (2026-07-03) พร้อมใช้งาน
+2026-07-03 01:07:15,084 | INFO     | กำลังเชื่อมต่อ IQ Option...
+2026-07-03 01:07:15,130 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-07-03 01:07:19,827 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-07-03 01:07:19,892 | INFO     | เชื่อมต่อ IQ Option สำเร็จ..
+2026-07-03 01:07:19,893 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-07-03 01:07:20,277 | INFO     | บัญชี PRACTICE | Balance: $2050.26
+2026-07-03 01:07:20,278 | ERROR    | Failed to get server time offset
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 57, in __init__
+    server_time = self.data_adapter.api.get_server_time()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'IQ_Option' object has no attribute 'get_server_time'. Did you mean: 'get_server_timestamp'?
+2026-07-03 01:07:20,281 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-07-03 01:07:20,285 | INFO     | Trading Mode: AI AUTO_BOT
+2026-07-03 01:07:20,285 | INFO     | MarketStateClassifier initialised
+2026-07-03 01:07:20,291 | INFO     | รายการสินทรัพย์เพื่อเทรด 4 รายการ : EURUSD, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+2026-07-03 01:07:20,297 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์
+2026-07-03 01:07:21,348 | INFO     | [DataAdapter] EURUSD initialised — M1:250 M5:250 M15:250
+2026-07-03 01:07:22,365 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:250 M5:250 M15:250
+2026-07-03 01:07:23,348 | INFO     | [DataAdapter] GBPUSD-OTC initialised — M1:250 M5:250 M15:250
+2026-07-03 01:07:24,364 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:250 M5:250 M15:250
+2026-07-03 01:07:24,383 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-07-03 01:07:25,666 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=250)
+2026-07-03 01:07:28,042 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=250)
+2026-07-03 01:07:29,418 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=250)
+2026-07-03 01:07:30,696 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=250)
+2026-07-03 01:07:33,074 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M1, count=250)
+2026-07-03 01:07:34,464 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M5, count=250)
+2026-07-03 01:07:35,764 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=250)
+2026-07-03 01:07:38,075 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=250)
+2026-07-03 01:07:38,105 | INFO     | [MODE : AI_BOT][Stake:35][Profit:100.0%][Loss:100.0%][Orderlimit:9999][Time:01.00-23.00]
+2026-07-03 01:07:38,123 | INFO     | ตรวจสอบข่าว: พบไฟล์ข้อมูลข่าวของวันนี้ (2026-07-03) พร้อมใช้งาน
+2026-07-03 01:07:38,139 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 24 วินาที  (เริ่ม 01:08:02)
+2026-07-03 01:08:03,732 | INFO     | [EURUSD:1.14349][EURUSD-OTC:1.15661][GBPUSD-OTC:1.30676][EURGBP-OTC:0.84789] :: TOTAL=$2050.26
+2026-07-03 01:08:03,984 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSDOTC\EURUSDOTC20260703010803.txt
+2026-07-03 01:08:03,988 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURGBPOTC\EURGBPOTC20260703010803.txt
+2026-07-03 01:08:03,988 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\GBPUSDOTC\GBPUSDOTC20260703010803.txt
+2026-07-03 01:08:03,995 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSD\EURUSD20260703010803.txt
+2026-07-03 01:09:04,067 | INFO     | [EURUSD:1.14350][EURUSD-OTC:1.15596][GBPUSD-OTC:1.30696][EURGBP-OTC:0.84815] :: TOTAL=$2050.26
+2026-07-03 01:09:04,305 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\GBPUSDOTC\GBPUSDOTC20260703010904.txt
+2026-07-03 01:09:04,306 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSDOTC\EURUSDOTC20260703010904.txt
+2026-07-03 01:09:04,315 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSD\EURUSD20260703010904.txt
+2026-07-03 01:09:04,316 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURGBPOTC\EURGBPOTC20260703010904.txt
+2026-07-03 01:10:05,019 | INFO     | [EURUSD:1.14361][EURUSD-OTC:1.15613][GBPUSD-OTC:1.30648][EURGBP-OTC:0.84815] :: TOTAL=$2050.26
+2026-07-03 01:10:05,261 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSDOTC\EURUSDOTC20260703011005.txt
+2026-07-03 01:10:05,270 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURGBPOTC\EURGBPOTC20260703011005.txt
+2026-07-03 01:10:05,270 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\GBPUSDOTC\GBPUSDOTC20260703011005.txt
+2026-07-03 01:10:05,273 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSD\EURUSD20260703011005.txt
+2026-07-03 01:11:03,483 | INFO     | [EURUSD:1.14352][EURUSD-OTC:1.15583][GBPUSD-OTC:1.30665][EURGBP-OTC:0.84798] :: TOTAL=$2050.26
+2026-07-03 01:11:03,693 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSD\EURUSD20260703011103.txt
+2026-07-03 01:11:03,695 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURGBPOTC\EURGBPOTC20260703011103.txt
+2026-07-03 01:11:03,695 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\GBPUSDOTC\GBPUSDOTC20260703011103.txt
+2026-07-03 01:11:03,705 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSDOTC\EURUSDOTC20260703011103.txt

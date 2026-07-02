@@ -21,6 +21,9 @@ class MarketPressureAnalyzer(BaseEngine):
     TIER = 5
     MIN_CANDLES = 40
     
+    def get_neutral_state(self) -> dict:
+        return {}
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         buy_pressure = self._calculate_buy_pressure(candles_df)
         sell_pressure = 100 - buy_pressure

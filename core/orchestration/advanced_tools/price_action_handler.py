@@ -21,6 +21,9 @@ class PriceActionHandler(BaseEngine):
     TIER = 3
     MIN_CANDLES = 30
     
+    def get_neutral_state(self) -> Dict[str, Any]:
+        return {}
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         # Recent candle analysis
         recent_body_size = self._average_body_size(candles_df.tail(10))
@@ -174,18 +177,20 @@ class PriceActionHandler(BaseEngine):
     def _relative_volume_momentum(self, df: pd.DataFrame) -> str:
         """Compares current volume to a rolling median/percentile instead of a static slope"""
         try:
-            if 'volume' not in df.columns or len(df) < 20:
-                return 'NEUTRAL'
-                
+            if 'volume' not in df.columns:
+                raise ValueError("volume column missing in DataFrame")
+            if len(df) < 20:
+                raise ValueError("Not enough candles for volume momentum calculation (need 20)")
+
             rolling_median_vol = df['volume'].rolling(window=20).median()
             current_vol = df['volume'].iloc[-1]
             median_vol = rolling_median_vol.iloc[-1]
-            
+
             if pd.isna(median_vol) or median_vol == 0:
-                return 'NEUTRAL'
-                
+                raise ValueError(f"median_vol is zero or NaN — cannot compute volume momentum ratio")
+
             vol_ratio = current_vol / median_vol
-            
+
             if vol_ratio >= 1.5:
                 return 'HIGH_MOMENTUM'
             elif vol_ratio <= 0.5:

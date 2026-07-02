@@ -44,7 +44,6 @@ def _normalize_context(context: dict) -> dict:
     price_action = context.get("price_action", {}) if isinstance(context.get("price_action"), dict) else {}
     volume = context.get("volume", {}) if isinstance(context.get("volume"), dict) else {}
     analysis = context.get("analysis", {}) if isinstance(context.get("analysis"), dict) else {}
-    signals = context.get("signals", {}) if isinstance(context.get("signals"), dict) else {}
     decision_layer = context.get("decision_layer", {}) if isinstance(context.get("decision_layer"), dict) else {}
     engines = context.get("engines", {}) if isinstance(context.get("engines"), dict) else {}
 
@@ -56,6 +55,10 @@ def _normalize_context(context: dict) -> dict:
             "price": _get_first_present([meta.get("price"), meta.get("close"), meta.get("current_price"), context.get("current_price")], "NOT_AVAILABLE"),
             "data_age_ms": _get_first_present([meta.get("data_age_ms")], "NOT_AVAILABLE"),
             "data_quality": _get_first_present([meta.get("data_quality")], "NOT_AVAILABLE"),
+            "data_age_ms_m1": _get_first_present([meta.get("data_age_ms_m1")], "NOT_AVAILABLE"),
+            "data_quality_m1": _get_first_present([meta.get("data_quality_m1")], "NOT_AVAILABLE"),
+            "data_age_ms_m5": _get_first_present([meta.get("data_age_ms_m5")], "NOT_AVAILABLE"),
+            "data_quality_m5": _get_first_present([meta.get("data_quality_m5")], "NOT_AVAILABLE"),
         },
         "market_context": {
             "state": _get_first_present([market_context.get("state"), market_state.get("state")], "NOT_AVAILABLE"),
@@ -78,7 +81,9 @@ def _normalize_context(context: dict) -> dict:
             "m5": {
                 "bias": _get_first_present([timeframes.get("m5", {}).get("bias"), m5.get("bias")], "NOT_AVAILABLE"),
                 "ema5": _get_first_present([timeframes.get("m5", {}).get("ema5"), m5.get("ema5"), m5.get("ema_5")], "NOT_AVAILABLE"),
+                "ema10": _get_first_present([timeframes.get("m5", {}).get("ema10"), m5.get("ema10"), m5.get("ema_10")], "NOT_AVAILABLE"),
                 "ema20": _get_first_present([timeframes.get("m5", {}).get("ema20"), m5.get("ema20"), m5.get("ema_20")], "NOT_AVAILABLE"),
+                "ema50": _get_first_present([timeframes.get("m5", {}).get("ema50"), m5.get("ema50"), m5.get("ema_50")], "NOT_AVAILABLE"),
                 "bb_upper": _get_first_present([timeframes.get("m5", {}).get("bb_upper"), m5.get("bb_upper")], "NOT_AVAILABLE"),
                 "bb_lower": _get_first_present([timeframes.get("m5", {}).get("bb_lower"), m5.get("bb_lower")], "NOT_AVAILABLE"),
                 "bb_width": _get_first_present([timeframes.get("m5", {}).get("bb_width"), m5.get("bb_width")], "NOT_AVAILABLE"),
@@ -121,18 +126,13 @@ def _normalize_context(context: dict) -> dict:
             "exhaustion_risk_%": _get_first_present([analysis.get("exhaustion_risk_%"), engines.get("strength", {}).get("exhaustion_risk")], "NOT_AVAILABLE"),
             "bos_detected": _get_first_present([analysis.get("bos_detected")], False),
         },
-        "signals": {
-            "triggered": _get_first_present([signals.get("triggered")], []),
-            "count": _get_first_present([signals.get("count")], 0),
-            "top_signal": _get_first_present([signals.get("top_signal")], "NO"),
-        },
+
         "decision_layer": {
             "tradeable": _get_first_present([decision_layer.get("tradeable")], False),
-            "tradeable_reason": _get_first_present([decision_layer.get("tradeable_reason")], "NOT_AVAILABLE"),
-            "confidence_score": _get_first_present([decision_layer.get("confidence_score")], 0),
             "stability_score": _get_first_present([decision_layer.get("stability_score")], 0),
             "quality_score": _get_first_present([decision_layer.get("quality_score")], 0),
             "risk_level": _get_first_present([decision_layer.get("risk_level")], "NOT_AVAILABLE"),
+            "confidence_score": _get_first_present([decision_layer.get("confidence_score")], 0),
             "suggested_expiry_minutes": _get_first_present([decision_layer.get("suggested_expiry_minutes")], 0),
             "suggested_action": _get_first_present([decision_layer.get("suggested_action")], "NOT_AVAILABLE"),
             "final_reason_th": _get_first_present([decision_layer.get("final_reason_th")], "NOT_AVAILABLE"),
@@ -163,7 +163,9 @@ def _normalize_context(context: dict) -> dict:
             "m5": {
                 "bias": _get_first_present([context["timeframes"].get("m5", {}).get("bias"), normalized["timeframes"]["m5"]["bias"]], "NOT_AVAILABLE"),
                 "ema5": _get_first_present([context["timeframes"].get("m5", {}).get("ema5"), normalized["timeframes"]["m5"]["ema5"]], "NOT_AVAILABLE"),
+                "ema10": _get_first_present([context["timeframes"].get("m5", {}).get("ema10"), normalized["timeframes"]["m5"]["ema10"]], "NOT_AVAILABLE"),
                 "ema20": _get_first_present([context["timeframes"].get("m5", {}).get("ema20"), normalized["timeframes"]["m5"]["ema20"]], "NOT_AVAILABLE"),
+                "ema50": _get_first_present([context["timeframes"].get("m5", {}).get("ema50"), normalized["timeframes"]["m5"]["ema50"]], "NOT_AVAILABLE"),
                 "bb_upper": _get_first_present([context["timeframes"].get("m5", {}).get("bb_upper"), normalized["timeframes"]["m5"]["bb_upper"]], "NOT_AVAILABLE"),
                 "bb_lower": _get_first_present([context["timeframes"].get("m5", {}).get("bb_lower"), normalized["timeframes"]["m5"]["bb_lower"]], "NOT_AVAILABLE"),
                 "bb_width": _get_first_present([context["timeframes"].get("m5", {}).get("bb_width"), normalized["timeframes"]["m5"]["bb_width"]], "NOT_AVAILABLE"),
@@ -194,21 +196,15 @@ def _normalize_context(context: dict) -> dict:
             "bos_detected": _get_first_present([context["analysis"].get("bos_detected"), normalized["analysis"]["bos_detected"]], False),
         }
 
-    if "signals" in context and isinstance(context.get("signals"), dict):
-        normalized["signals"] = {
-            "triggered": _get_first_present([context["signals"].get("triggered"), normalized["signals"]["triggered"]], []),
-            "count": _get_first_present([context["signals"].get("count"), normalized["signals"]["count"]], 0),
-            "top_signal": _get_first_present([context["signals"].get("top_signal"), normalized["signals"]["top_signal"]], "NO"),
-        }
+
 
     if "decision_layer" in context and isinstance(context.get("decision_layer"), dict):
         normalized["decision_layer"] = {
             "tradeable": _get_first_present([context["decision_layer"].get("tradeable"), normalized["decision_layer"]["tradeable"]], False),
-            "tradeable_reason": _get_first_present([context["decision_layer"].get("tradeable_reason"), normalized["decision_layer"]["tradeable_reason"]], "NOT_AVAILABLE"),
-            "confidence_score": _get_first_present([context["decision_layer"].get("confidence_score"), normalized["decision_layer"]["confidence_score"]], 0),
             "stability_score": _get_first_present([context["decision_layer"].get("stability_score"), normalized["decision_layer"]["stability_score"]], 0),
             "quality_score": _get_first_present([context["decision_layer"].get("quality_score"), normalized["decision_layer"]["quality_score"]], 0),
             "risk_level": _get_first_present([context["decision_layer"].get("risk_level"), normalized["decision_layer"]["risk_level"]], "NOT_AVAILABLE"),
+            "confidence_score": _get_first_present([context["decision_layer"].get("confidence_score"), normalized["decision_layer"]["confidence_score"]], 0),
             "suggested_expiry_minutes": _get_first_present([context["decision_layer"].get("suggested_expiry_minutes"), normalized["decision_layer"]["suggested_expiry_minutes"]], 0),
             "suggested_action": _get_first_present([context["decision_layer"].get("suggested_action"), normalized["decision_layer"]["suggested_action"]], "NOT_AVAILABLE"),
             "final_reason_th": _get_first_present([context["decision_layer"].get("final_reason_th"), normalized["decision_layer"]["final_reason_th"]], "NOT_AVAILABLE"),
@@ -230,24 +226,12 @@ def build_template_prompt(context: dict) -> str:
 def build_instruction_block(context: dict) -> str:
     normalized_ctx = _clean_dict(_normalize_context(context))
     meta = normalized_ctx.get("meta", {})
-    symbol = str(meta.get("symbol", "UNKNOWN")).replace("-", "_").replace(" ", "_")
+    symbol = str(meta.get("symbol", "UNKNOWN")).replace("-", "").replace("_", "").replace(" ", "")
     timestamp = str(meta.get("timestamp", datetime.now().strftime("%Y-%m-%dT%H:%M:%S")))
-    ts_clean = timestamp.replace('-', '').replace(':', '').replace('T', '').replace('.', '')
-    prompt_id = f"{symbol}_{ts_clean}"
+    ts_clean = timestamp.replace('-', '').replace(':', '').replace('T', '').replace('.', '')[:14]
+    prompt_id = f"{symbol}{ts_clean}"
 
-    return "\n".join([
-        "คุณคือผู้เชี่ยวชาญด้านการวิเคราะห์ตลาด Binary Options ที่มีประสบการณ์มากกว่า 10 ปี",
-        "คุณเชี่ยวชาญด้านการวิเคราะห์เชิงเทคนิคอย่างลึกซึ้ง ครอบคลุมทุกมิติของตลาด",
-        "",
-        f"หมายเลขคำสั่งพร้อมส์:{prompt_id}",
-        "═══════════════════════════════════════════",
-        "คำสั่ง: วิเคราะห์ข้อมูลตลาดที่ส่งมาจาก OCAS และใช้ค่าใน payload ด้านล่างเป็นแหล่งข้อมูลหลัก",
-        f"คู่เงิน: {symbol}",
-        f"เวลา: {timestamp}",
-        "คุณต้องส่งผลการวิเคราะห์กลับมา ภายใน 15 วินาที หลังจากได้รับข้อมูลนี้",
-        "═══════════════════════════════════════════",
-        "",
-    ])
+    return f"ID:{prompt_id}\n"
 
 
 def build_full_prompt(context: dict) -> str:
@@ -255,14 +239,7 @@ def build_full_prompt(context: dict) -> str:
     payload_yaml = yaml.dump(normalized_ctx, allow_unicode=True, sort_keys=False, default_flow_style=False).strip()
     instruction_block = build_instruction_block(context)
 
-    footer = (
-        "\n"
-        "════════════════════════════════════════════════════════════\n"
-        "สถานะ: รอผลตอบกลับจาก AI ในขั้นตอนถัดไป\n"
-        "════════════════════════════════════════════════════════════"
-    )
-
-    return f"{instruction_block}{payload_yaml}{footer}"
+    return f"{instruction_block}{payload_yaml}"
 
 
 def _get_symbol_name(context: dict) -> str:
@@ -273,14 +250,32 @@ def _get_symbol_name(context: dict) -> str:
     return "unknown_symbol"
 
 
-def save_prompt_to_disk(context: dict, prompt: str) -> str:
+HEADER = """คุณคือผู้เชี่ยวชาญด้านการวิเคราะห์ตลาด Binary Options ที่มีประสบการณ์มากกว่า 10 ปี คุณเชี่ยวชาญด้านการวิเคราะห์เชิงเทคนิคอย่างลึกซึ้ง ครอบคลุมทุกมิติของตลาด
+
+═════════════════════════════════════════════════════════════
+ข้อมูลสำคัญเพื่อนำไปวิเคราะห์สัญญาณ คุณต้องส่งผลการวิเคราะห์กลับมา ภายใน 15 วินาที หลังจากได้รับข้อมูลนี้
+═════════════════════════════════════════════════════════════
+
+"""
+
+FOOTER = """
+═══════════════════════════════════════════
+OUTPUT FORMAT — กฎเด็ดขาด
+═══════════════════════════════════════════
+
+อ่านข้อมูล JSON ตลาดที่ให้มาแล้ว output เฉพาะ JSON นี้เท่านั้น:
+{"action":"__","confidence":___,"expiry":__,"reason":_______"}
+
+กฎ output:
+- action: "CALL" | "PUT" | "NO_TRADE"
+- confidence: ตัวเลขจำนวนเต็ม 0-100
+- expiry: ตัวเลขจำนวนเต็ม 1-5 (นาที)
+- reason: ภาษาไทย 20-40 คำ อธิบายเหตุผลหลักที่ทำให้ตัดสินใจ
+"""
+
+def save_prompt_to_disk_raw(prompt_id: str, symbol_str: str, prompt: str) -> str:
     """Save the generated prompt to the workspace logs folder immediately."""
     project_root = Path(__file__).resolve().parents[2]
-    symbol_str = _get_symbol_name(context)
-    meta = context.get("meta", {}) if isinstance(context.get("meta"), dict) else {}
-    timestamp = str(meta.get("timestamp", datetime.now().strftime("%Y-%m-%dT%H:%M:%S")))
-    ts_clean = timestamp.replace('-', '').replace(':', '').replace('T', '').replace('.', '')
-    prompt_id = f"{symbol_str}_{ts_clean}"
     history_folder = project_root / "logs" / "logs_ai" / symbol_str
     history_folder.mkdir(parents=True, exist_ok=True)
     history_file_path = history_folder / f"{prompt_id}.txt"
@@ -288,18 +283,38 @@ def save_prompt_to_disk(context: dict, prompt: str) -> str:
     return str(history_file_path)
 
 
-def build_prompt(context: dict) -> str:
+def build_prompt(filepath: str) -> str:
     """
-    Unified entry point to construct a full prompt command from the payload and save it to disk.
+    Unified entry point to construct a full prompt command from the payload file and save it to disk.
     """
-    if not isinstance(context, dict):
-        raise TypeError("context must be a dictionary")
+    import os
+    import re
+    if not isinstance(filepath, str) or not os.path.exists(filepath):
+        raise ValueError(f"Valid filepath required, got: {filepath}")
 
     try:
-        final_prompt = build_full_prompt(context)
-        saved_path = save_prompt_to_disk(context, final_prompt)
+        # 1. Read the raw payload from orchestrator's txt file
+        with open(filepath, "r", encoding="utf-8") as f:
+            yaml_content = f.read()
+            
+        # 2. Extract ID from the first line (e.g. ID:EURGBP2026...)
+        first_line = yaml_content.split('\n')[0].strip()
+        if first_line.startswith("ID:"):
+            prompt_id = first_line.replace("ID:", "")
+        else:
+            prompt_id = "UNKNOWN_ID"
+            
+        # Extract symbol from prompt_id for the folder name
+        match = re.match(r"([A-Za-z]+)", prompt_id)
+        symbol_str = match.group(1) if match else "UNKNOWN"
+            
+        # 3. Combine them exactly like the Boss's template
+        final_prompt = f"{HEADER}{yaml_content}\n{FOOTER}"
+        
+        # 4. Save to logs_ai
+        saved_path = save_prompt_to_disk_raw(prompt_id, symbol_str, final_prompt)
         logger.info(f"Prompt saved to {saved_path}")
         return final_prompt
     except Exception as e:
-        logger.exception("Failed to build prompt context")
+        logger.exception(f"Failed to build prompt context from {filepath}")
         raise Exception(str(e))

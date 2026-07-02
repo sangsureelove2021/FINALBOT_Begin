@@ -62,6 +62,9 @@ class TrendEngine(BaseEngine):
                 'conf_mom_med': 1.0,
             }
             
+    def get_neutral_state(self) -> dict:
+        return {}
+
     def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
         """Analyze trend using pre-calculated SSOT payload"""
         m5 = payload['m5']

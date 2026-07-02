@@ -1,0 +1,86 @@
+{
+    "meta": {
+        "timestamp": "2026-07-02T23:58:04.822510",
+        "symbol": "EURUSD",
+        "session": "NEW YORK",
+        "price": 1.143855,
+        "data_age_ms": 484946,
+        "data_quality": "STALE"
+    },
+    "market_context": {
+        "state": "SIDEWAY_RANGE",
+        "description": "Price ranging between clear levels. Suitable for mean-reversion strategies.",
+        "volatility_regime": "EXTREME",
+        "news_impact": "LOW",
+        "expected_volatility_%": 0.037
+    },
+    "timeframes": {
+        "m1": {
+            "last_candle": "BEARISH",
+            "ema5": 1.143949,
+            "ema20": 1.14389,
+            "rsi": 47.58,
+            "stoch_k": 71.25,
+            "stoch_d": 82.58,
+            "macd": 1.9e-05,
+            "macd_signal": -1.3e-05
+        },
+        "m5": {
+            "bias": "BEARISH",
+            "ema5": 1.143872,
+            "ema10": 1.143952,
+            "ema20": 1.144092,
+            "ema50": 1.143889,
+            "bb_upper": 1.144933,
+            "bb_lower": 1.143459,
+            "bb_width": 0.001475,
+            "rsi": 44.72,
+            "stoch_k": 29.3,
+            "stoch_d": 23.31,
+            "macd": -0.00013,
+            "macd_signal": -7.2e-05,
+            "adx": 13.84,
+            "atr": 0.00042,
+            "support": 1.143535,
+            "resistance": 1.144825,
+            "pivot": 1.143868
+        },
+        "m15": {
+            "bias": "BULLISH"
+        }
+    },
+    "price_action": {
+        "pattern": "EVENING_STAR",
+        "last_candle_bias": "BEARISH",
+        "body_strength": "WEAK",
+        "wick_dominance": "LOW_WICK",
+        "momentum_bias": "NEUTRAL",
+        "move_quality": "CHAOTIC",
+        "trap_alert": "NONE",
+        "sr_interaction": "TESTING_PIVOT"
+    },
+    "volume": {
+        "tick_volume": 768,
+        "volume_momentum": "NORMAL",
+        "volume_vs_average": 0.883
+    },
+    "analysis": {
+        "trend_direction": "NONE",
+        "trend_type": "CHOPPY",
+        "trend_strength_score": 60,
+        "mtf_alignment_%": 33,
+        "compression_quality_%": 54.952,
+        "exhaustion_risk_%": 30,
+        "bos_detected": false
+    },
+    "decision_layer": {
+        "tradeable": true,
+        "stability_score": 33,
+        "quality_score": 60,
+        "risk_level": "HIGH",
+        "confidence_score": "รอการวิเคราะห์จาก AI",
+        "suggested_expiry_minutes": "รอการวิเคราะห์จาก AI",
+        "suggested_action": "รอการวิเคราะห์จาก AI",
+        "final_reason_th": "รอการวิเคราะห์จาก AI"
+    }
+}

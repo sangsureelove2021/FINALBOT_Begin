@@ -113,11 +113,11 @@ def check_news_impact(symbol="EURUSD"):
     สำหรับ OTC จะไม่มีข่าวจริง จึงกำหนดเป็น 'NONE_OTC' เพื่อแยกจากคู่เงินปกติ
     """
     if not isinstance(symbol, str):
-        return 'NONE_OTC'
+        raise TypeError(f"check_news_impact: symbol must be str, got {type(symbol)}")
     if "OTC" in symbol.upper():
         return 'NONE_OTC'
     if symbol not in _PRECALCULATED_NEWS:
-        return 'UNKNOWN'
+        raise ValueError(f"check_news_impact: no news data for {symbol} — update_all_news_impact() must be called first")
     return _PRECALCULATED_NEWS[symbol]
 
 if __name__ == "__main__":

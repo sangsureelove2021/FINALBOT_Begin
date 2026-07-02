@@ -21,6 +21,9 @@ class StrengthEngine(BaseEngine):
     TIER = 1
     MIN_CANDLES = 200
     
+    def get_neutral_state(self) -> dict:
+        return {}
+
     def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
         """Analyze momentum strength using SSOT payload"""
         m5 = payload['m5']

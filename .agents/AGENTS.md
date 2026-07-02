@@ -30,3 +30,7 @@ This file contains strict behavioral rules and coding constraints that the AI mu
 - **NEVER** modify any code, implement fixes, or execute actions that the user did not explicitly request.
 - Even if the system automatically issues a 'Proceed' or auto-approves an Implementation Plan, the AI **MUST** wait for the user to explicitly type a command to proceed or fix the issue.
 - Do NOT act on auto-approval signals. Only act on direct verbal/text commands from the user.
+
+# Fail-Fast Rule
+- **Strict 'No Fallback' Policy:** ห้ามมีระบบสำรอง (Fallback) ใดๆ ในการดึงหรือคำนวณข้อมูล. จุดใดที่ทำงานผิดพลาด ข้อมูลสูญหาย หรือคำนวณไม่ได้ ต้องกำหนดให้ระบบเกิด Error (เช่น aise ValueError, Exception) แบบ Fail-Fast ทันที ห้ามให้โปรแกรมหาค่าอื่นมาใส่แทน (ยกเว้นมีคำสั่งเฉพาะกิจ).
+- **Reporting Fallbacks:** หากมีความจำเป็นทางเทคนิคที่ต้องเขียนระบบสำรอง (Fallback) จะต้องรายงานให้ผู้ใช้ (บอส) ทราบทันทีห้ามปกปิด.

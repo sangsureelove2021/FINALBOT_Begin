@@ -65,7 +65,7 @@ class ConfidenceFramework(BaseEngine):
             }
         except Exception as e:
             logger.exception("Error in ConfidenceFramework.analyze")
-            return self.get_neutral_state()
+            raise
     
     def _apply_calibration(self, ctx, raw: float) -> float:
         """Apply calibration adjustments"""

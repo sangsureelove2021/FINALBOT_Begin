@@ -1,0 +1,50 @@
+2026-06-30 20:03:36,500 | INFO     | กำลังเชื่อมต่อ IQ Option...
+2026-06-30 20:03:36,554 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
+2026-06-30 20:03:39,076 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-06-30 20:03:39,077 | INFO     | เชื่อมต่อ IQ Option สำเร็จ..
+2026-06-30 20:03:39,077 | INFO     | [OK] Executor reusing IQ Option connection from adapter
+2026-06-30 20:03:39,599 | INFO     | บัญชี PRACTICE | Balance: $2050.40
+2026-06-30 20:03:39,600 | ERROR    | Failed to get server time offset
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py", line 57, in __init__
+    server_time = self.data_adapter.api.get_server_time()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'IQ_Option' object has no attribute 'get_server_time'. Did you mean: 'get_server_timestamp'?
+2026-06-30 20:03:39,604 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
+2026-06-30 20:03:39,605 | INFO     | Trading Mode: AI AUTO_BOT
+2026-06-30 20:03:39,605 | INFO     | MarketStateClassifier initialised
+2026-06-30 20:03:39,605 | INFO     | รายการสินทรัพย์เพื่อเทรด 4 รายการ : EURUSD, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+2026-06-30 20:03:39,605 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์
+2026-06-30 20:03:40,706 | INFO     | [DataAdapter] EURUSD initialised — M1:200 M5:200 M15:200
+2026-06-30 20:03:41,685 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-30 20:03:42,565 | INFO     | [DataAdapter] GBPUSD-OTC initialised — M1:200 M5:200 M15:200
+2026-06-30 20:03:43,544 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:200 M5:200 M15:200
+2026-06-30 20:03:43,544 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-06-30 20:03:45,834 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=200)
+2026-06-30 20:03:47,163 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=200)
+2026-06-30 20:03:48,487 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=200)
+2026-06-30 20:03:50,773 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=200)
+2026-06-30 20:03:52,142 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M1, count=200)
+2026-06-30 20:03:53,454 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M5, count=200)
+2026-06-30 20:03:55,745 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=200)
+2026-06-30 20:03:57,275 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=200)
+2026-06-30 20:03:57,275 | INFO     | [MODE : AI_BOT][Stake:35][Profit:100.0%][Loss:100.0%][Orderlimit:9999][Time:06.00-23.00]
+2026-06-30 20:03:57,275 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 5 วินาที  (เริ่ม 20:04:02)
+2026-06-30 20:04:03,720 | INFO     | [EURUSD:1.13963][EURUSD-OTC:1.14420][GBPUSD-OTC:1.33038][EURGBP-OTC:0.85788] :: TOTAL=$2050.40
+2026-06-30 20:04:04,033 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\GBPUSDOTC\GBPUSDOTC20260630200403.txt
+2026-06-30 20:04:04,034 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-06-30 20:04:04,035 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSD\EURUSD20260630200403.txt
+2026-06-30 20:04:04,036 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-06-30 20:04:04,037 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSDOTC\EURUSDOTC20260630200403.txt
+2026-06-30 20:04:04,038 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-06-30 20:04:04,042 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURGBPOTC\EURGBPOTC20260630200403.txt
+2026-06-30 20:04:04,042 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-06-30 20:05:05,737 | INFO     | [EURUSD:1.13953][EURUSD-OTC:1.14404][GBPUSD-OTC:1.33062][EURGBP-OTC:0.85804] :: TOTAL=$2050.40
+2026-06-30 20:05:06,003 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURGBPOTC\EURGBPOTC20260630200505.txt
+2026-06-30 20:05:06,003 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-06-30 20:05:06,037 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSDOTC\EURUSDOTC20260630200505.txt
+2026-06-30 20:05:06,037 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-06-30 20:05:06,047 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\GBPUSDOTC\GBPUSDOTC20260630200505.txt
+2026-06-30 20:05:06,048 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)
+2026-06-30 20:05:06,049 | INFO     | Prompt saved to E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\logs_ai\EURUSD\EURUSD20260630200505.txt
+2026-06-30 20:05:06,050 | INFO     | PROMPT: SAVED BY ORCHESTRATOR (0%)

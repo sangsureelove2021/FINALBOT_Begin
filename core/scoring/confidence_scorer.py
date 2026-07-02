@@ -70,7 +70,7 @@ class ConfidenceScorer:
             return int(max(0, min(100, final)))
         except Exception as e:
             logger.exception("Error in ConfidenceScorer.score")
-            return 0
+            raise
     
     def _tier1_confidence(self, context: MarketContext) -> float:
         """Average confidence from Tier 1 engines"""

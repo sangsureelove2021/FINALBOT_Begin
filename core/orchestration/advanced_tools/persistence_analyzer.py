@@ -21,6 +21,9 @@ class PersistenceAnalyzer(BaseEngine):
     TIER = 5
     MIN_CANDLES = 50
     
+    def get_neutral_state(self) -> Dict[str, Any]:
+        return {}
+
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         autocorrelation = self._autocorrelation(candles_df)
         consecutive_run = self._max_consecutive_run(candles_df)

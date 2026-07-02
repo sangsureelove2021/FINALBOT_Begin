@@ -75,9 +75,9 @@ class DataAdapter:
         if not isinstance(symbol, str):
             raise TypeError("symbol must be a string")
 
-        m1  = self._iq.get_candles(symbol, 'M1',  200)
-        m5  = self._iq.get_candles(symbol, 'M5',  200)
-        m15 = self._iq.get_candles(symbol, 'M15', 200)
+        m1  = self._iq.get_candles(symbol, 'M1',  250)
+        m5  = self._iq.get_candles(symbol, 'M5',  250)
+        m15 = self._iq.get_candles(symbol, 'M15', 250)
 
         if (m1 is None  or m1.empty  or len(m1) < 2) or \
            (m5 is None  or m5.empty) or \
@@ -143,7 +143,7 @@ class DataAdapter:
                 raise ValueError("M1 store invalid")
 
             current_price = float(store_m1_df['close'].iloc[-1])
-            return (symbol, completed_m1, completed_m5, completed_m15, current_price)
+            return (symbol, current_price)
 
         except Exception as e:
             logger.exception(f"[DataAdapter] update failed: {e}")
@@ -164,7 +164,7 @@ class DataAdapter:
             raise TypeError("prefix must be a string")
 
         if self._store_m1[symbol] is None:
-            df = self._iq.get_candles(symbol, 'M1', 200)
+            df = self._iq.get_candles(symbol, 'M1', 250)
             if df is None or df.empty or len(df) < 2:
                 raise ValueError("M1 fetch failed")
             self._store_m1[symbol] = df
@@ -174,7 +174,7 @@ class DataAdapter:
                 self._store_m1[symbol] = self._merge(
                     self._store_m1[symbol], fresh,
                     gap_threshold=_M1_GAP_SEC,
-                    refetch_fn=lambda: self._iq.get_candles(symbol, 'M1', 200),
+                    refetch_fn=lambda: self._iq.get_candles(symbol, 'M1', 250),
                     label=f"M1 {symbol}",
                 )
 
@@ -203,7 +203,7 @@ class DataAdapter:
         block = current_block
 
         if self._store_m5[symbol] is None:
-            df = self._iq.get_candles(symbol, 'M5', 200)
+            df = self._iq.get_candles(symbol, 'M5', 250)
             if df is None or df.empty or len(df) < 21:
                 raise ValueError("M5 fetch failed")
             self._store_m5[symbol] = df
@@ -214,7 +214,7 @@ class DataAdapter:
                 self._store_m5[symbol] = self._merge(
                     self._store_m5[symbol], fresh,
                     gap_threshold=_M5_GAP_SEC,
-                    refetch_fn=lambda: self._iq.get_candles(symbol, 'M5', 200),
+                    refetch_fn=lambda: self._iq.get_candles(symbol, 'M5', 250),
                     label=f"M5 {symbol}",
                 )
                 self._last_block_m5[symbol] = block
@@ -249,7 +249,7 @@ class DataAdapter:
         block = current_block
 
         if self._store_m15[symbol] is None:
-            df = self._iq.get_candles(symbol, 'M15', 200)
+            df = self._iq.get_candles(symbol, 'M15', 250)
             if df is None or df.empty or len(df) < 21:
                 raise ValueError("M15 fetch failed")
             self._store_m15[symbol] = df
@@ -262,7 +262,7 @@ class DataAdapter:
                 self._store_m15[symbol] = self._merge(
                     self._store_m15[symbol], resampled,
                     gap_threshold=_M15_GAP_SEC,
-                    refetch_fn=lambda: self._iq.get_candles(symbol, 'M15', 200),
+                    refetch_fn=lambda: self._iq.get_candles(symbol, 'M15', 250),
                     label=f"M15 {symbol}",
                 )
                 self._last_block_m15[symbol] = block
@@ -329,7 +329,7 @@ class DataAdapter:
 
         combined = pd.concat([stored, fresh])
         combined = combined[~combined.index.duplicated(keep='last')].sort_index()
-        return combined.tail(200)
+        return combined.tail(250)
 
     @staticmethod
     def _drop_forming(df: Optional[pd.DataFrame], now_naive: datetime, tf_seconds: int) -> pd.DataFrame:

@@ -21,6 +21,9 @@ class VolatilityEngine(BaseEngine):
     TIER = 1
     MIN_CANDLES = 200
     
+    def get_neutral_state(self) -> dict:
+        return {}
+
     def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
         m5 = payload['m5']
         if not m5:
@@ -78,7 +81,7 @@ class VolatilityEngine(BaseEngine):
             if historical_bbw_sma == 0 or np.isnan(historical_bbw_sma):
                 bbw_compression_ratio = 1.0
             else:
-                bbw_compression_ratio = float(current_bbw / historical_bbw_sma)
+                bbw_compression_ratio = round(float(current_bbw / historical_bbw_sma), 4)
                 
             # Compute quality 0-100: lower ratio & lower atr_pct = higher quality squeeze
             quality = 100.0
@@ -86,7 +89,7 @@ class VolatilityEngine(BaseEngine):
                 quality -= (bbw_compression_ratio - 0.8) * 100
             quality -= max(0.0, (atr_pct - 20.0) * 0.8)
             
-            compression_quality = float(max(0.0, min(100.0, quality)))
+            compression_quality = round(float(max(0.0, min(100.0, quality))), 2)
             return bbw_compression_ratio, compression_quality
         except Exception as e:
             raise Exception(str(e))
@@ -108,8 +111,8 @@ class VolatilityEngine(BaseEngine):
     def _detect_expansion_contraction(self, recent_avg: float, past_avg: float) -> Tuple[int, int]:
         try:
             if recent_avg == 0 or past_avg == 0:
-                return 50, 50
-            
+                raise ValueError(f"ATR averages invalid: recent_avg={recent_avg}, past_avg={past_avg}")
+
             if recent_avg < past_avg:
                 ratio = recent_avg / (past_avg + 0.00001)
                 if ratio < 0.8:
