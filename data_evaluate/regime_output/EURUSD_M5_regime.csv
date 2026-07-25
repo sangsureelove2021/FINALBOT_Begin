@@ -1,0 +1,2 @@
+regime,regime_label,adx_score,volatility_ratio,ema_fast,ema_slow,close,timestamp,confidence,total_rows
+TRENDING_DOWN,📉 Trending Down,42.6819,0.000296,1.142589,1.142712,1.14245,2026-07-13 13:25:00,100,4732

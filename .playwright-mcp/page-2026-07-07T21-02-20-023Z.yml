@@ -1,0 +1,99 @@
+- application [ref=e1]:
+  - iframe [ref=e2]:
+    
+  - iframe [ref=e3]:
+    
+  - banner "แถบเมนู" [ref=e4]:
+    - generic [ref=e7]:
+      - link "หน้าแรกชีต" [ref=e9] [cursor=pointer]:
+        - /url: https://docs.google.com/spreadsheets/?usp=sheets_web
+      - generic [ref=e16]:
+        - generic "FINAL_BOT" [ref=e18]:
+          - generic [ref=e20]: FINAL_BOT
+          - 'button "สถานะเอกสาร: บันทึกไปยังไดรฟ์แล้ว" [ref=e24]':
+            - generic [ref=e29] [cursor=pointer]: บันทึกไปยังไดรฟ์แล้ว
+        - generic [ref=e32]:
+          - button "แสงสุรีย์ มาตย์สุริย์" [ref=e38]:
+            - img "แสงสุรีย์ มาตย์สุริย์" [ref=e43] [cursor=pointer]
+          - button "แสดงความคิดเห็นทั้งหมด" [ref=e45] [cursor=pointer]
+          - generic [ref=e48]:
+            - button "แชร์ ทุกคนที่มีลิงก์ ทุกคนที่มีลิงก์สามารถเข้าถึง ไม่จำเป็นต้องลงชื่อเข้าใช้" [disabled] [ref=e49]: แชร์
+            - button "การดำเนินการแชร์อย่างรวดเร็ว" [disabled] [ref=e51]
+          - link "เข้าสู่ระบบ" [ref=e55] [cursor=pointer]:
+            - /url: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/spreadsheets/d/19cNGqR7m-UHzyvR_p2yvsB9b4EIEi63YVAC7JMoFhg0/edit?usp%3Dsharing&followup=https://docs.google.com/spreadsheets/d/19cNGqR7m-UHzyvR_p2yvsB9b4EIEi63YVAC7JMoFhg0/edit?usp%3Dsharing&ltmpl=sheets&ec=GAZAmwI
+    - generic [ref=e56]:
+      - menubar [ref=e58]:
+        - menuitem "ไฟล์" [ref=e59] [cursor=pointer]
+        - menuitem "แก้ไข" [ref=e60] [cursor=pointer]
+        - menuitem "ดู" [ref=e61] [cursor=pointer]
+        - menuitem "แทรก" [ref=e62] [cursor=pointer]
+        - menuitem "รูปแบบ" [ref=e63] [cursor=pointer]
+        - menuitem "ข้อมูล" [ref=e64] [cursor=pointer]
+        - menuitem "เครื่องมือ" [ref=e65] [cursor=pointer]
+        - menuitem "ส่วนขยาย" [ref=e66] [cursor=pointer]
+        - menuitem "ความช่วยเหลือ" [ref=e67] [cursor=pointer]
+      - generic [ref=e68]:
+        - generic [ref=e69]:
+          - toolbar "ค้นหาเมนู (Alt+/)" [ref=e70]:
+            - combobox "เมนู" [ref=e72]
+          - toolbar "หมายเลขหลัก" [ref=e73]:
+            - button "เลิกทำ (Ctrl+Z)" [ref=e74] [cursor=pointer]
+            - button "ทำซ้ำ (Ctrl+Y)" [ref=e79] [cursor=pointer]
+            - button "พิมพ์ (Ctrl+P)" [ref=e84] [cursor=pointer]
+            - button "รูปแบบสี" [ref=e89] [cursor=pointer]
+            - combobox "ซูม" [ref=e94] [cursor=pointer]:
+              - option "รายการซูม และเลือก 100%" [selected] [ref=e97]:
+                - textbox "ซูม" [ref=e98]: 100%
+            - separator [disabled] [ref=e102]
+            - button "จัดรูปแบบเป็นสกุลเงิน" [ref=e103] [cursor=pointer]:
+              - generic [ref=e105]: ฿
+            - button "จัดรูปแบบเป็นเปอร์เซ็นต์" [ref=e106] [cursor=pointer]:
+              - generic [ref=e108]: "%"
+            - button "ลดตำแหน่งทศนิยม" [ref=e109] [cursor=pointer]
+            - button "เพิ่มตำแหน่งทศนิยม" [ref=e114] [cursor=pointer]
+            - button "รูปแบบอื่นๆ" [ref=e119] [cursor=pointer]:
+              - generic [ref=e122]: "123"
+            - separator [disabled] [ref=e123]
+            - listbox "แบบตัวอักษร" [ref=e124] [cursor=pointer]:
+              - option "รายการแบบตัวอักษร และเลือกK2D" [selected] [ref=e127]: K2D
+            - separator [disabled] [ref=e131]
+            - button "ลดขนาดอักษร (Ctrl+Shift+จุลภาค (,))" [ref=e132] [cursor=pointer]
+            - combobox "ขนาดตัวอักษร" [ref=e137] [cursor=pointer]:
+              - option "รายการขนาดตัวอักษร และเลือก 10" [selected] [ref=e140]:
+                - textbox "ขนาดตัวอักษร" [ref=e141]: "10"
+            - button "เพิ่มขนาดอักษร (Ctrl+Shift+มหัพภาค (.))" [ref=e142] [cursor=pointer]
+            - separator [disabled] [ref=e147]
+            - button "ตัวหนา (Ctrl+B)" [ref=e148] [cursor=pointer]
+            - button "ตัวเอียง (Ctrl+I)" [ref=e153] [cursor=pointer]
+            - button "ขีดทับ (Alt+Shift+5)" [ref=e158] [cursor=pointer]
+            - button "สีข้อความ" [ref=e163] [cursor=pointer]
+            - separator [disabled] [ref=e170]
+            - button "เพิ่มเติม" [ref=e171] [cursor=pointer]
+        - toolbar "โหมดและมุมมอง" [ref=e178]:
+          - button "ซ่อนเมนู (Ctrl+Shift+F)" [ref=e179] [cursor=pointer]
+    - generic [ref=e186]:
+      - generic "ช่องชื่อ (Ctrl + J)" [ref=e187]:
+        - textbox [ref=e188]: A1
+        - button "ปุ่มเมนูช่องชื่อ เลือกรายการในเมนู 1 รายการเพื่อไปยังช่วงที่ตั้งชื่อแล้วที่เกี่ยวข้อง" [ref=e190] [cursor=pointer]
+      - textbox [ref=e206]
+  - navigation "แถบแท็บชีต" [ref=e246]:
+    - toolbar [ref=e247]:
+      - button "เพิ่มแผ่นงาน" [ref=e248] [cursor=pointer]
+      - button "แผ่นงานทั้งหมด" [ref=e253] [cursor=pointer]
+    - toolbar [ref=e260]:
+      - button "STRUCTURE_FinalBot" [ref=e261]:
+        - generic [ref=e265]: STRUCTURE_FinalBot
+      - button "PAYLOAD_DataAi" [ref=e269] [cursor=pointer]:
+        - generic [ref=e273]: PAYLOAD_DataAi
+    - toolbar [ref=e277]
+  - generic [ref=e278]:
+    - textbox [active]
+  - link "เปิดการรองรับโปรแกรมอ่านหน้าจอ" [ref=e279] [cursor=pointer]:
+    - /url: "#"
+  - textbox [ref=e280]
+  - region [ref=e281]: หากต้องการเปิดการสนับสนุนโปรแกรมอ่านหน้าจอ ให้กด Ctrl+Alt+Z หากต้องการเรียนรู้เกี่ยวกับแป้นพิมพ์ลัด ให้กด Ctrl+เครื่องหมายทับ (/)
+  - generic [ref=e282]: ซ่อนแบนเนอร์แล้ว
+  - region
+  - generic [ref=e283]: แสงสุรีย์ มาตย์สุริย์ ได้เข้าร่วมในเอกสาร
+  - iframe [ref=e285]:
+    

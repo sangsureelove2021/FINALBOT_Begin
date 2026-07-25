@@ -1,17 +1,10 @@
-"""
-AI Analysis Module
-"""
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2019 Martijn Pieters
+# Licensed under the MIT license as detailed in LICENSE.txt
 
-from .ai_engine import AIAnalysisEngine, AIInsight
-from .ai_fusion_gate import AIFusionGate
-from .deepseek_agent_bridge import DeepSeekAgentBridge
-from .fallback_analyzer import FallbackAnalyzer, FallbackInsight
+from importlib.metadata import version  # type: ignore
 
-__all__ = [
-    'AIAnalysisEngine',
-    'AIFusionGate',
-    'DeepSeekAgentBridge',
-    'AIInsight',
-    'FallbackAnalyzer',
-    'FallbackInsight'
-]
+from .leakybucket import AsyncLimiter
+
+__version__ = version("aiolimiter")
+__all__ = ["AsyncLimiter"]

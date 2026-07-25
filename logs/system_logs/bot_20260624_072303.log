@@ -1,7 +1,0 @@
-2026-06-24 14:23:06,781 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
-2026-06-24 14:23:09,804 | INFO     | [CONN] IQ Option connected (DEMO)
-2026-06-24 14:23:09,845 | INFO     | [OK] Executor reusing IQ Option connection from adapter
-2026-06-24 14:23:10,482 | WARNING  | Failed to get server time offset: 'IQ_Option' object has no attribute 'get_server_time'
-2026-06-24 14:23:10,492 | INFO     | DeepSeek Agent found at: C:\Users\BUSOLOVE\AppData\Roaming\npm\deepseek-agent.CMD
-2026-06-24 14:23:18,843 | INFO     | MarketStateClassifier initialised
-2026-06-24 14:23:19,966 | INFO     | [DataAdapter] EURUSD initialised — M1:200 M5:200 M15:200

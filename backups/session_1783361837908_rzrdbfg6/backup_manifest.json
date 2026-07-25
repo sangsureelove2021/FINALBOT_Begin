@@ -1,0 +1,12 @@
+[
+  {
+    "timestamp": 1783361842153,
+    "type": "user_prompt",
+    "operation": "backup_user_prompt",
+    "sessionId": "session_1783361837908_rzrdbfg6",
+    "taskContent": "คุณคือใคร",
+    "taskLength": 9,
+    "createdAt": "2026-07-06T18:17:17.909Z",
+    "updatedAt": "2026-07-06T18:17:22.153Z"
+  }
+]

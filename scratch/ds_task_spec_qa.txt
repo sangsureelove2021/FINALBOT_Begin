@@ -1,0 +1,2587 @@
+คุณคือ AI ผู้ช่วยตรวจสอบความถูกต้องของระบบเทรดดิ้งบอท (FINALBOT) 
+หน้าที่ของคุณคือ ตรวจสอบและประเมินความสอดคล้องระหว่างไฟล์โค้ดจริง (CODE FILES) และเอกสารข้อตกลง (SPEC FILES) 
+
+ขอบเขตงานของคุณคือ ตรวจสอบความถูกต้องรายข้อ (ข้อ 1 ถึง ข้อ 6) โดยใช้เกณฑ์ "วินัย AI 4 ข้อ" (คิดก่อนเขียน, ทำให้ง่าย, แก้เฉพาะจุด, verify ได้) เป็นแกนกลางในการวิเคราะห์ระดับบรรทัดโค้ด (Code-level)
+ให้ระบุจุดที่ผ่านการตรวจสอบ จุดบกพร่อง/ขัดแย้งเชิงลึก (ระบุชื่อไฟล์และบรรทัดโค้ดจริงที่พบปัญหาอย่างเจาะจง) พร้อมทั้งแนะนำแนวทางแก้ไขโค้ดที่ถูกต้อง (ห้ามแก้ไขไฟล์จริงโดยเด็ดขาด)
+
+เมื่อประเมินเสร็จแล้ว ให้เขียนรายงานสรุปผลการตรวจสอบทั้งหมดเป็นภาษาไทยลงในไฟล์นี้โดยตรง:
+E:\BOT_FINALBOT13 STG\BOT_FINALBOT_NEW\docs\Basic\DS_SPEC_QA_REPORT.md
+
+นี่คือข้อมูลเอกสารและโค้ดจริงทั้งหมดที่เกี่ยวข้องกับระบบ (คุณไม่ต้องหาจากไฟล์ภายนอกเพิ่มเติม):
+
+---
+### 📚 ข้อมูลเอกสารสเปกทั้ง 6 ข้อ (SPEC FILES)
+
+
+=========================================
+📄 SPEC FILE: 1_TRADING_ARCHITECTURE.md
+=========================================
+# 1. SPEC: TRADING ARCHITECTURE & PIPELINE RULES
+
+เอกสารนี้อธิบายสถาปัตยกรรมระดับสูงและกฎเหล็กการรับส่งข้อมูลของ FINALBOT เพื่อเป็นแนวทางให้นักพัฒนาและ AI ทุกรุ่นปฏิบัติตามอย่างเคร่งครัด
+
+---
+
+## 🕒 รอบการทำงานและตัวควบคุม (Execution Cycle & Controller)
+- **ตัวควบคุมหลัก (`runner.py`):** ทำหน้าที่ประสานงานตามรอบเวลาในระดับวินาทีวิเคราะห์ แต่ละนาทีระบบจะทริกเกอร์ที่วินาทีที่ **`.03`** (เช่น `12:00:03`) เพื่อความเสถียรของสัญญาณเทรด
+- **การประมวลผลคู่เงินขนาน (Concurrency):** ทำงานแยก ThreadPool ส่งคู่เงินวิเคราะห์พร้อมกันในเสี้ยววินาทีเดียวเพื่อป้องกันปัญหาคอขวดสะดุดช้า
+- **แท่งเทียนที่สมบูรณ์ 100%:** ข้อมูลทั้งหมดส่งให้ระบบวิเคราะห์จะต้องเป็นข้อมูลแท่งเทียนอดีตที่ปิดจบสมบูรณ์แล้วเท่านั้น ป้องกันสัญญาณขัดแย้งเชิงเทคนิค (Repainting)
+
+---
+
+## 📊 การแบ่งส่วนงานเด็ดขาด (Decoupled Architecture Rules)
+
+เพื่อความทนทานสูงสุด FINALBOT แบ่งโมดูลการทำงานออกจากกันแบบแยกขาด (Decoupled) ไม่เชื่อมโยงแรม (RAM) ข้ามส่วนงาน:
+
+### ส่วนงานที่ 1: data_feed (ส่วนเก็บข้อมูล)
+- ดึงข้อมูลราคาดิบและจัดทำดัชนีเวลา
+- จบหน้าที่เมื่อเขียนไฟล์ลงโฟลเดอร์ดิบ: `data_base/csv/iq_option/[symbol]/[date]/`
+
+### ส่วนงานที่ 2: data_evaluate (ส่วนคำนวณและวิเคราะห์)
+- ทำหน้าที่โหลดไฟล์มาคำนวณและประมวลผลเชิงลึก
+- จบหน้าที่เมื่อเขียนไฟล์สรุปผล .txt (YAML 77 ฟิลด์) ลงโฟลเดอร์: `all_filelogs/logs_orchestrator/[symbol]/`
+
+### ส่วนงานที่ 3: mode_autobot / AI Analysis (ส่วนตัดสินใจและส่งคำสั่ง)
+- ดึงเอาไฟล์ .txt YAML สำเร็จรูปไปรันผ่าน AI หรือ Strategy เพื่อลั่นกล้องส่งออเดอร์
+
+---
+
+## 🔒 กฎเหล็กความปลอดภัยการเข้าถึงไฟล์ข้อมูล (File Access Constraints)
+
+> [!CAUTION]
+> **มีเพียงไฟล์ `orchestrator.py` เท่านั้นที่มีสิทธิ์วิ่งไปเปิดอ่านและดึงไฟล์ข้อมูลดิบ `.csv`** จากโฟลเดอร์ฐานข้อมูล `data_base/csv/iq_option/`
+
+* **ข้อห้ามอย่างเด็ดขาด:** ห้ามไฟล์อื่นใดทั้งหมดในระบบ (รวมถึง `runner.py`, `market_regime.py`, `decision_engine.py` หรือโมดูลอื่น ๆ) เขียนโค้ดดึงหรือเปิดอ่านไฟล์ข้อมูลดิบ `.csv` โดยตรงเป็นอันขาด
+* **สิทธิ์การดึงข้อยกเว้น:** หากมีความจำเป็นทางโครงสร้างระบบที่หลีกเลี่ยงไม่ได้ในอนาคต จะต้องขออนุมัติเป็นกรณีพิเศษรายครั้งจากผู้พัฒนาระบบ (บอส) ก่อนการเขียนโค้ดเสมอ
+
+---
+
+## ⏱️ การประเมินค่า Dynamic Expiry Time
+- **ไม่มีการฟิกเวลาหมดอายุตายตัว:** ระบบจะส่งค่าผลลัพธ์ประมวลผลทั้งหมดเพื่อรอให้ AI หรือ Decision Layer ทำการประเมิน
+- **การเลือกเวลาอย่างอิสระ:** AI มีอิสระในการตัดสินใจเลือกช่วงหมดอายุของออเดอร์ตั้งแต่ **1 นาที ถึง 5 นาที** โดยประเมินจากความกว้างของกรอบบีบอัดตัว (Box Duration/Tightness) และระดับความผันผวนของราคา (Volatility Regime)
+
+
+=========================================
+📄 SPEC FILE: 2_SPEC_COMPUTATION_FLOW.md
+=========================================
+# SPEC: COMPUTATION FLOW — คำนวณครั้งเดียว ส่งออกแบบไร้ RAM ระหว่างโมดูล
+
+## หลักการแบ่งส่วนงาน (Decoupled Architecture)
+บอทแบ่งการทำงานออกเป็นส่วนงานย่อยอย่างเด็ดขาดตามกฎและเส้นทางข้อมูล (Data Flow) โดยไม่มีการส่งข้อมูลสดผ่านแรม (RAM) ข้ามส่วนงานเพื่อความเสถียรและทนทานของระบบ
+
+1. **ส่วนงานแรก (Data Feed):** ทำหน้าที่ดึงข้อมูลราคา Real-time บันทึกเป็นไฟล์ `.csv` ลงใน `data_base/csv/iq_option/[symbol]/[date]/`
+2. **ส่วนงานที่สอง (Analysis / Orchestrator):** ทำหน้าที่อ่านไฟล์ `.csv` นำมาคำนวณประมวลผลเชิงคณิตศาสตร์และวิเคราะห์แนวโน้มตลาด เขียนบันทึกเป็นไฟล์ `.txt` (โครงสร้าง YAML 77 ฟิลด์) ลงใน `all_filelogs/logs_orchestrator/`
+3. **ส่วนงานที่สาม (Execution / AI Analysis):** ดึงข้อมูลสำเร็จรูปจากไฟล์ `.txt` ไปใช้งานหรือส่งต่อให้ AI วิเคราะห์ส่งคำสั่งเทรดต่อ
+
+---
+
+## ภาพรวมสถาปัตยกรรมกระบวนการ (1 รอบ = 60 วินาที)
+
+```
+[ส่วนงานแรก: Data Feed]
+ดึงราคาจาก IQ Option WebSocket
+      ↓
+บันทึกดิบลง CSV (data_base/csv/iq_option/...)
+      ↓
+======================= สิ้นสุดส่วนงานแรก =======================
+      ↓
+[ส่วนงานที่สอง: Analysis / Orchestrator]
+โหลดข้อมูลจาก CSV (ลบข้อมูลเวลาซ้ำซ้อน / Duplicate Timestamp)
+      ↓
+ประสานเวลาแท่งเทียน (Timeframe Synchronization)
+      ↓
+ประมวลผลคำนวณทางเทคนิค (Indicator Store) + เครื่องมือชั้นสูง (Advanced Tools)
+      ↓
+ส่งวิเคราะห์ Tier-1 Engines ทั้ง 5 ชุดแบบขนาน (Parallel Processing)
+      ↓
+วิเคราะห์จำแนกสถานะตลาด (Market State Classifier) และจัดระดับความเสี่ยง
+      ↓
+บันทึกแบบจำลองข้อมูลรวม 77 ฟิลด์ลงไฟล์ .txt
+  → บันทึกที่: all_filelogs/logs_orchestrator/[symbol]/[filename].txt
+  → 4 ฟิลด์สุดท้ายกำหนดค่าเป็น "รอการวิเคราะห์จาก AI"
+      ↓
+======================= สิ้นสุดส่วนงานที่สอง =======================
+```
+
+---
+
+## รูปแบบโครงสร้างข้อมูลส่งออก (SSOT Payload .txt Schema)
+
+ไฟล์วิเคราะห์ที่บันทึกสำเร็จจะมีโครงสร้างข้อมูลแบบ YAML จำนวน 77 ฟิลด์ ดังตัวอย่างด้านล่างนี้:
+
+```yaml
+ID: EURGBP0707144601
+meta:
+  timestamp: '2026-07-07T14:46:01.441458'
+  symbol: EURGBP
+  session: ASIAN
+  m1_open: 0.853985
+  m1_age: 60383
+  m1_quality: MEDIUM
+  m5_open: 0.85432
+  m5_age: 2160383
+  m5_quality: STALE
+market_context:
+  state: SIDEWAY_RANGE
+  description: Price ranging between clear levels. Suitable for mean-reversion strategies.
+  volatility_regime: HIGH
+  news_impact: LOW
+  expected_volatility_%: 0.014
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 0.853972
+    ema20: 0.854052
+    rsi: 37.32
+    stoch_k: 11.94
+    stoch_d: 14.23
+    macd: -6.6e-05
+    macd_signal: -5.7e-05
+    ohclv:
+      open: 0.853985
+      high: 0.85398
+      low: 0.85396
+      close: 0.853965
+      volume: 49
+  m5:
+    bias: BEARISH
+    ema5: 0.854027
+    ema10: 0.854082
+    ema20: 0.854123
+    ema50: 0.854159
+    bb_upper: 0.854357
+    bb_lower: 0.853948
+    bb_width: 0.00041
+    rsi: 38.98
+    stoch_k: 12.95
+    stoch_d: 13.32
+    macd: -3.9e-05
+    macd_signal: -1.2e-05
+    adx: 14.25
+    atr: 0.000116
+    support: 0.854045
+    resistance: 0.85444
+    pivot: 0.85397
+    ohclv:
+      open: 0.85396
+      high: 0.85398
+      low: 0.85396
+      close: 0.85397
+      volume: 60
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: HIGH_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: 'TRUE'
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 60
+  volume_momentum: LOW_MOMENTUM
+  volume_vs_average: 0.075
+analysis:
+  trend_direction: DOWN
+  trend_type: CORRECTIVE
+  trend_strength_score: 60
+  mtf_alignment_%: 100
+  compression_quality_%: 5.63
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 100
+  quality_score: 40
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI
+```
+
+---
+
+## กฎเหล็กควบคุมการประมวลผล (Computation Constraints)
+
+1. **Strict Explicit Consent (ห้ามทำงานโดยไม่ได้รับคำสั่ง):** ระบบและผู้ช่วย AI จะไม่มีสิทธิ์เข้าแก้ไขโค้ดหรือดำเนินการใดๆ ที่ผู้ใช้ไม่ได้มีคำสั่งระบุเจาะจงโดยตรงเป็นลายลักษณ์อักษร
+2. **ห้ามส่งผ่านข้อมูลผ่านแรมข้ามส่วนงาน:** ส่วนงานที่สองจะต้องเข้าดึงราคาผ่านการโหลดไฟล์จากโฟลเดอร์ `data_base/csv/iq_option/` เท่านั้น ห้ามเขียนโค้ดเชื่อมโยงแรมแบบ Real-time ดึงราคาโดยตรงจาก `data_feed`
+3. **การลบ Duplicate Timestamp:** ต้องกำจัดแถวเวลาที่ซ้ำซ้อนใน CSV ดิบออกด้วยวิธี `df[~df.index.duplicated(keep='last')]` ก่อนนำไปป้อนเข้าคำนวณทางสถิติทุกครั้ง
+4. **ความสมบูรณ์และถูกต้องของข้อมูล:** ตรวจสอบความถูกต้องและปริมาณแท่งเทียนที่ป้อน (Defensive Programming) หากข้อมูลไม่ครบถ้วนพอต่อการประมวลผล ต้องปฏิเสธการทำรายการทันที (Fail-Fast)
+
+
+=========================================
+📄 SPEC FILE: 3_SPEC_INDICATOR_STORE.md
+=========================================
+# SPEC: INDICATOR STORE — ห้องคำนวณและเก็บ Indicator (Single Source of Truth)
+
+## หลักการประมวลผล (SSOT Principle)
+เพื่อประสิทธิภาพสูงสุดและหลีกเลี่ยงความซ้ำซ้อนในสถาปัตยกรรม บอทจะใช้หลักการคำนวณแบบรวมศูนย์ (Single Source of Truth):
+```
+OHLCV Data ➡️ คำนวณครั้งเดียว (IndicatorStore) ➡️ ส่งต่อผลลัพธ์ผ่านไฟล์และ Payload ➡️ ล้างทิ้งเมื่อครบรอบ
+```
+* **คำนวณรอบเดียว (60 วินาที):** คำนวณค่าดัชนีดิบ (Raw Indicators) ทั้งหมดจากข้อมูลแท่งเทียนที่ผ่านการคลีนแล้วเพียงครั้งเดียวในแต่ละรอบของการทำงาน
+* **ไม่มีการคำนวณซ้ำ:** ห้ามให้โมดูลย่อยใดๆ (Engines/Classifier) คำนวณดัชนีทางเทคนิคด้วยตัวเอง
+
+---
+
+## สถาปัตยกรรมระบบเก็บข้อมูล (File Layout)
+ระบบจะทำการแยกการวิเคราะห์คำนวณออกเป็น 3 ไฟล์หลักเพื่อความเป็นระเบียบและง่ายต่อการดูแลรักษา:
+
+1. **`basic_indicators.py`**  
+   ทำหน้าที่คิดคำนวณอินดิเคเตอร์ทางเทคนิคทั่วไปตามมาตรฐานสากล (EMA, Bollinger Bands, RSI, MACD, Stochastic, ATR, ADX) โดยใช้ระบบ Pandas Vectorization
+2. **`structural_indicators.py`**  
+   ทำหน้าที่ประมวลผลดัชนีสถิติเชิงโครงสร้างที่ออกแบบมาสำหรับบอทนี้โดยเฉพาะ (Linear Regression Slope, Volume Ratio, Box Squeeze, Pivot Points, Rate of Change)
+3. **`indicator_store.py`**  
+   ทำหน้าที่เป็น Orchestrator สำหรับ Layer 1 ในการดึงเอาข้อมูลจากทั้งสองไฟล์ย่อยข้างต้นมารวมกัน จัดระบบล็อก (Thread Lock) เพื่อความปลอดภัย และเป็น Instance Singleton ให้โมดูลอื่นดึงข้อมูลไปใช้
+
+---
+
+## ดัชนีทางเทคนิคที่คำนวณเก็บไว้ (Layer 1: Raw Indicators)
+
+### 1. กรอบเวลา M5 (TF M5 Indicators)
+| Indicator | แหล่งคำนวณ | รายการดัชนีและค่าการตั้งค่าหลัก |
+|-----------|------------|---------------------------------|
+| **EMA** | `BasicIndicators` | `ema5`, `ema10`, `ema20`, `ema50`, `ema100`, `ema200` |
+| **Trend Bias** | `BasicIndicators` | `bias` ('BULLISH' เมื่อ Close > EMA20, 'BEARISH' เมื่อ Close <= EMA20) |
+| **Bollinger Bands** | `BasicIndicators` | `bb_upper`, `bb_lower`, `bb_width`, `bbw_sma_100` (ค่า BB: 20, 2) |
+| **RSI** | `BasicIndicators` | `rsi7`, `rsi14` (RSI ดั้งเดิมแบบ Wilder's Smoothing) |
+| **MACD** | `BasicIndicators` | `macd`, `macd_signal`, `macd_hist` (ค่ามาตรฐาน: 12, 26, 9) |
+| **Stochastic** | `BasicIndicators` | `stoch_k`, `stoch_d` (ค่ามาตรฐาน: 14, 3, 3) |
+| **ATR** | `BasicIndicators` | `atr14`, `atr_percentile`, `atr_zscore`, `atr_recent_avg`, `atr_past_avg` |
+| **ADX / DMI** | `BasicIndicators` | `adx`, `di_plus`, `di_minus`, `dx` (ADX 14) |
+| **Rate of Change** | `StructuralIndicators` | `roc` (Rate of Change เทียบย้อนหลัง 10 แท่งเทียน) |
+| **Volume Analysis** | `StructuralIndicators` | `volume`, `volume_ma20`, `volume_ratio` (ลิมิตสูงสุด 10.0), `volume_spike` (> 2.0) |
+| **Slope Analysis** | `StructuralIndicators` | `slope_10`, `slope_20`, `slope_50` (คำนวณด้วย Linear Regression) |
+| **Pivot Points** | `StructuralIndicators` | `pivot`, `r1`, `r2`, `s1`, `s2` |
+| **Box Metrics** | `StructuralIndicators` | `box_duration` (จำนวนแท่งที่ไซด์เวย์), `box_tightness` (ความแคบเทียบกับ ATR) |
+
+### 2. กรอบเวลา M1 (TF M1 Indicators)
+| Indicator | แหล่งคำนวณ | รายการดัชนีและค่าการตั้งค่าหลัก |
+|-----------|------------|---------------------------------|
+| **EMA** | `BasicIndicators` | `ema5`, `ema10`, `ema20`, `ema50` |
+| **RSI** | `BasicIndicators` | `rsi7`, `rsi14` |
+| **MACD** | `BasicIndicators` | `macd`, `macd_signal` |
+| **Stochastic** | `BasicIndicators` | `stoch_k`, `stoch_d` |
+| **ATR** | `BasicIndicators` | `atr14` |
+| **Bollinger Bands** | `BasicIndicators` | `bb_upper`, `bb_lower` |
+| **Pivot Points** | `StructuralIndicators` | `pivot`, `r1`, `s1` |
+| **Volume Analysis** | `StructuralIndicators` | `volume`, `volume_ratio` |
+
+### 3. กรอบเวลา M15 (TF M15 Indicators)
+* **Trend Bias (`bias`):** 'BULLISH' หรือ 'BEARISH' ประเมินจากความสัมพันธ์ระหว่างราคาปิดกับเส้น EMA20 ของแท่ง M15
+* **Fail-Fast Safety Check:** หากแท่ง M15 ล่าสุดมีอายุข้อมูลเกิน 40 นาที (`m15_age_ms > 2400000`) ระบบจะเกิด Error หยุดการทำงานทันทีเพื่อป้องกันสัญญาณเก่าล้าสมัยทำงานผิดพลาด
+
+---
+
+## โครงสร้างข้อมูล Metadata ความสมบูรณ์ของแท่งเทียน (Forming & Age Data)
+ในแต่ละรอบการสร้าง Payload จะเก็บความสมบูรณ์ของข้อมูลไว้ในส่วนหัว (`meta`) เสมอ:
+* **Session Classification:** จำแนกตามเวลาสากล UTC:
+  - `00:00 - 08:00 UTC` และ `21:00 - 24:00 UTC` ➡️ **ASIAN**
+  - `08:00 - 14:00 UTC` ➡️ **LONDON**
+  - `14:00 - 21:00 UTC` ➡️ **NEW YORK**
+* **Candle Age & Quality:**
+  - `m1_open` / `m5_open`: ราคาเปิดของแท่งเทียนกำลังก่อตัว
+  - `m1_age` / `m5_age`: เวลาอายุแท่งเทียนที่รอข้อมูล
+  - `m1_quality` / `m5_quality`: สถานะความสดใหม่ของข้อมูล (เช่น `MEDIUM`, `STALE`)
+
+---
+
+## กฎเหล็กความปลอดภัย (Security Constraints)
+1. **ห้ามมีค่า NaN หรือ Null:** หากฟังก์ชันคำนวณ Linear Regression หรือการป้อนค่าดัชนีใดๆ ประสบปัญหาข้อมูลขาดช่วงจนเกิดค่า `NaN` หรือหารด้วยศูนย์ (`ZeroDivisionError`) ระบบจะต้องยกเลิกกระบวนการทำงานทันที (Fail-Fast)
+2. **ขีดจำกัด Volume Ratio:** ค่าอัตราส่วนความแรงปริมาณซื้อขาย (`volume_ratio`) จะถูกคำนวณและจำกัดเพดานความแรงไว้ที่ระดับสูงสุดไม่เกิน `10.0` เท่า เพื่อป้องกันค่ากระโดดผิดธรรมชาติส่งผลเสียหายต่อระบบวิเคราะห์ในขั้นตอนถัดไป
+3. **การเข้าถึงแบบ Read-Only:** เมื่อผ่านการคำนวณจาก `IndicatorStore` ในขั้นตอนการจัดเตรียม Payload เรียบร้อยแล้ว ข้อมูลจะถือเป็นข้อมูลถาวรที่ไม่สามารถแก้ไขค่าระหว่างทางได้ (Immutability) เพื่อความเสถียรของลอจิกการเทรด
+
+
+=========================================
+📄 SPEC FILE: 4_SPEC_TIMEFRAME_USAGE.md
+=========================================
+# SPEC: TIMEFRAME USAGE — M1, M5, M15
+
+## หลักการใช้ TF
+```
+M15 → บอกทิศทางใหญ่ (Bias: BULLISH / BEARISH / NEUTRAL)
+M5  → บอกสภาวะตลาดและสัญญาณหลัก (Signal)
+M1  → บอก Timing เข้าเทรด (Entry Confirmation)
+```
+
+---
+
+## M15 — Higher Timeframe Bias
+
+### หน้าที่
+- กำหนดทิศทางหลักของตลาดเพื่อควบคุมทิศทางการเทรด
+- ป้องกันการเข้าออเดอร์สวนทางเทรนใหญ่ M15
+- ใช้เป็นตัวคัดกรองหลัก (Filter) เท่านั้น
+
+### การคำนวณและประเมินผล
+ใน `data_evaluate` ระบบจะดึงข้อมูลแท่งเทียน M15 ล่าสุดมาหาทิศทางหลัก:
+* **BULLISH:** แนวโน้มขาขึ้น (ราคาปิด > EMA20 M15) ➡️ กรองให้รับเฉพาะสัญญาณ **CALL**
+* **BEARISH:** แนวโน้มขาลง (ราคาปิด < EMA20 M15) ➡️ กรองให้รับเฉพาะสัญญาณ **PUT**
+* **NEUTRAL:** สภาวะตลาดออกข้างไร้แนวโน้มชัดเจน ➡️ งดเว้นการเทรดหรือคัดกรองสัญญาณออกทันที
+
+---
+
+## M5 — Signal Timeframe
+
+### หน้าที่
+- กำหนดสภาวะตลาด (Market State) 10 รูปแบบผ่าน Classifier
+- ประมวลผลดัชนีชี้วัดดิบและสถิติประยุกต์เชิงโครงสร้างทั้งหมด (EMA, BB, BBW, RSI, MACD, Stochastic, ATR, ADX, Slope, Volume Ratio, Box Squeeze, Pivot Points)
+- ตรวจจับความขัดแย้งของราคาและเครื่องมือชั้นสูงใน Advanced Tools
+
+---
+
+## M1 — Entry Timing Timeframe
+
+### หน้าที่
+- ยืนยันจังหวะเข้าเทรดและทำหน้าที่กรองสัญญาณหลอก (False Breakout / Trap)
+- ห้ามนำข้อมูล M1 ไปใช้จำแนกสภาวะตลาดใหญ่
+
+### เงื่อนไขการยืนยันเข้าเทรด (Entry Confirmation Logic)
+เมื่อเกิดสัญญาณจาก M5 ระบบจะนำข้อมูล M1 มาตรวจสอบความสอดคล้อง:
+```
+สัญญาณ M5 = CALL และ:
+  M1 RSI14 < 60        → ตลาดยังไม่ถึงโซนซื้อมากเกินไป (Overbought)
+  M1 MACD > MACD_Signal → โมเมนตัมฝั่งขึ้นยังสอดคล้อง
+  M1 Last_Candle = BULLISH → แท่งล่าสุดของ M1 ยืนยันขาขึ้น
+  M15 Bias = BULLISH   → ทิศทางใหญ่ตรงกัน
+→ ยืนยันเข้าเทรด (ENTRY CONFIRMED)
+
+สัญญาณ M5 = PUT และ:
+  M1 RSI14 > 40        → ตลาดยังไม่ถึงโซนขายมากเกินไป (Oversold)
+  M1 MACD < MACD_Signal → โมเมนตัมฝั่งลงยังสอดคล้อง
+  M1 Last_Candle = BEARISH → แท่งล่าสุดของ M1 ยืนยันขาลง
+  M15 Bias = BEARISH   → ทิศทางใหญ่ตรงกัน
+→ ยืนยันเข้าเทรด (ENTRY CONFIRMED)
+
+หากตรวจสอบแล้วเงื่อนไขไม่ตรงกันทั้งหมด ➡️ ยกเลิกคำสั่ง (NO_SIGNAL)
+```
+
+---
+
+## โครงสร้างข้อมูลรายกรอบเวลา (IndicatorStore Layout)
+
+```python
+IndicatorStore['EURUSD'] = {
+    'raw': {
+        'm15': {
+            'bias': 'BULLISH' | 'BEARISH' | 'NEUTRAL'
+        },
+        'm5': {
+            'ema5': float, 'ema10': float, 'ema20': float, 'ema50': float, 'ema100': float, 'ema200': float,
+            'bb_upper': float, 'bb_lower': float, 'bb_width': float, 'bbw_sma_100': float,
+            'rsi7': float, 'rsi14': float,
+            'macd': float, 'macd_signal': float, 'macd_hist': float,
+            'stoch_k': float, 'stoch_d': float,
+            'atr14': float, 'atr_percentile': float, 'atr_zscore': float, 'atr_recent_avg': float, 'atr_past_avg': float,
+            'adx': float, 'di_plus': float, 'di_minus': float, 'dx': float,
+            'roc': float,
+            'volume': float, 'volume_ma20': float, 'volume_ratio': float, 'volume_spike': bool,
+            'slope_10': float, 'slope_20': float, 'slope_50': float,
+            'pivot': float, 'r1': float, 'r2': float, 's1': float, 's2': float,
+            'box_duration': int, 'box_tightness': float,
+            'bias': str
+        },
+        'm1': {
+            'ema5': float, 'ema10': float, 'ema20': float, 'ema50': float,
+            'rsi7': float, 'rsi14': float,
+            'macd': float, 'macd_signal': float,
+            'stoch_k': float, 'stoch_d': float,
+            'bb_upper': float, 'bb_lower': float,
+            'atr14': float,
+            'pivot': float, 'r1': float, 's1': float,
+            'volume': float, 'volume_ratio': float,
+            'open': float, 'high': float, 'low': float, 'close': float
+        },
+        'meta': {
+            'close': float, 'high': float, 'low': float, 'open': float,
+            'session': str,
+            'm1_open': float, 'm1_age': int, 'm1_quality': str,
+            'm5_open': float, 'm5_age': int, 'm5_quality': str
+        }
+    }
+}
+```
+
+---
+
+## กฎเหล็กควบคุมกรอบเวลา (Constraints)
+1. **ทิศทาง Bias สองฝั่งเด็ดขาด:** การรับส่งข้อมูลคำสั่งเทรดจะต้องสอดคล้องกับ M15 Bias เสมอ ห้ามทำการเข้าส่งคำสั่งเทรด CALL เมื่อ Bias เป็น BEARISH และห้ามเข้าคำสั่งเทรด PUT เมื่อ Bias เป็น BULLISH
+2. **การป้องกันระดับเวลา M1:** ห้ามนำระดับแท่งเทียน M1 ไปประเมินสภาวะตลาดรวม (Market State) หรือใช้งานเป็นสัญญาณตั้งต้นหลักอย่างเด็ดขาด
+3. **การตรวจสอบความสดใหม่ของระดับใหญ่:** ข้อมูล M15 ที่ป้อนจะต้องมีค่าอัปเดตต่อเนื่อง หากตรวจพบอายุข้อมูลล่าช้าเกิน 40 นาทีระบบจะตัดการส่งคำสั่งทันทีเพื่อป้องกันความเสี่ยง (Fail-Fast)
+
+
+=========================================
+📄 SPEC FILE: 5_SPEC_ENGINES.md
+=========================================
+# SPEC: TIER 1 ENGINES (Input → Output)
+
+## ภาพรวม
+5 engines ทำงานประมวลผลพร้อมกันในรูปแบบขนาน (Parallel Processing) จากข้อมูลแท่งเทียนดิบ (OHLCV) ผลลัพธ์สุดท้ายจะถูกส่งต่อให้ Market State Classifier เพื่อประเมินทิศทางและคุณภาพรวมของตลาด
+
+---
+
+## 1. trend_engine.py
+**Input:** Candles (M5)  
+**Indicators:** EMA20, EMA50, EMA100, EMA200, Linear Regression Slope
+
+**Output:**
+```python
+{
+    'direction': 'UP' | 'DOWN' | 'NONE',
+    'strength': int,             # คะแนนกำลังของแนวโน้ม 0-100
+    'slope': float,              # Linear Regression Slope
+    'momentum': float,           # โมเมนตัมปัจจุบัน
+    'type': 'IMPULSIVE' | 'CORRECTIVE' | 'CHOPPY',
+    'confidence': int,           # 0-100
+    'reversal_risk': int,        # 0-100
+    'sustain_probability': int   # 0-100
+}
+```
+
+**กฎและตรรกะสำคัญ:**
+* **การคำนวณแยกตามมูลค่าสินทรัพย์:** เพื่อรองรับความผันผวนที่ต่างกัน โค้ดมีการแยกเกณฑ์สำหรับ Forex (ราคา < 5.0 เช่น EURUSD ~ 1.08) ออกจาก Crypto/Indices (ราคา >= 5.0) ทำให้มีค่าเกณฑ์สำหรับบวกคะแนนความชัน (Slope) และโมเมนตัมที่เหมาะสมต่อประเภทสินทรัพย์อย่างแม่นยำ
+* **UP:** ราคา > EMA20 > EMA50 > EMA100
+* **DOWN:** ราคา < EMA20 < EMA50 < EMA100
+* **NONE:** ราคาหรือเส้นค่าเฉลี่ย EMA พันกันสับสนไร้แนวโน้ม
+
+---
+
+## 2. strength_engine.py
+**Input:** Candles (M5)  
+**Indicators:** ADX(14), DI+(14), DI-(14), RSI(14), MACD(12,26,9), ROC(10)
+
+**Output:**
+```python
+{
+    'adx': float,                # 0-100
+    'di_plus': float,            # 0-100
+    'di_minus': float,           # 0-100
+    'rsi': float,                # 0-100
+    'macd': float,               # ค่า MACD หลัก
+    'momentum_level': 'WEAK' | 'NORMAL' | 'STRONG' | 'EXTREME',
+    'roc': float,                # Rate of Change
+    'divergence': 'BULLISH' | 'BEARISH' | 'NONE',
+    'strength_score': int,       # คะแนนความแข็งแกร่งรวม 0-100
+    'exhaustion_risk': int,      # ความเสี่ยงที่เทรนด์จะหมดพลัง 0-100
+    'confidence': int            # 0-100 (คำนวณจาก strength_score + 10)
+}
+```
+
+**กฎและตรรกะสำคัญ:**
+* **Momentum Level:** จำแนกจากค่า ADX:
+  - ADX < 20 ➡️ WEAK (แนวโน้มอ่อนแอ)
+  - ADX 20-35 ➡️ NORMAL
+  - ADX 35-50 ➡️ STRONG
+  - ADX > 50 ➡️ EXTREME (แนวโน้มรุนแรงมาก)
+
+---
+
+## 3. volatility_engine.py
+**Input:** Candles (M5)  
+**Indicators:** ATR(14), Bollinger Bands(20,2), StdDev(20), Historical ATR Percentile
+
+**Output:**
+```python
+{
+    'atr': float,
+    'atr_percentile': float,     # ATR เทียบกับประวัติย้อนหลัง 100 แท่ง
+    'bbw': float,                # ความกว้างเส้น Bollinger Band Width
+    'stddev': float,             # ค่าเบี่ยงเบนมาตรฐาน (bbw / 4.0)
+    'regime': 'LOW' | 'NORMAL' | 'HIGH' | 'EXTREME',
+    'volatility_score': int,     # 0-100
+    'expansion_probability': int,# ความน่าจะเป็นในการขยายตัว 0-100
+    'contraction_probability': int, # ความน่าจะเป็นในการหดตัว 0-100
+    'volatility_zscore': float,  # Z-score ของความผันผวน
+    'spike_detected': bool,      # ตรวจจับแรงกระชากของราคาผิดปกติ
+    'confidence': int,           # ระดับความมั่นใจ 0-100
+    'bbw_compression_ratio': float, # อัตราส่วนบีบอัดตัว BBW ในปัจจุบันเทียบกับอดีต
+    'compression_quality': float # คะแนนคุณภาพความตึงของการบีบอัดราคา 0-100
+}
+```
+
+**กฎและตรรกะสำคัญ:**
+* **Regime Classification:**
+  - LOW ➡️ atr_percentile < 25
+  - NORMAL ➡️ atr_percentile 25-75
+  - HIGH ➡️ atr_percentile 75-90
+  - EXTREME ➡️ atr_percentile > 90
+* **Spike Detection:** ตรวจจับเมื่อค่า Z-score ของ ATR เบี่ยงเบนออกไปมากกว่า 2.0 เท่า
+
+---
+
+## 4. structure_engine.py
+**Input:** Candles (M5)  
+**Indicators:** Swing High/Low, Pivot Points, S1/R1, Box Duration, Box Tightness
+
+**Output:**
+```python
+{
+    'support_levels': [float, ...],      # ระดับแนวรับสูงสุด 3 ค่า
+    'resistance_levels': [float, ...],    # ระดับแนวต้านสูงสุด 3 ค่า
+    'structure_type': 'TRENDING' | 'RANGING' | 'BREAKOUT',
+    'structure_score': int,              # 0-100
+    'bos_detected': bool,                # การทำลายโครงสร้างราคา
+    'bos_type': 'BULLISH' | 'BEARISH' | 'NONE',
+    'key_zones': dict,                   # โซนแนวรับ/ต้านและกึ่งกลางที่สำคัญ
+    'zone_proximity': str,               # ความใกล้ของราคาต่อแนวรับต้าน
+    'breakout_probability': int,         # ความน่าจะเป็นในการเกิด Breakout (60% หากพบ BOS, อื่นๆ 30%)
+    'reversal_probability': int,         # ความน่าจะเป็นในการเกิด Reversal (40% หากพบ BOS, อื่นๆ 50%)
+    'confidence': int,                   # ระดับความเชื่อมั่น 0-100
+    'box_duration': int,                 # ระยะเวลาที่ราคาวิ่งอยู่ในกรอบบีบอัดตัว
+    'box_tightness': float               # ความแคบแน่นของกรอบบีบอัดราคา
+}
+```
+
+---
+
+## 5. mtf_engine.py
+**Input:** Candles M1, M5, M15, M60 (หรือประเมินตามที่มีในฐานข้อมูล)  
+**Indicators:** ประเมินทิศทางและกำลังแนวโน้มแยกตามแท่งเทียนแต่ละระดับเวลา
+
+**Output:**
+```python
+{
+    'directions_by_tf': dict,            # ทิศทางจำแนกตามกรอบเวลา {'M1': 'UP', 'M5': 'DOWN', ...}
+    'alignment_score': int,              # คะแนนการมองเห็นในทิศทางเดียวกันของแต่ละกรอบเวลา 0-100
+    'dominant_direction': 'UP' | 'DOWN' | 'NONE', # ทิศทางเด่นที่เห็นพ้องต้องกันส่วนใหญ่
+    'htf_direction': str,                # ทิศทางของกรอบเวลารุ่นพี่ (Higher Timeframe)
+    'ltf_direction': str,                # ทิศทางของกรอบเวลารุ่นน้อง (Lower Timeframe)
+    'htf_ltf_conflict': bool,            # ความขัดแย้งของทิศทางระหว่างรุ่นพี่กับรุ่นน้อง
+    'timeframes_analyzed': list,         # รายการกรอบเวลาที่มีข้อมูลคำนวณจริง
+    'confidence_from_mtf': int,          # ระดับความมั่นใจเชิงกรอบเวลา 0-100
+    'confidence': int                    # 0-100
+}
+```
+
+---
+
+## กฎการจัดการปริมาณการซื้อขาย (Volume Management Rules: Normal vs OTC)
+
+การพิจารณาค่า **Volume** และ **Volume Ratio** มีความแตกต่างกันอย่างเด็ดขาดตามประเภทตลาดเพื่อความแม่นยำของ Classifier:
+
+### 1. ตลาดปกติ (Normal Pairs)
+* **การใช้ปริมาณซื้อขายจริง:** การคำนวณหาน้ำหนักความเสถียรสำหรับการยืนยันการทะลุกรอบ (`BREAKOUT_EMERGING`) หรือการสะสมกำลัง (`ACCUMULATION` / `DISTRIBUTION`) จะอ้างอิงและจำกัดน้ำหนักตามการเพิ่มของปริมาณการซื้อขายจริงในแท่งเทียนนั้นๆ (เช่น `min(1.0, volume_ratio / 1.5) * 10`)
+* **Liquidity Void Check:** คำนวณความเบาบางและเตือนการเกิดช่องว่างของสภาพคล่องจากการลดลงของ Volume จริงและการลดลงของ ADX คู่ขนานกัน หากพบจะคำนวณคะแนนเป็นบวกและบังคับจำแนกสภาวะเลี่ยงการส่งคำสั่งทันที
+
+### 2. ตลาด OTC (Over-the-Counter Pairs)
+* **การตัดความน่าเชื่อถือของปริมาณซื้อขาย:** ตลาด OTC ไม่มีปริมาณการซื้อขายที่แท้จริงจากศูนย์กลางการแลกเปลี่ยน ดังนั้นใน `orchestrator.py` ปริมาณการซื้อขายของแท่งเทียนจะถูกจัดสรรแบบคงค่ามาตรฐานที่ `1.0` และ `volume_ratio = 1.0`
+* **การชดเชยคะแนนสภาวะตลาด (Full Volume Credit):** ใน `market_state_classifier.py` หากระบุเป็นคู่ OTC ระบบจะข้ามการตรวจสอบอัตราส่วนการเพิ่มปริมาณซื้อขายดิบ แต่จะจัดสรรคะแนนให้เต็มตามเงื่อนไขสภาวะตลาดนั้นโดยตรง (Full Volume Credit) เพื่อให้ไม่สูญเสียความคุ้มค่าของการประเมินแนวโน้มอื่นๆ
+* **Liquidity Void Zeroed:** สำหรับ OTC ค่าคะแนนดิบของสถานะ `LIQUIDITY_VOID` จะถูกบังคับเป็น `0` เสมอ เพื่อหลีกเลี่ยงการตัดสิทธิ์การเทรดที่อาจเกิดจากความไม่สมบูรณ์ของค่าปริมาณซื้อขายจำลอง
+
+
+=========================================
+📄 SPEC FILE: 6_SPEC_CLASSIFIER.md
+=========================================
+# SPEC: MARKET STATE CLASSIFIER
+
+## ภาพรวม
+รับ output จาก Tier 1 ทั้ง 5 engines (trend, strength, volatility, structure, mtf) → จำแนกตลาดเป็น 10 ประเภทหลักโดยใช้ระบบถ่วงน้ำหนักคะแนน (Weighted Scoring System) เพื่อให้เหมาะกับการเทรด Binary Options แบบ 5 นาที
+
+**File:** `data_evaluate/orchestration/market_classifier/market_state_classifier.py`  
+**Depends on:** trend, strength, volatility, structure, mtf (ทุกตัว)
+
+---
+
+## Input Schema
+ส่งข้อมูลผ่าน kwargs และ payload โดยตรง:
+```python
+payload = {
+    'm5': dict,                 # ข้อมูล indicator พื้นฐาน M5
+    'price_action': dict,       # ข้อมูล Price Action
+    'ohlcv': dict               # ข้อมูลราคา OHLCV ล่าสุด
+}
+
+kwargs = {
+    'trend_data': dict,         # จาก trend_engine
+    'strength_data': dict,      # จาก strength_engine
+    'volatility_data': dict,    # จาก volatility_engine
+    'structure_data': dict,     # จาก structure_engine
+    'mtf_data': dict,           # จาก mtf_engine
+    'symbol': str               # ชื่อคู่เงิน (เช่น EURUSD, EURGBP-OTC)
+}
+```
+
+---
+
+## Output Schema
+```python
+{
+    'state': str,               # 1 ใน 10 states ด้านล่าง
+    'confidence': int,          # ระดับความเชื่อมั่น 0-100
+    'quality_score': int,       # คะแนนคุณภาพของตลาด 0-100
+    'tradeable': bool,          # ตลาดอยู่ในสภาวะที่น่าเทรดหรือไม่ (True/False)
+    'stability': int,           # คะแนนความเสถียรของสภาวะตลาด 0-100
+    'description': str,         # คำอธิบายภาษาอังกฤษเชิงแนะนำกลยุทธ์
+    'breakout_prob': float,     # ความน่าจะเป็นในการเกิด Breakout
+    'reversal_prob': float,     # ความน่าจะเป็นในการเกิด Reversal
+    'risk_level': str,          # ระดับความเสี่ยง ('LOW' | 'MEDIUM' | 'HIGH')
+    'suggested_action': str,    # แนะนำการปฏิบัติงาน ('PREPARE_TO_TRADE' | 'WAIT')
+    'suggested_expiry': int,    # เวลาหมดอายุที่แนะนำ (ค่าเริ่มต้น 5 นาที)
+    'metrics': dict             # ค่าน้ำหนักทางคณิตศาสตร์ทั้งหมดที่ใช้ประมวลผล
+}
+```
+
+---
+
+## 10 Market States — การคำนวณคะแนนดิบ (Weighted Scores)
+
+ระบบจะคำนวณคะแนนดิบ (Raw Score) ของทั้ง 10 สถานะขึ้นมาพร้อมกัน จากนั้นปรับจูนด้วยตัวแปรเสริม (Boosts & Penalties) และเลือกสถานะที่ได้คะแนนสูงสุด
+
+### 1. TRENDING_STRONG
+คะแนนดิบเริ่มต้นจาก ADX (35%), Trend Strength (30%), MTF Alignment (20%) และ 1 - Noise Level (15%)
+```
+เงื่อนไข & การปรับแต่ง:
+- เพิ่มคะแนน (+10): หากทิศทางแนวโน้มไม่ใช่ 'NONE'
+- เพิ่มคะแนน (+10): หากโครงสร้างตลาดเป็น 'TRENDING' หรือ 'BREAKOUT'
+- เพิ่มคะแนน (+5): หากพบการเกิด BOS (Breakout of Structure)
+- เพิ่มคะแนน (+10): หาก MTF Alignment >= 70%
+- หักคะแนน (-20): หากระดับ Noise > 0.6
+- หักคะแนน (-20): หากระดับ Exhaustion Risk > 70%
+- หักคะแนน (-15): หากทิศทางกรอบเวลาหลักกับย่อยขัดแย้งกัน (htf_ltf_conflict)
+```
+
+### 2. TRENDING_WEAK
+คะแนนดิบเริ่มต้นจาก ADX (30%), Trend Strength (25%), 1 - Noise Level (25%) และ MTF Alignment (20%)
+```
+เงื่อนไข & การปรับแต่ง:
+- เพิ่มคะแนน (+10): หากทิศทางแนวโน้มไม่ใช่ 'NONE'
+- เพิ่มคะแนน (+5): หากโครงสร้างตลาดเป็น 'TRENDING' หรือ 'CORRECTIVE'
+- หักคะแนน (-25): หากระดับ Exhaustion Risk > 70%
+- หักคะแนน (-10): หากทิศทางกรอบเวลาหลักกับย่อยขัดแย้งกัน (htf_ltf_conflict)
+- หักคะแนน (-15): หากระดับ Noise > 0.5
+```
+
+### 3. SIDEWAY_RANGE
+คะแนนดิบเริ่มต้นจาก 1 - ADX (35%), โครงสร้างเป็น 'RANGING' (25%), 1 - Noise Level (20%) และ Volatility Regime ในช่วง Low หรือ Normal (20%)
+```
+เงื่อนไข & การปรับแต่ง:
+- เพิ่มคะแนน (+15): หาก ADX < 18
+- เพิ่มคะแนน (+10): หากระดับ Noise < 0.3
+- หักคะแนน (-20): หากพบ BOS
+- หักคะแนน (-15): หาก breakout_probability > 50%
+```
+
+### 4. BREAKOUT_EMERGING
+คะแนนดิบเริ่มต้นจาก ระดับบีบตัวของ Bollinger Bands (30%), Volatility Percentile ต่ำ (20%), Breakout Probability (25%) และ BOS Detected (15%)
+```
+เงื่อนไข & การปรับแต่ง:
+- ปัจจัยปริมาณซื้อขาย (Volume Factor): บวกคะแนนตามสัดส่วน Volume Ratio สูงสุดไม่เกิน +10 คะแนน (สำหรับคู่เงิน OTC จะได้เต็ม +10 ทันที)
+- เพิ่มคะแนน (+15): หาก bbw < 0.04 (บีบอัดตัวรุนแรง)
+- เพิ่มคะแนน (+10): หาก ATR Percentile < 30
+- เพิ่มคะแนน (+10): หากไม่ใช่ OTC และ Volume Ratio > 1.5
+- หักคะแนน (-15): หากระดับ Noise > 0.5
+- หักคะแนน (-20): หากทิศทางกรอบเวลาขัดแย้งกัน
+```
+
+### 5. REVERSAL_FORMING
+คะแนนดิบเริ่มต้นจาก Reversal Probability (35%), ADX ต่ำ (25%), พบ Divergence (20%) และ 1 - Noise Level (20%)
+```
+เงื่อนไข & การปรับแต่ง:
+- เพิ่มคะแนน (+15): หาก RSI อยู่ในเขตตึงตัวสุดขั้ว (< 30 หรือ > 70)
+- เพิ่มคะแนน (+10): หากโครงสร้างเป็นแบบปรับฐาน 'CORRECTIVE'
+- หักคะแนน (-15): หากระดับ Noise > 0.5
+- หักคะแนน (-10): หากทิศทางกรอบเวลาขัดแย้งกัน
+```
+
+### 6. ACCUMULATION (การสะสมกำลังขาขึ้น)
+คะแนนดิบเริ่มต้นจาก สัดส่วนไส้เทียนด้านล่างยาว (35%), ปัจจัย Volume (สูงสุด 25%), Trend Strength ต่ำ (20%) และ โครงสร้างเป็น Ranging หรือ Corrective (20%)
+```
+เงื่อนไข & การปรับแต่ง:
+- เพิ่มคะแนน (+15): หากไม่ใช่ OTC และ Volume Ratio > 1.2
+- เพิ่มคะแนน (+10): หากสัดส่วนไส้เทียนล่างยาวมาก (wick_lower_ratio > 0.5)
+- หักคะแนน (-15): หากพบ BOS
+- หักคะแนน (-10): หากตรวจเจอ Divergence
+```
+
+### 7. DISTRIBUTION (การกระจายสินค้าขาลง)
+คะแนนดิบเริ่มต้นจาก สัดส่วนไส้เทียนด้านบนยาว (35%), ปัจจัย Volume (สูงสุด 25%), Trend Strength ต่ำ (20%) และ โครงสร้างเป็น Ranging หรือ Corrective (20%)
+```
+เงื่อนไข & การปรับแต่ง:
+- เพิ่มคะแนน (+15): หากไม่ใช่ OTC และ Volume Ratio > 1.2
+- เพิ่มคะแนน (+10): หากสัดส่วนไส้เทียนบนยาวมาก (wick_upper_ratio > 0.5)
+- หักคะแนน (-15): หากพบ BOS
+- หักคะแนน (-10): หากตรวจเจอ Divergence
+```
+
+### 8. CHOPPY_UNCERTAIN (ตลาดสับสนไร้แนวโน้ม)
+คะแนนดิบเริ่มต้นจาก ระดับ Noise Level (60%), ADX ต่ำ (20%) และ โครงสร้างตลาดแบบ CHOPPY (20%)
+```
+เงื่อนไข & การหักล้าง:
+- หักคะแนน (-20): หาก Trend Strength ยังชัดเจน (> 40)
+- หักคะแนน (-15): หาก MTF Alignment Score สูง (> 50)
+```
+
+### 9. LIQUIDITY_VOID (ตลาดสภาพคล่องต่ำผิดปกติ)
+คำนวณเฉพาะคู่เงินปกติ (ไม่ใช่คู่เงิน OTC)
+```
+เงื่อนไข:
+- คะแนนดิบเริ่มต้นอิงจากความผกผันของปริมาณการซื้อขาย (50%) และ ADX ต่ำเฉื่อยชา (50%)
+- หากเป็นคู่เงิน OTC สถานะนี้จะถูกเซตคะแนนเป็น 0 เสมอ
+```
+
+### 10. UNCLEAR
+หากคะแนนสะสมของทุกสถานะต่ำกว่า 40 คะแนน หรือเกิดข้อผิดพลาดในการประมวลผลข้อมูล ระบบจะเลือกใช้สถานะ 'UNCLEAR' เป็นค่ามาตรฐานความปลอดภัยในการเลี่ยงเทรด
+
+---
+
+## Classification Logic & State Smoothing
+เพื่อให้ระบบไม่เปลี่ยนสถานะไปมารวดเร็วเกินไป (Rapid Flipping) จนส่งผลต่อระบบส่งสัญญาณเทรด ระบบใช้หลักการดังนี้:
+
+1. **State history:** ระบบจะเก็บประวัติสถานะย้อนหลังไว้สูงสุด 5 แท่ง (`_state_history`)
+2. **Buffer Margin สำหรับ Liquidity Void:** หากระบบตัดสินใจเลือก `LIQUIDITY_VOID` แต่แท่งก่อนหน้าไม่ใช่ จะต้องมีคะแนนนำสถานะอันดับสองมากกว่าหรือเท่ากับ 15 คะแนนเท่านั้นเพื่อบังคับเปลี่ยน หากไม่ถึงจะยกเลิกและปรับไปใช้สถานะอันดับสองทดแทน
+3. **State Smoothing logic:** หากคะแนนความเชื่อมั่น (Confidence) ต่ำกว่า 60 และสถานะใหม่ขัดแย้งกับประวัติส่วนใหญ่ใน 3 แท่งก่อนหน้า ระบบจะดึงสถานะเดิมมาคงสภาพไว้ชั่วคราวเพื่อรอการยืนยันในแท่งถัดไป
+
+---
+
+## Composite Score & Metrics Scoring
+การคำนวณหาคะแนนคุณภาพของตลาด (`quality_score` 0-100) คำนวณแบบถ่วงน้ำหนักจากคะแนนที่ประมวลผลได้:
+- **Trend Score (35%)**: `(trend_strength × 0.3) + (trend_confidence × 0.7)`
+- **Strength Score (30%)**: `(adx / 100 × 50) + (strength_score × 0.5)`
+- **Volatility Score (20%)**: `volatility_score`
+- **Structure Score (15%)**: `structure_score`
+
+ค่ารวมทั้งหมดจะถูกนำไปปรับค่าความสั่นไหวกับค่า MTF Multiplier (`alignment_score` สูงช่วยเพิ่มความคุ้มค่า และหักคะแนนหากตลาดมีความขัดแย้งในกรอบเวลารุ่นพี่)
+
+---
+
+## Strategy Mapping
+ตารางจับคู่สถานะและระดับสิทธิ์การเทรด (Tradeability flag):
+
+| State | Tradeable (สิทธิ์การเข้าเทรด) | Action แนะนำ |
+|-------|------------------------------|--------------|
+| TRENDING_STRONG | **True** (หาก quality_score >= 50) | `PREPARE_TO_TRADE` |
+| TRENDING_WEAK | **True** (หาก quality_score >= 55) | `WAIT` |
+| BREAKOUT_EMERGING | **True** (หาก quality_score >= 50) | `PREPARE_TO_TRADE` |
+| SIDEWAY_RANGE | **True** (หาก quality_score >= 50) | `WAIT` |
+| REVERSAL_FORMING | **False** (เสี่ยงกลับตัวเฉียบพลัน) | `WAIT` |
+| ACCUMULATION | **False** (สภาวะรอการสะสมแรง) | `WAIT` |
+| DISTRIBUTION | **False** (สภาวะรอการสะสมแรง) | `WAIT` |
+| CHOPPY_UNCERTAIN | **False** (หลีกเลี่ยงการเทรด) | `WAIT` |
+| LIQUIDITY_VOID | **False** (หลีกเลี่ยงการเทรด) | `WAIT` |
+| UNCLEAR | **False** (หลีกเลี่ยงการเทรด) | `WAIT` |
+
+
+---
+### 💻 ข้อมูลโค้ดจริงในปัจจุบัน (CODE FILES)
+
+
+=========================================
+💻 CODE FILE: data_evaluate/orchestrator.py
+=========================================
+"""
+Orchestrator — Central Analysis Pipeline for FINALBOT
+
+Flow per cycle:
+    0. Handle OTC Volume (force 1.0)
+    1. indicator_store.py -> Basic Indicators
+    2. advanced_tools_manager.py -> Advanced Tools
+    3. Run 5 Tier-1 engines in parallel
+    4. market_state_classifier.py -> Classify state
+    5. Save raw OHLCV to CSV
+    6. Return full payload
+"""
+
+import logging
+import concurrent.futures
+import pandas as pd
+import numpy as np
+import os
+import csv
+import json
+import yaml
+import traceback
+from typing import Dict, Any, Optional
+from datetime import datetime, timezone
+
+from data_evaluate.orchestration.indicator_store.indicator_store import store
+from data_evaluate.orchestration.advanced_tools.advanced_tools_manager import AdvancedToolsManager
+
+# Import 5 Engines and Classifier
+from data_evaluate.orchestration.market_classifier.trend_engine import TrendEngine
+from data_evaluate.orchestration.market_classifier.strength_engine import StrengthEngine
+from data_evaluate.orchestration.market_classifier.volatility_engine import VolatilityEngine
+from data_evaluate.orchestration.market_classifier.structure_engine import StructureEngine
+from data_evaluate.orchestration.market_classifier.mtf_engine import MTFEngine
+from data_evaluate.orchestration.market_classifier.market_state_classifier import MarketStateClassifier
+from data_evaluate.orchestration.check_news import check_news_impact
+
+logger = logging.getLogger("Orchestrator")
+
+
+class NumpyEncoder(json.JSONEncoder):
+    """Custom JSON encoder for numpy data types"""
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif isinstance(obj, np.bool_):
+            return bool(obj)
+        return super(NumpyEncoder, self).default(obj)
+
+
+class Orchestrator:
+    def __init__(self, trade_logger=None):
+        self.trade_logger = trade_logger
+        self.advanced_tools = AdvancedToolsManager()
+        
+        # ── Tier-1 engines ────────────
+        self.trend_engine = TrendEngine()
+        self.strength_engine = StrengthEngine()
+        self.volatility_engine = VolatilityEngine()
+        self.structure_engine = StructureEngine()
+        self.mtf_engine = MTFEngine()
+
+        # ── Tier-2 classifier ────────────────────────────────────────────
+        self.classifier: Optional[MarketStateClassifier] = None
+        try:
+            from config_setting.config_loader import load_settings
+            _cfg = load_settings(reload=False)["thresholds"]
+            self.classifier = MarketStateClassifier(config=_cfg)
+            logger.info("MarketStateClassifier initialised")
+        except Exception as e:
+            raise
+
+        self.csv_dir = os.path.join("all_filelogs", "all_process")
+        os.makedirs(self.csv_dir, exist_ok=True)
+
+        self.json_dir = os.path.join("all_filelogs", "json_process")
+        os.makedirs(self.json_dir, exist_ok=True)
+
+        self.ai_log_dir = os.path.join("all_filelogs", "logs_ai")
+        os.makedirs(self.ai_log_dir, exist_ok=True)
+
+        self.orchestrator_log_dir = os.path.join("all_filelogs", "logs_orchestrator")
+        os.makedirs(self.orchestrator_log_dir, exist_ok=True)
+
+        self.ai_memory = []
+        self.last_payload = None
+
+    def update_ai_memory(self, symbol: str, action: str, reason: str):
+        self.ai_memory.append({
+            'symbol': symbol,
+            'action': action,
+            'reason': reason,
+            'timestamp': datetime.now().isoformat()
+        })
+        if len(self.ai_memory) > 5:
+            self.ai_memory.pop(0)
+
+    def process_cycle(
+        self,
+        symbol: str,
+        ai_context: Optional[Any] = None,
+        forming_data: Optional[Dict[str, Any]] = None
+    ) -> Optional[Dict[str, Any]]:
+        
+        import pandas as pd
+        candles_dict = {}
+        sym_prefix = symbol.replace("-", "_")
+        
+        # Path under Rule 7
+        base_iq_dir = os.path.join("data_base", "csv", "iq_option")
+        symbol_dir = os.path.join(base_iq_dir, symbol)
+        
+        # Automatically detect the latest date directory for robust file loading
+        date_str = None
+        if os.path.exists(symbol_dir):
+            subdirs = [d for d in os.listdir(symbol_dir) if os.path.isdir(os.path.join(symbol_dir, d))]
+            if subdirs:
+                date_str = sorted(subdirs)[-1]
+        
+        if not date_str:
+            date_str = datetime.now().strftime("%Y_%m_%d")
+            
+        data_iq_dir = os.path.join(symbol_dir, date_str)
+        
+        for tf in ["M1", "M5", "M15"]:
+            csv_path = os.path.join(data_iq_dir, f"{sym_prefix}_{tf}.csv")
+            if not os.path.exists(csv_path):
+                logger.warning(f"No {tf} CSV for {symbol} at {csv_path}")
+                raise ValueError(f"No {tf} data for {symbol}")
+            try:
+                df = pd.read_csv(csv_path)
+                df['timestamp'] = pd.to_datetime(df['timestamp'])
+                df = df.set_index('timestamp')
+                candles_dict[tf] = df
+            except Exception as e:
+                logger.exception(f"Failed to read {csv_path}")
+                raise
+                
+        primary_df = candles_dict['M5']
+        if not isinstance(primary_df, pd.DataFrame) or primary_df.empty:
+            logger.warning(f"No M5 data for {symbol}")
+            raise ValueError(f"No M5 data for {symbol}")
+
+        final_payload = {
+            'symbol': symbol,
+            'timestamp': datetime.now().isoformat()
+        }
+        
+        # ── 0.1 Timeframe Synchronization ────────────────────────────────
+        try:
+            from data_feed.timeframe_sync import TimeframeSync
+            sync_engine = TimeframeSync(primary='M5')
+            candles_dict = sync_engine.sync(candles_dict)
+        except Exception as e:
+            raise
+
+        # ── 0. Handle OTC Volume ────────────────────────────────────────
+        is_otc = "OTC" in symbol.upper()
+        if is_otc:
+            candles_dict = {k: v.copy() for k, v in candles_dict.items()}
+            for tf in ['M1', 'M5', 'M15']:
+                if tf in candles_dict and not candles_dict[tf].empty:
+                    # Modify in place safely
+                    candles_dict[tf].loc[:, 'volume'] = 1.0
+
+        # ── 1. Save OHLCV CSV ───────────────────────────────────────────
+        # ย้ายไปเซฟตอนจบ process_cycle เพื่อให้ได้ข้อมูลครบทุกตัว
+
+        # ── 2. Basic Indicators (indicator_store.py) ────────────────────
+        try:
+            store.calculate_all(symbol, candles_dict, forming_data=forming_data)
+            basic_payload = store.get_payload(symbol)
+            final_payload.update(basic_payload) # merge m1, m5, ohlcv
+        except Exception as e:
+            raise
+
+        # ── 3. Advanced Tools ───────────────────────────────────────────
+        try:
+            df_m5 = candles_dict['M5']
+            if isinstance(df_m5, pd.DataFrame) and not df_m5.empty:
+                advanced_data = self.advanced_tools.analyze_all(symbol, basic_payload, df_m5)
+                final_payload.update(advanced_data)
+                
+        except Exception as e:
+            raise
+
+        # ── 4. 5 Engines in parallel ────────────────────────────────────
+        try:
+            trend_data, strength_data, volatility_data, structure_data, mtf_data = \
+                self._run_engines_parallel(symbol, final_payload, candles_dict)
+                
+            final_payload['analysis'] = {
+                'trend_direction': trend_data['direction'],
+                'trend_strength': trend_data['strength'],
+                'trend_type': trend_data['type'],
+                'volatility_regime': volatility_data['regime']
+            }
+            final_payload['engines'] = {
+                'trend': trend_data,
+                'strength': strength_data,
+                'volatility': volatility_data,
+                'structure': structure_data,
+                'mtf': mtf_data
+            }
+        except Exception as e:
+            raise
+
+        # ── 5. Market State Classifier ──────────────────────────────────
+        state_data = None
+        try:
+            if self.classifier:
+                state_data = self.classifier.analyze(
+                    payload=final_payload,
+                    symbol=symbol,
+                    trend_data=trend_data,
+                    strength_data=strength_data,
+                    volatility_data=volatility_data,
+                    structure_data=structure_data,
+                    mtf_data=mtf_data
+                )
+                final_payload['market_state'] = state_data['state']
+                final_payload['market_state_full'] = state_data
+            else:
+                raise ValueError("MarketStateClassifier not initialized")
+        except Exception as e:
+            raise
+
+        # ── 5.1 Append Group B specific fields ──────────────────────────
+        try:
+            m5_data = final_payload['m5']
+            atr = m5_data['atr14']
+            close_price = final_payload['meta']['close']
+            try:
+                import math
+                if isinstance(close_price, (int, float)) and close_price > 0 and not math.isnan(close_price):
+                    expected_vol = round((atr / close_price) * 100, 3)
+                else:
+                    expected_vol = "ERROR"
+            except (ZeroDivisionError, ValueError, TypeError) as e:
+                raise Exception("Failed to calculate expected_vol") from e
+
+            m1_data = final_payload['m1']
+            vol_ratio = m1_data['volume_ratio']
+            news_impact = check_news_impact(symbol)
+
+            if is_otc:
+                # OTC pairs do not have reliable news and volume from the regular market calendar.
+                # We preserve the structural fields but mark them explicitly and use neutral values so
+                # downstream AI, strategy, and classifier logic can treat OTC as "not applicable" without
+                # introducing a zero-bias or misleading numeric signal.
+                news_impact = 'NONE_OTC'
+                if 'm5' in final_payload and isinstance(final_payload['m5'], dict):
+                    final_payload['m5']['volume'] = 1.0
+                    final_payload['m5']['volume_ratio'] = 1.0
+                    final_payload['m5']['volume_trend'] = 'NO_VOLUME_DATA'
+                if 'm1' in final_payload and isinstance(final_payload['m1'], dict):
+                    final_payload['m1']['volume'] = 1.0
+                    final_payload['m1']['volume_ratio'] = 1.0
+
+            final_payload['market_context'] = {
+                'state': final_payload['market_state'],
+                'description': state_data['description'] if state_data else 'NONE',
+                'breakout_prob': state_data.get('breakout_prob', 0) if state_data else 0,
+                'reversal_prob': state_data.get('reversal_prob', 0) if state_data else 0,
+                'volatility_regime': final_payload['analysis']['volatility_regime'],
+                'news_impact': news_impact,
+                'expected_volatility_%': expected_vol,
+                'recent_ai_memory': list(self.ai_memory)
+            }
+
+            final_payload['decision_layer'] = {
+                'tradeable': state_data['tradeable'] if state_data else True,
+                'stability_score': state_data['metrics']['alignment_score'] if state_data else 50,
+                'quality_score': state_data['quality_score'] if state_data else 50,
+                'risk_level': state_data['risk_level'] if state_data else 'MEDIUM',
+                'confidence_score': 'รอการวิเคราะห์จาก AI',
+                'suggested_expiry_minutes': 'รอการวิเคราะห์จาก AI',
+                'suggested_action': 'รอการวิเคราะห์จาก AI',
+                'final_reason_th': 'รอการวิเคราะห์จาก AI'
+            }
+        except Exception as e:
+            raise
+
+        # ── 5.5 Deduplicate Payload ──────────────────────────────────────
+        try:
+            final_payload = self._deduplicate_payload(final_payload)
+        except Exception as e:
+            raise
+
+        # ── 6. Save Full Payload to CSV ─────────────────────────────────
+        try:
+            self._save_full_csv(symbol, final_payload, candles_dict['M1'])
+        except Exception as e:
+            raise
+
+        # ── 7. Format Payload ───────────────────────────────────────────
+        try:
+            formatted_payload = self._format_payload(final_payload)
+                
+            try:
+                self._save_formatted_json(symbol, formatted_payload)
+            except Exception as e:
+                raise
+                
+            try:
+                txt_filepath = self._save_txt_payload(symbol, formatted_payload)
+                from mode_autobot.ai_analysis.prompt_ai_context import build_prompt
+                build_prompt(txt_filepath)
+            except Exception as e:
+                logger.exception(f"Orchestrator failed to build prompt text for {symbol}: {e}")
+                raise
+                
+            self.last_payload = formatted_payload
+            return formatted_payload
+        except Exception as e:
+            raise
+
+    def _format_payload(self, p: dict) -> dict:
+        """
+        Build a structured payload from the data already produced by the indicator store,
+        advanced tools, and market classification engines.
+        No fallbacks — if a required field is missing, raise immediately.
+        """
+        is_otc = 'OTC' in str(p.get('symbol', '')).upper()
+
+        # ── Direct extraction helpers (no fallback) ──────────────────────
+        def _req(d: dict, *keys):
+            """Require a value — raise ValueError if missing or None."""
+            curr = d
+            for k in keys:
+                if not isinstance(curr, dict) or k not in curr:
+                    raise ValueError(f"Required field missing: {' -> '.join(str(x) for x in keys)}")
+                curr = curr[k]
+            if curr is None:
+                raise ValueError(f"Required field is None: {' -> '.join(str(x) for x in keys)}")
+            return curr
+
+        def _derive_session():
+            now_utc = datetime.now(timezone.utc)
+            h = now_utc.hour
+            if 0 <= h < 7:   return "SYDNEY/TOKYO"
+            elif 7 <= h < 12: return "LONDON_OPEN"
+            elif 12 <= h < 16: return "NY/LONDON_OVERLAP"
+            elif 16 <= h < 21: return "NY_AFTERNOON"
+            else:             return "SYDNEY_OPEN"
+
+        # ── Extract core blocks ───────────────────────────────────────────
+        m5   = _req(p, 'm5')
+        m1   = _req(p, 'm1')
+        meta = _req(p, 'meta')
+        pa   = _req(p, 'price_action')
+        eng  = _req(p, 'engines')
+        dl   = _req(p, 'decision_layer')
+        mc   = _req(p, 'market_context')
+
+        # ── meta block ────────────────────────────────────────────────────
+        meta_block = {
+            'timestamp':   _req(p, 'timestamp'),
+            'symbol':      _req(p, 'symbol'),
+            'session':     meta.get('session') or _derive_session(),
+            'm1_open':     _req(meta, 'm1_open'),
+            'm1_age':      _req(meta, 'm1_age'),
+            'm1_quality':  _req(meta, 'm1_quality'),
+            'm5_open':     _req(meta, 'm5_open'),
+            'm5_age':      _req(meta, 'm5_age'),
+            'm5_quality':  _req(meta, 'm5_quality'),
+        }
+
+        # ── market_context block ──────────────────────────────────────────
+        mc_block = {
+            'state':               _req(mc, 'state'),
+            'description':         _req(mc, 'description'),
+            'volatility_regime':   _req(p, 'analysis', 'volatility_regime'),
+            'news_impact':         'NONE_OTC' if is_otc else _req(mc, 'news_impact'),
+            'expected_volatility_%': _req(mc, 'expected_volatility_%'),
+        }
+
+        # ── timeframes.m1 block ───────────────────────────────────────────
+        close_price = _req(meta, 'close')
+        m1_open     = _req(m1, 'open') if 'open' in m1 else _req(meta, 'open')
+        m1_block = {
+            'last_candle':  'BULLISH' if close_price > m1_open else 'BEARISH',
+            'ema5':         _req(m1, 'ema5'),
+            'ema20':        _req(m1, 'ema20'),
+            'rsi':          _req(m1, 'rsi14'),
+            'stoch_k':      _req(m1, 'stoch_k'),
+            'stoch_d':      _req(m1, 'stoch_d'),
+            'macd':         _req(m1, 'macd'),
+            'macd_signal':  _req(m1, 'macd_signal'),
+            'ohclv': {
+                'open':  _req(meta, 'open'),
+                'high':  _req(m1, 'high') if 'high' in m1 else _req(meta, 'high'),
+                'low':   _req(m1, 'low') if 'low' in m1 else _req(meta, 'low'),
+                'close': close_price,
+                'volume': 'NONE_OTC' if is_otc else _req(m1, 'volume'),
+            },
+        }
+
+        # ── timeframes.m5 block ───────────────────────────────────────────
+        m5_block = {
+            'bias':        _req(m5, 'bias'),
+            'ema5':        _req(m5, 'ema5'),
+            'ema10':       _req(m5, 'ema10'),
+            'ema20':       _req(m5, 'ema20'),
+            'ema50':       _req(m5, 'ema50'),
+            'bb_upper':    _req(m5, 'bb_upper'),
+            'bb_lower':    _req(m5, 'bb_lower'),
+            'bb_width':    _req(m5, 'bb_width'),
+            'rsi':         _req(m5, 'rsi14'),
+            'stoch_k':     _req(m5, 'stoch_k'),
+            'stoch_d':     _req(m5, 'stoch_d'),
+            'macd':        _req(m5, 'macd'),
+            'macd_signal': _req(m5, 'macd_signal'),
+            'adx':         _req(m5, 'adx'),
+            'atr':         _req(m5, 'atr14'),
+            'support':     _req(m5, 'support'),
+            'resistance':  _req(m5, 'resistance'),
+            'pivot':       _req(m5, 'pivot'),
+            'ohclv': {
+                'open':  _req(m5, 'open'),
+                'high':  _req(m5, 'high'),
+                'low':   _req(m5, 'low'),
+                'close': _req(m5, 'close'),
+                'volume': 'NONE_OTC' if is_otc else _req(m5, 'volume'),
+            },
+        }
+
+        # ── timeframes.m15 block ──────────────────────────────────────────
+        m15_block = {
+            'bias': _req(p, 'm15', 'bias'),
+        }
+
+        # ── price_action block ────────────────────────────────────────────
+        pa_block = {
+            'pattern':         _req(pa, 'pattern'),
+            'last_candle_bias':_req(pa, 'last_candle_bias'),
+            'body_strength':   _req(pa, 'body_strength'),
+            'wick_dominance':  _req(pa, 'wick_dominance'),
+            'momentum_bias':   _req(pa, 'momentum_bias'),
+            'move_quality':    _req(pa, 'move_quality'),
+            'trap_alert':      _req(pa, 'trap_alert'),
+            'sr_interaction':  _req(pa, 'sr_interaction'),
+        }
+
+        # ── volume block ─────────────────────────────────────────────────
+        if is_otc:
+            vol_block = {
+                'tick_volume':      1.0,
+                'volume_momentum':  'NO_VOLUME_DATA',
+                'volume_vs_average': 1.0,
+            }
+        else:
+            vol_block = {
+                'tick_volume':       _req(m5, 'volume'),
+                'volume_momentum':   _req(pa, 'volume_momentum'),
+                'volume_vs_average': _req(m5, 'volume_ratio'),
+            }
+
+        # ── analysis block ────────────────────────────────────────────────
+        analysis_block = {
+            'trend_direction':      _req(p, 'analysis', 'trend_direction'),
+            'trend_type':           _req(p, 'analysis', 'trend_type'),
+            'trend_strength_score': _req(eng, 'trend', 'strength'),
+            'mtf_alignment_%':      _req(eng, 'mtf', 'alignment_score'),
+            'compression_quality_%':_req(eng, 'volatility', 'compression_quality'),
+            'exhaustion_risk_%':    _req(eng, 'strength', 'exhaustion_risk'),
+            'bos_detected':         _req(eng, 'structure', 'bos_detected'),
+        }
+
+        # ── decision_layer block ──────────────────────────────────────────
+        decision_block = {
+            'tradeable':              _req(dl, 'tradeable'),
+            'stability_score':        _req(dl, 'stability_score'),
+            'quality_score':          _req(dl, 'quality_score'),
+            'risk_level':             _req(dl, 'risk_level'),
+            'confidence_score':       _req(dl, 'confidence_score'),
+            'suggested_expiry_minutes': _req(dl, 'suggested_expiry_minutes'),
+            'suggested_action':       _req(dl, 'suggested_action'),
+            'final_reason_th':        _req(dl, 'final_reason_th'),
+        }
+
+        return {
+            'meta':           meta_block,
+            'market_context': mc_block,
+            'timeframes': {
+                'm1':  m1_block,
+                'm5':  m5_block,
+                'm15': m15_block,
+            },
+            'price_action':  pa_block,
+            'volume':        vol_block,
+            'analysis':      analysis_block,
+            'decision_layer': decision_block,
+        }
+
+    def _run_engines_parallel(self, symbol: str, payload: dict, candles_dict: dict):
+        import copy
+        safe_payload = copy.deepcopy(payload)
+        tasks: Dict[str, tuple] = {
+            'trend':      (self.trend_engine.analyze,      (safe_payload,),      {}),
+            'strength':   (self.strength_engine.analyze,   (safe_payload,),      {}),
+            'volatility': (self.volatility_engine.analyze, (safe_payload,),      {}),
+            'structure':  (self.structure_engine.analyze,  (safe_payload,),      {}),
+            'mtf':        (self.mtf_engine.analyze,        (safe_payload,),      {'candles_dict': candles_dict})
+        }
+
+        results: Dict[str, Any] = {}
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+            future_to_label = {
+                executor.submit(fn, *args, **kwargs): label
+                for label, (fn, args, kwargs) in tasks.items()
+            }
+            for future in concurrent.futures.as_completed(future_to_label):
+                label = future_to_label[future]
+                try:
+                    results[label] = future.result()
+                except Exception as exc:
+                    raise
+
+        if len(results) < 5:
+            raise Exception("Fail-fast: some engines failed to produce results")
+        return (
+            results['trend'],
+            results['strength'],
+            results['volatility'],
+            results['structure'],
+            results['mtf'],
+        )
+
+    def _log_red(self, msg: str):
+        print(f"\033[91m[ORCHESTRATOR ERROR] {msg}\033[0m")
+
+    def _deduplicate_payload(self, p: dict) -> dict:
+        """Remove redundant raw values from engines and market_state to shrink payload."""
+        if 'engines' in p:
+            e = p['engines']
+            if 'strength' in e:
+                for k in ['adx', 'di_plus', 'di_minus', 'rsi', 'macd', 'roc']:
+                    e['strength'].pop(k, None)
+            if 'volatility' in e:
+                for k in ['atr', 'atr_percentile', 'bbw', 'stddev']:
+                    e['volatility'].pop(k, None)
+            if 'structure' in e:
+                for k in ['support_levels', 'resistance_levels', 'box_duration', 'box_tightness']:
+                    e['structure'].pop(k, None)
+            if 'trend' in e:
+                e['trend'].pop('slope', None)
+                
+        if 'market_state_full' in p and 'metrics' in p['market_state_full']:
+            ms = p['market_state_full']['metrics']
+            for k in ['adx', 'rsi', 'atr_percentile', 'bbw', 'trend_direction', 'trend_strength', 
+                      'trend_slope', 'trend_type', 'momentum_level', 'strength_score', 
+                      'volatility_regime', 'volatility_score', 'structure_type', 'bos_detected',
+                      'breakout_prob', 'reversal_prob', 'alignment_score', 'htf_direction']:
+                ms.pop(k, None)
+                
+        return p
+
+    def _flatten_dict(self, d: dict, parent_key: str = '', sep: str = '_') -> dict:
+        items = []
+        for k, v in d.items():
+            new_key = f"{parent_key}{sep}{k}" if parent_key else k
+            if isinstance(v, dict):
+                items.extend(self._flatten_dict(v, new_key, sep=sep).items())
+            elif isinstance(v, (list, tuple)):
+                items.append((new_key, str(v)))
+            elif not isinstance(v, pd.DataFrame):
+                items.append((new_key, v))
+        return dict(items)
+
+    def _save_full_csv(self, symbol: str, final_payload: dict, df_m1: pd.DataFrame):
+        if df_m1 is None or df_m1.empty:
+            return
+            
+        date_str = datetime.now().strftime('%Y%m%d')
+        filename = f"{symbol.replace('-', '_')}_{date_str}.csv"
+        filepath = os.path.join(self.csv_dir, filename)
+        
+        last_row = df_m1.iloc[-1]
+        
+        # Flatten the final payload
+        flat_payload = self._flatten_dict(final_payload)
+        
+        current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:00')
+        # We want OHLCV at the front
+        row_data = {
+            'timestamp': current_timestamp,
+            'open': last_row['open'],
+            'high': last_row['high'],
+            'low': last_row['low'],
+            'close': last_row['close'],
+            'volume': last_row['volume']
+        }
+        
+        # Add all other data
+        for k, v in flat_payload.items():
+            if k not in row_data and k != 'timestamp':
+                row_data[k] = v
+                
+        file_exists = os.path.isfile(filepath) and os.path.getsize(filepath) > 0
+        
+        # Read existing headers if file exists
+        existing_headers = []
+        if file_exists:
+            try:
+                # Optimized verification (Rule 5 & 1): Read headers and last line only to prevent I/O bottlenecks
+                last_timestamp = None
+                with open(filepath, mode='r', newline='', encoding='utf-8') as f:
+                    lines = f.readlines()
+                    if len(lines) > 0:
+                        existing_headers = list(csv.reader([lines[0]]))[0]
+                        if 'timestamp' in existing_headers:
+                            ts_index = existing_headers.index('timestamp')
+                            if len(lines) > 1:
+                                last_row = list(csv.reader([lines[-1]]))[0]
+                                if len(last_row) > ts_index:
+                                    last_timestamp = last_row[ts_index]
+                                    
+                if last_timestamp == current_timestamp:
+                    # Timestamp already exists, skip writing to prevent duplicate log pollution
+                    return
+            except Exception as e:
+                # Rule 1: No Silent Failures & preserve stack trace
+                logger.exception(f"Orchestrator failed to inspect CSV headers or duplicate timestamp: {e}")
+                raise
+                    
+        # If new columns appear, we might miss them in the old file, but we will append using DictWriter
+        fieldnames = list(row_data.keys())
+        if file_exists:
+            # Add any new keys to fieldnames that aren't in existing_headers
+            for k in fieldnames:
+                if k not in existing_headers:
+                    existing_headers.append(k)
+            fieldnames = existing_headers
+            
+        with open(filepath, mode='a', newline='', encoding='utf-8') as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction='ignore')
+            if not file_exists:
+                writer.writeheader()
+            writer.writerow(row_data)
+
+    def _save_formatted_json(self, symbol: str, formatted_payload: dict):
+        date_str = datetime.now().strftime('%Y%m%d')
+        filename = f"{symbol.replace('-', '_')}_{date_str}.json"
+        filepath = os.path.join(self.json_dir, filename)
+
+        with open(filepath, mode='w', encoding='utf-8') as f:
+            json.dump(formatted_payload, f, ensure_ascii=False, indent=4, cls=NumpyEncoder)
+
+    def _generate_yaml_text(self, symbol: str, fp: dict) -> str:
+        """Generates a YAML string from the formatted payload."""
+        try:
+            # Clean numpy objects by routing through JSON encoder
+            cleaned_fp = json.loads(json.dumps(fp, cls=NumpyEncoder))
+            return yaml.dump(cleaned_fp, allow_unicode=True, sort_keys=False, indent=2)
+        except Exception as e:
+            raise
+
+    def _save_txt_payload(self, symbol: str, formatted_payload: dict) -> str:
+        date_str = datetime.now().strftime('%Y%m%d%H%M%S')
+        # ปรับเปลี่ยนจาก all_filelogs/logs_orchestrator เป็น all_filelogs/logs_orchestrator
+        symbol_dir = os.path.join("all_filelogs", "logs_orchestrator", symbol.replace("-", "_"))
+        os.makedirs(symbol_dir, exist_ok=True)
+        filename = f"{symbol.replace('-', '_')}_{date_str}.txt"
+        filepath = os.path.join(symbol_dir, filename)
+        
+        yaml_text = self._generate_yaml_text(symbol, formatted_payload)
+        
+        meta = formatted_payload.get("meta", {})
+        timestamp_str = str(meta.get("timestamp", datetime.now().strftime("%Y-%m-%dT%H:%M:%S")))
+        ts_clean = timestamp_str.replace('-', '').replace(':', '').replace('T', '').replace('.', '')[:14]
+        # ตัดค.ศ. ออก เหลือเวลา 10 หลัง (MMDDHHMMSS)
+        time_part = ts_clean[4:14]  # เอาเฉพาะเดือนวัน เวลา
+        prompt_id = f"{symbol.replace('-', '').replace('_', '')}{time_part}"
+        
+        final_text = f"ID:{prompt_id}\n{yaml_text}"
+        
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(final_text)
+            
+        return filepath
+
+
+
+=========================================
+💻 CODE FILE: data_evaluate/orchestration/indicator_store/indicator_store.py
+=========================================
+"""
+indicator_store.py
+------------------
+Single Source of Truth (SSOT) สำหรับ FINALBOT
+- นำเข้าดัชนีดิบจาก basic_indicators.py และ structural_indicators.py
+- ให้ Engine (Layer 2) และ Classifier (Layer 3) ใช้งาน
+- รองรับการทำงานแบบ Parallel
+"""
+
+import pandas as pd
+import numpy as np
+import threading
+import copy
+from typing import Dict, Any, Optional, List, Tuple
+import logging
+
+from data_evaluate.orchestration.indicator_store.basic_indicators import BasicIndicators
+from data_evaluate.orchestration.indicator_store.structural_indicators import StructuralIndicators
+
+# ---------- Logging Setup ----------
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+# ---------- Core Class ----------
+class IndicatorStore:
+    """
+    จัดเก็บ Indicator เฉพาะ Layer 1 สำหรับทุกคู่เงิน
+    - Layer 1: Raw Indicators (คำนวณจาก OHLCV โดยตรง)
+    """
+
+    def __init__(self):
+        self._data: Dict[str, Dict[str, Any]] = {}
+        self._lock = threading.Lock()
+
+    # ========================
+    # LAYER 1: RAW INDICATORS (คำนวณจาก OHLCV)
+    # ========================
+    @staticmethod
+    def calculate_raw_indicators(df_m1: pd.DataFrame, df_m5: pd.DataFrame, df_m15: Optional[pd.DataFrame] = None, forming_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """
+        คำนวณ Indicator ดิบ (Layer 1) จาก DataFrame M1, M5 และ M15
+        โดยแยกการคิดคำนวณออกเป็น Basic และ Structural เพื่อความเป็นระเบียบ
+        """
+        # 1. คำนวณ Basic Technical Indicators
+        m5 = BasicIndicators.calculate_m5(df_m5)
+        m1 = BasicIndicators.calculate_m1(df_m1)
+
+        # 2. คำนวณ Structural & Custom Indicators
+        m5_structural = StructuralIndicators.calculate_m5(df_m5, m5['atr14'])
+        m1_structural = StructuralIndicators.calculate_m1(df_m1)
+
+        # Merge structural values
+        m5.update(m5_structural)
+        m1.update(m1_structural)
+
+        # 3. คำนวณ M15 Bias
+        m15 = {}
+        import time
+        if df_m15 is not None and not df_m15.empty:
+            try:
+                last_ts_m15 = df_m15.index[-1]
+                if hasattr(last_ts_m15, 'timestamp'):
+                    m15_age_ms = int((time.time() - last_ts_m15.timestamp()) * 1000)
+                else:
+                    m15_age_ms = 0
+            except:
+                m15_age_ms = 0
+                
+            if m15_age_ms > 2400000:
+                raise ValueError(f"FAIL-FAST: M15 data is STALE (age: {m15_age_ms} ms). No fallback allowed.")
+                
+            close_m15 = df_m15['close']
+            if len(close_m15) >= 20:
+                ema20_m15 = close_m15.ewm(span=20, adjust=False).mean().iloc[-1]
+                m15['bias'] = 'BULLISH' if close_m15.iloc[-1] > ema20_m15 else 'BEARISH'
+            else:
+                raise ValueError("Insufficient M15 data for bias calculation")
+        else:
+            raise ValueError("Insufficient M15 data for bias calculation")
+
+        # 4. จัดการ Metadata & Session
+        from datetime import datetime, timezone
+        last_m1_candle = df_m1.iloc[-1]
+        utc_hour = datetime.now(timezone.utc).hour
+        if 0 <= utc_hour < 8:
+            session_name = "ASIAN"
+        elif 8 <= utc_hour < 14:
+            session_name = "LONDON"
+        elif 14 <= utc_hour < 21:
+            session_name = "NEW YORK"
+        else:
+            session_name = "ASIAN"
+
+        if forming_data is None:
+            forming_data = {
+                'm1_open': round(float(last_m1_candle['open']), 6),
+                'm1_age': 0,
+                'm1_quality': 'STALE',
+                'm5_open': round(float(df_m5.iloc[-1]['open']), 6),
+                'm5_age': 0,
+                'm5_quality': 'STALE'
+            }
+
+        meta = {
+            'close': round(float(last_m1_candle['close']), 6),
+            'high': round(float(last_m1_candle['high']), 6),
+            'low': round(float(last_m1_candle['low']), 6),
+            'open': forming_data['m1_open'],
+            'session': session_name,
+            'm1_open': forming_data['m1_open'],
+            'm1_age': forming_data['m1_age'],
+            'm1_quality': forming_data['m1_quality'],
+            'm5_open': forming_data['m5_open'],
+            'm5_age': forming_data['m5_age'],
+            'm5_quality': forming_data['m5_quality']
+        }
+
+        return {
+            'm15': m15,
+            'm5': m5,
+            'm1': m1,
+            'meta': meta,
+            'ohlcv': meta
+        }
+
+    # ========================
+    # CORE METHODS (GET / SET)
+    # ========================
+    def _ensure_symbol(self, symbol: str):
+        with self._lock:
+            if symbol not in self._data:
+                self._data[symbol] = {
+                    'raw': {}
+                }
+
+    def set_raw(self, symbol: str, raw_data: Dict[str, Any]):
+        self._ensure_symbol(symbol)
+        with self._lock:
+            self._data[symbol]['raw'] = raw_data
+
+    def get(self, symbol: str, layer: str, *keys) -> Any:
+        with self._lock:
+            if symbol not in self._data:
+                raise KeyError(f"Symbol '{symbol}' not found in IndicatorStore")
+            data = self._data[symbol]
+            if layer not in data:
+                raise KeyError(f"Layer '{layer}' not found for symbol '{symbol}'")
+            layer_data = data[layer]
+            for key in keys:
+                if isinstance(layer_data, dict):
+                    if key not in layer_data:
+                        raise KeyError(f"Key '{key}' not found")
+                    layer_data = layer_data[key]
+                else:
+                    raise ValueError(f"Expected dict but got {type(layer_data).__name__} when accessing '{key}'")
+            if isinstance(layer_data, dict):
+                return copy.deepcopy(layer_data)
+            return layer_data
+
+    def get_full_snapshot(self, symbol: str) -> Dict[str, Any]:
+        with self._lock:
+            return copy.deepcopy(self._data[symbol])
+
+    def get_all_symbols(self) -> List[str]:
+        with self._lock:
+            return list(self._data.keys())
+
+    def get_payload(self, symbol: str) -> Dict[str, Any]:
+        snapshot = self.get_full_snapshot(symbol)
+        return snapshot['raw']
+
+    # ========================
+    # PROCESS PAIR (หลัก)
+    # ========================
+    def process_pair(self, symbol: str, df_m1: pd.DataFrame, df_m5: pd.DataFrame, df_m15: Optional[pd.DataFrame] = None, forming_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        logger.debug(f"Processing {symbol} ...")
+        raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data)
+        self.set_raw(symbol, raw)
+        return raw
+
+    def calculate_all(self, symbol: str, candles_dict: Dict[str, pd.DataFrame], session: str = "asian", forming_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        df_m1 = candles_dict['M1']
+        df_m5 = candles_dict['M5']
+        df_m15 = candles_dict['M15']
+        
+        if df_m1 is None or df_m5 is None or df_m1.empty or df_m5.empty:
+            logger.error(f"Missing M1 or M5 data for {symbol} in calculate_all")
+            raise Exception(f"Missing M1 or M5 data for {symbol}")
+
+        return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+
+    def clear_all(self):
+        with self._lock:
+            self._data.clear()
+        logger.debug("IndicatorStore cleared")
+
+    def clear_symbol(self, symbol: str):
+        with self._lock:
+            if symbol in self._data:
+                del self._data[symbol]
+
+# Global Singleton Instance
+store = IndicatorStore()
+
+
+=========================================
+💻 CODE FILE: data_evaluate/orchestration/indicator_store/basic_indicators.py
+=========================================
+"""
+basic_indicators.py
+-------------------
+Standard technical indicators (EMA, BB, RSI, MACD, Stochastic, ATR, ADX)
+using optimized Pandas vectorization.
+"""
+
+import pandas as pd
+import numpy as np
+
+class BasicIndicators:
+    ROUND_DECIMALS = 6
+
+    @staticmethod
+    def calculate_rsi(series: pd.Series, period: int) -> float:
+        delta = series.diff()
+        gain = (delta.where(delta > 0, 0)).ewm(alpha=1/period, adjust=False).mean().fillna(0)
+        loss = (-delta.where(delta < 0, 0)).ewm(alpha=1/period, adjust=False).mean().replace(0, 1e-9).fillna(1e-9)
+        rs = gain / loss
+        rsi = 100 - (100 / (1 + rs))
+        val = rsi.iloc[-1]
+        return round(float(val) if not pd.isna(val) else 50.0, 2)
+
+    @staticmethod
+    def calculate_adx(high: pd.Series, low: pd.Series, close: pd.Series, period: int = 14) -> dict:
+        tr1 = high - low
+        tr2 = abs(high - close.shift())
+        tr3 = abs(low - close.shift())
+        tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+        
+        up_move = high - high.shift()
+        down_move = low.shift() - low
+        
+        plus_dm = up_move.where((up_move > down_move) & (up_move > 0), 0.0)
+        minus_dm = down_move.where((down_move > up_move) & (down_move > 0), 0.0)
+        
+        tr_smooth = tr.ewm(alpha=1/period, adjust=False).mean()
+        plus_dm_smooth = pd.Series(plus_dm).ewm(alpha=1/period, adjust=False).mean()
+        minus_dm_smooth = pd.Series(minus_dm).ewm(alpha=1/period, adjust=False).mean()
+        
+        di_plus = 100 * (plus_dm_smooth / (tr_smooth + 1e-9))
+        di_minus = 100 * (minus_dm_smooth / (tr_smooth + 1e-9))
+        
+        dx = 100 * abs(di_plus - di_minus) / (di_plus + di_minus + 0.000001)
+        adx = dx.ewm(alpha=1/period, adjust=False).mean()
+        
+        adx = adx.fillna(0)
+        di_plus = di_plus.fillna(0)
+        di_minus = di_minus.fillna(0)
+        dx = dx.fillna(0)
+        
+        return {
+            'adx': round(float(adx.iloc[-1]), 2),
+            'di_plus': round(float(di_plus.iloc[-1]), 2),
+            'di_minus': round(float(di_minus.iloc[-1]), 2),
+            'dx': round(float(dx.iloc[-1]), 2)
+        }
+
+    @classmethod
+    def calculate_m5(cls, df_m5: pd.DataFrame) -> dict:
+        m5 = {}
+        close = df_m5['close']
+        high = df_m5['high']
+        low = df_m5['low']
+        
+        m5['ema5'] = round(float(close.ewm(span=5, adjust=False).mean().iloc[-1]), cls.ROUND_DECIMALS)
+        m5['ema10'] = round(float(close.ewm(span=10, adjust=False).mean().iloc[-1]), cls.ROUND_DECIMALS)
+        m5['ema20'] = round(float(close.ewm(span=20, adjust=False).mean().iloc[-1]), cls.ROUND_DECIMALS)
+        m5['ema50'] = round(float(close.ewm(span=50, adjust=False).mean().iloc[-1]), cls.ROUND_DECIMALS)
+        m5['ema100'] = round(float(close.ewm(span=100, adjust=False).mean().iloc[-1]), cls.ROUND_DECIMALS)
+        m5['ema200'] = round(float(close.ewm(span=200, adjust=False).mean().iloc[-1]), cls.ROUND_DECIMALS)
+        
+        m5['bias'] = 'BULLISH' if close.iloc[-1] > m5['ema20'] else 'BEARISH'
+        
+        sma20 = close.rolling(window=20, min_periods=1).mean()
+        std20 = close.rolling(window=20, min_periods=1).std(ddof=0).fillna(0)
+        m5['bb_upper'] = round(float((sma20 + 2 * std20).iloc[-1]), cls.ROUND_DECIMALS)
+        m5['bb_lower'] = round(float((sma20 - 2 * std20).iloc[-1]), cls.ROUND_DECIMALS)
+        bbw_series = (sma20 + 2 * std20) - (sma20 - 2 * std20)
+        m5['bb_width'] = round(float(bbw_series.iloc[-1]), cls.ROUND_DECIMALS)
+        m5['bbw_sma_100'] = round(float(bbw_series.rolling(window=100, min_periods=1).mean().iloc[-1]), cls.ROUND_DECIMALS) if len(bbw_series) >= 100 else m5['bb_width']
+        
+        m5['rsi7'] = cls.calculate_rsi(close, 7)
+        m5['rsi14'] = cls.calculate_rsi(close, 14)
+        
+        exp12 = close.ewm(span=12, adjust=False).mean()
+        exp26 = close.ewm(span=26, adjust=False).mean()
+        macd_line = exp12 - exp26
+        macd_signal = macd_line.ewm(span=9, adjust=False).mean()
+        m5['macd'] = round(float(macd_line.iloc[-1]), cls.ROUND_DECIMALS)
+        m5['macd_signal'] = round(float(macd_signal.iloc[-1]), cls.ROUND_DECIMALS)
+        m5['macd_hist'] = round(float((macd_line - macd_signal).iloc[-1]), cls.ROUND_DECIMALS)
+        
+        low_min = low.rolling(window=14, min_periods=1).min()
+        high_max = high.rolling(window=14, min_periods=1).max()
+        stoch_k_raw = 100 * (close - low_min) / (high_max - low_min + 1e-9)
+        stoch_k = stoch_k_raw.rolling(window=3, min_periods=1).mean()
+        stoch_d = stoch_k.rolling(window=3, min_periods=1).mean()
+        m5['stoch_k'] = round(float(stoch_k.iloc[-1]), 2)
+        m5['stoch_d'] = round(float(stoch_d.iloc[-1]), 2)
+        
+        high_low = high - low
+        high_close = np.abs(high - close.shift())
+        low_close = np.abs(low - close.shift())
+        ranges = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
+        atr_series = ranges.ewm(alpha=1/14, adjust=False).mean().dropna()
+        if len(atr_series) > 0:
+            current_atr = atr_series.iloc[-1]
+            m5['atr14'] = round(float(current_atr), cls.ROUND_DECIMALS)
+            m5['atr_percentile'] = round(float((np.sum(atr_series <= current_atr) / len(atr_series)) * 100), 2)
+            atr_std = atr_series.std()
+            atr_std = 0.0 if pd.isna(atr_std) else atr_std
+            m5['atr_zscore'] = round(float((current_atr - atr_series.mean()) / (atr_std + 1e-9)), 2)
+            
+            recent_atr_avg = atr_series.tail(10).mean()
+            past_atr_avg = atr_series.iloc[-20:-10].mean() if len(atr_series) >= 20 else recent_atr_avg
+            m5['atr_recent_avg'] = round(float(recent_atr_avg), cls.ROUND_DECIMALS)
+            m5['atr_past_avg'] = round(float(past_atr_avg), cls.ROUND_DECIMALS)
+        else:
+            m5['atr14'] = 0.0
+            m5['atr_percentile'] = 50.0
+            m5['atr_zscore'] = 0.0
+            m5['atr_recent_avg'] = 0.0
+            m5['atr_past_avg'] = 0.0
+            
+        adx_res = cls.calculate_adx(high, low, close, 14)
+        m5.update(adx_res)
+        
+        return m5
+
+    @classmethod
+    def calculate_m1(cls, df_m1: pd.DataFrame) -> dict:
+        m1 = {}
+        close = df_m1['close']
+        high = df_m1['high']
+        low = df_m1['low']
+        
+        m1['ema5'] = round(float(close.ewm(span=5, adjust=False).mean().iloc[-1]), cls.ROUND_DECIMALS)
+        m1['ema10'] = round(float(close.ewm(span=10, adjust=False).mean().iloc[-1]), cls.ROUND_DECIMALS)
+        m1['ema20'] = round(float(close.ewm(span=20, adjust=False).mean().iloc[-1]), cls.ROUND_DECIMALS)
+        m1['ema50'] = round(float(close.ewm(span=50, adjust=False).mean().iloc[-1]), cls.ROUND_DECIMALS)
+        
+        m1['rsi7'] = cls.calculate_rsi(close, 7)
+        m1['rsi14'] = cls.calculate_rsi(close, 14)
+        
+        exp12_m1 = close.ewm(span=12, adjust=False).mean()
+        exp26_m1 = close.ewm(span=26, adjust=False).mean()
+        macd_line_m1 = exp12_m1 - exp26_m1
+        macd_signal_m1 = macd_line_m1.ewm(span=9, adjust=False).mean()
+        m1['macd'] = round(float(macd_line_m1.iloc[-1]), cls.ROUND_DECIMALS)
+        m1['macd_signal'] = round(float(macd_signal_m1.iloc[-1]), cls.ROUND_DECIMALS)
+        
+        low_min_m1 = low.rolling(window=14, min_periods=1).min()
+        high_max_m1 = high.rolling(window=14, min_periods=1).max()
+        stoch_k_raw_m1 = 100 * (close - low_min_m1) / (high_max_m1 - low_min_m1 + 1e-9)
+        stoch_k_m1 = stoch_k_raw_m1.rolling(window=3, min_periods=1).mean()
+        stoch_d_m1 = stoch_k_m1.rolling(window=3, min_periods=1).mean()
+        m1['stoch_k'] = round(float(stoch_k_m1.iloc[-1]), 2)
+        m1['stoch_d'] = round(float(stoch_d_m1.iloc[-1]), 2)
+        
+        high_low_m1 = high - low
+        high_close_m1 = np.abs(high - close.shift())
+        low_close_m1 = np.abs(low - close.shift())
+        ranges_m1 = pd.concat([high_low_m1, high_close_m1, low_close_m1], axis=1).max(axis=1)
+        atr_series_m1 = ranges_m1.ewm(alpha=1/14, adjust=False).mean().dropna()
+        if atr_series_m1.empty:
+            raise ValueError("M1 ATR series is empty after dropna")
+        m1['atr14'] = round(float(atr_series_m1.iloc[-1]), cls.ROUND_DECIMALS)
+        
+        m1['bb_upper'] = round(float((close.rolling(20, min_periods=1).mean() + 2*close.rolling(20, min_periods=1).std(ddof=0).fillna(0)).iloc[-1]), cls.ROUND_DECIMALS)
+        m1['bb_lower'] = round(float((close.rolling(20, min_periods=1).mean() - 2*close.rolling(20, min_periods=1).std(ddof=0).fillna(0)).iloc[-1]), cls.ROUND_DECIMALS)
+        
+        return m1
+
+
+=========================================
+💻 CODE FILE: data_evaluate/orchestration/indicator_store/structural_indicators.py
+=========================================
+"""
+structural_indicators.py
+------------------------
+Custom statistical and structural indicators for FINALBOT
+(Slope, Volume Ratio, Box Metrics, Pivot, Z-score)
+"""
+
+import pandas as pd
+import numpy as np
+
+class StructuralIndicators:
+    ROUND_DECIMALS = 6
+    VOLUME_MA_PERIOD = 20
+    SLOPE_PERIOD = 10
+
+    @classmethod
+    def calculate_slope(cls, series: pd.Series, period: int = 10) -> float:
+        if len(series) < period:
+            return 0.0
+        y = series.tail(period).values
+        if np.any(np.isnan(y)):
+            raise ValueError(f"NaN detected in slope series (period={period})")
+        x = np.arange(period)
+        slope, _ = np.polyfit(x, y, 1)
+        if np.isnan(slope):
+            raise ValueError("np.polyfit returned NaN slope")
+        return round(float(slope), cls.ROUND_DECIMALS)
+
+    @classmethod
+    def calculate_m5(cls, df_m5: pd.DataFrame, atr14: float) -> dict:
+        m5 = {}
+        close = df_m5['close']
+        volume = df_m5['volume']
+        
+        # ROC
+        m5['roc'] = round(((close.iloc[-1] / (close.iloc[-10] + 1e-9)) - 1) * 100, 4) if len(close) >= 10 else 0.0
+        
+        # Volume
+        volume_ma20 = volume.rolling(window=cls.VOLUME_MA_PERIOD, min_periods=1).mean()
+        current_volume = volume.iloc[-1]
+        m5['volume'] = float(current_volume)
+        m5['volume_ma20'] = round(float(volume_ma20.iloc[-1]), 2)
+        m5['volume_ratio'] = min(round(float(current_volume / (volume_ma20.iloc[-1] + 0.000001)), 3), 10.0)
+        m5['volume_spike'] = bool(m5['volume_ratio'] > 2.0)
+        
+        # Slopes
+        m5['slope_10'] = cls.calculate_slope(close, 10)
+        m5['slope_20'] = cls.calculate_slope(close, 20)
+        m5['slope_50'] = cls.calculate_slope(close, 50)
+        
+        # Pivot Points
+        last_candle = df_m5.iloc[-1]
+        pivot = (last_candle['high'] + last_candle['low'] + last_candle['close']) / 3
+        m5['pivot'] = round(float(pivot), cls.ROUND_DECIMALS)
+        m5['r1'] = round(float((2 * pivot) - last_candle['low']), cls.ROUND_DECIMALS)
+        m5['r2'] = round(float(pivot + (last_candle['high'] - last_candle['low'])), cls.ROUND_DECIMALS)
+        m5['s1'] = round(float((2 * pivot) - last_candle['high']), cls.ROUND_DECIMALS)
+        m5['s2'] = round(float(pivot - (last_candle['high'] - last_candle['low'])), cls.ROUND_DECIMALS)
+        
+        # Box metrics
+        highs = df_m5['high'].tail(50).values
+        lows = df_m5['low'].tail(50).values
+        if len(highs) >= 20:
+            ref_high = max(highs[-20:])
+            ref_low = min(lows[-20:])
+            ref_range = ref_high - ref_low
+            box_dur = 0
+            for i in range(len(highs) - 1, -1, -1):
+                if ref_low <= highs[i] <= ref_high and ref_low <= lows[i] <= ref_high:
+                    box_dur += 1
+                else:
+                    break
+            m5['box_duration'] = box_dur
+            if atr14 <= 0:
+                raise ValueError(f"ATR14 is zero or negative ({atr14})")
+            m5['box_tightness'] = round(float(ref_range / atr14), 2)
+        else:
+            m5['box_duration'] = 10
+            m5['box_tightness'] = 2.5
+            
+        return m5
+
+    @classmethod
+    def calculate_m1(cls, df_m1: pd.DataFrame) -> dict:
+        m1 = {}
+        volume = df_m1['volume']
+        last_candle = df_m1.iloc[-1]
+        
+        pivot_m1 = (last_candle['high'] + last_candle['low'] + last_candle['close']) / 3
+        m1['pivot'] = round(float(pivot_m1), cls.ROUND_DECIMALS)
+        m1['r1'] = round(float((2 * pivot_m1) - last_candle['low']), cls.ROUND_DECIMALS)
+        m1['s1'] = round(float((2 * pivot_m1) - last_candle['high']), cls.ROUND_DECIMALS)
+        
+        m1['volume'] = float(volume.iloc[-1])
+        m1['volume_ratio'] = min(round(float(volume.iloc[-1] / (volume.rolling(20, min_periods=1).mean().iloc[-1] + 0.000001)), 3), 10.0)
+        
+        return m1
+
+
+=========================================
+💻 CODE FILE: data_evaluate/orchestration/market_classifier/market_state_classifier.py
+=========================================
+import numpy as np
+import pandas as pd
+from typing import Dict, Any, Optional
+from collections import deque
+
+from data_evaluate.orchestration.base_engine import BaseEngine
+
+
+class MarketStateClassifier(BaseEngine):
+    """
+    Tier 2: Market State Classifier - Optimized for 5-minute Binary Options
+    
+    Key optimizations for 5-min trading:
+    - Reduced indicator periods for faster response (ADX 10, RSI 7)
+    - Adaptive thresholds based on recent volatility
+    - Momentum divergence detection for early reversals
+    - Volume-confirmed breakouts
+    - State transition smoothing to reduce false flips
+    - Dynamic noise filtering with weighted efficiency
+    
+    Market States (10 types):
+    - TRENDING_STRONG      : Clear directional move with strong momentum
+    - TRENDING_WEAK        : Directional bias but low conviction
+    - SIDEWAY_RANGE        : Price oscillating between clear levels
+    - BREAKOUT_EMERGING    : Volatility expansion after compression
+    - REVERSAL_FORMING     : Potential trend change, early signals
+    - ACCUMULATION         : Smart money buying, lower wicks / volume pattern
+    - DISTRIBUTION         : Smart money selling, upper wicks / volume pattern
+    - CHOPPY_UNCERTAIN     : Chaotic movement, high noise, avoid trading
+    - LIQUIDITY_VOID       : Extreme low volume / dead market
+    - UNCLEAR              : Insufficient signals or mixed indicators
+    
+    Each classification includes confidence score (0-100), quality score (0-100),
+    tradeability flag, stability score (0-100), and descriptive text.
+    """
+    
+    ENGINE_NAME = "market_state_classifier"
+    ENGINE_VERSION = "5.0.0"  # Optimized for 5-min BO
+    TIER = 2
+    MIN_CANDLES = 50  # Reduced from 100 for 5-min responsiveness
+    
+    # State list for validation
+    VALID_STATES = [
+        'TRENDING_STRONG', 'TRENDING_WEAK', 'SIDEWAY_RANGE',
+        'BREAKOUT_EMERGING', 'REVERSAL_FORMING', 'ACCUMULATION',
+        'DISTRIBUTION', 'CHOPPY_UNCERTAIN', 'LIQUIDITY_VOID', 'UNCLEAR'
+    ]
+    
+    # State transition smoothing - prevent rapid flipping
+    _state_history: deque
+    _max_history = 5
+    
+    def __init__(self, config: Optional[Dict] = None):
+        super().__init__(config)
+        self._state_history = deque(maxlen=self._max_history)
+    
+    def analyze(self, payload: Dict[str, Any] = None, **kwargs) -> Dict[str, Any]:
+        """
+        Analyze market state based on SSOT payload and precomputed Tier 1 data.
+        
+        Args:
+            payload: SSOT dictionary containing 'm5', 'price_action', 'ohlcv'
+            **kwargs:
+                - trend_data
+                - strength_data
+                - volatility_data
+                - structure_data
+                - mtf_data
+                - symbol
+        """
+        try:
+            if not payload or 'm5' not in payload:
+                raise ValueError("FAIL-FAST: Neutral state removed")
+            
+            trend_data = kwargs['trend_data']
+            strength_data = kwargs['strength_data']
+            volatility_data = kwargs['volatility_data']
+            structure_data = kwargs['structure_data']
+            mtf_data = kwargs['mtf_data']
+            symbol = kwargs['symbol']
+            is_otc = (symbol.upper().endswith('_OTC') or symbol.upper().endswith('-OTC')) if isinstance(symbol, str) else False
+            
+            metrics = self._compute_metrics(payload, trend_data, strength_data,
+                                            volatility_data, structure_data, mtf_data,
+                                            is_otc=is_otc)
+            
+            state, confidence = self._classify_state(metrics, is_otc=is_otc)
+            state = self._smooth_state(state, confidence)
+            
+            quality_score = self._calculate_quality_score(state, metrics)
+            tradeable = self._is_tradeable(state, quality_score, metrics)
+            stability = self._compute_stability(metrics)
+            description = self._describe_state(state, metrics)
+            # Determine Risk Level
+            risk_level = 'HIGH' if metrics['noise_level'] > 0.5 or metrics['volatility_regime'] == 'EXTREME' else ('LOW' if metrics['noise_level'] < 0.25 and metrics['volatility_regime'] == 'NORMAL' else 'MEDIUM')
+            
+            # Action and Expiry
+            action = 'WAIT'
+            if state in ['TRENDING_STRONG', 'BREAKOUT_EMERGING'] and tradeable:
+                action = 'PREPARE_TO_TRADE'
+            expiry = 5
+            
+            return {
+                'state': state,
+                'confidence': int(confidence),
+                'quality_score': int(quality_score),
+                'tradeable': tradeable,
+                'stability': int(stability),
+                'description': description,
+                'breakout_prob': metrics.get('breakout_prob', 0),
+                'reversal_prob': metrics.get('reversal_prob', 0),
+                'risk_level': risk_level,
+                'suggested_action': action,
+                'suggested_expiry': expiry,
+                'metrics': metrics
+            }
+            
+        except Exception as e:
+            raise Exception(str(e))
+    
+    def _compute_metrics(self, payload: Dict[str, Any],
+                        trend_data: Dict, strength_data: Dict,
+                        volatility_data: Dict, structure_data: Dict,
+                        mtf_data: Dict, is_otc: bool = False) -> Dict[str, Any]:
+        
+        m5 = payload['m5']
+        pa = payload['price_action']
+        meta = payload['ohlcv']
+        
+        close = meta['close']
+        
+        # Engine Data
+        trend_direction = trend_data['direction']
+        trend_strength = trend_data['strength']
+        trend_slope = trend_data['slope']
+        trend_type = trend_data['type']
+        
+        adx = strength_data['adx']
+        rsi = strength_data['rsi']
+        momentum_level = strength_data['momentum_level']
+        strength_score = strength_data['strength_score']
+        
+        atr_percentile = volatility_data['atr_percentile']
+        bbw = volatility_data['bbw']
+        volatility_regime = volatility_data['regime']
+        volatility_score = volatility_data['volatility_score']
+        
+        structure_type = structure_data['structure_type']
+        bos_detected = structure_data['bos_detected']
+        breakout_prob = structure_data['breakout_probability']
+        reversal_prob = structure_data['reversal_probability']
+        
+        alignment_score = mtf_data['alignment_score']
+        htf_direction = mtf_data['htf_direction']
+        
+        # Payload Data
+        volume_ratio = 1.0 if is_otc else m5['volume_ratio']
+        volume_surge = volume_ratio > 1.5
+        
+        # Noise level from move_quality
+        move_quality = pa['move_quality']
+        noise_level = 0.2 if move_quality == 'CLEAN_TRENDING' else 0.8 if move_quality == 'NOISY' else 0.5
+        
+        rsi_extreme_bull = rsi > 75
+        rsi_extreme_bear = rsi < 25
+        
+        price_above_ma20 = close > m5['ema20']
+        price_above_ma50 = close > m5['ema50']
+        
+        wick_dominance = pa['wick_dominance']
+        wick_lower_ratio = 0.6 if wick_dominance == 'HIGH_LOWER_WICK' else 0.3
+        wick_upper_ratio = 0.6 if wick_dominance == 'HIGH_UPPER_WICK' else 0.3
+        
+        compression_detected = bbw < 0.05 or m5['box_tightness'] < 1.0
+        
+        sr_interaction = pa['sr_interaction']
+        divergence_detected = False
+        if rsi < 35 and sr_interaction == 'NEAR_SUPPORT':
+            divergence_detected = True
+        elif rsi > 65 and sr_interaction == 'NEAR_RESISTANCE':
+            divergence_detected = True
+            
+        adaptive_adx_threshold = 18 if atr_percentile < 60 else 28 if atr_percentile > 140 else 22
+        
+        return {
+            'trend_direction': trend_direction,
+            'trend_strength': trend_strength,
+            'trend_slope': trend_slope,
+            'trend_type': trend_type,
+            'adx': adx,
+            'rsi': rsi,
+            'momentum_level': momentum_level,
+            'strength_score': strength_score,
+            'atr_percentile': atr_percentile,
+            'bbw': bbw,
+            'volatility_regime': volatility_regime,
+            'volatility_score': volatility_score,
+            'structure_type': structure_type,
+            'bos_detected': bos_detected,
+            'breakout_prob': breakout_prob,
+            'reversal_prob': reversal_prob,
+            'alignment_score': alignment_score,
+            'htf_direction': htf_direction,
+            'volume_ratio': volume_ratio,
+            'noise_level': noise_level,
+            'rsi_extreme_bull': rsi_extreme_bull,
+            'rsi_extreme_bear': rsi_extreme_bear,
+            'price_above_ma20': price_above_ma20,
+            'price_above_ma50': price_above_ma50,
+            'wick_lower_ratio': wick_lower_ratio,
+            'wick_upper_ratio': wick_upper_ratio,
+            'compression_detected': compression_detected,
+            'divergence_detected': divergence_detected,
+            'volume_surge': volume_surge,
+            'adaptive_adx_threshold': adaptive_adx_threshold,
+            'is_otc': is_otc
+        }
+    
+    def _classify_state(self, m: Dict[str, Any], is_otc: bool = False) -> tuple:
+        """
+        Determine market state using a weighted scoring system.
+        Returns (state, confidence) where confidence is 0-100 integer.
+        
+        For OTC pairs (is_otc=True), LIQUIDITY_VOID score is forced to 0
+        because volume data is not reliable in OTC markets.
+        """
+        # Compute raw scores for all states
+        raw_scores = self._compute_raw_scores(m)
+        
+        # Apply global modifiers (boosts/penalties)
+        adjusted_scores = self._apply_global_modifiers(raw_scores, m, is_otc)
+        
+        # For OTC, explicitly zero out LIQUIDITY_VOID
+        if is_otc:
+            adjusted_scores['LIQUIDITY_VOID'] = 0
+        
+        # Select best state
+        best_state = max(adjusted_scores, key=adjusted_scores.get)
+        best_score = adjusted_scores[best_state]
+        
+        # Calculate confidence based on score margin over second best
+        sorted_scores = sorted(adjusted_scores.values(), reverse=True)
+        if len(sorted_scores) >= 2 and sorted_scores[0] > 0:
+            margin = sorted_scores[0] - sorted_scores[1]
+            # Confidence: base 50% + margin contribution, capped at 100
+            confidence = min(100, int(50 + (margin / 100) * 50))
+        else:
+            confidence = 50
+        
+        # Prevent rapid switching: if best_state is LIQUIDITY_VOID but previous wasn't,
+        # require a significant margin (>=15 points) to switch
+        if best_state == 'LIQUIDITY_VOID' and self._state_history:
+            prev_state, _ = self._state_history[-1]
+            if prev_state != 'LIQUIDITY_VOID' and len(sorted_scores) >= 2:
+                if margin < 15:
+                    # Fall back to second best (unless it's also LIQUIDITY_VOID)
+                    second_best = sorted(adjusted_scores.items(), key=lambda x: x[1], reverse=True)[1][0]
+                    if second_best != 'LIQUIDITY_VOID':
+                        best_state = second_best
+                        best_score = adjusted_scores[best_state]
+                        confidence = min(100, int(50 + ((best_score - sorted_scores[1]) / 100) * 50))
+        
+        return best_state, max(0, min(100, confidence))
+    
+    def _compute_raw_scores(self, m: Dict[str, Any]) -> Dict[str, float]:
+        """Compute raw score for each state based on the weighted scoring system."""
+        scores = {}
+        
+        # Extract metrics
+        adx = m['adx']
+        trend_strength = m['trend_strength']
+        direction = m['trend_direction']
+        atr_percentile = m['atr_percentile']
+        bbw = m['bbw']
+        volatility_regime = m['volatility_regime']
+        structure_type = m['structure_type']
+        bos_detected = m['bos_detected']
+        breakout_prob = m['breakout_prob']
+        reversal_prob = m['reversal_prob']
+        volume_ratio = m['volume_ratio']
+        is_otc = m['is_otc']
+        noise_level = m['noise_level']
+        alignment_score = m['alignment_score']
+        htf_ltf_conflict = m.get('htf_ltf_conflict', False)
+        exhaustion_risk = m.get('exhaustion_risk', 0.0)
+        divergence_detected = m['divergence_detected']
+        rsi = m['rsi']
+        wick_lower_ratio = m['wick_lower_ratio']
+        wick_upper_ratio = m['wick_upper_ratio']
+        
+        # ----- TRENDING_STRONG -----
+        score = (adx / 100) * 35
+        score += (trend_strength / 100) * 30
+        score += (alignment_score / 100) * 20
+        score += (1 - noise_level) * 15
+        # Boosts
+        if direction != 'NONE':
+            score += 10
+        if structure_type in ['TRENDING', 'BREAKOUT']:
+            score += 10
+        if bos_detected:
+            score += 5
+        if alignment_score >= 70:
+            score += 10
+        # Penalties
+        if noise_level > 0.6:
+            score -= 20
+        if exhaustion_risk > 70:
+            score -= 20
+        if htf_ltf_conflict:
+            score -= 15
+        scores['TRENDING_STRONG'] = max(0, score)
+        
+        # ----- BREAKOUT_EMERGING -----
+        score = max(0, (0.06 - bbw) / 0.06) * 30
+        score += (100 - atr_percentile) / 100 * 20
+        score += (breakout_prob / 100) * 25
+        score += (1 if bos_detected else 0) * 15
+        # Volume factor
+        if not is_otc:
+            score += min(1.0, volume_ratio / 1.5) * 10
+        else:
+            score += 10  # full volume credit for OTC
+        # Boosts
+        if bbw < 0.04:
+            score += 15
+        if atr_percentile < 30:
+            score += 10
+        if not is_otc and volume_ratio > 1.5:
+            score += 10
+        # Penalties
+        if noise_level > 0.5:
+            score -= 15
+        if htf_ltf_conflict:
+            score -= 20
+        scores['BREAKOUT_EMERGING'] = max(0, score)
+        
+        # ----- SIDEWAY_RANGE -----
+        score = (100 - adx) / 100 * 35
+        score += (1 if structure_type == 'RANGING' else 0) * 25
+        score += (1 - noise_level) * 20
+        score += (1 if volatility_regime in ['LOW', 'NORMAL'] else 0) * 20
+        # Boosts
+        if adx < 18:
+            score += 15
+        if noise_level < 0.3:
+            score += 10
+        # Penalties
+        if bos_detected:
+            score -= 20
+        if breakout_prob > 50:
+            score -= 15
+        scores['SIDEWAY_RANGE'] = max(0, score)
+        
+        # ----- ACCUMULATION -----
+        score = min(1.0, wick_lower_ratio * 2) * 35
+        # Volume factor
+        if not is_otc:
+            score += min(1.0, volume_ratio / 1.2) * 25
+        else:
+            score += 25
+        score += ((100 - trend_strength) / 100) * 20
+        score += (1 if structure_type in ['RANGING', 'CORRECTIVE'] else 0) * 20
+        # Boosts
+        if not is_otc and volume_ratio > 1.2:
+            score += 15
+        if wick_lower_ratio > 0.5:
+            score += 10
+        # Penalties
+        if bos_detected:
+            score -= 15
+        if divergence_detected:
+            score -= 10
+        scores['ACCUMULATION'] = max(0, score)
+        
+        # ----- DISTRIBUTION -----
+        score = min(1.0, wick_upper_ratio * 2) * 35
+        if not is_otc:
+            score += min(1.0, volume_ratio / 1.2) * 25
+        else:
+            score += 25
+        score += ((100 - trend_strength) / 100) * 20
+        score += (1 if structure_type in ['RANGING', 'CORRECTIVE'] else 0) * 20
+        # Boosts
+        if not is_otc and volume_ratio > 1.2:
+            score += 15
+        if wick_upper_ratio > 0.5:
+            score += 10
+        # Penalties
+        if bos_detected:
+            score -= 15
+        if divergence_detected:
+            score -= 10
+        scores['DISTRIBUTION'] = max(0, score)
+        
+        # ----- TRENDING_WEAK -----
+        score = (adx / 100) * 30
+        score += (trend_strength / 100) * 25
+        score += (1 - noise_level) * 25
+        score += (alignment_score / 100) * 20
+        # Boosts
+        if direction != 'NONE':
+            score += 10
+        if structure_type in ['TRENDING', 'CORRECTIVE']:
+            score += 5
+        # Penalties
+        if exhaustion_risk > 70:
+            score -= 25
+        if htf_ltf_conflict:
+            score -= 10
+        if noise_level > 0.5:
+            score -= 15
+        scores['TRENDING_WEAK'] = max(0, score)
+        
+        # ----- REVERSAL_FORMING -----
+        score = (reversal_prob / 100) * 35
+        score += (100 - adx) / 100 * 25
+        score += (1 if divergence_detected else 0) * 20
+        score += (1 - noise_level) * 20
+        # Boosts
+        if rsi < 30 or rsi > 70:
+            score += 15
+        if structure_type == 'CORRECTIVE':
+            score += 10
+        # Penalties
+        if noise_level > 0.5:
+            score -= 15
+        if htf_ltf_conflict:
+            score -= 10
+        scores['REVERSAL_FORMING'] = max(0, score)
+        
+        # ----- CHOPPY_UNCERTAIN -----
+        score = noise_level * 100 * 0.6
+        score += (100 - adx) / 100 * 20
+        score += (1 if structure_type == 'CHOPPY' else 0) * 20
+        # Penalties (lower score for choppy)
+        if trend_strength > 40:
+            score -= 20
+        if alignment_score > 50:
+            score -= 15
+        scores['CHOPPY_UNCERTAIN'] = max(0, score)
+        
+        # ----- LIQUIDITY_VOID -----
+        # Use inverse of volume and ADX as indicators of void
+        if not is_otc:
+            score = (1 - min(1.0, volume_ratio / 0.5)) * 50
+            score += (1 - min(1.0, adx / 20)) * 50
+        else:
+            score = 0  # will be zeroed in _classify_state
+        scores['LIQUIDITY_VOID'] = max(0, score)
+        
+        # ----- UNCLEAR -----
+        # Default moderate score when nothing else fits
+        score = 25
+        # Increase if most scores are low
+        other_scores = [scores[k] for k in scores if k != 'UNCLEAR']
+        if all(s < 30 for s in other_scores):
+            score = 50
+        if htf_ltf_conflict or noise_level > 0.6:
+            score += 20
+        scores['UNCLEAR'] = max(0, min(100, score))
+        
+        return scores
+    
+    def _apply_global_modifiers(self, scores: Dict[str, float], m: Dict[str, Any], is_otc: bool) -> Dict[str, float]:
+        """Apply global boosts and penalties to all state scores."""
+        adjusted = dict(scores)
+        
+        noise_level = m.get('noise_level', 0.0)
+        htf_ltf_conflict = m.get('htf_ltf_conflict', False)
+        exhaustion_risk = m.get('exhaustion_risk', 0.0)
+        anomaly_detected = m.get('anomaly_detected', False)
+        volatility_regime = m['volatility_regime']
+        volume_ratio = m['volume_ratio']
+        is_otc = m['is_otc']
+        
+        # Global modifiers
+        modifiers = []
+        
+        # Low noise boost
+        if noise_level < 0.25:
+            modifiers.append(('TRENDING_STRONG', 10))
+            modifiers.append(('SIDEWAY_RANGE', 10))
+        
+        # Volume surge boost
+        if not is_otc and volume_ratio > 1.5:
+            modifiers.append(('BREAKOUT_EMERGING', 15))
+            modifiers.append(('ACCUMULATION', 15))
+            modifiers.append(('DISTRIBUTION', 15))
+        
+        # HTF-LTF conflict penalty
+        if htf_ltf_conflict:
+            for state in adjusted:
+                if state != 'UNCLEAR':
+                    adjusted[state] -= 15
+        
+        # High noise penalty
+        if noise_level > 0.6:
+            adjusted['TRENDING_STRONG'] -= 20
+            adjusted['BREAKOUT_EMERGING'] -= 20
+        
+        # Exhaustion penalty
+        if exhaustion_risk > 70:
+            adjusted['TRENDING_STRONG'] -= 25
+            adjusted['TRENDING_WEAK'] -= 25
+        
+        # Anomaly penalty
+        if anomaly_detected:
+            for state in adjusted:
+                adjusted[state] -= 30
+        
+        # Extreme volatility penalty
+        if volatility_regime == 'EXTREME':
+            for state in adjusted:
+                if state != 'UNCLEAR':
+                    adjusted[state] -= 20
+        
+        # Apply modifiers
+        for state, boost in modifiers:
+            if state in adjusted:
+                adjusted[state] += boost
+        
+        # Clamp to 0-100
+        for state in adjusted:
+            adjusted[state] = max(0, min(100, adjusted[state]))
+        
+        return adjusted
+    
+    def _smooth_state(self, state: str, confidence: int) -> str:
+        """
+        Apply state transition smoothing to prevent rapid flipping.
+        Requires at least N consecutive same-state classifications before changing.
+        """
+        self._state_history.append((state, confidence))
+        if len(self._state_history) < self._max_history:
+            return state
+        
+        # Count occurrences of each state in history
+        from collections import Counter
+        counter = Counter(s for s, _ in self._state_history)
+        most_common_state, count = counter.most_common(1)[0]
+        
+        # If the most common state appears at least 3 times, use it
+        if count >= 3:
+            return most_common_state
+        return state
+    
+    def _calculate_quality_score(self, state: str, m: Dict[str, Any]) -> float:
+        """Calculate quality score (0-100) based on state and metrics."""
+        # Base quality by state
+        state_quality = {
+            'TRENDING_STRONG': 90,
+            'BREAKOUT_EMERGING': 85,
+            'ACCUMULATION': 80,
+            'SIDEWAY_RANGE': 75,
+            'TRENDING_WEAK': 65,
+            'REVERSAL_FORMING': 60,
+            'DISTRIBUTION': 45,
+            'CHOPPY_UNCERTAIN': 20,
+            'LIQUIDITY_VOID': 10,
+            'UNCLEAR': 15
+        }
+        quality = state_quality[state]
+        
+        # Adjust based on noise level
+        noise_penalty = int(m['noise_level'] * 30)
+        quality = max(0, quality - noise_penalty)
+        
+        # Adjust based on volume
+        volume_ratio = m['volume_ratio']
+        if volume_ratio < 0.5:
+            quality = max(0, quality - 20)
+        
+        return min(100, quality)
+    
+    def _is_tradeable(self, state: str, quality: float, m: Dict[str, Any]) -> bool:
+        """Determine if market is tradeable based on state and quality."""
+        tradeable_states = [
+            'TRENDING_STRONG', 'BREAKOUT_EMERGING', 'ACCUMULATION',
+            'SIDEWAY_RANGE', 'TRENDING_WEAK', 'REVERSAL_FORMING', 'DISTRIBUTION'
+        ]
+        if state not in tradeable_states:
+            return False
+        # อ่านจาก config ที่ส่งเข้ามา หรือใช้ค่า default
+        cfg = self.config or {}
+        min_quality = cfg["min_quality_score"]
+        max_noise  = cfg["max_noise_level"]
+        if quality < min_quality:
+            return False
+        if m['noise_level'] > max_noise:
+            return False
+        return True
+    
+    def _compute_stability(self, m: Dict[str, Any]) -> float:
+        """Compute market stability score (0-100)."""
+        noise = m['noise_level']
+        volatility = m['volatility_score'] / 100
+        adx = m['adx'] / 50
+        
+        stability = 100 * (1 - noise) * (1 - volatility * 0.3) * (0.5 + 0.5 * min(1, adx))
+        return min(100, max(0, stability))
+    
+    def _describe_state(self, state: str, m: Dict[str, Any]) -> str:
+        """Generate human-readable description of the market state."""
+        descriptions = {
+            'TRENDING_STRONG': 'Strong directional trend with high momentum. Favorable for trend-following strategies.',
+            'TRENDING_WEAK': 'Weak directional bias. Caution advised, consider range-bound strategies.',
+            'SIDEWAY_RANGE': 'Price ranging between clear levels. Suitable for mean-reversion strategies.',
+            'BREAKOUT_EMERGING': 'Volatility expansion after compression. Potential breakout opportunity.',
+            'REVERSAL_FORMING': 'Early signals of potential trend change. Watch for confirmation.',
+            'ACCUMULATION': 'Smart money accumulation. Bullish bias, look for breakout.',
+            'DISTRIBUTION': 'Smart money distribution. Bearish bias, look for breakdown.',
+            'CHOPPY_UNCERTAIN': 'Chaotic price action, high noise. Avoid trading until clarity returns.',
+            'LIQUIDITY_VOID': 'Extremely low volume / dead market. No trading opportunity.',
+            'UNCLEAR': 'Mixed signals or insufficient data. Exercise caution.'
+        }
+        base = descriptions[state]
+        # Add extra details if helpful
+        if state in ['BREAKOUT_EMERGING', 'REVERSAL_FORMING']:
+            extra = []
+            if m.get('divergence_detected', False):
+                extra.append("divergence detected")
+            if extra:
+                return f"{base} ({', '.join(extra)})"
+        return base
+    
+    
+
+
+
+---
+กรุณาเริ่มทำรายงานตรวจสอบแบบเจาะลึกและบันทึกผลงานไว้ที่ E:\BOT_FINALBOT13 STG\BOT_FINALBOT_NEW\docs\Basic\DS_SPEC_QA_REPORT.md ทันที!

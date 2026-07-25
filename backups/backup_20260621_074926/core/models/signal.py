@@ -1,92 +1,63 @@
-"""
-Core Model: Signal
+#!/usr/bin/env python
+# -*- coding: utf-8; py-indent-offset:4 -*-
+###############################################################################
+#
+# Copyright (C) 2015-2023 Daniel Rodriguez
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+###############################################################################
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
 
-Trading signal output (final decision from execution gate).
-"""
+import backtrader as bt
 
-from dataclasses import dataclass, field
-from datetime import datetime
-from typing import Optional, Dict, Any
-from enum import Enum
+(
 
+    SIGNAL_NONE,
+    SIGNAL_LONGSHORT,
+    SIGNAL_LONG,
+    SIGNAL_LONG_INV,
+    SIGNAL_LONG_ANY,
+    SIGNAL_SHORT,
+    SIGNAL_SHORT_INV,
+    SIGNAL_SHORT_ANY,
+    SIGNAL_LONGEXIT,
+    SIGNAL_LONGEXIT_INV,
+    SIGNAL_LONGEXIT_ANY,
+    SIGNAL_SHORTEXIT,
+    SIGNAL_SHORTEXIT_INV,
+    SIGNAL_SHORTEXIT_ANY,
 
-class SignalAction(Enum):
-    """Trading action types"""
-    CALL = "CALL"           # Bullish entry
-    PUT = "PUT"             # Bearish entry
-    NO_SIGNAL = "NO_SIGNAL" # No action
-    BLOCKED = "BLOCKED"     # Signal blocked by risk gate
-
-
-class SignalQuality(Enum):
-    """Signal quality tiers"""
-    PREMIUM = "PREMIUM"     # Highest quality (90-100)
-    HIGH = "HIGH"           # High quality (75-89)
-    MEDIUM = "MEDIUM"       # Medium quality (60-74)
-    LOW = "LOW"             # Low quality (<60)
+) = range(14)
 
 
-@dataclass(frozen=True)
-class Signal:
-    """
-    Final trading signal from the system.
-    
-    This is the OUTPUT of the entire pipeline (Context -> Score -> Strategy -> Gate).
-    """
-    
-    # Identification
-    signal_id: str
-    timestamp: datetime
-    symbol: str
-    timeframe: str
-    
-    # Action
-    action: SignalAction
-    
-    # Quality
-    confidence: int                     # 0-100
-    quality: SignalQuality
-    
-    # Metadata
-    strategy_name: str                  # Which strategy generated this
-    reason: str                         # Human-readable reason
-    
-    # Risk info
-    blocked_by: Optional[str] = None    # Reason for block (if BLOCKED)
-    veto_reason: Optional[str] = None   # Veto reason
-    
-    # Context snapshot
-    context_snapshot: Dict[str, Any] = field(default_factory=dict)
-    score_snapshot: Dict[str, float] = field(default_factory=dict)
-    
-    def __post_init__(self):
-        if not 0 <= self.confidence <= 100:
-            raise ValueError(f"Confidence must be 0-100, got {self.confidence}")
-    
-    @property
-    def is_actionable(self) -> bool:
-        """Can this signal be acted upon?"""
-        return self.action in (SignalAction.CALL, SignalAction.PUT)
-    
-    @property
-    def is_blocked(self) -> bool:
-        return self.action == SignalAction.BLOCKED
-    
-    @property
-    def is_premium(self) -> bool:
-        return self.quality == SignalQuality.PREMIUM
-    
-    def to_dict(self) -> dict:
-        return {
-            'signal_id': self.signal_id,
-            'timestamp': self.timestamp.isoformat(),
-            'symbol': self.symbol,
-            'timeframe': self.timeframe,
-            'action': self.action.value,
-            'confidence': self.confidence,
-            'quality': self.quality.value,
-            'strategy_name': self.strategy_name,
-            'reason': self.reason,
-            'blocked_by': self.blocked_by,
-            'veto_reason': self.veto_reason,
-        }
+SignalTypes = [
+    SIGNAL_NONE,
+    SIGNAL_LONGSHORT,
+    SIGNAL_LONG, SIGNAL_LONG_INV, SIGNAL_LONG_ANY,
+    SIGNAL_SHORT, SIGNAL_SHORT_INV, SIGNAL_SHORT_ANY,
+    SIGNAL_LONGEXIT, SIGNAL_LONGEXIT_INV, SIGNAL_LONGEXIT_ANY,
+    SIGNAL_SHORTEXIT, SIGNAL_SHORTEXIT_INV, SIGNAL_SHORTEXIT_ANY
+]
+
+
+class Signal(bt.Indicator):
+    SignalTypes = SignalTypes
+
+    lines = ('signal',)
+
+    def __init__(self):
+        self.lines.signal = self.data0.lines[0]
+        self.plotinfo.plotmaster = getattr(self.data0, '_clock', self.data0)

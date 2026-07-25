@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 # Global file paths
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-LIVE_ORDERS_FILE = PROJECT_ROOT / "logs" / "orders" / "orders.jsonl"
+LIVE_ORDERS_FILE = PROJECT_ROOT / "all_filelogs" / "orders" / "orders.jsonl"
 
 # Ensure directory exists
 LIVE_ORDERS_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -31,7 +31,7 @@ def _write_order(file_path: Path, order_data: Dict[str, Any]) -> None:
 
 def log_live_order(order_details: Dict[str, Any]) -> None:
     """
-    Log a live trade to logs/orders.jsonl.
+    Log a live trade to all_filelogs/orders/orders.jsonl.
     
     Expected order_details fields:
         - timestamp (str, ISO format)

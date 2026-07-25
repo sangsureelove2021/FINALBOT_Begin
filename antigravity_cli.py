@@ -1,3 +1,4 @@
+
 import os
 import sys
 import google.generativeai as genai
@@ -59,8 +60,8 @@ print("==============================================\n")
 def show_help():
     print("คีย์ลัดพิเศษสำหรับบอทเทรด:")
     print("  /code <ชื่อไฟล์>     - ส่งโค้ดในโปรเจกต์ให้ AI ช่วยตรวจ (เช่น /code runner.py)")
-    print("  /market <ชื่อคู่เงิน> - ส่งค่าอินดิเคเตอร์ล่าสุดของคู่เงินให้ AI วิเคราะห์ (เช่น /market EURUSD-OTC)")
-    print("  /logs              - ดึงไฟล์ Log ล่าสุดมาวิเคราะห์หาสาเหตุหรือสรุปการทำงาน")
+    print("  /market <ชื่อคู่เงิน> - ส่งค่าอินดิเคเตอร์ล่าสุดให้ AI วิเคราะห์ (เช่น /market EURUSD-OTC)")
+    print("  /logs [ชื่อไฟล์]     - ดึงไฟล์ Log ล่าสุด (หรือไฟล์ที่ระบุ) มาวิเคราะห์")
     print("  exit หรือ quit     - ออกจากโปรแกรม\n")
 
 show_help()
@@ -99,12 +100,12 @@ while True:
 
             elif cmd == "/market":
                 symbol = arg if arg else "EURUSD-OTC"
-                json_path = f"logs/market_state/market_state_{symbol}.json"
+                json_path = f"all_filelogs/market_state/market_state_{symbol}.json"
                 if not os.path.exists(json_path):
-                    json_path = "logs/market_state/market_state.json"
+                    json_path = "all_filelogs/market_state/market_state.json"
                 
                 if not os.path.exists(json_path):
-                    print(f"ไม่พบไฟล์ข้อมูลตลาดของ {symbol} ในโฟลเดอร์ logs/\n")
+                    print(f"ไม่พบไฟล์ข้อมูลตลาดของ {symbol} ในโฟลเดอร์ all_filelogs/\n")
                     continue
                 
                 print(f"กำลังอ่านสถานะตลาดล่าสุดจาก {json_path}...")
@@ -114,22 +115,28 @@ while True:
                 prompt = f"นี่คือข้อมูลสถานะตลาดล่าสุดของคู่เงิน {symbol} ที่บอทบันทึกไว้ ช่วยวิเคราะห์แนวโน้มตลาดและบอกจุดเด่นทางเทคนิคตามอินดิเคเตอร์เหล่านี้ให้หน่อย:\n\n```json\n{market_data}\n```"
 
             elif cmd == "/logs":
-                log_dir = "logs"
-                if not os.path.exists(log_dir):
-                    print("ไม่พบโฟลเดอร์ logs/\n")
+                log_file_path = arg
+                if not log_file_path:
+                    # ถ้าไม่ระบุไฟล์ ให้หาไฟล์ล่าสุดในโฟลเดอร์ all_filelogs/system_logs ตามเดิม
+                    log_dir = "all_filelogs/system_logs"
+                    if not os.path.exists(log_dir):
+                        print("ไม่พบโฟลเดอร์ all_filelogs/system_logs/\n")
+                        continue
+                    
+                    log_files = [os.path.join(log_dir, f) for f in os.listdir(log_dir) if f.endswith((".log", ".txt"))]
+                    if not log_files:
+                        print("ไม่พบไฟล์ .log หรือ .txt ในโฟลเดอร์ all_filelogs/system_logs/\n")
+                        continue
+                    
+                    log_file_path = max(log_files, key=os.path.getmtime)
+
+                if not os.path.exists(log_file_path):
+                    print(f"ไม่พบไฟล์ Log ที่ระบุ: {log_file_path}\n")
                     continue
-                
-                log_files = [os.path.join(log_dir, f) for f in os.listdir(log_dir) if f.endswith(".log")]
-                if not log_files:
-                    print("ไม่พบไฟล์ .log ในโฟลเดอร์ logs/\n")
-                    continue
-                
-                latest_log = max(log_files, key=os.path.getmtime)
-                print(f"กำลังอ่าน Log ล่าสุด: {latest_log} (อ่าน 150 บรรทัดสุดท้าย)...")
-                
-                with open(latest_log, "r", encoding="utf-8", errors="ignore") as f:
+
+                print(f"กำลังอ่าน Log: {log_file_path} (อ่าน 150 บรรทัดสุดท้าย)...")
+                with open(log_file_path, "r", encoding="utf-8", errors="ignore") as f:
                     lines = f.readlines()
-                
                 last_lines = "".join(lines[-150:])
                 prompt = f"นี่คือ Log ล่าสุดของบอทเทรด (150 บรรทัดสุดท้าย) ช่วยตรวจสอบว่ามี Error อะไรเกิดขึ้นไหม หรือบอททำงานปกติอย่างไรบ้าง:\n\n```text\n{last_lines}\n```"
                 

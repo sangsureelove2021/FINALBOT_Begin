@@ -1,6 +1,0 @@
-2026-06-20 18:12:21,867 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
-2026-06-20 18:12:25,738 | INFO     | [CONN] IQ Option connected (DEMO)
-2026-06-20 18:12:25,740 | INFO     | [OK] Executor reusing IQ Option connection from adapter
-2026-06-20 18:12:25,753 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
-2026-06-20 18:12:25,754 | INFO     | MarketStateClassifier initialized successfully
-2026-06-20 18:12:26,911 | INFO     | Trade log saved: logs\logs_trade\trade_log_20260620_111226_EURUSD.json

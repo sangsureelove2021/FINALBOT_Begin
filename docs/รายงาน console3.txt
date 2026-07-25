@@ -1,0 +1,100 @@
+Python 3.14.5 (tags/v3.14.5:5607950, May 10 2026, 10:43:50) [MSC v.1944 64 bit (AMD64)] on win32
+Enter "help" below or click "Help" above for more information.
+
+============= RESTART: E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py ============
+01:24:34 - FINALBOT Running
+01:24:36 - ตรวจสอบข่าวเศรษฐกิจวันนี้ 2026-07-07 พร้อมใช้งาน
+01:24:38 - กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+01:24:42 - เชื่อมต่อ IQ Option สำเร็จ
+01:24:43 - Time Sync : -0.375s
+01:24:44 - บัญชี PRACTICE | Balance: $1864.41
+01:24:45 - Trading Mode: AI AUTO_BOT [Stake:35][Profit:100.0%][Loss:100.0%][Orderlimit:9999][Time:00.20-23.50]
+01:24:46 - ตรวจพบรายการสินทรัพย์ : EURJPY-OTC, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+01:24:47 - กำลังเตรียมข้อมูลสินทรัพย์ 4 รายการ : EURJPY-OTC, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+01:24:51 - ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+01:24:52 - เข้าสู่การวิเคราะห์สัญญาณในอีก 9 วินาที  (เริ่ม 01:25:01)
+01:25:03 - [EURJPY-OTC:185.46681][EURUSD-OTC:1.13048][GBPUSD-OTC:1.32539][EURGBP-OTC:0.85391] :: TOTAL=$1864.41
+01:25:03 - ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ (4 รายการ)!
+01:25:29 - DeepSeek AI: NO_TRADE (45%)
+01:25:30 - DeepSeek AI: NO_TRADE (30%)
+01:26:01 - [EURJPY-OTC:185.46517][EURUSD-OTC:1.13055][GBPUSD-OTC:1.32587][EURGBP-OTC:0.85393] :: TOTAL=$1864.41
+01:26:01 - ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ (4 รายการ)!
+01:26:25 - DeepSeek AI: NO_TRADE (55%)
+01:26:25 - DeepSeek AI: PUT (72%)
+01:26:25 - ยิงออเดอร์ PUT EURGBP-OTC (3 นาที)
+01:26:26 -    └─ ออเดอร์เข้าสำเร็จ (ID: 14051787339)
+01:27:01 - [EURJPY-OTC:185.46274][EURUSD-OTC:1.13041][GBPUSD-OTC:1.32590][EURGBP-OTC:0.85372] :: TOTAL=$1829.41
+01:27:01 - ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ (4 รายการ)!
+01:27:25 - DeepSeek AI: PUT (68%)
+01:27:25 - ยิงออเดอร์ PUT GBPUSD-OTC (4 นาที)
+01:27:25 - DeepSeek AI: PUT (72%)
+01:27:25 -    └─ ออเดอร์เข้าสำเร็จ (ID: 14051789357)
+01:27:25 - ยิงออเดอร์ PUT EURJPY-OTC (3 นาที)
+01:27:26 -    └─ ออเดอร์เข้าสำเร็จ (ID: 14051789384)
+01:28:02 - [EURJPY-OTC:185.49075][EURUSD-OTC:1.13061][GBPUSD-OTC:1.32560][EURGBP-OTC:0.85357] :: TOTAL=$1759.41
+01:28:02 - ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ (4 รายการ)!
+01:28:25 - DeepSeek AI: PUT (72%)
+01:28:26 - ยิงออเดอร์ PUT EURGBP-OTC (3 นาที)
+01:28:26 - DeepSeek AI: NO_TRADE (35%)
+01:28:26 -    └─ ออเดอร์เข้าสำเร็จ (ID: 14051791373)
+01:29:02 - [EURJPY-OTC:185.46837][EURUSD-OTC:1.13044][GBPUSD-OTC:1.32567][EURGBP-OTC:0.85333] :: TOTAL=$1724.41
+01:29:02 - ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ (4 รายการ)!
+01:29:26 - DeepSeek AI: PUT (68%)
+01:29:26 - ยิงออเดอร์ PUT GBPUSD-OTC (3 นาที)
+01:29:26 - DeepSeek AI: PUT (72%)
+01:29:26 -    └─ ออเดอร์เข้าสำเร็จ (ID: 14051793303)
+01:29:26 - ยิงออเดอร์ PUT EURJPY-OTC (3 นาที)
+01:29:26 -    └─ ออเดอร์เข้าสำเร็จ (ID: 14051793322)
+01:30:00 - ชนะ EURGBP-OTC (ID: 14051787339) | PnL: 29.40
+01:30:04 - [EURJPY-OTC:185.40116][EURUSD-OTC:1.13102][GBPUSD-OTC:1.32628][EURGBP-OTC:0.85315] :: TOTAL=$1718.81
+01:30:04 - ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ (4 รายการ)!
+01:30:28 - DeepSeek AI: NO_TRADE (35%)
+01:30:28 - DeepSeek AI: PUT (68%)
+01:30:28 - ยิงออเดอร์ PUT EURGBP-OTC (3 นาที)
+01:30:29 -    └─ ออเดอร์เข้าสำเร็จ (ID: 14051795559)
+01:31:00 - ชนะ EURJPY-OTC (ID: 14051789384) | PnL: 29.40
+01:31:02 - [EURJPY-OTC:185.41171][EURUSD-OTC:1.13098][GBPUSD-OTC:1.32641][EURGBP-OTC:0.85284] :: TOTAL=$1748.21
+01:31:02 - ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ (4 รายการ)!
+01:31:25 - DeepSeek AI: NO_TRADE (55%)
+01:31:26 - DeepSeek AI: NO_TRADE (30%)
+01:32:00 - แพ้ GBPUSD-OTC (ID: 14051789357) | PnL: -35.00
+01:32:00 - ชนะ EURGBP-OTC (ID: 14051791373) | PnL: 29.40
+01:32:02 - [EURJPY-OTC:185.37425][EURUSD-OTC:1.13095][GBPUSD-OTC:1.32597][EURGBP-OTC:0.85283] :: TOTAL=$1812.61
+01:32:02 - ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ (4 รายการ)!
+01:32:26 - DeepSeek AI: NO_TRADE (45%)
+01:32:26 - DeepSeek AI: NO_TRADE (45%)
+01:33:00 - แพ้ GBPUSD-OTC (ID: 14051793303) | PnL: -35.00
+01:33:00 - ชนะ EURJPY-OTC (ID: 14051793322) | PnL: 29.40
+01:33:01 - [EURJPY-OTC:185.36950][EURUSD-OTC:1.13054][GBPUSD-OTC:1.32578][EURGBP-OTC:0.85291] :: TOTAL=$1877.01
+01:33:01 - ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ (4 รายการ)!
+01:33:25 - DeepSeek AI: PUT (72%)
+01:33:25 - ยิงออเดอร์ PUT GBPUSD-OTC (3 นาที)
+01:33:26 - DeepSeek AI: PUT (78%)
+01:33:26 - ยิงออเดอร์ PUT EURGBP-OTC (3 นาที)
+01:33:26 -    └─ ออเดอร์เข้าสำเร็จ (ID: 14051801722)
+01:33:26 -    └─ ออเดอร์เข้าสำเร็จ (ID: 14051801744)
+01:34:00 - ชนะ EURGBP-OTC (ID: 14051795559) | PnL: 29.75
+01:34:01 - [EURJPY-OTC:185.41418][EURUSD-OTC:1.12993][GBPUSD-OTC:1.32576][EURGBP-OTC:0.85315] :: TOTAL=$1871.76
+01:34:01 - ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ (4 รายการ)!
+01:34:25 - DeepSeek AI: NO_TRADE (20%)
+01:34:25 - DeepSeek AI: NO_TRADE (45%)
+01:35:03 - [EURJPY-OTC:185.40369][EURUSD-OTC:1.12878][GBPUSD-OTC:1.32529][EURGBP-OTC:0.85303] :: TOTAL=$1871.76
+01:35:03 - ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ (4 รายการ)!
+01:35:27 - DeepSeek AI: PUT (72%)
+01:35:27 - ยิงออเดอร์ PUT GBPUSD-OTC (3 นาที)
+01:35:27 -    └─ ออเดอร์เข้าสำเร็จ (ID: 14051806258)
+01:35:27 - DeepSeek AI: NO_TRADE (65%)
+01:36:02 - [EURJPY-OTC:185.47132][EURUSD-OTC:1.12946][GBPUSD-OTC:1.32448][EURGBP-OTC:0.85330] :: TOTAL=$1836.76
+01:36:02 - ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ (4 รายการ)!
+01:36:26 - DeepSeek AI: NO_TRADE (55%)
+01:36:26 - DeepSeek AI: NO_TRADE (35%)
+01:37:00 - ชนะ GBPUSD-OTC (ID: 14051801722) | PnL: 29.75
+01:37:00 - แพ้ EURGBP-OTC (ID: 14051801744) | PnL: -35.00
+01:37:02 - [EURJPY-OTC:185.45000][EURUSD-OTC:1.12959][GBPUSD-OTC:1.32468][EURGBP-OTC:0.85342] :: TOTAL=$1901.51
+01:37:02 - ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ (4 รายการ)!
+01:37:26 - DeepSeek AI: PUT (72%)
+01:37:26 - ยิงออเดอร์ PUT GBPUSD-OTC (3 นาที)
+01:37:26 - DeepSeek AI: NO_TRADE (55%)
+01:37:27 -    └─ ออเดอร์เข้าสำเร็จ (ID: 14051810419)
+01:38:02 - [EURJPY-OTC:185.48947][EURUSD-OTC:1.12904][GBPUSD-OTC:1.32506][EURGBP-OTC:0.85340] :: TOTAL=$1866.51
+01:38:02 - ✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ (4 รายการ)!

@@ -12,6 +12,26 @@ from typing import Dict, List, Optional
 from datetime import datetime, timezone, timedelta
 from dataclasses import dataclass, field
 
+def setup_logging():
+    """Setup logging to both console and file."""
+    # Create logs directory if not exists
+    log_dir = "all_filelogs/system_logs"
+    os.makedirs(log_dir, exist_ok=True)
+    
+    # Configure logging
+    log_file = os.path.join(log_dir, f"bot_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
+    
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.StreamHandler(sys.stdout),  # Console
+            logging.FileHandler(log_file)      # File
+        ]
+    )
+    
+    logger.info(f"Logging to file: {log_file}")
+
 class SafeStreamWrapper:
     def __init__(self, original_stream):
         self.original_stream = original_stream
@@ -46,8 +66,8 @@ def setup_logging():
     sys.stdout = SafeStreamWrapper(sys.stdout)
     sys.stderr = SafeStreamWrapper(sys.stderr)
 
-    os.makedirs("logs/system_logs", exist_ok=True)
-    log_file_name = f"logs/system_logs/bot_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
+    os.makedirs("all_filelogs/system_logs", exist_ok=True)
+    log_file_name = f"all_filelogs/system_logs/bot_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s | %(levelname)-8s | %(message)s',
@@ -74,7 +94,7 @@ class ConsoleUI:
     
     @staticmethod
     def show_startup():
-        thai_console_log("FINALBOT Starting...")
+        thai_console_log("FINALBOT Running")
 
     @staticmethod
     def show_symbols_loaded(symbols):
@@ -86,11 +106,11 @@ class ConsoleUI:
 
     @staticmethod
     def show_connection_attempt():
-        thai_console_log("กำลังเชื่อมต่อ IQ Option...")
+        thai_console_log("กำลังเชื่อมต่อโบรกเกอร์  | IQ Option")
 
     @staticmethod
     def show_connection_success():
-        thai_console_log("เชื่อมต่อ IQ Option สำเร็จ..")
+        thai_console_log("เชื่อมต่อ IQ Option สำเร็จ")
 
     @staticmethod
     def show_connection_failed():
@@ -102,11 +122,11 @@ class ConsoleUI:
 
     @staticmethod
     def show_time_offset(offset):
-        thai_console_log(f"เวลาเซิร์ฟเวอร์โบรกเกอร์ต่างจากเครื่อง: {offset:.2f} วินาที")
+        thai_console_log(f"Time Sync : {offset:.3f}s")
 
     @staticmethod
-    def show_trading_mode(mode):
-        thai_console_log(f"Trading Mode: {mode}")
+    def show_trading_mode(mode, stake, profit_pct, loss_pct, max_conc, trade_hours):
+        thai_console_log(f"Trading Mode: {mode} [Stake:{stake}][Profit:{profit_pct}%][Loss:{loss_pct}%][Orderlimit:{max_conc}][Time:{trade_hours}]")
 
     @staticmethod
     def show_ai_checking():
@@ -117,8 +137,15 @@ class ConsoleUI:
         thai_console_log("Failed to connect to AI. System stopped.")
 
     @staticmethod
-    def show_ai_prompt_sent():
-        thai_console_log("✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ! กำลังรอผล...")
+    def show_ai_prompt_sent(count=0, skipped_symbols=None):
+        if skipped_symbols is None:
+            skipped_symbols = []
+        
+        msg = f"✅ ส่งคำสั่ง Prompt เข้า DeepSeek Agent สำเร็จ ({count} รายการ)!"
+        if skipped_symbols:
+            msg += f" | ⚠️ ข้ามรอบนี้: {', '.join(skipped_symbols)} (ทำงานค้างอยู่)"
+        
+        thai_console_log(msg)
 
     @staticmethod
     def show_ai_reply(reply):
@@ -126,11 +153,11 @@ class ConsoleUI:
 
     @staticmethod
     def show_asset_list(symbols):
-        thai_console_log(f"รายการสินทรัพย์เพื่อเทรด {len(symbols)} รายการ : {', '.join(symbols)}")
+        thai_console_log(f"ตรวจพบรายการสินทรัพย์ : {', '.join(symbols)}")
 
     @staticmethod
-    def show_data_prep_start():
-        thai_console_log("กำลังเตรียมข้อมูลสินทรัพย์")
+    def show_data_prep_start(symbols):
+        thai_console_log(f"กำลังเตรียมข้อมูลสินทรัพย์ {len(symbols)} รายการ : {', '.join(symbols)}")
 
     @staticmethod
     def show_data_prep_result(ready_count, not_ready_count):
@@ -138,8 +165,7 @@ class ConsoleUI:
 
     @staticmethod
     def show_mode_summary(stake, profit_pct, loss_pct, max_conc, trade_hours):
-        mode_str = f"[MODE : AI_BOT][Stake:{stake}][Profit:{profit_pct}%][Loss:{loss_pct}%][Orderlimit:{max_conc}][Time:{trade_hours}]"
-        thai_console_log(mode_str)
+        pass # Merged into show_trading_mode
 
     @staticmethod
     def show_news_status(msg):

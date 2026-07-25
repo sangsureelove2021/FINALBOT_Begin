@@ -1,230 +1,78 @@
-# Copyright 2018-2021 Alvaro Bartolome, alvarobartt @ GitHub
-# See LICENSE for details.
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
+import numpy as np
+
+if TYPE_CHECKING:
+    from contourpy._contourpy import CoordinateArray
 
 
-class Data(object):
-    """
-    This class is used to store the historical data of avery financial product retrieved from Investing.com either as
-    a :obj:`json` or as a :obj:`dict`.
+def simple(
+    shape: tuple[int, int], want_mask: bool = False,
+) -> tuple[CoordinateArray, CoordinateArray, CoordinateArray | np.ma.MaskedArray[Any, Any]]:
+    """Return simple test data consisting of the sum of two gaussians.
 
     Args:
-        date_ (:obj:`str`): date in dd/mm/yyyy format.
-        open_ (:obj:`float`): open value of the market on the introduced date.
-        high_ (:obj:`float`): highest value of the market on the introduced date.
-        low_ (:obj:`float`): lowest value of the market on the introduced date.
-        close_ (:obj:`float`): close value of the market on the introduced date.
-        volume_ (:obj:`long`): number of shares traded on the introduced date.
-        currency_ (:obj:`str`): currency in which the data is displayed.
-        exchange_ (:obj:`str`): stock exchange that provides the data.
+        shape (tuple(int, int)): 2D shape of data to return.
+        want_mask (bool, optional): Whether test data should be masked or not, default ``False``.
 
-    Attributes:
-        date_ (:obj:`str`): date in dd/mm/yyyy format.
-        open_ (:obj:`float`): open value of the market on the introduced date.
-        high_ (:obj:`float`): highest value of the market on the introduced date.
-        low_ (:obj:`float`): lowest value of the market on the introduced date.
-        close_ (:obj:`float`): close value of the market on the introduced date.
-        volume_ (:obj:`long`): number of shares traded on the introduced date.
-        currency_ (:obj:`str`): currency in which the data is displayed.
-        exchange_ (:obj:`str`): stock exchange that provides the data.
-
+    Return:
+        Tuple of 3 arrays: ``x``, ``y``, ``z`` test data, ``z`` will be masked if
+        ``want_mask=True``.
     """
+    ny, nx = shape
+    x = np.arange(nx, dtype=np.float64)
+    y = np.arange(ny, dtype=np.float64)
+    x, y = np.meshgrid(x, y)
 
-    def __init__(
-        self, date_, open_, high_, low_, close_, volume_, currency_, exchange_
-    ):
-        self.date = date_
-        self.open = open_
-        self.high = high_
-        self.low = low_
-        self.close = close_
-        self.volume = volume_
-        self.currency = currency_
-        self.exchange = exchange_
+    xscale = nx - 1.0
+    yscale = ny - 1.0
 
-    def stock_to_dict(self):
-        return {
-            "Date": self.date,
-            "Open": self.open,
-            "High": self.high,
-            "Low": self.low,
-            "Close": self.close,
-            "Volume": self.volume,
-            "Currency": self.currency,
-        }
+    # z is sum of 2D gaussians.
+    amp = np.asarray([1.0, -1.0, 0.8, -0.9, 0.7])
+    mid = np.asarray([[0.4, 0.2], [0.3, 0.8], [0.9, 0.75], [0.7, 0.3], [0.05, 0.7]])
+    width = np.asarray([0.4, 0.2, 0.2, 0.2, 0.1])
 
-    def stock_as_json(self):
-        return {
-            "date": self.date.strftime("%d/%m/%Y"),
-            "open": self.open,
-            "high": self.high,
-            "low": self.low,
-            "close": self.close,
-            "volume": self.volume,
-            "currency": self.currency,
-        }
+    z = np.zeros_like(x)
+    for i in range(len(amp)):
+        z += amp[i]*np.exp(-((x/xscale - mid[i, 0])**2 + (y/yscale - mid[i, 1])**2) / width[i]**2)
 
-    def fund_to_dict(self):
-        return {
-            "Date": self.date,
-            "Open": self.open,
-            "High": self.high,
-            "Low": self.low,
-            "Close": self.close,
-            "Currency": self.currency,
-        }
+    if want_mask:
+        mask = np.logical_or(
+            ((x/xscale - 1.0)**2 / 0.2 + (y/yscale - 0.0)**2 / 0.1) < 1.0,
+            ((x/xscale - 0.2)**2 / 0.02 + (y/yscale - 0.45)**2 / 0.08) < 1.0,
+        )
+        z = np.ma.array(z, mask=mask)  # type: ignore[no-untyped-call]
 
-    def fund_as_json(self):
-        return {
-            "date": self.date.strftime("%d/%m/%Y"),
-            "open": self.open,
-            "high": self.high,
-            "low": self.low,
-            "close": self.close,
-            "currency": self.currency,
-        }
+    return x, y, z
 
-    def etf_to_dict(self):
-        return {
-            "Date": self.date,
-            "Open": self.open,
-            "High": self.high,
-            "Low": self.low,
-            "Close": self.close,
-            "Volume": self.volume,
-            "Currency": self.currency,
-            "Exchange": self.exchange,
-        }
 
-    def etf_as_json(self):
-        return {
-            "date": self.date.strftime("%d/%m/%Y"),
-            "open": self.open,
-            "high": self.high,
-            "low": self.low,
-            "close": self.close,
-            "volume": self.volume,
-            "currency": self.currency,
-            "exchange": self.exchange,
-        }
+def random(
+    shape: tuple[int, int], seed: int = 2187, mask_fraction: float = 0.0,
+) -> tuple[CoordinateArray, CoordinateArray, CoordinateArray | np.ma.MaskedArray[Any, Any]]:
+    """Return random test data in the range 0 to 1.
 
-    def index_to_dict(self):
-        return {
-            "Date": self.date,
-            "Open": self.open,
-            "High": self.high,
-            "Low": self.low,
-            "Close": self.close,
-            "Volume": self.volume,
-            "Currency": self.currency,
-        }
+    Args:
+        shape (tuple(int, int)): 2D shape of data to return.
+        seed (int, optional): Seed for random number generator, default 2187.
+        mask_fraction (float, optional): Fraction of elements to mask, default 0.
 
-    def index_as_json(self):
-        return {
-            "date": self.date.strftime("%d/%m/%Y"),
-            "open": self.open,
-            "high": self.high,
-            "low": self.low,
-            "close": self.close,
-            "volume": self.volume,
-            "currency": self.currency,
-        }
+    Return:
+        Tuple of 3 arrays: ``x``, ``y``, ``z`` test data, ``z`` will be masked if
+        ``mask_fraction`` is greater than zero.
+    """
+    ny, nx = shape
+    x = np.arange(nx, dtype=np.float64)
+    y = np.arange(ny, dtype=np.float64)
+    x, y = np.meshgrid(x, y)
 
-    def currency_cross_as_json(self):
-        return {
-            "date": self.date.strftime("%d/%m/%Y"),
-            "open": self.open,
-            "high": self.high,
-            "low": self.low,
-            "close": self.close,
-            "Currency": self.currency,
-        }
+    rng = np.random.default_rng(seed)
+    z = rng.uniform(size=shape)
 
-    def currency_cross_to_dict(self):
-        return {
-            "Date": self.date,
-            "Open": self.open,
-            "High": self.high,
-            "Low": self.low,
-            "Close": self.close,
-            "Currency": self.currency,
-        }
+    if mask_fraction > 0.0:
+        mask_fraction = min(mask_fraction, 0.99)
+        mask = rng.uniform(size=shape) < mask_fraction
+        z = np.ma.array(z, mask=mask)  # type: ignore[no-untyped-call]
 
-    def bond_to_dict(self):
-        return {
-            "Date": self.date,
-            "Open": self.open,
-            "High": self.high,
-            "Low": self.low,
-            "Close": self.close,
-        }
-
-    def bond_as_json(self):
-        return {
-            "date": self.date.strftime("%d/%m/%Y"),
-            "open": self.open,
-            "high": self.high,
-            "low": self.low,
-            "close": self.close,
-        }
-
-    def commodity_to_dict(self):
-        return {
-            "Date": self.date,
-            "Open": self.open,
-            "High": self.high,
-            "Low": self.low,
-            "Close": self.close,
-            "Volume": self.volume,
-            "Currency": self.currency,
-        }
-
-    def commodity_as_json(self):
-        return {
-            "date": self.date.strftime("%d/%m/%Y"),
-            "open": self.open,
-            "high": self.high,
-            "low": self.low,
-            "close": self.close,
-            "volume": self.volume,
-            "currency": self.currency,
-        }
-
-    def certificate_to_dict(self):
-        return {
-            "Date": self.date,
-            "Open": self.open,
-            "High": self.high,
-            "Low": self.low,
-            "Close": self.close,
-        }
-
-    def certificate_as_json(self):
-        return {
-            "date": self.date.strftime("%d/%m/%Y"),
-            "open": self.open,
-            "high": self.high,
-            "low": self.low,
-            "close": self.close,
-        }
-
-    def crypto_to_dict(self):
-        return {
-            "Date": self.date,
-            "Open": self.open,
-            "High": self.high,
-            "Low": self.low,
-            "Close": self.close,
-            "Volume": self.volume,
-            "Currency": self.currency,
-        }
-
-    def crypto_as_json(self):
-        return {
-            "date": self.date.strftime("%d/%m/%Y"),
-            "open": self.open,
-            "high": self.high,
-            "low": self.low,
-            "close": self.close,
-            "volume": self.volume,
-            "currency": self.currency,
-        }
+    return x, y, z

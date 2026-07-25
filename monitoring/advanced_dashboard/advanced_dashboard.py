@@ -866,7 +866,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     "symbol": tvSymbol,
                     "interval": "1",
                     "timezone": "Asia/Bangkok",
-                    "theme": "dark",
+                    "theme": "light",
                     "style": "1",
                     "locale": "en",
                     "enable_publishing": false,

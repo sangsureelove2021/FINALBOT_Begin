@@ -1,6 +1,0 @@
-2026-06-22 13:02:15,052 | INFO     | [CONN] Connecting to IQ Option (PRACTICE) as venuz20152565@gmail.com...
-2026-06-22 13:02:18,963 | INFO     | [CONN] IQ Option connected (DEMO)
-2026-06-22 13:02:18,986 | INFO     | [OK] Executor reusing IQ Option connection from adapter
-2026-06-22 13:02:19,401 | WARNING  | Failed to get server time offset: 'IQ_Option' object has no attribute 'get_server_time'
-2026-06-22 13:02:19,406 | INFO     | DeepSeek Agent found at: C:\Users\Administrator\AppData\Roaming\npm\deepseek-agent.CMD
-2026-06-22 13:03:34,459 | ERROR    | AI Readiness check failed: Command '['C:\\Users\\Administrator\\AppData\\Roaming\\npm\\deepseek-agent.CMD', '--no-tui', '--max-iterations=1', "Ping test. CRITICAL: DO NOT use any tools. DO NOT run any shell commands. Just reply with 'READY' and your AI model name."]' timed out after 75 seconds

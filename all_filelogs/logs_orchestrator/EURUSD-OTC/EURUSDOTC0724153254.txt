@@ -1,0 +1,90 @@
+ID:EURUSDOTC0724153254
+meta:
+  timestamp: '2026-07-24T15:32:54.929934'
+  symbol: EURUSD-OTC
+  session: LONDON
+  m1_open: 1.150295
+  m1_age: 1734952
+  m1_quality: STALE
+  m5_open: 1.149825
+  m5_age: 1974952
+  m5_quality: STALE
+market_context:
+  state: BREAKOUT_EMERGING
+  description: Volatility expansion after compression. Potential breakout opportunity.
+  volatility_regime: HIGH
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.131
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 1.150464
+    ema20: 1.151338
+    rsi: 39.85
+    stoch_k: 28.76
+    stoch_d: 25.11
+    macd: -0.000876
+    macd_signal: -0.000849
+    ohclv:
+      open: 1.150295
+      high: 1.150755
+      low: 1.149955
+      close: 1.150755
+      volume: NONE_OTC
+  m5:
+    bias: BEARISH
+    ema5: 1.151531
+    ema10: 1.152325
+    ema20: 1.15288
+    ema50: 1.153316
+    bb_upper: 1.155634
+    bb_lower: 1.150817
+    bb_width: 0.004818
+    rsi: 38.42
+    stoch_k: 12.43
+    stoch_d: 21.67
+    macd: -0.000546
+    macd_signal: -0.000188
+    adx: 11.46
+    atr: 0.001502
+    support: 1.152655
+    resistance: 1.155445
+    pivot: 1.150445
+    ohclv:
+      open: 1.149825
+      high: 1.150755
+      low: 1.149825
+      close: 1.150755
+      volume: NONE_OTC
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: HIGH_UPPER_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: BREAKING_BELOW_SUPPORT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 100
+  mtf_alignment_%: 66
+  compression_quality_%: 51.69
+  exhaustion_risk_%: 30
+  bos_detected: true
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 70
+  risk_level: MEDIUM
+  confidence_score: 75
+  suggested_expiry_minutes: 10
+  suggested_action: PREPARE_TO_TRADE
+  final_reason_th: รอทำการเทรด - สภาวะ: BREAKOUT_EMERGING, ความแข็งแรง: 100, โหมดความผันผวน: HIGH

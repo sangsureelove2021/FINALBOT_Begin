@@ -67,7 +67,7 @@ def print_header(target_date: date):
     print()
     print("=" * width)
     print(f"[{now_str}] - [.FINALBOT_NEWS.]")
-    print(f"[{now_str}] - [ระบบรายงานข่าวเศรษฐกิจและการเงิน : {date_th} : By Joy Anthropic(Ai)]")
+    print(f"[{now_str}] - [ระบบรายงานข่าวเศรษฐกิจและการเงิน : {date_th} : By Athena(Ai)]")
     print("=" * width)
     print(f"{'':>22}{'เวลา(ET)':<12}{'ข่าว':<38}{'สกุลเงิน':<10}{'ความรุนแรง':<12}{'Forecast':<12}{'Previous'}")
     print("-" * width)
@@ -118,7 +118,7 @@ def print_summary(events: list[dict], filepath: Path):
 # ─────────────────────────────────────────
 #  CONFIG
 # ─────────────────────────────────────────
-OUTPUT_DIR = Path(r"E:\BOT_FINALBOT13 STG\BOT_FINALBOT\logs\calendar_logs")
+OUTPUT_DIR = Path(__file__).resolve().parent / "all_filelogs" / "calendar_logs"
 
 FF_URL = "https://www.forexfactory.com/calendar"
 
@@ -268,26 +268,56 @@ def _build_datetime(target_date: date, time_str: str) -> str:
         dt_ny = datetime(target_date.year, target_date.month, target_date.day, 0, 0, 0, tzinfo=ZoneInfo("America/New_York"))
         return dt_ny.astimezone(ZoneInfo("UTC")).isoformat()
 
+    # ลอง format แรก: "jun 13th" (ForexFactor ส่งมาบางครั้ง)
+    if "th" in time_str_clean or "st" in time_str_clean or "nd" in time_str_clean or "rd" in time_str_clean:
+        try:
+            # แปลง "jun 13th" → "06 13" แล้ว parse เป็น time
+            parts = time_str_clean.split()
+            if len(parts) >= 2:
+                month_map = {
+                    "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+                    "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12
+                }
+                month_str = parts[0]
+                day_str = parts[1]
+                if month_str in month_map and day_str.isdigit():
+                    month = month_map[month_str]
+                    day = int(day_str)
+                    # ตัด ordinal suffix เช่น "13th" → "13"
+                    if "th" in day_str:
+                        day = int(day_str.replace("th", ""))
+                    elif "st" in day_str:
+                        day = int(day_str.replace("st", ""))
+                    elif "nd" in day_str:
+                        day = int(day_str.replace("nd", ""))
+                    elif "rd" in day_str:
+                        day = int(day_str.replace("rd", ""))
+                    # กลับมาใช้ logic เดิม แต่กำหนดเวลาเป็น 12:00 (เฉลี่ย)
+                    t = datetime(target_date.year, month, day, 12, 0, 0)
+                    return t.astimezone(ZoneInfo("America/New_York")).astimezone(ZoneInfo("UTC")).isoformat()
+        except Exception as e:
+            log(f"[WARN] Could not parse ordinal time '{time_str_clean}': {e}")
+
     try:
         t = datetime.strptime(time_str_clean, "%I:%M%p")
     except ValueError:
         try:
             t = datetime.strptime(time_str_clean, "%I%p")
-        except ValueError as e:
-            log(f"[ERROR] Could not parse time string '{time_str_clean}': {e}")
+        except ValueError:
+            log(f"[WARN] Could not parse time string '{time_str_clean}', using 12:00am")
             t = datetime.strptime("12:00am", "%I:%M%p")
 
     # รวมวันที่และเวลา แล้วระบุว่ามันคือเวลาของนิวยอร์ก (จัดการ DST อัตโนมัติด้วย zoneinfo)
     dt_ny = datetime(
-        target_date.year, 
-        target_date.month, 
-        target_date.day, 
-        t.hour, 
-        t.minute, 
-        t.second, 
+        target_date.year,
+        target_date.month,
+        target_date.day,
+        t.hour,
+        t.minute,
+        t.second,
         tzinfo=ZoneInfo("America/New_York")
     )
-    
+
     # แปลงกลับเป็น UTC เพื่อการใช้งานที่เป็นมาตรฐาน
     return dt_ny.astimezone(ZoneInfo("UTC")).isoformat()
 

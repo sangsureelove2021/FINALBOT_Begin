@@ -1,0 +1,19 @@
+============= RESTART: E:\BOT_FINALBOT13 STG\BOT_FINALBOT\runner.py ============
+
+00:00:00  - FINALBOT Running
+00:00:00 - ตรวจสอบข่าวเศรษฐกิจวันนี้ 2026-07-03 พร้อมใช้งาน
+00:00:00 - กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+00:00:00 - เชื่อมต่อ IQ Option สำเร็จ
+00:00:00  -  Time Sync :  00:00:000s 
+00:00:00 - บัญชี PRACTICE | Balance: $2050.26
+00:00:00 - Trading Mode: AI AUTO_BOT [Stake:35][Profit:100.0%][Loss:100.0%][Orderlimit:9999][Time:01.00-23.00]
+00:00:00 - ตรวจพบรายการสินทรัพย์ : EURUSD, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+00:00:00 - กำลังเตรียมข้อมูลสินทรัพย์ 4 รายการ : EURUSD, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+00:00:00 - ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+00:00:00 - เข้าสู่การวิเคราะห์สัญญาณในอีก 27 วินาที  (เริ่ม 10:11:02)
+
+00:00:00 - [EURUSD:1.14379][EURUSD-OTC:1.16290][GBPUSD-OTC:1.31273][EURGBP-OTC:0.84937] :: TOTAL=$2050.26
+00:00:00 - [EURUSD:1.14380][EURUSD-OTC:1.16359][GBPUSD-OTC:1.31255][EURGBP-OTC:0.84928] :: TOTAL=$2050.26
+00:00:00 - [EURUSD:1.14380][EURUSD-OTC:1.16346][GBPUSD-OTC:1.31272][EURGBP-OTC:0.84893] :: TOTAL=$2050.26
+00:00:00 - [EURUSD:1.14385][EURUSD-OTC:1.16414][GBPUSD-OTC:1.31245][EURGBP-OTC:0.84876] :: TOTAL=$2050.26
+00:00:00 - [EURUSD:1.14399][EURUSD-OTC:1.16402][GBPUSD-OTC:1.31272][EURGBP-OTC:0.84849] :: TOTAL=$2050.26
