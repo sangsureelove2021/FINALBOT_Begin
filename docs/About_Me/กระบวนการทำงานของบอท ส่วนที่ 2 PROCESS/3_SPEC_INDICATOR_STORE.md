@@ -38,7 +38,7 @@ OHLCV Data ➡️ คำนวณครั้งเดียว (IndicatorStore)
 | **Rate of Change** | `StructuralIndicators` | `roc` (Rate of Change เทียบย้อนหลัง 10 แท่งเทียน) |
 | **Volume Analysis** | `StructuralIndicators` | `volume`, `volume_ma20`, `volume_ratio` (ลิมิตสูงสุด 10.0), `volume_spike` (> 2.0) |
 | **Slope Analysis** | `StructuralIndicators` | `slope_10`, `slope_20`, `slope_50` (คำนวณด้วย Linear Regression) |
-| **Pivot Points** | `StructuralIndicators` | `pivot`, `r1`, `r2`, `s1`, `s2` |
+| **Pivot Points** | `StructuralIndicators` | `pivot`, `r1`, `r2`, `s1`, `s2` <br>• **วิธีคำนวณ:** ใช้แท่งเทียน M5 ที่ปิดสมบูรณ์เท่านั้น (ไม่ใช่แท่งก่อนตัว) <br>• **สูตร:** Pivot = (High + Low + Close) / 3 ของแท่งที่ปิดสมบูรณ์ <br>• **การเลือกแท่ง:** เมื่อมีหลายแท่ง M5 ใช้แท่งที่สองจากท้าย (iloc[-2]) เป็นแท่งเทียนที่ปิดสมบูรณ์ <br>• **กรณีพิเศษ:** เมื่อมีแค่ 1 แท่งใช้ iloc[-1] แท่งเทียนเป็นแท่งที่ปิดสมบูรณ์ |
 | **Box Metrics** | `StructuralIndicators` | `box_duration` (จำนวนแท่งที่ไซด์เวย์), `box_tightness` (ความแคบเทียบกับ ATR) |
 
 ### 2. กรอบเวลา M1 (TF M1 Indicators)
@@ -62,9 +62,11 @@ OHLCV Data ➡️ คำนวณครั้งเดียว (IndicatorStore)
 ## โครงสร้างข้อมูล Metadata ความสมบูรณ์ของแท่งเทียน (Forming & Age Data)
 ในแต่ละรอบการสร้าง Payload จะเก็บความสมบูรณ์ของข้อมูลไว้ในส่วนหัว (`meta`) เสมอ:
 * **Session Classification:** จำแนกตามเวลาสากล UTC:
-  - `00:00 - 08:00 UTC` และ `21:00 - 24:00 UTC` ➡️ **ASIAN**
-  - `08:00 - 14:00 UTC` ➡️ **LONDON**
-  - `14:00 - 21:00 UTC` ➡️ **NEW YORK**
+  - `00:00 - 07:00 UTC` ➡️ **SYDNEY/TOKYO**
+  - `07:00 - 12:00 UTC` ➡️ **LONDON_OPEN**
+  - `12:00 - 16:00 UTC` ➡️ **NY/LONDON_OVERLAP**
+  - `16:00 - 21:00 UTC` ➡️ **NY_AFTERNOON**
+  - `21:00 - 24:00 UTC` ➡️ **SYDNEY_OPEN**
 * **Candle Age & Quality:**
   - `m1_open` / `m5_open`: ราคาเปิดของแท่งเทียนกำลังก่อตัว
   - `m1_age` / `m5_age`: เวลาอายุแท่งเทียนที่รอข้อมูล

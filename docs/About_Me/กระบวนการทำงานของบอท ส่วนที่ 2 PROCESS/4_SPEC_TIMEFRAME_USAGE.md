@@ -80,7 +80,7 @@ IndicatorStore['EURUSD'] = {
             'roc': float,
             'volume': float, 'volume_ma20': float, 'volume_ratio': float, 'volume_spike': bool,
             'slope_10': float, 'slope_20': float, 'slope_50': float,
-            'pivot': float, 'r1': float, 'r2': float, 's1': float, 's2': float,
+            'pivot': float, 'r1': float, 'r2': float, 's1': float, 's2': float,  # คำนวณจากแท่งเทียน M5 ที่ปิดสมบูรณ์เท่านั้น (ไม่ใช่แท่งก่อนตัว)
             'box_duration': int, 'box_tightness': float,
             'bias': str
         },

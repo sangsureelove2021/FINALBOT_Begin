@@ -122,16 +122,22 @@ class IndicatorStore:
         m5['slope_20'] = round(StructuralMetrics.calc_slope(close_m5, 20), Config.ROUND_DECIMALS)
         m5['slope_50'] = round(StructuralMetrics.calc_slope(close_m5, 50), Config.ROUND_DECIMALS)
 
-        # Fix M5 Pivot Algorithm - Calculate from current candle instead of previous
+        # Fix M5 Pivot Algorithm - Use completed candle only (per SPEC)
         if len(df_m5) < 1:
             raise ValueError("FAIL-FAST: Insufficient M5 candles for Pivot Point calculation (minimum 1 required)")
-        last_candle = df_m5.iloc[-1]
-        pivot = (last_candle['high'] + last_candle['low'] + last_candle['close']) / 3
+        
+        # Use the last completed candle (iloc[-1] is forming, iloc[-2] is completed)
+        # SPEC: "ส่งเฉพาะแท่งที่ปิดสมบูรณ์ 100%"
+        completed_high = high_m5.iloc[-1] if len(df_m5) == 1 else high_m5.iloc[-2]
+        completed_low = low_m5.iloc[-1] if len(df_m5) == 1 else low_m5.iloc[-2]
+        completed_close = close_m5.iloc[-1] if len(df_m5) == 1 else close_m5.iloc[-2]
+        
+        pivot = (completed_high + completed_low + completed_close) / 3
         m5['pivot'] = round(pivot, Config.ROUND_DECIMALS)
-        m5['r1'] = round((2 * pivot) - last_candle['low'], Config.ROUND_DECIMALS)
-        m5['r2'] = round(pivot + (last_candle['high'] - last_candle['low']), Config.ROUND_DECIMALS)
-        m5['s1'] = round((2 * pivot) - last_candle['high'], Config.ROUND_DECIMALS)
-        m5['s2'] = round(pivot - (last_candle['high'] - last_candle['low']), Config.ROUND_DECIMALS)
+        m5['r1'] = round((2 * pivot) - completed_low, Config.ROUND_DECIMALS)
+        m5['r2'] = round(pivot + (completed_high - completed_low), Config.ROUND_DECIMALS)
+        m5['s1'] = round((2 * pivot) - completed_high, Config.ROUND_DECIMALS)
+        m5['s2'] = round(pivot - (completed_high - completed_low), Config.ROUND_DECIMALS)
         m5['support'] = round(float(low_m5.tail(20).min()), Config.ROUND_DECIMALS)
         m5['resistance'] = round(float(high_m5.tail(20).max()), Config.ROUND_DECIMALS)
 

@@ -38,7 +38,7 @@ OHLCV Data ➡️ คำนวณครั้งเดียว (IndicatorStore)
 | **Rate of Change** | `StructuralIndicators` | `roc` (Rate of Change เทียบย้อนหลัง 10 แท่งเทียน) |
 | **Volume Analysis** | `StructuralIndicators` | `volume`, `volume_ma20`, `volume_ratio` (ลิมิตสูงสุด 10.0), `volume_spike` (> 2.0) |
 | **Slope Analysis** | `StructuralIndicators` | `slope_10`, `slope_20`, `slope_50` (คำนวณด้วย Linear Regression) |
-| **Pivot Points** | `StructuralIndicators` | `pivot`, `r1`, `r2`, `s1`, `s2` |
+| **Pivot Points** | `StructuralIndicators` | `pivot`, `r1`, `r2`, `s1`, `s2` <br>• **Calculation Method:** Uses completed M5 candles only (not forming candles) <br>• **Formula:** Pivot = (High + Low + Close) / 3 of completed candle <br>• **Candle Selection:** When multiple M5 candles available, uses the second-to-last candle (iloc[-2]) as completed <br>• **Edge Case:** When only one candle available, uses iloc[-1] as completed |
 | **Box Metrics** | `StructuralIndicators` | `box_duration` (จำนวนแท่งที่ไซด์เวย์), `box_tightness` (ความแคบเทียบกับ ATR) |
 
 ### 2. กรอบเวลา M1 (TF M1 Indicators)

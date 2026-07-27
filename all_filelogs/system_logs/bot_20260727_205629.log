@@ -1,0 +1,989 @@
+2026-07-28 03:56:29,676 | INFO     | [NEWS] Calendar file for today (2026-07-28) already exists.
+2026-07-28 03:56:29,950 | INFO     | MarketStateClassifier initialised
+2026-07-28 03:56:29,967 | INFO     | กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+2026-07-28 03:56:29,967 | INFO     | [IQOPTION] Initialized with Zero Tolerance compliance
+2026-07-28 03:56:30,042 | INFO     | Using stable_api.IQ_Option class
+2026-07-28 03:56:30,042 | INFO     | [CONN] Connecting to IQ Option (DEMO) as venuz20152565@gmail.com...
+2026-07-28 03:56:30,042 | INFO     | [CONN] API created, attempting to connect...
+2026-07-28 03:56:32,845 | INFO     | [CONN] IQ Option connected (REAL MONEY)
+2026-07-28 03:56:32,851 | INFO     | เชื่อมต่อ IQ Option สำเร็จ
+2026-07-28 03:56:32,851 | INFO     | [CSVManager] Initialized with base_dir: data_base/csv/iq_option
+2026-07-28 03:56:32,851 | INFO     | [CSVWriter] Initialized with encoding: utf-8, decimals: 6
+2026-07-28 03:56:32,851 | INFO     | [CSVQueue] Initialized with 1 worker(s)
+2026-07-28 03:56:32,852 | INFO     | [DataMonitor] Initialized with log level: WARNING
+2026-07-28 03:56:32,852 | INFO     | [DataAdapter] Initialized with Zero Tolerance compliance
+2026-07-28 03:56:32,852 | INFO     | [ANOMALY] Initialized with thresholds: {'spike_threshold': 0.3, 'zero_volume_threshold': 0, 'impossible_candle_threshold': 0.001, 'spike_window': 20, 'max_consecutive_zero_volume': 3, 'max_consecutive_anomalies': 10}
+2026-07-28 03:56:32,852 | INFO     | [CandleValidator] Initialized with validation configuration
+2026-07-28 03:56:32,852 | INFO     | [DataAdapter] Initialized with configuration
+2026-07-28 03:56:33,253 | INFO     | บัญชี DEMO | Balance: $1453.95
+2026-07-28 03:56:33,253 | INFO     | Server time offset: -2.007999897003174 seconds
+2026-07-28 03:56:33,259 | INFO     | ตรวจพบรายการสินทรัพย์ : EURUSD, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+2026-07-28 03:56:33,264 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์ 4 รายการ : EURUSD, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+2026-07-28 03:56:33,570 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 100 candles
+2026-07-28 03:56:34,052 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 250 candles
+2026-07-28 03:56:34,325 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 50 candles
+2026-07-28 03:56:34,336 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-28 03:56:34,337 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 03:56:34,337 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 03:56:34,340 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv - Queue size: 0
+2026-07-28 03:56:34,341 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv - Queue size: 1
+2026-07-28 03:56:34,341 | INFO     | [DataAdapter] EURUSD initialised — M1:100 M5:250 M15:50
+2026-07-28 03:56:34,433 | INFO     | [CSVWriter] Successfully wrote 100 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 03:56:34,449 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 03:56:34,464 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 03:56:34,480 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 03:56:34,608 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 100 candles
+2026-07-28 03:56:34,613 | INFO     | [CSVWriter] Successfully wrote 250 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 03:56:34,615 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 03:56:34,636 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 03:56:34,651 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 03:56:34,791 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 03:56:34,807 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 03:56:34,822 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 03:56:34,995 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 250 candles
+2026-07-28 03:56:35,296 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 50 candles
+2026-07-28 03:56:35,307 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 03:56:35,307 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:56:35,307 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:56:35,309 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 0
+2026-07-28 03:56:35,311 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 1
+2026-07-28 03:56:35,311 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:100 M5:250 M15:50
+2026-07-28 03:56:35,311 | INFO     | [CSVWriter] Successfully wrote 100 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:56:35,326 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:56:35,342 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-07-28 03:56:35,358 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-07-28 03:56:35,531 | INFO     | [CSVWriter] Successfully wrote 250 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-07-28 03:56:35,531 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-07-28 03:56:35,531 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-07-28 03:56:35,562 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-07-28 03:56:35,585 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 100 candles
+2026-07-28 03:56:35,626 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-07-28 03:56:35,642 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-07-28 03:56:35,657 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 03:56:35,965 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 250 candles
+2026-07-28 03:56:36,274 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 50 candles
+2026-07-28 03:56:36,284 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 03:56:36,284 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:56:36,284 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:56:36,286 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 0
+2026-07-28 03:56:36,288 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 1
+2026-07-28 03:56:36,288 | INFO     | [DataAdapter] GBPUSD-OTC initialised — M1:100 M5:250 M15:50
+2026-07-28 03:56:36,288 | INFO     | [CSVWriter] Successfully wrote 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:56:36,289 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:56:36,304 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 03:56:36,319 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 03:56:36,507 | INFO     | [CSVWriter] Successfully wrote 250 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 03:56:36,524 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 03:56:36,555 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 03:56:36,555 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 03:56:36,575 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 100 candles
+2026-07-28 03:56:36,618 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 03:56:36,633 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 03:56:36,649 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 03:56:36,892 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 250 candles
+2026-07-28 03:56:37,153 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 50 candles
+2026-07-28 03:56:37,162 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-28 03:56:37,162 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:56:37,163 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:56:37,165 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 0
+2026-07-28 03:56:37,166 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 1
+2026-07-28 03:56:37,166 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:100 M5:250 M15:50
+2026-07-28 03:56:37,167 | INFO     | [CSVWriter] Successfully wrote 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:56:37,167 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:56:37,167 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 03:56:37,167 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 03:56:37,172 | INFO     | [CSVWriter] Successfully wrote 250 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 03:56:37,173 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 03:56:37,173 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 03:56:37,173 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-07-28 03:56:37,173 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 03:56:37,307 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 03:56:37,322 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 03:56:37,322 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 03:56:38,437 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=100)
+2026-07-28 03:56:40,726 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=250)
+2026-07-28 03:56:42,047 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=100)
+2026-07-28 03:56:43,334 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=250)
+2026-07-28 03:56:44,609 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M1, count=100)
+2026-07-28 03:56:45,907 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M5, count=250)
+2026-07-28 03:56:47,212 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=100)
+2026-07-28 03:56:48,527 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=250)
+2026-07-28 03:56:48,537 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 15 วินาที  (เริ่ม 03:57:03)
+2026-07-28 03:57:03,795 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-28 03:57:03,796 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-28 03:57:03,796 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-07-28 03:57:03,796 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD-OTC
+2026-07-28 03:57:03,796 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-28 03:57:03,796 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-28 03:57:03,796 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-28 03:57:03,797 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-28 03:57:04,090 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-28 03:57:04,121 | ERROR    | [DataAdapter] Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 03:57:04,137 | ERROR    | [DataAdapter] update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 03:57:04,152 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-07-28 03:57:04,401 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 3 candles
+2026-07-28 03:57:04,427 | INFO     | [DataAdapter] M1 anomaly detection completed for EURUSD-OTC in 0.004s
+2026-07-28 03:57:04,481 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 03:57:04,481 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD-OTC
+2026-07-28 03:57:04,481 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD-OTC
+2026-07-28 03:57:04,486 | INFO     | [DataAdapter] M5 anomaly detection completed for EURUSD-OTC
+2026-07-28 03:57:04,486 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD-OTC
+2026-07-28 03:57:04,486 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD-OTC
+2026-07-28 03:57:04,487 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:57:04,517 | INFO     | [DataAdapter] M15 anomaly detection completed for EURUSD-OTC
+2026-07-28 03:57:04,544 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:57:04,591 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD-OTC
+2026-07-28 03:57:04,672 | INFO     | [DataAdapter] Anomaly statistics for EURUSD-OTC: {'total_calls': 1, 'response_times': [0.00399470329284668], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.00399470329284668), 'max_response_time': np.float64(0.00399470329284668), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 03:57:04,673 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-28 03:57:04,684 | INFO     | [DataAdapter] M1 anomaly detection completed for GBPUSD-OTC in 0.005s
+2026-07-28 03:57:04,765 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 03:57:04,782 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-28 03:57:04,782 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-28 03:57:04,787 | INFO     | [DataAdapter] M5 anomaly detection completed for GBPUSD-OTC
+2026-07-28 03:57:04,787 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-28 03:57:04,828 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-28 03:57:04,850 | INFO     | [DataAdapter] M15 anomaly detection completed for GBPUSD-OTC
+2026-07-28 03:57:04,852 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-28 03:57:04,852 | INFO     | [DataAdapter] Anomaly statistics for GBPUSD-OTC: {'total_calls': 2, 'response_times': [0.00399470329284668, 0.0045719146728515625], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.004283308982849121), 'max_response_time': np.float64(0.0045719146728515625), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 03:57:04,936 | INFO     | [CSVWriter] Successfully wrote 100 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:57:04,968 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:57:04,968 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-28 03:57:04,968 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:57:04,979 | INFO     | [DataAdapter] M1 anomaly detection completed for EURGBP-OTC in 0.004s
+2026-07-28 03:57:04,981 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:57:04,984 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-28 03:57:04,984 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-28 03:57:04,984 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-28 03:57:04,989 | INFO     | [DataAdapter] M5 anomaly detection completed for EURGBP-OTC
+2026-07-28 03:57:04,989 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-28 03:57:04,989 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-28 03:57:04,995 | INFO     | [DataAdapter] M15 anomaly detection completed for EURGBP-OTC
+2026-07-28 03:57:04,995 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-28 03:57:04,995 | INFO     | [DataAdapter] Anomaly statistics for EURGBP-OTC: {'total_calls': 3, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.004187345504760742), 'max_response_time': np.float64(0.0045719146728515625), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 03:57:04,996 | ERROR    | Error getting future result for EURUSD
+Traceback (most recent call last):
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'zero_volume_detected'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 266, in _refresh_m1
+    completed = self._anomaly_detector.detect_anomalies(completed, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 251, in detect_anomalies
+    result_df = self.detect_zero_volume(result_df, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 164, in detect_zero_volume
+    df['zero_volume_streak'] = (df['zero_volume_detected'] == True).cumsum()
+                                ~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 180, in update
+    completed_m1 = self._refresh_m1(symbol, now_naive)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 280, in _refresh_m1
+    raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
+RuntimeError: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 246, in run_cycle
+    result_val = sym_futures[sym].result()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 153, in fetch_and_save_data
+    return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 237, in update
+    raise Exception(f"Zero Tolerance: update failed for {symbol}: {e}")
+Exception: Zero Tolerance: update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 03:57:05,002 | INFO     | [CSVWriter] Successfully wrote 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:57:05,013 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:57:05,013 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:57:05,014 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:57:05,023 | INFO     | [CSVWriter] Successfully wrote 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:57:05,023 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:57:05,023 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 03:57:05,035 | ERROR    | Orchestrator failed for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 03:57:05,046 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 03:57:05,056 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 03:57:05,102 | INFO     | [EURUSD-OTC:1.14433][GBPUSD-OTC:1.33401][EURGBP-OTC:0.85525] :: TOTAL=$1453.95
+2026-07-28 03:58:03,340 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-28 03:58:03,341 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-28 03:58:03,341 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-07-28 03:58:03,341 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD-OTC
+2026-07-28 03:58:03,341 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-28 03:58:03,341 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-28 03:58:03,341 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-28 03:58:03,342 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-28 03:58:03,578 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-28 03:58:03,602 | ERROR    | [DataAdapter] Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 03:58:03,610 | ERROR    | [DataAdapter] update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 03:58:03,610 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-07-28 03:58:03,832 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 3 candles
+2026-07-28 03:58:03,858 | INFO     | [DataAdapter] M1 anomaly detection completed for EURUSD-OTC in 0.005s
+2026-07-28 03:58:03,944 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 03:58:03,944 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD-OTC
+2026-07-28 03:58:03,944 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD-OTC
+2026-07-28 03:58:03,947 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:58:03,960 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:58:03,995 | INFO     | [DataAdapter] M5 anomaly detection completed for EURUSD-OTC
+2026-07-28 03:58:04,007 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD-OTC
+2026-07-28 03:58:04,039 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD-OTC
+2026-07-28 03:58:04,075 | INFO     | [DataAdapter] M15 anomaly detection completed for EURUSD-OTC
+2026-07-28 03:58:04,075 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD-OTC
+2026-07-28 03:58:04,075 | INFO     | [DataAdapter] Anomaly statistics for EURUSD-OTC: {'total_calls': 4, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.00439763069152832), 'max_response_time': np.float64(0.005028486251831055), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 03:58:04,243 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-28 03:58:04,259 | INFO     | [CSVWriter] Successfully wrote 101 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:58:04,269 | INFO     | [DataAdapter] M1 anomaly detection completed for GBPUSD-OTC in 0.004s
+2026-07-28 03:58:04,275 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:58:04,355 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 03:58:04,418 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 03:58:04,418 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-28 03:58:04,418 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-28 03:58:04,423 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:58:04,424 | INFO     | [DataAdapter] M5 anomaly detection completed for GBPUSD-OTC
+2026-07-28 03:58:04,450 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:58:04,466 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-28 03:58:04,482 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-28 03:58:04,484 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-28 03:58:04,494 | INFO     | [DataAdapter] M1 anomaly detection completed for EURGBP-OTC in 0.004s
+2026-07-28 03:58:04,499 | INFO     | [DataAdapter] M15 anomaly detection completed for GBPUSD-OTC
+2026-07-28 03:58:04,500 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-28 03:58:04,500 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-28 03:58:04,500 | INFO     | [DataAdapter] Anomaly statistics for GBPUSD-OTC: {'total_calls': 6, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055, 0.004012584686279297, 0.004008293151855469], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.004268566767374675), 'max_response_time': np.float64(0.005028486251831055), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 03:58:04,501 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-28 03:58:04,501 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-28 03:58:04,506 | INFO     | [DataAdapter] M5 anomaly detection completed for EURGBP-OTC
+2026-07-28 03:58:04,506 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-28 03:58:04,506 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-28 03:58:04,511 | INFO     | [DataAdapter] M15 anomaly detection completed for EURGBP-OTC
+2026-07-28 03:58:04,511 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-28 03:58:04,511 | INFO     | [DataAdapter] Anomaly statistics for EURGBP-OTC: {'total_calls': 6, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055, 0.004012584686279297, 0.004008293151855469], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.004268566767374675), 'max_response_time': np.float64(0.005028486251831055), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 03:58:04,515 | ERROR    | Error getting future result for EURUSD
+Traceback (most recent call last):
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'zero_volume_detected'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 266, in _refresh_m1
+    completed = self._anomaly_detector.detect_anomalies(completed, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 251, in detect_anomalies
+    result_df = self.detect_zero_volume(result_df, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 164, in detect_zero_volume
+    df['zero_volume_streak'] = (df['zero_volume_detected'] == True).cumsum()
+                                ~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 180, in update
+    completed_m1 = self._refresh_m1(symbol, now_naive)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 280, in _refresh_m1
+    raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
+RuntimeError: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 246, in run_cycle
+    result_val = sym_futures[sym].result()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 153, in fetch_and_save_data
+    return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 237, in update
+    raise Exception(f"Zero Tolerance: update failed for {symbol}: {e}")
+Exception: Zero Tolerance: update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 03:58:04,518 | INFO     | [CSVWriter] Successfully wrote 101 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:58:04,518 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:58:04,518 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:58:04,518 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:58:04,526 | INFO     | [CSVWriter] Successfully wrote 101 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:58:04,526 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:58:04,526 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 03:58:04,534 | ERROR    | Orchestrator failed for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 03:58:04,542 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 03:58:04,550 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 03:58:04,566 | INFO     | [EURUSD-OTC:1.14467][GBPUSD-OTC:1.33407][EURGBP-OTC:0.85498] :: TOTAL=$1453.95
+2026-07-28 03:59:03,839 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-28 03:59:03,840 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-28 03:59:03,840 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-07-28 03:59:03,840 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD-OTC
+2026-07-28 03:59:03,840 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-28 03:59:03,840 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-28 03:59:03,841 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-28 03:59:03,841 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-28 03:59:04,086 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-28 03:59:04,093 | ERROR    | [DataAdapter] Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 03:59:04,102 | ERROR    | [DataAdapter] update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 03:59:04,117 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-07-28 03:59:04,630 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 3 candles
+2026-07-28 03:59:04,640 | INFO     | [DataAdapter] M1 anomaly detection completed for EURUSD-OTC in 0.004s
+2026-07-28 03:59:04,709 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 03:59:04,725 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD-OTC
+2026-07-28 03:59:04,757 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:59:04,804 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD-OTC
+2026-07-28 03:59:04,819 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:59:04,887 | INFO     | [DataAdapter] M5 anomaly detection completed for EURUSD-OTC
+2026-07-28 03:59:04,931 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD-OTC
+2026-07-28 03:59:04,931 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD-OTC
+2026-07-28 03:59:04,965 | INFO     | [DataAdapter] M15 anomaly detection completed for EURUSD-OTC
+2026-07-28 03:59:04,965 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-28 03:59:04,966 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD-OTC
+2026-07-28 03:59:05,033 | INFO     | [DataAdapter] Anomaly statistics for EURUSD-OTC: {'total_calls': 7, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055, 0.004012584686279297, 0.004008293151855469, 0.004000663757324219], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.004230294908796038), 'max_response_time': np.float64(0.005028486251831055), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 03:59:05,061 | INFO     | [DataAdapter] M1 anomaly detection completed for GBPUSD-OTC in 0.029s
+2026-07-28 03:59:05,199 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 03:59:05,213 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-28 03:59:05,229 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-28 03:59:05,281 | INFO     | [DataAdapter] M5 anomaly detection completed for GBPUSD-OTC
+2026-07-28 03:59:05,281 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-28 03:59:05,281 | INFO     | [CSVWriter] Successfully wrote 102 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:59:05,281 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-28 03:59:05,292 | INFO     | [DataAdapter] M1 anomaly detection completed for EURGBP-OTC in 0.005s
+2026-07-28 03:59:05,292 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 03:59:05,292 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-28 03:59:05,295 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:59:05,298 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:59:05,301 | INFO     | [DataAdapter] M15 anomaly detection completed for GBPUSD-OTC
+2026-07-28 03:59:05,303 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-28 03:59:05,303 | INFO     | [DataAdapter] Anomaly statistics for GBPUSD-OTC: {'total_calls': 9, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055, 0.004012584686279297, 0.004008293151855469, 0.004000663757324219, 0.028694868087768555, 0.005213737487792969], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.007057852215237088), 'max_response_time': np.float64(0.028694868087768555), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 03:59:05,303 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-28 03:59:05,304 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-28 03:59:05,304 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-28 03:59:05,308 | INFO     | [DataAdapter] M5 anomaly detection completed for EURGBP-OTC
+2026-07-28 03:59:05,308 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-28 03:59:05,308 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-28 03:59:05,313 | INFO     | [DataAdapter] M15 anomaly detection completed for EURGBP-OTC
+2026-07-28 03:59:05,313 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-28 03:59:05,313 | INFO     | [DataAdapter] Anomaly statistics for EURGBP-OTC: {'total_calls': 9, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055, 0.004012584686279297, 0.004008293151855469, 0.004000663757324219, 0.028694868087768555, 0.005213737487792969], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.007057852215237088), 'max_response_time': np.float64(0.028694868087768555), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 03:59:05,314 | ERROR    | Error getting future result for EURUSD
+Traceback (most recent call last):
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'zero_volume_detected'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 266, in _refresh_m1
+    completed = self._anomaly_detector.detect_anomalies(completed, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 251, in detect_anomalies
+    result_df = self.detect_zero_volume(result_df, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 164, in detect_zero_volume
+    df['zero_volume_streak'] = (df['zero_volume_detected'] == True).cumsum()
+                                ~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 180, in update
+    completed_m1 = self._refresh_m1(symbol, now_naive)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 280, in _refresh_m1
+    raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
+RuntimeError: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 246, in run_cycle
+    result_val = sym_futures[sym].result()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 153, in fetch_and_save_data
+    return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 237, in update
+    raise Exception(f"Zero Tolerance: update failed for {symbol}: {e}")
+Exception: Zero Tolerance: update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 03:59:05,320 | INFO     | [CSVWriter] Successfully wrote 102 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:59:05,320 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 03:59:05,320 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:59:05,321 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:59:05,333 | INFO     | [CSVWriter] Successfully wrote 102 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:59:05,333 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 03:59:05,333 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 03:59:05,336 | ERROR    | Orchestrator failed for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 03:59:05,346 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 03:59:05,355 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 03:59:05,359 | INFO     | [EURUSD-OTC:1.14526][GBPUSD-OTC:1.33428][EURGBP-OTC:0.85472] :: TOTAL=$1453.95
+2026-07-28 04:00:03,647 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-28 04:00:03,648 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-28 04:00:03,648 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-07-28 04:00:03,648 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD-OTC
+2026-07-28 04:00:03,648 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-28 04:00:03,648 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-28 04:00:03,648 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-28 04:00:03,649 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-28 04:00:03,899 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-28 04:00:03,906 | ERROR    | [DataAdapter] Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 04:00:03,915 | ERROR    | [DataAdapter] update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 04:00:03,915 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-07-28 04:00:04,354 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 3 candles
+2026-07-28 04:00:04,379 | INFO     | [DataAdapter] M1 anomaly detection completed for EURUSD-OTC in 0.004s
+2026-07-28 04:00:04,463 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 04:00:04,480 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD-OTC
+2026-07-28 04:00:04,495 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 04:00:04,495 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD-OTC
+2026-07-28 04:00:04,541 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 04:00:04,604 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-28 04:00:04,672 | INFO     | [DataAdapter] M1 anomaly detection completed for GBPUSD-OTC in 0.018s
+2026-07-28 04:00:04,761 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 04:00:04,761 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-28 04:00:04,761 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-28 04:00:04,807 | INFO     | [CSVWriter] Successfully wrote 103 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 04:00:04,822 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 04:00:04,838 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 04:00:04,838 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 04:00:04,854 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-28 04:00:04,865 | INFO     | [DataAdapter] M1 anomaly detection completed for EURGBP-OTC in 0.005s
+2026-07-28 04:00:04,993 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-28 04:00:04,994 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-28 04:00:05,023 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-28 04:00:05,085 | INFO     | [CSVWriter] Successfully wrote 103 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 04:00:05,085 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 04:00:05,085 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 04:00:05,085 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 04:00:05,085 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 3 candles
+2026-07-28 04:00:05,139 | INFO     | [DataAdapter] M5 anomaly detection completed for EURUSD-OTC
+2026-07-28 04:00:05,209 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 0
+2026-07-28 04:00:05,255 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD-OTC
+2026-07-28 04:00:05,257 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD-OTC
+2026-07-28 04:00:05,335 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-28 04:00:05,381 | INFO     | [CSVWriter] Successfully wrote 103 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 04:00:05,398 | INFO     | [DataAdapter] M5 anomaly detection completed for GBPUSD-OTC
+2026-07-28 04:00:05,427 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 04:00:05,489 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-07-28 04:00:05,489 | INFO     | [CSVWriter] Writing 249 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-07-28 04:00:05,534 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 0
+2026-07-28 04:00:05,550 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-28 04:00:05,565 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-28 04:00:05,597 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-28 04:00:05,635 | INFO     | [DataAdapter] M5 anomaly detection completed for EURGBP-OTC
+2026-07-28 04:00:05,752 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 1
+2026-07-28 04:00:05,768 | INFO     | [CSVWriter] Successfully wrote 250 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-07-28 04:00:05,768 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-28 04:00:05,784 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-07-28 04:00:05,847 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-28 04:00:05,847 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 3 candles
+2026-07-28 04:00:05,862 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 04:00:05,870 | INFO     | [CSVWriter] Writing 249 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 04:00:05,875 | INFO     | [DataAdapter] M15 anomaly detection completed for EURUSD-OTC
+2026-07-28 04:00:06,031 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 1
+2026-07-28 04:00:06,062 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD-OTC
+2026-07-28 04:00:06,078 | INFO     | [DataAdapter] Anomaly statistics for EURUSD-OTC: {'total_calls': 12, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055, 0.004012584686279297, 0.004008293151855469, 0.004000663757324219, 0.028694868087768555, 0.005213737487792969, 0.0039997100830078125, 0.01793527603149414, 0.0049839019775390625], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.007536629835764567), 'max_response_time': np.float64(0.028694868087768555), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 04:00:06,095 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-28 04:00:06,129 | INFO     | [DataAdapter] M15 anomaly detection completed for GBPUSD-OTC
+2026-07-28 04:00:06,203 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 2
+2026-07-28 04:00:06,218 | INFO     | [CSVWriter] Successfully wrote 250 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 04:00:06,218 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-28 04:00:06,266 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 04:00:06,313 | INFO     | [DataAdapter] Anomaly statistics for GBPUSD-OTC: {'total_calls': 12, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055, 0.004012584686279297, 0.004008293151855469, 0.004000663757324219, 0.028694868087768555, 0.005213737487792969, 0.0039997100830078125, 0.01793527603149414, 0.0049839019775390625], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.007536629835764567), 'max_response_time': np.float64(0.028694868087768555), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 04:00:06,329 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 04:00:06,376 | INFO     | [CSVWriter] Writing 249 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 04:00:06,378 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-28 04:00:06,390 | INFO     | [DataAdapter] M15 anomaly detection completed for EURGBP-OTC
+2026-07-28 04:00:06,393 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 2
+2026-07-28 04:00:06,393 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-28 04:00:06,393 | INFO     | [DataAdapter] Anomaly statistics for EURGBP-OTC: {'total_calls': 12, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055, 0.004012584686279297, 0.004008293151855469, 0.004000663757324219, 0.028694868087768555, 0.005213737487792969, 0.0039997100830078125, 0.01793527603149414, 0.0049839019775390625], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.007536629835764567), 'max_response_time': np.float64(0.028694868087768555), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 04:00:06,396 | ERROR    | Error getting future result for EURUSD
+Traceback (most recent call last):
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'zero_volume_detected'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 266, in _refresh_m1
+    completed = self._anomaly_detector.detect_anomalies(completed, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 251, in detect_anomalies
+    result_df = self.detect_zero_volume(result_df, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 164, in detect_zero_volume
+    df['zero_volume_streak'] = (df['zero_volume_detected'] == True).cumsum()
+                                ~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 180, in update
+    completed_m1 = self._refresh_m1(symbol, now_naive)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 280, in _refresh_m1
+    raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
+RuntimeError: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 246, in run_cycle
+    result_val = sym_futures[sym].result()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 153, in fetch_and_save_data
+    return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 237, in update
+    raise Exception(f"Zero Tolerance: update failed for {symbol}: {e}")
+Exception: Zero Tolerance: update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 04:00:06,400 | INFO     | [CSVWriter] Successfully wrote 250 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 04:00:06,401 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 04:00:06,401 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-07-28 04:00:06,402 | INFO     | [CSVWriter] Writing 49 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-07-28 04:00:06,415 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-07-28 04:00:06,415 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-07-28 04:00:06,415 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 04:00:06,415 | INFO     | [CSVWriter] Writing 49 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 04:00:06,422 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 04:00:06,422 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 04:00:06,422 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 04:00:06,422 | INFO     | [CSVWriter] Writing 49 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 04:00:06,427 | ERROR    | Orchestrator failed for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 04:00:06,434 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 04:00:06,434 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 04:00:06,435 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 04:00:06,448 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 04:00:06,458 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 04:00:06,465 | INFO     | [EURUSD-OTC:1.14512][GBPUSD-OTC:1.33455][EURGBP-OTC:0.85505] :: TOTAL=$1453.95
+2026-07-28 04:01:03,694 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-28 04:01:03,694 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-28 04:01:03,694 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-07-28 04:01:03,694 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD-OTC
+2026-07-28 04:01:03,709 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-28 04:01:03,740 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-28 04:01:03,787 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-28 04:01:03,787 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-28 04:01:04,431 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-28 04:01:04,439 | ERROR    | [DataAdapter] Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 04:01:04,447 | ERROR    | [DataAdapter] update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 04:01:04,463 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-07-28 04:01:04,684 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 3 candles
+2026-07-28 04:01:04,711 | INFO     | [DataAdapter] M1 anomaly detection completed for EURUSD-OTC in 0.005s
+2026-07-28 04:01:04,826 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 04:01:04,826 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD-OTC
+2026-07-28 04:01:04,826 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD-OTC
+2026-07-28 04:01:04,842 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 04:01:04,842 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 04:01:04,847 | INFO     | [DataAdapter] M5 anomaly detection completed for EURUSD-OTC
+2026-07-28 04:01:04,858 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD-OTC
+2026-07-28 04:01:04,873 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD-OTC
+2026-07-28 04:01:04,894 | INFO     | [DataAdapter] M15 anomaly detection completed for EURUSD-OTC
+2026-07-28 04:01:04,894 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD-OTC
+2026-07-28 04:01:04,894 | INFO     | [DataAdapter] Anomaly statistics for EURUSD-OTC: {'total_calls': 13, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055, 0.004012584686279297, 0.004008293151855469, 0.004000663757324219, 0.028694868087768555, 0.005213737487792969, 0.0039997100830078125, 0.01793527603149414, 0.0049839019775390625, 0.005014896392822266], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.007342650340153621), 'max_response_time': np.float64(0.028694868087768555), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 04:01:04,969 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-28 04:01:04,982 | INFO     | [DataAdapter] M1 anomaly detection completed for GBPUSD-OTC in 0.004s
+2026-07-28 04:01:05,046 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 04:01:05,062 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-28 04:01:05,062 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-28 04:01:05,067 | INFO     | [DataAdapter] M5 anomaly detection completed for GBPUSD-OTC
+2026-07-28 04:01:05,078 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-28 04:01:05,093 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-28 04:01:05,093 | INFO     | [CSVWriter] Successfully wrote 104 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 04:01:05,144 | INFO     | [DataAdapter] M15 anomaly detection completed for GBPUSD-OTC
+2026-07-28 04:01:05,172 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 04:01:05,204 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-28 04:01:05,236 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 04:01:05,237 | INFO     | [DataAdapter] Anomaly statistics for GBPUSD-OTC: {'total_calls': 14, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055, 0.004012584686279297, 0.004008293151855469, 0.004000663757324219, 0.028694868087768555, 0.005213737487792969, 0.0039997100830078125, 0.01793527603149414, 0.0049839019775390625, 0.005014896392822266, 0.004026651382446289], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.007105793271745954), 'max_response_time': np.float64(0.028694868087768555), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 04:01:05,237 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-28 04:01:05,237 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 04:01:05,247 | INFO     | [DataAdapter] M1 anomaly detection completed for EURGBP-OTC in 0.005s
+2026-07-28 04:01:05,251 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-28 04:01:05,251 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-28 04:01:05,251 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-28 04:01:05,256 | INFO     | [DataAdapter] M5 anomaly detection completed for EURGBP-OTC
+2026-07-28 04:01:05,258 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-28 04:01:05,258 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-28 04:01:05,263 | INFO     | [DataAdapter] M15 anomaly detection completed for EURGBP-OTC
+2026-07-28 04:01:05,263 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-28 04:01:05,263 | INFO     | [DataAdapter] Anomaly statistics for EURGBP-OTC: {'total_calls': 15, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055, 0.004012584686279297, 0.004008293151855469, 0.004000663757324219, 0.028694868087768555, 0.005213737487792969, 0.0039997100830078125, 0.01793527603149414, 0.0049839019775390625, 0.005014896392822266, 0.004026651382446289, 0.0045397281646728516], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.006934722264607747), 'max_response_time': np.float64(0.028694868087768555), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 04:01:05,265 | ERROR    | Error getting future result for EURUSD
+Traceback (most recent call last):
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'zero_volume_detected'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 266, in _refresh_m1
+    completed = self._anomaly_detector.detect_anomalies(completed, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 251, in detect_anomalies
+    result_df = self.detect_zero_volume(result_df, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 164, in detect_zero_volume
+    df['zero_volume_streak'] = (df['zero_volume_detected'] == True).cumsum()
+                                ~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 180, in update
+    completed_m1 = self._refresh_m1(symbol, now_naive)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 280, in _refresh_m1
+    raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
+RuntimeError: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 246, in run_cycle
+    result_val = sym_futures[sym].result()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 153, in fetch_and_save_data
+    return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 237, in update
+    raise Exception(f"Zero Tolerance: update failed for {symbol}: {e}")
+Exception: Zero Tolerance: update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 04:01:05,266 | INFO     | [CSVWriter] Successfully wrote 104 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 04:01:05,267 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 04:01:05,267 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 04:01:05,268 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 04:01:05,275 | INFO     | [CSVWriter] Successfully wrote 104 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 04:01:05,276 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 04:01:05,276 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 04:01:05,287 | ERROR    | Orchestrator failed for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 04:01:05,297 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 04:01:05,306 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 04:01:05,318 | INFO     | [EURUSD-OTC:1.14566][GBPUSD-OTC:1.33444][EURGBP-OTC:0.85516] :: TOTAL=$1453.95
+2026-07-28 04:02:03,561 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-28 04:02:03,562 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-28 04:02:03,562 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-07-28 04:02:03,562 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD-OTC
+2026-07-28 04:02:03,562 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-28 04:02:03,562 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-28 04:02:03,563 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-28 04:02:03,563 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-28 04:02:03,825 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-28 04:02:03,892 | ERROR    | [DataAdapter] Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 04:02:03,904 | WARNING  | [DataAdapter] Anomaly detection has failed 6 times
+2026-07-28 04:02:03,920 | ERROR    | [DataAdapter] update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 04:02:03,936 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-07-28 04:02:04,235 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 3 candles
+2026-07-28 04:02:04,265 | INFO     | [DataAdapter] M1 anomaly detection completed for EURUSD-OTC in 0.005s
+2026-07-28 04:02:04,376 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 04:02:04,407 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD-OTC
+2026-07-28 04:02:04,423 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD-OTC
+2026-07-28 04:02:04,423 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 04:02:04,493 | INFO     | [DataAdapter] M5 anomaly detection completed for EURUSD-OTC
+2026-07-28 04:02:04,502 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 04:02:04,518 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD-OTC
+2026-07-28 04:02:04,519 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-28 04:02:04,533 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD-OTC
+2026-07-28 04:02:04,595 | INFO     | [DataAdapter] M1 anomaly detection completed for GBPUSD-OTC in 0.040s
+2026-07-28 04:02:04,646 | INFO     | [DataAdapter] M15 anomaly detection completed for EURUSD-OTC
+2026-07-28 04:02:04,658 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD-OTC
+2026-07-28 04:02:04,658 | INFO     | [DataAdapter] Anomaly statistics for EURUSD-OTC: {'total_calls': 17, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055, 0.004012584686279297, 0.004008293151855469, 0.004000663757324219, 0.028694868087768555, 0.005213737487792969, 0.0039997100830078125, 0.01793527603149414, 0.0049839019775390625, 0.005014896392822266, 0.004026651382446289, 0.0045397281646728516, 0.005462169647216797, 0.0400843620300293], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.008798080332138958), 'max_response_time': np.float64(0.0400843620300293), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 04:02:04,724 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 04:02:04,738 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-28 04:02:04,753 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-28 04:02:04,805 | INFO     | [DataAdapter] M5 anomaly detection completed for GBPUSD-OTC
+2026-07-28 04:02:04,805 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-28 04:02:04,806 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-28 04:02:04,811 | INFO     | [DataAdapter] M15 anomaly detection completed for GBPUSD-OTC
+2026-07-28 04:02:04,832 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-28 04:02:04,833 | INFO     | [DataAdapter] Anomaly statistics for GBPUSD-OTC: {'total_calls': 17, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055, 0.004012584686279297, 0.004008293151855469, 0.004000663757324219, 0.028694868087768555, 0.005213737487792969, 0.0039997100830078125, 0.01793527603149414, 0.0049839019775390625, 0.005014896392822266, 0.004026651382446289, 0.0045397281646728516, 0.005462169647216797, 0.0400843620300293], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.008798080332138958), 'max_response_time': np.float64(0.0400843620300293), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 04:02:04,834 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-28 04:02:04,847 | INFO     | [DataAdapter] M1 anomaly detection completed for EURGBP-OTC in 0.005s
+2026-07-28 04:02:04,847 | INFO     | [CSVWriter] Successfully wrote 105 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 04:02:04,849 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-28 04:02:04,849 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 04:02:04,849 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 04:02:04,851 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-28 04:02:04,852 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-28 04:02:04,852 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-28 04:02:04,857 | INFO     | [DataAdapter] M5 anomaly detection completed for EURGBP-OTC
+2026-07-28 04:02:04,857 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-28 04:02:04,857 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-28 04:02:04,863 | INFO     | [DataAdapter] M15 anomaly detection completed for EURGBP-OTC
+2026-07-28 04:02:04,865 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-28 04:02:04,865 | INFO     | [DataAdapter] Anomaly statistics for EURGBP-OTC: {'total_calls': 18, 'response_times': [0.00399470329284668, 0.0045719146728515625, 0.003995418548583984, 0.005028486251831055, 0.004012584686279297, 0.004008293151855469, 0.004000663757324219, 0.028694868087768555, 0.005213737487792969, 0.0039997100830078125, 0.01793527603149414, 0.0049839019775390625, 0.005014896392822266, 0.004026651382446289, 0.0045397281646728516, 0.005462169647216797, 0.0400843620300293, 0.00499272346496582], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.008586671617296007), 'max_response_time': np.float64(0.0400843620300293), 'min_response_time': np.float64(0.00399470329284668)}
+2026-07-28 04:02:04,867 | ERROR    | Error getting future result for EURUSD
+Traceback (most recent call last):
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'zero_volume_detected'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 266, in _refresh_m1
+    completed = self._anomaly_detector.detect_anomalies(completed, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 251, in detect_anomalies
+    result_df = self.detect_zero_volume(result_df, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 164, in detect_zero_volume
+    df['zero_volume_streak'] = (df['zero_volume_detected'] == True).cumsum()
+                                ~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 180, in update
+    completed_m1 = self._refresh_m1(symbol, now_naive)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 280, in _refresh_m1
+    raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
+RuntimeError: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 246, in run_cycle
+    result_val = sym_futures[sym].result()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 153, in fetch_and_save_data
+    return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 237, in update
+    raise Exception(f"Zero Tolerance: update failed for {symbol}: {e}")
+Exception: Zero Tolerance: update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-28 04:02:04,868 | INFO     | [CSVWriter] Successfully wrote 105 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 04:02:04,871 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 04:02:04,871 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 04:02:04,871 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 04:02:04,880 | INFO     | [CSVWriter] Successfully wrote 105 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 04:02:04,881 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 04:02:04,881 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 04:02:04,893 | ERROR    | Orchestrator failed for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 04:02:04,905 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 04:02:04,914 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 263, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 180, in process_cycle
+    raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+ValueError: FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)
+2026-07-28 04:02:04,931 | INFO     | [EURUSD-OTC:1.14506][GBPUSD-OTC:1.33417][EURGBP-OTC:0.85538] :: TOTAL=$1453.95

@@ -152,28 +152,30 @@ class PureAIRunner:
         broker_epoch = time.time() + self.time_offset
         return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
 
+    def _find_csv_path(self, symbol: str, timeframe: str) -> str | None:
+        """Helper to find the correct path for a symbol's CSV file."""
+        import os
+        base_dir = os.path.join("data_base", "csv", "iq_option")
+        symbol_hyphenated = symbol.replace('_', '-')
+        symbol_underscored = symbol.replace('-', '_')
+
+        # Check for directory variations
+        for sym_variant in [symbol, symbol_hyphenated, symbol_underscored]:
+            symbol_dir = os.path.join(base_dir, sym_variant)
+            if os.path.exists(symbol_dir):
+                # Check for file variations
+                for file_sym_variant in [symbol, symbol_hyphenated, symbol_underscored]:
+                    path = os.path.join(symbol_dir, f"{file_sym_variant}_{timeframe}.csv")
+                    if os.path.exists(path):
+                        return path
+        return None
+
     def _get_latest_price_from_csv(self, symbol: str) -> float:
         import os
         from data_feed.csv_writer import get_file_lock
         try:
-            base_dir = os.path.join("data_base", "csv", "iq_option")
-            symbol_hyphenated = symbol.replace('_', '-')
-            symbol_underscored = symbol.replace('-', '_')
-
-            symbol_dir = os.path.join(base_dir, symbol)
-            if not os.path.exists(symbol_dir):
-                symbol_dir = os.path.join(base_dir, symbol_hyphenated)
-                if not os.path.exists(symbol_dir):
-                    symbol_dir = os.path.join(base_dir, symbol_underscored)
-
-            possible_paths = [
-                os.path.join(symbol_dir, f"{symbol}_M1.csv"),
-                os.path.join(symbol_dir, f"{symbol_hyphenated}_M1.csv"),
-                os.path.join(symbol_dir, f"{symbol_underscored}_M1.csv"),
-            ]
-            csv_path = next((p for p in possible_paths if os.path.exists(p)), None)
-
-            if csv_path and os.path.exists(csv_path):
+            csv_path = self._find_csv_path(symbol, "M1")
+            if csv_path:
                 file_lock = get_file_lock(csv_path)
                 with file_lock:
                     with open(csv_path, 'r', encoding='utf-8') as f:
@@ -191,25 +193,10 @@ class PureAIRunner:
         """
         import os
         from data_feed.csv_writer import get_file_lock
-        base_dir = os.path.join("data_base", "csv", "iq_option")
-        symbol_hyphenated = symbol.replace('_', '-')
-        symbol_underscored = symbol.replace('-', '_')
-
-        symbol_dir = os.path.join(base_dir, symbol)
-        if not os.path.exists(symbol_dir):
-            symbol_dir = os.path.join(base_dir, symbol_hyphenated)
-            if not os.path.exists(symbol_dir):
-                symbol_dir = os.path.join(base_dir, symbol_underscored)
-            
         reqs = {"M1": 100, "M5": 250, "M15": 50}
         for tf, req_len in reqs.items():
-            possible_paths = [
-                os.path.join(symbol_dir, f"{symbol}_{tf}.csv"),
-                os.path.join(symbol_dir, f"{symbol_hyphenated}_{tf}.csv"),
-                os.path.join(symbol_dir, f"{symbol_underscored}_{tf}.csv"),
-            ]
-            csv_path = next((p for p in possible_paths if os.path.exists(p)), None)
-            if not csv_path or not os.path.exists(csv_path):
+            csv_path = self._find_csv_path(symbol, tf)
+            if not csv_path:
                 logger.warning(f"[{symbol}] Missing {tf} CSV file.")
                 return False
             try:
