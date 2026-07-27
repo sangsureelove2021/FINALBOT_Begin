@@ -23,11 +23,36 @@ class StructureEngine(BaseEngine):
     def get_neutral_state(self) -> dict:
         return {}
 
-    def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
+    def _analyze(self, payload: Dict[str, Any], candles_dict: Dict[str, pd.DataFrame] = None, **kwargs) -> Dict[str, Any]:
         m5 = payload['m5']
         pa = payload['price_action']
         if not m5:
             raise ValueError("FAIL-FAST: Neutral state removed")
+        if not candles_dict:
+            raise ValueError("FAIL-FAST: Missing candles_dict for structure analysis")
+        if 'M5' not in candles_dict or candles_dict['M5'] is None or candles_dict['M5'].empty:
+            raise ValueError("FAIL-FAST: Invalid M5 data in candles_dict")
+        if len(candles_dict['M5']) < 50:
+            raise ValueError("FAIL-FAST: Insufficient M5 candles (minimum 50 required)")
+            
+        # Validate required indicator fields
+        required_fields = ['support', 'resistance', 's1', 'r1', 'pivot', 'box_duration', 'box_tightness']
+        for field in required_fields:
+            if field not in m5 or m5[field] is None:
+                raise ValueError(f"FAIL-FAST: Missing required field in m5: {field}")
+                
+        # Validate payload structure
+        if 'price_action' not in payload:
+            raise ValueError("FAIL-FAST: Missing price_action in payload")
+            
+        # Validate price_action structure
+        if not isinstance(payload['price_action'], dict):
+            raise ValueError("FAIL-FAST: price_action must be a dictionary")
+            
+        pa_required_fields = ['sr_interaction', 'move_quality']
+        for field in pa_required_fields:
+            if field not in payload['price_action'] or payload['price_action'][field] is None:
+                raise ValueError(f"FAIL-FAST: Missing required field in price_action: {field}")
             
         support = m5['support']
         resistance = m5['resistance']

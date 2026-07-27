@@ -1,0 +1,559 @@
+2026-07-27 23:46:26,321 | INFO     | MarketStateClassifier initialised
+2026-07-27 23:46:26,389 | INFO     | กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+2026-07-27 23:46:26,390 | INFO     | [IQOPTION] Initialized with Zero Tolerance compliance
+2026-07-27 23:46:26,504 | INFO     | Using stable_api.IQ_Option class
+2026-07-27 23:46:26,504 | INFO     | [CONN] Connecting to IQ Option (DEMO) as venuz20152565@gmail.com...
+2026-07-27 23:46:26,504 | INFO     | [CONN] API created, attempting to connect...
+2026-07-27 23:46:29,339 | INFO     | [CONN] IQ Option connected (REAL MONEY)
+2026-07-27 23:46:29,385 | INFO     | เชื่อมต่อ IQ Option สำเร็จ
+2026-07-27 23:46:29,385 | INFO     | [CSVManager] Initialized with base_dir: data_base/csv/iq_option
+2026-07-27 23:46:29,385 | INFO     | [CSVWriter] Initialized with encoding: utf-8, decimals: 6
+2026-07-27 23:46:29,386 | INFO     | [CSVQueue] Initialized with 1 worker(s)
+2026-07-27 23:46:29,386 | INFO     | [DataMonitor] Initialized with log level: WARNING
+2026-07-27 23:46:29,386 | INFO     | [DataAdapter] Initialized with Zero Tolerance compliance
+2026-07-27 23:46:29,387 | INFO     | [ANOMALY] Initialized with thresholds: {'spike_threshold': 0.3, 'zero_volume_threshold': 0, 'impossible_candle_threshold': 0.001, 'spike_window': 20, 'max_consecutive_zero_volume': 3, 'max_consecutive_anomalies': 10}
+2026-07-27 23:46:29,387 | INFO     | [CandleValidator] Initialized with validation configuration
+2026-07-27 23:46:29,387 | INFO     | [DataAdapter] Initialized with configuration
+2026-07-27 23:46:29,868 | INFO     | บัญชี DEMO | Balance: $1271.51
+2026-07-27 23:46:29,868 | INFO     | Server time offset: -1.4260001182556152 seconds
+2026-07-27 23:46:29,873 | INFO     | ตรวจพบรายการสินทรัพย์ : EURUSD, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+2026-07-27 23:46:29,879 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์ 4 รายการ : EURUSD, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+2026-07-27 23:46:30,181 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 100 candles
+2026-07-27 23:46:30,585 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 250 candles
+2026-07-27 23:46:30,846 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 50 candles
+2026-07-27 23:46:30,858 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-27 23:46:30,858 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-27 23:46:30,858 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-27 23:46:30,860 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv - Queue size: 0
+2026-07-27 23:46:30,861 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv - Queue size: 1
+2026-07-27 23:46:30,861 | INFO     | [DataAdapter] EURUSD initialised — M1:100 M5:250 M15:50
+2026-07-27 23:46:31,113 | INFO     | [CSVWriter] Successfully wrote 100 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-27 23:46:31,113 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 100 candles
+2026-07-27 23:46:31,113 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-27 23:46:31,118 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-27 23:46:31,141 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-27 23:46:31,314 | INFO     | [CSVWriter] Successfully wrote 250 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-27 23:46:31,330 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-27 23:46:31,346 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-27 23:46:31,377 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-27 23:46:31,432 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 250 candles
+2026-07-27 23:46:31,469 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-27 23:46:31,485 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-27 23:46:31,501 | INFO     | [CSVQueue] Queue size: 0
+2026-07-27 23:46:31,692 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 50 candles
+2026-07-27 23:46:31,702 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-07-27 23:46:31,702 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-27 23:46:31,702 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-27 23:46:31,705 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 0
+2026-07-27 23:46:31,708 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 1
+2026-07-27 23:46:31,708 | INFO     | [DataAdapter] EURUSD-OTC initialised — M1:100 M5:250 M15:50
+2026-07-27 23:46:31,708 | INFO     | [CSVWriter] Successfully wrote 100 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-27 23:46:31,709 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-27 23:46:31,709 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-07-27 23:46:31,720 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-07-27 23:46:31,891 | INFO     | [CSVWriter] Successfully wrote 250 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-07-27 23:46:31,906 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-07-27 23:46:31,922 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-07-27 23:46:31,968 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-07-27 23:46:32,039 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 100 candles
+2026-07-27 23:46:32,044 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-07-27 23:46:32,063 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-07-27 23:46:32,079 | INFO     | [CSVQueue] Queue size: 0
+2026-07-27 23:46:32,336 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 250 candles
+2026-07-27 23:46:32,609 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 50 candles
+2026-07-27 23:46:32,619 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-27 23:46:32,620 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-27 23:46:32,620 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-27 23:46:32,622 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 0
+2026-07-27 23:46:32,623 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 1
+2026-07-27 23:46:32,624 | INFO     | [DataAdapter] GBPUSD-OTC initialised — M1:100 M5:250 M15:50
+2026-07-27 23:46:32,624 | INFO     | [CSVWriter] Successfully wrote 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-27 23:46:32,638 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-27 23:46:32,638 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-27 23:46:32,654 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-27 23:46:32,793 | INFO     | [CSVWriter] Successfully wrote 250 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-27 23:46:32,808 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-27 23:46:32,824 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-27 23:46:32,840 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-27 23:46:32,907 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 100 candles
+2026-07-27 23:46:32,933 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-27 23:46:32,949 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-27 23:46:32,949 | INFO     | [CSVQueue] Queue size: 0
+2026-07-27 23:46:33,232 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 250 candles
+2026-07-27 23:46:33,526 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 50 candles
+2026-07-27 23:46:33,538 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-27 23:46:33,538 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-27 23:46:33,539 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-27 23:46:33,542 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 0
+2026-07-27 23:46:33,543 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 1
+2026-07-27 23:46:33,543 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:100 M5:250 M15:50
+2026-07-27 23:46:33,543 | INFO     | [CSVWriter] Successfully wrote 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-27 23:46:33,543 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-27 23:46:33,543 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-27 23:46:33,544 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-27 23:46:33,549 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-07-27 23:46:33,556 | INFO     | [CSVWriter] Successfully wrote 250 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-27 23:46:33,571 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-27 23:46:33,587 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-27 23:46:33,602 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-27 23:46:33,742 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-27 23:46:33,758 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-27 23:46:33,773 | INFO     | [CSVQueue] Queue size: 0
+2026-07-27 23:46:34,872 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=100)
+2026-07-27 23:46:36,180 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=250)
+2026-07-27 23:46:37,434 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M1, count=100)
+2026-07-27 23:46:39,730 | INFO     | [WS] Subscribed live candles stream for EURUSD-OTC (M5, count=250)
+2026-07-27 23:46:41,077 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M1, count=100)
+2026-07-27 23:46:42,351 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M5, count=250)
+2026-07-27 23:46:44,640 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=100)
+2026-07-27 23:46:46,028 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=250)
+2026-07-27 23:46:46,034 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 17 วินาที  (เริ่ม 23:47:03)
+2026-07-27 23:47:03,293 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-27 23:47:03,294 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-27 23:47:03,294 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-07-27 23:47:03,294 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-27 23:47:03,294 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD-OTC
+2026-07-27 23:47:03,294 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-27 23:47:03,294 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-27 23:47:03,354 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-27 23:47:03,527 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-27 23:47:03,609 | ERROR    | [DataAdapter] Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-27 23:47:03,618 | ERROR    | [DataAdapter] update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-27 23:47:03,633 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-07-27 23:47:03,772 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 3 candles
+2026-07-27 23:47:03,786 | INFO     | [DataAdapter] M1 anomaly detection completed for EURUSD-OTC in 0.005s
+2026-07-27 23:47:03,849 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-07-27 23:47:03,864 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD-OTC
+2026-07-27 23:47:03,879 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-27 23:47:03,879 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD-OTC
+2026-07-27 23:47:03,910 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-27 23:47:03,990 | INFO     | [DataAdapter] M5 anomaly detection completed for EURUSD-OTC
+2026-07-27 23:47:04,001 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD-OTC
+2026-07-27 23:47:04,017 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD-OTC
+2026-07-27 23:47:04,094 | INFO     | [DataAdapter] M15 anomaly detection completed for EURUSD-OTC
+2026-07-27 23:47:04,109 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD-OTC
+2026-07-27 23:47:04,110 | INFO     | [DataAdapter] Anomaly statistics for EURUSD-OTC: {'total_calls': 1, 'response_times': [0.004968404769897461], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.004968404769897461), 'max_response_time': np.float64(0.004968404769897461), 'min_response_time': np.float64(0.004968404769897461)}
+2026-07-27 23:47:04,278 | INFO     | [CSVWriter] Successfully wrote 100 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-27 23:47:04,294 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-27 23:47:04,325 | INFO     | [CSVQueue] Queue size: 0
+2026-07-27 23:47:04,341 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-27 23:47:04,369 | INFO     | [DataAdapter] M1 anomaly detection completed for GBPUSD-OTC in 0.004s
+2026-07-27 23:47:04,510 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-27 23:47:04,526 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-27 23:47:04,541 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-27 23:47:04,541 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-27 23:47:04,563 | INFO     | [DataAdapter] M5 anomaly detection completed for GBPUSD-OTC
+2026-07-27 23:47:04,572 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-27 23:47:04,572 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-27 23:47:04,572 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-27 23:47:04,577 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-27 23:47:04,582 | INFO     | [DataAdapter] M15 anomaly detection completed for GBPUSD-OTC
+2026-07-27 23:47:04,582 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-27 23:47:04,582 | INFO     | [DataAdapter] Anomaly statistics for GBPUSD-OTC: {'total_calls': 2, 'response_times': [0.004968404769897461, 0.004008054733276367], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.004488229751586914), 'max_response_time': np.float64(0.004968404769897461), 'min_response_time': np.float64(0.004008054733276367)}
+2026-07-27 23:47:04,592 | INFO     | [DataAdapter] M1 anomaly detection completed for EURGBP-OTC in 0.006s
+2026-07-27 23:47:04,596 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-27 23:47:04,597 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-27 23:47:04,597 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-27 23:47:04,603 | INFO     | [DataAdapter] M5 anomaly detection completed for EURGBP-OTC
+2026-07-27 23:47:04,603 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-27 23:47:04,603 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-27 23:47:04,608 | INFO     | [DataAdapter] M15 anomaly detection completed for EURGBP-OTC
+2026-07-27 23:47:04,609 | INFO     | [CSVWriter] Successfully wrote 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-27 23:47:04,609 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-27 23:47:04,609 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-27 23:47:04,609 | INFO     | [DataAdapter] Anomaly statistics for EURGBP-OTC: {'total_calls': 3, 'response_times': [0.004968404769897461, 0.004008054733276367, 0.00647735595703125], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.005151271820068359), 'max_response_time': np.float64(0.00647735595703125), 'min_response_time': np.float64(0.004008054733276367)}
+2026-07-27 23:47:04,609 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-27 23:47:04,610 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-27 23:47:04,612 | ERROR    | Error getting future result for EURUSD
+Traceback (most recent call last):
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'zero_volume_detected'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 266, in _refresh_m1
+    completed = self._anomaly_detector.detect_anomalies(completed, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 251, in detect_anomalies
+    result_df = self.detect_zero_volume(result_df, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 164, in detect_zero_volume
+    df['zero_volume_streak'] = (df['zero_volume_detected'] == True).cumsum()
+                                ~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 180, in update
+    completed_m1 = self._refresh_m1(symbol, now_naive)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 280, in _refresh_m1
+    raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
+RuntimeError: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 231, in run_cycle
+    result_val = sym_futures[sym].result()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 125, in fetch_and_save_data
+    return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 237, in update
+    raise Exception(f"Zero Tolerance: update failed for {symbol}: {e}")
+Exception: Zero Tolerance: update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-27 23:47:04,618 | INFO     | [CSVWriter] Successfully wrote 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-27 23:47:04,636 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-27 23:47:04,636 | INFO     | [CSVQueue] Queue size: 0
+2026-07-27 23:47:04,711 | ERROR    | [market_state_classifier] Critical failure in analyze: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+2026-07-27 23:47:04,771 | ERROR    | Orchestrator failed for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 248, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 246, in process_cycle
+    state_data = self.classifier.analyze(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+2026-07-27 23:47:04,832 | ERROR    | [market_state_classifier] Critical failure in analyze: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+2026-07-27 23:47:04,862 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 248, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 246, in process_cycle
+    state_data = self.classifier.analyze(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+2026-07-27 23:47:04,919 | ERROR    | [market_state_classifier] Critical failure in analyze: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+2026-07-27 23:47:05,026 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 248, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 246, in process_cycle
+    state_data = self.classifier.analyze(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+2026-07-27 23:47:05,037 | INFO     | [EURUSD-OTC:1.13868][GBPUSD-OTC:1.33481][EURGBP-OTC:0.85791] :: TOTAL=$1271.51
+2026-07-27 23:48:03,289 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-27 23:48:03,289 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-27 23:48:03,289 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-07-27 23:48:03,289 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD-OTC
+2026-07-27 23:48:03,290 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-27 23:48:03,290 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-27 23:48:03,290 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-27 23:48:03,290 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-27 23:48:03,631 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-27 23:48:03,677 | ERROR    | [DataAdapter] Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-27 23:48:03,693 | ERROR    | [DataAdapter] update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-27 23:48:03,709 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-07-27 23:48:04,035 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD-OTC: 3 candles
+2026-07-27 23:48:04,070 | INFO     | [DataAdapter] M1 anomaly detection completed for EURUSD-OTC in 0.014s
+2026-07-27 23:48:04,159 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-07-27 23:48:04,159 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD-OTC
+2026-07-27 23:48:04,175 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD-OTC
+2026-07-27 23:48:04,175 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-27 23:48:04,211 | INFO     | [DataAdapter] M5 anomaly detection completed for EURUSD-OTC
+2026-07-27 23:48:04,221 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-27 23:48:04,253 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD-OTC
+2026-07-27 23:48:04,284 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-27 23:48:04,284 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD-OTC
+2026-07-27 23:48:04,326 | INFO     | [DataAdapter] M1 anomaly detection completed for GBPUSD-OTC in 0.004s
+2026-07-27 23:48:04,387 | INFO     | [DataAdapter] M15 anomaly detection completed for EURUSD-OTC
+2026-07-27 23:48:04,458 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD-OTC
+2026-07-27 23:48:04,458 | INFO     | [DataAdapter] Anomaly statistics for EURUSD-OTC: {'total_calls': 5, 'response_times': [0.004968404769897461, 0.004008054733276367, 0.00647735595703125, 0.01351618766784668, 0.004016876220703125], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.006597375869750977), 'max_response_time': np.float64(0.01351618766784668), 'min_response_time': np.float64(0.004008054733276367)}
+2026-07-27 23:48:04,505 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-27 23:48:04,505 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-27 23:48:04,505 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-27 23:48:04,514 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-27 23:48:04,517 | INFO     | [DataAdapter] M1 anomaly detection completed for EURGBP-OTC in 0.004s
+2026-07-27 23:48:04,519 | INFO     | [CSVWriter] Successfully wrote 101 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-27 23:48:04,523 | INFO     | [DataAdapter] M5 anomaly detection completed for GBPUSD-OTC
+2026-07-27 23:48:04,524 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-07-27 23:48:04,526 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-27 23:48:04,526 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-27 23:48:04,526 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-27 23:48:04,526 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-27 23:48:04,526 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-27 23:48:04,531 | INFO     | [DataAdapter] M15 anomaly detection completed for GBPUSD-OTC
+2026-07-27 23:48:04,531 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-27 23:48:04,533 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-27 23:48:04,533 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-27 23:48:04,534 | INFO     | [DataAdapter] Anomaly statistics for GBPUSD-OTC: {'total_calls': 6, 'response_times': [0.004968404769897461, 0.004008054733276367, 0.00647735595703125, 0.01351618766784668, 0.004016876220703125, 0.0044078826904296875], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.006232460339864095), 'max_response_time': np.float64(0.01351618766784668), 'min_response_time': np.float64(0.004008054733276367)}
+2026-07-27 23:48:04,539 | INFO     | [DataAdapter] M5 anomaly detection completed for EURGBP-OTC
+2026-07-27 23:48:04,540 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-27 23:48:04,541 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-27 23:48:04,545 | INFO     | [DataAdapter] M15 anomaly detection completed for EURGBP-OTC
+2026-07-27 23:48:04,547 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-27 23:48:04,547 | INFO     | [DataAdapter] Anomaly statistics for EURGBP-OTC: {'total_calls': 6, 'response_times': [0.004968404769897461, 0.004008054733276367, 0.00647735595703125, 0.01351618766784668, 0.004016876220703125, 0.0044078826904296875], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.006232460339864095), 'max_response_time': np.float64(0.01351618766784668), 'min_response_time': np.float64(0.004008054733276367)}
+2026-07-27 23:48:04,549 | ERROR    | Error getting future result for EURUSD
+Traceback (most recent call last):
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'zero_volume_detected'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 266, in _refresh_m1
+    completed = self._anomaly_detector.detect_anomalies(completed, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 251, in detect_anomalies
+    result_df = self.detect_zero_volume(result_df, symbol)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\anomaly_detector.py", line 164, in detect_zero_volume
+    df['zero_volume_streak'] = (df['zero_volume_detected'] == True).cumsum()
+                                ~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 180, in update
+    completed_m1 = self._refresh_m1(symbol, now_naive)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 280, in _refresh_m1
+    raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
+RuntimeError: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 231, in run_cycle
+    result_val = sym_futures[sym].result()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 125, in fetch_and_save_data
+    return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\data_adapter.py", line 237, in update
+    raise Exception(f"Zero Tolerance: update failed for {symbol}: {e}")
+Exception: Zero Tolerance: update failed for EURUSD: Zero Tolerance: Anomaly detection failed for EURUSD: 'zero_volume_detected'
+2026-07-27 23:48:04,550 | INFO     | [CSVWriter] Successfully wrote 101 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-27 23:48:04,551 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-27 23:48:04,551 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-27 23:48:04,551 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-27 23:48:04,558 | INFO     | [CSVWriter] Successfully wrote 101 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-27 23:48:04,558 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-27 23:48:04,558 | INFO     | [CSVQueue] Queue size: 0
+2026-07-27 23:48:04,610 | ERROR    | [market_state_classifier] Critical failure in analyze: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+2026-07-27 23:48:04,654 | ERROR    | Orchestrator failed for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 248, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 246, in process_cycle
+    state_data = self.classifier.analyze(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+2026-07-27 23:48:04,711 | ERROR    | [market_state_classifier] Critical failure in analyze: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+2026-07-27 23:48:04,801 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 248, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 246, in process_cycle
+    state_data = self.classifier.analyze(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+2026-07-27 23:48:04,858 | ERROR    | [market_state_classifier] Critical failure in analyze: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+2026-07-27 23:48:04,903 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 248, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 246, in process_cycle
+    state_data = self.classifier.analyze(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+2026-07-27 23:48:04,911 | INFO     | [EURUSD-OTC:1.13803][GBPUSD-OTC:1.33509][EURGBP-OTC:0.85755] :: TOTAL=$1271.51

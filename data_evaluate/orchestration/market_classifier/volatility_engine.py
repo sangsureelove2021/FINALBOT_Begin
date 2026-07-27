@@ -24,10 +24,28 @@ class VolatilityEngine(BaseEngine):
     def get_neutral_state(self) -> dict:
         return {}
 
-    def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
+    def _analyze(self, payload: Dict[str, Any], candles_dict: Dict[str, pd.DataFrame] = None, **kwargs) -> Dict[str, Any]:
         m5 = payload['m5']
         if not m5:
             raise ValueError("FAIL-FAST: Neutral state removed")
+        if not candles_dict:
+            raise ValueError("FAIL-FAST: Missing candles_dict for volatility analysis")
+        if 'M5' not in candles_dict or candles_dict['M5'] is None or candles_dict['M5'].empty:
+            raise ValueError("FAIL-FAST: Invalid M5 data in candles_dict")
+        if len(candles_dict['M5']) < 50:
+            raise ValueError("FAIL-FAST: Insufficient M5 candles (minimum 50 required)")
+            
+        # Validate required indicator fields
+        required_fields = ['atr14', 'atr_percentile', 'atr_zscore', 'bb_width', 'bbw_sma_100']
+        for field in required_fields:
+            if field not in m5 or m5[field] is None:
+                raise ValueError(f"FAIL-FAST: Missing required field in m5: {field}")
+                
+        # Validate payload structure
+        if 'price_action' not in payload:
+            raise ValueError("FAIL-FAST: Missing price_action in payload")
+        if 'ohlcv' not in payload:
+            raise ValueError("FAIL-FAST: Missing ohlcv in payload")
             
         atr_val = m5['atr14']
         atr_percentile = m5['atr_percentile']

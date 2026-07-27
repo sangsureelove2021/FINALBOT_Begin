@@ -165,7 +165,7 @@ def fetch_calendar(target_date: date) -> list[dict]:
         traceback.print_exc()
         raise RuntimeError(f"Network error fetching calendar: {e}")
 
-    soup = BeautifulSoup(response.text, "lxml")
+    soup = BeautifulSoup(response.text, "html.parser")
     
     # ตรวจสอบว่าโดน Cloudflare บล็อกหรือไม่
     page_title = soup.title.text.lower() if soup.title else ""

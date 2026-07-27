@@ -150,23 +150,36 @@ class PriceActionHandler(BaseEngine):
         """Finds Proper Fractal Highs and Lows (2 lower highs before/after)"""
         try:
             if len(df) < 5:
-                return {'support': float(df['low'].min()), 'resistance': float(df['high'].max())}
+                raise ValueError("FAIL-FAST: Insufficient M5 candles for fractal S&R calculation (minimum 5 required)")
                 
             highs = df['high'].values
             lows = df['low'].values
+            close_price = float(df['close'].iloc[-1])
             
             resistances = []
             supports = []
             
-            for i in range(2, len(df) - 2):
+            # Scan backwards from most recent completed candles
+            for i in range(len(df) - 3, 1, -1):
                 if highs[i] > highs[i-1] and highs[i] > highs[i-2] and highs[i] > highs[i+1] and highs[i] > highs[i+2]:
-                    resistances.append(highs[i])
+                    resistances.append(float(highs[i]))
                 if lows[i] < lows[i-1] and lows[i] < lows[i-2] and lows[i] < lows[i+1] and lows[i] < lows[i+2]:
-                    supports.append(lows[i])
+                    supports.append(float(lows[i]))
                     
+            # Pick most recent fractal resistance strictly above current close
+            valid_res = [r for r in resistances if r > close_price]
+            resistance_val = valid_res[0] if valid_res else None
+
+            # Pick most recent fractal support strictly below current close
+            valid_sup = [s for s in supports if s < close_price]
+            support_val = valid_sup[0] if valid_sup else None
+
+            if resistance_val is None or support_val is None or resistance_val <= 0 or support_val <= 0 or resistance_val <= close_price or support_val >= close_price:
+                raise ValueError("FAIL-FAST: Cannot find valid fractal support/resistance from M5 candles")
+
             return {
-                'support': float(supports[-1]) if supports else float(df['low'].min()),
-                'resistance': float(resistances[-1]) if resistances else float(df['high'].max())
+                'support': float(support_val),
+                'resistance': float(resistance_val)
             }
         except Exception as e:
             import logging

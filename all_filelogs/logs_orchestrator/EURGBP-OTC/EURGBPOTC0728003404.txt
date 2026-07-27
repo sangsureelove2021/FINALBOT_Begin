@@ -1,0 +1,90 @@
+ID:EURGBPOTC0728003404
+meta:
+  timestamp: '2026-07-28T00:34:04.792746'
+  symbol: EURGBP-OTC
+  session: NEW YORK
+  m1_open: 0.858075
+  m1_age: 0
+  m1_quality: FRESH
+  m5_open: 0.857535
+  m5_age: 0
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: LOW
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.074
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 0.858004
+    ema20: 0.857886
+    rsi: 58.02
+    stoch_k: 74.9
+    stoch_d: 67.6
+    macd: -1e-05
+    macd_signal: -6.5e-05
+    ohclv:
+      open: 0.858075
+      high: 0.858385
+      low: 0.858035
+      close: 0.858255
+      volume: NONE_OTC
+  m5:
+    bias: BEARISH
+    ema5: 0.857851
+    ema10: 0.857972
+    ema20: 0.858265
+    ema50: 0.85902
+    bb_upper: 0.860095
+    bb_lower: 0.856701
+    bb_width: 0.003393
+    rsi: 41.34
+    stoch_k: 29.69
+    stoch_d: 31.22
+    macd: -0.000428
+    macd_signal: -0.000454
+    adx: 25.57
+    atr: 0.000636
+    support: 0.857065
+    resistance: 0.858605
+    pivot: 0.857642
+    ohclv:
+      open: 0.857535
+      high: 0.857795
+      low: 0.857345
+      close: 0.857785
+      volume: NONE_OTC
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: BEARISH
+  move_quality: NOISY
+  trap_alert: NONE
+  sr_interaction: NONE
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 20
+  mtf_alignment_%: 66
+  compression_quality_%: 82.75
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 46
+  risk_level: HIGH
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

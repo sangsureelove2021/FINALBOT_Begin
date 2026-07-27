@@ -168,7 +168,16 @@ class Orchestrator:
                 logger.exception(f"Failed to read {csv_path}")
                 raise
                 
-        # Warm-up candle check is now handled centrally by runner.py before calling Orchestrator.
+        # Warm-up Candle Lookback Check (Fail-Fast)
+        min_required_candles = {
+            'M1': 250,
+            'M5': 250,
+            'M15': 120
+        }
+        for tf, min_req in min_required_candles.items():
+            df_tf = candles_dict.get(tf)
+            if df_tf is None or len(df_tf) < min_req:
+                raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
 
         final_payload = {
             'symbol': symbol,
@@ -220,6 +229,21 @@ class Orchestrator:
 
         # ── 4. 5 Engines in parallel ────────────────────────────────────
         try:
+            # Zero Tolerance validation before running engines
+            if not candles_dict:
+                raise ValueError("FAIL-FAST: Missing candles_dict for engine execution")
+            for tf in ['M1', 'M5', 'M15']:
+                if tf not in candles_dict or candles_dict[tf] is None or candles_dict[tf].empty:
+                    raise ValueError(f"FAIL-FAST: Invalid {tf} data in candles_dict")
+                if len(candles_dict[tf]) < 50:
+                    raise ValueError(f"FAIL-FAST: Insufficient {tf} candles (minimum 50 required)")
+            
+            # Validate basic payload structure
+            required_payload_fields = ['m5', 'm1', 'ohlcv', 'price_action']
+            for field in required_payload_fields:
+                if field not in final_payload or final_payload[field] is None:
+                    raise ValueError(f"FAIL-FAST: Missing required payload field: {field}")
+            
             trend_data, strength_data, volatility_data, structure_data, mtf_data = \
                 self._run_engines_parallel(symbol, final_payload, candles_dict)
                 
@@ -242,20 +266,36 @@ class Orchestrator:
         # ── 5. Market State Classifier ──────────────────────────────────
         state_data = None
         try:
-            if self.classifier:
-                state_data = self.classifier.analyze(
-                    payload=final_payload,
-                    symbol=symbol,
-                    trend_data=trend_data,
-                    strength_data=strength_data,
-                    volatility_data=volatility_data,
-                    structure_data=structure_data,
-                    mtf_data=mtf_data
-                )
-                final_payload['market_state'] = state_data['state']
-                final_payload['market_state_full'] = state_data
-            else:
-                raise ValueError("MarketStateClassifier not initialized")
+            if not self.classifier:
+                raise ValueError("FAIL-FAST: MarketStateClassifier not initialized")
+                
+            # Zero Tolerance validation before classification
+            if not isinstance(final_payload, dict):
+                raise ValueError("FAIL-FAST: final_payload must be a dictionary")
+            if not trend_data or not strength_data or not volatility_data or not structure_data or not mtf_data:
+                raise ValueError("FAIL-FAST: Missing engine data for classification")
+            if not candles_dict:
+                raise ValueError("FAIL-FAST: Missing candles_dict for classification")
+                
+            state_data = self.classifier.analyze(
+                payload=final_payload,
+                symbol=symbol,
+                trend_data=trend_data,
+                strength_data=strength_data,
+                volatility_data=volatility_data,
+                structure_data=structure_data,
+                mtf_data=mtf_data,
+                candles_dict=candles_dict
+            )
+            
+            # Validate state_data structure
+            if not isinstance(state_data, dict):
+                raise ValueError("FAIL-FAST: MarketStateClassifier returned non-dict")
+            if 'state' not in state_data or state_data['state'] is None:
+                raise ValueError("FAIL-FAST: MarketStateClassifier missing required field: state")
+                
+            final_payload['market_state'] = state_data['state']
+            final_payload['market_state_full'] = state_data
         except Exception as e:
             raise
 
@@ -521,10 +561,10 @@ class Orchestrator:
         import copy
         safe_payload = copy.deepcopy(payload)
         tasks: Dict[str, tuple] = {
-            'trend':      (self.trend_engine.analyze,      (safe_payload,),      {}),
-            'strength':   (self.strength_engine.analyze,   (safe_payload,),      {}),
-            'volatility': (self.volatility_engine.analyze, (safe_payload,),      {}),
-            'structure':  (self.structure_engine.analyze,  (safe_payload,),      {}),
+            'trend':      (self.trend_engine.analyze,      (safe_payload,),      {'candles_dict': candles_dict}),
+            'strength':   (self.strength_engine.analyze,   (safe_payload,),      {'candles_dict': candles_dict}),
+            'volatility': (self.volatility_engine.analyze, (safe_payload,),      {'candles_dict': candles_dict}),
+            'structure':  (self.structure_engine.analyze,  (safe_payload,),      {'candles_dict': candles_dict}),
             'mtf':        (self.mtf_engine.analyze,        (safe_payload,),      {'candles_dict': candles_dict})
         }
 
@@ -541,8 +581,31 @@ class Orchestrator:
                 except Exception as exc:
                     raise
 
+        # Zero Tolerance: Validate all engine results
         if len(results) < 5:
-            raise Exception("Fail-fast: some engines failed to produce results")
+            missing = set(['trend', 'strength', 'volatility', 'structure', 'mtf']) - set(results.keys())
+            raise ValueError(f"FAIL-FAST: {len(missing)} engines failed to produce results: {missing}")
+            
+        # Validate each engine result structure
+        required_engine_fields = {
+            'trend': ['direction', 'strength', 'slope', 'momentum', 'type', 'confidence'],
+            'strength': ['adx', 'di_plus', 'di_minus', 'rsi', 'momentum_level', 'strength_score', 'exhaustion_risk'],
+            'volatility': ['regime', 'spike_detected', 'compression_quality', 'volatility_score'],
+            'structure': ['structure_type', 'bos_detected', 'support_levels', 'resistance_levels'],
+            'mtf': ['alignment_score', 'htf_direction']
+        }
+        
+        for engine_name, result in results.items():
+            if result is None:
+                raise ValueError(f"FAIL-FAST: {engine_name} returned None")
+            if not isinstance(result, dict):
+                raise ValueError(f"FAIL-FAST: {engine_name} returned non-dict: {type(result)}")
+                
+            required_fields = required_engine_fields[engine_name]
+            for field in required_fields:
+                if field not in result or result[field] is None:
+                    raise ValueError(f"FAIL-FAST: {engine_name} missing required field: {field}")
+                    
         return (
             results['trend'],
             results['strength'],
@@ -890,7 +953,7 @@ class Orchestrator:
             return str(v)
 
         lines = [
-            f"ID:{prompt_id}",
+            f"ID: {prompt_id}",
             "meta:",
             f"  timestamp: '{meta.get('timestamp', '')}'",
             f"  symbol: {meta.get('symbol', '')}",

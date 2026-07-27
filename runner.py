@@ -15,6 +15,9 @@ from data_feed.data_adapter import DataAdapter
 
 class PureAIRunner:
     def __init__(self):
+        # Auto-run calendar_news.py on startup if today's calendar file is missing
+        self._ensure_calendar_news()
+
         # Load settings
         from config_setting.config_loader import load_settings
         self.settings = load_settings(reload=False)
@@ -59,14 +62,14 @@ class PureAIRunner:
             
         ConsoleUI.show_account_info(self.account_type, balance)
 
-        # Calculate time offset between local clock        # 4. Synchronize with broker time
+        # Synchronize with broker server time
         try:
             server_time = self.data_adapter.api.get_server_timestamp()
             local_time = int(time.time())
             self.time_offset = server_time - local_time
             logger.info(f"Server time offset: {self.time_offset} seconds")
         except Exception as e:
-            logger.error(f"Failed to get server time offset")
+            logger.exception("Failed to get server time offset")
             self.time_offset = 0.0
 
         # Display assets
@@ -92,6 +95,31 @@ class PureAIRunner:
             self.data_adapter.start_stream(sym, 'M5', 250)
         
         self._countdown_to_first_candle()
+
+    def _ensure_calendar_news(self):
+        """
+        ตรวจสอบว่าไฟล์ข่าวประจำวันนี้ใน all_filelogs/calendar_logs/calendar_YYYY-MM-DD.json มีอยู่แล้วหรือยัง
+        หากยังไม่มี ให้รัน calendar_news.py เพื่อดาวน์โหลดและส่งออกไฟล์ข่าวทันทีเมื่อเริ่มรันบอท
+        """
+        try:
+            import subprocess
+            today_str = datetime.now().strftime("%Y-%m-%d")
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            log_dir = os.path.join(base_dir, "all_filelogs", "calendar_logs")
+            calendar_file = os.path.join(log_dir, f"calendar_{today_str}.json")
+
+            if not os.path.exists(calendar_file):
+                logger.info(f"[NEWS] Calendar file for today ({today_str}) not found. Running calendar_news.py...")
+                script_path = os.path.join(base_dir, "calendar_news.py")
+                if os.path.exists(script_path):
+                    subprocess.run([sys.executable, script_path], check=False, timeout=60)
+                    logger.info("[NEWS] calendar_news.py executed successfully.")
+                else:
+                    logger.warning(f"[NEWS] calendar_news.py script not found at {script_path}")
+            else:
+                logger.info(f"[NEWS] Calendar file for today ({today_str}) already exists.")
+        except Exception as e:
+            logger.exception("Failed to check or run calendar_news.py at startup")
 
     def _countdown_to_first_candle(self):
         """แสดงเวลาที่จะเริ่มบันทึกครั้งแรก"""
@@ -129,15 +157,23 @@ class PureAIRunner:
         from data_feed.csv_writer import get_file_lock
         try:
             base_dir = os.path.join("data_base", "csv", "iq_option")
+            symbol_hyphenated = symbol.replace('_', '-')
+            symbol_underscored = symbol.replace('-', '_')
+
             symbol_dir = os.path.join(base_dir, symbol)
             if not os.path.exists(symbol_dir):
-                symbol_dir = os.path.join(base_dir, symbol.replace('_', '-'))
-            
-            csv_path = os.path.join(symbol_dir, f"{symbol}_M1.csv")
-            if not os.path.exists(csv_path):
-                csv_path = os.path.join(symbol_dir, f"{symbol.replace('_', '-')}_M1.csv")
+                symbol_dir = os.path.join(base_dir, symbol_hyphenated)
+                if not os.path.exists(symbol_dir):
+                    symbol_dir = os.path.join(base_dir, symbol_underscored)
 
-            if os.path.exists(csv_path):
+            possible_paths = [
+                os.path.join(symbol_dir, f"{symbol}_M1.csv"),
+                os.path.join(symbol_dir, f"{symbol_hyphenated}_M1.csv"),
+                os.path.join(symbol_dir, f"{symbol_underscored}_M1.csv"),
+            ]
+            csv_path = next((p for p in possible_paths if os.path.exists(p)), None)
+
+            if csv_path and os.path.exists(csv_path):
                 file_lock = get_file_lock(csv_path)
                 with file_lock:
                     with open(csv_path, 'r', encoding='utf-8') as f:
@@ -156,19 +192,26 @@ class PureAIRunner:
         import os
         from data_feed.csv_writer import get_file_lock
         base_dir = os.path.join("data_base", "csv", "iq_option")
+        symbol_hyphenated = symbol.replace('_', '-')
+        symbol_underscored = symbol.replace('-', '_')
+
         symbol_dir = os.path.join(base_dir, symbol)
         if not os.path.exists(symbol_dir):
-            symbol_hyphenated = symbol.replace('_', '-')
             symbol_dir = os.path.join(base_dir, symbol_hyphenated)
+            if not os.path.exists(symbol_dir):
+                symbol_dir = os.path.join(base_dir, symbol_underscored)
             
         reqs = {"M1": 100, "M5": 250, "M15": 50}
         for tf, req_len in reqs.items():
-            csv_path = os.path.join(symbol_dir, f"{symbol}_{tf}.csv")
-            if not os.path.exists(csv_path):
-                csv_path = os.path.join(symbol_dir, f"{symbol.replace('_', '-')}_{tf}.csv")
-                if not os.path.exists(csv_path):
-                    logger.warning(f"[{symbol}] Missing {tf} CSV file.")
-                    return False
+            possible_paths = [
+                os.path.join(symbol_dir, f"{symbol}_{tf}.csv"),
+                os.path.join(symbol_dir, f"{symbol_hyphenated}_{tf}.csv"),
+                os.path.join(symbol_dir, f"{symbol_underscored}_{tf}.csv"),
+            ]
+            csv_path = next((p for p in possible_paths if os.path.exists(p)), None)
+            if not csv_path or not os.path.exists(csv_path):
+                logger.warning(f"[{symbol}] Missing {tf} CSV file.")
+                return False
             try:
                 file_lock = get_file_lock(csv_path)
                 with file_lock:
@@ -244,12 +287,10 @@ class PureAIRunner:
         while True:
             try:
                 now = datetime.now()
-                # Calculate seconds until the next minute's 3rd second.
-                if now.second < 3:
-                    sleep_sec = 3 - now.second
-                else:
-                    sleep_sec = 60 - now.second + 3
-                
+                # Sleep until the 3rd second of the next minute to allow broker candle closure
+                sleep_sec = (3 - now.second) % 60
+                if sleep_sec == 0:
+                    sleep_sec = 60
                 time.sleep(sleep_sec)
                 self.run_cycle()
 

@@ -63,7 +63,7 @@ def update_all_news_impact(symbols: list = None):
         for symbol in symbols:
             # 1. จัดการ OTC
             if "OTC" in symbol.upper():
-                _PRECALCULATED_NEWS[symbol] = "NONE (OTC)"
+                _PRECALCULATED_NEWS[symbol] = "NONE_OTC"
                 continue
             
             # ถ้าไม่มีไฟล์ข่าว ให้ตั้งเป็น LOW

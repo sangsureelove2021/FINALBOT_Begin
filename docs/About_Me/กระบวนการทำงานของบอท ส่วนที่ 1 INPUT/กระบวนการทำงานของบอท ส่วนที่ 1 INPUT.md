@@ -57,23 +57,23 @@ _store_m15 = {symbol: DataFrame}  # แท่ง 15 นาที
 
 #### **1.1 การเริ่มต้นระบบ (Warm-up)**
 ```python
-# data_adapter.py Line 92-94
-m1 = self._iq.get_candles_dataframe(symbol, 'M1', 250)     # ดึง 250 แท่ง M1
-m5 = self._iq.get_candles_dataframe(symbol, 'M5', 250)     # ดึง 250 แท่ง M5
-m15 = self._iq.get_candles_dataframe(symbol, 'M15', 120)  # ดึง 120 แท่ง M15 จาก Broker API
+# data_adapter.py Line 126-128
+m1 = self._iq.get_candles(symbol, 'M1', 100)     # ดึง 100 แท่ง M1
+m5 = self._iq.get_candles(symbol, 'M5', 250)     # ดึง 250 แท่ง M5
+m15 = self._iq.get_candles(symbol, 'M15', 50)    # ดึง 50 แท่ง M15 จาก Broker API สด 100%
 ```
 
 #### **1.2 การอัปเดตข้อมูล (Update)**
 ```python
-# data_adapter.py Line 217-339
-# M1 ดึง 5 แท่งใหม่
-fresh = self._iq.get_candles(symbol, 'M1', 5)
+# data_adapter.py Line 239, 290, 339
+# M1 ดึง 3 แท่งใหม่
+fresh = self._iq.get_candles(symbol, 'M1', 3)
 
-# M5 ดึง 5 แท่งใหม่
-fresh = self._iq.get_candles(symbol, 'M5', 5)
+# M5 ดึง 3 แท่งใหม่
+fresh = self._iq.get_candles(symbol, 'M5', 3)
 
-# M15 ดึงตาม default_candle_count ตรงจาก Broker API
-fresh_m15 = self._iq.get_candles(symbol, 'M15', self.default_candle_count)
+# M15 ดึง 3 แท่งใหม่ ตรงจาก Broker API สด 100%
+fresh_m15 = self._iq.get_candles(symbol, 'M15', 3)
 ```
 
 #### **1.3 Configuration สำคัญ**
@@ -134,14 +134,14 @@ self._store_m15[symbol] = m15      # เก็บ M15 ลง RAM
 
 **RAM Usage:**
 ```python
-# แต่ละ symbol
-- M1: ~48KB (1000 rows × 6 cols × 8 bytes)
-- M5: ~9.6KB (200 rows × 6 cols × 8 bytes)
-- M15: ~4.8KB (100 rows × 6 cols × 8 bytes)
-- ทั้งหมด ~62KB per symbol
+# แต่ละ symbol (คำนวณตามสเปก M1=100, M5=250, M15=50 แท่ง)
+- M1: ~4.8KB (100 rows × 6 cols × 8 bytes)
+- M5: ~12KB (250 rows × 6 cols × 8 bytes)
+- M15: ~2.4KB (50 rows × 6 cols × 8 bytes)
+- ทั้งหมด ~19.2KB per symbol
 
 # หลาย symbol
-- 5 symbols = ~310KB (ยังพอใช้ได้)
+- 5 symbols = ~96KB (น้ำหนักเบามาก ปลอดภัย 100%)
 ```
 
 ---
@@ -203,31 +203,31 @@ if not (min_val <= median_close <= max_val):
 #### **⚠️ ข้อควรรู้สำคัญ: M15 ไม่ Resample จาก M5**
 
 ```python
-# data_adapter.py Line 257-260: ดึง M15 ตรงจาก Broker API (อัปเดต M15 จาก 250 เป็น 120)
-fresh_m15 = self._iq.get_candles(symbol, 'M15', self.default_candle_count)
+# data_adapter.py Line 339: ดึง M15 ตรงจาก Broker API (3 แท่งสำหรับการอัปเดต)
+fresh_m15 = self._iq.get_candles(symbol, 'M15', 3)
 
-# data_adapter.py Line 214-245: _refresh_m5()
+# data_adapter.py Line 276-322: _refresh_m5()
 def _refresh_m5(self, symbol, now_naive, current_block):
-    # M5 ดึง 5 แท่งใหม่
-    fresh = self._iq.get_candles(symbol, 'M5', 5)
+    # M5 ดึง 3 แท่งใหม่
+    fresh = self._iq.get_candles(symbol, 'M5', 3)
 
     # รวมข้อมูลเก่า + ข้อมูลใหม่
     self._store_m5[symbol] = self._merge(
         self._store_m5[symbol], fresh,
         gap_threshold=_M5_GAP_SEC,  # 1500 วินาที
-        refetch_fn=lambda: self._iq.get_candles(symbol, 'M5', self.default_candle_count),
+        refetch_fn=lambda: self._iq.get_candles(symbol, 'M5', 250),
         label=f"M5 {symbol}",
-        timeframe="M5"
+        timeframe="M5",
+        max_candles=250
     )
 
     # ตัดแท่งเปิดไม่เสร็จออก
     completed = self._drop_forming(self._store_m5[symbol], now_naive, 300)
 
-    # เขียน CSV เมื่อ block เปลี่ยน
-    if block != self._m5_csv_written[symbol]:
+    # เขียน CSV เมื่อ block เปลี่ยนหรือโหลดข้อมูลครั้งแรก (block_changed)
+    if block_changed:
         CandleValidator().validate(completed, symbol)
         self._csv_queue.enqueue_write(completed, self._csv_manager.get_file_path(symbol, "M5"))
-        self._m5_csv_written[symbol] = block
 
     return completed
 ```
@@ -448,15 +448,18 @@ class CSVWriter:
                 if col in df_to_write.columns:
                     df_to_write[col] = df_to_write[col].round(self.decimal_places)
 
-            # Write to CSV (Append mode)
-            df_to_write.to_csv(
-                path_or_buf=file_path,
-                encoding=self.encoding,
-                header=self.include_header,
-                index=True,
-                mode='a',  # Append mode - เติมต่อท้ายไฟล์เสมอ
-                date_format=self.date_format
-            )
+            # Write to CSV safely using Atomic Replace inside a Per-File Lock
+            # 1. Read existing file if present, merge and deduplicate
+            if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+                existing_df = pd.read_csv(file_path, index_col=0, encoding=self.encoding)
+                combined_df = pd.concat([existing_df, df_to_write])
+                combined_df = combined_df[~combined_df.index.duplicated(keep='last')].sort_index()
+                df_to_write = combined_df
+
+            # 2. Write to temporary .tmp file and replace atomically
+            tmp_path = file_path + ".tmp"
+            df_to_write.to_csv(tmp_path, encoding=self.encoding, header=self.include_header, index=True, mode='w', date_format=self.date_format)
+            os.replace(tmp_path, file_path)
 
             logger.info(f"[CSVWriter] Successfully wrote {len(df_to_write)} rows to {file_path}")
 
@@ -465,27 +468,11 @@ class CSVWriter:
             raise
 ```
 
-**ตัวอย่างการ Append ข้อมูล:**
-```python
-# ตัวอย่าง: ข้อมูลใหม่จาก RAM
-new_data = pd.DataFrame({
-    'open': [1.2342],
-    'high': [1.2344],
-    'low': [1.2340],
-    'close': [1.2343],
-    'volume': [200]
-}, index=pd.to_datetime(['2026-07-18 10:30:10']))
-
-# เขียนลงไฟล์ (Append mode)
-writer = CSVWriter(decimal_places=6)
-writer.write(new_data, 'data_base/csv/iq_option/EURGBP/2026_07_18/EURGBP_M1.csv')
-```
-
-**ข้อควรรู้:**
+**ข้อควรรู้สำคัญ:**
 - ปัดเศษทศนิยมราคาสุดท้ายที่ **6 ตำแหน่ง** (decimal_places=6)
-- เขียนข้อมูลแบบ **Append** (เติมต่อท้ายไฟล์เสมอ)
-- ไม่ได้เขียนทับไฟล์เดิม
-- เพิ่ม Header เฉพาะเมื่อเป็นไฟล์ใหม่ (include_header=True)
+- ทำงานผ่าน **Zero-Lock Architecture (Thread-Safe Atomic Write)** ร่วมกับ `get_file_lock`
+- อ่านไฟล์เดิม ตัดเวลาซ้ำ (Deduplicate) เขียนลงไฟล์ชั่วคราว `.tmp` แล้วทำ `os.replace` สลับไฟล์อย่างปลอดภัย
+- ป้องกันปัญหา `PermissionError [WinError 5]` บน Windows และป้องกันบรรทัดซ้ำ 100%
 
 ---
 
@@ -600,7 +587,7 @@ def run_cycle(self):
 
 | ขั้นตอน | ไฟล์ที่เกี่ยวข้อง | ทำอะไร | สถานะ |
 |---------|-------------------|---------|--------|
-| 1. รับข้อมูล | iq_option_adapter.py | ดึง 5 แท่งใหม่จาก IQ Option API | ✅ Active |
+| 1. รับข้อมูล | iq_option_adapter.py | ดึง 3 แท่งใหม่จาก IQ Option API | ✅ Active |
 | 2. เก็บ RAM | data_adapter.py | บันทึกในหน่วยความจำ RAM | ✅ Active |
 | 3. Validate | candle_validator.py | ตรวจสอบคุณภาพ 4 เกณฑ์ | ✅ Active |
 | 4. Timeframe | data_adapter.py | Merge + Drop forming (M1, M5, M15) | ✅ Active |
@@ -624,7 +611,7 @@ def run_cycle(self):
       "connection_retries": 0
     },
     "data_adapter": {
-      "default_candle_count": 250,  # Note: M15 จะดึงเพียง 120 แท่งใน Warm-up
+      "default_candle_count": 250,  # Note: M15 จะดึงเพียง 50 แท่งใน Warm-up (M1=100, M5=250, M15=50)
       "min_candle_count": 21,
       "m5_seconds": 300,
       "m15_seconds": 900,
@@ -708,7 +695,7 @@ def run_cycle(self):
 
 - ⏱️ **Startup:** 10-15 วินาที
 - 🔄 **Update:** ทุกช่วงเวลาที่เรียกใหม่ (ไม่ใช่ 5 วินาที)
-- 💾 **RAM Usage:** ~310KB (5 symbols)
+- 💾 **RAM Usage:** ~96KB (5 symbols)
 - 📁 **Disk I/O:** Non-blocking
 
 ---
@@ -721,7 +708,7 @@ def run_cycle(self):
 2. ✅ ตรวจสอบคุณภาพข้อมูล → ตัดข้อมูลเสีย (หยุดระบบ)
 3. ✅ ประสาน Timeframe → Merge + Drop forming (M1, M5, M15)
 4. ✅ ส่งไปคิว → ไม่บล็อกหลัก (Non-blocking)
-5. ✅ เขียนลงดิสก์ → แบบ Async (decimal_places=6, Append mode)
+5. ✅ เขียนลงดิสก์ → แบบ Async & Zero-Lock Atomic Write (decimal_places=6, Deduplicate, Atomic replace)
 6. ✅ เฝ้าระวังระบบ → หยุดทันทีถ้ามีปัญหา
 
 **ข้อควรจำ:**
@@ -733,7 +720,7 @@ def run_cycle(self):
 - ❌ **M15 ดึงตรงจาก Broker ไม่ resample**
 - ❌ **TimeframeSync ไม่ถูกเรียกใช้จริง**
 - ⚠️ **Decimal places = 6** (ปัดเศษราคา 6 ตำแหน่ง)
-- ⚠️ **Append mode** (เติมต่อท้ายไฟล์เสมอ)
+- ⚠️ **Zero-Lock Atomic Write** (Deduplicate & Atomic replace)
 
 ---
 

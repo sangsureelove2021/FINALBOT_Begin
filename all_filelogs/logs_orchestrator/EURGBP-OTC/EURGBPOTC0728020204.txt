@@ -1,0 +1,90 @@
+ID:EURGBPOTC0728020204
+meta:
+  timestamp: '2026-07-28T02:02:04.650702'
+  symbol: EURGBP-OTC
+  session: NEW YORK
+  m1_open: 0.855375
+  m1_age: 0
+  m1_quality: FRESH
+  m5_open: 0.855045
+  m5_age: 0
+  m5_quality: FRESH
+market_context:
+  state: SIDEWAY_RANGE
+  description: Price ranging between clear levels. Suitable for mean-reversion strategies.
+  volatility_regime: LOW
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.073
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 0.855241
+    ema20: 0.855279
+    rsi: 49.22
+    stoch_k: 70.92
+    stoch_d: 62.41
+    macd: -0.000148
+    macd_signal: -0.000208
+    ohclv:
+      open: 0.855375
+      high: 0.855485
+      low: 0.855285
+      close: 0.855345
+      volume: NONE_OTC
+  m5:
+    bias: BEARISH
+    ema5: 0.855325
+    ema10: 0.85571
+    ema20: 0.856349
+    ema50: 0.857582
+    bb_upper: 0.858401
+    bb_lower: 0.854645
+    bb_width: 0.003756
+    rsi: 30.12
+    stoch_k: 12.31
+    stoch_d: 9.25
+    macd: -0.000807
+    macd_signal: -0.000706
+    adx: 27.82
+    atr: 0.000621
+    support: 0.854945
+    resistance: 0.856555
+    pivot: 0.855032
+    ohclv:
+      open: 0.855045
+      high: 0.855305
+      low: 0.854625
+      close: 0.855165
+      volume: NONE_OTC
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: BEARISH
+  move_quality: NOISY
+  trap_alert: BEAR_TRAP
+  sr_interaction: NONE
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: DOWN
+  trend_type: IMPULSIVE
+  trend_strength_score: 100
+  mtf_alignment_%: 66
+  compression_quality_%: 65.49
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 49
+  risk_level: HIGH
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

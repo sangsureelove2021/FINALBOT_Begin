@@ -1,0 +1,90 @@
+ID:EURUSDOTC0728000805
+meta:
+  timestamp: '2026-07-28T00:08:05.413465'
+  symbol: EURUSD-OTC
+  session: NEW YORK
+  m1_open: 1.137185
+  m1_age: 0
+  m1_quality: FRESH
+  m5_open: 1.137885
+  m5_age: 0
+  m5_quality: FRESH
+market_context:
+  state: DISTRIBUTION
+  description: Smart money distribution. Bearish bias, look for breakdown.
+  volatility_regime: LOW
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.118
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.137197
+    ema20: 1.137503
+    rsi: 42.92
+    stoch_k: 11.06
+    stoch_d: 17.36
+    macd: -0.000109
+    macd_signal: -5e-06
+    ohclv:
+      open: 1.137185
+      high: 1.137515
+      low: 1.136915
+      close: 1.136955
+      volume: NONE_OTC
+  m5:
+    bias: BULLISH
+    ema5: 1.137646
+    ema10: 1.137496
+    ema20: 1.136963
+    ema50: 1.135322
+    bb_upper: 1.138687
+    bb_lower: 1.136007
+    bb_width: 0.00268
+    rsi: 55.56
+    stoch_k: 56.5
+    stoch_d: 63.58
+    macd: 0.000834
+    macd_signal: 0.000948
+    adx: 29.64
+    atr: 0.001345
+    support: 1.135865
+    resistance: 1.139145
+    pivot: 1.137508
+    ohclv:
+      open: 1.137885
+      high: 1.138195
+      low: 1.137025
+      close: 1.137305
+      volume: NONE_OTC
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: HIGH_UPPER_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 100
+  mtf_alignment_%: 66
+  compression_quality_%: 100.0
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 40
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

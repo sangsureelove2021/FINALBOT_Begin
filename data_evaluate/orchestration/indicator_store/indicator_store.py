@@ -57,6 +57,16 @@ class IndicatorStore:
         - ส่งคืน dict ที่มีเฉพาะ 'm5', 'm1', 'ohlcv'
         """
         # ------------------------------------------------------------
+        # 0. Warm-up Candle Lookback Check (Fail-Fast: 250/250/120)
+        # ------------------------------------------------------------
+        if df_m1 is None or df_m1.empty or len(df_m1) < 250:
+            raise ValueError("FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)")
+        if df_m5 is None or df_m5.empty or len(df_m5) < 250:
+            raise ValueError("FAIL-FAST: Insufficient M5 warm-up candles (minimum 250 required)")
+        if df_m15 is None or df_m15.empty or len(df_m15) < 120:
+            raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 120 required)")
+
+        # ------------------------------------------------------------
         # 1. M5 Indicators
         # ------------------------------------------------------------
         m5 = {}
@@ -112,7 +122,9 @@ class IndicatorStore:
         m5['slope_20'] = round(StructuralMetrics.calc_slope(close_m5, 20), Config.ROUND_DECIMALS)
         m5['slope_50'] = round(StructuralMetrics.calc_slope(close_m5, 50), Config.ROUND_DECIMALS)
 
-        # Pivot Points
+        # Fix M5 Pivot Algorithm - Calculate from current candle instead of previous
+        if len(df_m5) < 1:
+            raise ValueError("FAIL-FAST: Insufficient M5 candles for Pivot Point calculation (minimum 1 required)")
         last_candle = df_m5.iloc[-1]
         pivot = (last_candle['high'] + last_candle['low'] + last_candle['close']) / 3
         m5['pivot'] = round(pivot, Config.ROUND_DECIMALS)
@@ -120,6 +132,8 @@ class IndicatorStore:
         m5['r2'] = round(pivot + (last_candle['high'] - last_candle['low']), Config.ROUND_DECIMALS)
         m5['s1'] = round((2 * pivot) - last_candle['high'], Config.ROUND_DECIMALS)
         m5['s2'] = round(pivot - (last_candle['high'] - last_candle['low']), Config.ROUND_DECIMALS)
+        m5['support'] = round(float(low_m5.tail(20).min()), Config.ROUND_DECIMALS)
+        m5['resistance'] = round(float(high_m5.tail(20).max()), Config.ROUND_DECIMALS)
 
         # Box Metrics
         m5.update(StructuralMetrics.calculate_box_metrics(high_m5, low_m5, m5['atr14']))

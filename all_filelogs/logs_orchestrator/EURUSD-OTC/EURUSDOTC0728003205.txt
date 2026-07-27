@@ -1,0 +1,90 @@
+ID:EURUSDOTC0728003205
+meta:
+  timestamp: '2026-07-28T00:32:05.118371'
+  symbol: EURUSD-OTC
+  session: NEW YORK
+  m1_open: 1.138545
+  m1_age: 0
+  m1_quality: FRESH
+  m5_open: 1.139035
+  m5_age: 0
+  m5_quality: FRESH
+market_context:
+  state: DISTRIBUTION
+  description: Smart money distribution. Bearish bias, look for breakdown.
+  volatility_regime: LOW
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.12
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 1.138674
+    ema20: 1.138591
+    rsi: 51.52
+    stoch_k: 24.63
+    stoch_d: 35.32
+    macd: 0.000265
+    macd_signal: 0.000354
+    ohclv:
+      open: 1.138545
+      high: 1.138795
+      low: 1.138345
+      close: 1.138605
+      volume: NONE_OTC
+  m5:
+    bias: BULLISH
+    ema5: 1.138329
+    ema10: 1.138054
+    ema20: 1.137503
+    ema50: 1.135863
+    bb_upper: 1.139105
+    bb_lower: 1.136023
+    bb_width: 0.003081
+    rsi: 57.92
+    stoch_k: 72.46
+    stoch_d: 70.48
+    macd: 0.000816
+    macd_signal: 0.000855
+    adx: 27.95
+    atr: 0.001361
+    support: 1.136335
+    resistance: 1.139145
+    pivot: 1.138625
+    ohclv:
+      open: 1.139035
+      high: 1.139705
+      low: 1.137975
+      close: 1.138195
+      volume: NONE_OTC
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: EVENING_STAR
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: HIGH_UPPER_WICK
+  momentum_bias: BULLISH
+  move_quality: CHAOTIC
+  trap_alert: BULL_TRAP
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: UP
+  trend_type: CHOPPY
+  trend_strength_score: 80
+  mtf_alignment_%: 100
+  compression_quality_%: 100.0
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 100
+  quality_score: 36
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

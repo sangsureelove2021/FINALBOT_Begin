@@ -1,0 +1,90 @@
+ID:EURUSDOTC0728015305
+meta:
+  timestamp: '2026-07-28T01:53:05.323638'
+  symbol: EURUSD-OTC
+  session: NEW YORK
+  m1_open: 1.139105
+  m1_age: 0
+  m1_quality: FRESH
+  m5_open: 1.141355
+  m5_age: 0
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: NORMAL
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.126
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.13947
+    ema20: 1.140188
+    rsi: 35.39
+    stoch_k: 5.62
+    stoch_d: 5.34
+    macd: -0.000189
+    macd_signal: 8.1e-05
+    ohclv:
+      open: 1.139105
+      high: 1.139165
+      low: 1.138755
+      close: 1.138895
+      volume: NONE_OTC
+  m5:
+    bias: BULLISH
+    ema5: 1.140438
+    ema10: 1.14016
+    ema20: 1.139515
+    ema50: 1.137744
+    bb_upper: 1.141591
+    bb_lower: 1.137334
+    bb_width: 0.004257
+    rsi: 54.2
+    stoch_k: 75.11
+    stoch_d: 81.75
+    macd: 0.000897
+    macd_signal: 0.000895
+    adx: 30.64
+    atr: 0.001437
+    support: 1.138495
+    resistance: 1.141195
+    pivot: 1.140315
+    ohclv:
+      open: 1.141355
+      high: 1.141365
+      low: 1.139745
+      close: 1.139835
+      volume: NONE_OTC
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: HIGH_LOWER_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: BULL_TRAP
+  sr_interaction: TESTING_SUPPORT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 100
+  mtf_alignment_%: 66
+  compression_quality_%: 90.6
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 55
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

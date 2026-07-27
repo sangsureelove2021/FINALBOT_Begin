@@ -69,7 +69,7 @@ class CSVWriter:
         """Write DataFrame to the specified file path inside a Per-File Lock."""
         if df is None or df.empty:
             logger.warning(f"[CSVWriter] Attempted to write empty dataframe to {file_path}")
-            return
+            raise ValueError(f"Cannot write empty dataframe to {file_path}")
             
         file_lock = get_file_lock(file_path)
         with file_lock:

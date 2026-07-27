@@ -1,0 +1,106 @@
+[
+    {
+        "title": "President Trump Speaks",
+        "country": "USD",
+        "date": "2026-07-28T05:50:00+00:00",
+        "impact": "Medium",
+        "forecast": "",
+        "previous": ""
+    },
+    {
+        "title": "BRC Shop Price Index y/y",
+        "country": "GBP",
+        "date": "2026-07-28T10:01:00+00:00",
+        "impact": "Low",
+        "forecast": "1.2%",
+        "previous": "1.2%"
+    },
+    {
+        "title": "RBA Gov Bullock Speaks",
+        "country": "AUD",
+        "date": "2026-07-28T14:05:00+00:00",
+        "impact": "High",
+        "forecast": "",
+        "previous": ""
+    },
+    {
+        "title": "BOJ Core CPI y/y",
+        "country": "JPY",
+        "date": "2026-07-28T16:00:00+00:00",
+        "impact": "Low",
+        "forecast": "1.4%",
+        "previous": "1.4%"
+    },
+    {
+        "title": "Spanish Unemployment Rate",
+        "country": "EUR",
+        "date": "2026-07-28T18:00:00+00:00",
+        "impact": "Low",
+        "forecast": "10.7%",
+        "previous": "10.8%"
+    },
+    {
+        "title": "German Buba Monthly Report",
+        "country": "EUR",
+        "date": "2026-07-28T18:00:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": ""
+    },
+    {
+        "title": "ADP Weekly Employment Change",
+        "country": "USD",
+        "date": "2026-07-28T23:15:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": "16.5K"
+    },
+    {
+        "title": "Goods Trade Balance",
+        "country": "USD",
+        "date": "2026-07-28T23:30:00+00:00",
+        "impact": "Low",
+        "forecast": "-98.0B",
+        "previous": "-105.8B"
+    },
+    {
+        "title": "Prelim Wholesale Inventories m/m",
+        "country": "USD",
+        "date": "2026-07-28T23:30:00+00:00",
+        "impact": "Low",
+        "forecast": "0.2%",
+        "previous": "0.1%"
+    },
+    {
+        "title": "HPI m/m",
+        "country": "USD",
+        "date": "2026-07-29T00:00:00+00:00",
+        "impact": "Low",
+        "forecast": "0.2%",
+        "previous": "-0.1%"
+    },
+    {
+        "title": "S&P/CS Composite-20 HPI y/y",
+        "country": "USD",
+        "date": "2026-07-29T00:00:00+00:00",
+        "impact": "Low",
+        "forecast": "0.8%",
+        "previous": "1.1%"
+    },
+    {
+        "title": "CB Consumer Confidence",
+        "country": "USD",
+        "date": "2026-07-29T01:00:00+00:00",
+        "impact": "Medium",
+        "forecast": "92.1",
+        "previous": "91.2"
+    },
+    {
+        "title": "Richmond Manufacturing Index",
+        "country": "USD",
+        "date": "2026-07-29T01:00:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": "4"
+    }
+]

@@ -1,0 +1,90 @@
+ID:EURUSDOTC0728004006
+meta:
+  timestamp: '2026-07-28T00:40:06.546779'
+  symbol: EURUSD-OTC
+  session: NEW YORK
+  m1_open: 1.138385
+  m1_age: 0
+  m1_quality: FRESH
+  m5_open: 1.138455
+  m5_age: 0
+  m5_quality: FRESH
+market_context:
+  state: DISTRIBUTION
+  description: Smart money distribution. Bearish bias, look for breakdown.
+  volatility_regime: LOW
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.113
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.138306
+    ema20: 1.138434
+    rsi: 48.34
+    stoch_k: 22.78
+    stoch_d: 17.57
+    macd: 1.7e-05
+    macd_signal: 0.000118
+    ohclv:
+      open: 1.138385
+      high: 1.138685
+      low: 1.138115
+      close: 1.138265
+      volume: NONE_OTC
+  m5:
+    bias: BULLISH
+    ema5: 1.138325
+    ema10: 1.138145
+    ema20: 1.137653
+    ema50: 1.136053
+    bb_upper: 1.139176
+    bb_lower: 1.136301
+    bb_width: 0.002876
+    rsi: 57.94
+    stoch_k: 55.03
+    stoch_d: 62.99
+    macd: 0.000753
+    macd_signal: 0.000824
+    adx: 26.98
+    atr: 0.00129
+    support: 1.136335
+    resistance: 1.140105
+    pivot: 1.138332
+    ohclv:
+      open: 1.138455
+      high: 1.138825
+      low: 1.137905
+      close: 1.138265
+      volume: NONE_OTC
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: HIGH_UPPER_WICK
+  momentum_bias: BULLISH
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: UP
+  trend_type: CHOPPY
+  trend_strength_score: 80
+  mtf_alignment_%: 66
+  compression_quality_%: 100.0
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 35
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

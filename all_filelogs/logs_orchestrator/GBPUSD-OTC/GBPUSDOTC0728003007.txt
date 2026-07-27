@@ -1,0 +1,90 @@
+ID:GBPUSDOTC0728003007
+meta:
+  timestamp: '2026-07-28T00:30:07.231432'
+  symbol: GBPUSD-OTC
+  session: NEW YORK
+  m1_open: 1.336115
+  m1_age: 0
+  m1_quality: FRESH
+  m5_open: 1.335185
+  m5_age: 0
+  m5_quality: FRESH
+market_context:
+  state: DISTRIBUTION
+  description: Smart money distribution. Bearish bias, look for breakdown.
+  volatility_regime: HIGH
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.096
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 1.335817
+    ema20: 1.33506
+    rsi: 67.12
+    stoch_k: 97.56
+    stoch_d: 93.04
+    macd: 0.000342
+    macd_signal: 0.000121
+    ohclv:
+      open: 1.336115
+      high: 1.336335
+      low: 1.335925
+      close: 1.336285
+      volume: NONE_OTC
+  m5:
+    bias: BULLISH
+    ema5: 1.335222
+    ema10: 1.334944
+    ema20: 1.334526
+    ema50: 1.333166
+    bb_upper: 1.336441
+    bb_lower: 1.332599
+    bb_width: 0.003842
+    rsi: 61.5
+    stoch_k: 67.79
+    stoch_d: 46.85
+    macd: 0.000613
+    macd_signal: 0.00063
+    adx: 29.02
+    atr: 0.001282
+    support: 1.332925
+    resistance: 1.336315
+    pivot: 1.335835
+    ohclv:
+      open: 1.335185
+      high: 1.336335
+      low: 1.334885
+      close: 1.336285
+      volume: NONE_OTC
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: BULLISH
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: UP
+  trend_type: CORRECTIVE
+  trend_strength_score: 60
+  mtf_alignment_%: 100
+  compression_quality_%: 56.15
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 100
+  quality_score: 39
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

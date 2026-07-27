@@ -24,11 +24,23 @@ class StrengthEngine(BaseEngine):
     def get_neutral_state(self) -> dict:
         return {}
 
-    def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
+    def _analyze(self, payload: Dict[str, Any], candles_dict: Dict[str, pd.DataFrame] = None, **kwargs) -> Dict[str, Any]:
         """Analyze momentum strength using SSOT payload"""
         m5 = payload['m5']
         if not m5:
             raise ValueError("FAIL-FAST: Neutral state removed")
+        if not candles_dict:
+            raise ValueError("FAIL-FAST: Missing candles_dict for strength analysis")
+        if 'M5' not in candles_dict or candles_dict['M5'] is None or candles_dict['M5'].empty:
+            raise ValueError("FAIL-FAST: Invalid M5 data in candles_dict")
+        if len(candles_dict['M5']) < 50:
+            raise ValueError("FAIL-FAST: Insufficient M5 candles (minimum 50 required)")
+            
+        # Validate required indicator fields
+        required_fields = ['adx', 'di_plus', 'di_minus', 'rsi14', 'macd', 'macd_hist', 'roc']
+        for field in required_fields:
+            if field not in m5 or m5[field] is None:
+                raise ValueError(f"FAIL-FAST: Missing required field in m5: {field}")
             
         adx_val = m5['adx']
         di_plus = m5['di_plus']

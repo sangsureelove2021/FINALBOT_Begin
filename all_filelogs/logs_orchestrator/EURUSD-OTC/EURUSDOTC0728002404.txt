@@ -1,0 +1,90 @@
+ID:EURUSDOTC0728002404
+meta:
+  timestamp: '2026-07-28T00:24:04.702471'
+  symbol: EURUSD-OTC
+  session: NEW YORK
+  m1_open: 1.139605
+  m1_age: 0
+  m1_quality: FRESH
+  m5_open: 1.137845
+  m5_age: 0
+  m5_quality: FRESH
+market_context:
+  state: DISTRIBUTION
+  description: Smart money distribution. Bearish bias, look for breakdown.
+  volatility_regime: LOW
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.117
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.139247
+    ema20: 1.138364
+    rsi: 60.3
+    stoch_k: 86.27
+    stoch_d: 90.99
+    macd: 0.000513
+    macd_signal: 0.000299
+    ohclv:
+      open: 1.139605
+      high: 1.139685
+      low: 1.138915
+      close: 1.139115
+      volume: NONE_OTC
+  m5:
+    bias: BULLISH
+    ema5: 1.138072
+    ema10: 1.137795
+    ema20: 1.13726
+    ema50: 1.135634
+    bb_upper: 1.138906
+    bb_lower: 1.135935
+    bb_width: 0.002971
+    rsi: 64.3
+    stoch_k: 64.94
+    stoch_d: 54.91
+    macd: 0.000808
+    macd_signal: 0.000867
+    adx: 27.7
+    atr: 0.001332
+    support: 1.135865
+    resistance: 1.139145
+    pivot: 1.138468
+    ohclv:
+      open: 1.137845
+      high: 1.138965
+      low: 1.137575
+      close: 1.138865
+      volume: NONE_OTC
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: HIGH_UPPER_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: UP
+  trend_type: IMPULSIVE
+  trend_strength_score: 80
+  mtf_alignment_%: 100
+  compression_quality_%: 100.0
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 100
+  quality_score: 38
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

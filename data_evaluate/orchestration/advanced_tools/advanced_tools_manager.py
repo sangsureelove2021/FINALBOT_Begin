@@ -38,7 +38,7 @@ class AdvancedToolsManager:
         results = {}
         
         if not isinstance(df_m5, pd.DataFrame) or df_m5.empty:
-            raise ValueError(f"advanced_tools.analyze_all: df_m5 is empty or invalid for symbol {symbol}")
+            raise ValueError("FAIL-FAST: Cannot compute support/resistance from M5 OHLCV")
         
         # Run specialized analyzers
         candle_data = self.candle_pattern.analyze(df_m5)
@@ -66,18 +66,23 @@ class AdvancedToolsManager:
         meta_basic = basic_payload['meta']
         close_price = meta_basic['close']
         
-        # Override support/resistance with fractal logic from PA if available
-        fractal_support = pa_data['fractal_support']
-        fractal_resistance = pa_data['fractal_resistance']
-        
-        support = fractal_support if fractal_support > 0 else m5_basic['support']
-        resistance = fractal_resistance if fractal_resistance > 0 else m5_basic['resistance']
+        # Real-time Support and Resistance calculation without fallbacks (FAIL-FAST)
+        fractal_support = pa_data.get('fractal_support')
+        fractal_resistance = pa_data.get('fractal_resistance')
+
+        if not isinstance(fractal_support, (int, float)) or pd.isna(fractal_support) or fractal_support <= 0 or \
+           not isinstance(fractal_resistance, (int, float)) or pd.isna(fractal_resistance) or fractal_resistance <= 0:
+            raise ValueError("FAIL-FAST: Invalid support/resistance from PriceActionHandler")
+
+        support = float(fractal_support)
+        resistance = float(fractal_resistance)
+
         atr = m5_basic['atr14']
         
         # Inject back into a new m5 dict to respect immutability
         new_m5 = m5_basic.copy()
-        new_m5['support'] = support
-        new_m5['resistance'] = resistance
+        new_m5['support'] = round(support, 6)
+        new_m5['resistance'] = round(resistance, 6)
         new_m5['volume_trend'] = pa_data['volume_momentum']
         results['m5'] = new_m5
         

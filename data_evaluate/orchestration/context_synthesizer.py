@@ -95,10 +95,10 @@ class ContextSynthesizer(BaseEngine):
             votes['DOWN'] += weights['pattern']
             
         # Price action bias
-        pa_bias = ctx.price_action['directional_bias']
-        if pa_bias == 'BULLISH':
+        pa_bias = ctx.price_action.get('directional_bias') or ctx.price_action.get('momentum_bias') or ctx.price_action.get('last_candle_bias') or 'NONE'
+        if pa_bias in ('BULLISH', 'UP'):
             votes['UP'] += weights['pa']
-        elif pa_bias == 'BEARISH':
+        elif pa_bias in ('BEARISH', 'DOWN'):
             votes['DOWN'] += weights['pa']
             
         total_votes = votes['UP'] + votes['DOWN']

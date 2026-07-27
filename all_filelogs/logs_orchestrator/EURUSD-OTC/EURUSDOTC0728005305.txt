@@ -1,0 +1,90 @@
+ID:EURUSDOTC0728005305
+meta:
+  timestamp: '2026-07-28T00:53:05.190106'
+  symbol: EURUSD-OTC
+  session: NEW YORK
+  m1_open: 1.138415
+  m1_age: 0
+  m1_quality: FRESH
+  m5_open: 1.138575
+  m5_age: 0
+  m5_quality: FRESH
+market_context:
+  state: DISTRIBUTION
+  description: Smart money distribution. Bearish bias, look for breakdown.
+  volatility_regime: LOW
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.11
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 1.138508
+    ema20: 1.138398
+    rsi: 59.06
+    stoch_k: 56.96
+    stoch_d: 42.75
+    macd: 1.1e-05
+    macd_signal: -1.6e-05
+    ohclv:
+      open: 1.138415
+      high: 1.139115
+      low: 1.138375
+      close: 1.139085
+      volume: NONE_OTC
+  m5:
+    bias: BULLISH
+    ema5: 1.138373
+    ema10: 1.138238
+    ema20: 1.137795
+    ema50: 1.136237
+    bb_upper: 1.139312
+    bb_lower: 1.136308
+    bb_width: 0.003004
+    rsi: 57.03
+    stoch_k: 56.25
+    stoch_d: 56.56
+    macd: 0.000697
+    macd_signal: 0.000786
+    adx: 25.96
+    atr: 0.001258
+    support: 1.136335
+    resistance: 1.140105
+    pivot: 1.138212
+    ohclv:
+      open: 1.138575
+      high: 1.138665
+      low: 1.137695
+      close: 1.138275
+      volume: NONE_OTC
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: HIGH_UPPER_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: NONE
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: UP
+  trend_type: CHOPPY
+  trend_strength_score: 80
+  mtf_alignment_%: 100
+  compression_quality_%: 100.0
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 100
+  quality_score: 33
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

@@ -65,13 +65,26 @@ class TrendEngine(BaseEngine):
     def get_neutral_state(self) -> dict:
         return {}
 
-    def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
+    def _analyze(self, payload: Dict[str, Any], candles_dict: Dict[str, pd.DataFrame] = None, **kwargs) -> Dict[str, Any]:
         """Analyze trend using pre-calculated SSOT payload"""
         m5 = payload['m5']
         latest_price = payload['ohlcv']['close']
         
+        # Validate data completeness - Zero Tolerance
         if not m5 or latest_price == 0.0:
-            raise ValueError("FAIL-FAST: Neutral state removed")
+            raise ValueError("FAIL-FAST: Invalid trend data - missing m5 or zero price")
+        if not candles_dict:
+            raise ValueError("FAIL-FAST: Missing candles_dict for trend analysis")
+        if 'M5' not in candles_dict or candles_dict['M5'] is None or candles_dict['M5'].empty:
+            raise ValueError("FAIL-FAST: Invalid M5 data in candles_dict")
+        if len(candles_dict['M5']) < 50:
+            raise ValueError("FAIL-FAST: Insufficient M5 candles (minimum 50 required)")
+            
+        # Validate required indicator fields
+        required_fields = ['ema20', 'ema50', 'ema100', 'ema200', 'slope_10', 'roc']
+        for field in required_fields:
+            if field not in m5 or m5[field] is None:
+                raise ValueError(f"FAIL-FAST: Missing required field in m5: {field}")
             
         thresholds = self._get_thresholds(latest_price)
         

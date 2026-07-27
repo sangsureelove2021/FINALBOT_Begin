@@ -1,0 +1,97 @@
+Python 3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license()" for more information.
+
+= RESTART: E:\BOT_FINALBOT\FINALBOT_Begin\runner.py
+23:46:26 - กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+23:46:29 - เชื่อมต่อ IQ Option สำเร็จ
+23:46:29 - บัญชี DEMO | Balance: $1271.51
+23:46:29 - ตรวจพบรายการสินทรัพย์ : EURUSD, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+23:46:29 - กำลังเตรียมข้อมูลสินทรัพย์ 4 รายการ : EURUSD, EURUSD-OTC, GBPUSD-OTC, EURGBP-OTC
+23:46:33 - ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+23:46:46 - เข้าสู่การวิเคราะห์สัญญาณในอีก 17 วินาที  (เริ่ม 23:47:03)
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+23:47:05 - [EURUSD-OTC:1.13868][GBPUSD-OTC:1.33481][EURGBP-OTC:0.85791] :: TOTAL=$1271.51
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 63, in analyze
+    result = self._analyze(payload, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\market_classifier\market_state_classifier.py", line 87, in _analyze
+    raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing required kwarg: {req}")
+data_evaluate.exceptions.InvalidInputError: [market_state_classifier] Missing required kwarg: candles_dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\base_engine.py", line 65, in analyze
+    raise ComputationError(f"[{self.ENGINE_NAME}] Computation failed: {e}") from e
+data_evaluate.exceptions.ComputationError: [market_state_classifier] Computation failed: [market_state_classifier] Missing required kwarg: candles_dict
+23:48:04 - [EURUSD-OTC:1.13803][GBPUSD-OTC:1.33509][EURGBP-OTC:0.85755] :: TOTAL=$1271.51

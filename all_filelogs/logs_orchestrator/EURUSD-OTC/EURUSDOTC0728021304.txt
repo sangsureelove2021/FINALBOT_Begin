@@ -1,0 +1,90 @@
+ID:EURUSDOTC0728021304
+meta:
+  timestamp: '2026-07-28T02:13:04.537774'
+  symbol: EURUSD-OTC
+  session: NEW YORK
+  m1_open: 1.142095
+  m1_age: 0
+  m1_quality: FRESH
+  m5_open: 1.142565
+  m5_age: 0
+  m5_quality: FRESH
+market_context:
+  state: TRENDING_STRONG
+  description: Strong directional trend with high momentum. Favorable for trend-following strategies.
+  volatility_regime: HIGH
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.134
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.142035
+    ema20: 1.141468
+    rsi: 58.05
+    stoch_k: 74.63
+    stoch_d: 76.0
+    macd: 0.000507
+    macd_signal: 0.000452
+    ohclv:
+      open: 1.142095
+      high: 1.142285
+      low: 1.141805
+      close: 1.141995
+      volume: NONE_OTC
+  m5:
+    bias: BULLISH
+    ema5: 1.141386
+    ema10: 1.140841
+    ema20: 1.140096
+    ema50: 1.138256
+    bb_upper: 1.142453
+    bb_lower: 1.137541
+    bb_width: 0.004912
+    rsi: 63.63
+    stoch_k: 77.79
+    stoch_d: 66.47
+    macd: 0.000982
+    macd_signal: 0.000887
+    adx: 29.23
+    atr: 0.001532
+    support: 1.138755
+    resistance: 1.141755
+    pivot: 1.142258
+    ohclv:
+      open: 1.142565
+      high: 1.142845
+      low: 1.141605
+      close: 1.142325
+      volume: NONE_OTC
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: BULLISH
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: BREAKING_ABOVE_RESISTANCE
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: UP
+  trend_type: IMPULSIVE
+  trend_strength_score: 100
+  mtf_alignment_%: 100
+  compression_quality_%: 61.9
+  exhaustion_risk_%: 30
+  bos_detected: true
+decision_layer:
+  tradeable: true
+  stability_score: 100
+  quality_score: 60
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

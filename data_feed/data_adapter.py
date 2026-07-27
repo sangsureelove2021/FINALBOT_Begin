@@ -266,17 +266,18 @@ class DataAdapter(IDataSource):
             completed = self._anomaly_detector.detect_anomalies(completed, symbol)
             end_time = time.time()
             response_time = end_time - start_time
-            
+
             # Log response time for health check
             self._anomaly_detector.check_health(response_time, symbol)
-            
+
             logger.info(f"[DataAdapter] M1 anomaly detection completed for {symbol} in {response_time:.3f}s")
         except Exception as e:
             logger.error(f"[DataAdapter] Anomaly detection failed for {symbol}: {e}")
             self._anomaly_fail_count += 1
             if self._anomaly_fail_count > 5:
                 logger.warning(f"[DataAdapter] Anomaly detection has failed {self._anomaly_fail_count} times")
-            # Continue with normal processing even if anomaly detection fails
+            # Zero Tolerance: stop immediately if anomaly detection fails
+            raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
 
         self._validator.validate(completed, symbol)
         self._csv_queue.enqueue_write(completed, self._csv_manager.get_file_path(symbol, "M1"))

@@ -23,17 +23,28 @@ class MTFEngine(BaseEngine):
     def analyze(self, payload: Dict[str, Any], candles_dict: Dict[str, pd.DataFrame] = None, **kwargs) -> Dict[str, Any]:
         """MTF analyzes across timeframes"""
         try:
+            # Zero Tolerance validation
             if not candles_dict:
-                raise ValueError("FAIL-FAST: Neutral state removed")
+                raise ValueError("FAIL-FAST: Missing candles_dict for MTF analysis")
+                
+            # Validate each timeframe
+            required_timeframes = ['M1', 'M5', 'M15']
+            for tf in required_timeframes:
+                if tf not in candles_dict:
+                    raise ValueError(f"FAIL-FAST: Missing required timeframe {tf} in candles_dict")
+                if candles_dict[tf] is None or candles_dict[tf].empty:
+                    raise ValueError(f"FAIL-FAST: Invalid {tf} data in candles_dict")
+                if len(candles_dict[tf]) < 50:
+                    raise ValueError(f"FAIL-FAST: Insufficient {tf} candles (minimum 50 required)")
             
             directions = {}
             for tf, df in candles_dict.items():
                 if df is None or len(df) < 50:
-                    continue
+                    raise ValueError(f"FAIL-FAST: Invalid {tf} data - insufficient candles")
                 directions[tf] = self._tf_direction(df)
             
             if not directions:
-                raise ValueError("FAIL-FAST: Neutral state removed")
+                raise ValueError("FAIL-FAST: No valid timeframe directions detected")
             
             # Calculate alignment
             up_count = sum(1 for d in directions.values() if d == 'UP')
