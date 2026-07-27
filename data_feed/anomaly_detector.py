@@ -154,8 +154,11 @@ class AnomalyDetector:
         """
         df = df.copy()
         
-        # Detect zero volume
-        df['zero_volume_detected'] = df['volume'] <= self.anomaly_config["zero_volume_threshold"]
+        # OTC pairs do not have real volume data — skip zero volume checks
+        if "OTC" in symbol.upper():
+            df['zero_volume_detected'] = False
+            df['zero_volume_streak'] = 0
+            return df
         
         # Count consecutive zero volumes
         df['zero_volume_streak'] = (df['zero_volume_detected'] == True).cumsum()

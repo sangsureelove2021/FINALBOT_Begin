@@ -7,7 +7,7 @@ This is the LAST DEFENSE against bad trades.
 """
 
 from typing import Dict, Any
-from core.models.market_context import MarketContext
+from data_evaluate.models.market_context import MarketContext
 
 
 class ExecutionGate:

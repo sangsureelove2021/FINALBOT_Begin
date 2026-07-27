@@ -29,7 +29,7 @@ def load_symbols():
             raise Exception("No symbols found in settings.json")
         return symbols
     except Exception as e:
-        logger.error(f"Failed to load symbols from settings.json: {e}")
+        logger.exception(f"Failed to load symbols from settings.json: {e}")
         raise Exception(f"Configuration error: symbols not loaded from settings.json — bot stopped")
 
 if __name__ == "__main__":

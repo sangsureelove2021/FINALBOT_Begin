@@ -89,10 +89,10 @@ class CandleValidator:
         median_close = float(df["close"].median())
         is_jpy = "JPY" in symbol.upper()
         
-        if is_otc:
-            min_val, max_val = self.price_ranges["OTC"]
-        elif is_jpy:
+        if is_jpy:
             min_val, max_val = self.price_ranges["JPY"]
+        elif is_otc:
+            min_val, max_val = self.price_ranges["OTC"]
         else:
             min_val, max_val = self.price_ranges["NON_JPY"]
             

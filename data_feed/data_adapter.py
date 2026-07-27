@@ -123,9 +123,9 @@ class DataAdapter(IDataSource):
 
         try:
             # Fetch initial candles
-            m1 = self._iq.get_candles(symbol, 'M1', self.default_candle_count)
-            m5 = self._iq.get_candles(symbol, 'M5', self.default_candle_count)
-            m15 = self._iq.get_candles(symbol, 'M15', self.default_candle_count)
+            m1 = self._iq.get_candles(symbol, 'M1', 100)
+            m5 = self._iq.get_candles(symbol, 'M5', 250)
+            m15 = self._iq.get_candles(symbol, 'M15', 50)
 
             if (m1 is None or m1.empty or len(m1) < 2) or \
                (m5 is None or m5.empty) or \
@@ -142,12 +142,11 @@ class DataAdapter(IDataSource):
             self._store_m5[symbol] = m5
             self._store_m15[symbol] = m15
 
-            # Set up block tracking
-            epoch_now = int(datetime.now(timezone.utc).timestamp())
+            # Set up block tracking using broker time offset if available
+            time_offset = getattr(self._iq, 'time_offset', 0.0) if hasattr(self._iq, 'time_offset') else 0.0
+            epoch_now = int(datetime.now(timezone.utc).timestamp() + time_offset)
             self._last_block_m5[symbol] = epoch_now // self.m5_seconds
             self._last_block_m15[symbol] = epoch_now // self.m15_seconds
-            self._m5_csv_written[symbol] = epoch_now // self.m5_seconds
-            self._m15_csv_written[symbol] = epoch_now // self.m15_seconds
 
             # Enqueue initial writes
             self._csv_queue.enqueue_write(m1, self._csv_manager.get_file_path(symbol, "M1"))
@@ -172,7 +171,7 @@ class DataAdapter(IDataSource):
             logger.info(f"[DataAdapter] Starting update for {symbol}")
             self._data_monitor.update_connection_status(self._iq.is_connected())
 
-            now_naive = datetime.utcfromtimestamp(broker_epoch)
+            now_naive = datetime.fromtimestamp(broker_epoch, tz=timezone.utc).replace(tzinfo=None)
             current_block_m5 = int(broker_epoch) // self.m5_seconds
             current_block_m15 = int(broker_epoch) // self.m15_seconds
 
@@ -202,14 +201,22 @@ class DataAdapter(IDataSource):
             m1_last = store_m1_df.iloc[-1]
             m5_last = store_m5_df.iloc[-1]
 
-            # Calculate metrics
+            # Calculate metrics (convert naive candle timestamps to UTC epoch to avoid local timezone offset errors)
             m1_open = float(m1_last['open'])
-            m1_age = int((broker_epoch - m1_last.name.timestamp()) * 1000) if hasattr(m1_last.name, 'timestamp') else 0
+            if hasattr(m1_last.name, 'timestamp'):
+                m1_ts_utc = m1_last.name.tz_localize(timezone.utc).timestamp() if m1_last.name.tz is None else m1_last.name.timestamp()
+            else:
+                m1_ts_utc = pd.to_datetime(m1_last.name, utc=True).timestamp()
+            m1_age = max(0, int((broker_epoch - m1_ts_utc) * 1000))
             m1_quality = self._calculate_quality(m1_age)
             self._data_monitor.report_latency(symbol, "M1", m1_age)
 
             m5_open = float(m5_last['open'])
-            m5_age = int((broker_epoch - m5_last.name.timestamp()) * 1000) if hasattr(m5_last.name, 'timestamp') else 0
+            if hasattr(m5_last.name, 'timestamp'):
+                m5_ts_utc = m5_last.name.tz_localize(timezone.utc).timestamp() if m5_last.name.tz is None else m5_last.name.timestamp()
+            else:
+                m5_ts_utc = pd.to_datetime(m5_last.name, utc=True).timestamp()
+            m5_age = max(0, int((broker_epoch - m5_ts_utc) * 1000))
             m5_quality = self._calculate_quality(m5_age)
             self._data_monitor.report_latency(symbol, "M5", m5_age)
 
@@ -231,20 +238,23 @@ class DataAdapter(IDataSource):
 
     def _refresh_m1(self, symbol: str, now_naive: datetime) -> Optional[pd.DataFrame]:
         if self._store_m1[symbol] is None:
-            df = self._iq.get_candles(symbol, 'M1', self.default_candle_count)
+            df = self._iq.get_candles(symbol, 'M1', 100)
             if df is None or df.empty or len(df) < 2:
                 raise ValueError("M1 fetch failed")
             self._store_m1[symbol] = df
         else:
-            fresh = self._iq.get_candles(symbol, 'M1', 5)
+            fresh = self._iq.get_candles(symbol, 'M1', 3)
             if fresh is not None and not fresh.empty:
                 self._store_m1[symbol] = self._merge(
                     self._store_m1[symbol], fresh,
                     gap_threshold=_M1_GAP_SEC,
-                    refetch_fn=lambda: self._iq.get_candles(symbol, 'M1', self.default_candle_count),
+                    refetch_fn=lambda: self._iq.get_candles(symbol, 'M1', 100),
                     label=f"M1 {symbol}",
-                    timeframe="M1"
+                    timeframe="M1",
+                    max_candles=100
                 )
+            else:
+                raise Exception(f"M1 fetch failed for {symbol} — Zero Tolerance: stopping immediately")
 
         completed = self._drop_forming(self._store_m1[symbol], now_naive, 60)
         if completed.empty:
@@ -273,25 +283,31 @@ class DataAdapter(IDataSource):
         return completed
 
     def _refresh_m5(self, symbol: str, now_naive: datetime, current_block: int) -> Optional[pd.DataFrame]:
+        # Note: TimeframeSync is NOT used in this implementation
+        # M1, M5, M15 are fetched separately and merged independently
         block = current_block
+        block_changed = False
 
         if self._store_m5[symbol] is None:
-            df = self._iq.get_candles(symbol, 'M5', self.default_candle_count)
+            df = self._iq.get_candles(symbol, 'M5', 250)
             if df is None or df.empty or len(df) < self.min_candle_count:
                 raise ValueError("M5 fetch failed")
             self._store_m5[symbol] = df
             self._last_block_m5[symbol] = block
-        elif block != self._last_block_m5[symbol]:
-            fresh = self._iq.get_candles(symbol, 'M5', 5)
+            block_changed = True
+        elif block != self._last_block_m5.get(symbol):
+            fresh = self._iq.get_candles(symbol, 'M5', 3)
             if fresh is not None and not fresh.empty:
                 self._store_m5[symbol] = self._merge(
                     self._store_m5[symbol], fresh,
                     gap_threshold=_M5_GAP_SEC,
-                    refetch_fn=lambda: self._iq.get_candles(symbol, 'M5', self.default_candle_count),
+                    refetch_fn=lambda: self._iq.get_candles(symbol, 'M5', 250),
                     label=f"M5 {symbol}",
-                    timeframe="M5"
+                    timeframe="M5",
+                    max_candles=250
                 )
                 self._last_block_m5[symbol] = block
+                block_changed = True
             else:
                 raise Exception(f"M5 fetch failed for {symbol} — Zero Tolerance: stopping immediately")
 
@@ -306,40 +322,45 @@ class DataAdapter(IDataSource):
             self._anomaly_fail_count += 1
             if self._anomaly_fail_count > 5:
                 logger.warning(f"[DataAdapter] M5 anomaly detection has failed {self._anomaly_fail_count} times")
-            # Continue with normal processing even if anomaly detection fails
 
-        # Write CSV only when the 5-min block changes
-        if block != self._m5_csv_written[symbol]:
+        # Write CSV only when the 5-min block changes or initial store is loaded
+        if block_changed:
             self._validator.validate(completed, symbol)
             self._csv_queue.enqueue_write(completed, self._csv_manager.get_file_path(symbol, "M5"))
-            self._m5_csv_written[symbol] = block
 
         return completed
 
     def _refresh_m15(self, symbol: str, now_naive: datetime, current_block: int) -> Optional[pd.DataFrame]:
+        # Note: M15 does NOT resample from M5 - fetched directly from Broker API
+        # TimeframeSync is NOT used in this implementation
         block = current_block
+        block_changed = False
 
         if self._store_m15[symbol] is None:
-            df = self._iq.get_candles(symbol, 'M15', self.default_candle_count)
+            df = self._iq.get_candles(symbol, 'M15', 50)
             if df is None or df.empty or len(df) < self.min_candle_count:
                 raise ValueError("M15 fetch failed")
             self._store_m15[symbol] = df
             self._last_block_m15[symbol] = block
-        elif block != self._last_block_m15[symbol]:
-            # ดึง M15 ตรงจาก Broker API 100%
-            fresh_m15 = self._iq.get_candles(symbol, 'M15', self.default_candle_count)
-            if fresh_m15 is None or fresh_m15.empty or len(fresh_m15) < self.min_candle_count:
+            block_changed = True
+        elif block != self._last_block_m15.get(symbol):
+            # Fetch M15 directly from Broker API (3 candles for update)
+            fresh_m15 = self._iq.get_candles(symbol, 'M15', 3)
+            if fresh_m15 is None or fresh_m15.empty:
                 raise Exception(f"Fresh M15 fetch failed for {symbol} — Zero Tolerance: stopping immediately")
             
+            # Merge with gap check - keep last 50 candles (matching max_candles param)
             self._store_m15[symbol] = self._merge(
                 self._store_m15[symbol] if self._store_m15[symbol] is not None else fresh_m15,
                 fresh_m15,
                 gap_threshold=_M15_GAP_SEC,
-                refetch_fn=lambda: self._iq.get_candles(symbol, 'M15', self.default_candle_count),
+                refetch_fn=lambda: self._iq.get_candles(symbol, 'M15', 50),
                 label=f"M15 {symbol}",
-                timeframe="M15"
+                timeframe="M15",
+                max_candles=50
             )
             self._last_block_m15[symbol] = block
+            block_changed = True
 
         completed = self._drop_forming(self._store_m15[symbol], now_naive, 900)
 
@@ -352,13 +373,11 @@ class DataAdapter(IDataSource):
             self._anomaly_fail_count += 1
             if self._anomaly_fail_count > 5:
                 logger.warning(f"[DataAdapter] M15 anomaly detection has failed {self._anomaly_fail_count} times")
-            # Continue with normal processing even if anomaly detection fails
 
-        # Write CSV only when the 15-min block changes
-        if block != self._m15_csv_written[symbol]:
+        # Write CSV only when the 15-min block changes or initial store is loaded
+        if block_changed:
             self._validator.validate(completed, symbol)
             self._csv_queue.enqueue_write(completed, self._csv_manager.get_file_path(symbol, "M15"))
-            self._m15_csv_written[symbol] = block
 
         return completed
 
@@ -375,7 +394,7 @@ class DataAdapter(IDataSource):
             return "STALE"
 
     def _merge(self, stored: Optional[pd.DataFrame], fresh: Optional[pd.DataFrame],
-                gap_threshold: float, refetch_fn, label: str, timeframe: str) -> pd.DataFrame:
+                gap_threshold: float, refetch_fn, label: str, timeframe: str, max_candles: int = 250) -> pd.DataFrame:
         """Merge stored and fresh data with gap detection."""
         if stored is None or stored.empty:
             raise ValueError("Stored DataFrame is empty in _merge")
@@ -402,7 +421,7 @@ class DataAdapter(IDataSource):
 
         combined = pd.concat([stored, fresh])
         combined = combined[~combined.index.duplicated(keep='last')].sort_index()
-        return combined.tail(self.default_candle_count)
+        return combined.tail(max_candles)
 
     @staticmethod
     def _drop_forming(df: Optional[pd.DataFrame], now_naive: datetime, tf_seconds: int) -> pd.DataFrame:

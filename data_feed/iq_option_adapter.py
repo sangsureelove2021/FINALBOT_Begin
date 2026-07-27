@@ -183,7 +183,8 @@ class IQOptionAdapter(IDataSource):
                         if not self.api.check_connect():
                             logger.error(f"[ERROR] Connection still not stable after reconnect: {reason}")
                             raise RuntimeError(f"Connection failed: {reason}")
-                        self.api.change_balance(self.account_type)
+                        balance_mode = "PRACTICE" if str(self.account_type).upper() in ["DEMO", "PRACTICE"] else "REAL"
+                        self.api.change_balance(balance_mode)
                         logger.info(" Reconnected successfully")
                     else:
                         logger.error(f"[ERROR] Reconnect failed: {reason}")

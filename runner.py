@@ -88,7 +88,7 @@ class PureAIRunner:
         
         # Subscribe to WebSocket streams for live data (only for ready symbols)
         for sym in self.symbols:
-            self.data_adapter.start_stream(sym, 'M1', 250)
+            self.data_adapter.start_stream(sym, 'M1', 100)
             self.data_adapter.start_stream(sym, 'M5', 250)
         
         self._countdown_to_first_candle()
@@ -126,17 +126,61 @@ class PureAIRunner:
 
     def _get_latest_price_from_csv(self, symbol: str) -> float:
         import os
+        from data_feed.csv_writer import get_file_lock
         try:
-            csv_path = os.path.join("data_base", "csv", "iq_option", symbol, f"{symbol}_M1.csv")
+            base_dir = os.path.join("data_base", "csv", "iq_option")
+            symbol_dir = os.path.join(base_dir, symbol)
+            if not os.path.exists(symbol_dir):
+                symbol_dir = os.path.join(base_dir, symbol.replace('_', '-'))
+            
+            csv_path = os.path.join(symbol_dir, f"{symbol}_M1.csv")
+            if not os.path.exists(csv_path):
+                csv_path = os.path.join(symbol_dir, f"{symbol.replace('_', '-')}_M1.csv")
+
             if os.path.exists(csv_path):
-                with open(csv_path, 'r', encoding='utf-8') as f:
-                    lines = f.readlines()
-                    if len(lines) > 1:
-                        last_line = lines[-1].strip().split(',')
-                        return float(last_line[4])
+                file_lock = get_file_lock(csv_path)
+                with file_lock:
+                    with open(csv_path, 'r', encoding='utf-8') as f:
+                        lines = f.readlines()
+                        if len(lines) > 1:
+                            last_line = lines[-1].strip().split(',')
+                            return float(last_line[4])
         except Exception as e:
             logger.exception(f"Failed to read latest price from CSV for {symbol}")
         return 0.0
+
+    def _check_warmup_data(self, symbol: str) -> bool:
+        """
+        Gatekeeper function to ensure we have enough CSV data before calling orchestrator.
+        """
+        import os
+        from data_feed.csv_writer import get_file_lock
+        base_dir = os.path.join("data_base", "csv", "iq_option")
+        symbol_dir = os.path.join(base_dir, symbol)
+        if not os.path.exists(symbol_dir):
+            symbol_hyphenated = symbol.replace('_', '-')
+            symbol_dir = os.path.join(base_dir, symbol_hyphenated)
+            
+        reqs = {"M1": 100, "M5": 250, "M15": 50}
+        for tf, req_len in reqs.items():
+            csv_path = os.path.join(symbol_dir, f"{symbol}_{tf}.csv")
+            if not os.path.exists(csv_path):
+                csv_path = os.path.join(symbol_dir, f"{symbol.replace('_', '-')}_{tf}.csv")
+                if not os.path.exists(csv_path):
+                    logger.warning(f"[{symbol}] Missing {tf} CSV file.")
+                    return False
+            try:
+                file_lock = get_file_lock(csv_path)
+                with file_lock:
+                    with open(csv_path, 'r', encoding='utf-8') as f:
+                        line_count = sum(1 for _ in f) - 1 # subtract header
+                if line_count < req_len:
+                    logger.warning(f"[{symbol}] Insufficient {tf} data: has {line_count}, required >={req_len}")
+                    return False
+            except Exception as e:
+                logger.exception(f"[{symbol}] Error checking {tf} CSV length.")
+                return False
+        return True
 
     def run_cycle(self):
         # Ensure connection is active before processing (handles WinError 10054 drops)
@@ -175,6 +219,10 @@ class PureAIRunner:
                 continue
 
             if not result_val:
+                continue
+
+            # Check if warmup data is met before populating prices or calling Orchestrator
+            if not self._check_warmup_data(sym):
                 continue
 
             # บังคับดึงข้อมูล OHLCV (ราคา) จากโฟลเดอร์เท่านั้น ห้ามส่งทาง RAM

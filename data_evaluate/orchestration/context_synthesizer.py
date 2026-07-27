@@ -180,17 +180,14 @@ class ContextSynthesizer(BaseEngine):
         return f"{state} - {bias} bias, moderate clarity"
     
     def _is_tradeable(self, clarity, risk, ctx) -> bool:
-        """Overall tradeable decision"""
-        if risk > 60:
+        """
+        Evaluate data completeness and quality for trading analysis.
+        Does not block trading based on arbitrary risk/clarity thresholds or hardcoded rules.
+        Returns True when context and market_state data are complete.
+        """
+        if ctx is None:
             return False
-        if clarity < 40:
-            return False
-        if isinstance(ctx.market_state, dict):
-            tradeable = ctx.market_state['tradeable']
-        else:
-            tradeable = False
-            
-        if not tradeable:
+        if not hasattr(ctx, 'market_state') or ctx.market_state is None:
             return False
         return True
     

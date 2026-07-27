@@ -113,9 +113,7 @@ class MarketStateClassifier(BaseEngine):
         risk_level = 'HIGH' if metrics['noise_level'] > 0.5 or metrics['volatility_regime'] == 'EXTREME' else ('LOW' if metrics['noise_level'] < 0.25 and metrics['volatility_regime'] == 'NORMAL' else 'MEDIUM')
         
         # Action and Expiry
-        action = 'WAIT'
-        if state in ['TRENDING_STRONG', 'BREAKOUT_EMERGING'] and tradeable:
-            action = 'PREPARE_TO_TRADE'
+        action = 'รอการวิเคราะห์จาก AI'
         expiry = 5
         
         return {
@@ -608,23 +606,17 @@ class MarketStateClassifier(BaseEngine):
         return min(100, max(0, final_quality))
     
     def _is_tradeable(self, state: str, quality: float, m: Dict[str, Any]) -> bool:
-        """Determine if market is tradeable based on state and quality."""
-        tradeable_states = [
-            'TRENDING_STRONG', 'BREAKOUT_EMERGING',
-            'SIDEWAY_RANGE', 'TRENDING_WEAK'
-        ]
-        if state not in tradeable_states:
+        """
+        Evaluate market tradeability based on basic data completeness.
+        No hardcoded trade blocking by market state (e.g. ACCUMULATION, DISTRIBUTION, etc.).
+        Returns True when basic data completeness criteria are met.
+        """
+        if not isinstance(m, dict) or not m:
             return False
-        # อ่านจาก config ที่ส่งเข้ามา หรือใช้ค่า default
-        cfg = self.config or {}
-        if "min_quality_score" not in cfg or "max_noise_level" not in cfg:
-            raise InvalidInputError(f"[{self.ENGINE_NAME}] Missing 'min_quality_score' or 'max_noise_level' in config")
-        min_quality = cfg["min_quality_score"]
-        max_noise  = cfg["max_noise_level"]
-        if quality < min_quality:
-            return False
-        if m['noise_level'] > max_noise:
-            return False
+        required_keys = ['trend_direction', 'adx', 'rsi', 'noise_level']
+        for k in required_keys:
+            if k not in m or m[k] is None:
+                return False
         return True
     
     def _compute_stability(self, m: Dict[str, Any]) -> float:

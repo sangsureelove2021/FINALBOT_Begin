@@ -58,6 +58,7 @@ class CSVQueue:
     def _worker(self):
         """Worker thread loop to process CSV writes."""
         while True:
+            file_path = "UNKNOWN"
             try:
                 df, file_path = self._queue.get(timeout=self.queue_timeout)
                 logger.info(f"[CSVQueue] Processing write for {file_path}")

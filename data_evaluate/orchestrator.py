@@ -137,23 +137,23 @@ class Orchestrator:
         # Path under Rule 7
         base_iq_dir = os.path.join("data_base", "csv", "iq_option")
 
-        # Handle symbol name variations (EURGBP-OTC vs EURGBPOTC)
-        symbol_dir = os.path.join(base_iq_dir, symbol)
+        # Handle symbol name variations (EURUSD-OTC vs EURUSD_OTC)
+        symbol_hyphenated = symbol.replace('_', '-')
+        symbol_underscored = symbol.replace('-', '_')
 
-        # If symbol_dir doesn't exist, try with hyphen removed
+        symbol_dir = os.path.join(base_iq_dir, symbol)
         if not os.path.exists(symbol_dir):
-            symbol_hyphenated = symbol.replace('_', '-')
             symbol_dir = os.path.join(base_iq_dir, symbol_hyphenated)
-            logger.info(f"Symbol '{symbol}' not found, trying '{symbol_hyphenated}'")
+            if not os.path.exists(symbol_dir):
+                symbol_dir = os.path.join(base_iq_dir, symbol_underscored)
 
         for tf in ["M1", "M5", "M15"]:
-            csv_path = os.path.join(symbol_dir, f"{symbol}_{tf}.csv")
-            # Also try with hyphenated name
-            if not os.path.exists(csv_path):
-                csv_path_hyphenated = os.path.join(symbol_dir, f"{symbol_hyphenated}_{tf}.csv")
-                if os.path.exists(csv_path_hyphenated):
-                    csv_path = csv_path_hyphenated
-                    logger.info(f"Using hyphenated CSV: {os.path.basename(csv_path)}")
+            possible_paths = [
+                os.path.join(symbol_dir, f"{symbol}_{tf}.csv"),
+                os.path.join(symbol_dir, f"{symbol_hyphenated}_{tf}.csv"),
+                os.path.join(symbol_dir, f"{symbol_underscored}_{tf}.csv"),
+            ]
+            csv_path = next((p for p in possible_paths if os.path.exists(p)), possible_paths[0])
 
             if not os.path.exists(csv_path):
                 logger.warning(f"No {tf} CSV for {symbol} at {csv_path}")
@@ -168,14 +168,7 @@ class Orchestrator:
                 logger.exception(f"Failed to read {csv_path}")
                 raise
                 
-        # Warm-up candle check according to spec (M1 >= 250, M5 >= 250, M15 >= 120)
-        min_candles_req = {"M1": 250, "M5": 250, "M15": 120}
-        for tf, req_len in min_candles_req.items():
-            tf_df = candles_dict.get(tf)
-            if not isinstance(tf_df, pd.DataFrame) or tf_df.empty or len(tf_df) < req_len:
-                has_len = len(tf_df) if isinstance(tf_df, pd.DataFrame) else 0
-                logger.warning(f"Insufficient {tf} data for {symbol}: has {has_len}, required >={req_len}")
-                raise ValueError(f"Insufficient {tf} data for {symbol}: required >={req_len}")
+        # Warm-up candle check is now handled centrally by runner.py before calling Orchestrator.
 
         final_payload = {
             'symbol': symbol,
@@ -328,47 +321,15 @@ class Orchestrator:
                 'recent_ai_memory': list(self.ai_memory)
             }
 
-            # Calculate confidence score based on quality_score
-            quality_score = state_data['quality_score'] if state_data else 50
-            if quality_score >= 80:
-                confidence_score = 90
-            elif quality_score >= 70:
-                confidence_score = 75
-            elif quality_score >= 60:
-                confidence_score = 60
-            else:
-                confidence_score = 50
-
-            # Calculate suggested action based on state
-            state = state_data['state'] if state_data else 'UNCLEAR'
-            action = state_data.get('suggested_action', 'WAIT')
-
-            # Calculate suggested expiry based on volatility and trend strength
-            volatility_regime = state_data.get('metrics', {}).get('volatility_regime', 'NORMAL') if state_data else 'NORMAL'
-            trend_strength = state_data.get('metrics', {}).get('trend_strength', 50) if state_data else 50
-
-            if volatility_regime in ('EXTREME', 'VOLATILE') and trend_strength >= 70:
-                suggested_expiry = 15
-            elif volatility_regime == 'HIGH' and trend_strength >= 50:
-                suggested_expiry = 10
-            else:
-                suggested_expiry = 5
-
-            # Generate final reason text
-            if action == 'PREPARE_TO_TRADE':
-                final_reason_th = f"รอทำการเทรด - สภาวะ: {state}, ความแข็งแรง: {trend_strength}, โหมดความผันผวน: {volatility_regime}"
-            else:
-                final_reason_th = f"รอการเตรียมพร้อม - สภาวะ: {state}, ความแข็งแรง: {trend_strength}, โหมดความผันผวน: {volatility_regime}"
-
             final_payload['decision_layer'] = {
                 'tradeable': state_data['tradeable'] if state_data else True,
                 'stability_score': state_data['metrics']['alignment_score'] if state_data else 50,
                 'quality_score': state_data['quality_score'] if state_data else 50,
                 'risk_level': state_data['risk_level'] if state_data else 'MEDIUM',
-                'confidence_score': confidence_score,
-                'suggested_expiry_minutes': suggested_expiry,
-                'suggested_action': action,
-                'final_reason_th': final_reason_th
+                'confidence_score': "รอการวิเคราะห์จาก AI",
+                'suggested_expiry_minutes': "รอการวิเคราะห์จาก AI",
+                'suggested_action': "รอการวิเคราะห์จาก AI",
+                'final_reason_th': "รอการวิเคราะห์จาก AI"
             }
         except Exception as e:
             raise
