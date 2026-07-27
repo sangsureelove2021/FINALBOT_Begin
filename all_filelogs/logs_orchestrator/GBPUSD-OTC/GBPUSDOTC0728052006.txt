@@ -1,0 +1,90 @@
+ID: GBPUSDOTC0728052006
+meta:
+  timestamp: '2026-07-28T05:20:06.755678'
+  symbol: GBPUSD-OTC
+  session: ASIAN
+  m1_open: 1.335575
+  m1_age: 0
+  m1_quality: FRESH
+  m5_open: 1.336085
+  m5_age: 0
+  m5_quality: FRESH
+market_context:
+  state: DISTRIBUTION
+  description: Smart money distribution. Bearish bias, look for breakdown.
+  volatility_regime: HIGH
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.093
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.335584
+    ema20: 1.335272
+    rsi: 56.35
+    stoch_k: 55.02
+    stoch_d: 64.86
+    macd: 0.000446
+    macd_signal: 0.00051
+    ohclv:
+      open: 1.335575
+      high: 1.335795
+      low: 1.335365
+      close: 1.335425
+      volume: NONE_OTC
+  m5:
+    bias: BULLISH
+    ema5: 1.335183
+    ema10: 1.334632
+    ema20: 1.334282
+    ema50: 1.334343
+    bb_upper: 1.336233
+    bb_lower: 1.331418
+    bb_width: 0.004815
+    rsi: 56.98
+    stoch_k: 89.03
+    stoch_d: 87.14
+    macd: 0.000222
+    macd_signal: -0.000147
+    adx: 16.78
+    atr: 0.001237
+    support: 1.330875
+    resistance: 1.336085
+    pivot: 1.335972
+    ohclv:
+      open: 1.336085
+      high: 1.336135
+      low: 1.335305
+      close: 1.335425
+      volume: NONE_OTC
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: HIGH_UPPER_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 100
+  mtf_alignment_%: 66
+  compression_quality_%: 19.35
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 32
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

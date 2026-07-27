@@ -170,9 +170,9 @@ class Orchestrator:
                 
         # Warm-up Candle Lookback Check (Fail-Fast)
         min_required_candles = {
-            'M1': 250,
+            'M1': 100,
             'M5': 250,
-            'M15': 120
+            'M15': 50
         }
         for tf, min_req in min_required_candles.items():
             df_tf = candles_dict.get(tf)

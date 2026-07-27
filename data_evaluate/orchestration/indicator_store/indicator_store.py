@@ -57,14 +57,14 @@ class IndicatorStore:
         - ส่งคืน dict ที่มีเฉพาะ 'm5', 'm1', 'ohlcv'
         """
         # ------------------------------------------------------------
-        # 0. Warm-up Candle Lookback Check (Fail-Fast: 250/250/120)
+        # 0. Warm-up Candle Lookback Check (Fail-Fast: 100/250/50)
         # ------------------------------------------------------------
-        if df_m1 is None or df_m1.empty or len(df_m1) < 250:
-            raise ValueError("FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)")
+        if df_m1 is None or df_m1.empty or len(df_m1) < 100:
+            raise ValueError("FAIL-FAST: Insufficient M1 warm-up candles (minimum 100 required)")
         if df_m5 is None or df_m5.empty or len(df_m5) < 250:
             raise ValueError("FAIL-FAST: Insufficient M5 warm-up candles (minimum 250 required)")
-        if df_m15 is None or df_m15.empty or len(df_m15) < 120:
-            raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 120 required)")
+        if df_m15 is None or df_m15.empty or len(df_m15) < 50:
+            raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 50 required)")
 
         # ------------------------------------------------------------
         # 1. M5 Indicators
