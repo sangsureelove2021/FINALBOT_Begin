@@ -19,7 +19,6 @@ from data_feed.csv_queue import CSVQueue
 from data_feed.csv_manager import CSVManager
 from data_feed.csv_writer import get_file_lock, read_csv_safe
 from data_feed.data_monitor import DataMonitor
-from data_feed.anomaly_detector import AnomalyDetector
 
 logger = logging.getLogger(__name__)
 
@@ -89,9 +88,6 @@ class DataAdapter(IDataSource):
         self._m5_csv_written: Dict[str, int] = {}
         self._m15_csv_written: Dict[str, int] = {}
 
-        # Initialize anomaly detector
-        self._anomaly_detector = AnomalyDetector(config)
-        self._anomaly_fail_count = 0
         self._validator = CandleValidator()
         
         logger.info("[DataAdapter] Initialized with configuration")
@@ -206,12 +202,6 @@ class DataAdapter(IDataSource):
             if completed_m5 is not None and not completed_m5.empty and 'age' in completed_m5.columns:
                 self._data_monitor.report_latency(symbol, "M5", int(completed_m5['age'].iloc[-1]))
 
-            # Log anomaly statistics
-            try:
-                stats = self._anomaly_detector.get_statistics()
-                logger.info(f"[DataAdapter] Anomaly statistics for {symbol}: {stats}")
-            except Exception as e:
-                logger.error(f"[DataAdapter] Failed to get anomaly statistics: {e}")
 
             # Return only symbol string on successful write queuing
             return symbol
@@ -245,24 +235,6 @@ class DataAdapter(IDataSource):
         if completed.empty:
             raise ValueError("M1 completed is empty")
 
-        # Run anomaly detection on M1 data
-        try:
-            start_time = time.time()
-            completed = self._anomaly_detector.detect_anomalies(completed, symbol)
-            end_time = time.time()
-            response_time = end_time - start_time
-
-            # Log response time for health check
-            self._anomaly_detector.check_health(response_time, symbol)
-
-            logger.info(f"[DataAdapter] M1 anomaly detection completed for {symbol} in {response_time:.3f}s")
-        except Exception as e:
-            logger.error(f"[DataAdapter] Anomaly detection failed for {symbol}: {e}")
-            self._anomaly_fail_count += 1
-            if self._anomaly_fail_count > 5:
-                logger.warning(f"[DataAdapter] Anomaly detection has failed {self._anomaly_fail_count} times")
-            # Zero Tolerance: stop immediately if anomaly detection fails
-            raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
 
         self._validator.validate(completed, symbol)
         completed = self._add_age_and_quality(completed, now_naive, 60)
@@ -300,16 +272,6 @@ class DataAdapter(IDataSource):
 
         completed = self._drop_forming(self._store_m5[symbol], now_naive, 300)
 
-        # Run anomaly detection on M5 data
-        try:
-            completed = self._anomaly_detector.detect_anomalies(completed, symbol)
-            logger.info(f"[DataAdapter] M5 anomaly detection completed for {symbol}")
-        except Exception as e:
-            logger.error(f"[DataAdapter] M5 anomaly detection failed for {symbol}: {e}")
-            self._anomaly_fail_count += 1
-            if self._anomaly_fail_count > 5:
-                logger.warning(f"[DataAdapter] M5 anomaly detection has failed {self._anomaly_fail_count} times")
-            raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
 
         # Write CSV only when the 5-min block changes or initial store is loaded
         if block_changed:
@@ -353,16 +315,6 @@ class DataAdapter(IDataSource):
 
         completed = self._drop_forming(self._store_m15[symbol], now_naive, 900)
 
-        # Run anomaly detection on M15 data
-        try:
-            completed = self._anomaly_detector.detect_anomalies(completed, symbol)
-            logger.info(f"[DataAdapter] M15 anomaly detection completed for {symbol}")
-        except Exception as e:
-            logger.error(f"[DataAdapter] M15 anomaly detection failed for {symbol}: {e}")
-            self._anomaly_fail_count += 1
-            if self._anomaly_fail_count > 5:
-                logger.warning(f"[DataAdapter] M15 anomaly detection has failed {self._anomaly_fail_count} times")
-            raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
 
         # Write CSV only when the 15-min block changes or initial store is loaded
         if block_changed:
