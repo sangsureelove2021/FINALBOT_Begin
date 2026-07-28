@@ -15,18 +15,26 @@ from pathlib import Path
 
 from config_setting.config_loader import load_datafeed_settings
 from data_feed.csv_writer import get_file_lock
+from data_evaluate.orchestration.base_engine import BaseEngine
+from data_evaluate.exceptions import InvalidInputError
 
 logger = logging.getLogger(__name__)
 
 
-class AnomalyDetector:
+class AnomalyDetector(BaseEngine):
     """
-    Detects anomalies in market data without stopping trading.
+    Tier 5: Detects anomalies in market data without stopping trading.
     Saves anomalies to CSV files for monitoring.
     """
     
+    ENGINE_NAME = "anomaly_detector"
+    ENGINE_VERSION = "1.0.0"
+    TIER = 5
+    MIN_CANDLES = 20
+    
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         """Initialize with configuration."""
+        super().__init__(config)
         if config is None:
             config = load_datafeed_settings()
         
@@ -61,11 +69,65 @@ class AnomalyDetector:
         }
         
         # CSV logging setup — save all anomaly logs to all_filelogs/anomaly_logs/
-        base_dir = Path(__file__).resolve().parent.parent
+        base_dir = Path(__file__).resolve().parent.parent.parent
         self.anomaly_dir = base_dir / "all_filelogs" / "anomaly_logs"
         self.anomaly_dir.mkdir(parents=True, exist_ok=True)
         
         logger.info(f"[ANOMALY] Initialized with thresholds: {self.anomaly_config}, dir: {self.anomaly_dir}")
+
+    def get_neutral_state(self) -> Dict[str, Any]:
+        return {
+            'anomaly_detected': False,
+            'has_anomaly': False,
+            'latest_anomaly': False,
+            'total_anomalies': 0,
+            'spike_count': 0,
+            'zero_volume_count': 0,
+            'impossible_candle_count': 0,
+            'status': 'NORMAL',
+            'statistics': self.get_statistics()
+        }
+
+    def _analyze(self, payload: Any, **kwargs) -> Dict[str, Any]:
+        """
+        Analyze candles for anomalies.
+        Supports DataFrame or Dict payload.
+        """
+        symbol = kwargs.get('symbol', 'UNKNOWN')
+        if isinstance(payload, pd.DataFrame):
+            df = payload
+        elif isinstance(payload, dict):
+            df = payload.get('df_m5')
+            if df is None:
+                df = payload.get('candles')
+            symbol = payload.get('symbol', symbol)
+        else:
+            raise InvalidInputError(f"[{self.ENGINE_NAME}] Invalid payload type: {type(payload)}")
+
+        if df is None or not isinstance(df, pd.DataFrame) or df.empty:
+            return self.get_neutral_state()
+
+        res_df = self.detect_anomalies(df, symbol=symbol)
+
+        spike_count = int(res_df.get('spike_detected', pd.Series(False, index=res_df.index)).sum())
+        zero_vol_count = int(res_df.get('zero_volume_detected', pd.Series(False, index=res_df.index)).sum())
+        impossible_count = int(res_df.get('impossible_candle_detected', pd.Series(False, index=res_df.index)).sum())
+        total_anomalies = int(res_df.get('any_anomaly', pd.Series(False, index=res_df.index)).sum())
+
+        has_anomaly = total_anomalies > 0
+        latest_anomaly = bool(res_df['any_anomaly'].iloc[-1]) if 'any_anomaly' in res_df.columns and not res_df.empty else False
+
+        return {
+            'anomaly_detected': has_anomaly,
+            'has_anomaly': has_anomaly,
+            'latest_anomaly': latest_anomaly,
+            'total_anomalies': total_anomalies,
+            'spike_count': spike_count,
+            'zero_volume_count': zero_vol_count,
+            'impossible_candle_count': impossible_count,
+            'status': 'WARNING' if has_anomaly else 'NORMAL',
+            'statistics': self.get_statistics()
+        }
     
     def check_health(self, response_time: float, symbol: str) -> Dict[str, Any]:
         """
