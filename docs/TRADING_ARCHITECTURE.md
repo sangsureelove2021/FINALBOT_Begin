@@ -27,3 +27,18 @@ AI ถูกโปรแกรมให้วิเคราะห์ตลา�
 - **Dynamic Expiry:** เวลาหมดอายุของออเดอร์ (Expiry) **"จะไม่ถูกฟิกตายตัว"**
 - **AI Decision:** AI (DeepSeek) มีอิสระและอำนาจเต็มที่ในการคำนวณและเลือกเวลาหมดอายุเอง **ตั้งแต่ 1 นาที ถึง 5 นาที**
 - **Logic:** AI จะพิจารณาจาก โครงสร้างราคาปัจจุบัน (Market Structure) และความผันผวน (Volatility) หากจังหวะนั้นต้องรีบหนีทำกำไร AI อาจเลือกตีหัวเข้าบ้านที่ M1-M3 แต่หากกราฟต้องการพื้นที่สวิง AI จะกำหนดเวลาเผื่อให้เป็น M5
+
+---
+
+## 🏛️ สถาปัตยกรรมแบ่งส่วนงาน (Part 1 vs Part 2 Architecture)
+
+1. **ส่วนงานที่ 1: Data Feed (`data_feed/`)**
+   - ทำหน้าที่เฉพาะการดึงข้อมูลสดจาก Broker API, ตัดแท่งกำลังก่อตัว (`_drop_forming`), คำนวณ `age` & `quality`
+   - บันทึกไฟล์ CSV มาตรฐาน 8 คอลัมน์ลงดิสก์เท่านั้น (`data_base/csv/iq_option/`)
+   - เบา สด สะอาด 100% ปราศจาก Anomaly Detection หรือ Indicator Calculation ใน Part 1
+
+2. **ส่วนงานที่ 2: Data Evaluation (`data_evaluate/`)**
+   - ทำหน้าที่อ่านไฟล์ CSV จากดิสก์ด้วยตัวเอง (Zero RAM Data Leakage)
+   - ดำเนินการ **Anomaly Detection (`AnomalyDetector`)** ตรวจจับ Spike, Zero Volume, Impossible Candle ในส่วนงานที่ 2 ร่วมกับการคำนวณ 5 Tier-1 Engines และ Supplementary Engines
+   - สร้างและส่งออก **Payload Output 74 ฟิลด์ (91 บรรทัด)** เพื่อส่งให้ AI ตัดสินใจต่อไป
+

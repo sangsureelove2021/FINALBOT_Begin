@@ -16,10 +16,10 @@
 
 ## 🏗️ โครงสร้างระบบ Data Feed
 
-### 11 ไฟล์ที่ทำงานร่วมกัน
+### 10 ไฟล์ที่ทำงานร่วมกัน ( Data Feed System )
 
 ```
-Data Feed System = 11 ไฟล์ที่ทำงานร่วมกัน
+Data Feed System = 10 ไฟล์ที่ทำงานร่วมกัน
 ├── iq_option_adapter.py      → ดึงข้อมูลจาก IQ Option API
 ├── data_adapter.py            → กลางคั่น ควบคุมการส่งข้อมูลทั้งหมด (👑 สำคัญที่สุด)
 ├── time_calendar_manager.py   → ศูนย์กลางบริหารจัดการเวลาและข่าวสารเศรษฐกิจประจำวัน (⏰)
@@ -29,19 +29,19 @@ Data Feed System = 11 ไฟล์ที่ทำงานร่วมกัน
 ├── csv_writer.py              → เขียนข้อมูลลงดิสก์ (💾 Async) กรอง 8 คอลัมน์มาตรฐาน และ Atomic Replace
 ├── csv_manager.py             → จัดการโฟลเดอร์ ไฟล์ และการลบไฟล์เก่า (📁)
 ├── data_monitor.py            → เฝ้าระวังระบบและความพร้อมใช้งานตลอดเวลา
-├── data_source.py             → ตัวจัดการหลัก (Abstract)
-└── anomaly_detector.py        → ตรวจสอบความผิดปกติของราคาระหว่างรันบอท
+└── data_source.py             → ตัวจัดการหลัก (Abstract)
 ```
+*(หมายเหตุ: `AnomalyDetector` ถูกย้ายไปยังส่วนงานที่ 2 `data_evaluate/` เพื่อทำหน้าที่ประมวลผลความผิดปกติร่วมกับการคำนวณ 5 Tier-1 Engines และ 74 ฟิลด์ Payload)*
 
 ### ควบคุมการส่งข้อมูลอยู่ที่ไหน?
 
 **👑 DataAdapter (data_adapter.py) = สมองกลางควบคุมทั้งหมด**
 
 DataAdapter ทำหน้าที่:
-1. รับข้อมูลจาก IQ Option API
+1. รับข้อมูลสดจาก IQ Option API
 2. เก็บข้อมูลแท่งเทียนชั่วคราวใน **RAM Storage Internal** (`_store_m1`, `_store_m5`, `_store_m15`)
-3. ประมวลผลข้อมูล (Validation, Anomaly Detection, คำนวณ `age` และ `quality`)
-4. ส่งข้อมูลให้ **csv_queue.py** เพื่อเขียนลงดิสก์แบบ Non-blocking
+3. ประมวลผลข้อมูล (Validation, ตัดแท่งกำลังก่อตัว `_drop_forming`, คำนวณ `age` และ `quality`)
+4. ส่งข้อมูลให้ **csv_queue.py** เพื่อเขียนไฟล์ CSV 8 คอลัมน์ลงดิสก์แบบ Non-blocking (เบา สด สะอาด 100%)
 5. **คืนค่าเฉพาะสตริง `symbol`** (ไม่มีการส่ง Payload ราคาทาง RAM ไปยัง Part 2)
 6. เฝ้าระวังประสิทธิภาพระบบผ่าน `data_monitor.py`
 

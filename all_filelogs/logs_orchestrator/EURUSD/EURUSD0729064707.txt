@@ -1,0 +1,90 @@
+ID:EURUSD0729064707
+meta:
+  timestamp: '2026-07-29T06:47:07.680050'
+  symbol: EURUSD
+  session: ASIAN
+  m1_open: 1.138515
+  m1_age: 67706
+  m1_quality: FRESH
+  m5_open: 1.13862
+  m5_age: 127706
+  m5_quality: FRESH
+market_context:
+  state: BREAKOUT_EMERGING
+  description: Volatility expansion after compression. Potential breakout opportunity.
+  volatility_regime: LOW
+  news_impact: LOW
+  expected_volatility_%: 0.013
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.138514
+    ema20: 1.138493
+    rsi: 51.64
+    stoch_k: 49.46
+    stoch_d: 51.29
+    macd: 1.7e-05
+    macd_signal: 1.6e-05
+    ohclv:
+      open: 1.138515
+      high: 1.13853
+      low: 1.1385
+      close: 1.1385
+      volume: 102
+  m5:
+    bias: BEARISH
+    ema5: 1.138518
+    ema10: 1.138511
+    ema20: 1.138571
+    ema50: 1.138713
+    bb_upper: 1.138727
+    bb_lower: 1.138291
+    bb_width: 0.000436
+    rsi: 45.35
+    stoch_k: 74.08
+    stoch_d: 68.74
+    macd: -9.2e-05
+    macd_signal: -0.000114
+    adx: 32.8
+    atr: 0.000144
+    support: 1.138215
+    resistance: 1.13865
+    pivot: 1.138572
+    ohclv:
+      open: 1.13862
+      high: 1.13862
+      low: 1.138445
+      close: 1.138515
+      volume: 211
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: BEARISH
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 211
+  volume_momentum: NORMAL
+  volume_vs_average: 1.167
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 40
+  mtf_alignment_%: 33
+  compression_quality_%: 100.0
+  exhaustion_risk_%: 40
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 33
+  quality_score: 59
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

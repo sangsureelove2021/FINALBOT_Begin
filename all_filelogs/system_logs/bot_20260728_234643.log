@@ -1,0 +1,958 @@
+2026-07-29 06:46:43,244 | INFO     | [NEWS] Calendar file for today (2026-07-29) not found. Running calendar_news.py...
+2026-07-29 06:46:46,359 | INFO     | [NEWS] calendar_news.py executed successfully.
+2026-07-29 06:46:46,359 | INFO     | ดาวน์โหลดปฏิทินข่าวประจำวัน (2026-07-29) : สำเร็จเรียบร้อย
+2026-07-29 06:46:46,581 | INFO     | [ANOMALY] Initialized with thresholds: {'spike_threshold': 0.3, 'zero_volume_threshold': 0, 'impossible_candle_threshold': 0.001, 'spike_window': 20, 'max_consecutive_zero_volume': 3, 'max_consecutive_anomalies': 10}, dir: E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs
+2026-07-29 06:46:46,582 | INFO     | MarketStateClassifier initialised
+2026-07-29 06:46:46,586 | INFO     | กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+2026-07-29 06:46:46,586 | INFO     | [IQOPTION] Initialized with Zero Tolerance compliance
+2026-07-29 06:46:46,652 | INFO     | Using stable_api.IQ_Option class
+2026-07-29 06:46:46,652 | INFO     | [CONN] Connecting to IQ Option (DEMO) as venuz20152565@gmail.com...
+2026-07-29 06:46:46,652 | INFO     | [CONN] API created, attempting to connect...
+2026-07-29 06:46:48,892 | INFO     | [CONN] IQ Option connected (REAL MONEY)
+2026-07-29 06:46:48,892 | INFO     | เชื่อมต่อ IQ Option สำเร็จ
+2026-07-29 06:46:48,892 | INFO     | [CSVManager] Initialized with base_dir: data_base/csv/iq_option
+2026-07-29 06:46:48,892 | INFO     | [CSVWriter] Initialized with encoding: utf-8, decimals: 6
+2026-07-29 06:46:48,893 | INFO     | [CSVQueue] Initialized with 1 worker(s)
+2026-07-29 06:46:48,893 | INFO     | [DataMonitor] Initialized with log level: WARNING
+2026-07-29 06:46:48,893 | INFO     | [DataAdapter] Initialized with Zero Tolerance compliance
+2026-07-29 06:46:48,893 | INFO     | [CandleValidator] Initialized with validation configuration
+2026-07-29 06:46:48,894 | INFO     | [DataAdapter] Initialized with configuration
+2026-07-29 06:46:49,227 | INFO     | บัญชี DEMO | Balance: $1453.95
+2026-07-29 06:46:49,227 | INFO     | [TIME SYNC] Server time offset: -2.3589999675750732 seconds
+2026-07-29 06:46:49,227 | INFO     | Time Sync : -2.359s
+2026-07-29 06:46:49,227 | INFO     | [TIME SYNC] Started time sync daemon thread (scheduled at :30 of every minute)
+2026-07-29 06:46:49,228 | INFO     | ตรวจพบรายการสินทรัพย์ : EURUSD, EURGBP, GBPUSD-OTC, EURGBP-OTC
+2026-07-29 06:46:49,228 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์ 4 รายการ : EURUSD, EURGBP, GBPUSD-OTC, EURGBP-OTC
+2026-07-29 06:46:49,540 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 100 candles
+2026-07-29 06:46:49,861 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 250 candles
+2026-07-29 06:46:50,159 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 50 candles
+2026-07-29 06:46:50,182 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-29 06:46:50,183 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 06:46:50,184 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv - Queue size: 0
+2026-07-29 06:46:50,184 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 06:46:50,189 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv - Queue size: 1
+2026-07-29 06:46:50,190 | INFO     | [DataAdapter] EURUSD initialised — M1:100 M5:250 M15:50
+2026-07-29 06:46:50,489 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 100 candles
+2026-07-29 06:46:50,574 | INFO     | [CSVWriter] Successfully wrote 127 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 06:46:50,590 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 06:46:50,605 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-29 06:46:50,667 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-29 06:46:50,801 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 250 candles
+2026-07-29 06:46:50,961 | INFO     | [CSVWriter] Successfully wrote 255 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-29 06:46:50,977 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-29 06:46:50,992 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-29 06:46:51,054 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-29 06:46:51,074 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 50 candles
+2026-07-29 06:46:51,090 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-29 06:46:51,093 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv - Queue size: 1
+2026-07-29 06:46:51,095 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv - Queue size: 2
+2026-07-29 06:46:51,095 | INFO     | [DataAdapter] EURGBP initialised — M1:100 M5:250 M15:50
+2026-07-29 06:46:51,095 | INFO     | [CSVWriter] Successfully wrote 51 rows to data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-29 06:46:51,096 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-29 06:46:51,116 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 06:46:51,177 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 06:46:51,338 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 100 candles
+2026-07-29 06:46:51,474 | INFO     | [CSVWriter] Successfully wrote 127 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 06:46:51,490 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 06:46:51,506 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-29 06:46:51,568 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-29 06:46:51,625 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 250 candles
+2026-07-29 06:46:51,834 | INFO     | [CSVWriter] Successfully wrote 255 rows to data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-29 06:46:51,850 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-29 06:46:51,865 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-29 06:46:51,899 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-29 06:46:51,902 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 50 candles
+2026-07-29 06:46:51,919 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-29 06:46:51,921 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 1
+2026-07-29 06:46:51,923 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 2
+2026-07-29 06:46:51,923 | INFO     | [DataAdapter] GBPUSD-OTC initialised — M1:100 M5:250 M15:50
+2026-07-29 06:46:51,923 | INFO     | [CSVWriter] Successfully wrote 51 rows to data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-29 06:46:51,924 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-29 06:46:51,944 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 06:46:52,006 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 06:46:52,215 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 100 candles
+2026-07-29 06:46:52,300 | INFO     | [CSVWriter] Successfully wrote 127 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 06:46:52,315 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 06:46:52,331 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-29 06:46:52,393 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-29 06:46:52,512 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 250 candles
+2026-07-29 06:46:52,672 | INFO     | [CSVWriter] Successfully wrote 255 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-29 06:46:52,687 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-29 06:46:52,703 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-29 06:46:52,765 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-29 06:46:52,785 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 50 candles
+2026-07-29 06:46:52,808 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-29 06:46:52,811 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 1
+2026-07-29 06:46:52,812 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 2
+2026-07-29 06:46:52,812 | INFO     | [CSVWriter] Successfully wrote 51 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-29 06:46:52,813 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:100 M5:250 M15:50
+2026-07-29 06:46:52,813 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-29 06:46:52,813 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-07-29 06:46:52,813 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 06:46:52,856 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 06:46:53,069 | INFO     | [CSVWriter] Successfully wrote 127 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 06:46:53,069 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 06:46:53,070 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-29 06:46:53,070 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-29 06:46:53,080 | INFO     | [CSVWriter] Successfully wrote 255 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-29 06:46:53,080 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-29 06:46:53,080 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-29 06:46:53,081 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-29 06:46:53,089 | INFO     | [CSVWriter] Successfully wrote 51 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-29 06:46:53,090 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-29 06:46:53,090 | INFO     | [CSVQueue] Queue size: 0
+2026-07-29 06:46:55,068 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=100)
+2026-07-29 06:46:56,423 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=250)
+2026-07-29 06:46:57,692 | INFO     | [WS] Subscribed live candles stream for EURGBP (M1, count=100)
+2026-07-29 06:47:00,072 | INFO     | [WS] Subscribed live candles stream for EURGBP (M5, count=250)
+2026-07-29 06:47:01,343 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M1, count=100)
+2026-07-29 06:47:02,667 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M5, count=250)
+2026-07-29 06:47:03,947 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=100)
+2026-07-29 06:47:06,226 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=250)
+2026-07-29 06:47:06,226 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 55 วินาที  (เริ่ม 06:48:01)
+2026-07-29 06:47:06,526 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-29 06:47:06,526 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-29 06:47:06,526 | INFO     | [DataAdapter] Starting update for EURGBP
+2026-07-29 06:47:06,526 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP
+2026-07-29 06:47:06,527 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-29 06:47:06,527 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-29 06:47:06,527 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-29 06:47:06,528 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-29 06:47:06,743 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-29 06:47:06,836 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-29 06:47:06,852 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD
+2026-07-29 06:47:06,868 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 06:47:06,868 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD
+2026-07-29 06:47:06,946 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 06:47:06,977 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD
+2026-07-29 06:47:07,054 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-29 06:47:07,069 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD
+2026-07-29 06:47:07,102 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD
+2026-07-29 06:47:07,224 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-29 06:47:07,239 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP
+2026-07-29 06:47:07,255 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP
+2026-07-29 06:47:07,256 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP
+2026-07-29 06:47:07,271 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP
+2026-07-29 06:47:07,271 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP
+2026-07-29 06:47:07,414 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-29 06:47:07,446 | INFO     | [CSVWriter] Successfully wrote 127 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 06:47:07,447 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 06:47:07,460 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 06:47:07,505 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 06:47:07,599 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-29 06:47:07,614 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-29 06:47:07,630 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-29 06:47:07,631 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-29 06:47:07,631 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-29 06:47:07,643 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-29 06:47:07,643 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-29 06:47:07,646 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 1
+2026-07-29 06:47:07,646 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-29 06:47:07,646 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-29 06:47:07,646 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-29 06:47:07,646 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-29 06:47:07,647 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-29 06:47:07,649 | INFO     | [CSVWriter] Successfully wrote 127 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 06:47:07,649 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 06:47:07,649 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 06:47:07,650 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 06:47:07,658 | INFO     | [CSVWriter] Successfully wrote 127 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 06:47:07,659 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 06:47:07,659 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 06:47:07,660 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 06:47:07,669 | INFO     | [CSVWriter] Successfully wrote 127 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 06:47:07,669 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 06:47:07,670 | INFO     | [CSVQueue] Queue size: 0
+2026-07-29 06:47:07,770 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:05:00 change: -0.0001
+2026-07-29 06:47:07,770 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:10:00 change: -0.0001
+2026-07-29 06:47:07,770 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:15:00 change: 0.0001
+2026-07-29 06:47:07,771 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:20:00 change: 0.0001
+2026-07-29 06:47:07,771 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:30:00 change: 0.0002
+2026-07-29 06:47:07,771 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:35:00 change: -0.0002
+2026-07-29 06:47:07,771 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:40:00 change: -0.0001
+2026-07-29 06:47:07,772 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:45:00 change: -0.0001
+2026-07-29 06:47:07,772 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:00:00 change: -0.0002
+2026-07-29 06:47:07,772 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:10:00 change: -0.0001
+2026-07-29 06:47:07,772 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:15:00 change: 0.0001
+2026-07-29 06:47:07,773 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:20:00 change: -0.0001
+2026-07-29 06:47:07,773 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:35:00 change: -0.0000
+2026-07-29 06:47:07,773 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:40:00 change: 0.0000
+2026-07-29 06:47:07,773 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:45:00 change: -0.0000
+2026-07-29 06:47:07,774 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:50:00 change: -0.0002
+2026-07-29 06:47:07,775 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:00:00 change: -0.0001
+2026-07-29 06:47:07,775 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:05:00 change: -0.0003
+2026-07-29 06:47:07,775 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:10:00 change: -0.0002
+2026-07-29 06:47:07,775 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:15:00 change: 0.0000
+2026-07-29 06:47:07,775 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:25:00 change: 0.0003
+2026-07-29 06:47:07,776 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:35:00 change: -0.0001
+2026-07-29 06:47:07,776 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:40:00 change: 0.0001
+2026-07-29 06:47:07,776 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:45:00 change: -0.0001
+2026-07-29 06:47:07,776 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:50:00 change: 0.0001
+2026-07-29 06:47:07,776 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:55:00 change: 0.0001
+2026-07-29 06:47:07,776 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:00:00 change: 0.0001
+2026-07-29 06:47:07,776 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:05:00 change: -0.0001
+2026-07-29 06:47:07,777 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:10:00 change: 0.0001
+2026-07-29 06:47:07,777 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:15:00 change: 0.0000
+2026-07-29 06:47:07,777 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:20:00 change: 0.0001
+2026-07-29 06:47:07,777 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:25:00 change: 0.0002
+2026-07-29 06:47:07,777 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:40:00 change: -0.0001
+2026-07-29 06:47:07,777 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:45:00 change: -0.0001
+2026-07-29 06:47:07,777 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:50:00 change: 0.0003
+2026-07-29 06:47:07,777 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:55:00 change: -0.0002
+2026-07-29 06:47:07,778 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:00:00 change: -0.0001
+2026-07-29 06:47:07,778 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:05:00 change: 0.0004
+2026-07-29 06:47:07,778 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:10:00 change: 0.0001
+2026-07-29 06:47:07,778 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:15:00 change: -0.0001
+2026-07-29 06:47:07,778 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:20:00 change: -0.0002
+2026-07-29 06:47:07,778 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:30:00 change: 0.0000
+2026-07-29 06:47:07,778 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:40:00 change: -0.0001
+2026-07-29 06:47:07,778 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:45:00 change: -0.0002
+2026-07-29 06:47:07,779 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:50:00 change: -0.0001
+2026-07-29 06:47:07,779 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:00:00 change: 0.0003
+2026-07-29 06:47:07,779 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:05:00 change: 0.0001
+2026-07-29 06:47:07,779 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:10:00 change: -0.0001
+2026-07-29 06:47:07,779 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:15:00 change: 0.0001
+2026-07-29 06:47:07,779 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:20:00 change: 0.0002
+2026-07-29 06:47:07,779 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:25:00 change: -0.0001
+2026-07-29 06:47:07,779 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:40:00 change: 0.0001
+2026-07-29 06:47:07,780 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:45:00 change: 0.0001
+2026-07-29 06:47:07,780 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:50:00 change: -0.0001
+2026-07-29 06:47:07,780 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:55:00 change: 0.0001
+2026-07-29 06:47:07,780 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:00:00 change: -0.0001
+2026-07-29 06:47:07,780 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:05:00 change: -0.0003
+2026-07-29 06:47:07,780 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:10:00 change: -0.0001
+2026-07-29 06:47:07,780 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:15:00 change: 0.0000
+2026-07-29 06:47:07,780 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:20:00 change: -0.0000
+2026-07-29 06:47:07,781 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:25:00 change: -0.0001
+2026-07-29 06:47:07,781 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:30:00 change: -0.0001
+2026-07-29 06:47:07,781 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:40:00 change: -0.0002
+2026-07-29 06:47:07,781 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:45:00 change: -0.0001
+2026-07-29 06:47:07,781 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:50:00 change: -0.0001
+2026-07-29 06:47:07,781 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:55:00 change: -0.0003
+2026-07-29 06:47:07,782 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:00:00 change: -0.0000
+2026-07-29 06:47:07,782 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:05:00 change: -0.0001
+2026-07-29 06:47:07,782 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:10:00 change: 0.0002
+2026-07-29 06:47:07,782 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:15:00 change: -0.0001
+2026-07-29 06:47:07,782 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:20:00 change: 0.0002
+2026-07-29 06:47:07,782 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:25:00 change: -0.0001
+2026-07-29 06:47:07,782 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:30:00 change: 0.0003
+2026-07-29 06:47:07,782 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:35:00 change: 0.0001
+2026-07-29 06:47:07,783 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:40:00 change: -0.0003
+2026-07-29 06:47:07,783 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:45:00 change: 0.0001
+2026-07-29 06:47:07,783 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:50:00 change: 0.0003
+2026-07-29 06:47:07,783 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:55:00 change: -0.0001
+2026-07-29 06:47:07,783 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:00:00 change: -0.0001
+2026-07-29 06:47:07,783 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:05:00 change: -0.0002
+2026-07-29 06:47:07,783 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:10:00 change: 0.0001
+2026-07-29 06:47:07,783 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:15:00 change: 0.0003
+2026-07-29 06:47:07,783 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:20:00 change: 0.0002
+2026-07-29 06:47:07,784 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:25:00 change: 0.0001
+2026-07-29 06:47:07,784 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:30:00 change: -0.0001
+2026-07-29 06:47:07,784 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:35:00 change: 0.0002
+2026-07-29 06:47:07,784 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:40:00 change: -0.0002
+2026-07-29 06:47:07,784 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:45:00 change: -0.0001
+2026-07-29 06:47:07,784 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:50:00 change: 0.0002
+2026-07-29 06:47:07,784 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:55:00 change: 0.0001
+2026-07-29 06:47:07,784 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:00:00 change: -0.0001
+2026-07-29 06:47:07,785 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:05:00 change: 0.0003
+2026-07-29 06:47:07,785 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:10:00 change: -0.0001
+2026-07-29 06:47:07,785 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:20:00 change: -0.0001
+2026-07-29 06:47:07,785 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:25:00 change: -0.0001
+2026-07-29 06:47:07,785 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:40:00 change: 0.0002
+2026-07-29 06:47:07,785 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:45:00 change: 0.0002
+2026-07-29 06:47:07,785 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:50:00 change: -0.0002
+2026-07-29 06:47:07,785 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:00:00 change: 0.0002
+2026-07-29 06:47:07,786 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:05:00 change: 0.0002
+2026-07-29 06:47:07,786 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:10:00 change: -0.0002
+2026-07-29 06:47:07,786 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:15:00 change: 0.0001
+2026-07-29 06:47:07,786 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:25:00 change: -0.0001
+2026-07-29 06:47:07,786 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:30:00 change: 0.0002
+2026-07-29 06:47:07,786 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:35:00 change: -0.0001
+2026-07-29 06:47:07,786 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:40:00 change: 0.0001
+2026-07-29 06:47:07,786 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:45:00 change: 0.0003
+2026-07-29 06:47:07,787 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:00:00 change: 0.0001
+2026-07-29 06:47:07,787 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:05:00 change: 0.0001
+2026-07-29 06:47:07,787 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:10:00 change: -0.0001
+2026-07-29 06:47:07,787 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:15:00 change: -0.0001
+2026-07-29 06:47:07,787 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:20:00 change: 0.0002
+2026-07-29 06:47:07,787 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:25:00 change: 0.0003
+2026-07-29 06:47:07,787 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:30:00 change: -0.0001
+2026-07-29 06:47:07,787 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:40:00 change: 0.0002
+2026-07-29 06:47:07,788 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:45:00 change: -0.0001
+2026-07-29 06:47:07,788 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:50:00 change: 0.0005
+2026-07-29 06:47:07,788 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:55:00 change: 0.0002
+2026-07-29 06:47:07,788 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:00:00 change: -0.0001
+2026-07-29 06:47:07,788 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:05:00 change: 0.0003
+2026-07-29 06:47:07,789 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:10:00 change: 0.0006
+2026-07-29 06:47:07,789 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:15:00 change: 0.0001
+2026-07-29 06:47:07,789 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:20:00 change: -0.0001
+2026-07-29 06:47:07,789 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:25:00 change: 0.0001
+2026-07-29 06:47:07,789 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:30:00 change: 0.0001
+2026-07-29 06:47:07,789 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:35:00 change: -0.0001
+2026-07-29 06:47:07,789 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:40:00 change: 0.0005
+2026-07-29 06:47:07,789 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:45:00 change: -0.0002
+2026-07-29 06:47:07,790 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:55:00 change: 0.0001
+2026-07-29 06:47:07,790 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:05:00 change: 0.0001
+2026-07-29 06:47:07,790 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:15:00 change: 0.0001
+2026-07-29 06:47:07,790 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:25:00 change: 0.0001
+2026-07-29 06:47:07,790 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:30:00 change: -0.0001
+2026-07-29 06:47:07,790 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:35:00 change: -0.0002
+2026-07-29 06:47:07,790 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:40:00 change: -0.0002
+2026-07-29 06:47:07,791 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:45:00 change: -0.0003
+2026-07-29 06:47:07,791 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:50:00 change: 0.0001
+2026-07-29 06:47:07,791 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:55:00 change: -0.0002
+2026-07-29 06:47:07,791 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:00:00 change: 0.0001
+2026-07-29 06:47:07,791 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:05:00 change: -0.0001
+2026-07-29 06:47:07,791 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:10:00 change: -0.0001
+2026-07-29 06:47:07,791 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:20:00 change: -0.0001
+2026-07-29 06:47:07,791 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:30:00 change: 0.0001
+2026-07-29 06:47:07,792 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:35:00 change: -0.0000
+2026-07-29 06:47:07,792 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:40:00 change: -0.0001
+2026-07-29 06:47:07,792 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:45:00 change: -0.0001
+2026-07-29 06:47:07,792 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:50:00 change: -0.0000
+2026-07-29 06:47:07,792 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:55:00 change: -0.0001
+2026-07-29 06:47:07,792 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:05:00 change: 0.0000
+2026-07-29 06:47:07,792 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:10:00 change: -0.0000
+2026-07-29 06:47:07,792 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:15:00 change: 0.0001
+2026-07-29 06:47:07,793 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:20:00 change: -0.0002
+2026-07-29 06:47:07,793 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:25:00 change: -0.0001
+2026-07-29 06:47:07,793 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:35:00 change: 0.0001
+2026-07-29 06:47:07,793 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:45:00 change: -0.0001
+2026-07-29 06:47:07,793 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:00:00 change: 0.0001
+2026-07-29 06:47:07,793 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:05:00 change: 0.0001
+2026-07-29 06:47:07,793 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:10:00 change: -0.0001
+2026-07-29 06:47:07,793 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:15:00 change: 0.0002
+2026-07-29 06:47:07,794 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:25:00 change: -0.0001
+2026-07-29 06:47:07,794 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:30:00 change: 0.0001
+2026-07-29 06:47:07,794 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:35:00 change: -0.0000
+2026-07-29 06:47:07,794 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:40:00 change: 0.0000
+2026-07-29 06:47:07,794 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:45:00 change: 0.0001
+2026-07-29 06:47:07,795 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:50:00 change: -0.0000
+2026-07-29 06:47:07,795 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:55:00 change: -0.0003
+2026-07-29 06:47:07,795 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:10:00 change: 0.0001
+2026-07-29 06:47:07,795 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:15:00 change: -0.0001
+2026-07-29 06:47:07,795 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:25:00 change: -0.0001
+2026-07-29 06:47:07,795 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:35:00 change: -0.0001
+2026-07-29 06:47:07,796 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:40:00 change: 0.0001
+2026-07-29 06:47:07,796 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:45:00 change: -0.0001
+2026-07-29 06:47:07,796 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:00:00 change: 0.0003
+2026-07-29 06:47:07,796 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:05:00 change: 0.0000
+2026-07-29 06:47:07,796 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:10:00 change: 0.0001
+2026-07-29 06:47:07,796 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:15:00 change: 0.0001
+2026-07-29 06:47:07,796 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:25:00 change: -0.0000
+2026-07-29 06:47:07,796 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:30:00 change: -0.0000
+2026-07-29 06:47:07,797 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:35:00 change: 0.0001
+2026-07-29 06:47:07,797 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:40:00 change: 0.0000
+2026-07-29 06:47:07,797 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:45:00 change: -0.0000
+2026-07-29 06:47:07,797 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:50:00 change: -0.0001
+2026-07-29 06:47:07,797 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:55:00 change: -0.0001
+2026-07-29 06:47:07,797 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:00:00 change: -0.0001
+2026-07-29 06:47:07,797 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:10:00 change: -0.0002
+2026-07-29 06:47:07,797 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:15:00 change: -0.0001
+2026-07-29 06:47:07,797 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:20:00 change: -0.0002
+2026-07-29 06:47:07,798 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:25:00 change: 0.0000
+2026-07-29 06:47:07,798 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:30:00 change: 0.0001
+2026-07-29 06:47:07,798 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:35:00 change: -0.0002
+2026-07-29 06:47:07,798 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:40:00 change: 0.0000
+2026-07-29 06:47:07,798 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:45:00 change: -0.0000
+2026-07-29 06:47:07,798 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:00:00 change: -0.0001
+2026-07-29 06:47:07,798 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:05:00 change: -0.0002
+2026-07-29 06:47:07,798 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:10:00 change: 0.0002
+2026-07-29 06:47:07,799 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:20:00 change: 0.0001
+2026-07-29 06:47:07,799 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:30:00 change: -0.0001
+2026-07-29 06:47:07,799 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:40:00 change: 0.0001
+2026-07-29 06:47:07,799 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:45:00 change: -0.0001
+2026-07-29 06:47:07,810 | WARNING  | [ANOMALY] Total anomalies detected: UNKNOWN 199
+2026-07-29 06:47:07,810 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 199
+2026-07-29 06:47:07,812 | INFO     | Calendar file for 2026-07-29 not found (Day Rollover). Auto-fetching...
+2026-07-29 06:47:10,991 | INFO     | Auto-fetch completed.
+2026-07-29 06:47:10,992 | WARNING  | Calendar file E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\calendar_logs\calendar_2026-07-29.json not found even after auto-fetch. Using empty events.
+2026-07-29 06:47:10,992 | WARNING  | No news events available for symbol EURUSD, defaulting to LOW impact
+2026-07-29 06:47:11,097 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:00:00 change: -0.0000
+2026-07-29 06:47:11,097 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:05:00 change: 0.0000
+2026-07-29 06:47:11,097 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:10:00 change: -0.0000
+2026-07-29 06:47:11,098 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:15:00 change: -0.0001
+2026-07-29 06:47:11,098 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:20:00 change: 0.0000
+2026-07-29 06:47:11,098 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:30:00 change: -0.0000
+2026-07-29 06:47:11,098 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:35:00 change: -0.0000
+2026-07-29 06:47:11,098 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:40:00 change: -0.0000
+2026-07-29 06:47:11,098 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:45:00 change: -0.0000
+2026-07-29 06:47:11,099 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:50:00 change: 0.0001
+2026-07-29 06:47:11,099 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:55:00 change: 0.0000
+2026-07-29 06:47:11,099 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:10:00 change: 0.0000
+2026-07-29 06:47:11,100 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:15:00 change: -0.0001
+2026-07-29 06:47:11,100 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:20:00 change: 0.0001
+2026-07-29 06:47:11,100 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:25:00 change: -0.0001
+2026-07-29 06:47:11,100 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:45:00 change: -0.0001
+2026-07-29 06:47:11,100 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:55:00 change: -0.0001
+2026-07-29 06:47:11,100 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:00:00 change: -0.0001
+2026-07-29 06:47:11,101 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:05:00 change: -0.0001
+2026-07-29 06:47:11,101 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:10:00 change: 0.0001
+2026-07-29 06:47:11,101 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:15:00 change: 0.0001
+2026-07-29 06:47:11,101 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:20:00 change: -0.0000
+2026-07-29 06:47:11,101 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:25:00 change: 0.0000
+2026-07-29 06:47:11,101 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:30:00 change: 0.0001
+2026-07-29 06:47:11,102 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:35:00 change: 0.0000
+2026-07-29 06:47:11,102 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:40:00 change: -0.0000
+2026-07-29 06:47:11,102 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:45:00 change: 0.0001
+2026-07-29 06:47:11,102 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:50:00 change: -0.0000
+2026-07-29 06:47:11,103 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:55:00 change: 0.0001
+2026-07-29 06:47:11,103 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:00:00 change: 0.0001
+2026-07-29 06:47:11,103 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:05:00 change: -0.0001
+2026-07-29 06:47:11,104 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:10:00 change: -0.0001
+2026-07-29 06:47:11,104 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:15:00 change: 0.0000
+2026-07-29 06:47:11,104 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:20:00 change: 0.0001
+2026-07-29 06:47:11,104 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:25:00 change: -0.0002
+2026-07-29 06:47:11,104 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:30:00 change: 0.0002
+2026-07-29 06:47:11,105 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:35:00 change: -0.0001
+2026-07-29 06:47:11,105 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:40:00 change: -0.0001
+2026-07-29 06:47:11,105 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:45:00 change: 0.0000
+2026-07-29 06:47:11,105 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:50:00 change: -0.0001
+2026-07-29 06:47:11,105 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:55:00 change: -0.0003
+2026-07-29 06:47:11,105 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:00:00 change: 0.0002
+2026-07-29 06:47:11,105 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:05:00 change: -0.0001
+2026-07-29 06:47:11,106 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:15:00 change: -0.0001
+2026-07-29 06:47:11,106 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:20:00 change: -0.0002
+2026-07-29 06:47:11,106 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:25:00 change: -0.0000
+2026-07-29 06:47:11,106 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:35:00 change: 0.0003
+2026-07-29 06:47:11,106 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:45:00 change: 0.0001
+2026-07-29 06:47:11,106 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:50:00 change: -0.0002
+2026-07-29 06:47:11,107 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:55:00 change: 0.0002
+2026-07-29 06:47:11,107 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:00:00 change: -0.0004
+2026-07-29 06:47:11,107 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:05:00 change: 0.0001
+2026-07-29 06:47:11,107 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:25:00 change: 0.0001
+2026-07-29 06:47:11,107 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:35:00 change: 0.0003
+2026-07-29 06:47:11,108 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:40:00 change: -0.0001
+2026-07-29 06:47:11,108 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:45:00 change: -0.0001
+2026-07-29 06:47:11,108 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:50:00 change: 0.0001
+2026-07-29 06:47:11,108 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:55:00 change: -0.0001
+2026-07-29 06:47:11,108 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:05:00 change: 0.0002
+2026-07-29 06:47:11,108 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:15:00 change: 0.0001
+2026-07-29 06:47:11,108 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:30:00 change: 0.0001
+2026-07-29 06:47:11,109 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:35:00 change: -0.0001
+2026-07-29 06:47:11,109 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:40:00 change: 0.0001
+2026-07-29 06:47:11,109 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:45:00 change: 0.0000
+2026-07-29 06:47:11,109 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:50:00 change: 0.0002
+2026-07-29 06:47:11,109 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:55:00 change: -0.0002
+2026-07-29 06:47:11,109 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:00:00 change: 0.0001
+2026-07-29 06:47:11,109 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:10:00 change: 0.0001
+2026-07-29 06:47:11,109 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:15:00 change: 0.0001
+2026-07-29 06:47:11,110 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:20:00 change: -0.0002
+2026-07-29 06:47:11,110 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:30:00 change: 0.0001
+2026-07-29 06:47:11,110 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:45:00 change: 0.0002
+2026-07-29 06:47:11,110 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:50:00 change: 0.0000
+2026-07-29 06:47:11,111 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:55:00 change: -0.0002
+2026-07-29 06:47:11,111 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:00:00 change: 0.0001
+2026-07-29 06:47:11,111 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:05:00 change: -0.0002
+2026-07-29 06:47:11,111 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:10:00 change: 0.0002
+2026-07-29 06:47:11,111 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:15:00 change: 0.0001
+2026-07-29 06:47:11,111 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:25:00 change: 0.0002
+2026-07-29 06:47:11,111 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:30:00 change: -0.0001
+2026-07-29 06:47:11,111 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:35:00 change: 0.0001
+2026-07-29 06:47:11,112 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:40:00 change: -0.0001
+2026-07-29 06:47:11,112 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:50:00 change: 0.0002
+2026-07-29 06:47:11,112 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:00:00 change: -0.0004
+2026-07-29 06:47:11,112 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:10:00 change: -0.0001
+2026-07-29 06:47:11,112 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:15:00 change: -0.0001
+2026-07-29 06:47:11,112 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:20:00 change: -0.0001
+2026-07-29 06:47:11,112 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:30:00 change: -0.0002
+2026-07-29 06:47:11,112 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:35:00 change: -0.0001
+2026-07-29 06:47:11,113 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:40:00 change: -0.0001
+2026-07-29 06:47:11,113 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:45:00 change: -0.0001
+2026-07-29 06:47:11,113 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:55:00 change: -0.0001
+2026-07-29 06:47:11,113 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:00:00 change: 0.0001
+2026-07-29 06:47:11,113 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:10:00 change: 0.0001
+2026-07-29 06:47:11,113 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:15:00 change: 0.0002
+2026-07-29 06:47:11,113 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:20:00 change: -0.0001
+2026-07-29 06:47:11,113 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:30:00 change: 0.0000
+2026-07-29 06:47:11,113 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:35:00 change: 0.0001
+2026-07-29 06:47:11,114 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:45:00 change: -0.0001
+2026-07-29 06:47:11,114 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:50:00 change: 0.0002
+2026-07-29 06:47:11,114 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:55:00 change: -0.0001
+2026-07-29 06:47:11,114 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:00:00 change: 0.0002
+2026-07-29 06:47:11,114 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:05:00 change: 0.0002
+2026-07-29 06:47:11,114 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:10:00 change: 0.0003
+2026-07-29 06:47:11,114 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:15:00 change: 0.0001
+2026-07-29 06:47:11,114 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:20:00 change: 0.0002
+2026-07-29 06:47:11,115 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:25:00 change: 0.0001
+2026-07-29 06:47:11,115 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:35:00 change: 0.0001
+2026-07-29 06:47:11,115 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:40:00 change: 0.0002
+2026-07-29 06:47:11,115 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:45:00 change: -0.0002
+2026-07-29 06:47:11,115 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:50:00 change: 0.0005
+2026-07-29 06:47:11,115 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:55:00 change: 0.0004
+2026-07-29 06:47:11,115 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:00:00 change: -0.0001
+2026-07-29 06:47:11,116 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:05:00 change: -0.0001
+2026-07-29 06:47:11,116 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:10:00 change: 0.0001
+2026-07-29 06:47:11,116 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:20:00 change: 0.0001
+2026-07-29 06:47:11,116 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:25:00 change: -0.0001
+2026-07-29 06:47:11,116 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:30:00 change: -0.0001
+2026-07-29 06:47:11,116 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:35:00 change: 0.0002
+2026-07-29 06:47:11,117 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:45:00 change: -0.0002
+2026-07-29 06:47:11,117 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:50:00 change: 0.0002
+2026-07-29 06:47:11,118 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:55:00 change: -0.0001
+2026-07-29 06:47:11,118 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:00:00 change: 0.0001
+2026-07-29 06:47:11,118 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:05:00 change: 0.0001
+2026-07-29 06:47:11,118 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:10:00 change: 0.0002
+2026-07-29 06:47:11,118 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:15:00 change: 0.0002
+2026-07-29 06:47:11,119 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:20:00 change: -0.0001
+2026-07-29 06:47:11,119 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:25:00 change: 0.0001
+2026-07-29 06:47:11,119 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:35:00 change: -0.0003
+2026-07-29 06:47:11,119 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:40:00 change: 0.0002
+2026-07-29 06:47:11,119 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:50:00 change: -0.0001
+2026-07-29 06:47:11,119 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:00:00 change: -0.0001
+2026-07-29 06:47:11,120 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:05:00 change: -0.0000
+2026-07-29 06:47:11,120 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:15:00 change: -0.0000
+2026-07-29 06:47:11,120 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:25:00 change: -0.0000
+2026-07-29 06:47:11,120 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:30:00 change: 0.0000
+2026-07-29 06:47:11,120 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:35:00 change: 0.0001
+2026-07-29 06:47:11,120 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:45:00 change: 0.0001
+2026-07-29 06:47:11,120 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:50:00 change: 0.0000
+2026-07-29 06:47:11,121 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:55:00 change: -0.0000
+2026-07-29 06:47:11,121 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:00:00 change: 0.0001
+2026-07-29 06:47:11,121 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:05:00 change: 0.0001
+2026-07-29 06:47:11,121 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:10:00 change: -0.0000
+2026-07-29 06:47:11,121 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:15:00 change: 0.0001
+2026-07-29 06:47:11,121 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:20:00 change: -0.0000
+2026-07-29 06:47:11,121 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:25:00 change: 0.0000
+2026-07-29 06:47:11,122 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:30:00 change: -0.0001
+2026-07-29 06:47:11,122 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:40:00 change: -0.0001
+2026-07-29 06:47:11,122 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:50:00 change: -0.0001
+2026-07-29 06:47:11,122 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:55:00 change: 0.0001
+2026-07-29 06:47:11,122 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:00:00 change: 0.0000
+2026-07-29 06:47:11,122 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:05:00 change: -0.0001
+2026-07-29 06:47:11,122 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:15:00 change: -0.0000
+2026-07-29 06:47:11,122 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:25:00 change: 0.0002
+2026-07-29 06:47:11,122 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:30:00 change: 0.0000
+2026-07-29 06:47:11,122 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:35:00 change: -0.0000
+2026-07-29 06:47:11,122 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:40:00 change: 0.0000
+2026-07-29 06:47:11,123 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:45:00 change: -0.0000
+2026-07-29 06:47:11,123 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:50:00 change: -0.0000
+2026-07-29 06:47:11,123 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:55:00 change: 0.0001
+2026-07-29 06:47:11,123 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:00:00 change: 0.0000
+2026-07-29 06:47:11,123 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:05:00 change: -0.0001
+2026-07-29 06:47:11,123 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:15:00 change: 0.0000
+2026-07-29 06:47:11,123 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:20:00 change: 0.0000
+2026-07-29 06:47:11,123 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:25:00 change: -0.0000
+2026-07-29 06:47:11,124 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:30:00 change: 0.0001
+2026-07-29 06:47:11,124 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:35:00 change: -0.0001
+2026-07-29 06:47:11,124 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:40:00 change: 0.0000
+2026-07-29 06:47:11,124 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:45:00 change: 0.0001
+2026-07-29 06:47:11,124 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:50:00 change: 0.0000
+2026-07-29 06:47:11,124 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:55:00 change: -0.0002
+2026-07-29 06:47:11,124 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:00:00 change: 0.0001
+2026-07-29 06:47:11,124 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:05:00 change: 0.0002
+2026-07-29 06:47:11,125 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:10:00 change: -0.0001
+2026-07-29 06:47:11,125 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:15:00 change: -0.0001
+2026-07-29 06:47:11,125 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:20:00 change: 0.0001
+2026-07-29 06:47:11,125 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:25:00 change: 0.0000
+2026-07-29 06:47:11,126 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:35:00 change: 0.0001
+2026-07-29 06:47:11,126 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:40:00 change: 0.0000
+2026-07-29 06:47:11,126 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:50:00 change: -0.0000
+2026-07-29 06:47:11,126 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:05:00 change: -0.0000
+2026-07-29 06:47:11,126 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:15:00 change: -0.0001
+2026-07-29 06:47:11,126 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:20:00 change: 0.0000
+2026-07-29 06:47:11,126 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:30:00 change: 0.0001
+2026-07-29 06:47:11,127 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:40:00 change: 0.0000
+2026-07-29 06:47:11,127 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:50:00 change: -0.0000
+2026-07-29 06:47:11,127 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:05:00 change: 0.0000
+2026-07-29 06:47:11,127 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:10:00 change: -0.0001
+2026-07-29 06:47:11,128 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:15:00 change: 0.0001
+2026-07-29 06:47:11,128 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:20:00 change: -0.0001
+2026-07-29 06:47:11,128 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:25:00 change: 0.0000
+2026-07-29 06:47:11,128 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:35:00 change: 0.0000
+2026-07-29 06:47:11,128 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:40:00 change: -0.0001
+2026-07-29 06:47:11,128 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:45:00 change: -0.0001
+2026-07-29 06:47:11,139 | WARNING  | [ANOMALY] Total anomalies detected: UNKNOWN 194
+2026-07-29 06:47:11,139 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 393
+2026-07-29 06:47:11,140 | WARNING  | No news events available for symbol EURGBP, defaulting to LOW impact
+2026-07-29 06:47:11,262 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 02:55:00 change: -0.0004
+2026-07-29 06:47:11,263 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:00:00 change: 0.0003
+2026-07-29 06:47:11,263 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:05:00 change: -0.0007
+2026-07-29 06:47:11,263 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:10:00 change: -0.0001
+2026-07-29 06:47:11,263 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:15:00 change: -0.0005
+2026-07-29 06:47:11,264 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:20:00 change: 0.0002
+2026-07-29 06:47:11,264 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:25:00 change: 0.0001
+2026-07-29 06:47:11,264 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:30:00 change: 0.0002
+2026-07-29 06:47:11,264 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:35:00 change: 0.0002
+2026-07-29 06:47:11,264 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:40:00 change: -0.0005
+2026-07-29 06:47:11,264 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:45:00 change: -0.0005
+2026-07-29 06:47:11,264 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:50:00 change: -0.0005
+2026-07-29 06:47:11,264 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:55:00 change: 0.0005
+2026-07-29 06:47:11,265 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:05:00 change: -0.0009
+2026-07-29 06:47:11,265 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:10:00 change: 0.0009
+2026-07-29 06:47:11,265 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:20:00 change: 0.0013
+2026-07-29 06:47:11,266 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:25:00 change: 0.0002
+2026-07-29 06:47:11,266 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:30:00 change: 0.0011
+2026-07-29 06:47:11,266 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:35:00 change: -0.0007
+2026-07-29 06:47:11,266 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:40:00 change: 0.0008
+2026-07-29 06:47:11,266 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:45:00 change: 0.0015
+2026-07-29 06:47:11,267 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:55:00 change: 0.0010
+2026-07-29 06:47:11,267 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:00:00 change: -0.0009
+2026-07-29 06:47:11,267 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:10:00 change: 0.0009
+2026-07-29 06:47:11,267 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:15:00 change: -0.0003
+2026-07-29 06:47:11,267 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:20:00 change: -0.0004
+2026-07-29 06:47:11,267 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:30:00 change: 0.0002
+2026-07-29 06:47:11,267 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:35:00 change: 0.0006
+2026-07-29 06:47:11,268 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:45:00 change: 0.0010
+2026-07-29 06:47:11,268 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:50:00 change: 0.0005
+2026-07-29 06:47:11,269 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:55:00 change: -0.0011
+2026-07-29 06:47:11,269 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:00:00 change: 0.0004
+2026-07-29 06:47:11,269 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:10:00 change: 0.0004
+2026-07-29 06:47:11,270 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:15:00 change: 0.0005
+2026-07-29 06:47:11,270 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:20:00 change: -0.0006
+2026-07-29 06:47:11,270 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:25:00 change: 0.0004
+2026-07-29 06:47:11,270 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:30:00 change: -0.0005
+2026-07-29 06:47:11,270 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:35:00 change: 0.0009
+2026-07-29 06:47:11,271 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:40:00 change: 0.0010
+2026-07-29 06:47:11,271 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:55:00 change: 0.0010
+2026-07-29 06:47:11,271 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:00:00 change: -0.0006
+2026-07-29 06:47:11,272 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:05:00 change: -0.0005
+2026-07-29 06:47:11,272 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:10:00 change: 0.0003
+2026-07-29 06:47:11,272 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:15:00 change: 0.0006
+2026-07-29 06:47:11,272 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:20:00 change: -0.0009
+2026-07-29 06:47:11,273 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:25:00 change: 0.0010
+2026-07-29 06:47:11,273 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:30:00 change: -0.0005
+2026-07-29 06:47:11,273 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:35:00 change: -0.0006
+2026-07-29 06:47:11,273 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:40:00 change: 0.0005
+2026-07-29 06:47:11,273 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:50:00 change: -0.0008
+2026-07-29 06:47:11,274 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:55:00 change: 0.0003
+2026-07-29 06:47:11,274 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:00:00 change: 0.0005
+2026-07-29 06:47:11,274 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:05:00 change: -0.0002
+2026-07-29 06:47:11,274 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:10:00 change: -0.0003
+2026-07-29 06:47:11,274 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:20:00 change: -0.0002
+2026-07-29 06:47:11,275 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:25:00 change: -0.0003
+2026-07-29 06:47:11,275 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:30:00 change: 0.0005
+2026-07-29 06:47:11,275 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:35:00 change: -0.0002
+2026-07-29 06:47:11,275 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:45:00 change: -0.0013
+2026-07-29 06:47:11,275 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:50:00 change: 0.0003
+2026-07-29 06:47:11,276 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:55:00 change: -0.0006
+2026-07-29 06:47:11,276 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:00:00 change: 0.0005
+2026-07-29 06:47:11,276 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:05:00 change: -0.0008
+2026-07-29 06:47:11,277 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:10:00 change: -0.0007
+2026-07-29 06:47:11,277 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:20:00 change: 0.0004
+2026-07-29 06:47:11,277 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:25:00 change: 0.0002
+2026-07-29 06:47:11,277 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:30:00 change: -0.0004
+2026-07-29 06:47:11,277 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:35:00 change: -0.0016
+2026-07-29 06:47:11,277 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:45:00 change: 0.0007
+2026-07-29 06:47:11,278 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:50:00 change: -0.0005
+2026-07-29 06:47:11,278 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:55:00 change: 0.0007
+2026-07-29 06:47:11,278 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:00:00 change: -0.0004
+2026-07-29 06:47:11,278 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:05:00 change: -0.0004
+2026-07-29 06:47:11,278 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:10:00 change: 0.0010
+2026-07-29 06:47:11,278 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:15:00 change: -0.0006
+2026-07-29 06:47:11,278 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:20:00 change: -0.0004
+2026-07-29 06:47:11,279 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:25:00 change: -0.0007
+2026-07-29 06:47:11,279 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:30:00 change: -0.0008
+2026-07-29 06:47:11,279 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:35:00 change: 0.0002
+2026-07-29 06:47:11,279 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:40:00 change: 0.0004
+2026-07-29 06:47:11,279 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:45:00 change: -0.0004
+2026-07-29 06:47:11,279 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:50:00 change: 0.0003
+2026-07-29 06:47:11,279 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:55:00 change: -0.0008
+2026-07-29 06:47:11,279 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:00:00 change: -0.0002
+2026-07-29 06:47:11,280 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:05:00 change: -0.0005
+2026-07-29 06:47:11,280 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:10:00 change: -0.0018
+2026-07-29 06:47:11,280 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:20:00 change: -0.0008
+2026-07-29 06:47:11,280 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:30:00 change: -0.0002
+2026-07-29 06:47:11,280 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:35:00 change: 0.0011
+2026-07-29 06:47:11,280 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:40:00 change: 0.0003
+2026-07-29 06:47:11,281 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:45:00 change: -0.0006
+2026-07-29 06:47:11,281 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:50:00 change: 0.0007
+2026-07-29 06:47:11,281 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:55:00 change: 0.0005
+2026-07-29 06:47:11,281 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:10:00 change: -0.0012
+2026-07-29 06:47:11,281 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:15:00 change: 0.0008
+2026-07-29 06:47:11,281 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:20:00 change: 0.0005
+2026-07-29 06:47:11,281 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:25:00 change: -0.0004
+2026-07-29 06:47:11,282 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:35:00 change: 0.0004
+2026-07-29 06:47:11,282 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:40:00 change: 0.0004
+2026-07-29 06:47:11,282 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:45:00 change: -0.0012
+2026-07-29 06:47:11,282 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:50:00 change: -0.0013
+2026-07-29 06:47:11,283 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:00:00 change: 0.0011
+2026-07-29 06:47:11,283 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:05:00 change: 0.0006
+2026-07-29 06:47:11,283 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:15:00 change: 0.0006
+2026-07-29 06:47:11,283 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:20:00 change: 0.0006
+2026-07-29 06:47:11,283 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:25:00 change: -0.0006
+2026-07-29 06:47:11,283 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:30:00 change: 0.0005
+2026-07-29 06:47:11,284 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:35:00 change: 0.0011
+2026-07-29 06:47:11,284 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:40:00 change: 0.0007
+2026-07-29 06:47:11,284 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:45:00 change: -0.0006
+2026-07-29 06:47:11,284 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:55:00 change: 0.0004
+2026-07-29 06:47:11,284 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:00:00 change: 0.0004
+2026-07-29 06:47:11,284 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:05:00 change: 0.0008
+2026-07-29 06:47:11,284 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:10:00 change: 0.0007
+2026-07-29 06:47:11,284 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:15:00 change: -0.0014
+2026-07-29 06:47:11,285 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:20:00 change: 0.0004
+2026-07-29 06:47:11,285 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:35:00 change: 0.0008
+2026-07-29 06:47:11,285 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:40:00 change: 0.0010
+2026-07-29 06:47:11,285 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:45:00 change: 0.0003
+2026-07-29 06:47:11,285 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:50:00 change: 0.0005
+2026-07-29 06:47:11,285 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:55:00 change: -0.0005
+2026-07-29 06:47:11,286 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:05:00 change: -0.0005
+2026-07-29 06:47:11,286 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:15:00 change: -0.0004
+2026-07-29 06:47:11,286 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:20:00 change: 0.0012
+2026-07-29 06:47:11,287 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:25:00 change: -0.0004
+2026-07-29 06:47:11,287 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:35:00 change: -0.0002
+2026-07-29 06:47:11,287 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:40:00 change: -0.0006
+2026-07-29 06:47:11,287 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:45:00 change: -0.0007
+2026-07-29 06:47:11,288 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:50:00 change: -0.0002
+2026-07-29 06:47:11,288 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:55:00 change: -0.0004
+2026-07-29 06:47:11,288 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:15:00 change: -0.0001
+2026-07-29 06:47:11,288 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:20:00 change: -0.0009
+2026-07-29 06:47:11,288 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:25:00 change: -0.0004
+2026-07-29 06:47:11,288 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:30:00 change: -0.0003
+2026-07-29 06:47:11,288 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:35:00 change: 0.0001
+2026-07-29 06:47:11,289 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:40:00 change: -0.0007
+2026-07-29 06:47:11,289 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:45:00 change: 0.0007
+2026-07-29 06:47:11,289 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:50:00 change: -0.0003
+2026-07-29 06:47:11,289 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:55:00 change: 0.0005
+2026-07-29 06:47:11,290 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:05:00 change: -0.0003
+2026-07-29 06:47:11,290 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:10:00 change: 0.0015
+2026-07-29 06:47:11,290 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:15:00 change: 0.0008
+2026-07-29 06:47:11,290 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:20:00 change: 0.0007
+2026-07-29 06:47:11,290 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:25:00 change: -0.0007
+2026-07-29 06:47:11,290 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:35:00 change: -0.0005
+2026-07-29 06:47:11,290 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:40:00 change: 0.0007
+2026-07-29 06:47:11,291 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:45:00 change: 0.0005
+2026-07-29 06:47:11,291 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:50:00 change: 0.0002
+2026-07-29 06:47:11,291 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:00:00 change: -0.0010
+2026-07-29 06:47:11,291 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:05:00 change: -0.0010
+2026-07-29 06:47:11,291 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:15:00 change: -0.0005
+2026-07-29 06:47:11,291 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:20:00 change: -0.0003
+2026-07-29 06:47:11,291 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:25:00 change: -0.0004
+2026-07-29 06:47:11,292 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:30:00 change: -0.0003
+2026-07-29 06:47:11,292 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:35:00 change: -0.0003
+2026-07-29 06:47:11,292 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:40:00 change: 0.0006
+2026-07-29 06:47:11,292 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:45:00 change: 0.0005
+2026-07-29 06:47:11,292 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:50:00 change: 0.0013
+2026-07-29 06:47:11,292 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:55:00 change: 0.0009
+2026-07-29 06:47:11,292 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:00:00 change: 0.0004
+2026-07-29 06:47:11,293 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:10:00 change: -0.0010
+2026-07-29 06:47:11,293 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:20:00 change: 0.0006
+2026-07-29 06:47:11,293 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:25:00 change: -0.0010
+2026-07-29 06:47:11,293 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:35:00 change: -0.0005
+2026-07-29 06:47:11,293 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:40:00 change: -0.0004
+2026-07-29 06:47:11,293 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:45:00 change: -0.0011
+2026-07-29 06:47:11,293 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:50:00 change: 0.0003
+2026-07-29 06:47:11,294 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:00:00 change: 0.0003
+2026-07-29 06:47:11,294 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:05:00 change: -0.0006
+2026-07-29 06:47:11,294 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:25:00 change: -0.0014
+2026-07-29 06:47:11,294 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:35:00 change: 0.0007
+2026-07-29 06:47:11,294 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:40:00 change: 0.0011
+2026-07-29 06:47:11,294 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:45:00 change: 0.0006
+2026-07-29 06:47:11,294 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:50:00 change: 0.0004
+2026-07-29 06:47:11,294 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:55:00 change: 0.0007
+2026-07-29 06:47:11,295 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:05:00 change: -0.0011
+2026-07-29 06:47:11,295 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:10:00 change: 0.0005
+2026-07-29 06:47:11,295 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:15:00 change: 0.0005
+2026-07-29 06:47:11,295 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:20:00 change: -0.0011
+2026-07-29 06:47:11,296 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:25:00 change: 0.0008
+2026-07-29 06:47:11,296 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:30:00 change: -0.0008
+2026-07-29 06:47:11,296 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:35:00 change: 0.0003
+2026-07-29 06:47:11,296 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:40:00 change: 0.0005
+2026-07-29 06:47:11,296 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:50:00 change: 0.0002
+2026-07-29 06:47:11,296 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:55:00 change: 0.0007
+2026-07-29 06:47:11,296 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:00:00 change: 0.0008
+2026-07-29 06:47:11,296 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:05:00 change: -0.0003
+2026-07-29 06:47:11,296 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:10:00 change: -0.0003
+2026-07-29 06:47:11,297 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:20:00 change: -0.0004
+2026-07-29 06:47:11,297 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:25:00 change: 0.0004
+2026-07-29 06:47:11,297 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:35:00 change: -0.0008
+2026-07-29 06:47:11,297 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:40:00 change: -0.0011
+2026-07-29 06:47:11,297 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:45:00 change: 0.0008
+2026-07-29 06:47:11,297 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:05:00 change: 0.0002
+2026-07-29 06:47:11,297 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:10:00 change: -0.0005
+2026-07-29 06:47:11,297 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:15:00 change: -0.0008
+2026-07-29 06:47:11,298 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:20:00 change: 0.0009
+2026-07-29 06:47:11,298 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:25:00 change: 0.0007
+2026-07-29 06:47:11,298 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:40:00 change: 0.0005
+2026-07-29 06:47:11,309 | WARNING  | [ANOMALY] Total anomalies detected: UNKNOWN 199
+2026-07-29 06:47:11,309 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 592
+2026-07-29 06:47:11,416 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:00:00 change: 0.0002
+2026-07-29 06:47:11,417 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:05:00 change: -0.0005
+2026-07-29 06:47:11,417 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:15:00 change: -0.0008
+2026-07-29 06:47:11,417 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:20:00 change: -0.0001
+2026-07-29 06:47:11,418 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:25:00 change: -0.0003
+2026-07-29 06:47:11,418 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:30:00 change: -0.0004
+2026-07-29 06:47:11,418 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:35:00 change: 0.0005
+2026-07-29 06:47:11,418 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:45:00 change: 0.0007
+2026-07-29 06:47:11,418 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:50:00 change: -0.0003
+2026-07-29 06:47:11,418 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 03:55:00 change: 0.0007
+2026-07-29 06:47:11,418 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:00:00 change: -0.0004
+2026-07-29 06:47:11,419 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:05:00 change: -0.0002
+2026-07-29 06:47:11,419 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:10:00 change: 0.0005
+2026-07-29 06:47:11,419 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:15:00 change: -0.0018
+2026-07-29 06:47:11,419 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:20:00 change: -0.0004
+2026-07-29 06:47:11,419 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:30:00 change: 0.0007
+2026-07-29 06:47:11,419 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:35:00 change: -0.0011
+2026-07-29 06:47:11,419 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:40:00 change: -0.0008
+2026-07-29 06:47:11,419 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 04:50:00 change: 0.0006
+2026-07-29 06:47:11,420 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:00:00 change: 0.0002
+2026-07-29 06:47:11,420 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:10:00 change: 0.0006
+2026-07-29 06:47:11,420 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:15:00 change: 0.0005
+2026-07-29 06:47:11,420 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:20:00 change: -0.0012
+2026-07-29 06:47:11,420 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:25:00 change: 0.0006
+2026-07-29 06:47:11,420 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:30:00 change: 0.0004
+2026-07-29 06:47:11,420 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:35:00 change: 0.0002
+2026-07-29 06:47:11,420 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:40:00 change: 0.0003
+2026-07-29 06:47:11,421 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:45:00 change: 0.0002
+2026-07-29 06:47:11,421 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:50:00 change: 0.0007
+2026-07-29 06:47:11,421 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 05:55:00 change: 0.0006
+2026-07-29 06:47:11,421 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:00:00 change: -0.0003
+2026-07-29 06:47:11,421 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:20:00 change: -0.0002
+2026-07-29 06:47:11,421 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:30:00 change: -0.0004
+2026-07-29 06:47:11,421 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:35:00 change: 0.0002
+2026-07-29 06:47:11,421 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:40:00 change: 0.0007
+2026-07-29 06:47:11,422 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:45:00 change: 0.0002
+2026-07-29 06:47:11,422 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 06:55:00 change: -0.0002
+2026-07-29 06:47:11,422 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:10:00 change: -0.0008
+2026-07-29 06:47:11,422 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:15:00 change: 0.0006
+2026-07-29 06:47:11,422 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:20:00 change: 0.0006
+2026-07-29 06:47:11,422 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:25:00 change: -0.0009
+2026-07-29 06:47:11,422 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:30:00 change: 0.0007
+2026-07-29 06:47:11,422 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:35:00 change: -0.0008
+2026-07-29 06:47:11,423 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:40:00 change: -0.0006
+2026-07-29 06:47:11,423 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:50:00 change: -0.0003
+2026-07-29 06:47:11,423 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 07:55:00 change: 0.0002
+2026-07-29 06:47:11,423 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:10:00 change: 0.0002
+2026-07-29 06:47:11,423 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:15:00 change: -0.0005
+2026-07-29 06:47:11,423 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:20:00 change: 0.0006
+2026-07-29 06:47:11,423 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:25:00 change: 0.0009
+2026-07-29 06:47:11,423 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:40:00 change: -0.0008
+2026-07-29 06:47:11,423 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:45:00 change: 0.0004
+2026-07-29 06:47:11,424 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 08:55:00 change: -0.0007
+2026-07-29 06:47:11,424 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:00:00 change: -0.0003
+2026-07-29 06:47:11,424 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:05:00 change: 0.0009
+2026-07-29 06:47:11,424 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:10:00 change: 0.0013
+2026-07-29 06:47:11,425 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:15:00 change: 0.0007
+2026-07-29 06:47:11,425 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:20:00 change: -0.0003
+2026-07-29 06:47:11,425 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:25:00 change: 0.0006
+2026-07-29 06:47:11,425 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:30:00 change: 0.0008
+2026-07-29 06:47:11,425 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:35:00 change: -0.0006
+2026-07-29 06:47:11,425 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:40:00 change: -0.0007
+2026-07-29 06:47:11,425 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:45:00 change: -0.0010
+2026-07-29 06:47:11,425 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 09:55:00 change: -0.0004
+2026-07-29 06:47:11,426 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:05:00 change: -0.0011
+2026-07-29 06:47:11,426 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:15:00 change: -0.0008
+2026-07-29 06:47:11,426 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:20:00 change: -0.0005
+2026-07-29 06:47:11,426 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:25:00 change: -0.0007
+2026-07-29 06:47:11,426 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:30:00 change: -0.0006
+2026-07-29 06:47:11,426 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:35:00 change: 0.0004
+2026-07-29 06:47:11,426 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:45:00 change: 0.0005
+2026-07-29 06:47:11,426 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:50:00 change: -0.0007
+2026-07-29 06:47:11,426 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 10:55:00 change: -0.0011
+2026-07-29 06:47:11,427 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:00:00 change: -0.0003
+2026-07-29 06:47:11,427 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:05:00 change: -0.0008
+2026-07-29 06:47:11,427 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:10:00 change: 0.0006
+2026-07-29 06:47:11,427 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:15:00 change: -0.0007
+2026-07-29 06:47:11,427 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:20:00 change: 0.0007
+2026-07-29 06:47:11,427 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:25:00 change: 0.0003
+2026-07-29 06:47:11,427 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:30:00 change: -0.0004
+2026-07-29 06:47:11,427 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:35:00 change: 0.0005
+2026-07-29 06:47:11,428 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:45:00 change: -0.0002
+2026-07-29 06:47:11,428 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:50:00 change: -0.0005
+2026-07-29 06:47:11,428 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 11:55:00 change: -0.0005
+2026-07-29 06:47:11,428 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:00:00 change: -0.0010
+2026-07-29 06:47:11,428 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:10:00 change: 0.0004
+2026-07-29 06:47:11,428 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:15:00 change: 0.0003
+2026-07-29 06:47:11,428 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:20:00 change: 0.0002
+2026-07-29 06:47:11,428 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:25:00 change: 0.0003
+2026-07-29 06:47:11,428 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:30:00 change: 0.0002
+2026-07-29 06:47:11,429 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:40:00 change: -0.0003
+2026-07-29 06:47:11,429 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 12:55:00 change: -0.0006
+2026-07-29 06:47:11,429 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:05:00 change: 0.0013
+2026-07-29 06:47:11,429 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:10:00 change: -0.0002
+2026-07-29 06:47:11,429 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:15:00 change: -0.0003
+2026-07-29 06:47:11,429 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:20:00 change: -0.0002
+2026-07-29 06:47:11,429 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:35:00 change: 0.0003
+2026-07-29 06:47:11,429 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:40:00 change: -0.0005
+2026-07-29 06:47:11,430 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:50:00 change: 0.0004
+2026-07-29 06:47:11,430 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 13:55:00 change: 0.0006
+2026-07-29 06:47:11,430 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:00:00 change: -0.0004
+2026-07-29 06:47:11,430 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:05:00 change: -0.0003
+2026-07-29 06:47:11,430 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:10:00 change: -0.0003
+2026-07-29 06:47:11,430 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:15:00 change: -0.0003
+2026-07-29 06:47:11,430 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:20:00 change: 0.0002
+2026-07-29 06:47:11,430 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:25:00 change: 0.0009
+2026-07-29 06:47:11,431 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:30:00 change: -0.0002
+2026-07-29 06:47:11,431 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:35:00 change: 0.0009
+2026-07-29 06:47:11,431 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:40:00 change: 0.0002
+2026-07-29 06:47:11,431 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:50:00 change: 0.0008
+2026-07-29 06:47:11,432 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 14:55:00 change: -0.0003
+2026-07-29 06:47:11,432 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:00:00 change: -0.0004
+2026-07-29 06:47:11,432 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:05:00 change: -0.0004
+2026-07-29 06:47:11,432 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:10:00 change: -0.0004
+2026-07-29 06:47:11,432 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:20:00 change: -0.0010
+2026-07-29 06:47:11,432 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:30:00 change: -0.0004
+2026-07-29 06:47:11,432 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:35:00 change: -0.0006
+2026-07-29 06:47:11,432 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:40:00 change: 0.0011
+2026-07-29 06:47:11,432 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:50:00 change: 0.0003
+2026-07-29 06:47:11,433 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 15:55:00 change: -0.0005
+2026-07-29 06:47:11,433 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:00:00 change: 0.0002
+2026-07-29 06:47:11,433 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:15:00 change: -0.0002
+2026-07-29 06:47:11,433 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:25:00 change: -0.0008
+2026-07-29 06:47:11,433 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:30:00 change: -0.0007
+2026-07-29 06:47:11,433 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:35:00 change: -0.0007
+2026-07-29 06:47:11,433 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:40:00 change: 0.0006
+2026-07-29 06:47:11,433 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:45:00 change: -0.0006
+2026-07-29 06:47:11,434 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 16:55:00 change: -0.0007
+2026-07-29 06:47:11,434 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:10:00 change: 0.0006
+2026-07-29 06:47:11,434 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:15:00 change: 0.0007
+2026-07-29 06:47:11,434 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:20:00 change: 0.0002
+2026-07-29 06:47:11,434 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:35:00 change: 0.0002
+2026-07-29 06:47:11,434 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:40:00 change: 0.0005
+2026-07-29 06:47:11,434 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:45:00 change: 0.0008
+2026-07-29 06:47:11,434 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:50:00 change: 0.0003
+2026-07-29 06:47:11,434 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 17:55:00 change: 0.0008
+2026-07-29 06:47:11,435 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:00:00 change: 0.0002
+2026-07-29 06:47:11,435 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:05:00 change: 0.0006
+2026-07-29 06:47:11,435 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:10:00 change: -0.0002
+2026-07-29 06:47:11,435 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:20:00 change: 0.0005
+2026-07-29 06:47:11,435 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:30:00 change: -0.0002
+2026-07-29 06:47:11,435 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:35:00 change: 0.0013
+2026-07-29 06:47:11,435 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:45:00 change: 0.0008
+2026-07-29 06:47:11,435 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:50:00 change: -0.0010
+2026-07-29 06:47:11,436 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 18:55:00 change: -0.0005
+2026-07-29 06:47:11,436 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:00:00 change: 0.0003
+2026-07-29 06:47:11,436 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:05:00 change: -0.0004
+2026-07-29 06:47:11,436 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:10:00 change: 0.0002
+2026-07-29 06:47:11,436 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:15:00 change: -0.0003
+2026-07-29 06:47:11,437 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:25:00 change: 0.0003
+2026-07-29 06:47:11,437 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:40:00 change: -0.0012
+2026-07-29 06:47:11,437 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:45:00 change: -0.0004
+2026-07-29 06:47:11,437 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:50:00 change: 0.0005
+2026-07-29 06:47:11,437 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 19:55:00 change: -0.0002
+2026-07-29 06:47:11,437 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:00:00 change: 0.0006
+2026-07-29 06:47:11,437 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:05:00 change: -0.0007
+2026-07-29 06:47:11,437 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:10:00 change: 0.0005
+2026-07-29 06:47:11,438 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:20:00 change: -0.0005
+2026-07-29 06:47:11,438 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:25:00 change: 0.0002
+2026-07-29 06:47:11,438 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:30:00 change: 0.0007
+2026-07-29 06:47:11,438 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:35:00 change: 0.0006
+2026-07-29 06:47:11,438 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:40:00 change: -0.0009
+2026-07-29 06:47:11,438 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 20:50:00 change: 0.0007
+2026-07-29 06:47:11,438 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:00:00 change: -0.0012
+2026-07-29 06:47:11,439 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:05:00 change: 0.0002
+2026-07-29 06:47:11,439 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:10:00 change: 0.0003
+2026-07-29 06:47:11,439 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:20:00 change: 0.0003
+2026-07-29 06:47:11,439 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:25:00 change: -0.0006
+2026-07-29 06:47:11,439 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 21:30:00 change: -0.0003
+2026-07-29 06:47:11,439 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:00:00 change: 0.0005
+2026-07-29 06:47:11,439 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:05:00 change: 0.0008
+2026-07-29 06:47:11,440 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:10:00 change: -0.0002
+2026-07-29 06:47:11,440 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:15:00 change: -0.0003
+2026-07-29 06:47:11,440 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:35:00 change: -0.0006
+2026-07-29 06:47:11,440 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:40:00 change: -0.0005
+2026-07-29 06:47:11,440 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:45:00 change: 0.0001
+2026-07-29 06:47:11,440 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 22:50:00 change: -0.0004
+2026-07-29 06:47:11,441 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:00:00 change: 0.0005
+2026-07-29 06:47:11,441 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:05:00 change: 0.0002
+2026-07-29 06:47:11,441 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:10:00 change: 0.0008
+2026-07-29 06:47:11,442 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:15:00 change: 0.0003
+2026-07-29 06:47:11,442 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:20:00 change: -0.0002
+2026-07-29 06:47:11,442 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:25:00 change: 0.0004
+2026-07-29 06:47:11,442 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:30:00 change: 0.0005
+2026-07-29 06:47:11,442 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:35:00 change: 0.0008
+2026-07-29 06:47:11,443 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:40:00 change: 0.0003
+2026-07-29 06:47:11,443 | WARNING  | [ANOMALY] Price spike detected: UNKNOWN 2026-07-28 23:45:00 change: -0.0004
+2026-07-29 06:47:11,453 | WARNING  | [ANOMALY] Total anomalies detected: UNKNOWN 187
+2026-07-29 06:47:11,453 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 779
+2026-07-29 06:47:11,455 | INFO     | [EURUSD:1.13850][EURGBP:0.85689][GBPUSD-OTC:1.33566][EURGBP-OTC:0.85252] :: TOTAL=$1453.95
