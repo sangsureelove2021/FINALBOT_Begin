@@ -50,3 +50,25 @@ AI ถูกโปรแกรมให้วิเคราะห์ตลา�
 - **Dynamic Expiry:** เวลาหมดอายุของออเดอร์ (Expiry) **"จะไม่ถูกฟิกตายตัว"**
 - **AI Decision:** AI (DeepSeek) มีอิสระและอำนาจเต็มที่ในการคำนวณและเลือกเวลาหมดอายุเอง **ตั้งแต่ 1 นาที ถึง 5 นาที**
 - **Logic:** AI จะพิจารณาจาก โครงสร้างราคาปัจจุบัน (Market Structure) และความผันผวน (Volatility) หากจังหวะนั้นต้องรีบหนีทำกำไร AI อาจเลือกตีหัวเข้าบ้านที่ M1-M3 แต่หากกราฟต้องการพื้นที่สวิง AI จะกำหนดเวลาเผื่อให้เป็น M5
+
+---
+
+## 🛡️ Exception Handling & Fail-Fast Standards (Data Feed System)
+
+ระบบ Data Feed ของ FINALBOT ถูกออกแบบตามเกณฑ์ **Strict Zero Fallback & Fail-Fast Policy** เพื่อป้องกันปัญหาข้อมูลปนเปื้อน ข้อมูลดีเลย์ หรือสภาวะ Silent Failure ที่ทำให้ AI วิเคราะห์จากข้อมูลที่ไม่ถูกต้อง:
+
+1. **Strict No Fallback Policy ( Zero Retries / No Dummy Value)**:
+   - **ห้ามมี Default Value Fallback**: เช่น ห้ามตั้งค่า `time_offset = 0.0` หรือคืนค่าคู่เงินสำรอง หากยิงขอข้อมูลหรือเวลาไม่สำเร็จ
+   - **ห้าม Swallow Exception**: ห้ามใช้ `try-except` ดักจับข้อผิดพลาดแล้วสั่ง `pass` หรือ print ข้อความลอยๆ โดยไม่ระเบิด Exception
+2. **Centralized Stack Trace Logging**:
+   - เมื่อเกิด Exception ในชั้น Data Feed หรือ Runner ระบบจะใช้ `logger.exception(...)` บันทึก Full Exception Stack Trace ลงในไฟล์ Log ระบบ:
+     `all_filelogs/system_logs/bot_YYYYMMDD_HHMMSS.log`
+   - การบันทึก Stack Trace จะถูก flush ลงไฟล์ก่อนที่ระบบจะสั่งระเบิด `RuntimeError` หรือ `ValueError` สั่งหยุดการทำงานของบอททันทีแบบ Fail-Fast
+3. **สรุปจุดตรวจเช็ก Fail-Fast ใน live code**:
+   - **Symbol Loading**: `config_loader.get_symbols()` ระเบิด `ValueError` หากไม่มี `symbols`
+   - **News Auto-Update**: `TimeCalendarManager.ensure_calendar_news()` ระเบิด `RuntimeError` หากรัน `calendar_news.py` ล้มเหลว
+   - **Server Time Sync**: `TimeCalendarManager.sync_server_time()` ระเบิด `RuntimeError` หากดึง timestamp จากโบรกเกอร์ล้มเหลว
+   - **Queue Overflow**: `csv_queue.py` ระเบิด `RuntimeError` หากงานเขียน CSV ค้างเกิน 1,000 รายการ
+   - **Data Validation**: `candle_validator.py` ระเบิด `ValueError` หากพบค่า NaN, แท่งเทียนขาดคอลัมน์ หรือ Volume = 0 สำหรับ Non-OTC
+   - **CSV Disk Reading**: `runner.py._get_latest_price_from_csv()` ระเบิด `RuntimeError` หากอ่านไฟล์ CSV จากดิสก์ไม่สำเร็จ
+

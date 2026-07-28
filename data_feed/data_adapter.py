@@ -309,6 +309,7 @@ class DataAdapter(IDataSource):
             self._anomaly_fail_count += 1
             if self._anomaly_fail_count > 5:
                 logger.warning(f"[DataAdapter] M5 anomaly detection has failed {self._anomaly_fail_count} times")
+            raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
 
         # Write CSV only when the 5-min block changes or initial store is loaded
         if block_changed:
@@ -361,6 +362,7 @@ class DataAdapter(IDataSource):
             self._anomaly_fail_count += 1
             if self._anomaly_fail_count > 5:
                 logger.warning(f"[DataAdapter] M15 anomaly detection has failed {self._anomaly_fail_count} times")
+            raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
 
         # Write CSV only when the 15-min block changes or initial store is loaded
         if block_changed:

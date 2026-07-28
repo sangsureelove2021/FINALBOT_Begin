@@ -56,7 +56,7 @@ _store_m15 = {symbol: DataFrame}  # แท่ง 15 นาที (50 แท่�
 
 ## 🛡️ กลไก Fail-Fast (Strict Zero Fallback)
 
-ระบบ FINALBOT บังคับใช้เกณฑ์ **Fail-Fast** อย่างเคร่งครัดในทุกจุด หากเกิดเงื่อนไขที่ผิดปกติจะหยุดการทำงานทันทีโดยไม่มี Silent Fallback:
+ระบบ FINALBOT บังคับใช้เกณฑ์ **Fail-Fast** อย่างเคร่งครัดในทุกจุด หากเกิดเงื่อนไขที่ผิดปกติจะหยุดการทำงานทันทีโดยไม่มี Silent Fallback หรือ Retry ซ้ำแบบสุ่มเสี่ยง:
 
 ### 1. `config_loader.get_symbols()`
 หากไม่มีคีย์ `symbols` หรือคีย์เป็นค่าว่างใน `settings.json` ระบบจะระเบิด `ValueError` สั่งหยุดบอททันที (ไม่มี Default Symbol Fallback):
@@ -69,21 +69,34 @@ def get_symbols() -> list[str]:
     return list(symbols)
 ```
 
-### 2. `runner.py` Server Time Sync
-หากการยิงขอเวลาเซิร์ฟเวอร์โบรกเกอร์ล้มเหลว ระบบจะระเบิด `RuntimeError` สั่งหยุดบอททันที (ไม่มี Fallback `time_offset = 0.0`):
+### 2. `TimeCalendarManager.ensure_calendar_news()` (News Auto-Update Startup)
+หากการตรวจสอบหรือการดาวน์โหลดตารางข่าวเศรษฐกิจประจำวันด้วย `calendar_news.py` เกิดความผิดพลาด ระบบจะบันทึก Full Stack Trace และระเบิด `RuntimeError` หยุดการรันบอททันที:
 ```python
-# runner.py
+# data_feed/time_calendar_manager.py
 try:
-    server_time = self.data_adapter.api.get_server_timestamp()
-    local_time = int(time.time())
-    self.time_offset = server_time - local_time
-    logger.info(f"Server time offset: {self.time_offset} seconds")
+    ...
+    subprocess.run([sys.executable, script_path], check=True, timeout=60)
 except Exception as e:
-    logger.exception("Failed to get server time offset")
-    raise RuntimeError("FAIL-FAST: Failed to get server time offset from broker")
+    logger.exception("Failed to check or run calendar_news.py at startup")
+    raise RuntimeError(f"FAIL-FAST: Failed to execute calendar_news.py: {e}") from e
 ```
 
-### 3. `csv_queue.py` Queue Overflow Check
+### 3. `TimeCalendarManager.sync_server_time()` (Server Time Sync)
+หากการยิงขอเวลาเซิร์ฟเวอร์โบรกเกอร์ล้มเหลว หรือ `api` เป็น None ระบบจะบันทึก Exception และระเบิด `RuntimeError` สั่งหยุดบอททันที (ไม่มี Fallback `time_offset = 0.0`):
+```python
+# data_feed/time_calendar_manager.py
+try:
+    server_time = self.data_adapter.api.get_server_timestamp()
+    if server_time is None:
+        raise ValueError("get_server_timestamp returned None")
+    local_time = int(time.time())
+    self.time_offset = server_time - local_time
+except Exception as e:
+    logger.exception("Failed to get server time offset")
+    raise RuntimeError("FAIL-FAST: Failed to get server time offset from broker") from e
+```
+
+### 4. `csv_queue.py` Queue Overflow Check
 หากคิวงานเขียน CSV สะสมเกิน `max_queue_size` (1,000 รายการ) ระบบจะระเบิด `RuntimeError` สั่งหยุดการทำงานทันที (ไม่มี Silent Drop Write):
 ```python
 # data_feed/csv_queue.py
@@ -94,6 +107,39 @@ def enqueue_write(self, df: pd.DataFrame, file_path: str) -> None:
         
         self._queue.put((df.copy(), file_path))
 ```
+
+### 5. `candle_validator.py` & `anomaly_detector.py` Data Quality Check
+หากพบแท่งเทียนขาดคอลัมน์สำคัญ, มีค่า NaN ในราคา, ปริมาณ Volume = 0 สำหรับคู่อัตราแลกเปลี่ยนปกติ (Non-OTC), หรือราคาหลุดกรอบปกติ/กระโดดผิดปกติ ระบบจะระเบิด `ValueError` สั่งหยุดการประมวลผลแท่งเทียนทันที:
+```python
+# data_feed/candle_validator.py
+if missing_cols:
+    raise ValueError(f"Missing required columns: {missing_cols}")
+if df[["open", "close", "high", "low"]].isnull().any().any():
+    raise ValueError(f"NaN values found in prices")
+```
+
+### 6. `runner.py` CSV Read Fail-Fast
+หากการอ่านไฟล์ CSV ของคู่เงินใดในดิสก์ล้มเหลว ระบบจะบันทึก Exception และระเบิด `RuntimeError` หยุดทันที:
+```python
+# runner.py
+except Exception as e:
+    logger.exception(f"Failed to read latest price from CSV for {symbol}")
+    raise RuntimeError(f"FAIL-FAST: Failed to read latest price from CSV for {symbol}") from e
+```
+
+---
+
+## 📋 กลไก Centralized System Logging & Full Stack Trace Recording
+
+ระบบ Data Feed และ Runner ทั้งหมดถูกเชื่อมต่อผ่าน `setup_logging()` จาก `monitoring/console_dashboard.py` โดยมีกลไกเฝ้าระวังความล้มเหลวดังนี้:
+
+1. **ตำแหน่งจัดเก็บไฟล์ Log**:
+   ระบบจะบันทึก Log ลงดิสก์อัตโนมัติตามรูปแบบชื่อไฟล์:
+   `all_filelogs/system_logs/bot_YYYYMMDD_HHMMSS.log` (รูปแบบเวลา UTC / Local)
+2. **การบันทึก Full Stack Trace 100% (No Error Hiding)**:
+   เมื่อเกิดความผิดพลาดใดๆ ในชั้น Data Feed หรือ Runner ระบบจะใช้ `logger.exception(...)` หรือ `traceback.print_exc()` เสมอ ซึ่งจะทำการ Write ข้อมูลรายละเอียดของ Error และ Stack Trace บรรทัดต่อบรรทัดลงในไฟล์ `bot_YYYYMMDD_HHMMSS.log` ก่อนระเบิด Exception เพื่อสั่งหยุดบอท (Fail-Fast)
+3. **การทำงานร่วมกับ Thread Safety**:
+   `console_dashboard.py` มีการใช้ `SafeStreamWrapper` และ `_PRINT_LOCK` เพื่อป้องกันความล้มเหลวจากการเขียนข้อความออกหน้าจอ คอนโซล และรับประกันว่าทุก Log Message และ Error Exception จะถูก flush ลงไฟล์ `bot_YYYYMMDD_HHMMSS.log` อย่างสมบูรณ์แบบเสมอ
 
 ---
 

@@ -1,0 +1,7 @@
+2026-07-29 06:04:13,804 | INFO     | [NEWS] Calendar file for today (2026-07-29) not found. Running calendar_news.py...
+2026-07-29 06:04:13,805 | WARNING  | [NEWS] calendar_news.py script not found at E:\BOT_FINALBOT\FINALBOT_Begin\calendar_news.py
+2026-07-29 06:04:13,805 | ERROR    | Failed to check or run calendar_news.py at startup
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\time_calendar_manager.py", line 49, in ensure_calendar_news
+    raise FileNotFoundError(f"script not found at {script_path}")
+FileNotFoundError: script not found at E:\BOT_FINALBOT\FINALBOT_Begin\calendar_news.py

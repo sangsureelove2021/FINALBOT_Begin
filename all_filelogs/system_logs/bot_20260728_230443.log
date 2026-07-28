@@ -1,0 +1,8 @@
+2026-07-29 06:04:43,618 | INFO     | [NEWS] Calendar file for today (2026-07-29) not found. Running calendar_news.py...
+2026-07-29 06:04:46,668 | ERROR    | Failed to check or run calendar_news.py at startup
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\time_calendar_manager.py", line 44, in ensure_calendar_news
+    subprocess.run([sys.executable, script_path], check=True, timeout=60)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['C:\\Users\\BUSOLOVE\\AppData\\Local\\Programs\\Python\\Python312\\python.exe', 'E:\\BOT_FINALBOT\\FINALBOT_Begin\\calendar_news.py']' returned non-zero exit status 1.

@@ -60,7 +60,7 @@ class PureAIRunner:
         except Exception as e:
             logger.error(f"Failed to initialize runner: {e}")
             import traceback; traceback.print_exc()
-            balance = 0.0
+            raise RuntimeError("FAIL-FAST: Failed to get balance from broker API") from e
             
         ConsoleUI.show_account_info(self.account_type, balance)
 
@@ -160,7 +160,8 @@ class PureAIRunner:
                     return float(df['close'].iloc[-1])
         except Exception as e:
             logger.exception(f"Failed to read latest price from CSV for {symbol}")
-        return 0.0
+            raise RuntimeError(f"FAIL-FAST: Failed to read latest price from CSV for {symbol}") from e
+        raise RuntimeError(f"FAIL-FAST: Failed to read latest price from CSV for {symbol}")
 
     def _check_warmup_data(self, symbol: str) -> bool:
         """
@@ -197,7 +198,7 @@ class PureAIRunner:
             balance = self.data_adapter.api.get_balance()
         except Exception as e:
             logger.exception("Failed to get balance in run_cycle")
-            balance = None
+            raise RuntimeError("FAIL-FAST: Failed to update balance during cycle") from e
             
         # Run all symbols concurrently for data fetching and CSV writing
         if not self.symbols:
@@ -262,7 +263,7 @@ class PureAIRunner:
                 break
             except Exception as e:
                 logger.exception("Error in main loop")
-                time.sleep(5)
+                raise RuntimeError(f"FAIL-FAST: Error in runner execution loop: {e}") from e
 
 if __name__ == "__main__":
     runner = PureAIRunner()

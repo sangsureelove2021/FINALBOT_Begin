@@ -41,16 +41,18 @@ class TimeCalendarManager:
                 logger.info(f"[NEWS] Calendar file for today ({today_str}) not found. Running calendar_news.py...")
                 script_path = os.path.join(base_dir, "calendar_news.py")
                 if os.path.exists(script_path):
-                    subprocess.run([sys.executable, script_path], check=False, timeout=60)
+                    subprocess.run([sys.executable, script_path], check=True, timeout=60)
                     logger.info("[NEWS] calendar_news.py executed successfully.")
                     ConsoleUI.show_news_status(f"ดาวน์โหลดปฏิทินข่าวประจำวัน ({today_str}) : สำเร็จเรียบร้อย")
                 else:
                     logger.warning(f"[NEWS] calendar_news.py script not found at {script_path}")
+                    raise FileNotFoundError(f"script not found at {script_path}")
             else:
                 logger.info(f"[NEWS] Calendar file for today ({today_str}) already exists.")
                 ConsoleUI.show_news_status(f"ตรวจสอบปฏิทินข่าวประจำวัน ({today_str}) : มีไฟล์แล้วพร้อมใช้งาน")
         except Exception as e:
             logger.exception("Failed to check or run calendar_news.py at startup")
+            raise RuntimeError(f"FAIL-FAST: Failed to execute calendar_news.py: {e}") from e
 
     def sync_server_time(self, data_adapter=None):
         """

@@ -82,3 +82,4 @@ class CSVQueue:
                     logger.error(f"[CSVQueue] Error details: {type(e).__name__}: {e}")
                     logger.error(f"[CSVQueue] Total errors: {self._error_count}")
                 self._queue.task_done()
+                raise RuntimeError(f"FAIL-FAST: CSVQueue worker write error: {e}")
