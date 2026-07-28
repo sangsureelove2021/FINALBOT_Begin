@@ -147,35 +147,77 @@ class PriceActionHandler(BaseEngine):
             raise
             
     def _fractal_support_resistance(self, df: pd.DataFrame) -> Dict[str, float]:
-        """Finds Proper Fractal Highs and Lows (2 lower highs before/after)"""
+        """
+        Finds Fractal Highs and Lows (5-bar or 3-bar fractals) or price extremes
+        strictly above/below current close price for support and resistance.
+        Handles strong trends and New High/Low scenarios flexibly.
+        """
         try:
-            if len(df) < 5:
-                raise ValueError("FAIL-FAST: Insufficient M5 candles for fractal S&R calculation (minimum 5 required)")
+            if df is None or len(df) < 5:
+                raise ValueError("FAIL-FAST: Insufficient candles for fractal S&R calculation (minimum 5 required)")
                 
             highs = df['high'].values
             lows = df['low'].values
             close_price = float(df['close'].iloc[-1])
             
-            resistances = []
-            supports = []
-            
-            # Scan backwards from most recent completed candles
+            # Step 1: Scan for 5-bar fractals
+            res_5bar = []
+            sup_5bar = []
             for i in range(len(df) - 3, 1, -1):
                 if highs[i] > highs[i-1] and highs[i] > highs[i-2] and highs[i] > highs[i+1] and highs[i] > highs[i+2]:
-                    resistances.append(float(highs[i]))
+                    res_5bar.append(float(highs[i]))
                 if lows[i] < lows[i-1] and lows[i] < lows[i-2] and lows[i] < lows[i+1] and lows[i] < lows[i+2]:
-                    supports.append(float(lows[i]))
+                    sup_5bar.append(float(lows[i]))
                     
-            # Pick most recent fractal resistance strictly above current close
-            valid_res = [r for r in resistances if r > close_price]
-            resistance_val = valid_res[0] if valid_res else None
+            valid_res = [r for r in res_5bar if r > close_price]
+            valid_sup = [s for s in sup_5bar if s < close_price]
+            
+            # Step 2: Fallback to 3-bar fractals if no valid level found strictly above/below close
+            if not valid_res or not valid_sup:
+                res_3bar = []
+                sup_3bar = []
+                for i in range(len(df) - 2, 0, -1):
+                    if highs[i] > highs[i-1] and highs[i] > highs[i+1]:
+                        res_3bar.append(float(highs[i]))
+                    if lows[i] < lows[i-1] and lows[i] < lows[i+1]:
+                        sup_3bar.append(float(lows[i]))
+                if not valid_res:
+                    valid_res = [r for r in res_3bar if r > close_price]
+                if not valid_sup:
+                    valid_sup = [s for s in sup_3bar if s < close_price]
 
-            # Pick most recent fractal support strictly below current close
-            valid_sup = [s for s in supports if s < close_price]
-            support_val = valid_sup[0] if valid_sup else None
+            # Step 3: Fallback to dataset Max/Min or dynamic ATR projection for New High / New Low / Strong Trend
+            if not valid_res:
+                higher_highs = [float(h) for h in highs if h > close_price]
+                if higher_highs:
+                    valid_res = [max(higher_highs)]
+                else:
+                    # Price making New High / ATH: project resistance using ATR offset
+                    atr = float((df['high'] - df['low']).tail(14).mean())
+                    atr_offset = max(atr, close_price * 0.002) if not pd.isna(atr) and atr > 0 else close_price * 0.002
+                    valid_res = [close_price + atr_offset]
 
-            if resistance_val is None or support_val is None or resistance_val <= 0 or support_val <= 0 or resistance_val <= close_price or support_val >= close_price:
-                raise ValueError("FAIL-FAST: Cannot find valid fractal support/resistance from M5 candles")
+            if not valid_sup:
+                lower_lows = [float(l) for l in lows if l < close_price]
+                if lower_lows:
+                    valid_sup = [min(lower_lows)]
+                else:
+                    # Price making New Low / ATL: project support using ATR offset
+                    atr = float((df['high'] - df['low']).tail(14).mean())
+                    atr_offset = max(atr, close_price * 0.002) if not pd.isna(atr) and atr > 0 else close_price * 0.002
+                    valid_sup = [max(0.0001, close_price - atr_offset)]
+
+            resistance_val = float(valid_res[0])
+            support_val = float(valid_sup[0])
+
+            # Final validation & auto-adjustment if price boundary anomalies occur
+            if resistance_val <= close_price or support_val >= close_price or support_val <= 0:
+                atr = float((df['high'] - df['low']).tail(14).mean())
+                atr_offset = max(atr, close_price * 0.002) if not pd.isna(atr) and atr > 0 else close_price * 0.002
+                if resistance_val <= close_price:
+                    resistance_val = close_price + atr_offset
+                if support_val >= close_price or support_val <= 0:
+                    support_val = max(0.0001, close_price - atr_offset)
 
             return {
                 'support': float(support_val),

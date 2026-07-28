@@ -11,6 +11,7 @@ import pandas as pd
 import numpy as np
 import threading
 import copy
+from datetime import datetime, timezone
 from typing import Dict, Any, Optional, List, Tuple
 import logging
 
@@ -189,13 +190,17 @@ class IndicatorStore:
         # ------------------------------------------------------------
         m15 = {}
         import time
+        from datetime import timezone
         if df_m15 is not None and not df_m15.empty:
             try:
                 last_ts_m15 = df_m15.index[-1]
-                if hasattr(last_ts_m15, 'timestamp'):
-                    m15_age_ms = int((time.time() - last_ts_m15.timestamp()) * 1000)
+                if hasattr(last_ts_m15, 'tz_localize') and getattr(last_ts_m15, 'tz', None) is None:
+                    last_ts_m15_utc = last_ts_m15.tz_localize(timezone.utc)
+                elif hasattr(last_ts_m15, 'tz_convert') and getattr(last_ts_m15, 'tz', None) is not None:
+                    last_ts_m15_utc = last_ts_m15.tz_convert(timezone.utc)
                 else:
-                    m15_age_ms = 0
+                    last_ts_m15_utc = pd.to_datetime(last_ts_m15, utc=True)
+                m15_age_ms = int((time.time() - last_ts_m15_utc.timestamp()) * 1000)
             except Exception as e:
                 import traceback
                 traceback.print_exc()
@@ -217,43 +222,43 @@ class IndicatorStore:
         # ------------------------------------------------------------
         # 3. Metadata & Price
         # ------------------------------------------------------------
-        import time
-        from datetime import datetime, timezone
-
         now_ms = time.time() * 1000
         last_m1_candle = df_m1.iloc[-1]
         last_m5_candle = df_m5.iloc[-1]
 
-        if hasattr(last_m1_candle.name, 'timestamp'):
-            last_ts_m1_ms = last_m1_candle.name.timestamp() * 1000
-        else:
-            try:
-                last_ts_m1_ms = pd.to_datetime(last_m1_candle.name).timestamp() * 1000
-            except Exception as e:
-                import traceback
-                traceback.print_exc()
-                logger.warning(f"Error parsing last M1 candle timestamp: {e}")
-                last_ts_m1_ms = now_ms
+        def _get_utc_timestamp_ms(idx_val) -> float:
+            if hasattr(idx_val, 'tz_localize') and getattr(idx_val, 'tz', None) is None:
+                ts = idx_val.tz_localize(timezone.utc)
+            elif hasattr(idx_val, 'tz_convert') and getattr(idx_val, 'tz', None) is not None:
+                ts = idx_val.tz_convert(timezone.utc)
+            else:
+                ts = pd.to_datetime(idx_val, utc=True)
+            return ts.timestamp() * 1000
 
-        if hasattr(last_m5_candle.name, 'timestamp'):
-            last_ts_m5_ms = last_m5_candle.name.timestamp() * 1000
-        else:
-            try:
-                last_ts_m5_ms = pd.to_datetime(last_m5_candle.name).timestamp() * 1000
-            except Exception as e:
-                import traceback
-                traceback.print_exc()
-                logger.warning(f"Error parsing last M5 candle timestamp: {e}")
-                last_ts_m5_ms = now_ms
+        try:
+            last_ts_m1_ms = _get_utc_timestamp_ms(last_m1_candle.name)
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            logger.warning(f"Error parsing last M1 candle timestamp: {e}")
+            last_ts_m1_ms = now_ms
+
+        try:
+            last_ts_m5_ms = _get_utc_timestamp_ms(last_m5_candle.name)
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            logger.warning(f"Error parsing last M5 candle timestamp: {e}")
+            last_ts_m5_ms = now_ms
 
         # Calculate age in milliseconds
         now_ms = time.time() * 1000
         m1_age_ms = max(0, int(now_ms - last_ts_m1_ms))
         m5_age_ms = max(0, int(now_ms - last_ts_m5_ms))
 
-        # Calculate quality based on age (10 seconds = STALE, <10s = FRESH)
-        m1_quality = 'STALE' if m1_age_ms > 10000 else 'FRESH'
-        m5_quality = 'STALE' if m5_age_ms > 10000 else 'FRESH'
+        # Calculate quality based on age (M1 stale > 120,000 ms, M5 stale > 600,000 ms)
+        m1_quality = 'STALE' if m1_age_ms > 120000 else 'FRESH'
+        m5_quality = 'STALE' if m5_age_ms > 600000 else 'FRESH'
 
         utc_hour = datetime.now(timezone.utc).hour
         if 0 <= utc_hour < 8:

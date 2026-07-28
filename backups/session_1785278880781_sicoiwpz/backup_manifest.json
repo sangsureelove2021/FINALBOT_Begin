@@ -1,0 +1,12 @@
+[
+  {
+    "timestamp": 1785278894177,
+    "type": "user_prompt",
+    "operation": "backup_user_prompt",
+    "sessionId": "session_1785278880781_sicoiwpz",
+    "taskContent": "คุณคือ ds (DeepSeek Browser Agent) รับภารกิจตรวจสอบเชิงลึกเฉพาะส่วนงานที่ 1 (Data Feed System) ของโปรเจกต์ E:\\BOT_FINALBOT\\FINALBOT_Begin ตามคำสั่งเด็ดขาดของบอส!  กฎเหล็กและบริบทระบบที่ต้องปฏิบัติตาม 100%: 1. ห้ามมีระบบสำรอง (Strict No Fallback Policy): หากมี Error ให้ระเบิด Fail-Fast ทันที 2. ขอบเขตส่วนงานที่ 1 (Decoupled Architecture): จบภารกิจที่การบันทึกไฟล์ .csv 8 คอลัมน์ลงดิสก์ใน data_base/csv/iq_option/[symbol]/ เท่านั้น 3. ห้ามส่งข้อมูลทาง RAM ข้ามส่วนงาน (Zero RAM Data Leakage 0%): data_adapter.update() ต้องคืนค่าเฉพาะตัวแปรสตริง symbol เท่านั้น 4. มาตรฐาน CSV 8 คอลัมน์: timestamp, open, high, low, close, volume, age, quality (age คิดเป็นมิลลิวินาทีจากเวลาปิดแท่งจริง, quality เป็น FRESH/STALE) 5. ตลาด OTC Volume ยอมรับเป็น 0 ได้ / ตลาดปกติ Volume ต้อง > 0 6. 11 ไฟล์ใน data_feed/: data_adapter.py, iq_option_adapter.py, time_calendar_manager.py, csv_writer.py, csv_queue.py, csv_manager.py, candle_validator.py, data_monitor.py, anomaly_detector.py, data_source.py, timeframe_sync.py ร่วมกับ runner.py  ภารกิจ Audit (ตรวจอย่างเดียว ห้ามแก้ไขโค้ด): ตรวจสอบไฟล์ใน data_feed/ ทั้ง 11 ไฟล์ และ runner.py สรุปรายงานผลการตรวจสอบความสมบูรณ์และข้อบกพร่อง (ถ้ามี) ส่งกลับมาเป็นข้อความ",
+    "taskLength": 1194,
+    "createdAt": "2026-07-28T22:48:00.783Z",
+    "updatedAt": "2026-07-28T22:48:14.177Z"
+  }
+]

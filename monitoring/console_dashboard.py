@@ -80,11 +80,23 @@ def setup_logging():
 def thai_console_log(msg: str):
     tz_thailand = timezone(timedelta(hours=7))
     thai_time_str = datetime.now(tz_thailand).strftime('%H:%M:%S')
-    with _PRINT_LOCK:
-        print(f"{thai_time_str} - {msg}")
-        sys.stdout.flush()
-    # Also log to file to avoid silent failures
-    logging.getLogger("FINALBOT").info(msg)
+    try:
+        with _PRINT_LOCK:
+            print(f"{thai_time_str} - {msg}")
+            # Only flush if it doesn't cause error
+            try:
+                sys.stdout.flush()
+            except (OSError, IOError):
+                pass  # Ignore flush errors
+        # Also log to file to avoid silent failures
+        logging.getLogger("FINALBOT").info(msg)
+    except Exception as e:
+        # Ultimate fallback - write to file only
+        try:
+            logging.getLogger("FINALBOT").error(f"Console output error: {e}")
+            logging.getLogger("FINALBOT").info(msg)
+        except:
+            pass  # Silent fallback
 
 logger = logging.getLogger("FINALBOT")
 
@@ -204,10 +216,19 @@ class ConsoleUI:
 
     @staticmethod
     def show_prices_and_balance(prices_dict, balance):
-        price_parts = [f"{sym}:{price:.5f}" for sym, price in prices_dict.items()]
-        price_str = "][".join(price_parts)
-        balance_str = f"${balance:.2f}" if balance is not None else "N/A"
-        thai_console_log(f"[{price_str}] :: TOTAL={balance_str}")
+        try:
+            price_parts = [f"{sym}:{price:.5f}" for sym, price in prices_dict.items()]
+            price_str = "][".join(price_parts)
+            balance_str = f"${balance:.2f}" if balance is not None else "N/A"
+            thai_console_log(f"[{price_str}] :: TOTAL={balance_str}")
+        except Exception as e:
+            # Log error to file and continue with basic output
+            logging.getLogger("FINALBOT").error(f"Error in show_prices_and_balance: {e}")
+            # Fallback to simple output
+            try:
+                print(f"PRICE UPDATE: Balance=${balance:.2f}")
+            except:
+                pass  # Silent fallback
 
     @staticmethod
     def show_stopping():

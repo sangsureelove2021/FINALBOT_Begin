@@ -1,0 +1,1478 @@
+2026-07-28 20:23:39,629 | INFO     | [NEWS] Calendar file for today (2026-07-28) already exists.
+2026-07-28 20:23:40,194 | INFO     | [ANOMALY] Initialized with thresholds: {'spike_threshold': 0.3, 'zero_volume_threshold': 0, 'impossible_candle_threshold': 0.001, 'spike_window': 20, 'max_consecutive_zero_volume': 3, 'max_consecutive_anomalies': 10}, dir: E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\all_filelogs\anomaly_logs
+2026-07-28 20:23:40,195 | INFO     | MarketStateClassifier initialised
+2026-07-28 20:23:40,245 | INFO     | กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+2026-07-28 20:23:40,245 | INFO     | [IQOPTION] Initialized with Zero Tolerance compliance
+2026-07-28 20:23:40,355 | INFO     | Using stable_api.IQ_Option class
+2026-07-28 20:23:40,355 | INFO     | [CONN] Connecting to IQ Option (DEMO) as venuz20152565@gmail.com...
+2026-07-28 20:23:40,355 | INFO     | [CONN] API created, attempting to connect...
+2026-07-28 20:23:42,474 | INFO     | [CONN] IQ Option connected (REAL MONEY)
+2026-07-28 20:23:42,491 | INFO     | เชื่อมต่อ IQ Option สำเร็จ
+2026-07-28 20:23:42,492 | INFO     | [CSVManager] Initialized with base_dir: data_base/csv/iq_option
+2026-07-28 20:23:42,492 | INFO     | [CSVWriter] Initialized with encoding: utf-8, decimals: 6
+2026-07-28 20:23:42,492 | INFO     | [CSVQueue] Initialized with 1 worker(s)
+2026-07-28 20:23:42,492 | INFO     | [DataMonitor] Initialized with log level: WARNING
+2026-07-28 20:23:42,493 | INFO     | [DataAdapter] Initialized with Zero Tolerance compliance
+2026-07-28 20:23:42,494 | INFO     | [ANOMALY] Initialized with thresholds: {'spike_threshold': 0.3, 'zero_volume_threshold': 0, 'impossible_candle_threshold': 0.001, 'spike_window': 20, 'max_consecutive_zero_volume': 3, 'max_consecutive_anomalies': 10}, dir: E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs
+2026-07-28 20:23:42,494 | INFO     | [CandleValidator] Initialized with validation configuration
+2026-07-28 20:23:42,494 | INFO     | [DataAdapter] Initialized with configuration
+2026-07-28 20:23:42,913 | INFO     | บัญชี DEMO | Balance: $1453.95
+2026-07-28 20:23:42,913 | INFO     | [TIME SYNC] Server time offset: -1.2999999523162842 seconds
+2026-07-28 20:23:42,914 | INFO     | [TIME SYNC] Started time sync daemon thread (scheduled at :30 of every minute)
+2026-07-28 20:23:42,918 | INFO     | ตรวจพบรายการสินทรัพย์ : EURUSD, EURGBP, GBPUSD-OTC, EURGBP-OTC
+2026-07-28 20:23:42,923 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์ 4 รายการ : EURUSD, EURGBP, GBPUSD-OTC, EURGBP-OTC
+2026-07-28 20:23:43,211 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 100 candles
+2026-07-28 20:23:43,653 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 250 candles
+2026-07-28 20:23:43,939 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 50 candles
+2026-07-28 20:23:43,960 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-28 20:23:43,960 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 20:23:43,960 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 20:23:43,960 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv - Queue size: 0
+2026-07-28 20:23:43,963 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv - Queue size: 1
+2026-07-28 20:23:43,963 | INFO     | [DataAdapter] EURUSD initialised — M1:100 M5:250 M15:50
+2026-07-28 20:23:44,242 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 100 candles
+2026-07-28 20:23:44,554 | INFO     | [CSVWriter] Successfully wrote 326 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 20:23:44,579 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 20:23:44,579 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 250 candles
+2026-07-28 20:23:44,580 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 20:23:44,617 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 20:23:44,853 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 50 candles
+2026-07-28 20:23:44,879 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 1
+2026-07-28 20:23:44,883 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv - Queue size: 2
+2026-07-28 20:23:44,884 | INFO     | [CSVWriter] Successfully wrote 335 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 20:23:44,884 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 20:23:44,884 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv - Queue size: 3
+2026-07-28 20:23:44,884 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 20:23:44,885 | INFO     | [DataAdapter] EURGBP initialised — M1:100 M5:250 M15:50
+2026-07-28 20:23:44,885 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 20:23:45,167 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 100 candles
+2026-07-28 20:23:45,194 | INFO     | [CSVWriter] Successfully wrote 78 rows to data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 20:23:45,210 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 20:23:45,225 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 20:23:45,288 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 20:23:45,452 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 250 candles
+2026-07-28 20:23:45,633 | INFO     | [CSVWriter] Successfully wrote 326 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 20:23:45,648 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 20:23:45,664 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 20:23:45,698 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 20:23:45,700 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 50 candles
+2026-07-28 20:23:45,715 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 1
+2026-07-28 20:23:45,716 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 2
+2026-07-28 20:23:45,718 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 3
+2026-07-28 20:23:45,719 | INFO     | [DataAdapter] GBPUSD-OTC initialised — M1:100 M5:250 M15:50
+2026-07-28 20:23:45,855 | INFO     | [CSVWriter] Successfully wrote 335 rows to data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 20:23:45,871 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 20:23:45,887 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-28 20:23:45,909 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-28 20:23:46,000 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 100 candles
+2026-07-28 20:23:46,108 | INFO     | [CSVWriter] Successfully wrote 78 rows to data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-28 20:23:46,124 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-28 20:23:46,140 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 20:23:46,220 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 20:23:46,294 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 250 candles
+2026-07-28 20:23:46,538 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 50 candles
+2026-07-28 20:23:46,557 | INFO     | [CSVWriter] Successfully wrote 202 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 20:23:46,557 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 20:23:46,558 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 20:23:46,558 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 1
+2026-07-28 20:23:46,558 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 20:23:46,562 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 2
+2026-07-28 20:23:46,562 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 3
+2026-07-28 20:23:46,563 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:100 M5:250 M15:50
+2026-07-28 20:23:46,568 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-07-28 20:23:46,869 | INFO     | [CSVWriter] Successfully wrote 335 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 20:23:46,869 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 20:23:46,870 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 20:23:46,870 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 20:23:46,890 | INFO     | [CSVWriter] Successfully wrote 78 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 20:23:46,891 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 20:23:46,891 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 20:23:46,891 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 20:23:46,916 | INFO     | [CSVWriter] Successfully wrote 326 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 20:23:46,916 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 20:23:46,917 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 20:23:46,917 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 20:23:46,938 | INFO     | [CSVWriter] Successfully wrote 335 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 20:23:46,938 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 20:23:46,938 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 20:23:46,938 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 20:23:46,956 | INFO     | [CSVWriter] Successfully wrote 78 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 20:23:46,956 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 20:23:46,957 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 20:23:47,869 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=100)
+2026-07-28 20:23:49,141 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=250)
+2026-07-28 20:23:50,416 | INFO     | [WS] Subscribed live candles stream for EURGBP (M1, count=100)
+2026-07-28 20:23:52,716 | INFO     | [WS] Subscribed live candles stream for EURGBP (M5, count=250)
+2026-07-28 20:23:53,996 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M1, count=100)
+2026-07-28 20:23:55,321 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M5, count=250)
+2026-07-28 20:23:56,563 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=100)
+2026-07-28 20:23:57,847 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=250)
+2026-07-28 20:23:57,857 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 4 วินาที  (เริ่ม 20:24:01)
+2026-07-28 20:24:02,129 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-28 20:24:02,129 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-28 20:24:02,129 | INFO     | [DataAdapter] Starting update for EURGBP
+2026-07-28 20:24:02,130 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-28 20:24:02,130 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP
+2026-07-28 20:24:02,130 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-28 20:24:02,130 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-28 20:24:02,131 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-28 20:24:02,383 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-28 20:24:02,432 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:49:00 change: -0.0000
+2026-07-28 20:24:02,446 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:50:00 change: -0.0000
+2026-07-28 20:24:02,462 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:51:00 change: 0.0000
+2026-07-28 20:24:02,478 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:52:00 change: 0.0001
+2026-07-28 20:24:02,494 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:54:00 change: 0.0002
+2026-07-28 20:24:02,510 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:55:00 change: 0.0002
+2026-07-28 20:24:02,525 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:56:00 change: 0.0001
+2026-07-28 20:24:02,540 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:57:00 change: -0.0001
+2026-07-28 20:24:02,556 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:58:00 change: 0.0000
+2026-07-28 20:24:02,572 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:59:00 change: -0.0001
+2026-07-28 20:24:02,588 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:00:00 change: -0.0001
+2026-07-28 20:24:02,619 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:01:00 change: 0.0000
+2026-07-28 20:24:02,634 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:02:00 change: -0.0001
+2026-07-28 20:24:02,650 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:03:00 change: -0.0000
+2026-07-28 20:24:02,665 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:04:00 change: 0.0001
+2026-07-28 20:24:02,681 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:05:00 change: 0.0001
+2026-07-28 20:24:02,682 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:07:00 change: 0.0001
+2026-07-28 20:24:02,682 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:08:00 change: -0.0000
+2026-07-28 20:24:02,682 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-28 20:24:02,683 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:09:00 change: 0.0001
+2026-07-28 20:24:02,718 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:49:00 change: 0.0000
+2026-07-28 20:24:02,719 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:10:00 change: -0.0002
+2026-07-28 20:24:02,774 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:50:00 change: 0.0000
+2026-07-28 20:24:02,853 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:11:00 change: -0.0001
+2026-07-28 20:24:02,883 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:51:00 change: 0.0001
+2026-07-28 20:24:02,913 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:12:00 change: 0.0001
+2026-07-28 20:24:03,023 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:52:00 change: 0.0001
+2026-07-28 20:24:03,069 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:17:00 change: 0.0000
+2026-07-28 20:24:03,084 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:54:00 change: 0.0000
+2026-07-28 20:24:03,115 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:20:00 change: 0.0001
+2026-07-28 20:24:03,131 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:55:00 change: 0.0001
+2026-07-28 20:24:03,192 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:21:00 change: -0.0001
+2026-07-28 20:24:03,208 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:59:00 change: -0.0002
+2026-07-28 20:24:03,223 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:22:00 change: -0.0001
+2026-07-28 20:24:03,270 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:00:00 change: -0.0004
+2026-07-28 20:24:03,271 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-28 20:24:03,271 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:23:00 change: 0.0001
+2026-07-28 20:24:03,286 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:01:00 change: 0.0000
+2026-07-28 20:24:03,318 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:24:00 change: -0.0001
+2026-07-28 20:24:03,334 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:03:00 change: -0.0001
+2026-07-28 20:24:03,334 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:49:00 change: -0.0004
+2026-07-28 20:24:03,382 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:25:00 change: -0.0001
+2026-07-28 20:24:03,429 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:06:00 change: 0.0001
+2026-07-28 20:24:03,477 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:50:00 change: 0.0002
+2026-07-28 20:24:03,560 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:52:00 change: -0.0002
+2026-07-28 20:24:03,509 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:27:00 change: 0.0001
+2026-07-28 20:24:03,524 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:09:00 change: -0.0001
+2026-07-28 20:24:03,561 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:53:00 change: 0.0002
+2026-07-28 20:24:03,561 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:28:00 change: -0.0001
+2026-07-28 20:24:03,561 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-28 20:24:03,561 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:10:00 change: -0.0001
+2026-07-28 20:24:03,562 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:54:00 change: 0.0005
+2026-07-28 20:24:03,562 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:30:00 change: -0.0000
+2026-07-28 20:24:03,585 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:13:00 change: -0.0001
+2026-07-28 20:24:03,587 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:49:00 change: -0.0002
+2026-07-28 20:24:03,588 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:55:00 change: 0.0004
+2026-07-28 20:24:03,588 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:31:00 change: -0.0001
+2026-07-28 20:24:03,588 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:14:00 change: 0.0001
+2026-07-28 20:24:03,589 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:50:00 change: -0.0001
+2026-07-28 20:24:03,589 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:56:00 change: -0.0003
+2026-07-28 20:24:03,589 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:33:00 change: 0.0000
+2026-07-28 20:24:03,590 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:16:00 change: -0.0000
+2026-07-28 20:24:03,590 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:51:00 change: -0.0002
+2026-07-28 20:24:03,590 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:57:00 change: 0.0002
+2026-07-28 20:24:03,590 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:34:00 change: 0.0001
+2026-07-28 20:24:03,591 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:18:00 change: -0.0000
+2026-07-28 20:24:03,591 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:52:00 change: -0.0002
+2026-07-28 20:24:03,591 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:58:00 change: 0.0004
+2026-07-28 20:24:03,591 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:35:00 change: -0.0000
+2026-07-28 20:24:03,592 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:19:00 change: 0.0000
+2026-07-28 20:24:03,592 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:54:00 change: 0.0001
+2026-07-28 20:24:03,592 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:59:00 change: -0.0002
+2026-07-28 20:24:03,592 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:36:00 change: 0.0000
+2026-07-28 20:24:03,592 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:20:00 change: -0.0000
+2026-07-28 20:24:03,593 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:55:00 change: 0.0002
+2026-07-28 20:24:03,593 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:00:00 change: 0.0001
+2026-07-28 20:24:03,593 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:37:00 change: 0.0000
+2026-07-28 20:24:03,593 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:21:00 change: -0.0002
+2026-07-28 20:24:03,594 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:56:00 change: -0.0006
+2026-07-28 20:24:03,594 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:01:00 change: 0.0002
+2026-07-28 20:24:03,594 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:38:00 change: -0.0000
+2026-07-28 20:24:03,594 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:22:00 change: 0.0002
+2026-07-28 20:24:03,594 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:57:00 change: -0.0002
+2026-07-28 20:24:03,594 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:02:00 change: 0.0001
+2026-07-28 20:24:03,595 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:39:00 change: -0.0000
+2026-07-28 20:24:03,595 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:23:00 change: -0.0001
+2026-07-28 20:24:03,595 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:59:00 change: 0.0001
+2026-07-28 20:24:03,595 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:03:00 change: -0.0003
+2026-07-28 20:24:03,596 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:40:00 change: -0.0000
+2026-07-28 20:24:03,596 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:24:00 change: -0.0001
+2026-07-28 20:24:03,596 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:01:00 change: -0.0003
+2026-07-28 20:24:03,596 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:04:00 change: 0.0001
+2026-07-28 20:24:03,596 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:41:00 change: 0.0001
+2026-07-28 20:24:03,597 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:27:00 change: 0.0000
+2026-07-28 20:24:03,597 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:02:00 change: -0.0003
+2026-07-28 20:24:03,597 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:07:00 change: -0.0001
+2026-07-28 20:24:03,597 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:42:00 change: 0.0000
+2026-07-28 20:24:03,597 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:28:00 change: -0.0001
+2026-07-28 20:24:03,597 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:03:00 change: -0.0004
+2026-07-28 20:24:03,598 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:08:00 change: 0.0001
+2026-07-28 20:24:03,598 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:43:00 change: 0.0000
+2026-07-28 20:24:03,598 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:31:00 change: -0.0001
+2026-07-28 20:24:03,598 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:05:00 change: 0.0001
+2026-07-28 20:24:03,598 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:10:00 change: -0.0005
+2026-07-28 20:24:03,598 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:45:00 change: 0.0000
+2026-07-28 20:24:03,599 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:32:00 change: -0.0001
+2026-07-28 20:24:03,599 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:06:00 change: -0.0002
+2026-07-28 20:24:03,599 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:11:00 change: -0.0003
+2026-07-28 20:24:03,599 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:46:00 change: 0.0001
+2026-07-28 20:24:03,599 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:33:00 change: -0.0001
+2026-07-28 20:24:03,600 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:07:00 change: 0.0003
+2026-07-28 20:24:03,600 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:13:00 change: -0.0003
+2026-07-28 20:24:03,600 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:48:00 change: 0.0001
+2026-07-28 20:24:03,600 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:35:00 change: -0.0002
+2026-07-28 20:24:03,600 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:09:00 change: -0.0001
+2026-07-28 20:24:03,600 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:15:00 change: 0.0002
+2026-07-28 20:24:03,601 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:50:00 change: 0.0001
+2026-07-28 20:24:03,601 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:36:00 change: 0.0001
+2026-07-28 20:24:03,601 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:10:00 change: 0.0004
+2026-07-28 20:24:03,601 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:16:00 change: 0.0003
+2026-07-28 20:24:03,601 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:51:00 change: -0.0001
+2026-07-28 20:24:03,601 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:38:00 change: -0.0000
+2026-07-28 20:24:03,602 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:13:00 change: 0.0002
+2026-07-28 20:24:03,602 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:17:00 change: -0.0001
+2026-07-28 20:24:03,602 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:52:00 change: -0.0000
+2026-07-28 20:24:03,602 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:39:00 change: -0.0000
+2026-07-28 20:24:03,602 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:14:00 change: -0.0001
+2026-07-28 20:24:03,602 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:18:00 change: 0.0002
+2026-07-28 20:24:03,603 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:53:00 change: -0.0000
+2026-07-28 20:24:03,603 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:40:00 change: -0.0000
+2026-07-28 20:24:03,603 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:15:00 change: -0.0001
+2026-07-28 20:24:03,603 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:19:00 change: 0.0002
+2026-07-28 20:24:03,603 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:54:00 change: -0.0000
+2026-07-28 20:24:03,603 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:41:00 change: -0.0001
+2026-07-28 20:24:03,604 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:19:00 change: 0.0004
+2026-07-28 20:24:03,604 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:21:00 change: 0.0003
+2026-07-28 20:24:03,604 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:55:00 change: 0.0000
+2026-07-28 20:24:03,604 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:44:00 change: -0.0000
+2026-07-28 20:24:03,604 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:23:00 change: 0.0002
+2026-07-28 20:24:03,605 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:22:00 change: 0.0002
+2026-07-28 20:24:03,605 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:56:00 change: 0.0000
+2026-07-28 20:24:03,605 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:45:00 change: -0.0001
+2026-07-28 20:24:03,605 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:25:00 change: -0.0003
+2026-07-28 20:24:03,605 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:23:00 change: -0.0002
+2026-07-28 20:24:03,605 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:57:00 change: -0.0000
+2026-07-28 20:24:03,606 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:46:00 change: 0.0000
+2026-07-28 20:24:03,606 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:26:00 change: 0.0004
+2026-07-28 20:24:03,606 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:24:00 change: 0.0002
+2026-07-28 20:24:03,606 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:58:00 change: 0.0001
+2026-07-28 20:24:03,606 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:47:00 change: 0.0001
+2026-07-28 20:24:03,607 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:28:00 change: 0.0003
+2026-07-28 20:24:03,607 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:25:00 change: -0.0001
+2026-07-28 20:24:03,607 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:59:00 change: -0.0001
+2026-07-28 20:24:03,607 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:48:00 change: -0.0000
+2026-07-28 20:24:03,607 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:30:00 change: -0.0001
+2026-07-28 20:24:03,607 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:26:00 change: -0.0002
+2026-07-28 20:24:03,608 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:00:00 change: 0.0000
+2026-07-28 20:24:03,608 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:49:00 change: -0.0001
+2026-07-28 20:24:03,608 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:31:00 change: -0.0004
+2026-07-28 20:24:03,608 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:27:00 change: -0.0005
+2026-07-28 20:24:03,608 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:01:00 change: 0.0000
+2026-07-28 20:24:03,608 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:50:00 change: 0.0001
+2026-07-28 20:24:03,609 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:32:00 change: 0.0001
+2026-07-28 20:24:03,609 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:28:00 change: 0.0001
+2026-07-28 20:24:03,609 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:02:00 change: 0.0001
+2026-07-28 20:24:03,609 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:51:00 change: -0.0001
+2026-07-28 20:24:03,609 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:33:00 change: 0.0002
+2026-07-28 20:24:03,610 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:29:00 change: 0.0003
+2026-07-28 20:24:03,610 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:04:00 change: -0.0000
+2026-07-28 20:24:03,610 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:52:00 change: -0.0000
+2026-07-28 20:24:03,610 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:34:00 change: 0.0004
+2026-07-28 20:24:03,610 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:30:00 change: 0.0003
+2026-07-28 20:24:03,610 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:06:00 change: 0.0001
+2026-07-28 20:24:03,611 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:55:00 change: -0.0000
+2026-07-28 20:24:03,611 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:35:00 change: -0.0003
+2026-07-28 20:24:03,611 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:32:00 change: -0.0002
+2026-07-28 20:24:03,611 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:08:00 change: -0.0001
+2026-07-28 20:24:03,611 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:56:00 change: 0.0000
+2026-07-28 20:24:03,612 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:36:00 change: -0.0001
+2026-07-28 20:24:03,612 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:33:00 change: -0.0003
+2026-07-28 20:24:03,612 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:09:00 change: 0.0001
+2026-07-28 20:24:03,612 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:57:00 change: -0.0000
+2026-07-28 20:24:03,612 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:37:00 change: 0.0002
+2026-07-28 20:24:03,612 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:34:00 change: 0.0003
+2026-07-28 20:24:03,613 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:10:00 change: -0.0000
+2026-07-28 20:24:03,613 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:58:00 change: -0.0000
+2026-07-28 20:24:03,613 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:38:00 change: 0.0005
+2026-07-28 20:24:03,613 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:35:00 change: 0.0005
+2026-07-28 20:24:03,613 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:12:00 change: -0.0001
+2026-07-28 20:24:03,613 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:59:00 change: -0.0001
+2026-07-28 20:24:03,614 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:39:00 change: -0.0003
+2026-07-28 20:24:03,614 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:36:00 change: -0.0002
+2026-07-28 20:24:03,614 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:13:00 change: -0.0001
+2026-07-28 20:24:03,614 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:00:00 change: -0.0000
+2026-07-28 20:24:03,614 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:41:00 change: 0.0001
+2026-07-28 20:24:03,615 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:37:00 change: 0.0003
+2026-07-28 20:24:03,615 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:14:00 change: -0.0000
+2026-07-28 20:24:03,615 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:01:00 change: -0.0001
+2026-07-28 20:24:03,615 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:44:00 change: -0.0002
+2026-07-28 20:24:03,615 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:38:00 change: -0.0001
+2026-07-28 20:24:03,615 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:17:00 change: 0.0000
+2026-07-28 20:24:03,616 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:02:00 change: -0.0000
+2026-07-28 20:24:03,616 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:45:00 change: -0.0002
+2026-07-28 20:24:03,616 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:40:00 change: 0.0002
+2026-07-28 20:24:03,616 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:18:00 change: 0.0001
+2026-07-28 20:24:03,616 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:03:00 change: 0.0001
+2026-07-28 20:24:03,616 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:46:00 change: -0.0002
+2026-07-28 20:24:03,617 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:42:00 change: -0.0002
+2026-07-28 20:24:03,617 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:19:00 change: 0.0000
+2026-07-28 20:24:03,617 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:04:00 change: 0.0001
+2026-07-28 20:24:03,617 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:47:00 change: -0.0002
+2026-07-28 20:24:03,617 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:43:00 change: 0.0004
+2026-07-28 20:24:03,617 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:20:00 change: 0.0002
+2026-07-28 20:24:03,618 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:05:00 change: -0.0001
+2026-07-28 20:24:03,618 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:48:00 change: 0.0005
+2026-07-28 20:24:03,618 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:45:00 change: -0.0001
+2026-07-28 20:24:03,618 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:22:00 change: -0.0001
+2026-07-28 20:24:03,618 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:07:00 change: 0.0000
+2026-07-28 20:24:03,619 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:49:00 change: -0.0001
+2026-07-28 20:24:03,619 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:47:00 change: -0.0005
+2026-07-28 20:24:03,619 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:23:00 change: -0.0001
+2026-07-28 20:24:03,619 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:08:00 change: 0.0001
+2026-07-28 20:24:03,619 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:50:00 change: 0.0001
+2026-07-28 20:24:03,619 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:48:00 change: -0.0005
+2026-07-28 20:24:03,621 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:09:00 change: 0.0000
+2026-07-28 20:24:03,621 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:52:00 change: -0.0002
+2026-07-28 20:24:03,621 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:50:00 change: -0.0004
+2026-07-28 20:24:03,623 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:10:00 change: 0.0000
+2026-07-28 20:24:03,623 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:54:00 change: 0.0001
+2026-07-28 20:24:03,623 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:51:00 change: -0.0004
+2026-07-28 20:24:03,624 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:12:00 change: 0.0001
+2026-07-28 20:24:03,624 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:58:00 change: -0.0002
+2026-07-28 20:24:03,626 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:52:00 change: -0.0004
+2026-07-28 20:24:03,632 | WARNING  | [ANOMALY] Total anomalies detected: EURUSD 74
+2026-07-28 20:24:03,632 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:14:00 change: -0.0000
+2026-07-28 20:24:03,632 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:59:00 change: -0.0004
+2026-07-28 20:24:03,632 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:55:00 change: -0.0001
+2026-07-28 20:24:03,632 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 276
+2026-07-28 20:24:03,633 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:15:00 change: 0.0001
+2026-07-28 20:24:03,633 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:00:00 change: 0.0001
+2026-07-28 20:24:03,633 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:56:00 change: -0.0002
+2026-07-28 20:24:03,633 | INFO     | [DataAdapter] M1 anomaly detection completed for EURUSD in 1.220s
+2026-07-28 20:24:03,633 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:17:00 change: 0.0000
+2026-07-28 20:24:03,633 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:01:00 change: 0.0001
+2026-07-28 20:24:03,634 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:57:00 change: -0.0003
+2026-07-28 20:24:03,638 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:19:00 change: 0.0001
+2026-07-28 20:24:03,638 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:02:00 change: 0.0001
+2026-07-28 20:24:03,638 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:58:00 change: 0.0001
+2026-07-28 20:24:03,639 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:20:00 change: -0.0000
+2026-07-28 20:24:03,639 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-28 20:24:03,639 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:04:00 change: -0.0004
+2026-07-28 20:24:03,639 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:59:00 change: 0.0005
+2026-07-28 20:24:03,639 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:21:00 change: -0.0001
+2026-07-28 20:24:03,640 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD
+2026-07-28 20:24:03,640 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 20:24:03,640 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:05:00 change: 0.0004
+2026-07-28 20:24:03,640 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:00:00 change: 0.0010
+2026-07-28 20:24:03,640 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:22:00 change: 0.0000
+2026-07-28 20:24:03,640 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD
+2026-07-28 20:24:03,641 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:07:00 change: 0.0003
+2026-07-28 20:24:03,641 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:02:00 change: 0.0003
+2026-07-28 20:24:03,641 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 20:24:03,644 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 17:00:00 change: -0.0006
+2026-07-28 20:24:03,644 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:08:00 change: 0.0004
+2026-07-28 20:24:03,645 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:04:00 change: -0.0001
+2026-07-28 20:24:03,647 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 17:05:00 change: 0.0001
+2026-07-28 20:24:03,648 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:09:00 change: 0.0001
+2026-07-28 20:24:03,653 | WARNING  | [ANOMALY] Total anomalies detected: EURGBP 66
+2026-07-28 20:24:03,653 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:06:00 change: 0.0001
+2026-07-28 20:24:03,654 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 17:10:00 change: -0.0001
+2026-07-28 20:24:03,654 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:10:00 change: -0.0001
+2026-07-28 20:24:03,654 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 464
+2026-07-28 20:24:03,654 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:07:00 change: -0.0004
+2026-07-28 20:24:03,655 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 17:15:00 change: -0.0002
+2026-07-28 20:24:03,655 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:11:00 change: -0.0002
+2026-07-28 20:24:03,657 | INFO     | [DataAdapter] M1 anomaly detection completed for EURGBP in 0.942s
+2026-07-28 20:24:03,658 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:08:00 change: 0.0005
+2026-07-28 20:24:03,658 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 17:20:00 change: -0.0001
+2026-07-28 20:24:03,658 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:12:00 change: -0.0002
+2026-07-28 20:24:03,663 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:09:00 change: 0.0003
+2026-07-28 20:24:03,665 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 17:30:00 change: 0.0001
+2026-07-28 20:24:03,665 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:14:00 change: 0.0002
+2026-07-28 20:24:03,666 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:12:00 change: 0.0006
+2026-07-28 20:24:03,666 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 17:35:00 change: -0.0002
+2026-07-28 20:24:03,666 | INFO     | [CSVWriter] Successfully wrote 326 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 20:24:03,666 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:15:00 change: -0.0001
+2026-07-28 20:24:03,666 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-28 20:24:03,667 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:13:00 change: -0.0004
+2026-07-28 20:24:03,667 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 17:45:00 change: 0.0001
+2026-07-28 20:24:03,667 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 20:24:03,667 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:16:00 change: -0.0006
+2026-07-28 20:24:03,668 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP
+2026-07-28 20:24:03,668 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:14:00 change: -0.0001
+2026-07-28 20:24:03,668 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 17:50:00 change: 0.0002
+2026-07-28 20:24:03,668 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 20:24:03,668 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:18:00 change: 0.0002
+2026-07-28 20:24:03,668 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP
+2026-07-28 20:24:03,669 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:16:00 change: -0.0001
+2026-07-28 20:24:03,669 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 18:15:00 change: -0.0001
+2026-07-28 20:24:03,669 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:19:00 change: 0.0003
+2026-07-28 20:24:03,669 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 20:24:03,672 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:17:00 change: 0.0004
+2026-07-28 20:24:03,672 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 17:00:00 change: 0.0004
+2026-07-28 20:24:03,672 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 18:20:00 change: -0.0001
+2026-07-28 20:24:03,672 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:21:00 change: 0.0001
+2026-07-28 20:24:03,674 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:18:00 change: 0.0003
+2026-07-28 20:24:03,675 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 17:10:00 change: -0.0001
+2026-07-28 20:24:03,675 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 18:30:00 change: -0.0001
+2026-07-28 20:24:03,676 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:20:00 change: 0.0001
+2026-07-28 20:24:03,676 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 17:15:00 change: 0.0002
+2026-07-28 20:24:03,677 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 18:35:00 change: -0.0001
+2026-07-28 20:24:03,678 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:21:00 change: 0.0003
+2026-07-28 20:24:03,678 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 17:30:00 change: -0.0001
+2026-07-28 20:24:03,679 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 18:40:00 change: 0.0001
+2026-07-28 20:24:03,685 | WARNING  | [ANOMALY] Total anomalies detected: EURGBP-OTC 64
+2026-07-28 20:24:03,686 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:23:00 change: 0.0003
+2026-07-28 20:24:03,686 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 17:45:00 change: -0.0001
+2026-07-28 20:24:03,686 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 18:45:00 change: -0.0001
+2026-07-28 20:24:03,686 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 637
+2026-07-28 20:24:03,690 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 17:55:00 change: -0.0001
+2026-07-28 20:24:03,690 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 18:50:00 change: 0.0001
+2026-07-28 20:24:03,690 | INFO     | [DataAdapter] M1 anomaly detection completed for EURGBP-OTC in 0.106s
+2026-07-28 20:24:03,692 | INFO     | [CSVWriter] Successfully wrote 326 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 20:24:03,692 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 18:05:00 change: 0.0001
+2026-07-28 20:24:03,693 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 18:55:00 change: -0.0001
+2026-07-28 20:24:03,697 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 20:24:03,702 | WARNING  | [ANOMALY] Total anomalies detected: GBPUSD-OTC 72
+2026-07-28 20:24:03,702 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 18:20:00 change: -0.0000
+2026-07-28 20:24:03,702 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-28 20:24:03,702 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 19:00:00 change: -0.0000
+2026-07-28 20:24:03,702 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 20:24:03,703 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 637
+2026-07-28 20:24:03,703 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 18:35:00 change: -0.0001
+2026-07-28 20:24:03,703 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-28 20:24:03,703 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 19:05:00 change: 0.0000
+2026-07-28 20:24:03,704 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 20:24:03,704 | INFO     | [DataAdapter] M1 anomaly detection completed for GBPUSD-OTC in 0.380s
+2026-07-28 20:24:03,704 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 18:45:00 change: -0.0000
+2026-07-28 20:24:03,704 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-28 20:24:03,704 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 19:10:00 change: -0.0000
+2026-07-28 20:24:03,706 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 20:24:03,706 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 18:50:00 change: -0.0000
+2026-07-28 20:24:03,712 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 17:00:00 change: 0.0007
+2026-07-28 20:24:03,712 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 20:24:03,712 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 19:15:00 change: 0.0000
+2026-07-28 20:24:03,714 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 18:55:00 change: 0.0001
+2026-07-28 20:24:03,714 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 17:05:00 change: -0.0002
+2026-07-28 20:24:03,715 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-28 20:24:03,715 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 19:20:00 change: 0.0001
+2026-07-28 20:24:03,715 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 19:00:00 change: -0.0001
+2026-07-28 20:24:03,716 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 17:10:00 change: -0.0003
+2026-07-28 20:24:03,716 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-28 20:24:03,716 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 19:25:00 change: 0.0001
+2026-07-28 20:24:03,716 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 19:10:00 change: -0.0000
+2026-07-28 20:24:03,717 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 17:20:00 change: -0.0006
+2026-07-28 20:24:03,721 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 16:55:00 change: 0.0010
+2026-07-28 20:24:03,722 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 19:30:00 change: 0.0001
+2026-07-28 20:24:03,722 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 19:15:00 change: -0.0001
+2026-07-28 20:24:03,722 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 17:25:00 change: 0.0003
+2026-07-28 20:24:03,724 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 17:00:00 change: -0.0009
+2026-07-28 20:24:03,725 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 19:35:00 change: 0.0001
+2026-07-28 20:24:03,725 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 19:20:00 change: -0.0000
+2026-07-28 20:24:03,725 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 17:30:00 change: 0.0005
+2026-07-28 20:24:03,726 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 17:05:00 change: -0.0004
+2026-07-28 20:24:03,726 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 19:40:00 change: -0.0000
+2026-07-28 20:24:03,726 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 19:25:00 change: 0.0000
+2026-07-28 20:24:03,726 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 17:35:00 change: -0.0005
+2026-07-28 20:24:03,726 | INFO     | [CSVWriter] Successfully wrote 326 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 20:24:03,727 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 17:10:00 change: -0.0009
+2026-07-28 20:24:03,727 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 19:45:00 change: -0.0002
+2026-07-28 20:24:03,727 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 19:45:00 change: 0.0000
+2026-07-28 20:24:03,727 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 17:40:00 change: -0.0005
+2026-07-28 20:24:03,727 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 20:24:03,727 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 17:15:00 change: 0.0009
+2026-07-28 20:24:03,728 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 19:55:00 change: -0.0001
+2026-07-28 20:24:03,728 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 19:50:00 change: -0.0000
+2026-07-28 20:24:03,728 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 17:45:00 change: -0.0005
+2026-07-28 20:24:03,728 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 20:24:03,728 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 17:20:00 change: 0.0006
+2026-07-28 20:24:03,729 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 20:00:00 change: 0.0001
+2026-07-28 20:24:03,729 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 19:55:00 change: 0.0000
+2026-07-28 20:24:03,729 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 17:50:00 change: 0.0003
+2026-07-28 20:24:03,729 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 17:25:00 change: 0.0008
+2026-07-28 20:24:03,730 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 20:24:03,730 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 20:05:00 change: 0.0000
+2026-07-28 20:24:03,730 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 20:00:00 change: 0.0001
+2026-07-28 20:24:03,730 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 17:55:00 change: -0.0005
+2026-07-28 20:24:03,730 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 17:35:00 change: -0.0003
+2026-07-28 20:24:03,733 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 20:10:00 change: 0.0001
+2026-07-28 20:24:03,733 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 20:05:00 change: 0.0001
+2026-07-28 20:24:03,733 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 18:05:00 change: 0.0003
+2026-07-28 20:24:03,734 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 17:40:00 change: 0.0008
+2026-07-28 20:24:03,734 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 20:15:00 change: -0.0001
+2026-07-28 20:24:03,734 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 20:10:00 change: -0.0000
+2026-07-28 20:24:03,734 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 18:10:00 change: -0.0004
+2026-07-28 20:24:03,735 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 17:45:00 change: -0.0007
+2026-07-28 20:24:03,738 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 20:30:00 change: -0.0002
+2026-07-28 20:24:03,738 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 20:15:00 change: -0.0000
+2026-07-28 20:24:03,738 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 18:15:00 change: -0.0004
+2026-07-28 20:24:03,738 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 17:50:00 change: 0.0003
+2026-07-28 20:24:03,739 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 20:40:00 change: -0.0001
+2026-07-28 20:24:03,740 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 20:20:00 change: 0.0000
+2026-07-28 20:24:03,741 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 18:35:00 change: -0.0011
+2026-07-28 20:24:03,741 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 17:55:00 change: 0.0003
+2026-07-28 20:24:03,741 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 20:50:00 change: 0.0000
+2026-07-28 20:24:03,742 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 20:25:00 change: -0.0000
+2026-07-28 20:24:03,742 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 18:40:00 change: -0.0001
+2026-07-28 20:24:03,742 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 18:05:00 change: 0.0004
+2026-07-28 20:24:03,742 | INFO     | [CSVWriter] Successfully wrote 202 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 20:24:03,742 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 20:55:00 change: 0.0001
+2026-07-28 20:24:03,743 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 20:35:00 change: -0.0000
+2026-07-28 20:24:03,743 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 18:45:00 change: 0.0004
+2026-07-28 20:24:03,743 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 18:10:00 change: 0.0003
+2026-07-28 20:24:03,743 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 20:24:03,744 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 21:05:00 change: 0.0003
+2026-07-28 20:24:03,744 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 20:40:00 change: -0.0000
+2026-07-28 20:24:03,744 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 18:50:00 change: -0.0005
+2026-07-28 20:24:03,744 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 18:15:00 change: -0.0009
+2026-07-28 20:24:03,744 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 20:24:03,744 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 21:15:00 change: 0.0000
+2026-07-28 20:24:03,745 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 20:45:00 change: -0.0000
+2026-07-28 20:24:03,745 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 18:55:00 change: 0.0002
+2026-07-28 20:24:03,745 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 18:20:00 change: -0.0003
+2026-07-28 20:24:03,745 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 21:30:00 change: -0.0001
+2026-07-28 20:24:03,745 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 20:50:00 change: 0.0000
+2026-07-28 20:24:03,746 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 19:05:00 change: 0.0002
+2026-07-28 20:24:03,746 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 18:25:00 change: 0.0003
+2026-07-28 20:24:03,746 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 21:35:00 change: -0.0001
+2026-07-28 20:24:03,746 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 20:55:00 change: -0.0000
+2026-07-28 20:24:03,746 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 19:10:00 change: 0.0004
+2026-07-28 20:24:03,747 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 18:30:00 change: -0.0002
+2026-07-28 20:24:03,747 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 21:40:00 change: 0.0002
+2026-07-28 20:24:03,747 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 21:00:00 change: -0.0007
+2026-07-28 20:24:03,747 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 19:20:00 change: 0.0005
+2026-07-28 20:24:03,748 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 18:35:00 change: 0.0004
+2026-07-28 20:24:03,748 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 21:50:00 change: -0.0000
+2026-07-28 20:24:03,748 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 21:05:00 change: 0.0004
+2026-07-28 20:24:03,748 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 19:25:00 change: -0.0004
+2026-07-28 20:24:03,748 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 18:40:00 change: 0.0005
+2026-07-28 20:24:03,748 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 21:55:00 change: 0.0001
+2026-07-28 20:24:03,749 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 21:10:00 change: 0.0001
+2026-07-28 20:24:03,749 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 19:30:00 change: -0.0008
+2026-07-28 20:24:03,749 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 18:45:00 change: 0.0003
+2026-07-28 20:24:03,749 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 22:00:00 change: -0.0001
+2026-07-28 20:24:03,749 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 21:20:00 change: 0.0002
+2026-07-28 20:24:03,749 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 19:40:00 change: 0.0004
+2026-07-28 20:24:03,750 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 18:50:00 change: -0.0002
+2026-07-28 20:24:03,750 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 22:10:00 change: -0.0001
+2026-07-28 20:24:03,750 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 21:30:00 change: -0.0001
+2026-07-28 20:24:03,750 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 19:55:00 change: -0.0002
+2026-07-28 20:24:03,750 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 18:55:00 change: -0.0005
+2026-07-28 20:24:03,750 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 22:15:00 change: 0.0001
+2026-07-28 20:24:03,751 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 21:35:00 change: 0.0001
+2026-07-28 20:24:03,751 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 20:00:00 change: -0.0001
+2026-07-28 20:24:03,751 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 19:00:00 change: 0.0002
+2026-07-28 20:24:03,751 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 22:20:00 change: -0.0001
+2026-07-28 20:24:03,751 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 21:40:00 change: -0.0004
+2026-07-28 20:24:03,751 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 20:05:00 change: -0.0002
+2026-07-28 20:24:03,751 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 19:05:00 change: -0.0011
+2026-07-28 20:24:03,752 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 22:40:00 change: -0.0001
+2026-07-28 20:24:03,752 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 21:45:00 change: 0.0002
+2026-07-28 20:24:03,752 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 20:15:00 change: 0.0003
+2026-07-28 20:24:03,752 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 19:15:00 change: 0.0003
+2026-07-28 20:24:03,752 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 23:05:00 change: 0.0001
+2026-07-28 20:24:03,753 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 22:20:00 change: -0.0001
+2026-07-28 20:24:03,753 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 20:20:00 change: 0.0001
+2026-07-28 20:24:03,753 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 19:20:00 change: 0.0007
+2026-07-28 20:24:03,753 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 23:10:00 change: -0.0001
+2026-07-28 20:24:03,753 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 23:00:00 change: 0.0000
+2026-07-28 20:24:03,753 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 20:25:00 change: -0.0003
+2026-07-28 20:24:03,753 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 19:35:00 change: -0.0011
+2026-07-28 20:24:03,754 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 23:15:00 change: 0.0000
+2026-07-28 20:24:03,754 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 23:20:00 change: -0.0000
+2026-07-28 20:24:03,754 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 20:30:00 change: 0.0006
+2026-07-28 20:24:03,754 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 19:40:00 change: -0.0003
+2026-07-28 20:24:03,754 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 23:20:00 change: -0.0000
+2026-07-28 20:24:03,754 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 23:25:00 change: -0.0000
+2026-07-28 20:24:03,755 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 20:35:00 change: 0.0003
+2026-07-28 20:24:03,755 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 19:45:00 change: 0.0004
+2026-07-28 20:24:03,755 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 23:25:00 change: 0.0000
+2026-07-28 20:24:03,755 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 23:30:00 change: -0.0001
+2026-07-28 20:24:03,755 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 20:40:00 change: -0.0007
+2026-07-28 20:24:03,756 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 19:50:00 change: 0.0004
+2026-07-28 20:24:03,756 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 23:30:00 change: -0.0000
+2026-07-28 20:24:03,756 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 23:35:00 change: -0.0000
+2026-07-28 20:24:03,756 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 20:45:00 change: 0.0006
+2026-07-28 20:24:03,756 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 19:55:00 change: -0.0008
+2026-07-28 20:24:03,756 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 23:35:00 change: -0.0001
+2026-07-28 20:24:03,757 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 23:40:00 change: 0.0000
+2026-07-28 20:24:03,757 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 20:50:00 change: -0.0003
+2026-07-28 20:24:03,757 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 20:00:00 change: -0.0004
+2026-07-28 20:24:03,757 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 23:40:00 change: 0.0001
+2026-07-28 20:24:03,757 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 23:45:00 change: 0.0000
+2026-07-28 20:24:03,757 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 20:55:00 change: -0.0004
+2026-07-28 20:24:03,757 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 20:05:00 change: 0.0002
+2026-07-28 20:24:03,757 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 23:45:00 change: -0.0001
+2026-07-28 20:24:03,757 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 23:50:00 change: -0.0000
+2026-07-28 20:24:03,758 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 21:00:00 change: 0.0002
+2026-07-28 20:24:03,758 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 20:15:00 change: -0.0005
+2026-07-28 20:24:03,758 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 23:50:00 change: -0.0000
+2026-07-28 20:24:03,758 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-27 23:55:00 change: -0.0000
+2026-07-28 20:24:03,758 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 21:05:00 change: -0.0002
+2026-07-28 20:24:03,758 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 20:20:00 change: 0.0003
+2026-07-28 20:24:03,759 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-27 23:55:00 change: 0.0001
+2026-07-28 20:24:03,759 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 00:00:00 change: 0.0000
+2026-07-28 20:24:03,759 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 21:20:00 change: 0.0010
+2026-07-28 20:24:03,759 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 20:25:00 change: -0.0006
+2026-07-28 20:24:03,759 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 00:00:00 change: -0.0002
+2026-07-28 20:24:03,760 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 00:05:00 change: 0.0000
+2026-07-28 20:24:03,760 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 21:25:00 change: 0.0005
+2026-07-28 20:24:03,760 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 20:30:00 change: -0.0003
+2026-07-28 20:24:03,760 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 00:05:00 change: 0.0001
+2026-07-28 20:24:03,760 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 00:10:00 change: 0.0000
+2026-07-28 20:24:03,761 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 21:30:00 change: 0.0003
+2026-07-28 20:24:03,761 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 20:35:00 change: 0.0006
+2026-07-28 20:24:03,761 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 00:10:00 change: -0.0000
+2026-07-28 20:24:03,761 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 00:15:00 change: -0.0000
+2026-07-28 20:24:03,761 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 21:40:00 change: 0.0004
+2026-07-28 20:24:03,761 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 20:45:00 change: -0.0002
+2026-07-28 20:24:03,761 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 00:15:00 change: 0.0002
+2026-07-28 20:24:03,762 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 00:20:00 change: 0.0000
+2026-07-28 20:24:03,762 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 21:45:00 change: 0.0003
+2026-07-28 20:24:03,763 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 20:50:00 change: 0.0002
+2026-07-28 20:24:03,763 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 00:20:00 change: 0.0001
+2026-07-28 20:24:03,763 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 00:25:00 change: -0.0000
+2026-07-28 20:24:03,763 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 21:55:00 change: -0.0003
+2026-07-28 20:24:03,763 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 20:55:00 change: 0.0006
+2026-07-28 20:24:03,763 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 00:25:00 change: 0.0001
+2026-07-28 20:24:03,764 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 00:30:00 change: 0.0000
+2026-07-28 20:24:03,764 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 22:00:00 change: 0.0004
+2026-07-28 20:24:03,764 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 21:00:00 change: -0.0005
+2026-07-28 20:24:03,764 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 00:35:00 change: 0.0001
+2026-07-28 20:24:03,764 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 00:40:00 change: 0.0001
+2026-07-28 20:24:03,764 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 22:15:00 change: -0.0002
+2026-07-28 20:24:03,765 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 21:05:00 change: 0.0004
+2026-07-28 20:24:03,765 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 00:40:00 change: -0.0001
+2026-07-28 20:24:03,765 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 00:45:00 change: 0.0001
+2026-07-28 20:24:03,765 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 22:25:00 change: 0.0007
+2026-07-28 20:24:03,765 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 21:10:00 change: -0.0011
+2026-07-28 20:24:03,765 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 00:45:00 change: 0.0000
+2026-07-28 20:24:03,765 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 00:50:00 change: -0.0000
+2026-07-28 20:24:03,766 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 22:30:00 change: -0.0003
+2026-07-28 20:24:03,766 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 21:15:00 change: -0.0008
+2026-07-28 20:24:03,766 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 00:50:00 change: -0.0002
+2026-07-28 20:24:03,766 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 00:55:00 change: 0.0000
+2026-07-28 20:24:03,766 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 22:35:00 change: 0.0003
+2026-07-28 20:24:03,766 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 21:25:00 change: -0.0007
+2026-07-28 20:24:03,767 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 00:55:00 change: 0.0003
+2026-07-28 20:24:03,767 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 01:00:00 change: -0.0000
+2026-07-28 20:24:03,767 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 22:45:00 change: 0.0002
+2026-07-28 20:24:03,767 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 21:30:00 change: 0.0018
+2026-07-28 20:24:03,767 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 01:00:00 change: 0.0001
+2026-07-28 20:24:03,768 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 01:05:00 change: 0.0001
+2026-07-28 20:24:03,768 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 22:50:00 change: -0.0007
+2026-07-28 20:24:03,768 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 21:40:00 change: 0.0008
+2026-07-28 20:24:03,768 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 01:05:00 change: 0.0002
+2026-07-28 20:24:03,768 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 01:10:00 change: 0.0000
+2026-07-28 20:24:03,768 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 23:00:00 change: 0.0002
+2026-07-28 20:24:03,768 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 21:45:00 change: -0.0004
+2026-07-28 20:24:03,769 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 01:10:00 change: -0.0002
+2026-07-28 20:24:03,769 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 01:15:00 change: -0.0001
+2026-07-28 20:24:03,769 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 23:05:00 change: 0.0001
+2026-07-28 20:24:03,769 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 22:00:00 change: 0.0005
+2026-07-28 20:24:03,769 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 01:15:00 change: -0.0001
+2026-07-28 20:24:03,769 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 01:20:00 change: 0.0001
+2026-07-28 20:24:03,770 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 23:10:00 change: -0.0001
+2026-07-28 20:24:03,770 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 22:05:00 change: 0.0006
+2026-07-28 20:24:03,770 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 01:20:00 change: 0.0001
+2026-07-28 20:24:03,770 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 01:25:00 change: -0.0000
+2026-07-28 20:24:03,770 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 23:15:00 change: -0.0007
+2026-07-28 20:24:03,770 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 22:10:00 change: 0.0005
+2026-07-28 20:24:03,771 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 01:35:00 change: -0.0000
+2026-07-28 20:24:03,771 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 01:30:00 change: -0.0000
+2026-07-28 20:24:03,771 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 23:20:00 change: 0.0004
+2026-07-28 20:24:03,771 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 22:15:00 change: -0.0005
+2026-07-28 20:24:03,771 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 01:40:00 change: -0.0001
+2026-07-28 20:24:03,771 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 01:35:00 change: 0.0000
+2026-07-28 20:24:03,772 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 23:25:00 change: -0.0003
+2026-07-28 20:24:03,772 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 22:20:00 change: -0.0006
+2026-07-28 20:24:03,772 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 01:45:00 change: -0.0001
+2026-07-28 20:24:03,772 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 01:40:00 change: -0.0000
+2026-07-28 20:24:03,772 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 23:35:00 change: 0.0001
+2026-07-28 20:24:03,772 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 22:25:00 change: -0.0010
+2026-07-28 20:24:03,773 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 01:55:00 change: 0.0001
+2026-07-28 20:24:03,773 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 01:45:00 change: -0.0000
+2026-07-28 20:24:03,773 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 23:40:00 change: 0.0008
+2026-07-28 20:24:03,773 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 22:30:00 change: -0.0003
+2026-07-28 20:24:03,773 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 02:00:00 change: -0.0000
+2026-07-28 20:24:03,773 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 01:50:00 change: 0.0001
+2026-07-28 20:24:03,774 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 23:50:00 change: -0.0006
+2026-07-28 20:24:03,774 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 22:35:00 change: -0.0004
+2026-07-28 20:24:03,774 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 02:05:00 change: 0.0002
+2026-07-28 20:24:03,774 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 01:55:00 change: 0.0000
+2026-07-28 20:24:03,775 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-27 23:55:00 change: 0.0008
+2026-07-28 20:24:03,775 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 22:40:00 change: -0.0006
+2026-07-28 20:24:03,775 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 02:25:00 change: -0.0002
+2026-07-28 20:24:03,775 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 02:00:00 change: -0.0000
+2026-07-28 20:24:03,775 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 00:00:00 change: 0.0004
+2026-07-28 20:24:03,776 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 22:45:00 change: 0.0010
+2026-07-28 20:24:03,776 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 02:40:00 change: 0.0001
+2026-07-28 20:24:03,776 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 02:05:00 change: -0.0001
+2026-07-28 20:24:03,776 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 00:10:00 change: -0.0003
+2026-07-28 20:24:03,776 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 22:50:00 change: -0.0010
+2026-07-28 20:24:03,777 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 02:45:00 change: 0.0001
+2026-07-28 20:24:03,777 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 02:15:00 change: 0.0000
+2026-07-28 20:24:03,777 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 00:15:00 change: -0.0005
+2026-07-28 20:24:03,777 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 22:55:00 change: 0.0008
+2026-07-28 20:24:03,777 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 02:50:00 change: 0.0003
+2026-07-28 20:24:03,777 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 02:25:00 change: -0.0001
+2026-07-28 20:24:03,778 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 00:20:00 change: 0.0010
+2026-07-28 20:24:03,778 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 23:00:00 change: -0.0009
+2026-07-28 20:24:03,778 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 02:55:00 change: -0.0001
+2026-07-28 20:24:03,778 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 02:45:00 change: 0.0000
+2026-07-28 20:24:03,778 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 00:25:00 change: 0.0005
+2026-07-28 20:24:03,779 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 23:05:00 change: -0.0004
+2026-07-28 20:24:03,779 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 03:05:00 change: -0.0001
+2026-07-28 20:24:03,779 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 02:50:00 change: 0.0001
+2026-07-28 20:24:03,779 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 00:30:00 change: 0.0002
+2026-07-28 20:24:03,779 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 23:10:00 change: -0.0014
+2026-07-28 20:24:03,780 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 03:10:00 change: -0.0001
+2026-07-28 20:24:03,780 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:00:00 change: -0.0000
+2026-07-28 20:24:03,780 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 00:35:00 change: 0.0005
+2026-07-28 20:24:03,780 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 23:15:00 change: -0.0011
+2026-07-28 20:24:03,780 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 03:15:00 change: 0.0001
+2026-07-28 20:24:03,780 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:05:00 change: 0.0000
+2026-07-28 20:24:03,780 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 00:50:00 change: -0.0004
+2026-07-28 20:24:03,781 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 23:20:00 change: 0.0006
+2026-07-28 20:24:03,781 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 03:20:00 change: 0.0001
+2026-07-28 20:24:03,781 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:10:00 change: -0.0000
+2026-07-28 20:24:03,781 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 00:55:00 change: 0.0003
+2026-07-28 20:24:03,781 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 23:30:00 change: 0.0004
+2026-07-28 20:24:03,781 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 03:30:00 change: 0.0002
+2026-07-28 20:24:03,781 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:15:00 change: -0.0001
+2026-07-28 20:24:03,782 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 01:00:00 change: -0.0003
+2026-07-28 20:24:03,782 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 23:35:00 change: 0.0004
+2026-07-28 20:24:03,782 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 03:35:00 change: -0.0002
+2026-07-28 20:24:03,782 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:20:00 change: 0.0000
+2026-07-28 20:24:03,782 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 01:05:00 change: -0.0002
+2026-07-28 20:24:03,783 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 23:40:00 change: -0.0007
+2026-07-28 20:24:03,783 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 03:40:00 change: -0.0001
+2026-07-28 20:24:03,783 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:30:00 change: -0.0000
+2026-07-28 20:24:03,783 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 01:10:00 change: 0.0008
+2026-07-28 20:24:03,783 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 23:45:00 change: 0.0007
+2026-07-28 20:24:03,783 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 03:45:00 change: -0.0001
+2026-07-28 20:24:03,784 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:35:00 change: -0.0000
+2026-07-28 20:24:03,784 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 01:15:00 change: 0.0004
+2026-07-28 20:24:03,784 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-27 23:50:00 change: -0.0007
+2026-07-28 20:24:03,784 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 04:00:00 change: -0.0002
+2026-07-28 20:24:03,784 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:40:00 change: -0.0000
+2026-07-28 20:24:03,785 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 01:20:00 change: -0.0004
+2026-07-28 20:24:03,785 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 00:00:00 change: -0.0005
+2026-07-28 20:24:03,785 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 04:10:00 change: -0.0001
+2026-07-28 20:24:03,785 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:45:00 change: -0.0000
+2026-07-28 20:24:03,785 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 01:25:00 change: -0.0002
+2026-07-28 20:24:03,786 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 00:10:00 change: 0.0002
+2026-07-28 20:24:03,786 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 04:15:00 change: 0.0001
+2026-07-28 20:24:03,786 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:50:00 change: 0.0001
+2026-07-28 20:24:03,786 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 01:35:00 change: -0.0006
+2026-07-28 20:24:03,786 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 00:20:00 change: 0.0009
+2026-07-28 20:24:03,787 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 04:20:00 change: -0.0001
+2026-07-28 20:24:03,787 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:55:00 change: 0.0000
+2026-07-28 20:24:03,787 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 01:40:00 change: -0.0002
+2026-07-28 20:24:03,787 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 00:25:00 change: 0.0012
+2026-07-28 20:24:03,787 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 04:35:00 change: -0.0000
+2026-07-28 20:24:03,788 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 04:10:00 change: 0.0000
+2026-07-28 20:24:03,788 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 01:45:00 change: 0.0003
+2026-07-28 20:24:03,788 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 00:30:00 change: 0.0007
+2026-07-28 20:24:03,788 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 04:40:00 change: 0.0000
+2026-07-28 20:24:03,788 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 04:15:00 change: -0.0001
+2026-07-28 20:24:03,788 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 01:50:00 change: -0.0005
+2026-07-28 20:24:03,789 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 00:35:00 change: -0.0005
+2026-07-28 20:24:03,789 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 04:45:00 change: -0.0000
+2026-07-28 20:24:03,789 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 04:20:00 change: 0.0001
+2026-07-28 20:24:03,789 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 02:00:00 change: -0.0008
+2026-07-28 20:24:03,789 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 00:40:00 change: -0.0005
+2026-07-28 20:24:03,789 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 04:50:00 change: -0.0002
+2026-07-28 20:24:03,790 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 04:25:00 change: -0.0001
+2026-07-28 20:24:03,790 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 02:10:00 change: -0.0001
+2026-07-28 20:24:03,790 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 00:50:00 change: -0.0005
+2026-07-28 20:24:03,790 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 05:00:00 change: -0.0001
+2026-07-28 20:24:03,791 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 04:45:00 change: -0.0001
+2026-07-28 20:24:03,791 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 02:15:00 change: -0.0001
+2026-07-28 20:24:03,791 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 00:55:00 change: -0.0007
+2026-07-28 20:24:03,791 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 05:05:00 change: -0.0003
+2026-07-28 20:24:03,791 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 04:55:00 change: -0.0001
+2026-07-28 20:24:03,791 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 02:20:00 change: -0.0003
+2026-07-28 20:24:03,792 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 01:00:00 change: 0.0006
+2026-07-28 20:24:03,792 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 05:10:00 change: -0.0002
+2026-07-28 20:24:03,792 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:00:00 change: -0.0001
+2026-07-28 20:24:03,792 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 02:25:00 change: -0.0002
+2026-07-28 20:24:03,792 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 01:05:00 change: -0.0003
+2026-07-28 20:24:03,792 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 05:15:00 change: 0.0000
+2026-07-28 20:24:03,793 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:05:00 change: -0.0001
+2026-07-28 20:24:03,793 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 02:30:00 change: -0.0003
+2026-07-28 20:24:03,793 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 01:10:00 change: 0.0003
+2026-07-28 20:24:03,793 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 05:25:00 change: 0.0003
+2026-07-28 20:24:03,793 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:10:00 change: 0.0001
+2026-07-28 20:24:03,793 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 02:35:00 change: 0.0003
+2026-07-28 20:24:03,794 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 01:20:00 change: 0.0015
+2026-07-28 20:24:03,794 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 05:35:00 change: -0.0001
+2026-07-28 20:24:03,794 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:15:00 change: 0.0001
+2026-07-28 20:24:03,794 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 02:40:00 change: -0.0007
+2026-07-28 20:24:03,795 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 01:35:00 change: 0.0003
+2026-07-28 20:24:03,795 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 05:40:00 change: 0.0001
+2026-07-28 20:24:03,795 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:20:00 change: -0.0000
+2026-07-28 20:24:03,795 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 02:45:00 change: -0.0002
+2026-07-28 20:24:03,795 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 01:40:00 change: -0.0002
+2026-07-28 20:24:03,796 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 05:45:00 change: -0.0001
+2026-07-28 20:24:03,796 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:25:00 change: 0.0000
+2026-07-28 20:24:03,796 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 02:50:00 change: -0.0003
+2026-07-28 20:24:03,796 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 01:45:00 change: -0.0005
+2026-07-28 20:24:03,796 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 05:50:00 change: 0.0001
+2026-07-28 20:24:03,796 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:30:00 change: 0.0001
+2026-07-28 20:24:03,797 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 02:55:00 change: 0.0003
+2026-07-28 20:24:03,797 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 01:50:00 change: 0.0008
+2026-07-28 20:24:03,797 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 05:55:00 change: 0.0001
+2026-07-28 20:24:03,797 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:35:00 change: 0.0000
+2026-07-28 20:24:03,797 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 03:00:00 change: 0.0002
+2026-07-28 20:24:03,798 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 01:55:00 change: -0.0003
+2026-07-28 20:24:03,798 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 06:00:00 change: 0.0001
+2026-07-28 20:24:03,798 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:40:00 change: -0.0000
+2026-07-28 20:24:03,798 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 03:05:00 change: -0.0005
+2026-07-28 20:24:03,798 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 02:10:00 change: 0.0010
+2026-07-28 20:24:03,798 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 06:05:00 change: -0.0001
+2026-07-28 20:24:03,799 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:45:00 change: 0.0001
+2026-07-28 20:24:03,799 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 03:15:00 change: -0.0008
+2026-07-28 20:24:03,799 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 02:15:00 change: 0.0002
+2026-07-28 20:24:03,799 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 06:10:00 change: 0.0001
+2026-07-28 20:24:03,799 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:50:00 change: -0.0000
+2026-07-28 20:24:03,799 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 03:20:00 change: -0.0001
+2026-07-28 20:24:03,799 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 02:20:00 change: 0.0009
+2026-07-28 20:24:03,800 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 06:15:00 change: 0.0000
+2026-07-28 20:24:03,800 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:55:00 change: 0.0001
+2026-07-28 20:24:03,800 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 03:25:00 change: -0.0003
+2026-07-28 20:24:03,800 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 02:25:00 change: -0.0003
+2026-07-28 20:24:03,800 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 06:20:00 change: 0.0001
+2026-07-28 20:24:03,800 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:00:00 change: 0.0001
+2026-07-28 20:24:03,801 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 03:30:00 change: -0.0004
+2026-07-28 20:24:03,801 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 02:40:00 change: -0.0010
+2026-07-28 20:24:03,801 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 06:25:00 change: 0.0002
+2026-07-28 20:24:03,801 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:05:00 change: -0.0001
+2026-07-28 20:24:03,801 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 03:35:00 change: 0.0005
+2026-07-28 20:24:03,801 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 02:45:00 change: -0.0007
+2026-07-28 20:24:03,802 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 06:40:00 change: -0.0001
+2026-07-28 20:24:03,802 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:10:00 change: -0.0001
+2026-07-28 20:24:03,802 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 03:45:00 change: 0.0007
+2026-07-28 20:24:03,802 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 02:50:00 change: -0.0005
+2026-07-28 20:24:03,802 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 06:45:00 change: -0.0001
+2026-07-28 20:24:03,803 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:15:00 change: 0.0000
+2026-07-28 20:24:03,803 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 03:50:00 change: -0.0003
+2026-07-28 20:24:03,803 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 02:55:00 change: -0.0004
+2026-07-28 20:24:03,803 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 06:50:00 change: 0.0003
+2026-07-28 20:24:03,803 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:20:00 change: 0.0001
+2026-07-28 20:24:03,803 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 03:55:00 change: 0.0007
+2026-07-28 20:24:03,804 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 03:00:00 change: 0.0003
+2026-07-28 20:24:03,804 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 06:55:00 change: -0.0002
+2026-07-28 20:24:03,804 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:25:00 change: -0.0002
+2026-07-28 20:24:03,804 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 04:00:00 change: -0.0004
+2026-07-28 20:24:03,805 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 03:05:00 change: -0.0007
+2026-07-28 20:24:03,805 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 07:00:00 change: -0.0001
+2026-07-28 20:24:03,805 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:30:00 change: 0.0002
+2026-07-28 20:24:03,805 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 04:05:00 change: -0.0002
+2026-07-28 20:24:03,805 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 03:15:00 change: -0.0005
+2026-07-28 20:24:03,805 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 07:05:00 change: 0.0004
+2026-07-28 20:24:03,805 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:35:00 change: -0.0001
+2026-07-28 20:24:03,805 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 04:10:00 change: 0.0005
+2026-07-28 20:24:03,806 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 03:20:00 change: 0.0002
+2026-07-28 20:24:03,806 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 07:10:00 change: 0.0001
+2026-07-28 20:24:03,806 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:40:00 change: -0.0001
+2026-07-28 20:24:03,806 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 04:15:00 change: -0.0018
+2026-07-28 20:24:03,806 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 03:30:00 change: 0.0002
+2026-07-28 20:24:03,806 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 07:15:00 change: -0.0001
+2026-07-28 20:24:03,807 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:45:00 change: 0.0000
+2026-07-28 20:24:03,807 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 04:20:00 change: -0.0004
+2026-07-28 20:24:03,807 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 03:40:00 change: -0.0005
+2026-07-28 20:24:03,807 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 07:20:00 change: -0.0002
+2026-07-28 20:24:03,808 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:50:00 change: -0.0001
+2026-07-28 20:24:03,808 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 04:30:00 change: 0.0007
+2026-07-28 20:24:03,808 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 03:45:00 change: -0.0005
+2026-07-28 20:24:03,808 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 07:30:00 change: 0.0000
+2026-07-28 20:24:03,808 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:55:00 change: -0.0003
+2026-07-28 20:24:03,808 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 04:35:00 change: -0.0011
+2026-07-28 20:24:03,809 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 03:50:00 change: -0.0005
+2026-07-28 20:24:03,809 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 07:40:00 change: -0.0001
+2026-07-28 20:24:03,809 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 07:00:00 change: 0.0002
+2026-07-28 20:24:03,809 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 04:40:00 change: -0.0008
+2026-07-28 20:24:03,809 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 03:55:00 change: 0.0005
+2026-07-28 20:24:03,810 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 07:45:00 change: -0.0002
+2026-07-28 20:24:03,810 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 07:05:00 change: -0.0001
+2026-07-28 20:24:03,810 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 04:50:00 change: 0.0006
+2026-07-28 20:24:03,810 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 04:05:00 change: -0.0009
+2026-07-28 20:24:03,810 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 07:50:00 change: -0.0001
+2026-07-28 20:24:03,810 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 07:15:00 change: -0.0001
+2026-07-28 20:24:03,811 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 05:00:00 change: 0.0002
+2026-07-28 20:24:03,811 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 04:10:00 change: 0.0009
+2026-07-28 20:24:03,811 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 08:00:00 change: 0.0003
+2026-07-28 20:24:03,811 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 07:20:00 change: -0.0002
+2026-07-28 20:24:03,811 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 05:10:00 change: 0.0006
+2026-07-28 20:24:03,812 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 04:20:00 change: 0.0013
+2026-07-28 20:24:03,812 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 08:05:00 change: 0.0001
+2026-07-28 20:24:03,812 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 07:25:00 change: -0.0000
+2026-07-28 20:24:03,812 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 05:15:00 change: 0.0005
+2026-07-28 20:24:03,812 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 04:25:00 change: 0.0002
+2026-07-28 20:24:03,813 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 08:10:00 change: -0.0001
+2026-07-28 20:24:03,813 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 07:35:00 change: 0.0003
+2026-07-28 20:24:03,813 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 05:20:00 change: -0.0012
+2026-07-28 20:24:03,813 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 04:30:00 change: 0.0011
+2026-07-28 20:24:03,813 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 08:15:00 change: 0.0001
+2026-07-28 20:24:03,813 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 07:45:00 change: 0.0001
+2026-07-28 20:24:03,814 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 05:25:00 change: 0.0006
+2026-07-28 20:24:03,814 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 04:35:00 change: -0.0007
+2026-07-28 20:24:03,814 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 08:20:00 change: 0.0002
+2026-07-28 20:24:03,814 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 07:50:00 change: -0.0002
+2026-07-28 20:24:03,814 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 05:30:00 change: 0.0004
+2026-07-28 20:24:03,814 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 04:40:00 change: 0.0008
+2026-07-28 20:24:03,815 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 08:25:00 change: -0.0001
+2026-07-28 20:24:03,815 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 07:55:00 change: 0.0002
+2026-07-28 20:24:03,815 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 05:35:00 change: 0.0002
+2026-07-28 20:24:03,815 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 04:45:00 change: 0.0015
+2026-07-28 20:24:03,815 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 08:40:00 change: 0.0001
+2026-07-28 20:24:03,815 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 08:00:00 change: -0.0004
+2026-07-28 20:24:03,816 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 05:40:00 change: 0.0003
+2026-07-28 20:24:03,816 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 04:55:00 change: 0.0010
+2026-07-28 20:24:03,816 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 08:45:00 change: 0.0001
+2026-07-28 20:24:03,816 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 08:05:00 change: 0.0001
+2026-07-28 20:24:03,816 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 05:45:00 change: 0.0002
+2026-07-28 20:24:03,816 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 05:00:00 change: -0.0009
+2026-07-28 20:24:03,817 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 08:50:00 change: -0.0001
+2026-07-28 20:24:03,817 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 08:25:00 change: 0.0001
+2026-07-28 20:24:03,817 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 05:50:00 change: 0.0007
+2026-07-28 20:24:03,817 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 05:10:00 change: 0.0009
+2026-07-28 20:24:03,817 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 08:55:00 change: 0.0001
+2026-07-28 20:24:03,817 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 08:35:00 change: 0.0003
+2026-07-28 20:24:03,818 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 05:55:00 change: 0.0006
+2026-07-28 20:24:03,818 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 05:15:00 change: -0.0003
+2026-07-28 20:24:03,818 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:00:00 change: -0.0001
+2026-07-28 20:24:03,818 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 08:40:00 change: -0.0001
+2026-07-28 20:24:03,818 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 06:00:00 change: -0.0003
+2026-07-28 20:24:03,818 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 05:20:00 change: -0.0004
+2026-07-28 20:24:03,819 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:05:00 change: -0.0003
+2026-07-28 20:24:03,819 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 08:45:00 change: -0.0001
+2026-07-28 20:24:03,819 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 06:20:00 change: -0.0002
+2026-07-28 20:24:03,819 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 05:30:00 change: 0.0002
+2026-07-28 20:24:03,819 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:10:00 change: -0.0001
+2026-07-28 20:24:03,819 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 08:50:00 change: 0.0001
+2026-07-28 20:24:03,820 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 06:30:00 change: -0.0004
+2026-07-28 20:24:03,820 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 05:35:00 change: 0.0006
+2026-07-28 20:24:03,820 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:15:00 change: 0.0000
+2026-07-28 20:24:03,820 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 08:55:00 change: -0.0001
+2026-07-28 20:24:03,820 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 06:35:00 change: 0.0002
+2026-07-28 20:24:03,820 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 05:45:00 change: 0.0010
+2026-07-28 20:24:03,821 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:20:00 change: -0.0000
+2026-07-28 20:24:03,821 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 09:05:00 change: 0.0002
+2026-07-28 20:24:03,821 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 06:40:00 change: 0.0007
+2026-07-28 20:24:03,821 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 05:50:00 change: 0.0005
+2026-07-28 20:24:03,821 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:25:00 change: -0.0001
+2026-07-28 20:24:03,821 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 09:15:00 change: 0.0001
+2026-07-28 20:24:03,822 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 06:45:00 change: 0.0002
+2026-07-28 20:24:03,822 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 05:55:00 change: -0.0011
+2026-07-28 20:24:03,822 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:30:00 change: -0.0001
+2026-07-28 20:24:03,822 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 09:30:00 change: 0.0001
+2026-07-28 20:24:03,822 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 06:55:00 change: -0.0002
+2026-07-28 20:24:03,822 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 06:00:00 change: 0.0004
+2026-07-28 20:24:03,823 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:40:00 change: -0.0002
+2026-07-28 20:24:03,823 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 09:35:00 change: -0.0001
+2026-07-28 20:24:03,823 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 07:10:00 change: -0.0008
+2026-07-28 20:24:03,823 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 06:10:00 change: 0.0004
+2026-07-28 20:24:03,823 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:45:00 change: -0.0001
+2026-07-28 20:24:03,823 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 09:40:00 change: 0.0001
+2026-07-28 20:24:03,824 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 07:15:00 change: 0.0006
+2026-07-28 20:24:03,824 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 06:15:00 change: 0.0005
+2026-07-28 20:24:03,824 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:50:00 change: -0.0001
+2026-07-28 20:24:03,824 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 09:45:00 change: 0.0000
+2026-07-28 20:24:03,824 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 07:20:00 change: 0.0006
+2026-07-28 20:24:03,825 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 06:20:00 change: -0.0006
+2026-07-28 20:24:03,825 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:55:00 change: -0.0003
+2026-07-28 20:24:03,825 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 09:50:00 change: 0.0002
+2026-07-28 20:24:03,825 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 07:25:00 change: -0.0009
+2026-07-28 20:24:03,825 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 06:25:00 change: 0.0004
+2026-07-28 20:24:03,825 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 10:00:00 change: -0.0000
+2026-07-28 20:24:03,826 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 09:55:00 change: -0.0002
+2026-07-28 20:24:03,826 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 07:30:00 change: 0.0007
+2026-07-28 20:24:03,826 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 06:30:00 change: -0.0005
+2026-07-28 20:24:03,826 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 10:05:00 change: -0.0001
+2026-07-28 20:24:03,826 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 10:00:00 change: 0.0001
+2026-07-28 20:24:03,826 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 07:35:00 change: -0.0008
+2026-07-28 20:24:03,826 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 06:35:00 change: 0.0009
+2026-07-28 20:24:03,827 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 10:10:00 change: 0.0002
+2026-07-28 20:24:03,827 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 10:10:00 change: 0.0001
+2026-07-28 20:24:03,827 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 07:40:00 change: -0.0006
+2026-07-28 20:24:03,827 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 06:40:00 change: 0.0010
+2026-07-28 20:24:03,827 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 10:15:00 change: -0.0001
+2026-07-28 20:24:03,827 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 10:15:00 change: 0.0001
+2026-07-28 20:24:03,828 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 07:50:00 change: -0.0003
+2026-07-28 20:24:03,828 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 06:55:00 change: 0.0010
+2026-07-28 20:24:03,828 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 10:20:00 change: 0.0002
+2026-07-28 20:24:03,828 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 10:20:00 change: -0.0002
+2026-07-28 20:24:03,828 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 07:55:00 change: 0.0002
+2026-07-28 20:24:03,828 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:00:00 change: -0.0006
+2026-07-28 20:24:03,829 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 10:25:00 change: -0.0001
+2026-07-28 20:24:03,829 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 10:30:00 change: 0.0001
+2026-07-28 20:24:03,829 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 08:10:00 change: 0.0002
+2026-07-28 20:24:03,829 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:05:00 change: -0.0005
+2026-07-28 20:24:03,829 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 10:30:00 change: 0.0003
+2026-07-28 20:24:03,829 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 10:45:00 change: 0.0002
+2026-07-28 20:24:03,830 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 08:15:00 change: -0.0005
+2026-07-28 20:24:03,830 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:10:00 change: 0.0003
+2026-07-28 20:24:03,830 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 10:35:00 change: 0.0001
+2026-07-28 20:24:03,830 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 10:50:00 change: 0.0000
+2026-07-28 20:24:03,830 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 08:20:00 change: 0.0006
+2026-07-28 20:24:03,830 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:15:00 change: 0.0006
+2026-07-28 20:24:03,831 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 10:40:00 change: -0.0003
+2026-07-28 20:24:03,831 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 10:55:00 change: -0.0002
+2026-07-28 20:24:03,831 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 08:25:00 change: 0.0009
+2026-07-28 20:24:03,831 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:20:00 change: -0.0009
+2026-07-28 20:24:03,831 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 10:45:00 change: 0.0001
+2026-07-28 20:24:03,832 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:00:00 change: 0.0001
+2026-07-28 20:24:03,832 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 08:40:00 change: -0.0008
+2026-07-28 20:24:03,832 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:25:00 change: 0.0010
+2026-07-28 20:24:03,832 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 10:50:00 change: 0.0003
+2026-07-28 20:24:03,832 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:05:00 change: -0.0002
+2026-07-28 20:24:03,832 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 08:45:00 change: 0.0004
+2026-07-28 20:24:03,833 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:30:00 change: -0.0005
+2026-07-28 20:24:03,833 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 10:55:00 change: -0.0001
+2026-07-28 20:24:03,833 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:10:00 change: 0.0002
+2026-07-28 20:24:03,833 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 08:55:00 change: -0.0007
+2026-07-28 20:24:03,833 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:35:00 change: -0.0006
+2026-07-28 20:24:03,834 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:00:00 change: -0.0001
+2026-07-28 20:24:03,834 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:15:00 change: 0.0001
+2026-07-28 20:24:03,834 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:00:00 change: -0.0003
+2026-07-28 20:24:03,834 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:40:00 change: 0.0005
+2026-07-28 20:24:03,834 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:05:00 change: -0.0002
+2026-07-28 20:24:03,834 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:25:00 change: 0.0002
+2026-07-28 20:24:03,835 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:05:00 change: 0.0009
+2026-07-28 20:24:03,835 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:50:00 change: -0.0008
+2026-07-28 20:24:03,835 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:10:00 change: 0.0001
+2026-07-28 20:24:03,835 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:30:00 change: -0.0001
+2026-07-28 20:24:03,835 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:10:00 change: 0.0013
+2026-07-28 20:24:03,835 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:55:00 change: 0.0003
+2026-07-28 20:24:03,836 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:15:00 change: 0.0003
+2026-07-28 20:24:03,836 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:35:00 change: 0.0001
+2026-07-28 20:24:03,836 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:15:00 change: 0.0007
+2026-07-28 20:24:03,836 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 08:00:00 change: 0.0005
+2026-07-28 20:24:03,836 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:20:00 change: 0.0002
+2026-07-28 20:24:03,837 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:40:00 change: -0.0001
+2026-07-28 20:24:03,837 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:20:00 change: -0.0003
+2026-07-28 20:24:03,837 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 08:05:00 change: -0.0002
+2026-07-28 20:24:03,837 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:25:00 change: 0.0001
+2026-07-28 20:24:03,837 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:50:00 change: 0.0002
+2026-07-28 20:24:03,837 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:25:00 change: 0.0006
+2026-07-28 20:24:03,838 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 08:10:00 change: -0.0003
+2026-07-28 20:24:03,838 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:30:00 change: -0.0001
+2026-07-28 20:24:03,838 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:00:00 change: -0.0004
+2026-07-28 20:24:03,838 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:30:00 change: 0.0008
+2026-07-28 20:24:03,838 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 08:20:00 change: -0.0002
+2026-07-28 20:24:03,838 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:35:00 change: 0.0002
+2026-07-28 20:24:03,839 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:10:00 change: -0.0001
+2026-07-28 20:24:03,839 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:35:00 change: -0.0006
+2026-07-28 20:24:03,839 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 08:25:00 change: -0.0003
+2026-07-28 20:24:03,839 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:40:00 change: -0.0002
+2026-07-28 20:24:03,839 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:15:00 change: -0.0001
+2026-07-28 20:24:03,840 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:40:00 change: -0.0007
+2026-07-28 20:24:03,840 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 08:30:00 change: 0.0005
+2026-07-28 20:24:03,840 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:45:00 change: -0.0001
+2026-07-28 20:24:03,840 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:20:00 change: -0.0001
+2026-07-28 20:24:03,840 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:45:00 change: -0.0010
+2026-07-28 20:24:03,840 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 08:35:00 change: -0.0002
+2026-07-28 20:24:03,841 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:50:00 change: 0.0002
+2026-07-28 20:24:03,841 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:30:00 change: -0.0002
+2026-07-28 20:24:03,841 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:55:00 change: -0.0004
+2026-07-28 20:24:03,841 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 08:45:00 change: -0.0013
+2026-07-28 20:24:03,841 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:55:00 change: 0.0001
+2026-07-28 20:24:03,841 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:35:00 change: -0.0001
+2026-07-28 20:24:03,841 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 10:05:00 change: -0.0011
+2026-07-28 20:24:03,842 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 08:50:00 change: 0.0003
+2026-07-28 20:24:03,842 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:00:00 change: -0.0001
+2026-07-28 20:24:03,842 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:40:00 change: -0.0001
+2026-07-28 20:24:03,842 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 10:15:00 change: -0.0008
+2026-07-28 20:24:03,842 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 08:55:00 change: -0.0006
+2026-07-28 20:24:03,842 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:05:00 change: 0.0003
+2026-07-28 20:24:03,843 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:45:00 change: -0.0001
+2026-07-28 20:24:03,843 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 10:20:00 change: -0.0005
+2026-07-28 20:24:03,843 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 09:00:00 change: 0.0005
+2026-07-28 20:24:03,843 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:10:00 change: -0.0001
+2026-07-28 20:24:03,843 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:55:00 change: -0.0001
+2026-07-28 20:24:03,843 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 10:25:00 change: -0.0007
+2026-07-28 20:24:03,844 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 09:05:00 change: -0.0008
+2026-07-28 20:24:03,844 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:20:00 change: -0.0001
+2026-07-28 20:24:03,844 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:00:00 change: 0.0001
+2026-07-28 20:24:03,844 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 10:30:00 change: -0.0006
+2026-07-28 20:24:03,844 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 09:10:00 change: -0.0007
+2026-07-28 20:24:03,844 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:25:00 change: -0.0001
+2026-07-28 20:24:03,844 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:10:00 change: 0.0001
+2026-07-28 20:24:03,844 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 10:35:00 change: 0.0004
+2026-07-28 20:24:03,844 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 09:20:00 change: 0.0004
+2026-07-28 20:24:03,846 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:40:00 change: 0.0002
+2026-07-28 20:24:03,846 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:15:00 change: 0.0002
+2026-07-28 20:24:03,846 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 10:45:00 change: 0.0005
+2026-07-28 20:24:03,846 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 09:25:00 change: 0.0002
+2026-07-28 20:24:03,846 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:45:00 change: 0.0002
+2026-07-28 20:24:03,847 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 10:50:00 change: -0.0007
+2026-07-28 20:24:03,848 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 09:30:00 change: -0.0004
+2026-07-28 20:24:03,848 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:50:00 change: -0.0002
+2026-07-28 20:24:03,848 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 10:55:00 change: -0.0011
+2026-07-28 20:24:03,850 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 09:35:00 change: -0.0016
+2026-07-28 20:24:03,850 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:00:00 change: 0.0002
+2026-07-28 20:24:03,851 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:00:00 change: -0.0003
+2026-07-28 20:24:03,856 | WARNING  | [ANOMALY] Total anomalies detected: EURGBP 173
+2026-07-28 20:24:03,856 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 09:45:00 change: 0.0007
+2026-07-28 20:24:03,856 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:05:00 change: 0.0002
+2026-07-28 20:24:03,857 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:05:00 change: -0.0008
+2026-07-28 20:24:03,857 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 1022
+2026-07-28 20:24:03,857 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 09:50:00 change: -0.0005
+2026-07-28 20:24:03,857 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:10:00 change: -0.0002
+2026-07-28 20:24:03,857 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:10:00 change: 0.0006
+2026-07-28 20:24:03,858 | INFO     | [DataAdapter] M5 anomaly detection completed for EURGBP
+2026-07-28 20:24:03,858 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 09:55:00 change: 0.0007
+2026-07-28 20:24:03,858 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:15:00 change: 0.0001
+2026-07-28 20:24:03,858 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:15:00 change: -0.0007
+2026-07-28 20:24:03,858 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP
+2026-07-28 20:24:03,858 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:00:00 change: -0.0004
+2026-07-28 20:24:03,860 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:20:00 change: 0.0007
+2026-07-28 20:24:03,860 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP
+2026-07-28 20:24:03,863 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:05:00 change: -0.0004
+2026-07-28 20:24:03,863 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:25:00 change: 0.0003
+2026-07-28 20:24:03,865 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 02:15:00 change: -0.0000
+2026-07-28 20:24:03,865 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:10:00 change: 0.0010
+2026-07-28 20:24:03,866 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:30:00 change: -0.0004
+2026-07-28 20:24:03,867 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 02:45:00 change: 0.0001
+2026-07-28 20:24:03,871 | WARNING  | [ANOMALY] Total anomalies detected: EURUSD 188
+2026-07-28 20:24:03,872 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:15:00 change: -0.0006
+2026-07-28 20:24:03,872 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:35:00 change: 0.0005
+2026-07-28 20:24:03,872 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:00:00 change: -0.0001
+2026-07-28 20:24:03,872 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 1060
+2026-07-28 20:24:03,872 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:20:00 change: -0.0004
+2026-07-28 20:24:03,873 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:45:00 change: -0.0002
+2026-07-28 20:24:03,873 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:15:00 change: -0.0001
+2026-07-28 20:24:03,873 | INFO     | [DataAdapter] M5 anomaly detection completed for EURUSD
+2026-07-28 20:24:03,873 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:25:00 change: -0.0007
+2026-07-28 20:24:03,873 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:50:00 change: -0.0005
+2026-07-28 20:24:03,874 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:30:00 change: -0.0001
+2026-07-28 20:24:03,874 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD
+2026-07-28 20:24:03,874 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:30:00 change: -0.0008
+2026-07-28 20:24:03,874 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:55:00 change: -0.0005
+2026-07-28 20:24:03,875 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 03:45:00 change: 0.0001
+2026-07-28 20:24:03,875 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD
+2026-07-28 20:24:03,875 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:35:00 change: 0.0002
+2026-07-28 20:24:03,875 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:00:00 change: -0.0010
+2026-07-28 20:24:03,875 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 04:00:00 change: 0.0000
+2026-07-28 20:24:03,878 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:40:00 change: 0.0004
+2026-07-28 20:24:03,878 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 02:15:00 change: -0.0002
+2026-07-28 20:24:03,878 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:10:00 change: 0.0004
+2026-07-28 20:24:03,878 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 04:15:00 change: -0.0001
+2026-07-28 20:24:03,879 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:45:00 change: -0.0004
+2026-07-28 20:24:03,879 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 02:30:00 change: 0.0001
+2026-07-28 20:24:03,879 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:15:00 change: 0.0003
+2026-07-28 20:24:03,879 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 04:45:00 change: -0.0002
+2026-07-28 20:24:03,879 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:50:00 change: 0.0003
+2026-07-28 20:24:03,879 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 02:45:00 change: 0.0003
+2026-07-28 20:24:03,880 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:20:00 change: 0.0002
+2026-07-28 20:24:03,880 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:00:00 change: -0.0001
+2026-07-28 20:24:03,880 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:55:00 change: -0.0008
+2026-07-28 20:24:03,880 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 03:00:00 change: -0.0001
+2026-07-28 20:24:03,880 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:25:00 change: 0.0003
+2026-07-28 20:24:03,880 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:15:00 change: 0.0001
+2026-07-28 20:24:03,881 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:00:00 change: -0.0002
+2026-07-28 20:24:03,881 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 03:15:00 change: 0.0002
+2026-07-28 20:24:03,881 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:30:00 change: 0.0002
+2026-07-28 20:24:03,881 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:30:00 change: 0.0001
+2026-07-28 20:24:03,881 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:05:00 change: -0.0005
+2026-07-28 20:24:03,881 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 03:30:00 change: -0.0001
+2026-07-28 20:24:03,881 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:40:00 change: -0.0003
+2026-07-28 20:24:03,882 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 05:45:00 change: 0.0002
+2026-07-28 20:24:03,882 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:10:00 change: -0.0018
+2026-07-28 20:24:03,882 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 03:45:00 change: -0.0001
+2026-07-28 20:24:03,882 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:55:00 change: -0.0006
+2026-07-28 20:24:03,882 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:00:00 change: -0.0001
+2026-07-28 20:24:03,882 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:20:00 change: -0.0008
+2026-07-28 20:24:03,883 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 04:00:00 change: -0.0003
+2026-07-28 20:24:03,883 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:05:00 change: 0.0013
+2026-07-28 20:24:03,883 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:15:00 change: -0.0001
+2026-07-28 20:24:03,883 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:30:00 change: -0.0002
+2026-07-28 20:24:03,883 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 04:45:00 change: -0.0002
+2026-07-28 20:24:03,883 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:10:00 change: -0.0002
+2026-07-28 20:24:03,883 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 06:45:00 change: -0.0004
+2026-07-28 20:24:03,883 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:35:00 change: 0.0011
+2026-07-28 20:24:03,883 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 05:00:00 change: -0.0006
+2026-07-28 20:24:03,883 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:15:00 change: -0.0003
+2026-07-28 20:24:03,884 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 07:00:00 change: 0.0001
+2026-07-28 20:24:03,884 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:40:00 change: 0.0003
+2026-07-28 20:24:03,884 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 05:15:00 change: 0.0003
+2026-07-28 20:24:03,885 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 07:15:00 change: -0.0004
+2026-07-28 20:24:03,885 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:45:00 change: -0.0006
+2026-07-28 20:24:03,885 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 06:00:00 change: 0.0001
+2026-07-28 20:24:03,886 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 07:30:00 change: 0.0003
+2026-07-28 20:24:03,887 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:50:00 change: 0.0007
+2026-07-28 20:24:03,889 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 06:15:00 change: 0.0003
+2026-07-28 20:24:03,889 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 07:45:00 change: 0.0001
+2026-07-28 20:24:03,889 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:55:00 change: 0.0005
+2026-07-28 20:24:03,889 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 06:30:00 change: -0.0001
+2026-07-28 20:24:03,889 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 08:00:00 change: -0.0003
+2026-07-28 20:24:03,890 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:10:00 change: -0.0012
+2026-07-28 20:24:03,891 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 06:45:00 change: -0.0001
+2026-07-28 20:24:03,894 | WARNING  | [ANOMALY] Total anomalies detected: EURGBP-OTC 187
+2026-07-28 20:24:03,894 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 08:30:00 change: 0.0002
+2026-07-28 20:24:03,895 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:15:00 change: 0.0008
+2026-07-28 20:24:03,895 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 07:00:00 change: 0.0004
+2026-07-28 20:24:03,895 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 1097
+2026-07-28 20:24:03,895 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 08:45:00 change: -0.0001
+2026-07-28 20:24:03,895 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:20:00 change: 0.0005
+2026-07-28 20:24:03,895 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 07:15:00 change: -0.0003
+2026-07-28 20:24:03,895 | INFO     | [DataAdapter] M5 anomaly detection completed for EURGBP-OTC
+2026-07-28 20:24:03,896 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 09:00:00 change: 0.0001
+2026-07-28 20:24:03,896 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:25:00 change: -0.0004
+2026-07-28 20:24:03,896 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 07:30:00 change: -0.0001
+2026-07-28 20:24:03,896 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-28 20:24:03,896 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 09:45:00 change: 0.0001
+2026-07-28 20:24:03,896 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:35:00 change: 0.0004
+2026-07-28 20:24:03,896 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 07:45:00 change: -0.0004
+2026-07-28 20:24:03,897 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-28 20:24:03,897 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 10:00:00 change: 0.0003
+2026-07-28 20:24:03,897 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:40:00 change: 0.0004
+2026-07-28 20:24:03,897 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 08:00:00 change: 0.0003
+2026-07-28 20:24:03,898 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 10:15:00 change: -0.0001
+2026-07-28 20:24:03,899 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 02:15:00 change: -0.0006
+2026-07-28 20:24:03,900 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:45:00 change: -0.0012
+2026-07-28 20:24:03,900 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 08:15:00 change: 0.0002
+2026-07-28 20:24:03,900 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 10:30:00 change: 0.0001
+2026-07-28 20:24:03,900 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 02:30:00 change: -0.0007
+2026-07-28 20:24:03,900 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:50:00 change: -0.0013
+2026-07-28 20:24:03,900 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 08:30:00 change: 0.0001
+2026-07-28 20:24:03,901 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 10:45:00 change: 0.0001
+2026-07-28 20:24:03,901 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 02:45:00 change: -0.0002
+2026-07-28 20:24:03,901 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:00:00 change: 0.0011
+2026-07-28 20:24:03,901 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 08:45:00 change: 0.0001
+2026-07-28 20:24:03,901 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:00:00 change: 0.0001
+2026-07-28 20:24:03,901 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 03:00:00 change: -0.0003
+2026-07-28 20:24:03,902 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:05:00 change: 0.0006
+2026-07-28 20:24:03,902 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:00:00 change: -0.0005
+2026-07-28 20:24:03,902 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:15:00 change: 0.0002
+2026-07-28 20:24:03,902 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 03:15:00 change: -0.0012
+2026-07-28 20:24:03,903 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:15:00 change: 0.0006
+2026-07-28 20:24:03,903 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:15:00 change: -0.0001
+2026-07-28 20:24:03,903 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:30:00 change: -0.0001
+2026-07-28 20:24:03,903 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 03:45:00 change: 0.0011
+2026-07-28 20:24:03,904 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:30:00 change: -0.0003
+2026-07-28 20:24:03,905 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 11:45:00 change: 0.0002
+2026-07-28 20:24:03,905 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 04:15:00 change: -0.0022
+2026-07-28 20:24:03,907 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 09:45:00 change: -0.0005
+2026-07-28 20:24:03,907 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:00:00 change: -0.0005
+2026-07-28 20:24:03,907 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 04:30:00 change: -0.0011
+2026-07-28 20:24:03,907 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 10:30:00 change: 0.0001
+2026-07-28 20:24:03,908 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:15:00 change: -0.0002
+2026-07-28 20:24:03,908 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 04:45:00 change: 0.0004
+2026-07-28 20:24:03,908 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 10:45:00 change: 0.0003
+2026-07-28 20:24:03,912 | WARNING  | [ANOMALY] Total anomalies detected: GBPUSD-OTC 198
+2026-07-28 20:24:03,912 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:30:00 change: -0.0005
+2026-07-28 20:24:03,913 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 05:00:00 change: 0.0009
+2026-07-28 20:24:03,913 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:00:00 change: -0.0002
+2026-07-28 20:24:03,913 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 1130
+2026-07-28 20:24:03,913 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 12:45:00 change: -0.0002
+2026-07-28 20:24:03,913 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 05:30:00 change: 0.0008
+2026-07-28 20:24:03,914 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:15:00 change: 0.0006
+2026-07-28 20:24:03,914 | INFO     | [DataAdapter] M5 anomaly detection completed for GBPUSD-OTC
+2026-07-28 20:24:03,914 | WARNING  | [ANOMALY] Price spike detected: EURGBP 2026-07-28 13:00:00 change: 0.0002
+2026-07-28 20:24:03,914 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 05:45:00 change: 0.0016
+2026-07-28 20:24:03,914 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:30:00 change: -0.0002
+2026-07-28 20:24:03,914 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-28 20:24:03,916 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 06:00:00 change: -0.0005
+2026-07-28 20:24:03,916 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 11:45:00 change: 0.0002
+2026-07-28 20:24:03,916 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-28 20:24:03,917 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 06:30:00 change: 0.0005
+2026-07-28 20:24:03,917 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:15:00 change: -0.0002
+2026-07-28 20:24:03,920 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 02:15:00 change: 0.0009
+2026-07-28 20:24:03,925 | WARNING  | [ANOMALY] Total anomalies detected: EURGBP 38
+2026-07-28 20:24:03,925 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 07:00:00 change: -0.0009
+2026-07-28 20:24:03,925 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:30:00 change: 0.0002
+2026-07-28 20:24:03,925 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 02:30:00 change: -0.0011
+2026-07-28 20:24:03,926 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 1168
+2026-07-28 20:24:03,926 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 07:15:00 change: 0.0003
+2026-07-28 20:24:03,926 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 12:45:00 change: 0.0001
+2026-07-28 20:24:03,926 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 02:45:00 change: -0.0016
+2026-07-28 20:24:03,926 | INFO     | [DataAdapter] M15 anomaly detection completed for EURGBP
+2026-07-28 20:24:03,926 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 07:30:00 change: -0.0007
+2026-07-28 20:24:03,927 | WARNING  | [ANOMALY] Price spike detected: EURUSD 2026-07-28 13:00:00 change: 0.0001
+2026-07-28 20:24:03,927 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 03:00:00 change: -0.0006
+2026-07-28 20:24:03,927 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP
+2026-07-28 20:24:03,927 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 08:15:00 change: 0.0010
+2026-07-28 20:24:03,928 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 03:45:00 change: -0.0005
+2026-07-28 20:24:03,928 | INFO     | [DataAdapter] Anomaly statistics for EURGBP: {'total_calls': 4, 'response_times': [1.2203290462493896, 0.9419562816619873, 0.10604977607727051, 0.3804926872253418], 'spike_count': 1168, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 1168, 'avg_response_time': np.float64(0.6622069478034973), 'max_response_time': np.float64(1.2203290462493896), 'min_response_time': np.float64(0.10604977607727051)}
+2026-07-28 20:24:03,929 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 08:30:00 change: -0.0011
+2026-07-28 20:24:03,930 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 04:15:00 change: 0.0015
+2026-07-28 20:24:03,930 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:00:00 change: 0.0020
+2026-07-28 20:24:03,935 | WARNING  | [ANOMALY] Total anomalies detected: EURUSD 37
+2026-07-28 20:24:03,935 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 04:30:00 change: 0.0011
+2026-07-28 20:24:03,935 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:15:00 change: 0.0011
+2026-07-28 20:24:03,936 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 1168
+2026-07-28 20:24:03,936 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 04:45:00 change: 0.0025
+2026-07-28 20:24:03,936 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:30:00 change: -0.0005
+2026-07-28 20:24:03,936 | INFO     | [DataAdapter] M15 anomaly detection completed for EURUSD
+2026-07-28 20:24:03,936 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 05:15:00 change: -0.0009
+2026-07-28 20:24:03,937 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 09:45:00 change: -0.0014
+2026-07-28 20:24:03,937 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD
+2026-07-28 20:24:03,937 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 05:30:00 change: 0.0008
+2026-07-28 20:24:03,937 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 10:00:00 change: -0.0011
+2026-07-28 20:24:03,937 | INFO     | [DataAdapter] Anomaly statistics for EURUSD: {'total_calls': 4, 'response_times': [1.2203290462493896, 0.9419562816619873, 0.10604977607727051, 0.3804926872253418], 'spike_count': 1168, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 1168, 'avg_response_time': np.float64(0.6622069478034973), 'max_response_time': np.float64(1.2203290462493896), 'min_response_time': np.float64(0.10604977607727051)}
+2026-07-28 20:24:03,937 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 05:45:00 change: 0.0005
+2026-07-28 20:24:03,937 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 10:15:00 change: -0.0021
+2026-07-28 20:24:03,937 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 06:00:00 change: 0.0006
+2026-07-28 20:24:03,939 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 10:45:00 change: -0.0013
+2026-07-28 20:24:03,939 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 06:15:00 change: 0.0003
+2026-07-28 20:24:03,939 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:00:00 change: -0.0005
+2026-07-28 20:24:03,939 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 06:30:00 change: 0.0014
+2026-07-28 20:24:03,939 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:15:00 change: 0.0003
+2026-07-28 20:24:03,940 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 06:45:00 change: 0.0008
+2026-07-28 20:24:03,940 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 11:45:00 change: -0.0012
+2026-07-28 20:24:03,940 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:00:00 change: -0.0008
+2026-07-28 20:24:03,940 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:00:00 change: -0.0005
+2026-07-28 20:24:03,940 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:15:00 change: 0.0007
+2026-07-28 20:24:03,940 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:15:00 change: 0.0009
+2026-07-28 20:24:03,940 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:30:00 change: -0.0005
+2026-07-28 20:24:03,941 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 12:45:00 change: -0.0008
+2026-07-28 20:24:03,941 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 07:45:00 change: -0.0004
+2026-07-28 20:24:03,941 | WARNING  | [ANOMALY] Price spike detected: EURGBP-OTC 2026-07-28 13:00:00 change: 0.0009
+2026-07-28 20:24:03,942 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 08:15:00 change: -0.0006
+2026-07-28 20:24:03,943 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 08:30:00 change: 0.0005
+2026-07-28 20:24:03,943 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 08:45:00 change: -0.0017
+2026-07-28 20:24:03,943 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 09:00:00 change: -0.0010
+2026-07-28 20:24:03,943 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 09:15:00 change: 0.0006
+2026-07-28 20:24:03,943 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 09:30:00 change: -0.0018
+2026-07-28 20:24:03,943 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 09:45:00 change: 0.0008
+2026-07-28 20:24:03,944 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:15:00 change: -0.0016
+2026-07-28 20:24:03,944 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:30:00 change: -0.0003
+2026-07-28 20:24:03,945 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 10:45:00 change: -0.0009
+2026-07-28 20:24:03,945 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:00:00 change: -0.0024
+2026-07-28 20:24:03,945 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:15:00 change: -0.0008
+2026-07-28 20:24:03,949 | WARNING  | [ANOMALY] Total anomalies detected: EURGBP-OTC 33
+2026-07-28 20:24:03,949 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:30:00 change: 0.0013
+2026-07-28 20:24:03,949 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 1168
+2026-07-28 20:24:03,949 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 11:45:00 change: 0.0006
+2026-07-28 20:24:03,949 | INFO     | [DataAdapter] M15 anomaly detection completed for EURGBP-OTC
+2026-07-28 20:24:03,950 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:00:00 change: -0.0009
+2026-07-28 20:24:03,950 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-28 20:24:03,950 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:15:00 change: 0.0009
+2026-07-28 20:24:03,950 | INFO     | [DataAdapter] Anomaly statistics for EURGBP-OTC: {'total_calls': 4, 'response_times': [1.2203290462493896, 0.9419562816619873, 0.10604977607727051, 0.3804926872253418], 'spike_count': 1168, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 1168, 'avg_response_time': np.float64(0.6622069478034973), 'max_response_time': np.float64(1.2203290462493896), 'min_response_time': np.float64(0.10604977607727051)}
+2026-07-28 20:24:03,950 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:30:00 change: 0.0008
+2026-07-28 20:24:03,951 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 12:45:00 change: -0.0024
+2026-07-28 20:24:03,951 | WARNING  | [ANOMALY] Price spike detected: GBPUSD-OTC 2026-07-28 13:00:00 change: 0.0018
+2026-07-28 20:24:03,958 | WARNING  | [ANOMALY] Total anomalies detected: GBPUSD-OTC 38
+2026-07-28 20:24:03,958 | ERROR    | [ANOMALY] Excessive anomalies threshold exceeded: 1168
+2026-07-28 20:24:03,958 | INFO     | [DataAdapter] M15 anomaly detection completed for GBPUSD-OTC
+2026-07-28 20:24:03,958 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-28 20:24:03,958 | INFO     | [DataAdapter] Anomaly statistics for GBPUSD-OTC: {'total_calls': 4, 'response_times': [1.2203290462493896, 0.9419562816619873, 0.10604977607727051, 0.3804926872253418], 'spike_count': 1168, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 1168, 'avg_response_time': np.float64(0.6622069478034973), 'max_response_time': np.float64(1.2203290462493896), 'min_response_time': np.float64(0.10604977607727051)}
+2026-07-28 20:24:04,069 | ERROR    | [AnomalyDetector] Error during analysis: 'AnomalyDetector' object has no attribute 'analyze'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 689, in _run_supplementary_engines
+    anom_res = self.anomaly_detector.analyze(df_m5)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'AnomalyDetector' object has no attribute 'analyze'
+2026-07-28 20:24:04,101 | ERROR    | Error running supplementary engines for EURUSD: 'AnomalyDetector' object has no attribute 'analyze'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 689, in _run_supplementary_engines
+    anom_res = self.anomaly_detector.analyze(df_m5)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'AnomalyDetector' object has no attribute 'analyze'
+2026-07-28 20:24:04,115 | ERROR    | Orchestrator failed for EURUSD
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 239, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 689, in _run_supplementary_engines
+    anom_res = self.anomaly_detector.analyze(df_m5)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'AnomalyDetector' object has no attribute 'analyze'
+2026-07-28 20:24:04,201 | ERROR    | [AnomalyDetector] Error during analysis: 'AnomalyDetector' object has no attribute 'analyze'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 689, in _run_supplementary_engines
+    anom_res = self.anomaly_detector.analyze(df_m5)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'AnomalyDetector' object has no attribute 'analyze'
+2026-07-28 20:24:04,247 | ERROR    | Error running supplementary engines for EURGBP: 'AnomalyDetector' object has no attribute 'analyze'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 689, in _run_supplementary_engines
+    anom_res = self.anomaly_detector.analyze(df_m5)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'AnomalyDetector' object has no attribute 'analyze'
+2026-07-28 20:24:04,268 | ERROR    | Orchestrator failed for EURGBP
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 239, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 689, in _run_supplementary_engines
+    anom_res = self.anomaly_detector.analyze(df_m5)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'AnomalyDetector' object has no attribute 'analyze'
+2026-07-28 20:24:04,347 | ERROR    | [AnomalyDetector] Error during analysis: 'AnomalyDetector' object has no attribute 'analyze'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 689, in _run_supplementary_engines
+    anom_res = self.anomaly_detector.analyze(df_m5)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'AnomalyDetector' object has no attribute 'analyze'
+2026-07-28 20:24:04,414 | ERROR    | Error running supplementary engines for GBPUSD-OTC: 'AnomalyDetector' object has no attribute 'analyze'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 689, in _run_supplementary_engines
+    anom_res = self.anomaly_detector.analyze(df_m5)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'AnomalyDetector' object has no attribute 'analyze'
+2026-07-28 20:24:04,445 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 239, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 689, in _run_supplementary_engines
+    anom_res = self.anomaly_detector.analyze(df_m5)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'AnomalyDetector' object has no attribute 'analyze'
+2026-07-28 20:24:04,530 | ERROR    | [AnomalyDetector] Error during analysis: 'AnomalyDetector' object has no attribute 'analyze'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 689, in _run_supplementary_engines
+    anom_res = self.anomaly_detector.analyze(df_m5)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'AnomalyDetector' object has no attribute 'analyze'
+2026-07-28 20:24:04,589 | ERROR    | Error running supplementary engines for EURGBP-OTC: 'AnomalyDetector' object has no attribute 'analyze'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 689, in _run_supplementary_engines
+    anom_res = self.anomaly_detector.analyze(df_m5)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'AnomalyDetector' object has no attribute 'analyze'
+2026-07-28 20:24:04,621 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 239, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 689, in _run_supplementary_engines
+    anom_res = self.anomaly_detector.analyze(df_m5)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'AnomalyDetector' object has no attribute 'analyze'
+2026-07-28 20:24:04,631 | INFO     | [EURUSD:1.13686][EURGBP:0.85498][GBPUSD-OTC:1.33164][EURGBP-OTC:0.85057] :: TOTAL=$1453.95
+2026-07-28 20:24:30,915 | INFO     | [TIME SYNC] Server time offset: -1.5940001010894775 seconds

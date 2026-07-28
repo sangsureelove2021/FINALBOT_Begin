@@ -81,6 +81,17 @@ class CandleValidator:
         if invalid_low.any():
             raise ValueError(f"Low price boundary violation detected in {invalid_low.sum()} rows for {symbol}")
 
+        # Non-negative price validation
+        negative_price = (df[['open', 'high', 'low', 'close']] < 0).any(axis=1)
+        if negative_price.any():
+            raise ValueError(f"Negative price detected in {negative_price.sum()} rows for symbol {symbol}")
+
+        # Non-negative volume validation
+        if "volume" in df.columns:
+            negative_vol = df['volume'] < 0
+            if negative_vol.any():
+                raise ValueError(f"Negative volume detected in {negative_vol.sum()} rows for symbol {symbol}")
+
         # Timestamp monotonicity check
         if isinstance(df.index, pd.DatetimeIndex) and not df.index.is_monotonic_increasing:
             raise ValueError(f"Timestamps out of order for {symbol}")

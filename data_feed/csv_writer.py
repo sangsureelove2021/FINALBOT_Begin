@@ -74,21 +74,25 @@ class CSVWriter:
         file_lock = get_file_lock(file_path)
         with file_lock:
             try:
+                dir_path = os.path.dirname(file_path)
+                if dir_path:
+                    os.makedirs(dir_path, exist_ok=True)
+
                 logger.info(f"[CSVWriter] Writing {len(df)} rows to {file_path}")
                 
                 # Prepare dataframe for writing
                 df_to_write = df.copy()
                 
-                # Select ONLY standard OHLCV columns (drop any injected anomaly tracking columns)
-                cols = ['open', 'high', 'low', 'close', 'volume']
+                # Select ONLY standard columns (OHLCV + age + quality)
+                cols = ['open', 'high', 'low', 'close', 'volume', 'age', 'quality']
                 df_to_write = df_to_write[[c for c in cols if c in df_to_write.columns]]
                 
                 # Format index according to configuration
                 if self.index_format == "timestamp":
                     df_to_write.index = pd.to_datetime(df_to_write.index).strftime(self.date_format)
                 
-                # Round decimal places
-                for col in cols:
+                # Round decimal places for numeric OHLCV columns
+                for col in ['open', 'high', 'low', 'close', 'volume']:
                     if col in df_to_write.columns:
                         df_to_write[col] = df_to_write[col].round(self.decimal_places)
                 
@@ -105,10 +109,12 @@ class CSVWriter:
                         combined_df.sort_index(inplace=True)
                         df_to_write = combined_df
                     except Exception as e:
-                        logger.warning(f"[CSVWriter] Could not merge with existing file {file_path}: {e}")
+                        logger.error(f"[CSVWriter] Could not merge with existing file {file_path}: {e}")
+                        traceback.print_exc()
+                        raise
 
                 # Write to temporary file and replace atomically
-                tmp_path = file_path + ".tmp"
+                tmp_path = f"{file_path}.{threading.get_ident()}.tmp"
                 df_to_write.to_csv(
                     path_or_buf=tmp_path,
                     encoding=self.encoding,

@@ -4,9 +4,9 @@ GLM - ‪E:\BOT_FINALBOT13 STG\BOT_FINALBOT_NEW\docs\About_Me\GLM_Chang'e\About_
 
 
 
-deepseek-agent --interactive
+  deepseek-agent --interactive
    
-deepseek-agent --dir "C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT" --interactive
+  deepseek-agent --dir "E:\BOT_FINALBOT\FINALBOT_Begin" --interactive
 
 
 เปิดอ่านไฟช์  DS_AGENT_PROMPT OVERVIEW.md ในโฟลเดอร์  C:\Users\Administrator\Documents\GitHub\BOT_FINALBOT\docs\Dictation_DS เพื่อรับคำสั่งมอบหมายงานจาก Boss

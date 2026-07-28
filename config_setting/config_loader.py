@@ -89,7 +89,10 @@ def get_session() -> Dict[str, Any]:
 
 
 def get_symbols() -> list[str]:
-    return list(load_settings(reload=True).get("symbols", ["EURUSD-OTC"]))
+    symbols = load_settings(reload=True).get("symbols")
+    if not symbols or not isinstance(symbols, list):
+        raise ValueError("FAIL-FAST: Missing or empty 'symbols' array in config_setting/settings.json")
+    return list(symbols)
 
 
 def load_datafeed_settings() -> Dict[str, Any]:

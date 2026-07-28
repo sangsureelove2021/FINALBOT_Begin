@@ -1,0 +1,113 @@
+2026-07-28 08:18:21,897 | INFO     | [NEWS] Calendar file for today (2026-07-28) already exists.
+2026-07-28 08:18:22,157 | INFO     | MarketStateClassifier initialised
+2026-07-28 08:18:22,160 | INFO     | กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+2026-07-28 08:18:22,160 | INFO     | [IQOPTION] Initialized with Zero Tolerance compliance
+2026-07-28 08:18:22,237 | INFO     | Using stable_api.IQ_Option class
+2026-07-28 08:18:22,237 | INFO     | [CONN] Connecting to IQ Option (DEMO) as venuz20152565@gmail.com...
+2026-07-28 08:18:22,238 | INFO     | [CONN] API created, attempting to connect...
+2026-07-28 08:18:24,953 | INFO     | [CONN] IQ Option connected (REAL MONEY)
+2026-07-28 08:18:24,954 | INFO     | เชื่อมต่อ IQ Option สำเร็จ
+2026-07-28 08:18:24,954 | INFO     | [CSVManager] Initialized with base_dir: data_base/csv/iq_option
+2026-07-28 08:18:24,954 | INFO     | [CSVWriter] Initialized with encoding: utf-8, decimals: 6
+2026-07-28 08:18:24,955 | INFO     | [CSVQueue] Initialized with 1 worker(s)
+2026-07-28 08:18:24,955 | INFO     | [DataMonitor] Initialized with log level: WARNING
+2026-07-28 08:18:24,955 | INFO     | [DataAdapter] Initialized with Zero Tolerance compliance
+2026-07-28 08:18:24,955 | INFO     | [ANOMALY] Initialized with thresholds: {'spike_threshold': 0.3, 'zero_volume_threshold': 0, 'impossible_candle_threshold': 0.001, 'spike_window': 20, 'max_consecutive_zero_volume': 3, 'max_consecutive_anomalies': 10}
+2026-07-28 08:18:24,955 | INFO     | [CandleValidator] Initialized with validation configuration
+2026-07-28 08:18:24,955 | INFO     | [DataAdapter] Initialized with configuration
+2026-07-28 08:18:25,342 | INFO     | บัญชี DEMO | Balance: $1453.95
+2026-07-28 08:18:25,342 | INFO     | Server time offset: -2.01200008392334 seconds
+2026-07-28 08:18:25,343 | INFO     | [TIME SYNC] Started time sync daemon thread (scheduled at :30 of every minute)
+2026-07-28 08:18:25,343 | INFO     | ตรวจพบรายการสินทรัพย์ : EURUSD, EURGBP, GBPUSD-OTC, EURGBP-OTC
+2026-07-28 08:18:25,343 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์ 4 รายการ : EURUSD, EURGBP, GBPUSD-OTC, EURGBP-OTC
+2026-07-28 08:18:25,629 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 100 candles
+2026-07-28 08:18:25,986 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 250 candles
+2026-07-28 08:18:26,238 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 50 candles
+2026-07-28 08:18:26,255 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-28 08:18:26,255 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:18:26,256 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:18:26,258 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv - Queue size: 0
+2026-07-28 08:18:26,258 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv - Queue size: 1
+2026-07-28 08:18:26,259 | INFO     | [DataAdapter] EURUSD initialised — M1:100 M5:250 M15:50
+2026-07-28 08:18:26,544 | INFO     | [CSVWriter] Successfully wrote 103 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:18:26,578 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:18:26,579 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 08:18:26,579 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 100 candles
+2026-07-28 08:18:26,579 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 08:18:26,925 | INFO     | [CSVWriter] Successfully wrote 250 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 08:18:26,925 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 08:18:26,926 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 250 candles
+2026-07-28 08:18:26,926 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 08:18:26,931 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 08:18:27,182 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 08:18:27,188 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 08:18:27,188 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 50 candles
+2026-07-28 08:18:27,188 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 08:18:27,202 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-28 08:18:27,202 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:18:27,202 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:18:27,204 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv - Queue size: 0
+2026-07-28 08:18:27,205 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv - Queue size: 1
+2026-07-28 08:18:27,206 | INFO     | [DataAdapter] EURGBP initialised — M1:100 M5:250 M15:50
+2026-07-28 08:18:27,260 | INFO     | [CSVWriter] Successfully wrote 103 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:18:27,276 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:18:27,291 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 08:18:27,307 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 08:18:27,474 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 100 candles
+2026-07-28 08:18:27,571 | INFO     | [CSVWriter] Successfully wrote 250 rows to data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 08:18:27,587 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 08:18:27,602 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-28 08:18:27,602 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-28 08:18:27,789 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 250 candles
+2026-07-28 08:18:27,795 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-28 08:18:27,796 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-28 08:18:27,798 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 08:18:28,054 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 50 candles
+2026-07-28 08:18:28,069 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 08:18:28,069 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:18:28,069 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:18:28,071 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 0
+2026-07-28 08:18:28,071 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 1
+2026-07-28 08:18:28,072 | INFO     | [DataAdapter] GBPUSD-OTC initialised — M1:100 M5:250 M15:50
+2026-07-28 08:18:28,173 | INFO     | [CSVWriter] Successfully wrote 104 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:18:28,188 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:18:28,203 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 08:18:28,219 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 08:18:28,363 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 100 candles
+2026-07-28 08:18:28,560 | INFO     | [CSVWriter] Successfully wrote 251 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 08:18:28,575 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 08:18:28,591 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 08:18:28,622 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 08:18:28,665 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 250 candles
+2026-07-28 08:18:28,794 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 08:18:28,809 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 08:18:28,825 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 08:18:28,938 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 50 candles
+2026-07-28 08:18:28,949 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-28 08:18:28,949 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:18:28,949 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:18:28,951 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 0
+2026-07-28 08:18:28,952 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 1
+2026-07-28 08:18:28,952 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:100 M5:250 M15:50
+2026-07-28 08:18:28,953 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-07-28 08:18:29,090 | INFO     | [CSVWriter] Successfully wrote 104 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:18:29,105 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:18:29,121 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 08:18:29,137 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 08:18:29,195 | INFO     | [CSVWriter] Successfully wrote 251 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 08:18:29,196 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 08:18:29,196 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 08:18:29,196 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 08:18:29,202 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 08:18:29,202 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 08:18:29,202 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 08:18:30,190 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=100)
+2026-07-28 08:18:30,352 | INFO     | [TIME SYNC] Re-synced server time offset: -1.9489998817443848 seconds
+2026-07-28 08:18:31,487 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=250)
+2026-07-28 08:18:32,723 | INFO     | [WS] Subscribed live candles stream for EURGBP (M1, count=100)
+2026-07-28 08:18:35,009 | INFO     | [WS] Subscribed live candles stream for EURGBP (M5, count=250)
+2026-07-28 08:18:36,285 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M1, count=100)
+2026-07-28 08:18:37,575 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M5, count=250)
+2026-07-28 08:18:38,814 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=100)
+2026-07-28 08:18:40,198 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=250)
+2026-07-28 08:18:40,198 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 21 วินาที  (เริ่ม 08:19:01)

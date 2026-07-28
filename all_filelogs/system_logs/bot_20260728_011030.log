@@ -1,0 +1,291 @@
+2026-07-28 08:10:30,924 | INFO     | FINALBOT Running
+2026-07-28 08:10:30,924 | INFO     | [NEWS] Calendar file for today (2026-07-28) already exists.
+2026-07-28 08:10:31,149 | INFO     | MarketStateClassifier initialised
+2026-07-28 08:10:31,152 | INFO     | กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+2026-07-28 08:10:31,152 | INFO     | [IQOPTION] Initialized with Zero Tolerance compliance
+2026-07-28 08:10:31,231 | INFO     | Using stable_api.IQ_Option class
+2026-07-28 08:10:31,232 | INFO     | [CONN] Connecting to IQ Option (DEMO) as venuz20152565@gmail.com...
+2026-07-28 08:10:31,232 | INFO     | [CONN] API created, attempting to connect...
+2026-07-28 08:10:33,323 | INFO     | [CONN] IQ Option connected (REAL MONEY)
+2026-07-28 08:10:33,324 | INFO     | เชื่อมต่อ IQ Option สำเร็จ
+2026-07-28 08:10:33,324 | INFO     | [CSVManager] Initialized with base_dir: data_base/csv/iq_option
+2026-07-28 08:10:33,324 | INFO     | [CSVWriter] Initialized with encoding: utf-8, decimals: 6
+2026-07-28 08:10:33,325 | INFO     | [CSVQueue] Initialized with 1 worker(s)
+2026-07-28 08:10:33,325 | INFO     | [DataMonitor] Initialized with log level: WARNING
+2026-07-28 08:10:33,325 | INFO     | [DataAdapter] Initialized with Zero Tolerance compliance
+2026-07-28 08:10:33,325 | INFO     | [ANOMALY] Initialized with thresholds: {'spike_threshold': 0.3, 'zero_volume_threshold': 0, 'impossible_candle_threshold': 0.001, 'spike_window': 20, 'max_consecutive_zero_volume': 3, 'max_consecutive_anomalies': 10}
+2026-07-28 08:10:33,325 | INFO     | [CandleValidator] Initialized with validation configuration
+2026-07-28 08:10:33,326 | INFO     | [DataAdapter] Initialized with configuration
+2026-07-28 08:10:33,801 | INFO     | บัญชี DEMO | Balance: $1453.95
+2026-07-28 08:10:33,801 | INFO     | Server time offset: -1.6440000534057617 seconds
+2026-07-28 08:10:33,801 | INFO     | [TIME SYNC] Started time sync daemon thread (scheduled at :30 of every minute)
+2026-07-28 08:10:33,802 | INFO     | ตรวจพบรายการสินทรัพย์ : EURUSD, EURGBP, GBPUSD-OTC, EURGBP-OTC
+2026-07-28 08:10:33,802 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์ 4 รายการ : EURUSD, EURGBP, GBPUSD-OTC, EURGBP-OTC
+2026-07-28 08:10:34,285 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 100 candles
+2026-07-28 08:10:34,720 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 250 candles
+2026-07-28 08:10:34,989 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 50 candles
+2026-07-28 08:10:35,002 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-28 08:10:35,003 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:10:35,003 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:10:35,005 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv - Queue size: 0
+2026-07-28 08:10:35,006 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv - Queue size: 1
+2026-07-28 08:10:35,006 | INFO     | [DataAdapter] EURUSD initialised — M1:100 M5:250 M15:50
+2026-07-28 08:10:35,269 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 100 candles
+2026-07-28 08:10:35,389 | INFO     | [CSVWriter] Successfully wrote 225 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:10:35,404 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:10:35,419 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 08:10:35,435 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 08:10:35,628 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 250 candles
+2026-07-28 08:10:35,775 | INFO     | [CSVWriter] Successfully wrote 275 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 08:10:35,791 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 08:10:35,806 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 08:10:35,822 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 08:10:35,875 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 50 candles
+2026-07-28 08:10:35,893 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-28 08:10:35,895 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv - Queue size: 1
+2026-07-28 08:10:35,896 | INFO     | [CSVWriter] Successfully wrote 58 rows to data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 08:10:35,896 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-28 08:10:35,896 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv - Queue size: 2
+2026-07-28 08:10:35,896 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:10:35,896 | INFO     | [DataAdapter] EURGBP initialised — M1:100 M5:250 M15:50
+2026-07-28 08:10:35,896 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:10:36,165 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 100 candles
+2026-07-28 08:10:36,191 | INFO     | [CSVWriter] Successfully wrote 101 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:10:36,207 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:10:36,222 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 08:10:36,238 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 08:10:36,493 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 250 candles
+2026-07-28 08:10:36,515 | INFO     | [CSVWriter] Successfully wrote 251 rows to data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 08:10:36,530 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 08:10:36,546 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-28 08:10:36,562 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-28 08:10:36,813 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 50 candles
+2026-07-28 08:10:36,818 | INFO     | [CSVWriter] Successfully wrote 50 rows to data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-28 08:10:36,824 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-28 08:10:36,824 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 08:10:36,825 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 08:10:36,825 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:10:36,825 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:10:36,827 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 0
+2026-07-28 08:10:36,828 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 1
+2026-07-28 08:10:36,828 | INFO     | [DataAdapter] GBPUSD-OTC initialised — M1:100 M5:250 M15:50
+2026-07-28 08:10:36,950 | INFO     | [CSVWriter] Successfully wrote 225 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:10:36,965 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:10:36,981 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 08:10:36,997 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 08:10:37,158 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 100 candles
+2026-07-28 08:10:37,385 | INFO     | [CSVWriter] Successfully wrote 275 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 08:10:37,401 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 08:10:37,417 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 08:10:37,417 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 08:10:37,459 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 250 candles
+2026-07-28 08:10:37,634 | INFO     | [CSVWriter] Successfully wrote 58 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 08:10:37,649 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-28 08:10:37,664 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 08:10:37,745 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 50 candles
+2026-07-28 08:10:37,759 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-28 08:10:37,759 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:10:37,760 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:10:37,762 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 0
+2026-07-28 08:10:37,763 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 1
+2026-07-28 08:10:37,763 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:100 M5:250 M15:50
+2026-07-28 08:10:37,764 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-07-28 08:10:37,865 | INFO     | [CSVWriter] Successfully wrote 225 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:10:37,880 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:10:37,896 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 08:10:37,911 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 08:10:38,104 | INFO     | [CSVWriter] Successfully wrote 275 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 08:10:38,104 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 08:10:38,104 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 08:10:38,104 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 08:10:38,112 | INFO     | [CSVWriter] Successfully wrote 58 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 08:10:38,112 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-28 08:10:38,112 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 08:10:39,093 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=100)
+2026-07-28 08:10:40,436 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=250)
+2026-07-28 08:10:41,715 | INFO     | [WS] Subscribed live candles stream for EURGBP (M1, count=100)
+2026-07-28 08:10:43,034 | INFO     | [WS] Subscribed live candles stream for EURGBP (M5, count=250)
+2026-07-28 08:10:44,298 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M1, count=100)
+2026-07-28 08:10:45,604 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M5, count=250)
+2026-07-28 08:10:47,893 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=100)
+2026-07-28 08:10:49,295 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=250)
+2026-07-28 08:10:49,295 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 12 วินาที  (เริ่ม 08:11:01)
+2026-07-28 08:10:49,295 | INFO     | เริ่ม Live Mode — วิเคราะห์ทุกแท่ง M1 (Ctrl+C หยุด)
+2026-07-28 08:11:01,556 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-28 08:11:01,556 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-28 08:11:01,556 | INFO     | [DataAdapter] Starting update for EURGBP
+2026-07-28 08:11:01,556 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP
+2026-07-28 08:11:01,557 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-28 08:11:01,557 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-28 08:11:01,557 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-28 08:11:01,558 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-28 08:11:01,817 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-28 08:11:01,854 | INFO     | [DataAdapter] M1 anomaly detection completed for EURUSD in 0.012s
+2026-07-28 08:11:01,956 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-28 08:11:01,956 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD
+2026-07-28 08:11:01,972 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:11:01,972 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD
+2026-07-28 08:11:02,019 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:11:02,255 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-28 08:11:02,340 | INFO     | [DataAdapter] M1 anomaly detection completed for EURGBP in 0.039s
+2026-07-28 08:11:02,455 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-28 08:11:02,455 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP
+2026-07-28 08:11:02,455 | INFO     | [CSVWriter] Successfully wrote 225 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:11:02,469 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP
+2026-07-28 08:11:02,516 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:11:02,578 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-28 08:11:02,593 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:11:02,670 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:11:02,679 | INFO     | [DataAdapter] M1 anomaly detection completed for GBPUSD-OTC in 0.005s
+2026-07-28 08:11:02,823 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 08:11:02,824 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-28 08:11:02,839 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-28 08:11:02,856 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-28 08:11:02,861 | INFO     | [CSVWriter] Successfully wrote 101 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:11:02,885 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:11:02,887 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:11:02,895 | INFO     | [DataAdapter] M1 anomaly detection completed for EURGBP-OTC in 0.009s
+2026-07-28 08:11:02,895 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:11:03,025 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-28 08:11:03,041 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-28 08:11:03,041 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-28 08:11:03,245 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-28 08:11:03,291 | WARNING  | [CSVWriter] os.replace failed (attempt 1/5) for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv: [WinError 2] The system cannot find the file specified: 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv.tmp' -> 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv'. Retrying in 0.10s...
+2026-07-28 08:11:03,377 | INFO     | [DataAdapter] M5 anomaly detection completed for EURUSD
+2026-07-28 08:11:03,445 | WARNING  | [CSVWriter] os.replace failed (attempt 2/5) for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv: [WinError 2] The system cannot find the file specified: 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv.tmp' -> 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv'. Retrying in 0.20s...
+2026-07-28 08:11:03,476 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv - Queue size: 1
+2026-07-28 08:11:03,493 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD
+2026-07-28 08:11:03,493 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-28 08:11:03,493 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD
+2026-07-28 08:11:03,553 | INFO     | [DataAdapter] M15 fetch skipped (not at 15-min boundary) for EURUSD
+2026-07-28 08:11:03,554 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD
+2026-07-28 08:11:03,554 | INFO     | [DataAdapter] Anomaly statistics for EURUSD: {'total_calls': 4, 'response_times': [0.011872529983520508, 0.03870677947998047, 0.005224466323852539, 0.009000062942504883], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.0162009596824646), 'max_response_time': np.float64(0.03870677947998047), 'min_response_time': np.float64(0.005224466323852539)}
+2026-07-28 08:11:03,580 | INFO     | [DataAdapter] M5 anomaly detection completed for EURGBP
+2026-07-28 08:11:03,706 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv - Queue size: 2
+2026-07-28 08:11:03,722 | WARNING  | [CSVWriter] os.replace failed (attempt 3/5) for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv: [WinError 2] The system cannot find the file specified: 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv.tmp' -> 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv'. Retrying in 0.40s...
+2026-07-28 08:11:03,753 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP
+2026-07-28 08:11:03,861 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP
+2026-07-28 08:11:03,861 | INFO     | [DataAdapter] M15 fetch skipped (not at 15-min boundary) for EURGBP
+2026-07-28 08:11:03,862 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP
+2026-07-28 08:11:03,862 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-28 08:11:03,892 | INFO     | [DataAdapter] Anomaly statistics for EURGBP: {'total_calls': 4, 'response_times': [0.011872529983520508, 0.03870677947998047, 0.005224466323852539, 0.009000062942504883], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.0162009596824646), 'max_response_time': np.float64(0.03870677947998047), 'min_response_time': np.float64(0.005224466323852539)}
+2026-07-28 08:11:04,004 | INFO     | [DataAdapter] M5 anomaly detection completed for GBPUSD-OTC
+2026-07-28 08:11:04,063 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 3
+2026-07-28 08:11:04,064 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-28 08:11:04,078 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-28 08:11:04,093 | INFO     | [DataAdapter] M15 fetch skipped (not at 15-min boundary) for GBPUSD-OTC
+2026-07-28 08:11:04,109 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-28 08:11:04,125 | INFO     | [DataAdapter] Anomaly statistics for GBPUSD-OTC: {'total_calls': 4, 'response_times': [0.011872529983520508, 0.03870677947998047, 0.005224466323852539, 0.009000062942504883], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.0162009596824646), 'max_response_time': np.float64(0.03870677947998047), 'min_response_time': np.float64(0.005224466323852539)}
+2026-07-28 08:11:04,170 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-28 08:11:04,185 | INFO     | [DataAdapter] M5 anomaly detection completed for EURGBP-OTC
+2026-07-28 08:11:04,189 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 4
+2026-07-28 08:11:04,190 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-28 08:11:04,190 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-28 08:11:04,190 | INFO     | [DataAdapter] M15 fetch skipped (not at 15-min boundary) for EURGBP-OTC
+2026-07-28 08:11:04,191 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-28 08:11:04,191 | INFO     | [DataAdapter] Anomaly statistics for EURGBP-OTC: {'total_calls': 4, 'response_times': [0.011872529983520508, 0.03870677947998047, 0.005224466323852539, 0.009000062942504883], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.0162009596824646), 'max_response_time': np.float64(0.03870677947998047), 'min_response_time': np.float64(0.005224466323852539)}
+2026-07-28 08:11:04,214 | WARNING  | [CSVWriter] os.replace failed (attempt 4/5) for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv: [WinError 2] The system cannot find the file specified: 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv.tmp' -> 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv'. Retrying in 0.80s...
+2026-07-28 08:11:05,015 | ERROR    | [CSVWriter] os.replace failed after 5 attempts for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:11:05,017 | ERROR    | [CSVWriter] Exception during os.replace(data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv.tmp, data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv)
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_feed\csv_writer.py", line 125, in write
+    os.replace(tmp_path, file_path)
+FileNotFoundError: [WinError 2] The system cannot find the file specified: 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv.tmp' -> 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv'
+2026-07-28 08:11:05,018 | ERROR    | [CSVWriter] Failed to write to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv: [WinError 2] The system cannot find the file specified: 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv.tmp' -> 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv'
+2026-07-28 08:11:05,019 | ERROR    | [CSVQueue] Asynchronous write failed for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv: [WinError 2] The system cannot find the file specified: 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv.tmp' -> 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv'
+2026-07-28 08:11:05,019 | ERROR    | [CSVQueue] Error details: FileNotFoundError: [WinError 2] The system cannot find the file specified: 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv.tmp' -> 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M1.csv'
+2026-07-28 08:11:05,019 | ERROR    | [CSVQueue] Total errors: 1
+2026-07-28 08:11:05,019 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:11:05,019 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:11:05,031 | INFO     | [CSVWriter] Successfully wrote 225 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:11:05,035 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:11:05,035 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 08:11:05,035 | INFO     | [CSVWriter] Writing 249 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 08:11:05,054 | INFO     | [CSVWriter] Successfully wrote 275 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 08:11:05,054 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-28 08:11:05,055 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 08:11:05,062 | INFO     | [CSVWriter] Writing 249 rows to data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 08:11:05,153 | INFO     | [CSVWriter] Successfully wrote 251 rows to data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 08:11:05,159 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-28 08:11:05,160 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 08:11:05,160 | INFO     | [CSVWriter] Writing 249 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 08:11:05,171 | INFO     | [CSVWriter] Successfully wrote 275 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 08:11:05,171 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-28 08:11:05,171 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 08:11:05,171 | INFO     | [CSVWriter] Writing 249 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 08:11:05,182 | INFO     | [CSVWriter] Successfully wrote 275 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 08:11:05,182 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-28 08:11:05,183 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 08:11:05,284 | INFO     | [EURUSD:1.13765][EURGBP:0.85571][GBPUSD-OTC:1.33024][EURGBP-OTC:0.85874] :: TOTAL=$1453.95
+2026-07-28 08:11:30,802 | INFO     | [TIME SYNC] Re-synced server time offset: -1.8599998950958252 seconds
+2026-07-28 08:12:01,594 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-28 08:12:01,594 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-28 08:12:01,595 | INFO     | [DataAdapter] Starting update for EURGBP
+2026-07-28 08:12:01,622 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-28 08:12:01,622 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP
+2026-07-28 08:12:01,668 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-28 08:12:01,668 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-28 08:12:01,810 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-28 08:12:01,816 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-28 08:12:01,865 | INFO     | [DataAdapter] M1 anomaly detection completed for EURUSD in 0.010s
+2026-07-28 08:12:01,964 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-28 08:12:01,980 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD
+2026-07-28 08:12:01,995 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:12:01,996 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD
+2026-07-28 08:12:02,041 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:12:02,104 | INFO     | [DataAdapter] M5 fetch skipped (not at 5-min boundary) for EURUSD
+2026-07-28 08:12:02,185 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD
+2026-07-28 08:12:02,246 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD
+2026-07-28 08:12:02,260 | INFO     | [DataAdapter] M15 fetch skipped (not at 15-min boundary) for EURUSD
+2026-07-28 08:12:02,276 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD
+2026-07-28 08:12:02,324 | INFO     | [DataAdapter] Anomaly statistics for EURUSD: {'total_calls': 5, 'response_times': [0.011872529983520508, 0.03870677947998047, 0.005224466323852539, 0.009000062942504883, 0.009540557861328125], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.014868879318237304), 'max_response_time': np.float64(0.03870677947998047), 'min_response_time': np.float64(0.005224466323852539)}
+2026-07-28 08:12:02,325 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-28 08:12:02,395 | INFO     | [DataAdapter] M1 anomaly detection completed for EURGBP in 0.021s
+2026-07-28 08:12:02,464 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-28 08:12:02,479 | INFO     | [CSVWriter] Successfully wrote 225 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:12:02,494 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP
+2026-07-28 08:12:02,494 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-28 08:12:02,525 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP
+2026-07-28 08:12:02,602 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:12:02,617 | INFO     | [DataAdapter] M5 fetch skipped (not at 5-min boundary) for EURGBP
+2026-07-28 08:12:02,665 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:12:02,665 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-28 08:12:02,666 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP
+2026-07-28 08:12:02,720 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP
+2026-07-28 08:12:02,727 | INFO     | [DataAdapter] M15 fetch skipped (not at 15-min boundary) for EURGBP
+2026-07-28 08:12:02,760 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP
+2026-07-28 08:12:02,790 | INFO     | [DataAdapter] Anomaly statistics for EURGBP: {'total_calls': 6, 'response_times': [0.011872529983520508, 0.03870677947998047, 0.005224466323852539, 0.009000062942504883, 0.009540557861328125, 0.02094888687133789], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.015882213910420735), 'max_response_time': np.float64(0.03870677947998047), 'min_response_time': np.float64(0.005224466323852539)}
+2026-07-28 08:12:02,855 | INFO     | [DataAdapter] M1 anomaly detection completed for GBPUSD-OTC in 0.097s
+2026-07-28 08:12:02,946 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-28 08:12:02,960 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-28 08:12:02,960 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-28 08:12:02,964 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-28 08:12:02,964 | INFO     | [DataAdapter] M5 fetch skipped (not at 5-min boundary) for GBPUSD-OTC
+2026-07-28 08:12:02,965 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-28 08:12:02,966 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-28 08:12:02,966 | INFO     | [CSVWriter] Successfully wrote 101 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:12:02,971 | INFO     | [DataAdapter] M15 fetch skipped (not at 15-min boundary) for GBPUSD-OTC
+2026-07-28 08:12:02,977 | INFO     | [DataAdapter] M1 anomaly detection completed for EURGBP-OTC in 0.006s
+2026-07-28 08:12:02,977 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-28 08:12:02,977 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-28 08:12:02,979 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:12:02,980 | INFO     | [DataAdapter] Anomaly statistics for GBPUSD-OTC: {'total_calls': 8, 'response_times': [0.011872529983520508, 0.03870677947998047, 0.005224466323852539, 0.009000062942504883, 0.009540557861328125, 0.02094888687133789, 0.09653735160827637, 0.005851268768310547], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.024710237979888916), 'max_response_time': np.float64(0.09653735160827637), 'min_response_time': np.float64(0.005224466323852539)}
+2026-07-28 08:12:02,980 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:12:02,980 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-28 08:12:02,982 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-28 08:12:02,982 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-28 08:12:02,983 | INFO     | [DataAdapter] M5 fetch skipped (not at 5-min boundary) for EURGBP-OTC
+2026-07-28 08:12:02,983 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-28 08:12:02,983 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-28 08:12:02,983 | INFO     | [DataAdapter] M15 fetch skipped (not at 15-min boundary) for EURGBP-OTC
+2026-07-28 08:12:02,983 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-28 08:12:02,984 | INFO     | [DataAdapter] Anomaly statistics for EURGBP-OTC: {'total_calls': 8, 'response_times': [0.011872529983520508, 0.03870677947998047, 0.005224466323852539, 0.009000062942504883, 0.009540557861328125, 0.02094888687133789, 0.09653735160827637, 0.005851268768310547], 'spike_count': 0, 'zero_volume_count': 0, 'impossible_candle_count': 0, 'consecutive_anomalies': 0, 'avg_response_time': np.float64(0.024710237979888916), 'max_response_time': np.float64(0.09653735160827637), 'min_response_time': np.float64(0.005224466323852539)}
+2026-07-28 08:12:03,002 | INFO     | [CSVWriter] Successfully wrote 226 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:12:03,002 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-28 08:12:03,003 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:12:03,003 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:12:03,014 | INFO     | [CSVWriter] Successfully wrote 226 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:12:03,014 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-28 08:12:03,014 | INFO     | [CSVQueue] Queue size: 0
+2026-07-28 08:12:03,472 | INFO     | [EURUSD:1.13763][EURGBP:0.85569][GBPUSD-OTC:1.33011][EURGBP-OTC:0.85872] :: TOTAL=$1453.95
+2026-07-28 08:12:30,802 | INFO     | [TIME SYNC] Re-synced server time offset: -2.052000045776367 seconds

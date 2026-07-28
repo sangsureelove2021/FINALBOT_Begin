@@ -145,8 +145,14 @@ class DataAdapter(IDataSource):
             # Set up block tracking using broker time offset if available
             time_offset = getattr(self._iq, 'time_offset', 0.0) if hasattr(self._iq, 'time_offset') else 0.0
             epoch_now = int(datetime.now(timezone.utc).timestamp() + time_offset)
+            now_naive = datetime.fromtimestamp(epoch_now, tz=timezone.utc).replace(tzinfo=None)
             self._last_block_m5[symbol] = epoch_now // self.m5_seconds
             self._last_block_m15[symbol] = epoch_now // self.m15_seconds
+
+            # Add age and quality columns to initial candles
+            m1 = self._add_age_and_quality(m1, now_naive, 60)
+            m5 = self._add_age_and_quality(m5, now_naive, 300)
+            m15 = self._add_age_and_quality(m15, now_naive, 900)
 
             # Enqueue initial writes
             self._csv_queue.enqueue_write(m1, self._csv_manager.get_file_path(symbol, "M1"))
@@ -160,8 +166,8 @@ class DataAdapter(IDataSource):
             logger.exception(f"[DataAdapter] Failed to init {symbol}: {e}")
             raise
 
-    def update(self, symbol: str, broker_epoch: float) -> Optional[Tuple[str, float, dict]]:
-        """Refresh candle stores and write CSVs via background queue."""
+    def update(self, symbol: str, broker_epoch: float) -> str:
+        """Refresh candle stores and write CSVs via background queue. Returns symbol string on success."""
         if not isinstance(symbol, str):
             raise TypeError("symbol must be a string")
         if not isinstance(broker_epoch, (int, float)):
@@ -194,41 +200,20 @@ class DataAdapter(IDataSource):
             completed_m15 = self._refresh_m15(symbol, now_naive, current_block_m15)
             logger.info(f"[DataAdapter] M15 data refresh completed for {symbol}")
 
-            # Get latest data
-            store_m1_df = self._store_m1[symbol]
-            store_m5_df = self._store_m5[symbol]
+            # Report latency to DataMonitor if data is available
+            if completed_m1 is not None and not completed_m1.empty and 'age' in completed_m1.columns:
+                self._data_monitor.report_latency(symbol, "M1", int(completed_m1['age'].iloc[-1]))
+            if completed_m5 is not None and not completed_m5.empty and 'age' in completed_m5.columns:
+                self._data_monitor.report_latency(symbol, "M5", int(completed_m5['age'].iloc[-1]))
 
-            m1_last = store_m1_df.iloc[-1]
-            m5_last = store_m5_df.iloc[-1]
-
-            # Calculate metrics (convert naive candle timestamps to UTC epoch to avoid local timezone offset errors)
-            m1_open = float(m1_last['open'])
-            if hasattr(m1_last.name, 'timestamp'):
-                m1_ts_utc = m1_last.name.tz_localize(timezone.utc).timestamp() if m1_last.name.tz is None else m1_last.name.timestamp()
-            else:
-                m1_ts_utc = pd.to_datetime(m1_last.name, utc=True).timestamp()
-            m1_age = max(0, int((broker_epoch - m1_ts_utc) * 1000))
-            m1_quality = self._calculate_quality(m1_age)
-            self._data_monitor.report_latency(symbol, "M1", m1_age)
-
-            m5_open = float(m5_last['open'])
-            if hasattr(m5_last.name, 'timestamp'):
-                m5_ts_utc = m5_last.name.tz_localize(timezone.utc).timestamp() if m5_last.name.tz is None else m5_last.name.timestamp()
-            else:
-                m5_ts_utc = pd.to_datetime(m5_last.name, utc=True).timestamp()
-            m5_age = max(0, int((broker_epoch - m5_ts_utc) * 1000))
-            m5_quality = self._calculate_quality(m5_age)
-            self._data_monitor.report_latency(symbol, "M5", m5_age)
-
-            # Rules: OHLCV must NOT be passed via RAM.
-            
             # Log anomaly statistics
             try:
                 stats = self._anomaly_detector.get_statistics()
                 logger.info(f"[DataAdapter] Anomaly statistics for {symbol}: {stats}")
             except Exception as e:
                 logger.error(f"[DataAdapter] Failed to get anomaly statistics: {e}")
-            
+
+            # Return only symbol string on successful write queuing
             return symbol
 
         except Exception as e:
@@ -280,6 +265,7 @@ class DataAdapter(IDataSource):
             raise RuntimeError(f"Zero Tolerance: Anomaly detection failed for {symbol}: {e}")
 
         self._validator.validate(completed, symbol)
+        completed = self._add_age_and_quality(completed, now_naive, 60)
         self._csv_queue.enqueue_write(completed, self._csv_manager.get_file_path(symbol, "M1"))
         return completed
 
@@ -327,6 +313,7 @@ class DataAdapter(IDataSource):
         # Write CSV only when the 5-min block changes or initial store is loaded
         if block_changed:
             self._validator.validate(completed, symbol)
+            completed = self._add_age_and_quality(completed, now_naive, 300)
             self._csv_queue.enqueue_write(completed, self._csv_manager.get_file_path(symbol, "M5"))
 
         return completed
@@ -378,9 +365,38 @@ class DataAdapter(IDataSource):
         # Write CSV only when the 15-min block changes or initial store is loaded
         if block_changed:
             self._validator.validate(completed, symbol)
+            completed = self._add_age_and_quality(completed, now_naive, 900)
             self._csv_queue.enqueue_write(completed, self._csv_manager.get_file_path(symbol, "M15"))
 
         return completed
+
+    @staticmethod
+    def _add_age_and_quality(df: pd.DataFrame, now_naive: datetime, tf_seconds: int) -> pd.DataFrame:
+        """
+        Calculate age (ms) from actual candle close time (candle start + tf_seconds)
+        and quality ('FRESH' if age <= threshold else 'STALE').
+        Threshold: 2 * tf_seconds * 1000 ms (M1: 120,000ms, M5: 600,000ms, M15: 1,800,000ms)
+        """
+        if df is None or df.empty:
+            return df
+
+        df_copy = df.copy()
+        now_epoch = now_naive.replace(tzinfo=timezone.utc).timestamp() if now_naive.tzinfo is None else now_naive.timestamp()
+
+        # Convert index to array of epoch timestamps in seconds
+        dt_index = pd.to_datetime(df_copy.index, utc=True)
+        start_epochs = np.array([ts.timestamp() for ts in dt_index])
+
+        close_epochs = start_epochs + tf_seconds
+        age_ms_array = np.maximum(0, ((now_epoch - close_epochs) * 1000)).astype(int)
+
+        # Threshold for FRESH vs STALE (2 * tf_seconds * 1000 ms)
+        threshold_ms = tf_seconds * 2 * 1000
+        quality_array = np.where(age_ms_array <= threshold_ms, 'FRESH', 'STALE')
+
+        df_copy['age'] = age_ms_array
+        df_copy['quality'] = quality_array
+        return df_copy
 
     @staticmethod
     def _calculate_quality(age_ms: int) -> str:

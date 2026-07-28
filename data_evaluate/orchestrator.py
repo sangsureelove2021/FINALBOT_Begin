@@ -203,15 +203,7 @@ class Orchestrator:
 
         # ── 2. Basic Indicators (indicator_store.py) ────────────────────
         try:
-            forming_data = {
-                'm1_open': float(candles_dict['M1']['open'].iloc[-1]),
-                'm1_age': 0,
-                'm1_quality': 'FRESH',
-                'm5_open': float(candles_dict['M5']['open'].iloc[-1]),
-                'm5_age': 0,
-                'm5_quality': 'FRESH'
-            }
-            store.calculate_all(symbol, candles_dict, forming_data=forming_data)
+            store.calculate_all(symbol, candles_dict, forming_data=None)
             basic_payload = store.get_payload(symbol)
             final_payload.update(basic_payload) # merge m1, m5, ohlcv
         except Exception as e:
@@ -953,7 +945,7 @@ class Orchestrator:
             return str(v)
 
         lines = [
-            f"ID: {prompt_id}",
+            f"ID:{prompt_id}",
             "meta:",
             f"  timestamp: '{meta.get('timestamp', '')}'",
             f"  symbol: {meta.get('symbol', '')}",

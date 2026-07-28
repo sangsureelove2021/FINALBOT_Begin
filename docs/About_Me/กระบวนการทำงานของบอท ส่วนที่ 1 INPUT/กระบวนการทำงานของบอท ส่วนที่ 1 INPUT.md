@@ -2,27 +2,31 @@
 
 ## 🎯 ทำความเข้าใจได้ทันที
 
-บอท FINALBOT มีระบบ **Data Feed** ที่ดึงข้อมูลตลาดแบบเรียลไทม์จาก **IQ Option** และนำเข้าสู่ระบบตรวจสอบและวิเคราะห์ โดยมีการประมวลผลข้อมูลแบบ **Real-time (ทันที)** และบันทึกข้อมูลแบบ **Async (ไม่บล็อกหลัก)** อย่างรวดเร็ว
+บอท FINALBOT มีระบบ **Data Feed** ที่ดึงข้อมูลตลาดแบบเรียลไทม์จาก **IQ Option** และนำเข้าสู่ระบบตรวจสอบและวิเคราะห์ โดยมีการประมวลผลข้อมูลแบบ **Real-time (ทันที)** และบันทึกข้อมูลแบบ **Async (ไม่บล็อกหลัก)** ลงดิสก์ และใช้สถาปัตยกรรม **Zero RAM Data Leakage 100%** โดย Part 1 (`data_feed`) ตัดการส่งผ่าน Dictionary หรือ Payload ข้อมูลราคาทาง RAM ข้ามไปหา Part 2 (`data_evaluate`) เด็ดขาด เมธอด `data_adapter.update()` จะคืนค่าเฉพาะสตริง `symbol` เท่านั้น และส่วนงานที่ 2 อ่านไฟล์ CSV จากดิสก์ด้วยตัวเอง
 
-## 🚨 กฎการทำงานของบอท ที่ AI ต้องทำตาม
-- หากระบบทำงานผิดพลาด ให้แสดง Error ที่คอนโซล หยุดทำงาน และบันทึกรายงานความผิดพลาดไว้ที่ `\all_filelogs\logs_datafeed` ห้ามมีระบบ Fallback ระบบต้องมีเพียงหนึ่งเดียวที่ทำงานได้ถูกต้อง
-- ห้ามสร้างระบบให้มี Mock การทำงาน หรือการทดสอบต้องมาจากระบบจริง ทุกอย่างต้องรันจริง
-- หากเปลี่ยนแปลง แก้ไข ข้อมูล ข้อความ โค้ด หรือสิ่งต่าง ๆ ในบอท เอกสารนี้ต้องได้รับการแก้ไข อัปเดตตามจริงทุกครั้ง
+---
+
+## 🚨 กฎการทำงานของบอท ที่ AI ต้องทำตาม (Fail-Fast & Zero Tolerance)
+- **ห้ามมีระบบ Fallback โดยเด็ดขาด**: หากระบบทำงานผิดพลาด ให้ระเบิด Error (raise Exception/ValueError/RuntimeError) หยุดทำงานทันทีแบบ Fail-Fast และบันทึกรายงานความผิดพลาดไว้ที่ `\all_filelogs\logs_datafeed` ระบบต้องมีเพียงหนึ่งเดียวที่ทำงานได้ถูกต้อง
+- **ห้ามสร้างระบบ Mock**: การทดสอบต้องมาจากระบบจริง รันจริง 100%
+- **Zero RAM Data Leakage**: ห้ามส่ง DataFrame หรือ Payload ข้อมูลราคาผ่าน RAM ระหว่าง Part 1 ไปยัง Part 2 เมธอด `update()` คืนค่าเฉพาะสตริง `symbol` เท่านั้น
+- **เอกสารตรงตามจริง 100%**: หากเปลี่ยนแปลง แก้ไข โค้ดหรือสถาปัตยกรรม เอกสารนี้ต้องได้รับการอัปเดตตามซอร์สโค้ดจริงทุกครั้ง
 
 ---
 
 ## 🏗️ โครงสร้างระบบ Data Feed
 
-### 10 ไฟล์ที่ทำงานร่วมกัน
+### 11 ไฟล์ที่ทำงานร่วมกัน
 
 ```
-Data Feed System = 10 ไฟล์ที่ทำงานร่วมกัน
+Data Feed System = 11 ไฟล์ที่ทำงานร่วมกัน
 ├── iq_option_adapter.py      → ดึงข้อมูลจาก IQ Option API
 ├── data_adapter.py            → กลางคั่น ควบคุมการส่งข้อมูลทั้งหมด (👑 สำคัญที่สุด)
+├── time_calendar_manager.py   → ศูนย์กลางบริหารจัดการเวลาและข่าวสารเศรษฐกิจประจำวัน (⏰)
 ├── timeframe_sync.py          → ประสาน timeframe M1, M5, M15 (มีโครงสร้างแต่ไม่ได้เรียกใช้งานจริง)
 ├── candle_validator.py        → ตรวจสอบคุณภาพข้อมูลตามเกณฑ์ราคาและปริมาณ
-├── csv_queue.py               → คิวงานเขียนไฟล์ (🚀 Non-blocking)
-├── csv_writer.py              → เขียนข้อมูลลงดิสก์ (💾 Async) และกรองเฉพาะคอลัมน์มาตรฐาน
+├── csv_queue.py               → คิวงานเขียนไฟล์ (🚀 Non-blocking & Fail-Fast เมื่อคิวเกิน 1,000)
+├── csv_writer.py              → เขียนข้อมูลลงดิสก์ (💾 Async) กรอง 8 คอลัมน์มาตรฐาน และ Atomic Replace
 ├── csv_manager.py             → จัดการโฟลเดอร์ ไฟล์ และการลบไฟล์เก่า (📁)
 ├── data_monitor.py            → เฝ้าระวังระบบและความพร้อมใช้งานตลอดเวลา
 ├── data_source.py             → ตัวจัดการหลัก (Abstract)
@@ -34,22 +38,178 @@ Data Feed System = 10 ไฟล์ที่ทำงานร่วมกัน
 **👑 DataAdapter (data_adapter.py) = สมองกลางควบคุมทั้งหมด**
 
 DataAdapter ทำหน้าที่:
-1. รับข้อมูลจาก IQ Option
-2. เก็บข้อมูลใน **RAM** (หน่วยความจำ) เร็วมาก
-3. ประมวลผลข้อมูล (Timeframe Sync, Validation)
-4. ส่งข้อมูลให้ **csv_queue.py** เพื่อเขียนลงดิสก์
-5. เฝ้าระวังประสิทธิภาพระบบ
+1. รับข้อมูลจาก IQ Option API
+2. เก็บข้อมูลแท่งเทียนชั่วคราวใน **RAM Storage Internal** (`_store_m1`, `_store_m5`, `_store_m15`)
+3. ประมวลผลข้อมูล (Validation, Anomaly Detection, คำนวณ `age` และ `quality`)
+4. ส่งข้อมูลให้ **csv_queue.py** เพื่อเขียนลงดิสก์แบบ Non-blocking
+5. **คืนค่าเฉพาะสตริง `symbol`** (ไม่มีการส่ง Payload ราคาทาง RAM ไปยัง Part 2)
+6. เฝ้าระวังประสิทธิภาพระบบผ่าน `data_monitor.py`
 
-**RAM Storage:**
+**RAM Storage (Internal DataAdapter):**
 ```python
-_store_m1 = {symbol: DataFrame}  # แท่ง 1 นาที
-_store_m5 = {symbol: DataFrame}  # แท่ง 5 นาที
-_store_m15 = {symbol: DataFrame}  # แท่ง 15 นาที
+_store_m1 = {symbol: DataFrame}   # แท่ง 1 นาที (100 แท่ง)
+_store_m5 = {symbol: DataFrame}   # แท่ง 5 นาที (250 แท่ง)
+_store_m15 = {symbol: DataFrame}  # แท่ง 15 นาที (50 แท่ง)
+```
+
+---
+
+## 🛡️ กลไก Fail-Fast (Strict Zero Fallback)
+
+ระบบ FINALBOT บังคับใช้เกณฑ์ **Fail-Fast** อย่างเคร่งครัดในทุกจุด หากเกิดเงื่อนไขที่ผิดปกติจะหยุดการทำงานทันทีโดยไม่มี Silent Fallback:
+
+### 1. `config_loader.get_symbols()`
+หากไม่มีคีย์ `symbols` หรือคีย์เป็นค่าว่างใน `settings.json` ระบบจะระเบิด `ValueError` สั่งหยุดบอททันที (ไม่มี Default Symbol Fallback):
+```python
+# config_setting/config_loader.py
+def get_symbols() -> list[str]:
+    symbols = load_settings(reload=True).get("symbols")
+    if not symbols or not isinstance(symbols, list):
+        raise ValueError("FAIL-FAST: Missing or empty 'symbols' array in config_setting/settings.json")
+    return list(symbols)
+```
+
+### 2. `runner.py` Server Time Sync
+หากการยิงขอเวลาเซิร์ฟเวอร์โบรกเกอร์ล้มเหลว ระบบจะระเบิด `RuntimeError` สั่งหยุดบอททันที (ไม่มี Fallback `time_offset = 0.0`):
+```python
+# runner.py
+try:
+    server_time = self.data_adapter.api.get_server_timestamp()
+    local_time = int(time.time())
+    self.time_offset = server_time - local_time
+    logger.info(f"Server time offset: {self.time_offset} seconds")
+except Exception as e:
+    logger.exception("Failed to get server time offset")
+    raise RuntimeError("FAIL-FAST: Failed to get server time offset from broker")
+```
+
+### 3. `csv_queue.py` Queue Overflow Check
+หากคิวงานเขียน CSV สะสมเกิน `max_queue_size` (1,000 รายการ) ระบบจะระเบิด `RuntimeError` สั่งหยุดการทำงานทันที (ไม่มี Silent Drop Write):
+```python
+# data_feed/csv_queue.py
+def enqueue_write(self, df: pd.DataFrame, file_path: str) -> None:
+    if df is not None and not df.empty:
+        if self._queue.qsize() >= self.max_queue_size:
+            raise RuntimeError(f"FAIL-FAST: CSVQueue size exceeded max limit ({self.max_queue_size}) - write blocked for {file_path}")
+        
+        self._queue.put((df.copy(), file_path))
+```
+
+---
+
+## 🔒 กลไก Zero RAM Data Leakage (100% Disk-Based Transfer)
+
+เพื่อป้องกันปัญหา Data Leakage และ Memory Bloat ข้าม Module ระหว่าง Part 1 (Data Feed) และ Part 2 (Data Evaluate):
+
+1. **Part 1 ตัดการส่ง DataPayload ข้าม RAM**:
+   เมธอด `DataAdapter.update(symbol, broker_epoch)` จะคืนค่าเฉพาะสตริงชื่อคู่เงิน `symbol` เท่านั้น:
+   ```python
+   # data_feed/data_adapter.py
+   def update(self, symbol: str, broker_epoch: float) -> str:
+       ...
+       # Return only symbol string on successful write queuing
+       return symbol
+   ```
+
+2. **Part 2 อ่านข้อมูลจากดิสก์ (CSV) เท่านั้น**:
+   ใน `runner.py` และ `Orchestrator` จะบังคับอ่านข้อมูลราคาจากไฟล์ CSV บนดิสก์ผ่าน `read_csv_safe()` เท่านั้น:
+   ```python
+   # runner.py
+   prices_dict[sym] = self._get_latest_price_from_csv(sym)
+   self.orchestrator.process_cycle(sym)  # Orchestrator อ่าน CSV จากดิสก์ด้วยตัวเอง
+   ```
+
+---
+
+## 📁 โครงสร้างไฟล์ CSV 8 คอลัมน์มาตรฐาน
+
+ไฟล์ CSV ที่ถูกจัดเก็บบนดิสก์จะได้รับการจัดระเบียบให้มี **8 คอลัมน์มาตรฐาน** อย่างเคร่งครัด:
+
+### รายชื่อคอลัมน์มาตรฐาน (Standard CSV Columns)
+```csv
+timestamp, open, high, low, close, volume, age, quality
+```
+
+| คอลัมน์ | ประเภทข้อมูล | คำอธิบาย |
+|---------|-------------|----------|
+| `timestamp` | String (Index) | เวลาเริ่มต้นแท่งเทียน รูปแบบ `%Y-%m-%d %H:%M:%S` |
+| `open` | Float (6 decimals) | ราคาเปิดแท่งเทียน |
+| `high` | Float (6 decimals) | ราคาสูงสุดแท่งเทียน |
+| `low` | Float (6 decimals) | ราคาต่ำสุดแท่งเทียน |
+| `close` | Float (6 decimals) | ราคาปิดแท่งเทียน |
+| `volume` | Float/Int (6 decimals) | ปริมาณการซื้อขาย |
+| `age` | Integer | อายุความล่าช้า คิดเป็น **มิลลิวินาที (ms)** จากเวลาปิดแท่งเทียนจริง |
+| `quality` | String | สถานะประเมินความสดใหม่ของข้อมูล (`FRESH` หรือ `STALE`) |
+
+### การคำนวณ `age` และ `quality`
+
+การคำนวณถูกประมวลผลผ่าน `DataAdapter._add_age_and_quality()` ก่อนส่งเขียนดิสก์:
+
+1. **สูตรการคำนวณเวลาปิดแท่งเทียนจริง ($T_{close}$)**:
+   $$T_{close} = T_{start} + \text{tf\_seconds}$$
+   *(โดย $\text{tf\_seconds}$: M1 = 60, M5 = 300, M15 = 900)*
+
+2. **สูตรการคำนวณอายุความล่าช้า ($\text{age\_ms}$)**:
+   $$\text{age\_ms} = \max\left(0, (T_{now} - T_{close}) \times 1000\right)$$
+
+3. **เกณฑ์การประเมินสถานะ `quality`**:
+   $$\text{threshold\_ms} = 2 \times \text{tf\_seconds} \times 1000$$
+   - หาก $\text{age\_ms} \le \text{threshold\_ms} \implies \text{quality} = \text{'FRESH'}$
+   - หาก $\text{age\_ms} > \text{threshold\_ms} \implies \text{quality} = \text{'STALE'}$
+
+   *ตัวอย่าง Threshold*:
+   - **M1**: Threshold = $2 \times 60 \times 1000 = 120,000 \text{ ms}$ (2 นาที)
+   - **M5**: Threshold = $2 \times 300 \times 1000 = 600,000 \text{ ms}$ (10 นาที)
+   - **M15**: Threshold = $2 \times 900 \times 1000 = 1,800,000 \text{ ms}$ (30 นาที)
+
+```python
+# data_feed/data_adapter.py - การคำนวณ age และ quality
+@staticmethod
+def _add_age_and_quality(df: pd.DataFrame, now_naive: datetime, tf_seconds: int) -> pd.DataFrame:
+    if df is None or df.empty:
+        return df
+
+    df_copy = df.copy()
+    now_epoch = now_naive.replace(tzinfo=timezone.utc).timestamp() if now_naive.tzinfo is None else now_naive.timestamp()
+
+    dt_index = pd.to_datetime(df_copy.index, utc=True)
+    start_epochs = np.array([ts.timestamp() for ts in dt_index])
+
+    close_epochs = start_epochs + tf_seconds
+    age_ms_array = np.maximum(0, ((now_epoch - close_epochs) * 1000)).astype(int)
+
+    threshold_ms = tf_seconds * 2 * 1000
+    quality_array = np.where(age_ms_array <= threshold_ms, 'FRESH', 'STALE')
+
+    df_copy['age'] = age_ms_array
+    df_copy['quality'] = quality_array
+    return df_copy
+```
+
+### ตัวอย่างเนื้อหาไฟล์ CSV จริง
+```csv
+timestamp,open,high,low,close,volume,age,quality
+2026-07-28 14:20:00,1.085210,1.085430,1.085150,1.085380,142,21500,FRESH
+2026-07-28 14:21:00,1.085380,1.085500,1.085300,1.085450,158,1500,FRESH
 ```
 
 ---
 
 ## 🔄 ขั้นตอนการทำงานแบบละเอียด (Pipeline)
+
+### **Step 0: ตรวจสอบและดาวน์โหลดข่าวเศรษฐกิจประจำวันอัตโนมัติ (News Auto-Update on Startup)** ⬇️
+
+**ไฟล์:** `TimeCalendarManager` (`data_feed/time_calendar_manager.py`) + `runner.py` + `calendar_news.py`
+
+#### **0.1 การตรวจสอบและดาวน์โหลดตารางข่าวประจำวัน**
+- **การทริกเกอร์:** เมื่อเปิดรันบอทครั้งแรกของวัน (`PureAIRunner.__init__()` ใน `runner.py`) ระบบจะเรียกใช้งาน `TimeCalendarManager` (`data_feed/time_calendar_manager.py`) ซึ่งจะบริหารจัดการและเรียกเมธอด `ensure_calendar_news()` ทันทีเพื่อเตรียมความพร้อมข้อมูลข่าวสารก่อนเริ่มกระบวนการ Data Feed
+- **การเช็กไฟล์ข่าว:** `TimeCalendarManager` จะเข้าไปเช็กการมีอยู่ของไฟล์ข่าวประจำวันที่ตำแหน่ง:
+  `all_filelogs/calendar_logs/calendar_YYYY-MM-DD.json`
+- **การดาวน์โหลดอัตโนมัติ:**
+  - หากพบว่า **ยังไม่มีไฟล์ข่าวประจำวันนี้** ระบบจะรันสคริปต์ `calendar_news.py` อัตโนมัติทันทีผ่าน `subprocess.run()` เพื่อดึงตารางข่าวเศรษฐกิจประจำวันจากแหล่งข้อมูลข่าวสารมาจัดเก็บลงไฟล์ `calendar_YYYY-MM-DD.json` ไว้ใช้ประเมินความเสี่ยงข่าวนอกตลาด (News Risk Assessment)
+  - หากพบว่า **มีไฟล์ข่าวประจำวันนี้แล้ว** ระบบจะข้ามขั้นตอนการดาวน์โหลดและโหลดไฟล์ที่มีอยู่ขึ้นมาใช้งานทันที
+
+---
 
 ### **Step 1: รับข้อมูลจาก IQ Option** ⬇️
 
@@ -63,22 +223,16 @@ m5 = self._iq.get_candles(symbol, 'M5', 250)     # ดึง 250 แท่ง M5
 m15 = self._iq.get_candles(symbol, 'M15', 50)    # ดึง 50 แท่ง M15 จาก Broker API สด 100%
 ```
 
-#### **1.2 การอัปเดตข้อมูล (Update)**
-```python
-# data_adapter.py Line 239, 290, 339
-# M1 ดึง 3 แท่งใหม่
-fresh = self._iq.get_candles(symbol, 'M1', 3)
+#### **1.2 การอัปเดตข้อมูลสดแยกตาม Timeframe (Update Cycle Logic)**
+การดึงข้อมูลสดและการอัปเดตไฟล์ CSV จะแยกตามรอบเวลา (Timeframe) เพื่อลดภาระการสื่อสารกับโบรกเกอร์ (Broker API Overhead):
 
-# M5 ดึง 3 แท่งใหม่
-fresh = self._iq.get_candles(symbol, 'M5', 3)
-
-# M15 ดึง 3 แท่งใหม่ ตรงจาก Broker API สด 100%
-fresh_m15 = self._iq.get_candles(symbol, 'M15', 3)
-```
+- **M1 (1 นาที):** ยิงดึงข้อมูลสด 3 แท่งใหม่ (`get_candles(symbol, 'M1', 3)`) และอัปเดตไฟล์ `M1.csv` **ทุกๆ 1 นาที**
+- **M5 (5 นาที):** ยิงดึงข้อมูลสด 3 แท่งใหม่ (`get_candles(symbol, 'M5', 3)`) และอัปเดตไฟล์ `M5.csv` **เฉพาะเมื่อมีการเปลี่ยนบล็อกนาที (`current_block_m5 != _last_block_m5`)**
+- **M15 (15 นาที):** ยิงดึงข้อมูลสด 3 แท่งใหม่ (`get_candles(symbol, 'M15', 3)`) และอัปเดตไฟล์ `M15.csv` **เฉพาะเมื่อมีการเปลี่ยนบล็อกนาที (`current_block_m15 != _last_block_m15`)**
 
 #### **1.3 Configuration สำคัญ**
 ```python
-# iq_option_adapter.py Line 208-211
+# iq_option_adapter.py
 _TF_SECONDS = {
     'M1': 60,      # 1 นาที
     'M5': 300,     # 5 นาที
@@ -90,77 +244,57 @@ _TF_SECONDS = {
     'D1': 86400,   # 1 วัน
 }
 
-# data_adapter.py Line 59-62
+# data_adapter.py
 default_candle_count = 250    # ดึง 250 แท่งเริ่มต้น
 min_candle_count = 21         # ต้องมีอย่างน้อย 21 แท่ง
 m5_seconds = 300              # 5 นาที
 m15_seconds = 900             # 15 นาที
 ```
 
-**Data ที่ได้:**
-```python
-{
-    'timestamp': '2026-07-18 10:30:00',
-    'open': 1.2340,
-    'high': 1.2342,
-    'low': 1.2338,
-    'close': 1.2341,
-    'volume': 100
-}
-```
+#### **1.4 ระบบซิงค์เวลาเซิร์ฟเวอร์แบบ Real-time (Server Time Sync & Fail-Fast)**
+- **การบริหารจัดการแบบรวมศูนย์:** การซิงค์เวลาและการคำนวณ `time_offset` ถูกบริหารจัดการผ่าน `TimeCalendarManager` (`data_feed/time_calendar_manager.py`) เป็นศูนย์กลาง
+- **Daemon Thread (`TimeSyncThread`):** `TimeCalendarManager.start_time_sync_thread()` จะเริ่มเปิด Daemon Thread เบื้องหลังเพื่อซิงค์เวลาผ่าน `sync_server_time()` และคำนวณ `self.time_offset = server_time - local_time` ใหม่โดยอัตโนมัติใน **ทุกๆ วินาทีที่ 30** (`:30`) ของทุกนาที
+- **Fail-Fast การซิงค์เวลา:** หากไม่สามารถขอเวลาเซิร์ฟเวอร์จากโบรกเกอร์ได้เมื่อเริ่มรันบอท `TimeCalendarManager.sync_server_time()` จะระเบิด `RuntimeError("FAIL-FAST: Failed to get server time offset from broker")` หยุดทำงานทันที (ไม่มี Fallback `time_offset = 0.0`)
+- **Dynamic Broker Epoch:** ในขั้นตอนการอัปเดตข้อมูล `fetch_and_save_data()` จะดึง `broker_epoch` ผ่าน `self.time_calendar_mgr.get_broker_epoch()` (หรือคำนวณ `time.time() + self.time_calendar_mgr.time_offset`) ส่งไปยัง `DataAdapter.update()` เพื่อให้การคำนวณช่วงเวลาและการแบ่งบล็อก M5/M15 ตรงกับเวลาเซิร์ฟเวอร์โบรกเกอร์ 100%
 
 ---
 
-### **Step 2: บันทึกลง RAM Storage** ⬇️
+### **Step 2: บันทึกลง RAM Storage (Internal DataAdapter)** ⬇️
 
 **ไฟล์:** `data_adapter.py`
 
 ```python
-# data_adapter.py Line 70-72
-self._store_m1: Dict[str, Optional[pd.DataFrame]] = {}  # RAM Storage M1
-self._store_m5: Dict[str, Optional[pd.DataFrame]] = {}  # RAM Storage M5
-self._store_m15: Dict[str, Optional[pd.DataFrame]] = {}  # RAM Storage M15
+# data_adapter.py
+self._store_m1: Dict[str, Optional[pd.DataFrame]] = {}   # RAM Storage M1 Internal
+self._store_m5: Dict[str, Optional[pd.DataFrame]] = {}   # RAM Storage M5 Internal
+self._store_m15: Dict[str, Optional[pd.DataFrame]] = {}  # RAM Storage M15 Internal
 
-# data_adapter.py Line 107-109
-self._store_m1[symbol] = m1        # เก็บ M1 ลง RAM
-self._store_m5[symbol] = m5        # เก็บ M5 ลง RAM
-self._store_m15[symbol] = m15      # เก็บ M15 ลง RAM
+self._store_m1[symbol] = m1        # เก็บ M1 ลง RAM ชั่วคราวภายใน DataAdapter
+self._store_m5[symbol] = m5        # เก็บ M5 ลง RAM ชั่วคราวภายใน DataAdapter
+self._store_m15[symbol] = m15      # เก็บ M15 ลง RAM ชั่วคราวภายใน DataAdapter
 ```
 
 **ข้อดี:**
-- ⚡ เข้าถึงได้เร็ว (microseconds)
-- 🚀 ไม่ต้องรอเขียนดิสก์
-- 🔄 Processing ทันที
-
-**RAM Usage:**
-```python
-# แต่ละ symbol (คำนวณตามสเปก M1=100, M5=250, M15=50 แท่ง)
-- M1: ~4.8KB (100 rows × 6 cols × 8 bytes)
-- M5: ~12KB (250 rows × 6 cols × 8 bytes)
-- M15: ~2.4KB (50 rows × 6 cols × 8 bytes)
-- ทั้งหมด ~19.2KB per symbol
-
-# หลาย symbol
-- 5 symbols = ~96KB (น้ำหนักเบามาก ปลอดภัย 100%)
-```
+- ⚡ เข้าถึงได้เร็วในกระบวนการ internal processing (microseconds)
+- 🚀 แยกขาด ไม่แชร์ RAM ไปยัง Part 2 (Zero RAM Data Leakage 100%)
 
 ---
 
-### **Step 3: ตรวจสอบคุณภาพข้อมูล** ⬇️
+### **Step 3: ตรวจสอบคุณภาพข้อมูล (Validation & Anomaly Detection)** ⬇️
 
-**ไฟล์:** `candle_validator.py`
+**ไฟล์:** `candle_validator.py` + `anomaly_detector.py`
 
 **Validation ทำทุกครั้ง:**
 ```python
-# data_adapter.py Line 102-104
+# data_adapter.py
 CandleValidator().validate(m1, symbol)      # เช็ค M1
 CandleValidator().validate(m5, symbol)      # เช็ค M5
 CandleValidator().validate(m15, symbol)     # เช็ค M15
 ```
 
-**เกณฑ์ตรวจสอบ:**
+**เกณฑ์ตรวจสอบ (CandleValidator):**
 ```python
-# candle_validator.py Line 56-87
+# candle_validator.py
 # 1. Check required columns (open, close, high, low, volume)
 missing_cols = self.required_columns - set(df.columns)
 if missing_cols:
@@ -190,101 +324,54 @@ if not (min_val <= median_close <= max_val):
 ```
 
 **หากข้อมูลไม่ดี:**
-- ระบบ **จะระเบิด** (raise ValueError)
-- ไม่มีการ skip หรือ retry แบบลื่นไหล
-- หยุดระบบทันทีค่ะ
+- ระบบ **จะระเบิด** (raise ValueError / RuntimeError) หยุดระบบทันทีตามหลัก Fail-Fast
 
 ---
 
-### **Step 4: ประสาน Timeframe** ⬇️
+### **Step 4: ประสาน Timeframe & Merge Data** ⬇️
 
 **ไฟล์:** `data_adapter.py`
 
 #### **⚠️ ข้อควรรู้สำคัญ: M15 ไม่ Resample จาก M5**
 
 ```python
-# data_adapter.py Line 339: ดึง M15 ตรงจาก Broker API (3 แท่งสำหรับการอัปเดต)
+# data_adapter.py: ดึง M15 ตรงจาก Broker API (3 แท่งสำหรับการอัปเดต)
 fresh_m15 = self._iq.get_candles(symbol, 'M15', 3)
-
-# data_adapter.py Line 276-322: _refresh_m5()
-def _refresh_m5(self, symbol, now_naive, current_block):
-    # M5 ดึง 3 แท่งใหม่
-    fresh = self._iq.get_candles(symbol, 'M5', 3)
-
-    # รวมข้อมูลเก่า + ข้อมูลใหม่
-    self._store_m5[symbol] = self._merge(
-        self._store_m5[symbol], fresh,
-        gap_threshold=_M5_GAP_SEC,  # 1500 วินาที
-        refetch_fn=lambda: self._iq.get_candles(symbol, 'M5', 250),
-        label=f"M5 {symbol}",
-        timeframe="M5",
-        max_candles=250
-    )
-
-    # ตัดแท่งเปิดไม่เสร็จออก
-    completed = self._drop_forming(self._store_m5[symbol], now_naive, 300)
-
-    # เขียน CSV เมื่อ block เปลี่ยนหรือโหลดข้อมูลครั้งแรก (block_changed)
-    if block_changed:
-        CandleValidator().validate(completed, symbol)
-        self._csv_queue.enqueue_write(completed, self._csv_manager.get_file_path(symbol, "M5"))
-
-    return completed
 ```
 
-#### **TimeframeSync ทำอะไร?**
+#### **TimeframeSync สถานะปัจจุบัน:**
+- `TimeframeSync` มี class ในไฟล์ `timeframe_sync.py` แต่ **ไม่ได้ถูกเรียกใช้จริง** ใน Data Pipeline หลัก
+- M1, M5, M15 ดึงแยกกันและ merge แยกกันอย่างเป็นอิสระ
 
+**Merge Data Logic:**
 ```python
-# timeframe_sync.py Line 20-24
-TF_MINUTES = {
-    'M1': 1, 'M5': 5, 'M15': 15, 'M30': 30,
-    'M60': 60, 'H1': 60, 'H4': 240, 'D1': 1440,
-}
-
-# timeframe_sync.py Line 55-81: sync() method
-def sync(self, candles, as_of):
-    # Sync แต่ไม่ถูกเรียกใช้จริง
-    ref = as_of or self._reference_time(candles)
-    synced = {}
-    for tf, df in candles.items():
-        synced[tf] = df[df.index <= ref]
-    return synced
-```
-
-**⚠️ ข้อควรรู้:**
-- `TimeframeSync` มี class แต่ **ไม่ถูกเรียกใช้จริง** ใน workflow
-- M1, M5, M15 ดึงแยกกัน ไม่ใช่ sync ร่วมกัน
-- M15 ดึงตรงจาก Broker API ไม่ได้ resample
-
-**Merge Data:**
-```python
-# data_adapter.py Line 294-322
-def _merge(self, stored, fresh, gap_threshold, refetch_fn, label, timeframe):
-    # 1. Check gap
+# data_adapter.py
+def _merge(self, stored, fresh, gap_threshold, refetch_fn, label, timeframe, max_candles=250):
     last_ts = stored.index[-1]
     first_ts = fresh.index[0]
     gap_sec = (first_ts - last_ts).total_seconds()
 
     if gap_sec > gap_threshold:
         # หากมีช่องว่าง > 5 นาที (M1) / 25 นาที (M5) / 75 นาที (M15)
-        raise ValueError(f"Data gap detected: {gap_sec}s")
+        self._data_monitor.report_gap(label.split()[1], timeframe, gap_sec)
+        full = refetch_fn()
+        if full is not None and not full.empty:
+            return full
+        raise ValueError("Refetch failed after gap detection")
 
-    # 2. Merge data
     combined = pd.concat([stored, fresh])
     combined = combined[~combined.index.duplicated(keep='last')].sort_index()
-
-    # 3. Return last 250 candles
-    return combined.tail(self.default_candle_count)
+    return combined.tail(max_candles)
 ```
 
 ---
 
-### **Step 5: ส่งข้อมูลไปคิวเขียน** ⬇️
+### **Step 5: ส่งข้อมูลไปคิวเขียน (Non-blocking & Fail-Fast Queue)** ⬇️
 
 **ไฟล์:** `csv_queue.py`
 
 ```python
-# data_adapter.py Line 211 (M1), Line 242 (M5), Line 277 (M15)
+# data_adapter.py
 self._csv_queue.enqueue_write(completed, self._csv_manager.get_file_path(symbol, "M1"))
 self._csv_queue.enqueue_write(completed, self._csv_manager.get_file_path(symbol, "M5"))
 self._csv_queue.enqueue_write(completed, self._csv_manager.get_file_path(symbol, "M15"))
@@ -292,102 +379,36 @@ self._csv_queue.enqueue_write(completed, self._csv_manager.get_file_path(symbol,
 
 **Queue Flow:**
 ```
-DataAdapter (RAM) → enqueue_write() → Queue (RAM) → Worker Thread → CSV Writer → CSV File
+DataAdapter (Internal RAM) → enqueue_write() → Queue (RAM) → Worker Thread → CSVWriter → CSV File
 ```
 
-**ข้อควรรู้:**
-- Queue ใช้ RAM สำหรับเก็บข้อมูล
-- Worker Thread ดึงข้อมูลจาก Queue
-- CSV Writer เขียนลงดิสก์แบบ Async
-
-#### **Queue Implementation:**
+#### **Queue Implementation & Fail-Fast Check:**
 ```python
-# csv_queue.py Line 18-81
+# csv_queue.py
 class CSVQueue:
-    def __init__(self, config):
-        self.max_queue_size = 1000          # Max 1000 items
-        self.queue_timeout = 30             # 30 seconds timeout
-        self._queue = queue.Queue()         # Queue storage
+    def __init__(self, config=None):
+        self.max_queue_size = config.get("max_queue_size", 1000)
+        self.queue_timeout = config.get("queue_timeout", 30)
+        self._queue = queue.Queue()
         self._worker_thread = threading.Thread(target=self._worker, daemon=True)
         self._worker_thread.start()
 
-    def enqueue_write(self, df, file_path):
-        # สำเนาข้อมูลแล้วส่ง
-        if self._queue.qsize() >= self.max_queue_size:
-            logger.warning(f"Queue full - dropping write for {file_path}")
-            return
-
-        self._queue.put((df.copy(), file_path))  # สำเนาข้อมูล
-
-    def _worker(self):
-        # Worker thread ทำงานใน background
-        while True:
-            try:
-                df, file_path = self._queue.get(timeout=self.queue_timeout)
-
-                # เขียนไฟล์
-                writer = CSVWriter()
-                writer.write(df, file_path)
-
-                self._queue.task_done()
-
-            except queue.Empty:
-                continue  # Timeout ปกติ
-            except Exception as e:
-                logger.error(f"Asynchronous write failed: {e}")
+    def enqueue_write(self, df: pd.DataFrame, file_path: str) -> None:
+        if df is not None and not df.empty:
+            # Check queue size — Fail-Fast if full (No Silent Drop Write)
+            if self._queue.qsize() >= self.max_queue_size:
+                raise RuntimeError(f"FAIL-FAST: CSVQueue size exceeded max limit ({self.max_queue_size}) - write blocked for {file_path}")
+            
+            self._queue.put((df.copy(), file_path))
 ```
 
 ---
 
-### **Step 6: เขียนข้อมูลลงดิสก์** ⬇️
+### **Step 6: เขียนข้อมูลลงดิสก์ (8 คอลัมน์มาตรฐาน & Atomic Replace)** ⬇️
 
 **ไฟล์:** `csv_writer.py` + `csv_manager.py`
 
-#### **Queue Worker Thread:**
-```python
-# csv_queue.py Line 57-81
-def _worker(self):
-    while True:
-        try:
-            df, file_path = self._queue.get(timeout=self.queue_timeout)
-
-            # เรียก CSVWriter
-            writer = CSVWriter()
-            writer.write(df, file_path)
-
-            self._queue.task_done()
-
-        except queue.Empty:
-            continue  # Timeout ปกติ
-        except Exception as e:
-            logger.error(f"Asynchronous write failed: {e}")
-```
-
-#### **CSV Path:**
-```python
-# csv_manager.py Line 37-59
-def get_file_path(self, symbol, timeframe, date_str=None):
-    if not date_str:
-        date_str = datetime.now().strftime("%Y_%m_%d")
-
-    # สร้าง path ตาม convention
-    symbol_folder = symbol  # เก็บเป็นเดิม EURUSD-OTC
-    filename = self.naming_convention.format(
-        symbol=symbol,  # เก็บเป็นเดิม EURUSD-OTC ทั้ง โฟลเดอร์ ทั้งชื่อไฟล์
-        timeframe=timeframe,
-        date=date_str
-    )
-
-    # สร้าง directory
-    full_path = os.path.join(self.base_dir, symbol_folder, filename)
-    os.makedirs(self.base_dir, exist_ok=True)
-    if self.auto_create_dirs:
-        os.makedirs(os.path.dirname(full_path), exist_ok=True)
-
-    return full_path
-```
-
-**Path Convention:**
+#### **Path Convention:**
 ```
 data_base/csv/iq_option/{symbol}/{symbol}_{timeframe}.csv
 ```
@@ -398,91 +419,102 @@ data_base/csv/iq_option/EURGBP/EURGBP_M5.csv
 data_base/csv/iq_option/EURUSD-OTC/EURUSD-OTC_M1.csv
 ```
 
-**Format CSV:**
-```csv
-timestamp,open,high,low,close,volume
-2026-07-18 10:30:00,1.2340,1.2342,1.2338,1.2341,100
-2026-07-18 10:30:05,1.2341,1.2343,1.2339,1.2342,150
-2026-07-18 10:30:10,1.2342,1.2344,1.2340,1.2343,200
-```
-
 #### **csv_writer.py - Implementation Detail:**
 
 ```python
-# csv_writer.py Line 13-72
+# csv_writer.py
 class CSVWriter:
-    """Writes candle dataframes to CSV files."""
-
     def __init__(self, config=None):
         if config is None:
             from config_setting.config_loader import get_csv_writer_config
             config = get_csv_writer_config()
 
-        # Load writer configuration
         self.encoding = config.get("encoding", "utf-8")
         self.date_format = config.get("date_format", "%Y-%m-%d %H:%M:%S")
         self.include_header = config.get("include_header", True)
-        self.decimal_places = config.get("decimal_places", 6)  # ⚠️ ปัดเศษ 6 ตำแหน่ง
+        self.decimal_places = config.get("decimal_places", 6)
 
-    def write(self, df, file_path):
-        """Write DataFrame to the specified file path."""
+    def write(self, df: pd.DataFrame, file_path: str) -> None:
         if df is None or df.empty:
-            logger.warning(f"[CSVWriter] Attempted to write empty dataframe to {file_path}")
-            return
+            raise ValueError(f"Cannot write empty dataframe to {file_path}")
+            
+        file_lock = get_file_lock(file_path)
+        with file_lock:
+            try:
+                dir_path = os.path.dirname(file_path)
+                if dir_path:
+                    os.makedirs(dir_path, exist_ok=True)
 
-        try:
-            logger.info(f"[CSVWriter] Writing {len(df)} rows to {file_path}")
+                df_to_write = df.copy()
+                
+                # Select ONLY standard 8 columns (open, high, low, close, volume, age, quality) + timestamp (index)
+                cols = ['open', 'high', 'low', 'close', 'volume', 'age', 'quality']
+                df_to_write = df_to_write[[c for c in cols if c in df_to_write.columns]]
+                
+                df_to_write.index = pd.to_datetime(df_to_write.index).strftime(self.date_format)
+                
+                # Round decimal places for numeric OHLCV columns to 6 places
+                for col in ['open', 'high', 'low', 'close', 'volume']:
+                    if col in df_to_write.columns:
+                        df_to_write[col] = df_to_write[col].round(self.decimal_places)
+                
+                # Read existing file if present, merge and deduplicate
+                if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+                    existing_df = pd.read_csv(file_path, index_col=0, encoding=self.encoding)
+                    existing_cols = [c for c in cols if c in existing_df.columns]
+                    existing_df = existing_df[existing_cols]
+                    
+                    combined_df = pd.concat([existing_df, df_to_write])
+                    combined_df = combined_df[~combined_df.index.duplicated(keep='last')].sort_index()
+                    df_to_write = combined_df
 
-            # Prepare dataframe for writing
-            df_to_write = df.copy()
-
-            # Select ONLY standard OHLCV columns (drop any injected anomaly tracking columns)
-            cols = ['open', 'high', 'low', 'close', 'volume']
-            df_to_write = df_to_write[[c for c in cols if c in df_to_write.columns]]
-
-            # Format index as timestamp
-            df_to_write.index = pd.to_datetime(df_to_write.index).strftime(self.date_format)
-
-            # ⚠️ Round decimal places to 6 places
-            for col in cols:
-                if col in df_to_write.columns:
-                    df_to_write[col] = df_to_write[col].round(self.decimal_places)
-
-            # Write to CSV safely using Atomic Replace inside a Per-File Lock
-            # 1. Read existing file if present, merge and deduplicate
-            if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
-                existing_df = pd.read_csv(file_path, index_col=0, encoding=self.encoding)
-                combined_df = pd.concat([existing_df, df_to_write])
-                combined_df = combined_df[~combined_df.index.duplicated(keep='last')].sort_index()
-                df_to_write = combined_df
-
-            # 2. Write to temporary .tmp file and replace atomically
-            tmp_path = file_path + ".tmp"
-            df_to_write.to_csv(tmp_path, encoding=self.encoding, header=self.include_header, index=True, mode='w', date_format=self.date_format)
-            os.replace(tmp_path, file_path)
-
-            logger.info(f"[CSVWriter] Successfully wrote {len(df_to_write)} rows to {file_path}")
-
-        except Exception as e:
-            logger.error(f"[CSVWriter] Failed to write to {file_path}: {e}")
-            raise
+                # Write to temporary file and replace atomically
+                tmp_path = f"{file_path}.{threading.get_ident()}.tmp"
+                df_to_write.to_csv(
+                    path_or_buf=tmp_path,
+                    encoding=self.encoding,
+                    header=self.include_header,
+                    index=True,
+                    mode='w',
+                    date_format=self.date_format
+                )
+                
+                # Atomic Replace with Retry Backoff for Windows file locks
+                max_retries = 5
+                backoff_sec = 0.1
+                for attempt in range(1, max_retries + 1):
+                    try:
+                        os.replace(tmp_path, file_path)
+                        break
+                    except Exception as e:
+                        if attempt < max_retries:
+                            time.sleep(backoff_sec)
+                            backoff_sec *= 2
+                        else:
+                            if os.path.exists(tmp_path):
+                                os.remove(tmp_path)
+                            raise
+            except Exception as e:
+                logger.error(f"[CSVWriter] Failed to write to {file_path}: {e}")
+                raise
 ```
 
 **ข้อควรรู้สำคัญ:**
+- คัดกรองและบันทึก **8 คอลัมน์มาตรฐาน** (`timestamp, open, high, low, close, volume, age, quality`)
 - ปัดเศษทศนิยมราคาสุดท้ายที่ **6 ตำแหน่ง** (decimal_places=6)
 - ทำงานผ่าน **Zero-Lock Architecture (Thread-Safe Atomic Write)** ร่วมกับ `get_file_lock`
 - อ่านไฟล์เดิม ตัดเวลาซ้ำ (Deduplicate) เขียนลงไฟล์ชั่วคราว `.tmp` แล้วทำ `os.replace` สลับไฟล์อย่างปลอดภัย
-- ป้องกันปัญหา `PermissionError [WinError 5]` บน Windows และป้องกันบรรทัดซ้ำ 100%
+- ป้องกันปัญหา `PermissionError [WinError 5]` บน Windows 100%
 
 ---
 
-### **Step 7: เฝ้าระวังระบบ** ⬇️
+### **Step 7: เฝ้าระวังระบบ (Data Monitor & Health Check)** ⬇️
 
 **ไฟล์:** `data_monitor.py`
 
 **Metrics ที่ตรวจวัด:**
 ```python
-# data_monitor.py Line 28-36
+# data_monitor.py
 self.gap_thresholds = {
     "M1": 300,      # 5 นาที
     "M5": 1500,     # 25 นาที
@@ -497,107 +529,69 @@ self.latency_thresholds = {
 }
 ```
 
-#### **Gap Detection:**
-```python
-# data_monitor.py Line 56-73
-def report_gap(self, symbol, timeframe, gap_seconds):
-    self.gap_count += 1
-    threshold = self.gap_thresholds.get(timeframe, 300)
-
-    if gap_seconds > threshold:
-        # หยุดระบบทันที
-        raise RuntimeError(f"CRITICAL DATA GAP: {symbol} {timeframe} {gap_seconds}s")
-```
-
-#### **Latency Monitoring:**
-```python
-# data_monitor.py Line 75-105
-def report_latency(self, symbol, timeframe, age_ms):
-    self.latency_ms = age_ms
-
-    # หยุดระบบทันทีถ้าข้อมูลเก่า
-    if age_ms >= self.latency_thresholds["STALE"]:
-        raise RuntimeError(f"CRITICAL LATENCY: {symbol} {timeframe} {age_ms}ms")
-```
-
-#### **Queue Overflow:**
-```python
-# data_monitor.py Line 107-119
-def report_queue_status(self, queue_length):
-    if queue_length > 1000:
-        raise RuntimeError(f"CRITICAL QUEUE OVERFLOW: {queue_length} items")
-    elif queue_length > 500:
-        raise RuntimeError(f"CRITICAL QUEUE SIZE: {queue_length} items")
-```
-
-#### **Alert Levels:**
-- 🟢 Normal - ทำงานปกติ
-- 🟡 WARNING - ควรตรวจสอบ
-- 🔴 ERROR - มีปัญหา
-- ⚫ CRITICAL - หยุดระบบทันที
-
-**ข้อควรรู้:**
-- Gap > 5 นาที (M1) → หยุดระบบ
-- Gap > 25 นาที (M5) → หยุดระบบ
-- Gap > 75 นาที (M15) → หยุดระบบ
-- Latency > 600,000ms (10 นาที) (STALE) → หยุดระบบ
-- Queue > 1000 รายการ → หยุดระบบ
+#### **Fail-Fast Trigger Cases:**
+- Gap > 5 นาที (M1) / 25 นาที (M5) / 75 นาที (M15) → ระเบิด RuntimeError หยุดระบบทันที
+- Latency > 600,000ms (10 นาที) (STALE) → ระเบิด RuntimeError หยุดระบบทันที
+- Queue > 1,000 รายการ → ระเบิด RuntimeError หยุดระบบทันที
 
 ---
 
-## 🚀 Runner Loop จริง
+## 🚀 Runner Loop จริง (PureAIRunner)
 
 **ไฟล์:** `runner.py`
 
 ```python
-def start(self):
-    while True:
-        # sleep 60-57 วินาที
-        # sleep = 3 - now.second (ถ้า now.second < 3)
-        # หรือ sleep = 60 - now.second + 3 (ถ้า now.second >= 3)
-        # แปลว่า sleep คร่างๆ 3-60 วินาที
-
-        self.run_cycle()
-
 def run_cycle(self):
-    # 1. Check connection
+    # 1. Ensure connection is active
     self.data_adapter.ensure_connected()
 
-    # 2. Fetch and save data concurrently
+    # 2. Fetch and save data concurrently (writes CSV only)
+    cycle_broker_epoch = time.time() + self.time_offset
+    sym_futures = {}
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(self.symbols)) as executor:
         for sym in self.symbols:
-            executor.submit(self.fetch_and_save_data, sym)
+            sym_futures[sym] = executor.submit(self.fetch_and_save_data, sym, cycle_broker_epoch)
+        concurrent.futures.wait(sym_futures.values())
 
-    # 3. Get latest price from CSV (ไม่จาก RAM)
-    prices_dict[sym] = self._get_latest_price_from_csv(sym)
+    prices_dict = {}
+    for sym in self.symbols:
+        result_val = sym_futures[sym].result()
+        if not result_val:
+            continue
 
-    # 4. Trigger Orchestrator
-    self.orchestrator.process_cycle(sym)
+        if not self._check_warmup_data(sym):
+            continue
+
+        # 3. บังคับดึงข้อมูล OHLCV (ราคา) จากโฟลเดอร์เท่านั้น ห้ามส่งทาง RAM
+        prices_dict[sym] = self._get_latest_price_from_csv(sym)
+
+        # 4. Trigger Orchestrator without passing any data via RAM
+        self.orchestrator.process_cycle(sym)
 ```
 
 **ข้อควรรู้:**
-- Loop ทำงานทุกช่วงเวลาที่เรียกใหม่
-- ไม่ได้ sleep 5 วินาทีอย่างแน่นอน
-- Worker Thread ทำงานแบบ concurrent
-- ดึงข้อมูลจาก CSV ไม่จาก RAM (ราคา)
+- Loop ทำงานตรงตามวินาทีแรกของนาทีถัดไป (`sleep_sec = (1 - now.second) % 60`)
+- `DataAdapter.update()` คืนค่าเฉพาะ `symbol: str`
+- Part 2 ดึงราคาและข้อมูล OHLCV จาก CSV บนดิสก์ผ่าน `_get_latest_price_from_csv()` 100%
 
 ---
 
 ## 📊 ตารางสรุปขั้นตอนการทำงาน
 
-| ขั้นตอน | ไฟล์ที่เกี่ยวข้อง | ทำอะไร | สถานะ |
-|---------|-------------------|---------|--------|
-| 1. รับข้อมูล | iq_option_adapter.py | ดึง 3 แท่งใหม่จาก IQ Option API | ✅ Active |
-| 2. เก็บ RAM | data_adapter.py | บันทึกในหน่วยความจำ RAM | ✅ Active |
-| 3. Validate | candle_validator.py | ตรวจสอบคุณภาพ 4 เกณฑ์ | ✅ Active |
-| 4. Timeframe | data_adapter.py | Merge + Drop forming (M1, M5, M15) | ✅ Active |
-| 5. Enqueue | csv_queue.py | ส่งไปคิว (Non-blocking) | ✅ Active |
-| 6. Write | csv_writer.py + csv_manager.py | เขียนลงดิสก์ (Async) | ✅ Active |
-| 7. Monitor | data_monitor.py | เฝ้าระวังระบบ (หยุดถ้าสั่ง) | ✅ Active |
+| ขั้นตอน | ไฟล์ที่เกี่ยวข้อง | ทำอะไร | สถานะ / เกณฑ์ Fail-Fast |
+|---------|-------------------|---------|--------------------------|
+| 0. ข่าวเศรษฐกิจ | TimeCalendarManager (data_feed/time_calendar_manager.py) | เช็ก `calendar_YYYY-MM-DD.json` หากยังไม่มี จะรัน `calendar_news.py` อัตโนมัติ | ✅ Active |
+| 1. รับข้อมูล & Sync เวลา | iq_option_adapter.py / TimeCalendarManager | ดึง 3 แท่งใหม่จาก IQ Option API และซิงค์เวลาโบรกเกอร์ผ่าน TimeCalendarManager | ✅ Fail-Fast หากขอเวลาไม่สำเร็จ |
+| 2. เก็บ RAM Internal | data_adapter.py | บันทึกในหน่วยความจำ RAM ชั่วคราวภายใน DataAdapter เท่านั้น | ✅ Active (Zero RAM Leakage) |
+| 3. Validate & Detect | candle_validator.py / anomaly_detector.py | ตรวจสอบคุณภาพและหาความผิดปกติของข้อมูล | ✅ Fail-Fast หากพบข้อมูลเสีย |
+| 4. Timeframe & Merge | data_adapter.py | Merge + Drop forming (M1, M5, M15) | ✅ Active (M15 ไม่ resample) |
+| 5. Enqueue Write | csv_queue.py | ส่งไปคิวเขียน CSV แบบ Non-blocking | ✅ Fail-Fast หากคิวเกิน 1,000 |
+| 6. Write CSV | csv_writer.py + csv_manager.py | เขียน 8 คอลัมน์ลงดิสก์ (Async & Atomic replace) | ✅ Active (decimal_places=6) |
+| 7. Monitor | data_monitor.py | เฝ้าระวังระบบ latency/gap/queue | ✅ Fail-Fast เมื่อเกินเกณฑ์ |
 
 ---
 
-## ⚙️ ค่า Configuration สำคัญ
+## ⚙️ ค่า Configuration สำคัญ (`settings.json` & `datafeed_config.json`)
 
 ### ไฟล์: `datafeed_config.json`
 
@@ -611,7 +605,7 @@ def run_cycle(self):
       "connection_retries": 0
     },
     "data_adapter": {
-      "default_candle_count": 250,  # Note: M15 จะดึงเพียง 50 แท่งใน Warm-up (M1=100, M5=250, M15=50)
+      "default_candle_count": 250,
       "min_candle_count": 21,
       "m5_seconds": 300,
       "m15_seconds": 900,
@@ -635,17 +629,6 @@ def run_cycle(self):
       "auto_create_dirs": true,
       "file_permissions": "rw-r--r--"
     },
-    "anomaly_detector": {
-      "response_time_warning": 7.0,
-      "response_time_critical": 10.0,
-      "connection_timeout": 15.0,
-      "spike_threshold": 0.3,
-      "zero_volume_threshold": 0,
-      "impossible_candle_threshold": 0.001,
-      "spike_window": 20,
-      "max_consecutive_zero_volume": 3,
-      "max_consecutive_anomalies": 10
-    },
     "data_monitor": {
       "gap_thresholds": {
         "M1": 300,
@@ -666,37 +649,16 @@ def run_cycle(self):
 
 ---
 
-## 🚨 Error Handling จริง
+## 🚨 Error Handling & Fail-Fast Summary
 
-### ปัญหาที่เกิดขึ้น + การแก้ไข
-
-| ปัญหา | เกิดจากอะไร | การแก้ไข |
-|-------|-------------|-----------|
-| **Data Gap** | หากมีช่องว่าง > 5 นาที (M1) / 25 นาที (M5) / 75 นาที (M15) | ระเบิด RuntimeError → หยุดระบบทันที |
-| **Latency** | หากข้อมูลเก่า > 10 นาที | ระเบิด RuntimeError → หยุดระบบทันที |
-| **Queue Overflow** | หาก Queue > 1000 รายการ | ระเบิด RuntimeError → หยุดระบบทันที |
-| **Invalid Data** | NaN, Volume=0, Price out of range | ระเบิด ValueError → หยุดระบบทันที |
-| **Connection Lost** | IQ Option ตัดการเชื่อมต่อ | Auto reconnect (5 วินาที) |
-
----
-
-## 📈 สถานะปัจจุบัน
-
-### ✅ ระบบพร้อมใช้งาน 100%
-
-- **เชื่อมต่อ:** IQ Option (PRACTICE)
-- **Timeframe:** M1, M5, M15
-- **Symbols:** EURGBP, EURUSD, EURJPY, EURUSD-OTC, EURGBP-OTC
-- **Storage:** RAM + Async CSV
-- **Monitoring:** Active
-- **Error Handling:** Auto restart หรือหยุดระบบ
-
-### ค่าเฉลี่ยการทำงาน
-
-- ⏱️ **Startup:** 10-15 วินาที
-- 🔄 **Update:** ทุกช่วงเวลาที่เรียกใหม่ (ไม่ใช่ 5 วินาที)
-- 💾 **RAM Usage:** ~96KB (5 symbols)
-- 📁 **Disk I/O:** Non-blocking
+| ปัญหา | เกิดจากอะไร | การตอบสนองตามเกณฑ์ Fail-Fast |
+|-------|-------------|----------------------------------|
+| **Missing Symbols Key** | คีย์ `symbols` ไม่มีใน `settings.json` | ระเบิด `ValueError` → หยุดระบบทันที (ไม่มี Fallback) |
+| **Server Time Sync Failed** | ยิงขอเวลาเซิร์ฟเวอร์จากโบรกเกอร์ล้มเหลว | ระเบิด `RuntimeError` → หยุดระบบทันที (ไม่มี Fallback `time_offset=0`) |
+| **Queue Overflow** | คิวงานเขียนไฟล์ > 1,000 รายการ | ระเบิด `RuntimeError` → หยุดระบบทันที (ไม่มี Silent Drop Write) |
+| **Data Gap** | มีช่องว่าง > 5 นาที (M1) / 25 นาที (M5) / 75 นาที (M15) | ระเบิด `RuntimeError` → หยุดระบบทันที |
+| **Latency Stale** | ข้อมูลช้าเกิน 10 นาที (age > 600,000ms) | ระเบิด `RuntimeError` → หยุดระบบทันที |
+| **Invalid Data** | พบ NaN, Volume=0 (Non-OTC), Price out of range | ระเบิด `ValueError` → หยุดระบบทันที |
 
 ---
 
@@ -704,26 +666,17 @@ def run_cycle(self):
 
 **FINALBOT Data Feed ทำงานดังนี้:**
 
-1. ✅ ดึงข้อมูลจาก IQ Option → มาไว้ใน RAM
-2. ✅ ตรวจสอบคุณภาพข้อมูล → ตัดข้อมูลเสีย (หยุดระบบ)
-3. ✅ ประสาน Timeframe → Merge + Drop forming (M1, M5, M15)
-4. ✅ ส่งไปคิว → ไม่บล็อกหลัก (Non-blocking)
-5. ✅ เขียนลงดิสก์ → แบบ Async & Zero-Lock Atomic Write (decimal_places=6, Deduplicate, Atomic replace)
-6. ✅ เฝ้าระวังระบบ → หยุดทันทีถ้ามีปัญหา
-
-**ข้อควรจำ:**
-- 👑 **DataAdapter = หัวใจระบบ**
-- ⚡ **RAM = สถานที่ทำงานหลัก**
-- 🚀 **Queue = ไม่บล็อกหลัก**
-- 💾 **CSV = เก็บข้อมูลถาวร**
-- 📊 **Monitor = เฝ้าระวังทุกอย่าง**
-- ❌ **M15 ดึงตรงจาก Broker ไม่ resample**
-- ❌ **TimeframeSync ไม่ถูกเรียกใช้จริง**
-- ⚠️ **Decimal places = 6** (ปัดเศษราคา 6 ตำแหน่ง)
-- ⚠️ **Zero-Lock Atomic Write** (Deduplicate & Atomic replace)
+0. ✅ **ข่าวเศรษฐกิจ**: ตรวจสอบและดาวน์โหลดข่าวเศรษฐกิจประจำวันอัตโนมัติผ่าน `TimeCalendarManager` (`data_feed/time_calendar_manager.py`) เมื่อเริ่มรันบอท
+1. ✅ **Fail-Fast Settings & Time**: ตรวจเช็ก `symbols` และขอเวลาโบรกเกอร์ผ่าน `TimeCalendarManager` หากพลาดสั่งระเบิดหยุดบอททันที
+2. ✅ **ดึงข้อมูล IQ Option**: ดึง 3 แท่งใหม่ เข้าสู่ RAM Storage ชั่วคราวภายใน `DataAdapter`
+3. ✅ **Validate & Age/Quality**: ตรวจสอบคุณภาพข้อมูล และคำนวณ 8 คอลัมน์มาตรฐาน (`age` ms, `quality` FRESH/STALE)
+4. ✅ **Zero RAM Data Leakage**: `DataAdapter.update()` คืนค่าเฉพาะสตริง `symbol` ตัดการส่งข้อมูลราคาข้าม RAM ไป Part 2 100%
+5. ✅ **Non-blocking CSV Queue**: ส่งงานเขียนลงดิสก์ หากคิวสะสมเกิน 1,000 รายการสั่ง Fail-Fast หยุดระบบทันที
+6. ✅ **Atomic CSV Writer**: เขียนไฟล์ลงดิสก์ 8 คอลัมน์มาตรฐาน ทศนิยม 6 ตำแหน่ง ด้วย Atomic Replace และ Per-File Thread Lock
+7. ✅ **Disk Read Part 2**: Part 2 (`data_evaluate`) อ่านข้อมูลราคาจากไฟล์ CSV บนดิสก์ด้วยตัวเอง
 
 ---
 
-**สร้างเมื่อ:** 2026-07-18
-**สถานะ:** ✅ ใช้งานได้เต็มรูปแบบ
-**ความพร้อม:** 🚀 พร้อมเริ่มต้นการทดสอบ
+**สร้างเมื่อ:** 2026-07-18  
+**อัปเดตล่าสุด:** 2026-07-28  
+**สถานะ:** ✅ ใช้งานได้เต็มรูปแบบ (ตรงตามซอร์สโค้ดจริง 100%)  

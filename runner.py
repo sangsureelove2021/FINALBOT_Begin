@@ -2,6 +2,7 @@ import sys
 import logging
 import os
 import time
+import threading
 from datetime import datetime, timezone, timedelta
 import pandas as pd
 
@@ -12,11 +13,12 @@ setup_logging()
 # Core imports
 from data_feed.iq_option_adapter import IQOptionAdapter
 from data_feed.data_adapter import DataAdapter
+from data_feed.time_calendar_manager import TimeCalendarManager
 
 class PureAIRunner:
     def __init__(self):
         # Auto-run calendar_news.py on startup if today's calendar file is missing
-        self._ensure_calendar_news()
+        self.time_calendar_mgr = TimeCalendarManager()
 
         # Load settings
         from config_setting.config_loader import load_settings
@@ -62,15 +64,9 @@ class PureAIRunner:
             
         ConsoleUI.show_account_info(self.account_type, balance)
 
-        # Synchronize with broker server time
-        try:
-            server_time = self.data_adapter.api.get_server_timestamp()
-            local_time = int(time.time())
-            self.time_offset = server_time - local_time
-            logger.info(f"Server time offset: {self.time_offset} seconds")
-        except Exception as e:
-            logger.exception("Failed to get server time offset")
-            self.time_offset = 0.0
+        # Synchronize with broker server time and start background time sync thread
+        self.time_calendar_mgr.sync_server_time(self.data_adapter)
+        self.time_calendar_mgr.start_time_sync_thread()
 
         # Display assets
         ConsoleUI.show_asset_list(self.symbols)
@@ -96,60 +92,43 @@ class PureAIRunner:
         
         self._countdown_to_first_candle()
 
-    def _ensure_calendar_news(self):
-        """
-        ตรวจสอบว่าไฟล์ข่าวประจำวันนี้ใน all_filelogs/calendar_logs/calendar_YYYY-MM-DD.json มีอยู่แล้วหรือยัง
-        หากยังไม่มี ให้รัน calendar_news.py เพื่อดาวน์โหลดและส่งออกไฟล์ข่าวทันทีเมื่อเริ่มรันบอท
-        """
-        try:
-            import subprocess
-            today_str = datetime.now().strftime("%Y-%m-%d")
-            base_dir = os.path.dirname(os.path.abspath(__file__))
-            log_dir = os.path.join(base_dir, "all_filelogs", "calendar_logs")
-            calendar_file = os.path.join(log_dir, f"calendar_{today_str}.json")
-
-            if not os.path.exists(calendar_file):
-                logger.info(f"[NEWS] Calendar file for today ({today_str}) not found. Running calendar_news.py...")
-                script_path = os.path.join(base_dir, "calendar_news.py")
-                if os.path.exists(script_path):
-                    subprocess.run([sys.executable, script_path], check=False, timeout=60)
-                    logger.info("[NEWS] calendar_news.py executed successfully.")
-                else:
-                    logger.warning(f"[NEWS] calendar_news.py script not found at {script_path}")
-            else:
-                logger.info(f"[NEWS] Calendar file for today ({today_str}) already exists.")
-        except Exception as e:
-            logger.exception("Failed to check or run calendar_news.py at startup")
-
     def _countdown_to_first_candle(self):
         """แสดงเวลาที่จะเริ่มบันทึกครั้งแรก"""
         now = datetime.now()
-        if now.second < 3:
-            remaining = 3 - now.second
+        if now.second < 1:
+            remaining = 1 - now.second
         else:
-            remaining = 60 - now.second + 3
+            remaining = 60 - now.second + 1
 
         tz_thailand = timezone(timedelta(hours=7))
         target = datetime.now(tz_thailand) + timedelta(seconds=remaining)
         target_str = target.strftime('%H:%M:%S')
 
-        # Calculate mode_str before using it
-        # self.symbols is a list, use the first symbol or default
-        symbol_list = self.symbols if hasattr(self, 'symbols') and self.symbols else ["EURGBP"]
-        symbol = symbol_list[0] if isinstance(symbol_list, list) else "EURGBP"
-
-        if "OTC" in symbol.upper():
-            mode_str = "OTC (Over-The-Counter)"
+        # Calculate mode_str by evaluating all active symbols
+        symbol_list = self.symbols if hasattr(self, 'symbols') and isinstance(self.symbols, list) and self.symbols else []
+        if not symbol_list:
+            mode_str = "UNKNOWN (No Symbols)"
         else:
-            mode_str = "REGULAR (Exchange)"
+            otc_symbols = [s for s in symbol_list if "OTC" in s.upper()]
+            if len(otc_symbols) == len(symbol_list):
+                mode_str = "OTC (Over-The-Counter)"
+            elif len(otc_symbols) == 0:
+                mode_str = "REGULAR (Exchange)"
+            else:
+                mode_str = "MIXED (OTC & REGULAR)"
 
         ConsoleUI.show_countdown(remaining, target_str)
         # ConsoleUI.show_mode_info(mode_str) # Display the dynamically created mode_str
-    def fetch_and_save_data(self, symbol):
+
+
+    def fetch_and_save_data(self, symbol: str, broker_epoch: float | None = None):
         """Delegate all candle management to DataAdapter."""
         if not isinstance(symbol, str):
             raise TypeError("symbol must be a string")
-        broker_epoch = time.time() + self.time_offset
+        if broker_epoch is not None and not isinstance(broker_epoch, (int, float)):
+            raise TypeError("broker_epoch must be a float or int")
+        if broker_epoch is None:
+            broker_epoch = self.time_calendar_mgr.get_broker_epoch()
         return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
 
     def _find_csv_path(self, symbol: str, timeframe: str) -> str | None:
@@ -172,17 +151,13 @@ class PureAIRunner:
 
     def _get_latest_price_from_csv(self, symbol: str) -> float:
         import os
-        from data_feed.csv_writer import get_file_lock
+        from data_feed.csv_writer import read_csv_safe
         try:
             csv_path = self._find_csv_path(symbol, "M1")
             if csv_path:
-                file_lock = get_file_lock(csv_path)
-                with file_lock:
-                    with open(csv_path, 'r', encoding='utf-8') as f:
-                        lines = f.readlines()
-                        if len(lines) > 1:
-                            last_line = lines[-1].strip().split(',')
-                            return float(last_line[4])
+                df = read_csv_safe(csv_path)
+                if not df.empty and 'close' in df.columns:
+                    return float(df['close'].iloc[-1])
         except Exception as e:
             logger.exception(f"Failed to read latest price from CSV for {symbol}")
         return 0.0
@@ -192,7 +167,7 @@ class PureAIRunner:
         Gatekeeper function to ensure we have enough CSV data before calling orchestrator.
         """
         import os
-        from data_feed.csv_writer import get_file_lock
+        from data_feed.csv_writer import read_csv_safe
         reqs = {"M1": 100, "M5": 250, "M15": 50}
         for tf, req_len in reqs.items():
             csv_path = self._find_csv_path(symbol, tf)
@@ -200,10 +175,8 @@ class PureAIRunner:
                 logger.warning(f"[{symbol}] Missing {tf} CSV file.")
                 return False
             try:
-                file_lock = get_file_lock(csv_path)
-                with file_lock:
-                    with open(csv_path, 'r', encoding='utf-8') as f:
-                        line_count = sum(1 for _ in f) - 1 # subtract header
+                df = read_csv_safe(csv_path)
+                line_count = len(df)
                 if line_count < req_len:
                     logger.warning(f"[{symbol}] Insufficient {tf} data: has {line_count}, required >={req_len}")
                     return False
@@ -233,11 +206,14 @@ class PureAIRunner:
             
         import concurrent.futures
         
+        # Calculate consistent broker epoch for all symbols in this cycle
+        cycle_broker_epoch = self.time_calendar_mgr.get_broker_epoch()
+
         # Fetch and save data concurrently (highly optimized, writes CSV only)
         sym_futures = {}
         with concurrent.futures.ThreadPoolExecutor(max_workers=len(self.symbols)) as executor:
             for sym in self.symbols:
-                sym_futures[sym] = executor.submit(self.fetch_and_save_data, sym)
+                sym_futures[sym] = executor.submit(self.fetch_and_save_data, sym, cycle_broker_epoch)
             concurrent.futures.wait(sym_futures.values())
 
         prices_dict = {}
@@ -274,8 +250,8 @@ class PureAIRunner:
         while True:
             try:
                 now = datetime.now()
-                # Sleep until the 3rd second of the next minute to allow broker candle closure
-                sleep_sec = (3 - now.second) % 60
+                # Sleep until the 1st second of the next minute to allow broker candle closure
+                sleep_sec = (1 - now.second) % 60
                 if sleep_sec == 0:
                     sleep_sec = 60
                 time.sleep(sleep_sec)

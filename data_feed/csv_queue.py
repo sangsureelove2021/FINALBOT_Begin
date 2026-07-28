@@ -49,8 +49,7 @@ class CSVQueue:
         if df is not None and not df.empty:
             # Check queue size to prevent memory issues
             if self._queue.qsize() >= self.max_queue_size:
-                logger.warning(f"[CSVQueue] Queue full (size: {self._queue.qsize()}) - dropping write for {file_path}")
-                return
+                raise RuntimeError(f"FAIL-FAST: CSVQueue size exceeded max limit ({self.max_queue_size}) - write blocked for {file_path}")
             
             logger.info(f"[CSVQueue] Enqueuing write for {file_path} - Queue size: {self._queue.qsize()}")
             self._queue.put((df.copy(), file_path))
