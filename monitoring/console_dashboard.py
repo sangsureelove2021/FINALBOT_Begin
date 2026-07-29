@@ -179,6 +179,14 @@ class ConsoleUI:
     @staticmethod
     def show_news_status(msg):
         thai_console_log(msg)
+    
+    @staticmethod
+    def show_calendar_status(msg):
+        thai_console_log(f"📅 {msg}")
+    
+    @staticmethod
+    def show_balance(balance):
+        thai_console_log(f"💰 ยอดเงินในระบบ: ${balance:.2f}")
 
     @staticmethod
     def show_countdown(remaining, target_str):

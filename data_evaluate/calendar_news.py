@@ -2,7 +2,7 @@
 ff_calendar_fetch.py
 ====================
 ดึงปฏิทินข่าว Forex Factory ทั้งวัน → export JSON
-Output: all_filelogs/calendar_logs/calendar_YYYY-MM-DD.json
+Output: data_base/calendar_news/calendar_YYYY-MM-DD.json
 
 วิธีรัน:
     python ff_calendar_fetch.py              → ดึงข่าววันนี้
@@ -118,7 +118,7 @@ def print_summary(events: list[dict], filepath: Path):
 # ─────────────────────────────────────────
 #  CONFIG
 # ─────────────────────────────────────────
-OUTPUT_DIR = Path(__file__).resolve().parent / "all_filelogs" / "calendar_logs"
+OUTPUT_DIR = Path(__file__).resolve().parent / "data_base" / "calendar_news"
 
 FF_URL = "https://www.forexfactory.com/calendar"
 

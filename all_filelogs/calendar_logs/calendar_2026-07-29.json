@@ -1,0 +1,90 @@
+[
+    {
+        "title": "API Weekly Statistical Bulletin",
+        "country": "USD",
+        "date": "2026-07-29T07:30:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": ""
+    },
+    {
+        "title": "CPI m/m",
+        "country": "AUD",
+        "date": "2026-07-29T12:30:00+00:00",
+        "impact": "High",
+        "forecast": "0.2%",
+        "previous": "-0.7%"
+    },
+    {
+        "title": "CPI y/y",
+        "country": "AUD",
+        "date": "2026-07-29T12:30:00+00:00",
+        "impact": "High",
+        "forecast": "4.0%",
+        "previous": "4.0%"
+    },
+    {
+        "title": "Trimmed Mean CPI m/m",
+        "country": "AUD",
+        "date": "2026-07-29T12:30:00+00:00",
+        "impact": "High",
+        "forecast": "0.3%",
+        "previous": "0.4%"
+    },
+    {
+        "title": "German Import Prices m/m",
+        "country": "EUR",
+        "date": "2026-07-29T17:00:00+00:00",
+        "impact": "Low",
+        "forecast": "-0.7%",
+        "previous": "0.7%"
+    },
+    {
+        "title": "UBS Economic Expectations",
+        "country": "CHF",
+        "date": "2026-07-29T19:00:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": "-25.0"
+    },
+    {
+        "title": "M4 Money Supply m/m",
+        "country": "GBP",
+        "date": "2026-07-29T19:30:00+00:00",
+        "impact": "Low",
+        "forecast": "0.2%",
+        "previous": "0.1%"
+    },
+    {
+        "title": "Mortgage Approvals",
+        "country": "GBP",
+        "date": "2026-07-29T19:30:00+00:00",
+        "impact": "Low",
+        "forecast": "57K",
+        "previous": "57K"
+    },
+    {
+        "title": "Net Lending to Individuals m/m",
+        "country": "GBP",
+        "date": "2026-07-29T19:30:00+00:00",
+        "impact": "Low",
+        "forecast": "5.5B",
+        "previous": "5.0B"
+    },
+    {
+        "title": "German 10-y Bond Auction",
+        "country": "EUR",
+        "date": "2026-07-29T20:31:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": "3.09|1.0"
+    },
+    {
+        "title": "Crude Oil Inventories",
+        "country": "USD",
+        "date": "2026-07-30T01:30:00+00:00",
+        "impact": "Low",
+        "forecast": "0.7M",
+        "previous": "2.0M"
+    }
+]

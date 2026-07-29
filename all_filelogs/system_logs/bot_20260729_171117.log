@@ -1,0 +1,15 @@
+2026-07-30 00:11:17,271 | INFO     | [NEWS] Calendar file for today (2026-07-30) not found. Running calendar_news.py...
+2026-07-30 00:11:17,272 | WARNING  | [NEWS] calendar_news.py script not found at E:\BOT_FINALBOT\data_evaluate\calendar_news.py
+2026-07-30 00:11:17,272 | INFO     | 📅 ปฏิทินข่าวประจำวัน (2026-07-30) : ไม่พบสคริป์
+2026-07-30 00:11:17,720 | INFO     | MarketStateClassifier initialised
+2026-07-30 00:11:17,730 | INFO     | กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+2026-07-30 00:11:17,731 | INFO     | [IQOPTION] Initialized with Zero Tolerance compliance
+2026-07-30 00:11:17,933 | INFO     | Using stable_api.IQ_Option class
+2026-07-30 00:11:17,933 | INFO     | [CONN] Connecting to IQ Option (DEMO) as venuz20152565@gmail.com...
+2026-07-30 00:11:17,933 | INFO     | [CONN] API created, attempting to connect...
+2026-07-30 00:11:20,760 | INFO     | [CONN] IQ Option connected (DEMO)
+2026-07-30 00:11:20,760 | INFO     | เชื่อมต่อ IQ Option สำเร็จ
+2026-07-30 00:11:20,761 | INFO     | [CSVManager] Initialized with base_dir: data_base/csv/iq_option
+2026-07-30 00:11:20,761 | INFO     | [CSVWriter] Initialized with encoding: utf-8, decimals: 6
+2026-07-30 00:11:20,761 | INFO     | [CSVQueue] Initialized with 1 worker(s)
+2026-07-30 00:11:20,761 | INFO     | [DataAdapter] Initialized with Zero Tolerance compliance

@@ -115,3 +115,8 @@ def get_csv_manager_config() -> Dict[str, Any]:
 def get_csv_queue_config() -> Dict[str, Any]:
     """Get CSV queue configuration"""
     return load_settings().get("csv_queue", {})
+
+
+def get_time_calendar_manager_config() -> Dict[str, Any]:
+    """Get time calendar manager configuration"""
+    return load_settings().get("time_calendar_manager", {})

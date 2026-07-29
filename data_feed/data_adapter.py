@@ -17,6 +17,7 @@ from data_feed.data_source import IDataSource
 from data_feed.csv_queue import CSVQueue
 from data_feed.csv_manager import CSVManager
 from data_feed.csv_writer import get_file_lock, read_csv_safe
+from data_feed.candle_validator import CandleValidator
 
 logger = logging.getLogger(__name__)
 
@@ -214,7 +215,6 @@ class DataAdapter(IDataSource):
                 self._store_m1[symbol] = self._merge(
                     self._store_m1[symbol], fresh,
                     gap_threshold=_M1_GAP_SEC,
-                    refetch_fn=lambda: self._iq.get_candles(symbol, 'M1', 100),
                     label=f"M1 {symbol}",
                     timeframe="M1",
                     max_candles=100
@@ -225,7 +225,6 @@ class DataAdapter(IDataSource):
         completed = self._drop_forming(self._store_m1[symbol], now_naive, 60)
         if completed.empty:
             raise ValueError("M1 completed is empty")
-
 
         self._validator.validate(completed, symbol)
         completed = self._add_age_and_quality(completed, now_naive, 60)
@@ -246,23 +245,22 @@ class DataAdapter(IDataSource):
             self._last_block_m5[symbol] = block
             block_changed = True
         elif block != self._last_block_m5.get(symbol):
-            fresh = self._iq.get_candles(symbol, 'M5', 3)
-            if fresh is not None and not fresh.empty:
-                self._store_m5[symbol] = self._merge(
-                    self._store_m5[symbol], fresh,
-                    gap_threshold=_M5_GAP_SEC,
-                    refetch_fn=lambda: self._iq.get_candles(symbol, 'M5', 250),
-                    label=f"M5 {symbol}",
-                    timeframe="M5",
-                    max_candles=250
-                )
-                self._last_block_m5[symbol] = block
-                block_changed = True
-            else:
-                raise Exception(f"M5 fetch failed for {symbol} — Zero Tolerance: stopping immediately")
+            if now_naive.minute % 5 == 0:
+                fresh = self._iq.get_candles(symbol, 'M5', 3)
+                if fresh is not None and not fresh.empty:
+                    self._store_m5[symbol] = self._merge(
+                        self._store_m5[symbol], fresh,
+                        gap_threshold=_M5_GAP_SEC,
+                        label=f"M5 {symbol}",
+                        timeframe="M5",
+                        max_candles=250
+                    )
+                    self._last_block_m5[symbol] = block
+                    block_changed = True
+                else:
+                    raise Exception(f"M5 fetch failed for {symbol} — Zero Tolerance: stopping immediately")
 
         completed = self._drop_forming(self._store_m5[symbol], now_naive, 300)
-
 
         # Write CSV only when the 5-min block changes or initial store is loaded
         if block_changed:
@@ -286,26 +284,25 @@ class DataAdapter(IDataSource):
             self._last_block_m15[symbol] = block
             block_changed = True
         elif block != self._last_block_m15.get(symbol):
-            # Fetch M15 directly from Broker API (3 candles for update)
-            fresh_m15 = self._iq.get_candles(symbol, 'M15', 3)
-            if fresh_m15 is None or fresh_m15.empty:
-                raise Exception(f"Fresh M15 fetch failed for {symbol} — Zero Tolerance: stopping immediately")
-            
-            # Merge with gap check - keep last 50 candles (matching max_candles param)
-            self._store_m15[symbol] = self._merge(
-                self._store_m15[symbol] if self._store_m15[symbol] is not None else fresh_m15,
-                fresh_m15,
-                gap_threshold=_M15_GAP_SEC,
-                refetch_fn=lambda: self._iq.get_candles(symbol, 'M15', 50),
-                label=f"M15 {symbol}",
-                timeframe="M15",
-                max_candles=50
-            )
-            self._last_block_m15[symbol] = block
-            block_changed = True
+            if now_naive.minute % 15 == 0:
+                # Fetch M15 directly from Broker API (3 candles for update)
+                fresh_m15 = self._iq.get_candles(symbol, 'M15', 3)
+                if fresh_m15 is None or fresh_m15.empty:
+                    raise Exception(f"Fresh M15 fetch failed for {symbol} — Zero Tolerance: stopping immediately")
+                
+                # Merge with gap check - keep last 50 candles (matching max_candles param)
+                self._store_m15[symbol] = self._merge(
+                    self._store_m15[symbol],
+                    fresh_m15,
+                    gap_threshold=_M15_GAP_SEC,
+                    label=f"M15 {symbol}",
+                    timeframe="M15",
+                    max_candles=50
+                )
+                self._last_block_m15[symbol] = block
+                block_changed = True
 
         completed = self._drop_forming(self._store_m15[symbol], now_naive, 900)
-
 
         # Write CSV only when the 15-min block changes or initial store is loaded
         if block_changed:
@@ -344,19 +341,14 @@ class DataAdapter(IDataSource):
         return df_copy
 
     @staticmethod
-    def _calculate_quality(age_ms: int) -> str:
-        """Calculate data quality based on age."""
-        if age_ms < 360000:
-            return "HIGH"
-        elif age_ms < 480000:
-            return "MEDIUM"
-        elif age_ms < 600000:
-            return "LOW"
-        else:
-            return "STALE"
+    def _calculate_quality(age_ms: int, threshold_ms: int = 120000) -> str:
+        """Calculate data quality based on age (FRESH or STALE only)."""
+        if not isinstance(age_ms, (int, float)):
+            raise TypeError("age_ms must be an int or float")
+        return "FRESH" if age_ms <= threshold_ms else "STALE"
 
     def _merge(self, stored: Optional[pd.DataFrame], fresh: Optional[pd.DataFrame],
-                gap_threshold: float, refetch_fn, label: str, timeframe: str, max_candles: int = 250) -> pd.DataFrame:
+                gap_threshold: float, label: str, timeframe: str, max_candles: int = 250) -> pd.DataFrame:
         """Merge stored and fresh data with gap detection."""
         if stored is None or stored.empty:
             raise ValueError("Stored DataFrame is empty in _merge")
@@ -368,11 +360,8 @@ class DataAdapter(IDataSource):
         gap_sec = (first_ts - last_ts).total_seconds()
 
         if gap_sec > gap_threshold:
-            # DataMonitor removed - no gap reporting in Part 1
-            full = refetch_fn()
-            if full is not None and not full.empty:
-                return full
-            raise ValueError("Refetch failed after gap detection")
+            logger.error(f"[DataAdapter] {label}: FAIL-FAST Data gap detected ({gap_sec}s > {gap_threshold}s)")
+            raise ValueError(f"FAIL-FAST: Data gap detected in candles for {label} ({gap_sec}s > {gap_threshold}s)")
 
         overlap = stored.index.intersection(fresh.index)
         if len(overlap) > 1 and 'close' in stored.columns and 'close' in fresh.columns:

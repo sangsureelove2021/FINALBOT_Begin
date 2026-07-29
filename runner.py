@@ -13,11 +13,13 @@ setup_logging()
 # Core imports
 from data_feed.iq_option_adapter import IQOptionAdapter
 from data_feed.data_adapter import DataAdapter
+from data_feed.time_calendar_manager import TimeCalendarManager
 
 class PureAIRunner:
     def __init__(self):
+        self.time_calendar_mgr = TimeCalendarManager()
         # Auto-run calendar_news.py on startup if today's calendar file is missing
-        # Removed TimeCalendarManager for Part 1 - use system time directly
+        self.ensure_calendar_news()
 
         # Load settings
         from config_setting.config_loader import load_settings
@@ -62,8 +64,11 @@ class PureAIRunner:
             raise RuntimeError("FAIL-FAST: Failed to get balance from broker API") from e
             
         ConsoleUI.show_account_info(self.account_type, balance)
+        ConsoleUI.show_balance(balance)
 
-        # Using system time directly (no time synchronization for Part 1)
+        # Synchronize with broker server time and start background time sync thread
+        self.time_calendar_mgr.sync_server_time(self.data_adapter)
+        self.time_calendar_mgr.start_time_sync_thread()
 
         # Display assets
         ConsoleUI.show_asset_list(self.symbols)
@@ -88,6 +93,35 @@ class PureAIRunner:
             self.data_adapter.start_stream(sym, 'M5', 250)
         
         self._countdown_to_first_candle()
+
+    def ensure_calendar_news(self):
+        """ตรวจสอบและดึงปฏิทินข่าวประจำวัน"""
+        try:
+            import subprocess
+            today_str = datetime.now().strftime("%Y-%m-%d")
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            calendar_dir = os.path.join(base_dir, "data_base", "calendar_news")
+            calendar_file = os.path.join(calendar_dir, f"calendar_{today_str}.json")
+            
+            if not os.path.exists(calendar_file):
+                logger.info(f"[NEWS] Calendar file for today ({today_str}) not found. Running calendar_news.py...")
+                script_path = os.path.join(base_dir, "calendar_news.py")
+                if not os.path.exists(script_path):
+                    script_path = os.path.join(base_dir, "data_evaluate", "calendar_news.py")
+                if os.path.exists(script_path):
+                    subprocess.run([sys.executable, script_path], check=True, timeout=60)
+                    logger.info("[NEWS] calendar_news.py executed successfully.")
+                    logger.info(f"[NEWS] ดาวน์โหลดปฏิทินข่าวประจำวัน ({today_str}) : สำเร็จเรียบร้อย")
+                    ConsoleUI.show_calendar_status(f"ปฏิทินข่าวประจำวัน ({today_str}) : บันทึกสำเร็จแล้ว")
+                else:
+                    logger.warning(f"[NEWS] calendar_news.py script not found at {script_path}")
+                    ConsoleUI.show_calendar_status(f"ปฏิทินข่าวประจำวัน ({today_str}) : ไม่พบสคริปต์")
+            else:
+                logger.info(f"[NEWS] Calendar file for today ({today_str}) already exists.")
+                ConsoleUI.show_calendar_status(f"ปฏิทินข่าวประจำวัน ({today_str}) : มีไฟล์แล้วพร้อมใช้งาน")
+        except Exception as e:
+            logger.exception(f"Failed to ensure calendar news: {e}")
+            # ไม่ต้อง fail fast สำหรับปฏิทินข่าว
 
     def _countdown_to_first_candle(self):
         """แสดงเวลาที่จะเริ่มบันทึกครั้งแรก"""
@@ -125,9 +159,7 @@ class PureAIRunner:
         if broker_epoch is not None and not isinstance(broker_epoch, (int, float)):
             raise TypeError("broker_epoch must be a float or int")
         if broker_epoch is None:
-            # Use system time directly for Part 1
-            import time
-            broker_epoch = time.time()
+            broker_epoch = self.time_calendar_mgr.get_broker_epoch()
         return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
 
     def _find_csv_path(self, symbol: str, timeframe: str) -> str | None:
@@ -207,9 +239,7 @@ class PureAIRunner:
         import concurrent.futures
         
         # Calculate consistent broker epoch for all symbols in this cycle
-        # Use system time directly for Part 1
-        import time
-        cycle_broker_epoch = time.time()
+        cycle_broker_epoch = self.time_calendar_mgr.get_broker_epoch()
 
         # Fetch and save data concurrently (highly optimized, writes CSV only)
         sym_futures = {}

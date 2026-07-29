@@ -37,7 +37,7 @@ class IQOptionAdapter(IDataSource):
 
     def __init__(self, email: Optional[str] = None,
                  password: Optional[str] = None,
-                 account_type: str = "PRACTICE",
+                 account_type: Optional[str] = None,
                  api_token: Optional[str] = None,
                  config: Optional[Dict[str, Any]] = None):
         """
@@ -46,7 +46,7 @@ class IQOptionAdapter(IDataSource):
         Args:
             email: IQ Option login email (or via IQ_EMAIL env var).
             password: IQ Option password (or via IQ_PASSWORD env var).
-            account_type: 'PRACTICE' (demo) or 'REAL'.
+            account_type: 'DEMO' / 'PRACTICE' (demo) or 'REAL'.
             api_token: legacy, unused.
             config: Configuration from datafeed_config.json
         """
@@ -68,7 +68,12 @@ class IQOptionAdapter(IDataSource):
         else:
             from config_setting.config_loader import get_iq_credentials
             self.email, self.password = get_iq_credentials()
-        self.account_type = account_type or iq_config.get("account_type", "PRACTICE")
+        
+        if account_type:
+            self.account_type = account_type
+        else:
+            from config_setting.config_loader import get_account_type
+            self.account_type = get_account_type()
         
         # Load connection parameters from config
         self.timeout_sec = iq_config.get("timeout_sec", 8)
@@ -109,11 +114,11 @@ class IQOptionAdapter(IDataSource):
         if not ok:
             raise RuntimeError(f"IQ Option login failed: {reason}")
 
-        balance_mode = "PRACTICE" if self.account_type.upper() in ["DEMO", "PRACTICE"] else "REAL"
+        balance_mode = "PRACTICE" if str(self.account_type).upper() in ["DEMO", "PRACTICE"] else "REAL"
         self.api.change_balance(balance_mode)
 
         self._connected = True
-        mode = "DEMO" if self.account_type == "PRACTICE" else "REAL MONEY"
+        mode = "DEMO" if str(self.account_type).upper() in ["DEMO", "PRACTICE"] else "REAL MONEY"
         logger.info(f"[CONN] IQ Option connected ({mode})")
         self._executor = concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers)
         self._conn_lock = threading.Lock()
@@ -147,6 +152,14 @@ class IQOptionAdapter(IDataSource):
         Returns:
             DataFrame [open, high, low, close, volume] indexed by datetime
         """
+        if not isinstance(symbol, str):
+            raise TypeError("symbol must be a string")
+        if not isinstance(timeframe, str):
+            raise TypeError("timeframe must be a string")
+        if not isinstance(count, int):
+            raise TypeError("count must be an integer")
+        if timeframe not in self._TF_SECONDS:
+            raise ValueError(f"Unsupported timeframe: {timeframe}. Supported: {list(self._TF_SECONDS.keys())}")
         if not self._connected:
             raise RuntimeError("IQ Option not connected")
         return self._normalize_candle_index(

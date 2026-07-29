@@ -71,5 +71,11 @@
       "include_header": true,
       "date_format": "%Y-%m-%d %H:%M:%S"
     }
+  },
+  
+  "time_calendar_manager": {
+    "sync_interval": 30,
+    "max_sync_attempts": 3,
+    "enable_news_sync": true
   }
 }
