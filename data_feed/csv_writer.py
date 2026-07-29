@@ -104,6 +104,7 @@ class CSVWriter:
                         existing_df = existing_df[existing_cols]
                         
                         combined_df = pd.concat([existing_df, df_to_write])
+                        combined_df.index = pd.to_datetime(combined_df.index)
                         combined_df = combined_df[~combined_df.index.duplicated(keep='last')]
                         combined_df.sort_index(inplace=True)
                         df_to_write = combined_df
