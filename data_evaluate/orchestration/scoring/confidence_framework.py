@@ -92,10 +92,6 @@ class ConfidenceFramework(BaseEngine):
         if ctx.traps.get('trap_detected'):
             capped = min(capped, 70)
         
-        # Cap at 65 if anomaly detected
-        if ctx.anomaly.get('anomaly_detected'):
-            capped = min(capped, 65)
-        
         # Cap at 60 if high conflict
         if ctx.conflict.get('conflict_score', 0) > 70:
             capped = min(capped, 60)
@@ -119,8 +115,6 @@ class ConfidenceFramework(BaseEngine):
         caps = []
         if ctx.traps.get('trap_detected'):
             caps.append('trap_cap_70')
-        if ctx.anomaly.get('anomaly_detected'):
-            caps.append('anomaly_cap_65')
         if ctx.conflict.get('conflict_score', 0) > 70:
             caps.append('conflict_cap_60')
         if ctx.noise.get('noise_level', 0) > 75:

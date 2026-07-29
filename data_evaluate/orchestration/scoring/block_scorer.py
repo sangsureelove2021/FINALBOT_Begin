@@ -26,10 +26,6 @@ class BlockScorer:
         elif noise > 60:
             score += 15
         
-        # Anomaly
-        if context.anomaly.get('anomaly_detected'):
-            score += 20
-        
         # Conflict detected
         conflict = context.conflict.get('conflict_score', 0)
         if conflict > 70:
@@ -77,9 +73,6 @@ class BlockScorer:
         
         if context.noise.get('noise_level', 0) > 75:
             reasons.append("High market noise")
-        
-        if context.anomaly.get('anomaly_detected'):
-            reasons.append("Statistical anomaly detected")
         
         if context.conflict.get('conflict_score', 0) > 70:
             reasons.append("Engine signals conflicting")

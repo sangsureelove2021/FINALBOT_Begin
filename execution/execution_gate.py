@@ -19,7 +19,6 @@ class ExecutionGate:
     - If entry score < 70 → BLOCK
     - If block score >= 40 → BLOCK
     - If trap detected → BLOCK
-    - If anomaly detected → BLOCK
     - If multiple conflicts → BLOCK
     - If extreme volatility → BLOCK
     - If exhaustion + low confidence → BLOCK
@@ -28,12 +27,10 @@ class ExecutionGate:
     def __init__(self, 
                  min_confidence: int = 0,  # TEMP DISABLED FOR TESTING (was 75)
                  max_block_score: int = 40,
-                 block_on_trap: bool = True,
-                 block_on_anomaly: bool = True):
+                 block_on_trap: bool = True):
         self.min_confidence = min_confidence
         self.max_block_score = max_block_score
         self.block_on_trap = block_on_trap
-        self.block_on_anomaly = block_on_anomaly
 
     def evaluate(self, context: MarketContext, 
                 recommendation: Dict[str, Any]) -> Dict[str, Any]:
@@ -87,10 +84,6 @@ class ExecutionGate:
         if self.block_on_trap and context.traps.get('trap_detected'):
             trap_type = context.traps.get('trap_type', '?')
             return self._block(f"Trap detected ({trap_type})", "trap")
-
-        # 6. Anomaly check
-        if self.block_on_anomaly and context.anomaly.get('anomaly_detected'):
-            return self._block("Market anomaly detected", "anomaly")
 
         # 7. Extreme Volatility check
         regime = context.volatility.get('regime', 'NORMAL')

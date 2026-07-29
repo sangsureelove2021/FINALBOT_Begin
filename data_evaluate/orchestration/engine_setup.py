@@ -26,7 +26,6 @@ from data_evaluate.orchestration.advanced_tools.efficiency_analyzer import Effic
 from data_evaluate.orchestration.advanced_tools.persistence_analyzer import PersistenceAnalyzer
 from data_evaluate.orchestration.advanced_tools.continuation_analyzer import ContinuationAnalyzer
 from data_evaluate.orchestration.market_classifier.market_pressure_analyzer import MarketPressureAnalyzer
-from data_evaluate.orchestration.anomaly_detector import AnomalyDetector
 from data_evaluate.orchestration.context_synthesizer import ContextSynthesizer
 from data_evaluate.orchestration.probability_estimator import ProbabilityEstimator
 from data_evaluate.orchestration.scoring.signal_quality_scorer import SignalQualityScorer
@@ -42,7 +41,6 @@ ENGINE_CLASSES = [
     TrapDetector, NoiseDetector, LiquidityEngine, DivergenceAnalyzer,
     TransitionAnalyzer, ConflictAnalyzer, EfficiencyAnalyzer,
     PersistenceAnalyzer, ContinuationAnalyzer, MarketPressureAnalyzer,
-    AnomalyDetector,
     ContextSynthesizer, ProbabilityEstimator,
     SignalQualityScorer, ConfidenceFramework,
     ExplainabilityEngine,

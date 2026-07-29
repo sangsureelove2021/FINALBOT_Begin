@@ -169,7 +169,6 @@ class ContextBuilder(IContextBuilder):
             'persistence_analyzer': 'persistence',
             'continuation_analyzer': 'continuation',
             'market_pressure_analyzer': 'orderflow',
-            'anomaly_detector': 'anomaly',
             'context_synthesizer': 'synthesized_context',
             'probability_estimator': 'move_probability',
             'signal_quality_scorer': 'signal_quality',

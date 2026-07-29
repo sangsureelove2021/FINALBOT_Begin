@@ -1,0 +1,12 @@
+[
+  {
+    "timestamp": 1785284076236,
+    "type": "user_prompt",
+    "operation": "backup_user_prompt",
+    "sessionId": "session_1785284067079_os5tfuam",
+    "taskContent": "คุณคือ ds (DeepSeek Browser Agent) รับภารกิจตรวจทานซอร์สโค้ดในโฟลเดอร์ E:\\BOT_FINALBOT\\FINALBOT_Begin\\data_feed\\ ทุกไฟล์และทุกบรรทัดแบบละเอียด 100% ตามคำสั่งเด็ดขาดของบอส!\n\nกฎเหล็กและสเปกที่ต้องตรวจจับ:\n1. การแยกส่วนงานเด็ดขาด (Decoupled 100%): Part 1 (data_feed) ต้องดึงราคาดิบสด, ตัดแท่งกำลังก่อตัว, คำนวณ age & quality และเซฟลง CSV 8 คอลัมน์ (timestamp, open, high, low, close, volume, age, quality) เท่านั้น ห้ามมี payload ข้อมูลราคาหลุดทาง RAM ไป Part 2 และห้ามมีโค้ด Anomaly Detection ใดๆ ทั้งสิ้น\n2. กฎ Fail-Fast (Strict No Fallback): ห้ามมีการดัก Exception แบบ swallow, ห้ามใช้ default fallback เช่น 0.0/None/sleep(5) หากล้มเหลวต้อง raise RuntimeError หยุดบอททันที\n3. ห้ามมีโค้ดมั่ว โค้ดส่วนเกิน หรือการทำเกิน Scope\n\nสแกนตรวจไฟล์ทั้ง 10 ไฟล์: data_adapter.py, iq_option_adapter.py, time_calendar_manager.py, timeframe_sync.py, candle_validator.py, csv_queue.py, csv_writer.py, csv_manager.py, data_monitor.py, data_source.py\nสรุปรายงานผลการตรวจทีละไฟล์มาเป็นภาษาไทยอย่างตรงไปตรงมา",
+    "taskLength": 988,
+    "createdAt": "2026-07-29T00:14:27.079Z",
+    "updatedAt": "2026-07-29T00:14:36.236Z"
+  }
+]

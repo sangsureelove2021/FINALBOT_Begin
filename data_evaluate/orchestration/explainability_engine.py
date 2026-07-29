@@ -85,9 +85,6 @@ class ExplainabilityEngine(BaseEngine):
             trap_type = ctx.traps['trap_type']
             factors.append(f"Trap detected ({trap_type})")
         
-        if ctx.anomaly['anomaly_detected']:
-            factors.append(f"Statistical anomaly detected")
-        
         noise = ctx.noise['noise_level']
         if noise > 60:
             factors.append(f"High market noise ({noise})")

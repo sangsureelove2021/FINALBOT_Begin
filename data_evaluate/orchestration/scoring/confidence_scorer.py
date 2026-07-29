@@ -120,10 +120,6 @@ class ConfidenceScorer:
         if noise_level > 70:
             score -= 25
         
-        # Anomaly penalty
-        if context.anomaly.get('anomaly_detected'):
-            score -= 20
-        
         # Conflict penalty
         conflict_score = context.conflict.get('conflict_score', 0)
         if conflict_score > 60:

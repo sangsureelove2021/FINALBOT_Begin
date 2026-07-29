@@ -1,0 +1,90 @@
+ID:EURGBPOTC0729070203
+meta:
+  timestamp: '2026-07-29T07:02:03.823529'
+  symbol: EURGBP-OTC
+  session: ASIAN
+  m1_open: 0.851515
+  m1_age: 63852
+  m1_quality: FRESH
+  m5_open: 0.851735
+  m5_age: 123852
+  m5_quality: FRESH
+market_context:
+  state: SIDEWAY_RANGE
+  description: Price ranging between clear levels. Suitable for mean-reversion strategies.
+  volatility_regime: LOW
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.073
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 0.851695
+    ema20: 0.851918
+    rsi: 42.81
+    stoch_k: 16.32
+    stoch_d: 21.48
+    macd: -9e-05
+    macd_signal: -3e-06
+    ohclv:
+      open: 0.851515
+      high: 0.851715
+      low: 0.851505
+      close: 0.851645
+      volume: NONE_OTC
+  m5:
+    bias: BULLISH
+    ema5: 0.85183
+    ema10: 0.851737
+    ema20: 0.851457
+    ema50: 0.851172
+    bb_upper: 0.852953
+    bb_lower: 0.849392
+    bb_width: 0.003561
+    rsi: 52.57
+    stoch_k: 60.48
+    stoch_d: 68.25
+    macd: 0.000308
+    macd_signal: 0.000234
+    adx: 17.42
+    atr: 0.000622
+    support: 0.849575
+    resistance: 0.853075
+    pivot: 0.851745
+    ohclv:
+      open: 0.851735
+      high: 0.851795
+      low: 0.851505
+      close: 0.851565
+      volume: NONE_OTC
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: HIGH_LOWER_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: UP
+  trend_type: CHOPPY
+  trend_strength_score: 60
+  mtf_alignment_%: 66
+  compression_quality_%: 65.05
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 48
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

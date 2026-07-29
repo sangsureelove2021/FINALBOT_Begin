@@ -39,6 +39,6 @@ AI ถูกโปรแกรมให้วิเคราะห์ตลา�
 
 2. **ส่วนงานที่ 2: Data Evaluation (`data_evaluate/`)**
    - ทำหน้าที่อ่านไฟล์ CSV จากดิสก์ด้วยตัวเอง (Zero RAM Data Leakage)
-   - ดำเนินการ **Anomaly Detection (`AnomalyDetector`)** ตรวจจับ Spike, Zero Volume, Impossible Candle ในส่วนงานที่ 2 ร่วมกับการคำนวณ 5 Tier-1 Engines และ Supplementary Engines
+   - ปราศจาก **Anomaly Detection** 100% (ถอดถอนออกจากระบบทั้งหมดตามคำสั่งเด็ดขาดของบอส) ดำเนินการคำนวณ 5 Tier-1 Engines และ Supplementary Engines ที่เหลือ
    - สร้างและส่งออก **Payload Output 74 ฟิลด์ (91 บรรทัด)** เพื่อส่งให้ AI ตัดสินใจต่อไป
 

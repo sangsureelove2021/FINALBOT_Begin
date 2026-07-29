@@ -1,0 +1,90 @@
+ID:EURUSD0729070102
+meta:
+  timestamp: '2026-07-29T07:01:02.921815'
+  symbol: EURUSD
+  session: ASIAN
+  m1_open: 1.13861
+  m1_age: 62957
+  m1_quality: FRESH
+  m5_open: 1.13861
+  m5_age: 62957
+  m5_quality: FRESH
+market_context:
+  state: BREAKOUT_EMERGING
+  description: Volatility expansion after compression. Potential breakout opportunity.
+  volatility_regime: LOW
+  news_impact: LOW
+  expected_volatility_%: 0.012
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.138563
+    ema20: 1.138549
+    rsi: 46.95
+    stoch_k: 65.7
+    stoch_d: 73.83
+    macd: 2.4e-05
+    macd_signal: 2.7e-05
+    ohclv:
+      open: 1.13861
+      high: 1.13865
+      low: 1.138495
+      close: 1.138505
+      volume: 48
+  m5:
+    bias: BEARISH
+    ema5: 1.138542
+    ema10: 1.138533
+    ema20: 1.138569
+    ema50: 1.138697
+    bb_upper: 1.138666
+    bb_lower: 1.138332
+    bb_width: 0.000334
+    rsi: 44.97
+    stoch_k: 77.94
+    stoch_d: 81.95
+    macd: -6.6e-05
+    macd_signal: -9.2e-05
+    adx: 30.88
+    atr: 0.000142
+    support: 1.1384
+    resistance: 1.13864
+    pivot: 1.138592
+    ohclv:
+      open: 1.13861
+      high: 1.13865
+      low: 1.138495
+      close: 1.138505
+      volume: 48
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: BEARISH_ENGULFING
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: NONE
+volume:
+  tick_volume: 48
+  volume_momentum: LOW_MOMENTUM
+  volume_vs_average: 0.279
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 40
+  mtf_alignment_%: 33
+  compression_quality_%: 100.0
+  exhaustion_risk_%: 40
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 33
+  quality_score: 49
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

@@ -1,0 +1,90 @@
+ID:EURGBP0729071002
+meta:
+  timestamp: '2026-07-29T07:10:02.828820'
+  symbol: EURGBP
+  session: ASIAN
+  m1_open: 0.856865
+  m1_age: 122860
+  m1_quality: STALE
+  m5_open: 0.856915
+  m5_age: 302860
+  m5_quality: FRESH
+market_context:
+  state: BREAKOUT_EMERGING
+  description: Volatility expansion after compression. Potential breakout opportunity.
+  volatility_regime: LOW
+  news_impact: LOW
+  expected_volatility_%: 0.009
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 0.856875
+    ema20: 0.856926
+    rsi: 32.34
+    stoch_k: 5.95
+    stoch_d: 10.05
+    macd: -3e-05
+    macd_signal: -2e-05
+    ohclv:
+      open: 0.856865
+      high: 0.85689
+      low: 0.856845
+      close: 0.856845
+      volume: 228
+  m5:
+    bias: BEARISH
+    ema5: 0.856927
+    ema10: 0.856954
+    ema20: 0.856975
+    ema50: 0.856946
+    bb_upper: 0.857092
+    bb_lower: 0.856905
+    bb_width: 0.000187
+    rsi: 37.78
+    stoch_k: 21.46
+    stoch_d: 29.25
+    macd: -1.6e-05
+    macd_signal: -0.0
+    adx: 10.29
+    atr: 7.7e-05
+    support: 0.85655
+    resistance: 0.857045
+    pivot: 0.85693
+    ohclv:
+      open: 0.856915
+      high: 0.856935
+      low: 0.85686
+      close: 0.85688
+      volume: 662
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: HIGH_UPPER_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: NONE
+volume:
+  tick_volume: 662
+  volume_momentum: HIGH_MOMENTUM
+  volume_vs_average: 2.106
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 40
+  mtf_alignment_%: 33
+  compression_quality_%: 100.0
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 33
+  quality_score: 54
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

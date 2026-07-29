@@ -1,0 +1,90 @@
+ID:EURUSD0729070303
+meta:
+  timestamp: '2026-07-29T07:03:03.372101'
+  symbol: EURUSD
+  session: ASIAN
+  m1_open: 1.138375
+  m1_age: 123411
+  m1_quality: STALE
+  m5_open: 1.13861
+  m5_age: 183411
+  m5_quality: FRESH
+market_context:
+  state: SIDEWAY_RANGE
+  description: Price ranging between clear levels. Suitable for mean-reversion strategies.
+  volatility_regime: LOW
+  news_impact: LOW
+  expected_volatility_%: 0.013
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 1.138496
+    ema20: 1.138528
+    rsi: 45.18
+    stoch_k: 43.76
+    stoch_d: 58.96
+    macd: 5e-06
+    macd_signal: 2.1e-05
+    ohclv:
+      open: 1.138375
+      high: 1.138455
+      low: 1.13834
+      close: 1.138455
+      volume: 130
+  m5:
+    bias: BEARISH
+    ema5: 1.138498
+    ema10: 1.138509
+    ema20: 1.138556
+    ema50: 1.138692
+    bb_upper: 1.138668
+    bb_lower: 1.138317
+    bb_width: 0.000351
+    rsi: 40.17
+    stoch_k: 67.98
+    stoch_d: 78.63
+    macd: -7.6e-05
+    macd_signal: -9.4e-05
+    adx: 31.92
+    atr: 0.000153
+    support: 1.138215
+    resistance: 1.13864
+    pivot: 1.138592
+    ohclv:
+      open: 1.13861
+      high: 1.13865
+      low: 1.138335
+      close: 1.138375
+      volume: 275
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: BEARISH_ENGULFING
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: NONE
+volume:
+  tick_volume: 275
+  volume_momentum: HIGH_MOMENTUM
+  volume_vs_average: 1.498
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 20
+  mtf_alignment_%: 33
+  compression_quality_%: 100.0
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 33
+  quality_score: 55
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

@@ -38,8 +38,7 @@ from data_evaluate.orchestration.market_classifier.mtf_engine import MTFEngine
 from data_evaluate.orchestration.market_classifier.market_state_classifier import MarketStateClassifier
 from data_evaluate.orchestration.check_news import check_news_impact
 
-# Import 10 Supplementary Engines
-from data_evaluate.orchestration.anomaly_detector import AnomalyDetector
+# Import Supplementary Engines
 from data_evaluate.orchestration.explainability_engine import ExplainabilityEngine
 from data_evaluate.orchestration.liquidity_engine import LiquidityEngine
 from data_evaluate.orchestration.noise_detector import NoiseDetector
@@ -79,8 +78,7 @@ class Orchestrator:
         self.structure_engine = StructureEngine()
         self.mtf_engine = MTFEngine()
 
-        # ── 10 Supplementary Modules ──────────────────────────────────────
-        self.anomaly_detector = AnomalyDetector()
+        # ── Supplementary Modules ──────────────────────────────────────
         self.explainability_engine = ExplainabilityEngine()
         self.liquidity_engine = LiquidityEngine()
         self.noise_detector = NoiseDetector()
@@ -682,17 +680,6 @@ class Orchestrator:
                 raise ValueError("[NoiseDetector] returned non-dict result")
         except Exception as e:
             logger.exception(f"[NoiseDetector] Error during analysis: {e}")
-            traceback.print_exc()
-            raise
-
-        try:
-            anom_res = self.anomaly_detector.analyze(df_m5)
-            if not isinstance(anom_res, dict):
-                raise ValueError("[AnomalyDetector] returned non-dict result")
-        except Exception as e:
-            logger.exception(f"[AnomalyDetector] Error during analysis: {e}")
-            traceback.print_exc()
-            raise
 
         # 2. Build MarketContext for synthesis engines
         try:
@@ -706,7 +693,6 @@ class Orchestrator:
             ctx.market_state = state_data.get('state', 'UNKNOWN') if isinstance(state_data, dict) else str(state_data)
             ctx.regime_quality = rq_res
             ctx.orderflow = mp_res
-            ctx.anomaly = anom_res
             ctx.liquidity = liq_res
             ctx.noise = noise_res
             ctx.price_action = payload.get('price_action', {})
@@ -772,7 +758,6 @@ class Orchestrator:
             raise
 
         return {
-            'anomaly_detector': anom_res,
             'explainability_engine': exp_res,
             'liquidity_engine': liq_res,
             'noise_detector': noise_res,

@@ -31,7 +31,7 @@ Data Feed System = 10 ไฟล์ที่ทำงานร่วมกัน
 ├── data_monitor.py            → เฝ้าระวังระบบและความพร้อมใช้งานตลอดเวลา
 └── data_source.py             → ตัวจัดการหลัก (Abstract)
 ```
-*(หมายเหตุ: `AnomalyDetector` ถูกย้ายไปยังส่วนงานที่ 2 `data_evaluate/` เพื่อทำหน้าที่ประมวลผลความผิดปกติร่วมกับการคำนวณ 5 Tier-1 Engines และ 74 ฟิลด์ Payload)*
+*(หมายเหตุ: ระบบ Anomaly Detection ถูกถอดถอนออกจากระบบทั้งหมด 100% ตามคำสั่งเด็ดขาดของบอส)*
 
 ### ควบคุมการส่งข้อมูลอยู่ที่ไหน?
 
@@ -108,7 +108,7 @@ def enqueue_write(self, df: pd.DataFrame, file_path: str) -> None:
         self._queue.put((df.copy(), file_path))
 ```
 
-### 5. `candle_validator.py` & `anomaly_detector.py` Data Quality Check
+### 5. `candle_validator.py` Data Quality Check (Anomaly Detection ถอดถอนออก 100%)
 หากพบแท่งเทียนขาดคอลัมน์สำคัญ, มีค่า NaN ในราคา, ปริมาณ Volume = 0 สำหรับคู่อัตราแลกเปลี่ยนปกติ (Non-OTC), หรือราคาหลุดกรอบปกติ/กระโดดผิดปกติ ระบบจะระเบิด `ValueError` สั่งหยุดการประมวลผลแท่งเทียนทันที:
 ```python
 # data_feed/candle_validator.py
@@ -326,9 +326,9 @@ self._store_m15[symbol] = m15      # เก็บ M15 ลง RAM ชั่วค
 
 ---
 
-### **Step 3: ตรวจสอบคุณภาพข้อมูล (Validation & Anomaly Detection)** ⬇️
+### **Step 3: ตรวจสอบคุณภาพข้อมูล (Validation)** ⬇️ (Anomaly Detection ถอดถอนออก 100%)
 
-**ไฟล์:** `candle_validator.py` + `anomaly_detector.py`
+**ไฟล์:** `candle_validator.py`
 
 **Validation ทำทุกครั้ง:**
 ```python
@@ -629,7 +629,7 @@ def run_cycle(self):
 | 0. ข่าวเศรษฐกิจ | TimeCalendarManager (data_feed/time_calendar_manager.py) | เช็ก `calendar_YYYY-MM-DD.json` หากยังไม่มี จะรัน `calendar_news.py` อัตโนมัติ | ✅ Active |
 | 1. รับข้อมูล & Sync เวลา | iq_option_adapter.py / TimeCalendarManager | ดึง 3 แท่งใหม่จาก IQ Option API และซิงค์เวลาโบรกเกอร์ผ่าน TimeCalendarManager | ✅ Fail-Fast หากขอเวลาไม่สำเร็จ |
 | 2. เก็บ RAM Internal | data_adapter.py | บันทึกในหน่วยความจำ RAM ชั่วคราวภายใน DataAdapter เท่านั้น | ✅ Active (Zero RAM Leakage) |
-| 3. Validate & Detect | candle_validator.py / anomaly_detector.py | ตรวจสอบคุณภาพและหาความผิดปกติของข้อมูล | ✅ Fail-Fast หากพบข้อมูลเสีย |
+| 3. Validate | candle_validator.py | ตรวจสอบคุณภาพของข้อมูล (ถอดถอน Anomaly Detection ออก 100%) | ✅ Fail-Fast หากพบข้อมูลเสีย |
 | 4. Timeframe & Merge | data_adapter.py | Merge + Drop forming (M1, M5, M15) | ✅ Active (M15 ไม่ resample) |
 | 5. Enqueue Write | csv_queue.py | ส่งไปคิวเขียน CSV แบบ Non-blocking | ✅ Fail-Fast หากคิวเกิน 1,000 |
 | 6. Write CSV | csv_writer.py + csv_manager.py | เขียน 8 คอลัมน์ลงดิสก์ (Async & Atomic replace) | ✅ Active (decimal_places=6) |

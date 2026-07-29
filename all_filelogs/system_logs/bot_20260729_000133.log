@@ -1,0 +1,2455 @@
+2026-07-29 07:01:33,083 | INFO     | [NEWS] Calendar file for today (2026-07-29) not found. Running calendar_news.py...
+2026-07-29 07:01:36,067 | INFO     | [NEWS] calendar_news.py executed successfully.
+2026-07-29 07:01:36,067 | INFO     | ดาวน์โหลดปฏิทินข่าวประจำวัน (2026-07-29) : สำเร็จเรียบร้อย
+2026-07-29 07:01:36,283 | INFO     | [ANOMALY] Initialized in Part 2 (data_evaluate) dir: E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs
+2026-07-29 07:01:36,283 | INFO     | MarketStateClassifier initialised
+2026-07-29 07:01:36,287 | INFO     | กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+2026-07-29 07:01:36,287 | INFO     | [IQOPTION] Initialized with Zero Tolerance compliance
+2026-07-29 07:01:36,352 | INFO     | Using stable_api.IQ_Option class
+2026-07-29 07:01:36,352 | INFO     | [CONN] Connecting to IQ Option (DEMO) as venuz20152565@gmail.com...
+2026-07-29 07:01:36,352 | INFO     | [CONN] API created, attempting to connect...
+2026-07-29 07:01:38,322 | INFO     | [CONN] IQ Option connected (REAL MONEY)
+2026-07-29 07:01:38,322 | INFO     | เชื่อมต่อ IQ Option สำเร็จ
+2026-07-29 07:01:38,322 | INFO     | [CSVManager] Initialized with base_dir: data_base/csv/iq_option
+2026-07-29 07:01:38,322 | INFO     | [CSVWriter] Initialized with encoding: utf-8, decimals: 6
+2026-07-29 07:01:38,322 | INFO     | [CSVQueue] Initialized with 1 worker(s)
+2026-07-29 07:01:38,323 | INFO     | [DataMonitor] Initialized with log level: WARNING
+2026-07-29 07:01:38,323 | INFO     | [DataAdapter] Initialized with Zero Tolerance compliance
+2026-07-29 07:01:38,323 | INFO     | [CandleValidator] Initialized with validation configuration
+2026-07-29 07:01:38,323 | INFO     | [DataAdapter] Initialized with configuration
+2026-07-29 07:01:38,812 | INFO     | บัญชี DEMO | Balance: $1453.95
+2026-07-29 07:01:38,812 | INFO     | [TIME SYNC] Server time offset: -1.936000108718872 seconds
+2026-07-29 07:01:38,812 | INFO     | Time Sync : -1.936s
+2026-07-29 07:01:38,813 | INFO     | [TIME SYNC] Started time sync daemon thread (scheduled at :30 of every minute)
+2026-07-29 07:01:38,813 | INFO     | ตรวจพบรายการสินทรัพย์ : EURUSD, EURGBP, GBPUSD-OTC, EURGBP-OTC
+2026-07-29 07:01:38,813 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์ 4 รายการ : EURUSD, EURGBP, GBPUSD-OTC, EURGBP-OTC
+2026-07-29 07:01:39,138 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 100 candles
+2026-07-29 07:01:39,586 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 250 candles
+2026-07-29 07:01:39,897 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 50 candles
+2026-07-29 07:01:39,926 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-29 07:01:39,926 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:01:39,928 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:01:39,928 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv - Queue size: 0
+2026-07-29 07:01:39,933 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv - Queue size: 1
+2026-07-29 07:01:39,933 | INFO     | [DataAdapter] EURUSD initialised — M1:100 M5:250 M15:50
+2026-07-29 07:01:40,189 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 100 candles
+2026-07-29 07:01:40,278 | INFO     | [CSVWriter] Successfully wrote 142 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:01:40,294 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:01:40,309 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-29 07:01:40,356 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-29 07:01:40,512 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 250 candles
+2026-07-29 07:01:40,679 | INFO     | [CSVWriter] Successfully wrote 258 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-29 07:01:40,679 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-29 07:01:40,679 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-29 07:01:40,709 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-29 07:01:40,775 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 50 candles
+2026-07-29 07:01:40,799 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-29 07:01:40,801 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv - Queue size: 1
+2026-07-29 07:01:40,802 | INFO     | [CSVWriter] Successfully wrote 52 rows to data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-29 07:01:40,802 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M15.csv
+2026-07-29 07:01:40,802 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:01:40,803 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:01:40,807 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv - Queue size: 1
+2026-07-29 07:01:40,807 | INFO     | [DataAdapter] EURGBP initialised — M1:100 M5:250 M15:50
+2026-07-29 07:01:40,959 | INFO     | [CSVWriter] Successfully wrote 142 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:01:40,959 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:01:40,959 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-29 07:01:40,959 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-29 07:01:41,058 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 100 candles
+2026-07-29 07:01:41,067 | INFO     | [CSVWriter] Successfully wrote 258 rows to data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-29 07:01:41,068 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-29 07:01:41,079 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-29 07:01:41,141 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-29 07:01:41,394 | INFO     | [CSVWriter] Successfully wrote 52 rows to data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-29 07:01:41,394 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M15.csv
+2026-07-29 07:01:41,394 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 250 candles
+2026-07-29 07:01:41,394 | INFO     | [CSVQueue] Queue size: 0
+2026-07-29 07:01:41,667 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 50 candles
+2026-07-29 07:01:41,688 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-29 07:01:41,688 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:01:41,689 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:01:41,690 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 0
+2026-07-29 07:01:41,692 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 1
+2026-07-29 07:01:41,692 | INFO     | [DataAdapter] GBPUSD-OTC initialised — M1:100 M5:250 M15:50
+2026-07-29 07:01:41,819 | INFO     | [CSVWriter] Successfully wrote 142 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:01:41,834 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:01:41,849 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-29 07:01:41,911 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-29 07:01:41,969 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 100 candles
+2026-07-29 07:01:42,236 | INFO     | [CSVWriter] Successfully wrote 258 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-29 07:01:42,251 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-29 07:01:42,251 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-29 07:01:42,280 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 250 candles
+2026-07-29 07:01:42,285 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-29 07:01:42,565 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 50 candles
+2026-07-29 07:01:42,581 | INFO     | [CSVWriter] Successfully wrote 52 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-29 07:01:42,582 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-07-29 07:01:42,582 | INFO     | [CSVQueue] Queue size: 0
+2026-07-29 07:01:42,582 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-29 07:01:42,582 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:01:42,583 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:01:42,585 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 0
+2026-07-29 07:01:42,587 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 1
+2026-07-29 07:01:42,587 | INFO     | [DataAdapter] EURGBP-OTC initialised — M1:100 M5:250 M15:50
+2026-07-29 07:01:42,587 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-07-29 07:01:42,715 | INFO     | [CSVWriter] Successfully wrote 142 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:01:42,730 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:01:42,745 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-29 07:01:42,822 | INFO     | [CSVWriter] Writing 250 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-29 07:01:42,881 | INFO     | [CSVWriter] Successfully wrote 258 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-29 07:01:42,882 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-29 07:01:42,882 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-29 07:01:42,882 | INFO     | [CSVWriter] Writing 50 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-29 07:01:42,891 | INFO     | [CSVWriter] Successfully wrote 52 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-29 07:01:42,891 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-07-29 07:01:42,892 | INFO     | [CSVQueue] Queue size: 0
+2026-07-29 07:01:43,873 | INFO     | [WS] Subscribed live candles stream for EURUSD (M1, count=100)
+2026-07-29 07:01:46,180 | INFO     | [WS] Subscribed live candles stream for EURUSD (M5, count=250)
+2026-07-29 07:01:47,451 | INFO     | [WS] Subscribed live candles stream for EURGBP (M1, count=100)
+2026-07-29 07:01:48,768 | INFO     | [WS] Subscribed live candles stream for EURGBP (M5, count=250)
+2026-07-29 07:01:50,031 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M1, count=100)
+2026-07-29 07:01:51,314 | INFO     | [WS] Subscribed live candles stream for GBPUSD-OTC (M5, count=250)
+2026-07-29 07:01:52,583 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M1, count=100)
+2026-07-29 07:01:53,882 | INFO     | [WS] Subscribed live candles stream for EURGBP-OTC (M5, count=250)
+2026-07-29 07:01:53,882 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 8 วินาที  (เริ่ม 07:02:01)
+2026-07-29 07:02:02,148 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-29 07:02:02,148 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-29 07:02:02,148 | INFO     | [DataAdapter] Starting update for EURGBP
+2026-07-29 07:02:02,148 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP
+2026-07-29 07:02:02,148 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-29 07:02:02,149 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-29 07:02:02,149 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-29 07:02:02,178 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-29 07:02:02,551 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-29 07:02:02,659 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-29 07:02:02,674 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD
+2026-07-29 07:02:02,690 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:02:02,690 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD
+2026-07-29 07:02:02,767 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD
+2026-07-29 07:02:02,782 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:02:02,782 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD
+2026-07-29 07:02:02,817 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-29 07:02:02,818 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD
+2026-07-29 07:02:02,951 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-29 07:02:02,982 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP
+2026-07-29 07:02:02,997 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP
+2026-07-29 07:02:03,013 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP
+2026-07-29 07:02:03,028 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP
+2026-07-29 07:02:03,044 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP
+2026-07-29 07:02:03,076 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-29 07:02:03,216 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 1
+2026-07-29 07:02:03,230 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-29 07:02:03,245 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-29 07:02:03,260 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-29 07:02:03,275 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-29 07:02:03,292 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-29 07:02:03,307 | INFO     | [CSVWriter] Successfully wrote 142 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:02:03,338 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:02:03,354 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:02:03,400 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:02:03,417 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-29 07:02:03,428 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 1
+2026-07-29 07:02:03,429 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-29 07:02:03,430 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-29 07:02:03,430 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-29 07:02:03,432 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-29 07:02:03,433 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-29 07:02:03,437 | INFO     | [CSVWriter] Successfully wrote 142 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:02:03,438 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:02:03,438 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:02:03,438 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:02:03,483 | INFO     | [CSVWriter] Successfully wrote 142 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:02:03,484 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:02:03,484 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:02:03,497 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:02:03,551 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:02:03,568 | ERROR    | Error running supplementary engines for EURUSD: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:02:03,568 | INFO     | [CSVWriter] Successfully wrote 142 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:02:03,572 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:02:03,574 | INFO     | [CSVQueue] Queue size: 0
+2026-07-29 07:02:03,575 | ERROR    | Orchestrator failed for EURUSD
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:02:03,728 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:02:03,732 | ERROR    | Error running supplementary engines for EURGBP: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:02:03,738 | ERROR    | Orchestrator failed for EURGBP
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:02:03,850 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:02:03,852 | ERROR    | Error running supplementary engines for GBPUSD-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:02:03,855 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:02:03,962 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:02:03,964 | ERROR    | Error running supplementary engines for EURGBP-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:02:03,967 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:02:03,968 | INFO     | [EURUSD:1.13845][EURGBP:0.85696][GBPUSD-OTC:1.33510][EURGBP-OTC:0.85164] :: TOTAL=$1453.95
+2026-07-29 07:02:30,814 | INFO     | [TIME SYNC] Server time offset: -2.2890000343322754 seconds
+2026-07-29 07:02:30,814 | INFO     | Time Sync : -2.289s
+2026-07-29 07:03:02,226 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-29 07:03:02,227 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-29 07:03:02,227 | INFO     | [DataAdapter] Starting update for EURGBP
+2026-07-29 07:03:02,227 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP
+2026-07-29 07:03:02,228 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-29 07:03:02,228 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-29 07:03:02,228 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-29 07:03:02,228 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-29 07:03:02,611 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-29 07:03:02,749 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-29 07:03:02,764 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD
+2026-07-29 07:03:02,779 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:03:02,779 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD
+2026-07-29 07:03:02,857 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:03:02,888 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD
+2026-07-29 07:03:02,940 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD
+2026-07-29 07:03:02,940 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-29 07:03:02,951 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD
+2026-07-29 07:03:03,121 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-29 07:03:03,137 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP
+2026-07-29 07:03:03,137 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP
+2026-07-29 07:03:03,139 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP
+2026-07-29 07:03:03,139 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP
+2026-07-29 07:03:03,142 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP
+2026-07-29 07:03:03,213 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-29 07:03:03,243 | INFO     | [CSVWriter] Successfully wrote 142 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:03:03,256 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:03:03,278 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:03:03,304 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:03:03,323 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-29 07:03:03,336 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-29 07:03:03,351 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-29 07:03:03,415 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-29 07:03:03,429 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-29 07:03:03,445 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-29 07:03:03,556 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-29 07:03:03,568 | INFO     | [CSVWriter] Successfully wrote 142 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:03:03,568 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:03:03,568 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:03:03,569 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:03:03,569 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-07-29 07:03:03,571 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-29 07:03:03,571 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-29 07:03:03,572 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-29 07:03:03,572 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-29 07:03:03,572 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-29 07:03:03,604 | INFO     | [CSVWriter] Successfully wrote 142 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:03:03,605 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:03:03,607 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:03:03,628 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:03:03,687 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:03:03,691 | ERROR    | Error running supplementary engines for EURUSD: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:03:03,696 | ERROR    | Orchestrator failed for EURUSD
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:03:03,697 | INFO     | [CSVWriter] Successfully wrote 142 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:03:03,698 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:03:03,698 | INFO     | [CSVQueue] Queue size: 0
+2026-07-29 07:03:03,800 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:03:03,815 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:03:03,817 | ERROR    | Error running supplementary engines for EURGBP: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:03:03,820 | ERROR    | Orchestrator failed for EURGBP
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:03:03,917 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:03:03,919 | ERROR    | Error running supplementary engines for GBPUSD-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:03:03,922 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:03:04,014 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP-OTC: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:03:04,017 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:03:04,020 | ERROR    | Error running supplementary engines for EURGBP-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:03:04,023 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    supp_engines = self._run_supplementary_engines(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    exp_res = self.explainability_engine.analyze(context=ctx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:03:04,026 | INFO     | [EURUSD:1.13845][EURGBP:0.85696][GBPUSD-OTC:1.33513][EURGBP-OTC:0.85164] :: TOTAL=$1453.95
+2026-07-29 07:03:30,814 | INFO     | [TIME SYNC] Server time offset: -1.5309998989105225 seconds
+2026-07-29 07:03:30,814 | INFO     | Time Sync : -1.531s
+2026-07-29 07:04:01,357 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-29 07:04:01,357 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-29 07:04:01,357 | INFO     | [DataAdapter] Starting update for EURGBP
+2026-07-29 07:04:01,358 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP
+2026-07-29 07:04:01,358 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-29 07:04:01,358 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-29 07:04:01,358 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-29 07:04:01,359 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-29 07:04:01,623 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-29 07:04:01,701 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-29 07:04:01,717 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD
+2026-07-29 07:04:01,733 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:04:01,733 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD
+2026-07-29 07:04:01,812 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD
+2026-07-29 07:04:01,812 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:04:01,844 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD
+2026-07-29 07:04:01,876 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-29 07:04:01,878 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD
+2026-07-29 07:04:02,002 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-29 07:04:02,002 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP
+2026-07-29 07:04:02,033 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP
+2026-07-29 07:04:02,033 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP
+2026-07-29 07:04:02,080 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP
+2026-07-29 07:04:02,080 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP
+2026-07-29 07:04:02,142 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-29 07:04:02,188 | INFO     | [CSVWriter] Successfully wrote 143 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:04:02,204 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:04:02,251 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 1
+2026-07-29 07:04:02,251 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:04:02,281 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-29 07:04:02,329 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-29 07:04:02,329 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:04:02,330 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-29 07:04:02,391 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-29 07:04:02,407 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-29 07:04:02,486 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-29 07:04:02,498 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 1
+2026-07-29 07:04:02,498 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-29 07:04:02,498 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-29 07:04:02,500 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-29 07:04:02,500 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-29 07:04:02,501 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-29 07:04:02,502 | INFO     | [CSVWriter] Successfully wrote 143 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:04:02,502 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:04:02,502 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:04:02,503 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:04:02,510 | INFO     | [CSVWriter] Successfully wrote 143 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:04:02,510 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:04:02,511 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:04:02,511 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:04:02,521 | INFO     | [CSVWriter] Successfully wrote 143 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:04:02,522 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:04:02,522 | INFO     | [CSVQueue] Queue size: 0
+2026-07-29 07:04:02,616 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:04:02,619 | ERROR    | Error running supplementary engines for EURUSD: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:04:02,622 | ERROR    | Orchestrator failed for EURUSD
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:04:02,740 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:04:02,745 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:04:02,748 | ERROR    | Error running supplementary engines for EURGBP: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:04:02,751 | ERROR    | Orchestrator failed for EURGBP
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:04:02,858 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:04:02,861 | ERROR    | Error running supplementary engines for GBPUSD-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:04:02,867 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:04:02,993 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP-OTC: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:04:02,997 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:04:03,000 | ERROR    | Error running supplementary engines for EURGBP-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:04:03,002 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:04:03,004 | INFO     | [EURUSD:1.13855][EURGBP:0.85691][GBPUSD-OTC:1.33448][EURGBP-OTC:0.85164] :: TOTAL=$1453.95
+2026-07-29 07:04:30,815 | INFO     | [TIME SYNC] Server time offset: -1.7720000743865967 seconds
+2026-07-29 07:04:30,815 | INFO     | Time Sync : -1.772s
+2026-07-29 07:05:01,264 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-29 07:05:01,264 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-29 07:05:01,265 | INFO     | [DataAdapter] Starting update for EURGBP
+2026-07-29 07:05:01,266 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP
+2026-07-29 07:05:01,266 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-29 07:05:01,266 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-29 07:05:01,266 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-29 07:05:01,278 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-29 07:05:01,541 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-29 07:05:01,649 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-29 07:05:01,680 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD
+2026-07-29 07:05:01,696 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD
+2026-07-29 07:05:01,696 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:05:01,727 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD
+2026-07-29 07:05:01,773 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD
+2026-07-29 07:05:01,757 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:05:01,773 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-29 07:05:01,775 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD
+2026-07-29 07:05:01,927 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-29 07:05:01,928 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP
+2026-07-29 07:05:01,944 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP
+2026-07-29 07:05:01,975 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP
+2026-07-29 07:05:01,975 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP
+2026-07-29 07:05:01,993 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP
+2026-07-29 07:05:02,006 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-29 07:05:02,083 | INFO     | [CSVWriter] Successfully wrote 144 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:05:02,084 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:05:02,099 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:05:02,114 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-29 07:05:02,131 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-29 07:05:02,145 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:05:02,145 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-29 07:05:02,207 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-29 07:05:02,222 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-29 07:05:02,238 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-29 07:05:02,284 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-29 07:05:02,297 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 1
+2026-07-29 07:05:02,299 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-29 07:05:02,300 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-29 07:05:02,300 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-29 07:05:02,301 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-29 07:05:02,301 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-29 07:05:02,306 | INFO     | [CSVWriter] Successfully wrote 144 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:05:02,306 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:05:02,306 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:05:02,307 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:05:02,317 | INFO     | [CSVWriter] Successfully wrote 144 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:05:02,317 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:05:02,317 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:05:02,318 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:05:02,330 | INFO     | [CSVWriter] Successfully wrote 144 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:05:02,330 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:05:02,330 | INFO     | [CSVQueue] Queue size: 0
+2026-07-29 07:05:02,423 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:05:02,426 | ERROR    | Error running supplementary engines for EURUSD: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:05:02,431 | ERROR    | Orchestrator failed for EURUSD
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:05:02,555 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:05:02,561 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:05:02,565 | ERROR    | Error running supplementary engines for EURGBP: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:05:02,567 | ERROR    | Orchestrator failed for EURGBP
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:05:02,692 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:05:02,695 | ERROR    | Error running supplementary engines for GBPUSD-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:05:02,697 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:05:02,814 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP-OTC: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:05:02,820 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:05:02,823 | ERROR    | Error running supplementary engines for EURGBP-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:05:02,828 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:05:02,831 | INFO     | [EURUSD:1.13861][EURGBP:0.85689][GBPUSD-OTC:1.33486][EURGBP-OTC:0.85144] :: TOTAL=$1453.95
+2026-07-29 07:05:30,817 | INFO     | [TIME SYNC] Server time offset: -2.003999948501587 seconds
+2026-07-29 07:05:30,817 | INFO     | Time Sync : -2.004s
+2026-07-29 07:06:02,072 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-29 07:06:02,073 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-29 07:06:02,073 | INFO     | [DataAdapter] Starting update for EURGBP
+2026-07-29 07:06:02,073 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP
+2026-07-29 07:06:02,073 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-29 07:06:02,088 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-29 07:06:02,088 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-29 07:06:02,150 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-29 07:06:02,371 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-29 07:06:02,480 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-29 07:06:02,495 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD
+2026-07-29 07:06:02,495 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD
+2026-07-29 07:06:02,496 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:06:02,634 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:06:02,667 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-29 07:06:02,713 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-29 07:06:02,775 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP
+2026-07-29 07:06:02,790 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP
+2026-07-29 07:06:02,916 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-29 07:06:03,024 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 1
+2026-07-29 07:06:03,024 | INFO     | [CSVWriter] Successfully wrote 146 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:06:03,056 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-29 07:06:03,102 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:06:03,164 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-29 07:06:03,211 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:06:03,211 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-29 07:06:03,273 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:06:03,477 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 1
+2026-07-29 07:06:03,493 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-29 07:06:03,540 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-29 07:06:03,557 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-29 07:06:03,774 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv - Queue size: 2
+2026-07-29 07:06:03,790 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD
+2026-07-29 07:06:03,806 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD
+2026-07-29 07:06:03,806 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-29 07:06:03,806 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD
+2026-07-29 07:06:03,806 | INFO     | [CSVWriter] Successfully wrote 146 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:06:03,832 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:06:03,832 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:06:03,914 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:06:03,930 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv - Queue size: 2
+2026-07-29 07:06:03,946 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP
+2026-07-29 07:06:03,961 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP
+2026-07-29 07:06:03,977 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP
+2026-07-29 07:06:04,040 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-29 07:06:04,164 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 3
+2026-07-29 07:06:04,196 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-29 07:06:04,212 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-29 07:06:04,277 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-29 07:06:04,340 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-29 07:06:04,355 | INFO     | [CSVWriter] Successfully wrote 146 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:06:04,355 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:06:04,356 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:06:04,356 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 3
+2026-07-29 07:06:04,356 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:06:04,357 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-29 07:06:04,360 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-29 07:06:04,361 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-29 07:06:04,368 | INFO     | [CSVWriter] Successfully wrote 146 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:06:04,369 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:06:04,369 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-29 07:06:04,370 | INFO     | [CSVWriter] Writing 249 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-29 07:06:04,382 | INFO     | [CSVWriter] Successfully wrote 259 rows to data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-29 07:06:04,384 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M5.csv
+2026-07-29 07:06:04,384 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-29 07:06:04,384 | INFO     | [CSVWriter] Writing 249 rows to data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-29 07:06:04,393 | INFO     | [CSVWriter] Successfully wrote 259 rows to data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-29 07:06:04,393 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M5.csv
+2026-07-29 07:06:04,394 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-29 07:06:04,395 | INFO     | [CSVWriter] Writing 249 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-29 07:06:04,439 | INFO     | [CSVWriter] Successfully wrote 259 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-29 07:06:04,459 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-07-29 07:06:04,459 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-29 07:06:04,468 | INFO     | [CSVWriter] Writing 249 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-29 07:06:04,530 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:06:04,533 | ERROR    | Error running supplementary engines for EURUSD: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:06:04,540 | ERROR    | Orchestrator failed for EURUSD
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:06:04,545 | INFO     | [CSVWriter] Successfully wrote 259 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-29 07:06:04,545 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-07-29 07:06:04,545 | INFO     | [CSVQueue] Queue size: 0
+2026-07-29 07:06:04,677 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:06:04,684 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:06:04,693 | ERROR    | Error running supplementary engines for EURGBP: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:06:04,697 | ERROR    | Orchestrator failed for EURGBP
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:06:04,823 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:06:04,826 | ERROR    | Error running supplementary engines for GBPUSD-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:06:04,830 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:06:04,934 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP-OTC: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:06:04,939 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:06:04,945 | ERROR    | Error running supplementary engines for EURGBP-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:06:04,950 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:06:04,953 | INFO     | [EURUSD:1.13860][EURGBP:0.85688][GBPUSD-OTC:1.33469][EURGBP-OTC:0.85177] :: TOTAL=$1453.95
+2026-07-29 07:06:30,817 | INFO     | [TIME SYNC] Server time offset: -2.253999948501587 seconds
+2026-07-29 07:06:30,817 | INFO     | Time Sync : -2.254s
+2026-07-29 07:07:02,204 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-29 07:07:02,204 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-29 07:07:02,204 | INFO     | [DataAdapter] Starting update for EURGBP
+2026-07-29 07:07:02,205 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP
+2026-07-29 07:07:02,205 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-29 07:07:02,205 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-29 07:07:02,205 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-29 07:07:02,205 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-29 07:07:02,485 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-29 07:07:02,560 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-29 07:07:02,592 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD
+2026-07-29 07:07:02,607 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:07:02,639 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD
+2026-07-29 07:07:02,702 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD
+2026-07-29 07:07:02,703 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD
+2026-07-29 07:07:02,703 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD
+2026-07-29 07:07:02,704 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:07:02,704 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-29 07:07:02,810 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-29 07:07:02,842 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP
+2026-07-29 07:07:02,842 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP
+2026-07-29 07:07:02,858 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP
+2026-07-29 07:07:02,873 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP
+2026-07-29 07:07:02,889 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP
+2026-07-29 07:07:02,968 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-29 07:07:03,138 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 1
+2026-07-29 07:07:03,169 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-29 07:07:03,184 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-29 07:07:03,184 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-29 07:07:03,184 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-29 07:07:03,185 | INFO     | [CSVWriter] Successfully wrote 146 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:07:03,186 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-29 07:07:03,186 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-29 07:07:03,186 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:07:03,202 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:07:03,203 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:07:03,203 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 1
+2026-07-29 07:07:03,207 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-29 07:07:03,207 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-29 07:07:03,207 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-29 07:07:03,207 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-29 07:07:03,209 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-29 07:07:03,217 | INFO     | [CSVWriter] Successfully wrote 146 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:07:03,218 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:07:03,218 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:07:03,218 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:07:03,232 | INFO     | [CSVWriter] Successfully wrote 146 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:07:03,233 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:07:03,233 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:07:03,234 | INFO     | [CSVWriter] Writing 99 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:07:03,357 | INFO     | [CSVWriter] Successfully wrote 146 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:07:03,367 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:07:03,371 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:07:03,371 | INFO     | [CSVQueue] Queue size: 0
+2026-07-29 07:07:03,376 | ERROR    | Error running supplementary engines for EURUSD: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:07:03,380 | ERROR    | Orchestrator failed for EURUSD
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:07:03,495 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:07:03,499 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:07:03,502 | ERROR    | Error running supplementary engines for EURGBP: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:07:03,504 | ERROR    | Orchestrator failed for EURGBP
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:07:03,598 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:07:03,601 | ERROR    | Error running supplementary engines for GBPUSD-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:07:03,604 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:07:03,691 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP-OTC: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:07:03,695 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:07:03,698 | ERROR    | Error running supplementary engines for EURGBP-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:07:03,700 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:07:03,701 | INFO     | [EURUSD:1.13860][EURGBP:0.85688][GBPUSD-OTC:1.33478][EURGBP-OTC:0.85177] :: TOTAL=$1453.95
+2026-07-29 07:07:30,818 | INFO     | [TIME SYNC] Server time offset: -1.4909999370574951 seconds
+2026-07-29 07:07:30,818 | INFO     | Time Sync : -1.491s
+2026-07-29 07:08:01,968 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-29 07:08:01,968 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-29 07:08:01,968 | INFO     | [DataAdapter] Starting update for EURGBP
+2026-07-29 07:08:01,968 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP
+2026-07-29 07:08:01,969 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-29 07:08:01,969 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-29 07:08:01,969 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-29 07:08:01,969 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-29 07:08:02,247 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-29 07:08:02,371 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-29 07:08:02,403 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD
+2026-07-29 07:08:02,433 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD
+2026-07-29 07:08:02,434 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:08:02,464 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD
+2026-07-29 07:08:02,510 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD
+2026-07-29 07:08:02,540 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:08:02,541 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD
+2026-07-29 07:08:02,602 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-29 07:08:02,741 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-29 07:08:02,757 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP
+2026-07-29 07:08:02,758 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP
+2026-07-29 07:08:02,758 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP
+2026-07-29 07:08:02,804 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP
+2026-07-29 07:08:02,805 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP
+2026-07-29 07:08:02,807 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-29 07:08:02,975 | INFO     | [CSVWriter] Successfully wrote 148 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:08:02,975 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:08:02,990 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:08:03,006 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-07-29 07:08:03,037 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-29 07:08:03,037 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:08:03,068 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-29 07:08:03,099 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-29 07:08:03,115 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-29 07:08:03,131 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-29 07:08:03,132 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-29 07:08:03,151 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 1
+2026-07-29 07:08:03,151 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-29 07:08:03,151 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-29 07:08:03,153 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-29 07:08:03,156 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-29 07:08:03,156 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-29 07:08:03,162 | INFO     | [CSVWriter] Successfully wrote 148 rows to data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:08:03,162 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv
+2026-07-29 07:08:03,163 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:08:03,163 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:08:03,196 | INFO     | [CSVWriter] Successfully wrote 148 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:08:03,199 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-07-29 07:08:03,199 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:08:03,200 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:08:03,329 | INFO     | [CSVWriter] Successfully wrote 148 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:08:03,329 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-07-29 07:08:03,329 | INFO     | [CSVQueue] Queue size: 0
+2026-07-29 07:08:03,437 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:08:03,444 | ERROR    | Error running supplementary engines for EURUSD: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:08:03,451 | ERROR    | Orchestrator failed for EURUSD
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:08:03,639 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:08:03,645 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:08:03,650 | ERROR    | Error running supplementary engines for EURGBP: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:08:03,654 | ERROR    | Orchestrator failed for EURGBP
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:08:03,772 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:08:03,776 | ERROR    | Error running supplementary engines for GBPUSD-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:08:03,779 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:08:03,887 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP-OTC: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:08:03,891 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:08:03,894 | ERROR    | Error running supplementary engines for EURGBP-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:08:03,896 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:08:03,898 | INFO     | [EURUSD:1.13858][EURGBP:0.85687][GBPUSD-OTC:1.33499][EURGBP-OTC:0.85179] :: TOTAL=$1453.95
+2026-07-29 07:08:30,819 | INFO     | [TIME SYNC] Server time offset: -1.7249999046325684 seconds
+2026-07-29 07:08:30,819 | INFO     | Time Sync : -1.725s
+2026-07-29 07:09:02,128 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-29 07:09:02,129 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-29 07:09:02,129 | INFO     | [DataAdapter] Starting update for EURGBP
+2026-07-29 07:09:02,130 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP
+2026-07-29 07:09:02,130 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-29 07:09:02,130 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-29 07:09:02,130 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-29 07:09:02,131 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-29 07:09:02,483 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-29 07:09:02,590 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 0
+2026-07-29 07:09:02,590 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD
+2026-07-29 07:09:02,591 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD
+2026-07-29 07:09:02,591 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:09:02,624 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD
+2026-07-29 07:09:02,624 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD
+2026-07-29 07:09:02,624 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD
+2026-07-29 07:09:02,625 | INFO     | [CSVWriter] Writing 100 rows to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv
+2026-07-29 07:09:02,653 | ERROR    | [CSVWriter] Could not merge with existing file data_base/csv/iq_option\EURUSD\EURUSD_M1.csv: [Errno 13] Permission denied: 'data_base/csv/iq_option\\EURUSD\\EURUSD_M1.csv'
+2026-07-29 07:09:02,700 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-29 07:09:02,793 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 0
+2026-07-29 07:09:02,808 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP
+2026-07-29 07:09:02,823 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP
+2026-07-29 07:09:02,824 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP
+2026-07-29 07:09:02,839 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP
+2026-07-29 07:09:02,854 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP
+2026-07-29 07:09:02,979 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-29 07:09:03,057 | ERROR    | [CSVWriter] Failed to write to data_base/csv/iq_option\EURUSD\EURUSD_M1.csv: [Errno 13] Permission denied: 'data_base/csv/iq_option\\EURUSD\\EURUSD_M1.csv'
+2026-07-29 07:09:03,087 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 1
+2026-07-29 07:09:03,118 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-29 07:09:03,137 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-29 07:09:03,150 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-29 07:09:03,165 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-29 07:09:03,181 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-29 07:09:03,214 | ERROR    | [CSVQueue] Asynchronous write failed for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv: [Errno 13] Permission denied: 'data_base/csv/iq_option\\EURUSD\\EURUSD_M1.csv'
+2026-07-29 07:09:03,215 | ERROR    | [CSVQueue] Error details: PermissionError: [Errno 13] Permission denied: 'data_base/csv/iq_option\\EURUSD\\EURUSD_M1.csv'
+2026-07-29 07:09:03,215 | ERROR    | [CSVQueue] Total errors: 1
+2026-07-29 07:09:03,224 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-29 07:09:03,247 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 2
+2026-07-29 07:09:03,247 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-29 07:09:03,247 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-29 07:09:03,248 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-29 07:09:03,248 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-29 07:09:03,249 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-29 07:09:03,465 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:09:03,473 | ERROR    | Error running supplementary engines for EURUSD: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:09:03,481 | ERROR    | Orchestrator failed for EURUSD
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:09:03,694 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:09:03,701 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:09:03,706 | ERROR    | Error running supplementary engines for EURGBP: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:09:03,711 | ERROR    | Orchestrator failed for EURGBP
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:09:03,883 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:09:03,893 | ERROR    | Error running supplementary engines for GBPUSD-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:09:03,900 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:09:04,026 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP-OTC: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:09:04,030 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:09:04,032 | ERROR    | Error running supplementary engines for EURGBP-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:09:04,035 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:09:04,038 | INFO     | [EURUSD:1.13840][EURGBP:0.85686][GBPUSD-OTC:1.33492][EURGBP-OTC:0.85225] :: TOTAL=$1453.95
+2026-07-29 07:09:30,819 | INFO     | [TIME SYNC] Server time offset: -1.9760000705718994 seconds
+2026-07-29 07:09:30,819 | INFO     | Time Sync : -1.976s
+2026-07-29 07:10:01,322 | INFO     | [DataAdapter] Starting update for EURUSD
+2026-07-29 07:10:01,322 | INFO     | [DataAdapter] Refreshing M1 data for EURUSD
+2026-07-29 07:10:01,323 | INFO     | [DataAdapter] Starting update for EURGBP
+2026-07-29 07:10:01,323 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP
+2026-07-29 07:10:01,323 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-07-29 07:10:01,323 | INFO     | [DataAdapter] Refreshing M1 data for GBPUSD-OTC
+2026-07-29 07:10:01,325 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-07-29 07:10:01,352 | INFO     | [DataAdapter] Refreshing M1 data for EURGBP-OTC
+2026-07-29 07:10:01,618 | INFO     | [IQOPTION] REST fetch succeeded for EURUSD: 3 candles
+2026-07-29 07:10:01,727 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD\EURUSD_M1.csv - Queue size: 3
+2026-07-29 07:10:01,743 | INFO     | [DataAdapter] M1 data refresh completed for EURUSD
+2026-07-29 07:10:01,758 | INFO     | [DataAdapter] Refreshing M5 data for EURUSD
+2026-07-29 07:10:01,774 | INFO     | [DataAdapter] M5 data refresh completed for EURUSD
+2026-07-29 07:10:01,789 | INFO     | [DataAdapter] Refreshing M15 data for EURUSD
+2026-07-29 07:10:01,805 | INFO     | [DataAdapter] M15 data refresh completed for EURUSD
+2026-07-29 07:10:01,898 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP: 3 candles
+2026-07-29 07:10:01,976 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP\EURGBP_M1.csv - Queue size: 4
+2026-07-29 07:10:01,977 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP
+2026-07-29 07:10:01,992 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP
+2026-07-29 07:10:02,007 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP
+2026-07-29 07:10:02,023 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP
+2026-07-29 07:10:02,039 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP
+2026-07-29 07:10:02,180 | INFO     | [IQOPTION] REST fetch succeeded for GBPUSD-OTC: 3 candles
+2026-07-29 07:10:02,320 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 5
+2026-07-29 07:10:02,335 | INFO     | [DataAdapter] M1 data refresh completed for GBPUSD-OTC
+2026-07-29 07:10:02,336 | INFO     | [DataAdapter] Refreshing M5 data for GBPUSD-OTC
+2026-07-29 07:10:02,351 | INFO     | [DataAdapter] M5 data refresh completed for GBPUSD-OTC
+2026-07-29 07:10:02,366 | INFO     | [DataAdapter] Refreshing M15 data for GBPUSD-OTC
+2026-07-29 07:10:02,382 | INFO     | [DataAdapter] M15 data refresh completed for GBPUSD-OTC
+2026-07-29 07:10:02,630 | INFO     | [IQOPTION] REST fetch succeeded for EURGBP-OTC: 3 candles
+2026-07-29 07:10:02,647 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 6
+2026-07-29 07:10:02,647 | INFO     | [DataAdapter] M1 data refresh completed for EURGBP-OTC
+2026-07-29 07:10:02,648 | INFO     | [DataAdapter] Refreshing M5 data for EURGBP-OTC
+2026-07-29 07:10:02,648 | INFO     | [DataAdapter] M5 data refresh completed for EURGBP-OTC
+2026-07-29 07:10:02,648 | INFO     | [DataAdapter] Refreshing M15 data for EURGBP-OTC
+2026-07-29 07:10:02,648 | INFO     | [DataAdapter] M15 data refresh completed for EURGBP-OTC
+2026-07-29 07:10:02,784 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:10:02,792 | ERROR    | Error running supplementary engines for EURUSD: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:10:02,797 | ERROR    | Orchestrator failed for EURUSD
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:10:02,947 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:10:02,951 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:10:02,954 | ERROR    | Error running supplementary engines for EURGBP: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:10:02,958 | ERROR    | Orchestrator failed for EURGBP
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:10:03,111 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:10:03,115 | ERROR    | Error running supplementary engines for GBPUSD-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:10:03,121 | ERROR    | Orchestrator failed for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:10:03,246 | ERROR    | [ANOMALY] Failed to log anomalies for EURGBP-OTC: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\anomaly_detector.py", line 149, in _log_anomalies
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 3988, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\format.py", line 1025, in to_csv
+    csv_formatter.save()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 797, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\common.py", line 656, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\BOT_FINALBOT\FINALBOT_Begin\all_filelogs\anomaly_logs'
+2026-07-29 07:10:03,250 | ERROR    | [ExplainabilityEngine] Error during analysis: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:10:03,258 | ERROR    | Error running supplementary engines for EURGBP-OTC: 'MarketContext' object has no attribute 'anomaly'
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:10:03,265 | ERROR    | Orchestrator failed for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\runner.py", line 240, in run_cycle
+    self.orchestrator.process_cycle(sym)
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 296, in process_cycle
+    payload=final_payload,
+               ^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestrator.py", line 746, in _run_supplementary_engines
+    # 4. Check SignalThrottle
+                  ^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 28, in analyze
+    opposing = self._gather_opposing_factors(ctx)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\explainability_engine.py", line 88, in _gather_opposing_factors
+    noise = ctx.noise['noise_level']
+       ^^^^^^^^^^^
+AttributeError: 'MarketContext' object has no attribute 'anomaly'
+2026-07-29 07:10:03,267 | INFO     | [EURUSD:1.13841][EURGBP:0.85684][GBPUSD-OTC:1.33491][EURGBP-OTC:0.85225] :: TOTAL=$1453.95
+2026-07-29 07:10:30,820 | INFO     | [TIME SYNC] Server time offset: -2.2309999465942383 seconds
+2026-07-29 07:10:30,820 | INFO     | Time Sync : -2.231s

@@ -1,0 +1,90 @@
+ID:EURUSD0729070903
+meta:
+  timestamp: '2026-07-29T07:09:03.316611'
+  symbol: EURUSD
+  session: ASIAN
+  m1_open: 1.13858
+  m1_age: 63366
+  m1_quality: FRESH
+  m5_open: 1.138525
+  m5_age: 243366
+  m5_quality: FRESH
+market_context:
+  state: BREAKOUT_EMERGING
+  description: Volatility expansion after compression. Potential breakout opportunity.
+  volatility_regime: LOW
+  news_impact: LOW
+  expected_volatility_%: 0.013
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.138512
+    ema20: 1.138533
+    rsi: 42.58
+    stoch_k: 56.08
+    stoch_d: 67.72
+    macd: 1e-06
+    macd_signal: 1.2e-05
+    ohclv:
+      open: 1.13858
+      high: 1.13858
+      low: 1.13839
+      close: 1.138405
+      volume: 58
+  m5:
+    bias: BEARISH
+    ema5: 1.138534
+    ema10: 1.138532
+    ema20: 1.138565
+    ema50: 1.13869
+    bb_upper: 1.138669
+    bb_lower: 1.138333
+    bb_width: 0.000336
+    rsi: 44.66
+    stoch_k: 76.59
+    stoch_d: 80.13
+    macd: -6.2e-05
+    macd_signal: -8.6e-05
+    adx: 32.33
+    atr: 0.00015
+    support: 1.1384
+    resistance: 1.13864
+    pivot: 1.138507
+    ohclv:
+      open: 1.138525
+      high: 1.138595
+      low: 1.13849
+      close: 1.1385
+      volume: 232
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: SHOOTING_STAR
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: REJECTION
+  sr_interaction: TESTING_SUPPORT
+volume:
+  tick_volume: 232
+  volume_momentum: NORMAL
+  volume_vs_average: 1.169
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 20
+  mtf_alignment_%: 33
+  compression_quality_%: 100.0
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 33
+  quality_score: 58
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

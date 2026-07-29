@@ -148,8 +148,6 @@ class ContextSynthesizer(BaseEngine):
         
         if ctx.traps['trap_detected']:
             risk += 30
-        if ctx.anomaly['anomaly_detected']:
-            risk += 25
         if ctx.transition['in_transition']:
             risk += 20
         

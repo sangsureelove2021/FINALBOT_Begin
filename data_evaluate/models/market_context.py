@@ -52,7 +52,6 @@ class MarketContext:
     traps: Dict = field(default_factory=dict)        # trap/fakeout detection
     noise: Dict = field(default_factory=dict)        # noise detection
     divergence: Dict = field(default_factory=dict)   # divergence analysis
-    anomaly: Dict = field(default_factory=dict)      # anomaly detection
 
     # Tier 5: Behavior
     transition: Dict = field(default_factory=dict)

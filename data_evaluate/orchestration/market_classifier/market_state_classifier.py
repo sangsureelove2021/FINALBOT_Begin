@@ -497,7 +497,6 @@ class MarketStateClassifier(BaseEngine):
         noise_level = m.get('noise_level', 0.0)
         htf_ltf_conflict = m.get('htf_ltf_conflict', False)
         exhaustion_risk = m.get('exhaustion_risk', 0.0)
-        anomaly_detected = m.get('anomaly_detected', False)
         volatility_regime = m['volatility_regime']
         volume_ratio = m['volume_ratio']
         is_otc = m['is_otc']
@@ -531,11 +530,6 @@ class MarketStateClassifier(BaseEngine):
         if exhaustion_risk > 70:
             adjusted['TRENDING_STRONG'] -= 25
             adjusted['TRENDING_WEAK'] -= 25
-        
-        # Anomaly penalty
-        if anomaly_detected:
-            for state in adjusted:
-                adjusted[state] -= 30
         
         # Extreme volatility penalty
         if volatility_regime == 'EXTREME':
