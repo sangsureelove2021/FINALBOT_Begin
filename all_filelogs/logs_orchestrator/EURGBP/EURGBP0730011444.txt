@@ -1,0 +1,90 @@
+ID:EURGBP0730011444
+meta:
+  timestamp: '2026-07-30T01:14:44.962509'
+  symbol: EURGBP
+  session: NEW YORK
+  m1_open: 0.856935
+  m1_age: 104981
+  m1_quality: FRESH
+  m5_open: 0.85634
+  m5_age: 584981
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: EXTREME
+  news_impact: LOW
+  expected_volatility_%: 0.021
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 0.856785
+    ema20: 0.856662
+    rsi: 58.17
+    stoch_k: 91.26
+    stoch_d: 89.02
+    macd: 4.2e-05
+    macd_signal: 3e-06
+    ohclv:
+      open: 0.856935
+      high: 0.85696
+      low: 0.856805
+      close: 0.856805
+      volume: 470
+  m5:
+    bias: BEARISH
+    ema5: 0.856559
+    ema10: 0.856588
+    ema20: 0.856626
+    ema50: 0.856662
+    bb_upper: 0.856971
+    bb_lower: 0.856389
+    bb_width: 0.000582
+    rsi: 47.99
+    stoch_k: 40.77
+    stoch_d: 39.45
+    macd: -4.1e-05
+    macd_signal: -2.6e-05
+    adx: 15.68
+    atr: 0.000176
+    support: 0.856445
+    resistance: 0.856975
+    pivot: 0.856482
+    ohclv:
+      open: 0.85634
+      high: 0.85663
+      low: 0.856335
+      close: 0.85659
+      volume: 2824
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: BEAR_TRAP
+  sr_interaction: NONE
+volume:
+  tick_volume: 2824
+  volume_momentum: HIGH_MOMENTUM
+  volume_vs_average: 2.565
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 20
+  mtf_alignment_%: 66
+  compression_quality_%: 38.38
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 51
+  risk_level: HIGH
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

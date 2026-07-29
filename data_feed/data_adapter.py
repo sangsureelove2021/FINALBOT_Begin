@@ -318,6 +318,8 @@ class DataAdapter(IDataSource):
         Calculate age (ms) from actual candle close time (candle start + tf_seconds)
         and quality ('FRESH' if age <= threshold else 'STALE').
         Threshold: 2 * tf_seconds * 1000 ms (M1: 120,000ms, M5: 600,000ms, M15: 1,800,000ms)
+        Also formats the DataFrame into standard 8 columns:
+        ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'age', 'quality']
         """
         if df is None or df.empty:
             return df
@@ -338,6 +340,16 @@ class DataAdapter(IDataSource):
 
         df_copy['age'] = age_ms_array
         df_copy['quality'] = quality_array
+
+        # Convert DatetimeIndex to 'timestamp' column if not already present as column
+        if 'timestamp' not in df_copy.columns:
+            df_copy = df_copy.reset_index()
+            if df_copy.columns[0] != 'timestamp':
+                df_copy.rename(columns={df_copy.columns[0]: 'timestamp'}, inplace=True)
+
+        # Ensure exact standard 8 columns order
+        standard_cols = ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'age', 'quality']
+        df_copy = df_copy[[c for c in standard_cols if c in df_copy.columns]]
         return df_copy
 
     @staticmethod

@@ -1,0 +1,90 @@
+ID:EURUSD0730005404
+meta:
+  timestamp: '2026-07-30T00:54:04.342970'
+  symbol: EURUSD
+  session: NEW YORK
+  m1_open: 1.13992
+  m1_age: 64369
+  m1_quality: FRESH
+  m5_open: 1.13959
+  m5_age: 544369
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: EXTREME
+  news_impact: LOW
+  expected_volatility_%: 0.026
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 1.139843
+    ema20: 1.139577
+    rsi: 75.25
+    stoch_k: 91.7
+    stoch_d: 91.96
+    macd: 0.0002
+    macd_signal: 0.000171
+    ohclv:
+      open: 1.13992
+      high: 1.139995
+      low: 1.13991
+      close: 1.139945
+      volume: 106
+  m5:
+    bias: BULLISH
+    ema5: 1.139461
+    ema10: 1.139202
+    ema20: 1.138894
+    ema50: 1.138664
+    bb_upper: 1.139837
+    bb_lower: 1.137497
+    bb_width: 0.00234
+    rsi: 73.7
+    stoch_k: 92.89
+    stoch_d: 91.96
+    macd: 0.00032
+    macd_signal: 0.00019
+    adx: 30.75
+    atr: 0.000296
+    support: 1.13768
+    resistance: 1.140055
+    pivot: 1.139488
+    ohclv:
+      open: 1.13959
+      high: 1.13981
+      low: 1.13953
+      close: 1.1398
+      volume: 718
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: BULLISH
+  move_quality: NORMAL
+  trap_alert: NONE
+  sr_interaction: TESTING_RESISTANCE
+volume:
+  tick_volume: 718
+  volume_momentum: HIGH_MOMENTUM
+  volume_vs_average: 1.374
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 100
+  mtf_alignment_%: 66
+  compression_quality_%: 0.0
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 58
+  risk_level: HIGH
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

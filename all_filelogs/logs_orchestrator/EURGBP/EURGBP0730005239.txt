@@ -1,0 +1,90 @@
+ID:EURGBP0730005239
+meta:
+  timestamp: '2026-07-30T00:52:39.359262'
+  symbol: EURGBP
+  session: NEW YORK
+  m1_open: 0.85668
+  m1_age: 99381
+  m1_quality: FRESH
+  m5_open: 0.856565
+  m5_age: 459381
+  m5_quality: FRESH
+market_context:
+  state: SIDEWAY_RANGE
+  description: Price ranging between clear levels. Suitable for mean-reversion strategies.
+  volatility_regime: NORMAL
+  news_impact: LOW
+  expected_volatility_%: 0.015
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 0.856662
+    ema20: 0.85661
+    rsi: 61.57
+    stoch_k: 76.62
+    stoch_d: 68.96
+    macd: 1.1e-05
+    macd_signal: -1.1e-05
+    ohclv:
+      open: 0.85668
+      high: 0.856735
+      low: 0.856665
+      close: 0.856725
+      volume: 159
+  m5:
+    bias: BEARISH
+    ema5: 0.856582
+    ema10: 0.856616
+    ema20: 0.856653
+    ema50: 0.856677
+    bb_upper: 0.856947
+    bb_lower: 0.856457
+    bb_width: 0.000489
+    rsi: 45.25
+    stoch_k: 22.33
+    stoch_d: 16.04
+    macd: -3.5e-05
+    macd_signal: -1.4e-05
+    adx: 14.19
+    atr: 0.000131
+    support: 0.856445
+    resistance: 0.856975
+    pivot: 0.856555
+    ohclv:
+      open: 0.856565
+      high: 0.856695
+      low: 0.856535
+      close: 0.85659
+      volume: 672
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: HIGH_UPPER_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: REJECTION
+  sr_interaction: NONE
+volume:
+  tick_volume: 672
+  volume_momentum: NORMAL
+  volume_vs_average: 0.976
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 40
+  mtf_alignment_%: 66
+  compression_quality_%: 80.61
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 48
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

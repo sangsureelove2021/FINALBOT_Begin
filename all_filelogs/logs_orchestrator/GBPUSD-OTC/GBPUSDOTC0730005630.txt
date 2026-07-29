@@ -1,0 +1,90 @@
+ID:GBPUSDOTC0730005630
+meta:
+  timestamp: '2026-07-30T00:56:30.972334'
+  symbol: GBPUSD-OTC
+  session: NEW YORK
+  m1_open: 1.325955
+  m1_age: 90997
+  m1_quality: FRESH
+  m5_open: 1.325845
+  m5_age: 390997
+  m5_quality: FRESH
+market_context:
+  state: SIDEWAY_RANGE
+  description: Price ranging between clear levels. Suitable for mean-reversion strategies.
+  volatility_regime: LOW
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.086
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.325782
+    ema20: 1.326095
+    rsi: 42.15
+    stoch_k: 24.81
+    stoch_d: 30.29
+    macd: -0.000291
+    macd_signal: -0.000294
+    ohclv:
+      open: 1.325955
+      high: 1.325955
+      low: 1.325555
+      close: 1.325615
+      volume: NONE_OTC
+  m5:
+    bias: BEARISH
+    ema5: 1.326111
+    ema10: 1.326278
+    ema20: 1.326026
+    ema50: 1.32534
+    bb_upper: 1.328957
+    bb_lower: 1.323091
+    bb_width: 0.005865
+    rsi: 50.91
+    stoch_k: 29.84
+    stoch_d: 40.29
+    macd: 0.000418
+    macd_signal: 0.000575
+    adx: 16.04
+    atr: 0.00114
+    support: 1.325195
+    resistance: 1.328625
+    pivot: 1.325935
+    ohclv:
+      open: 1.325845
+      high: 1.326085
+      low: 1.325415
+      close: 1.325945
+      volume: NONE_OTC
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: BULLISH
+  move_quality: CHAOTIC
+  trap_alert: REJECTION
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 100
+  mtf_alignment_%: 33
+  compression_quality_%: 69.69
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 33
+  quality_score: 48
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

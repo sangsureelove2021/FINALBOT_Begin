@@ -1,0 +1,90 @@
+ID:GBPUSDOTC0730011255
+meta:
+  timestamp: '2026-07-30T01:12:55.985499'
+  symbol: GBPUSD-OTC
+  session: NEW YORK
+  m1_open: 1.326805
+  m1_age: 116005
+  m1_quality: FRESH
+  m5_open: 1.326435
+  m5_age: 476005
+  m5_quality: FRESH
+market_context:
+  state: SIDEWAY_RANGE
+  description: Price ranging between clear levels. Suitable for mean-reversion strategies.
+  volatility_regime: LOW
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.087
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 1.326953
+    ema20: 1.326423
+    rsi: 60.46
+    stoch_k: 84.69
+    stoch_d: 83.72
+    macd: 0.000212
+    macd_signal: 4e-05
+    ohclv:
+      open: 1.326805
+      high: 1.327475
+      low: 1.326645
+      close: 1.327295
+      volume: NONE_OTC
+  m5:
+    bias: BULLISH
+    ema5: 1.32658
+    ema10: 1.326465
+    ema20: 1.326188
+    ema50: 1.325486
+    bb_upper: 1.328619
+    bb_lower: 1.324334
+    bb_width: 0.004285
+    rsi: 59.32
+    stoch_k: 41.88
+    stoch_d: 30.85
+    macd: 0.000419
+    macd_signal: 0.000484
+    adx: 14.21
+    atr: 0.001156
+    support: 1.325155
+    resistance: 1.328625
+    pivot: 1.326208
+    ohclv:
+      open: 1.326435
+      high: 1.327415
+      low: 1.325785
+      close: 1.327315
+      volume: NONE_OTC
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: BULLISH
+  move_quality: NOISY
+  trap_alert: NONE
+  sr_interaction: NONE
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: UP
+  trend_type: CHOPPY
+  trend_strength_score: 80
+  mtf_alignment_%: 100
+  compression_quality_%: 97.75
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 100
+  quality_score: 46
+  risk_level: HIGH
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

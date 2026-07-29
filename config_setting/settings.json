@@ -73,9 +73,8 @@
     }
   },
   
-  "time_calendar_manager": {
+  "time_sync_manager": {
     "sync_interval": 30,
-    "max_sync_attempts": 3,
-    "enable_news_sync": true
+    "max_sync_attempts": 3
   }
 }

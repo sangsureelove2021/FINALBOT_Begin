@@ -1,0 +1,90 @@
+ID:EURGBP0730010551
+meta:
+  timestamp: '2026-07-30T01:05:51.010269'
+  symbol: EURGBP
+  session: NEW YORK
+  m1_open: 0.856425
+  m1_age: 111031
+  m1_quality: FRESH
+  m5_open: 0.85673
+  m5_age: 351031
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: HIGH
+  news_impact: LOW
+  expected_volatility_%: 0.02
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 0.856459
+    ema20: 0.856593
+    rsi: 29.46
+    stoch_k: 21.91
+    stoch_d: 30.92
+    macd: -4.3e-05
+    macd_signal: -0.0
+    ohclv:
+      open: 0.856425
+      high: 0.85652
+      low: 0.856325
+      close: 0.856335
+      volume: 718
+  m5:
+    bias: BEARISH
+    ema5: 0.856544
+    ema10: 0.856587
+    ema20: 0.85663
+    ema50: 0.856665
+    bb_upper: 0.85698
+    bb_lower: 0.856399
+    bb_width: 0.000582
+    rsi: 35.88
+    stoch_k: 35.78
+    stoch_d: 36.24
+    macd: -4.3e-05
+    macd_signal: -2.3e-05
+    adx: 14.73
+    atr: 0.000167
+    support: 0.856285
+    resistance: 0.856975
+    pivot: 0.856733
+    ohclv:
+      open: 0.85673
+      high: 0.856825
+      low: 0.856285
+      close: 0.856335
+      volume: 6718
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: BEARISH_ENGULFING
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: HIGH_UPPER_WICK
+  momentum_bias: BEARISH
+  move_quality: NOISY
+  trap_alert: NONE
+  sr_interaction: TESTING_SUPPORT
+volume:
+  tick_volume: 6718
+  volume_momentum: HIGH_MOMENTUM
+  volume_vs_average: 6.786
+analysis:
+  trend_direction: DOWN
+  trend_type: CHOPPY
+  trend_strength_score: 20
+  mtf_alignment_%: 66
+  compression_quality_%: 45.89
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 47
+  risk_level: HIGH
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

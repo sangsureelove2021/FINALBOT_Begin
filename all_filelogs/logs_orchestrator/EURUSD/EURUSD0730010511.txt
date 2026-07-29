@@ -1,0 +1,90 @@
+ID:EURUSD0730010511
+meta:
+  timestamp: '2026-07-30T01:05:11.455627'
+  symbol: EURUSD
+  session: NEW YORK
+  m1_open: 1.14207
+  m1_age: 71476
+  m1_quality: FRESH
+  m5_open: 1.13957
+  m5_age: 311476
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: EXTREME
+  news_impact: LOW
+  expected_volatility_%: 0.049
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.141673
+    ema20: 1.140602
+    rsi: 64.66
+    stoch_k: 70.92
+    stoch_d: 79.84
+    macd: 0.000662
+    macd_signal: 0.000443
+    ohclv:
+      open: 1.14207
+      high: 1.142115
+      low: 1.14152
+      close: 1.14152
+      volume: 787
+  m5:
+    bias: BULLISH
+    ema5: 1.140214
+    ema10: 1.139743
+    ema20: 1.139268
+    ema50: 1.138849
+    bb_upper: 1.140608
+    bb_lower: 1.13744
+    bb_width: 0.003168
+    rsi: 83.42
+    stoch_k: 75.6
+    stoch_d: 84.62
+    macd: 0.000502
+    macd_signal: 0.000297
+    adx: 36.7
+    atr: 0.000563
+    support: 1.13768
+    resistance: 1.143075
+    pivot: 1.139612
+    ohclv:
+      open: 1.13957
+      high: 1.143075
+      low: 1.139
+      close: 1.14152
+      volume: 6506
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: BULLISH_ENGULFING
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: BULLISH
+  move_quality: NORMAL
+  trap_alert: NONE
+  sr_interaction: NONE
+volume:
+  tick_volume: 6506
+  volume_momentum: HIGH_MOMENTUM
+  volume_vs_average: 7.747
+analysis:
+  trend_direction: UP
+  trend_type: IMPULSIVE
+  trend_strength_score: 100
+  mtf_alignment_%: 66
+  compression_quality_%: 0.0
+  exhaustion_risk_%: 45
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 61
+  risk_level: HIGH
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

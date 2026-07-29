@@ -1,0 +1,90 @@
+ID:EURUSD0730011129
+meta:
+  timestamp: '2026-07-30T01:11:29.307092'
+  symbol: EURUSD
+  session: NEW YORK
+  m1_open: 1.14187
+  m1_age: 89329
+  m1_quality: FRESH
+  m5_open: 1.141505
+  m5_age: 389329
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: EXTREME
+  news_impact: LOW
+  expected_volatility_%: 0.052
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.14185
+    ema20: 1.141203
+    rsi: 61.05
+    stoch_k: 69.16
+    stoch_d: 72.07
+    macd: 0.00064
+    macd_signal: 0.000621
+    ohclv:
+      open: 1.14187
+      high: 1.141975
+      low: 1.1416
+      close: 1.14172
+      volume: 705
+  m5:
+    bias: BULLISH
+    ema5: 1.140764
+    ema10: 1.140129
+    ema20: 1.139515
+    ema50: 1.138967
+    bb_upper: 1.141172
+    bb_lower: 1.137239
+    bb_width: 0.003933
+    rsi: 84.86
+    stoch_k: 72.7
+    stoch_d: 78.27
+    macd: 0.000645
+    macd_signal: 0.000366
+    adx: 39.83
+    atr: 0.000592
+    support: 1.13768
+    resistance: 1.143075
+    pivot: 1.141198
+    ohclv:
+      open: 1.141505
+      high: 1.142425
+      low: 1.141465
+      close: 1.141865
+      volume: 4010
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: BULLISH
+  move_quality: NORMAL
+  trap_alert: NONE
+  sr_interaction: NONE
+volume:
+  tick_volume: 4010
+  volume_momentum: HIGH_MOMENTUM
+  volume_vs_average: 3.962
+analysis:
+  trend_direction: UP
+  trend_type: IMPULSIVE
+  trend_strength_score: 100
+  mtf_alignment_%: 66
+  compression_quality_%: 0.0
+  exhaustion_risk_%: 45
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 62
+  risk_level: HIGH
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

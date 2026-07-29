@@ -13,11 +13,11 @@ setup_logging()
 # Core imports
 from data_feed.iq_option_adapter import IQOptionAdapter
 from data_feed.data_adapter import DataAdapter
-from data_feed.time_calendar_manager import TimeCalendarManager
+from data_feed.time_sync_manager import TimeSyncManager
 
 class PureAIRunner:
     def __init__(self):
-        self.time_calendar_mgr = TimeCalendarManager()
+        self.time_calendar_mgr = TimeSyncManager()
         # Auto-run calendar_news.py on startup if today's calendar file is missing
         self.ensure_calendar_news()
 
@@ -66,9 +66,8 @@ class PureAIRunner:
         ConsoleUI.show_account_info(self.account_type, balance)
         ConsoleUI.show_balance(balance)
 
-        # Synchronize with broker server time and start background time sync thread
+        # Synchronize with broker server time (sync once at startup)
         self.time_calendar_mgr.sync_server_time(self.data_adapter)
-        self.time_calendar_mgr.start_time_sync_thread()
 
         # Display assets
         ConsoleUI.show_asset_list(self.symbols)
@@ -282,8 +281,8 @@ class PureAIRunner:
         while True:
             try:
                 now = datetime.now()
-                # Execute immediately without timing delay (Zero Tolerance for Part 1)
                 self.run_cycle()
+                time.sleep(1)
 
             except KeyboardInterrupt:
                 ConsoleUI.show_stopping()

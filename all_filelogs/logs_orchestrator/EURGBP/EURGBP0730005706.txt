@@ -1,0 +1,90 @@
+ID:EURGBP0730005706
+meta:
+  timestamp: '2026-07-30T00:57:06.482674'
+  symbol: EURGBP
+  session: NEW YORK
+  m1_open: 0.856725
+  m1_age: 66503
+  m1_quality: FRESH
+  m5_open: 0.856595
+  m5_age: 426503
+  m5_quality: FRESH
+market_context:
+  state: SIDEWAY_RANGE
+  description: Price ranging between clear levels. Suitable for mean-reversion strategies.
+  volatility_regime: NORMAL
+  news_impact: LOW
+  expected_volatility_%: 0.016
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 0.856725
+    ema20: 0.856659
+    rsi: 60.2
+    stoch_k: 73.4
+    stoch_d: 76.28
+    macd: 3.5e-05
+    macd_signal: 1.6e-05
+    ohclv:
+      open: 0.856725
+      high: 0.856755
+      low: 0.856705
+      close: 0.856755
+      volume: 50
+  m5:
+    bias: BULLISH
+    ema5: 0.856609
+    ema10: 0.856625
+    ema20: 0.856654
+    ema50: 0.856677
+    bb_upper: 0.856945
+    bb_lower: 0.856455
+    bb_width: 0.00049
+    rsi: 50.08
+    stoch_k: 31.13
+    stoch_d: 23.48
+    macd: -3e-05
+    macd_signal: -1.7e-05
+    adx: 13.85
+    atr: 0.000136
+    support: 0.856445
+    resistance: 0.856975
+    pivot: 0.856607
+    ohclv:
+      open: 0.856595
+      high: 0.856795
+      low: 0.85659
+      close: 0.856665
+      volume: 714
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: HIGH_UPPER_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: REJECTION
+  sr_interaction: NONE
+volume:
+  tick_volume: 714
+  volume_momentum: NORMAL
+  volume_vs_average: 1.047
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 40
+  mtf_alignment_%: 33
+  compression_quality_%: 77.89
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 33
+  quality_score: 48
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

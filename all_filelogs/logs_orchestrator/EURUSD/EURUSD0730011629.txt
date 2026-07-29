@@ -1,0 +1,90 @@
+ID:EURUSD0730011629
+meta:
+  timestamp: '2026-07-30T01:16:29.340971'
+  symbol: EURUSD
+  session: NEW YORK
+  m1_open: 1.14278
+  m1_age: 89361
+  m1_quality: FRESH
+  m5_open: 1.14187
+  m5_age: 389361
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: EXTREME
+  news_impact: LOW
+  expected_volatility_%: 0.056
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.142605
+    ema20: 1.141779
+    rsi: 69.86
+    stoch_k: 87.07
+    stoch_d: 87.21
+    macd: 0.000709
+    macd_signal: 0.00067
+    ohclv:
+      open: 1.14278
+      high: 1.14298
+      low: 1.14269
+      close: 1.142775
+      volume: 579
+  m5:
+    bias: BULLISH
+    ema5: 1.141435
+    ema10: 1.14061
+    ema20: 1.139826
+    ema50: 1.139116
+    bb_upper: 1.141873
+    bb_lower: 1.137014
+    bb_width: 0.00486
+    rsi: 87.85
+    stoch_k: 77.99
+    stoch_d: 75.43
+    macd: 0.000821
+    macd_signal: 0.000457
+    adx: 42.86
+    atr: 0.000637
+    support: 1.139
+    resistance: 1.143075
+    pivot: 1.141918
+    ohclv:
+      open: 1.14187
+      high: 1.142825
+      low: 1.1416
+      close: 1.142775
+      volume: 3584
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: BULLISH
+  move_quality: NORMAL
+  trap_alert: NONE
+  sr_interaction: TESTING_RESISTANCE
+volume:
+  tick_volume: 3584
+  volume_momentum: HIGH_MOMENTUM
+  volume_vs_average: 3.052
+analysis:
+  trend_direction: UP
+  trend_type: IMPULSIVE
+  trend_strength_score: 100
+  mtf_alignment_%: 100
+  compression_quality_%: 0.0
+  exhaustion_risk_%: 55
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 100
+  quality_score: 63
+  risk_level: HIGH
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

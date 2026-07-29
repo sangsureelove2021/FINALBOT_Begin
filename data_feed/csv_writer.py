@@ -83,12 +83,15 @@ class CSVWriter:
                 # Prepare dataframe for writing
                 df_to_write = df.copy()
                 
+                # If timestamp is in index and not in columns, reset index
+                if 'timestamp' not in df_to_write.columns and isinstance(df_to_write.index, pd.DatetimeIndex):
+                    df_to_write = df_to_write.reset_index()
+                    if df_to_write.columns[0] != 'timestamp':
+                        df_to_write.rename(columns={df_to_write.columns[0]: 'timestamp'}, inplace=True)
+
                 # Select ALL standard columns including timestamp (8 columns total)
                 cols = ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'age', 'quality']
                 df_to_write = df_to_write[[c for c in cols if c in df_to_write.columns]]
-                
-                # Format index according to configuration (keep index as Datetime for processing)
-                # Note: timestamp column contains the actual timestamp data
                 
                 # Round decimal places for numeric OHLCV columns
                 for col in ['open', 'high', 'low', 'close', 'volume']:
@@ -99,19 +102,29 @@ class CSVWriter:
                 # Read existing file if present, merge and deduplicate
                 if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
                     try:
-                        existing_df = pd.read_csv(file_path, index_col=0, encoding=self.encoding)
-                        existing_cols = [c for c in cols if c in existing_df.columns]
-                        existing_df = existing_df[existing_cols]
-                        
-                        combined_df = pd.concat([existing_df, df_to_write])
-                        combined_df.index = pd.to_datetime(combined_df.index)
-                        combined_df = combined_df[~combined_df.index.duplicated(keep='last')]
-                        combined_df.sort_index(inplace=True)
+                        existing_df = pd.read_csv(file_path, encoding=self.encoding)
+                        if 'timestamp' in existing_df.columns:
+                            existing_cols = [c for c in cols if c in existing_df.columns]
+                            existing_df = existing_df[existing_cols]
+                        else:
+                            existing_df = pd.read_csv(file_path, index_col=0, encoding=self.encoding).reset_index()
+                            if existing_df.columns[0] != 'timestamp':
+                                existing_df.rename(columns={existing_df.columns[0]: 'timestamp'}, inplace=True)
+                            existing_cols = [c for c in cols if c in existing_df.columns]
+                            existing_df = existing_df[existing_cols]
+
+                        combined_df = pd.concat([existing_df, df_to_write], ignore_index=True)
+                        combined_df['timestamp'] = pd.to_datetime(combined_df['timestamp'])
+                        combined_df = combined_df.drop_duplicates(subset=['timestamp'], keep='last')
+                        combined_df = combined_df.sort_values(by='timestamp').reset_index(drop=True)
                         df_to_write = combined_df
                     except Exception as e:
                         logger.error(f"[CSVWriter] Could not merge with existing file {file_path}: {e}")
                         traceback.print_exc()
                         raise
+
+                # Ensure exact standard 8 columns order before writing
+                df_to_write = df_to_write[[c for c in cols if c in df_to_write.columns]]
 
                 # Write to temporary file and replace atomically
                 tmp_path = f"{file_path}.{threading.get_ident()}.tmp"

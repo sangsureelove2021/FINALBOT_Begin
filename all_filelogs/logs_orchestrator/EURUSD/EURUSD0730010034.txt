@@ -1,0 +1,90 @@
+ID:EURUSD0730010034
+meta:
+  timestamp: '2026-07-30T01:00:34.807260'
+  symbol: EURUSD
+  session: NEW YORK
+  m1_open: 1.13962
+  m1_age: 94860
+  m1_quality: FRESH
+  m5_open: 1.13969
+  m5_age: 334860
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: EXTREME
+  news_impact: LOW
+  expected_volatility_%: 0.026
+timeframes:
+  m1:
+    last_candle: BEARISH
+    ema5: 1.139634
+    ema20: 1.139596
+    rsi: 54.22
+    stoch_k: 22.79
+    stoch_d: 23.23
+    macd: 0.000103
+    macd_signal: 0.00014
+    ohclv:
+      open: 1.13962
+      high: 1.139715
+      low: 1.139555
+      close: 1.139615
+      volume: 283
+  m5:
+    bias: BULLISH
+    ema5: 1.139561
+    ema10: 1.139348
+    ema20: 1.139031
+    ema50: 1.13874
+    bb_upper: 1.140006
+    bb_lower: 1.137693
+    bb_width: 0.002313
+    rsi: 67.68
+    stoch_k: 86.51
+    stoch_d: 90.38
+    macd: 0.000348
+    macd_signal: 0.000246
+    adx: 33.32
+    atr: 0.000293
+    support: 1.13768
+    resistance: 1.139705
+    pivot: 1.139777
+    ohclv:
+      open: 1.13969
+      high: 1.139715
+      low: 1.139505
+      close: 1.139615
+      volume: 722
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: LOW_WICK
+  momentum_bias: BULLISH
+  move_quality: NOISY
+  trap_alert: BULL_TRAP
+  sr_interaction: TESTING_RESISTANCE
+volume:
+  tick_volume: 722
+  volume_momentum: HIGH_MOMENTUM
+  volume_vs_average: 1.341
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 80
+  mtf_alignment_%: 66
+  compression_quality_%: 0.0
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 66
+  quality_score: 52
+  risk_level: HIGH
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI
