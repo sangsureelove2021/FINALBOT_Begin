@@ -1,0 +1,90 @@
+ID:EURGBP0729081102
+meta:
+  timestamp: '2026-07-29T08:11:02.912290'
+  symbol: EURGBP
+  session: ASIAN
+  m1_open: 0.856875
+  m1_age: 1142933
+  m1_quality: STALE
+  m5_open: 0.85686
+  m5_age: 1262933
+  m5_quality: STALE
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: LOW
+  news_impact: LOW
+  expected_volatility_%: 0.009
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 0.85687
+    ema20: 0.856865
+    rsi: 54.21
+    stoch_k: 75.13
+    stoch_d: 62.96
+    macd: -6e-06
+    macd_signal: -1e-05
+    ohclv:
+      open: 0.856875
+      high: 0.856885
+      low: 0.856865
+      close: 0.856885
+      volume: 38
+  m5:
+    bias: BEARISH
+    ema5: 0.856875
+    ema10: 0.856888
+    ema20: 0.856915
+    ema50: 0.856925
+    bb_upper: 0.857053
+    bb_lower: 0.856803
+    bb_width: 0.00025
+    rsi: 44.74
+    stoch_k: 26.87
+    stoch_d: 25.62
+    macd: -3.2e-05
+    macd_signal: -2.7e-05
+    adx: 18.32
+    atr: 7.5e-05
+    support: 0.856805
+    resistance: 0.856955
+    pivot: 0.856852
+    ohclv:
+      open: 0.85686
+      high: 0.856895
+      low: 0.856835
+      close: 0.856885
+      volume: 237
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BULLISH
+  body_strength: WEAK
+  wick_dominance: HIGH_LOWER_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 237
+  volume_momentum: NORMAL
+  volume_vs_average: 0.495
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 20
+  mtf_alignment_%: 33
+  compression_quality_%: 98.3
+  exhaustion_risk_%: 40
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 33
+  quality_score: 41
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

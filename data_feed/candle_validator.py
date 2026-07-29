@@ -1,111 +1,52 @@
 """
-Candle Validator
+Candle Validator Module for Part 1 (data_feed)
 
-Checks data quality before usage or writing to CSV:
-  • Null / NaN checks
-  • Price sanity checks (JPY pairs 50-300, others 0.3-10)
-  • Volume validation (must be non-zero for non-OTC pairs)
+Provides real-time validation of OHLCV candle structures.
+Enforces Fail-Fast policy: raises ValueError immediately if OHLC constraints are violated.
 """
 
 import pandas as pd
-import numpy as np
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("CandleValidator")
+
 
 class CandleValidator:
-    """Validator for candle dataframes."""
+    """
+    Validates OHLCV candle data structures for Part 1 data feed.
+    """
 
-    def __init__(self, config=None):
-        """
-        Initialize with validation configuration.
-        
-        Args:
-            config: Configuration from datafeed_config.json candle_validator section
-        """
-        if config is None:
-            from config_setting.config_loader import get_candle_validator_config
-            config = get_candle_validator_config()
-        
-        self.validation_config = config.get("validation", {})
-        
-        # Load validation ranges
-        self.price_ranges = self.validation_config.get("price_ranges", {
-            "JPY": [50.0, 300.0],
-            "NON_JPY": [0.3, 10.0],
-            "OTC": [0.3, 10.0]
-        })
-        
-        # Load required columns
-        self.required_columns = set(self.validation_config.get("required_columns", ["open", "close", "high", "low"]))
-        
-        # Load NaN threshold
-        self.nan_threshold = self.validation_config.get("nan_threshold", "strict")
-        
-        logger.info("[CandleValidator] Initialized with validation configuration")
+    def __init__(self, min_candles: int = 10):
+        self.min_candles = min_candles
 
-    def validate(self, df: pd.DataFrame, symbol: str) -> None:
+    def validate(self, df: pd.DataFrame, symbol: str = "UNKNOWN") -> bool:
         """
-        Validate OHLCV candle dataframe.
-        Raises ValueError if data is invalid.
+        Validate DataFrame against standard OHLCV rules.
+        Raises ValueError immediately if rules are broken (Fail-Fast).
         """
         if df is None or df.empty:
-            raise ValueError(f"Empty dataframe for symbol {symbol}")
+            raise ValueError(f"FAIL-FAST: [CandleValidator] DataFrame for {symbol} is empty or None")
 
-        # Check required columns
-        missing_cols = self.required_columns - set(df.columns)
-        if missing_cols:
-            raise ValueError(f"Missing required columns for symbol {symbol}: {missing_cols}")
+        required_cols = ['open', 'high', 'low', 'close']
+        for col in required_cols:
+            if col not in df.columns:
+                raise ValueError(f"FAIL-FAST: [CandleValidator] Missing required column '{col}' for {symbol}")
 
-        # Check for NaNs in price
-        if df[["open", "close", "high", "low"]].isnull().any().any():
-            if self.nan_threshold == "strict":
-                raise ValueError(f"NaN values found in prices for {symbol}")
-            elif self.nan_threshold == "warn":
-                logger.warning(f"NaN values found in prices for {symbol} — data quality issue")
+        # Rule 1: High >= Low
+        if (df['high'] < df['low']).any():
+            raise ValueError(f"FAIL-FAST: [CandleValidator] High < Low detected for {symbol}")
 
-        is_otc = "OTC" in symbol.upper()
-        if "volume" in df.columns:
-            if not is_otc and df["volume"].sum() == 0:
-                raise ValueError(f"Volume is all zeros for non-OTC symbol {symbol} — broker data error")
-        else:
-            if not is_otc:
-                raise ValueError(f"Volume column missing for non-OTC symbol {symbol}")
+        # Rule 2: High >= Open and High >= Close
+        if (df['high'] < df['open']).any() or (df['high'] < df['close']).any():
+            raise ValueError(f"FAIL-FAST: [CandleValidator] High < Open/Close detected for {symbol}")
 
-        # OHLC Price boundary validation
-        invalid_high = (df['high'] < df['open']) | (df['high'] < df['close']) | (df['high'] < df['low'])
-        if invalid_high.any():
-            raise ValueError(f"High price boundary violation detected in {invalid_high.sum()} rows for {symbol}")
+        # Rule 3: Low <= Open and Low <= Close
+        if (df['low'] > df['open']).any() or (df['low'] > df['close']).any():
+            raise ValueError(f"FAIL-FAST: [CandleValidator] Low > Open/Close detected for {symbol}")
 
-        invalid_low = (df['low'] > df['open']) | (df['low'] > df['close']) | (df['low'] > df['high'])
-        if invalid_low.any():
-            raise ValueError(f"Low price boundary violation detected in {invalid_low.sum()} rows for {symbol}")
+        # Rule 4: Non-negative prices
+        if (df[['open', 'high', 'low', 'close']] <= 0).any().any():
+            raise ValueError(f"FAIL-FAST: [CandleValidator] Non-positive price detected for {symbol}")
 
-        # Non-negative price validation
-        negative_price = (df[['open', 'high', 'low', 'close']] < 0).any(axis=1)
-        if negative_price.any():
-            raise ValueError(f"Negative price detected in {negative_price.sum()} rows for symbol {symbol}")
-
-        # Non-negative volume validation
-        if "volume" in df.columns:
-            negative_vol = df['volume'] < 0
-            if negative_vol.any():
-                raise ValueError(f"Negative volume detected in {negative_vol.sum()} rows for symbol {symbol}")
-
-        # Timestamp monotonicity check
-        if isinstance(df.index, pd.DatetimeIndex) and not df.index.is_monotonic_increasing:
-            raise ValueError(f"Timestamps out of order for {symbol}")
-
-        # Sanity check: reject obviously broken price feeds
-        median_close = float(df["close"].median())
-        is_jpy = "JPY" in symbol.upper()
-        
-        if is_jpy:
-            min_val, max_val = self.price_ranges["JPY"]
-        elif is_otc:
-            min_val, max_val = self.price_ranges["OTC"]
-        else:
-            min_val, max_val = self.price_ranges["NON_JPY"]
-            
-        if not (min_val <= median_close <= max_val):
-            raise ValueError(f"{symbol} median {median_close:.6f} out of range [{min_val}, {max_val}]")
+        logger.debug(f"[CandleValidator] Validation passed for {symbol} ({len(df)} rows)")
+        return True

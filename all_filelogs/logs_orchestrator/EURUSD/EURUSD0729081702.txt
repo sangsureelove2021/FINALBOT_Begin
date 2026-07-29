@@ -1,0 +1,90 @@
+ID:EURUSD0729081702
+meta:
+  timestamp: '2026-07-29T08:17:02.810993'
+  symbol: EURUSD
+  session: ASIAN
+  m1_open: 1.1387
+  m1_age: 1502830
+  m1_quality: STALE
+  m5_open: 1.13877
+  m5_age: 1622830
+  m5_quality: STALE
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: NORMAL
+  news_impact: LOW
+  expected_volatility_%: 0.015
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 1.13877
+    ema20: 1.138827
+    rsi: 44.34
+    stoch_k: 9.51
+    stoch_d: 10.73
+    macd: -1e-06
+    macd_signal: 3e-05
+    ohclv:
+      open: 1.1387
+      high: 1.13873
+      low: 1.1387
+      close: 1.13873
+      volume: 6
+  m5:
+    bias: BULLISH
+    ema5: 1.138797
+    ema10: 1.138756
+    ema20: 1.138697
+    ema50: 1.138716
+    bb_upper: 1.138987
+    bb_lower: 1.138279
+    bb_width: 0.000707
+    rsi: 53.2
+    stoch_k: 70.75
+    stoch_d: 76.87
+    macd: 4.9e-05
+    macd_signal: 1.3e-05
+    adx: 25.87
+    atr: 0.00017
+    support: 1.138285
+    resistance: 1.13902
+    pivot: 1.13884
+    ohclv:
+      open: 1.13877
+      high: 1.13882
+      low: 1.1387
+      close: 1.138755
+      volume: 134
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: HIGH_LOWER_WICK
+  momentum_bias: BULLISH
+  move_quality: CHAOTIC
+  trap_alert: NONE
+  sr_interaction: NONE
+volume:
+  tick_volume: 134
+  volume_momentum: NORMAL
+  volume_vs_average: 0.514
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 60
+  mtf_alignment_%: 0
+  compression_quality_%: 95.2
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 0
+  quality_score: 51
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

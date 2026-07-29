@@ -100,11 +100,6 @@ def load_datafeed_settings() -> Dict[str, Any]:
     return load_settings().get("data_feed", {})
 
 
-def get_candle_validator_config() -> Dict[str, Any]:
-    """Get candle validator configuration"""
-    return load_settings().get("candle_validator", {})
-
-
 def get_csv_manager_config() -> Dict[str, Any]:
     """Get CSV manager configuration"""
     return load_settings().get("csv_manager", {})
@@ -118,11 +113,6 @@ def get_csv_queue_config() -> Dict[str, Any]:
 def get_csv_writer_config() -> Dict[str, Any]:
     """Get CSV writer configuration"""
     return load_settings().get("csv_writer", {})
-
-
-def get_data_monitor_config() -> Dict[str, Any]:
-    """Get data monitor configuration"""
-    return load_settings().get("data_monitor", {})
 
 
 

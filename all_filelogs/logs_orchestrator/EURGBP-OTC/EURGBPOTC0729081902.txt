@@ -1,0 +1,90 @@
+ID:EURGBPOTC0729081902
+meta:
+  timestamp: '2026-07-29T08:19:02.821104'
+  symbol: EURGBP-OTC
+  session: ASIAN
+  m1_open: 0.854125
+  m1_age: 1622842
+  m1_quality: STALE
+  m5_open: 0.854325
+  m5_age: 1742842
+  m5_quality: STALE
+market_context:
+  state: DISTRIBUTION
+  description: Smart money distribution. Bearish bias, look for breakdown.
+  volatility_regime: LOW
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.074
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 0.854147
+    ema20: 0.853966
+    rsi: 58.56
+    stoch_k: 52.2
+    stoch_d: 64.42
+    macd: 0.000234
+    macd_signal: 0.000273
+    ohclv:
+      open: 0.854125
+      high: 0.854285
+      low: 0.854125
+      close: 0.854185
+      volume: NONE_OTC
+  m5:
+    bias: BULLISH
+    ema5: 0.853955
+    ema10: 0.853512
+    ema20: 0.852844
+    ema50: 0.85196
+    bb_upper: 0.854594
+    bb_lower: 0.850826
+    bb_width: 0.003767
+    rsi: 71.84
+    stoch_k: 92.31
+    stoch_d: 92.06
+    macd: 0.000782
+    macd_signal: 0.000618
+    adx: 29.57
+    atr: 0.000635
+    support: 0.851405
+    resistance: 0.857805
+    pivot: 0.854195
+    ohclv:
+      open: 0.854325
+      high: 0.854405
+      low: 0.853955
+      close: 0.854185
+      volume: NONE_OTC
+  m15:
+    bias: BULLISH
+price_action:
+  pattern: NONE
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: HIGH_UPPER_WICK
+  momentum_bias: BULLISH
+  move_quality: NOISY
+  trap_alert: NONE
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: UP
+  trend_type: IMPULSIVE
+  trend_strength_score: 100
+  mtf_alignment_%: 100
+  compression_quality_%: 57.27
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 100
+  quality_score: 35
+  risk_level: HIGH
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

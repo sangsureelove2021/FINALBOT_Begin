@@ -14,11 +14,10 @@ import threading
 import time
 
 from data_feed.data_source import IDataSource
-from data_feed.candle_validator import CandleValidator
 from data_feed.csv_queue import CSVQueue
 from data_feed.csv_manager import CSVManager
 from data_feed.csv_writer import get_file_lock, read_csv_safe
-from data_feed.data_monitor import DataMonitor
+from data_feed.candle_validator import CandleValidator
 
 logger = logging.getLogger(__name__)
 
@@ -53,8 +52,7 @@ class DataAdapter(IDataSource):
         self._iq = iq_adapter
         self._csv_manager = CSVManager(base_dir, config.get("data_feed", {}).get("csv_manager", {}))
         self._csv_queue = CSVQueue(config.get("data_feed", {}).get("csv_queue", {}))
-        self._data_monitor = DataMonitor(config.get("data_feed", {}).get("data_monitor", {}))
-
+        
         # Load configuration parameters
         self.default_candle_count = adapter_config.get("default_candle_count", 250)
         self.min_candle_count = adapter_config.get("min_candle_count", 21)
@@ -171,7 +169,6 @@ class DataAdapter(IDataSource):
 
         try:
             logger.info(f"[DataAdapter] Starting update for {symbol}")
-            self._data_monitor.update_connection_status(self._iq.is_connected())
 
             now_naive = datetime.fromtimestamp(broker_epoch, tz=timezone.utc).replace(tzinfo=None)
             current_block_m5 = int(broker_epoch) // self.m5_seconds
@@ -196,12 +193,7 @@ class DataAdapter(IDataSource):
             completed_m15 = self._refresh_m15(symbol, now_naive, current_block_m15)
             logger.info(f"[DataAdapter] M15 data refresh completed for {symbol}")
 
-            # Report latency to DataMonitor if data is available
-            if completed_m1 is not None and not completed_m1.empty and 'age' in completed_m1.columns:
-                self._data_monitor.report_latency(symbol, "M1", int(completed_m1['age'].iloc[-1]))
-            if completed_m5 is not None and not completed_m5.empty and 'age' in completed_m5.columns:
-                self._data_monitor.report_latency(symbol, "M5", int(completed_m5['age'].iloc[-1]))
-
+            
 
             # Return only symbol string on successful write queuing
             return symbol
@@ -377,7 +369,7 @@ class DataAdapter(IDataSource):
         gap_sec = (first_ts - last_ts).total_seconds()
 
         if gap_sec > gap_threshold:
-            self._data_monitor.report_gap(label.split()[1], timeframe, gap_sec)
+            # DataMonitor removed - no gap reporting in Part 1
             full = refetch_fn()
             if full is not None and not full.empty:
                 return full

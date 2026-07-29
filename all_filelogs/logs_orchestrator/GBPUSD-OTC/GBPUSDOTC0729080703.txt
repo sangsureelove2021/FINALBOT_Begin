@@ -1,0 +1,90 @@
+ID:GBPUSDOTC0729080703
+meta:
+  timestamp: '2026-07-29T08:07:03.265842'
+  symbol: GBPUSD-OTC
+  session: ASIAN
+  m1_open: 1.331925
+  m1_age: 903304
+  m1_quality: STALE
+  m5_open: 1.332275
+  m5_age: 1023304
+  m5_quality: STALE
+market_context:
+  state: SIDEWAY_RANGE
+  description: Price ranging between clear levels. Suitable for mean-reversion strategies.
+  volatility_regime: LOW
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.081
+timeframes:
+  m1:
+    last_candle: BULLISH
+    ema5: 1.332165
+    ema20: 1.332612
+    rsi: 40.96
+    stoch_k: 19.08
+    stoch_d: 22.43
+    macd: -0.000447
+    macd_signal: -0.000457
+    ohclv:
+      open: 1.331925
+      high: 1.332225
+      low: 1.331925
+      close: 1.332215
+      volume: NONE_OTC
+  m5:
+    bias: BEARISH
+    ema5: 1.332733
+    ema10: 1.333247
+    ema20: 1.333715
+    ema50: 1.333958
+    bb_upper: 1.33591
+    bb_lower: 1.332139
+    bb_width: 0.003771
+    rsi: 36.58
+    stoch_k: 15.73
+    stoch_d: 15.06
+    macd: -0.000449
+    macd_signal: -0.00018
+    adx: 17.48
+    atr: 0.001084
+    support: 1.329715
+    resistance: 1.335805
+    pivot: 1.332295
+    ohclv:
+      open: 1.332275
+      high: 1.332455
+      low: 1.331815
+      close: 1.332215
+      volume: NONE_OTC
+  m15:
+    bias: BEARISH
+price_action:
+  pattern: DOJI
+  last_candle_bias: BEARISH
+  body_strength: WEAK
+  wick_dominance: HIGH_LOWER_WICK
+  momentum_bias: NEUTRAL
+  move_quality: CHAOTIC
+  trap_alert: REJECTION
+  sr_interaction: TESTING_PIVOT
+volume:
+  tick_volume: 1.0
+  volume_momentum: NO_VOLUME_DATA
+  volume_vs_average: 1.0
+analysis:
+  trend_direction: NONE
+  trend_type: CHOPPY
+  trend_strength_score: 100
+  mtf_alignment_%: 100
+  compression_quality_%: 100.0
+  exhaustion_risk_%: 30
+  bos_detected: false
+decision_layer:
+  tradeable: true
+  stability_score: 100
+  quality_score: 49
+  risk_level: MEDIUM
+  confidence_score: รอการวิเคราะห์จาก AI
+  suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  suggested_action: รอการวิเคราะห์จาก AI
+  final_reason_th: รอการวิเคราะห์จาก AI

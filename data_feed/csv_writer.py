@@ -122,32 +122,17 @@ class CSVWriter:
                     mode='w',
                     date_format=self.date_format
                 )
-                # Retry loop with exponential backoff for os.replace to handle Windows file lock / PermissionError [WinError 5]
-                max_retries = 5
-                backoff_sec = 0.1
-                for attempt in range(1, max_retries + 1):
-                    try:
-                        os.replace(tmp_path, file_path)
-                        break
-                    except Exception as e:
-                        if attempt < max_retries:
-                            logger.warning(
-                                f"[CSVWriter] os.replace failed (attempt {attempt}/{max_retries}) for {file_path}: {e}. Retrying in {backoff_sec:.2f}s..."
-                            )
-                            time.sleep(backoff_sec)
-                            backoff_sec *= 2
-                        else:
-                            logger.error(
-                                f"[CSVWriter] os.replace failed after {max_retries} attempts for {file_path}"
-                            )
-                            traceback.print_exc()
-                            logger.exception(f"[CSVWriter] Exception during os.replace({tmp_path}, {file_path})")
-                            if os.path.exists(tmp_path):
-                                try:
-                                    os.remove(tmp_path)
-                                except Exception as rm_err:
-                                    logger.warning(f"[CSVWriter] Failed to remove tmp file {tmp_path}: {rm_err}")
-                            raise
+                # No retry - immediate failure on os.replace per Strict No Fallback policy
+                try:
+                    os.replace(tmp_path, file_path)
+                except Exception as e:
+                    logger.error(f"[CSVWriter] os.replace failed for {file_path}: {e}")
+                    if os.path.exists(tmp_path):
+                        try:
+                            os.remove(tmp_path)
+                        except Exception as rm_err:
+                            logger.warning(f"[CSVWriter] Failed to remove tmp file {tmp_path}: {rm_err}")
+                    raise
                 
                 logger.info(f"[CSVWriter] Successfully wrote {len(df_to_write)} rows to {file_path}")
                 

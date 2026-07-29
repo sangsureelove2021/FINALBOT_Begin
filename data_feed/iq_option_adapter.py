@@ -281,7 +281,9 @@ class IQOptionAdapter(IDataSource):
         is_otc = "OTC" in symbol.upper()
 
         if "volume" in df.columns:
-            df["volume"] = pd.to_numeric(df["volume"], errors="coerce").fillna(0.0)
+            df["volume"] = pd.to_numeric(df["volume"], errors="coerce")
+            if df["volume"].isnull().any():
+                raise ValueError(f"Volume contains NaN values for {symbol} - no fallback allowed")
         else:
             # ไม่มี fallback สำหรับ symbol ที่ไม่มี volume column
             raise ValueError(f"Volume column missing for {symbol}")

@@ -100,9 +100,10 @@ class TimeCalendarManager:
                         self.sync_server_time()
                     except Exception as ex:
                         logger.exception("Error in periodic time sync")
+                        raise  # No fallback - immediate failure
                 except Exception as e:
                     logger.exception("Error in time sync worker thread")
-                    time.sleep(5)
+                    raise  # No fallback - immediate failure
 
         self._sync_thread = threading.Thread(target=sync_worker, daemon=True, name="TimeSyncThread")
         self._sync_thread.start()

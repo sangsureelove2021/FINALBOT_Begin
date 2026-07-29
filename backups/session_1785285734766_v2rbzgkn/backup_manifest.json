@@ -1,0 +1,12 @@
+[
+  {
+    "timestamp": 1785285743994,
+    "type": "user_prompt",
+    "operation": "backup_user_prompt",
+    "sessionId": "session_1785285734766_v2rbzgkn",
+    "taskContent": "คุณคือ ds (DeepSeek Browser Agent) รับภารกิจเข้าสแกนตรวจทานซอร์สโค้ดในโฟลเดอร์ E:\\BOT_FINALBOT\\FINALBOT_Begin\\data_feed\\ ทุกไฟล์และทุกบรรทัดในประเด็นเดิมซ้ำอีกครั้งตามคำสั่งเด็ดขาดของบอส!\n\nประเด็นที่ต้องตรวจสอบอย่างละเอียดยืนยันซ้ำ:\n1. การละเมิดกฎ Fail-Fast (Strict No Fallback): ตรวจหาจุด fillna(0.0), retry loop (os.replace retry), การดัก exception แล้ว time.sleep(5) หรือการซ่อน error\n2. การแยกส่วนงานเด็ดขาด (Decoupled 100%): Part 1 (data_feed) ต้องทำหน้าที่ดึงราคาดิบสด, ตัดแท่งกำลังก่อตัว, คำนวณ age & quality และเซฟไฟล์ CSV 8 คอลัมน์ (timestamp, open, high, low, close, volume, age, quality) เท่านั้น\n3. ตรวจสอบว่ายังมีโค้ด Anomaly Detection, โค้ดมั่ว หรือโค้ดทำเกิน Scope ฝังอยู่ใน 10 ไฟล์ (data_adapter.py, iq_option_adapter.py, time_calendar_manager.py, timeframe_sync.py, candle_validator.py, csv_queue.py, csv_writer.py, csv_manager.py, data_monitor.py, data_source.py) หรือไม่\n\nสรุปรายงานผลการตรวจสอบทีละไฟล์สั้นๆ ตรงไปตรงมาเป็นภาษาไทย",
+    "taskLength": 948,
+    "createdAt": "2026-07-29T00:42:14.767Z",
+    "updatedAt": "2026-07-29T00:42:23.994Z"
+  }
+]
