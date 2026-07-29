@@ -83,13 +83,12 @@ class CSVWriter:
                 # Prepare dataframe for writing
                 df_to_write = df.copy()
                 
-                # Select ONLY standard columns (OHLCV + age + quality)
-                cols = ['open', 'high', 'low', 'close', 'volume', 'age', 'quality']
+                # Select ALL standard columns including timestamp (8 columns total)
+                cols = ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'age', 'quality']
                 df_to_write = df_to_write[[c for c in cols if c in df_to_write.columns]]
                 
-                # Format index according to configuration
-                if self.index_format == "timestamp":
-                    df_to_write.index = pd.to_datetime(df_to_write.index).strftime(self.date_format)
+                # Format index according to configuration (keep index as Datetime for processing)
+                # Note: timestamp column contains the actual timestamp data
                 
                 # Round decimal places for numeric OHLCV columns
                 for col in ['open', 'high', 'low', 'close', 'volume']:
