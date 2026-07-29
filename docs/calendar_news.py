@@ -2,7 +2,7 @@
 ff_calendar_fetch.py
 ====================
 ดึงปฏิทินข่าว Forex Factory ทั้งวัน → export JSON
-Output: E:\\BOT_FINALBOT13 STG\\BOT_FINALBOT\\logs\\calendar_logs\\calendar_YYYY-MM-DD.json
+OUTPUT_DIR = Path(__file__).resolve().parent.parent / "all_filelogs" / "calendar_logs"\\calendar_YYYY-MM-DD.json
 
 วิธีรัน:
     python ff_calendar_fetch.py              → ดึงข่าววันนี้

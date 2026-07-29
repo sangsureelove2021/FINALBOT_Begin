@@ -91,12 +91,9 @@ def thai_console_log(msg: str):
         # Also log to file to avoid silent failures
         logging.getLogger("FINALBOT").info(msg)
     except Exception as e:
-        # Ultimate fallback - write to file only
-        try:
-            logging.getLogger("FINALBOT").error(f"Console output error: {e}")
-            logging.getLogger("FINALBOT").info(msg)
-        except:
-            pass  # Silent fallback
+        # Zero Tolerance: console errors must be logged
+        logging.getLogger("FINALBOT").error(f"Console output error: {e}")
+        raise RuntimeError(f"Console output failed: {e}")
 
 logger = logging.getLogger("FINALBOT")
 
@@ -224,11 +221,8 @@ class ConsoleUI:
         except Exception as e:
             # Log error to file and continue with basic output
             logging.getLogger("FINALBOT").error(f"Error in show_prices_and_balance: {e}")
-            # Fallback to simple output
-            try:
-                print(f"PRICE UPDATE: Balance=${balance:.2f}")
-            except:
-                pass  # Silent fallback
+            # Zero Tolerance: must show price information
+            raise RuntimeError(f"Price display failed: {e}")
 
     @staticmethod
     def show_stopping():

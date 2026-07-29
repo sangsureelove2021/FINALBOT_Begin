@@ -17,7 +17,6 @@ from data_feed.data_source import IDataSource
 from data_feed.csv_queue import CSVQueue
 from data_feed.csv_manager import CSVManager
 from data_feed.csv_writer import get_file_lock, read_csv_safe
-from data_feed.candle_validator import CandleValidator
 
 logger = logging.getLogger(__name__)
 

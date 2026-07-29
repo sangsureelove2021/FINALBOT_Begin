@@ -13,12 +13,11 @@ setup_logging()
 # Core imports
 from data_feed.iq_option_adapter import IQOptionAdapter
 from data_feed.data_adapter import DataAdapter
-from data_feed.time_calendar_manager import TimeCalendarManager
 
 class PureAIRunner:
     def __init__(self):
         # Auto-run calendar_news.py on startup if today's calendar file is missing
-        self.time_calendar_mgr = TimeCalendarManager()
+        # Removed TimeCalendarManager for Part 1 - use system time directly
 
         # Load settings
         from config_setting.config_loader import load_settings
@@ -64,9 +63,7 @@ class PureAIRunner:
             
         ConsoleUI.show_account_info(self.account_type, balance)
 
-        # Synchronize with broker server time and start background time sync thread
-        self.time_calendar_mgr.sync_server_time(self.data_adapter)
-        self.time_calendar_mgr.start_time_sync_thread()
+        # Using system time directly (no time synchronization for Part 1)
 
         # Display assets
         ConsoleUI.show_asset_list(self.symbols)
@@ -128,7 +125,9 @@ class PureAIRunner:
         if broker_epoch is not None and not isinstance(broker_epoch, (int, float)):
             raise TypeError("broker_epoch must be a float or int")
         if broker_epoch is None:
-            broker_epoch = self.time_calendar_mgr.get_broker_epoch()
+            # Use system time directly for Part 1
+            import time
+            broker_epoch = time.time()
         return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
 
     def _find_csv_path(self, symbol: str, timeframe: str) -> str | None:
@@ -208,7 +207,9 @@ class PureAIRunner:
         import concurrent.futures
         
         # Calculate consistent broker epoch for all symbols in this cycle
-        cycle_broker_epoch = self.time_calendar_mgr.get_broker_epoch()
+        # Use system time directly for Part 1
+        import time
+        cycle_broker_epoch = time.time()
 
         # Fetch and save data concurrently (highly optimized, writes CSV only)
         sym_futures = {}
@@ -251,11 +252,7 @@ class PureAIRunner:
         while True:
             try:
                 now = datetime.now()
-                # Sleep until the 1st second of the next minute to allow broker candle closure
-                sleep_sec = (1 - now.second) % 60
-                if sleep_sec == 0:
-                    sleep_sec = 60
-                time.sleep(sleep_sec)
+                # Execute immediately without timing delay (Zero Tolerance for Part 1)
                 self.run_cycle()
 
             except KeyboardInterrupt:

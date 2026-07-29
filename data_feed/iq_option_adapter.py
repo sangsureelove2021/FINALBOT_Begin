@@ -174,21 +174,8 @@ class IQOptionAdapter(IDataSource):
         if not self.api.check_connect():
             with self._conn_lock:
                 if not self.api.check_connect():
-                    logger.warning("[WARN]  IQ Option connection lost — reconnecting...")
-                    ok, reason = self.api.connect()
-                    if ok:
-                        # Wait 5 seconds for connection to stabilize
-                        time.sleep(5)
-                        # Verify connection is stable
-                        if not self.api.check_connect():
-                            logger.error(f"[ERROR] Connection still not stable after reconnect: {reason}")
-                            raise RuntimeError(f"Connection failed: {reason}")
-                        balance_mode = "PRACTICE" if str(self.account_type).upper() in ["DEMO", "PRACTICE"] else "REAL"
-                        self.api.change_balance(balance_mode)
-                        logger.info(" Reconnected successfully")
-                    else:
-                        logger.error(f"[ERROR] Reconnect failed: {reason}")
-                        raise RuntimeError(f"Reconnect failed: {reason}")
+                    logger.error("[ERROR] IQ Option connection lost — Zero Tolerance: stopping immediately")
+                    raise RuntimeError("IQ Option connection lost — no retry allowed")
             
     async def connect(self) -> None:
         """Async connect method for interface compliance."""

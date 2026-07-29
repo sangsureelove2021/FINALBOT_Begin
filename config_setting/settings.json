@@ -56,5 +56,20 @@
     "min_confidence": 60,
     "min_quality_score": 30,
     "max_noise_level": 0.6
+  },
+  
+  "data_feed": {
+    "csv_manager": {
+      "base_dir": "data_base/csv/iq_option"
+    },
+    "csv_queue": {
+      "max_queue_size": 1000,
+      "queue_timeout": 5,
+      "enable_logging": true
+    },
+    "csv_writer": {
+      "include_header": true,
+      "date_format": "%Y-%m-%d %H:%M:%S"
+    }
   }
 }

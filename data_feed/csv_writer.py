@@ -118,7 +118,7 @@ class CSVWriter:
                     path_or_buf=tmp_path,
                     encoding=self.encoding,
                     header=self.include_header,
-                    index=True,
+                    index=False,
                     mode='w',
                     date_format=self.date_format
                 )

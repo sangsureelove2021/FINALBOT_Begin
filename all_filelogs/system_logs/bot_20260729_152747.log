@@ -1,0 +1,3 @@
+2026-07-29 22:27:47,540 | INFO     | [CSVWriter] Initialized with encoding: utf-8, decimals: 6
+2026-07-29 22:27:47,545 | INFO     | [CSVWriter] Writing 5 rows to C:\Users\BUSOLOVE\AppData\Local\Temp\tmp60wpa2ys.csv
+2026-07-29 22:27:47,558 | INFO     | [CSVWriter] Successfully wrote 5 rows to C:\Users\BUSOLOVE\AppData\Local\Temp\tmp60wpa2ys.csv

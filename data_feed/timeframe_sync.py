@@ -90,7 +90,7 @@ class TimeframeSync:
         return True
 
     def _reference_time(self, candles: Dict[str, pd.DataFrame]):
-        """Last timestamp of the primary timeframe (fallback: earliest last)."""
+        """Last timestamp of the primary timeframe."""
         primary_df = candles[self.primary]
         if primary_df is not None and not primary_df.empty:
             return primary_df.index[-1]
