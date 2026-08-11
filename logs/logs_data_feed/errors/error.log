@@ -78097,3 +78097,883 @@ Traceback (most recent call last):
   File "E:\BOT_FINALBOT\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
     raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
 ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:10:02,083 | ERROR    | [Runner] Part 2 failed for GBPUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:10:02,132 | ERROR    | [Runner] Part 2 failed for EURGBP-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:10:02,162 | ERROR    | [Runner] Part 2 failed for EURUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:10:02,190 | ERROR    | [Runner] Part 2 failed for EURUSD: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:10:02,220 | ERROR    | [Runner] Part 2 failed for EURJPY: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:11:00,225 | ERROR    | [Runner] Part 2 failed for GBPUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:11:00,272 | ERROR    | [Runner] Part 2 failed for EURGBP-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:11:00,316 | ERROR    | [Runner] Part 2 failed for EURUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:11:00,358 | ERROR    | [Runner] Part 2 failed for EURUSD: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:11:00,392 | ERROR    | [Runner] Part 2 failed for EURJPY: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:12:00,649 | ERROR    | [Runner] Part 2 failed for GBPUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:12:00,676 | ERROR    | [Runner] Part 2 failed for EURGBP-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:12:00,705 | ERROR    | [Runner] Part 2 failed for EURUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:12:00,734 | ERROR    | [Runner] Part 2 failed for EURUSD: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:12:00,767 | ERROR    | [Runner] Part 2 failed for EURJPY: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:13:00,914 | ERROR    | [Runner] Part 2 failed for GBPUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:13:00,945 | ERROR    | [Runner] Part 2 failed for EURGBP-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:13:00,989 | ERROR    | [Runner] Part 2 failed for EURUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:13:01,023 | ERROR    | [Runner] Part 2 failed for EURUSD: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:13:01,069 | ERROR    | [Runner] Part 2 failed for EURJPY: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:14:00,735 | ERROR    | [Runner] Part 2 failed for GBPUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:14:00,776 | ERROR    | [Runner] Part 2 failed for EURGBP-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:14:00,808 | ERROR    | [Runner] Part 2 failed for EURUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:14:00,839 | ERROR    | [Runner] Part 2 failed for EURUSD: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:14:00,873 | ERROR    | [Runner] Part 2 failed for EURJPY: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:15:00,771 | ERROR    | [Runner] Part 2 failed for GBPUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:15:00,802 | ERROR    | [Runner] Part 2 failed for EURGBP-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:15:00,833 | ERROR    | [Runner] Part 2 failed for EURUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:15:00,863 | ERROR    | [Runner] Part 2 failed for EURUSD: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:15:00,893 | ERROR    | [Runner] Part 2 failed for EURJPY: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:16:00,647 | ERROR    | [Runner] Part 2 failed for GBPUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:16:00,678 | ERROR    | [Runner] Part 2 failed for EURGBP-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:16:00,711 | ERROR    | [Runner] Part 2 failed for EURUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:16:00,746 | ERROR    | [Runner] Part 2 failed for EURUSD: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:16:00,787 | ERROR    | [Runner] Part 2 failed for EURJPY: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:17:00,552 | ERROR    | [Runner] Part 2 failed for GBPUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:17:00,585 | ERROR    | [Runner] Part 2 failed for EURGBP-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:17:00,622 | ERROR    | [Runner] Part 2 failed for EURUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:17:00,652 | ERROR    | [Runner] Part 2 failed for EURUSD: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:17:00,694 | ERROR    | [Runner] Part 2 failed for EURJPY: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:18:00,350 | ERROR    | [Runner] Part 2 failed for GBPUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:18:00,378 | ERROR    | [Runner] Part 2 failed for EURGBP-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:18:00,411 | ERROR    | [Runner] Part 2 failed for EURUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:18:00,436 | ERROR    | [Runner] Part 2 failed for EURUSD: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:18:00,464 | ERROR    | [Runner] Part 2 failed for EURJPY: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:19:00,374 | ERROR    | [Runner] Part 2 failed for GBPUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:19:00,414 | ERROR    | [Runner] Part 2 failed for EURGBP-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:19:00,446 | ERROR    | [Runner] Part 2 failed for EURUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:19:00,474 | ERROR    | [Runner] Part 2 failed for EURUSD: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:19:00,503 | ERROR    | [Runner] Part 2 failed for EURJPY: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:20:00,628 | ERROR    | [Runner] Part 2 failed for GBPUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:20:00,659 | ERROR    | [Runner] Part 2 failed for EURGBP-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:20:00,692 | ERROR    | [Runner] Part 2 failed for EURUSD-OTC: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:20:00,719 | ERROR    | [Runner] Part 2 failed for EURUSD: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+2026-08-12 05:20:00,787 | ERROR    | [Runner] Part 2 failed for EURJPY: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 209, in run_cycle
+    payload = self.orchestrator.process_cycle(symbol=sym)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestrator.py", line 258, in process_cycle
+    store.calculate_all(symbol, candles_dict, forming_data=None)
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 400, in calculate_all
+    return self.process_pair(symbol, df_m1, df_m5, df_m15, forming_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 383, in process_pair
+    raw = self.calculate_raw_indicators(df_m1, df_m5, df_m15, forming_data, symbol=symbol)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\indicator_store\indicator_store.py", line 71, in calculate_raw_indicators
+    raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+ValueError: FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)
