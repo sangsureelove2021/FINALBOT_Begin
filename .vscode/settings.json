@@ -1,0 +1,16 @@
+{
+    "python-envs.pythonProjects": [
+        {
+            "path": ".",
+            "envManager": "ms-python.python:system",
+            "packageManager": "ms-python.python:pip"
+        }
+    ],
+    "geminicodeassist.outlines.automaticOutlineGeneration": true,
+    "workbench.editor.alwaysShowEditorActions": true,
+    "terminal.integrated.commandsToSkipShell": [
+        "",
+        ""
+    ],
+    "editor.fontSize": 16
+}

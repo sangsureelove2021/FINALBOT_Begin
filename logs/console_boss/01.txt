@@ -1,0 +1,146 @@
+Python 3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license()" for more information.
+
+= RESTART: E:\BOT_FINALBOT\FINALBOT_Part1\runner.py
+14:09:22 - กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+14:09:25 - เชื่อมต่อ IQ Option สำเร็จ
+14:09:25 - บัญชี DEMO | Balance: $1619.69
+14:09:25 - 💰 ยอดเงินในระบบ: $1619.69
+14:09:25 - ตรวจพบรายการสินทรัพย์ : GBPUSD-OTC, EURGBP-OTC, EURUSD-OTC, EURUSD, EURJPY
+14:09:25 - กำลังเตรียมข้อมูลสินทรัพย์ 5 รายการ : GBPUSD-OTC, EURGBP-OTC, EURUSD-OTC, EURUSD, EURJPY
+14:09:38 - ข้อมูลพร้อมเทรด 5 รายการ  ไม่พร้อมเทรด 0 รายการ
+14:09:59 - เข้าสู่การวิเคราะห์สัญญาณในอีก 2.2 วินาที  (เริ่ม 14:10:01)
+14:10:01 - [GBPUSD-OTC:1.34746][EURGBP-OTC:0.85369][EURUSD-OTC:1.15400][EURUSD:1.15386][EURJPY:183.81350] :: TOTAL=$1619.69
+14:11:00 - [GBPUSD-OTC:1.34746][EURGBP-OTC:0.85369][EURUSD-OTC:1.15400][EURUSD:1.15386][EURJPY:183.81350] :: TOTAL=$1619.69
+14:12:00 - [GBPUSD-OTC:1.34842][EURGBP-OTC:0.85328][EURUSD-OTC:1.15362][EURUSD:1.15386][EURJPY:183.81350] :: TOTAL=$1619.69
+14:13:00 - [GBPUSD-OTC:1.34842][EURGBP-OTC:0.85328][EURUSD-OTC:1.15362][EURUSD:1.15386][EURJPY:183.81350] :: TOTAL=$1619.69
+14:14:00 - [GBPUSD-OTC:1.34817][EURGBP-OTC:0.85342][EURUSD-OTC:1.15424][EURUSD:1.15387][EURJPY:183.81550] :: TOTAL=$1619.69
+14:15:01 - [GBPUSD-OTC:1.34851][EURGBP-OTC:0.85342][EURUSD-OTC:1.15299][EURUSD:1.15386][EURJPY:183.80650] :: TOTAL=$1619.69
+14:16:00 - [GBPUSD-OTC:1.34851][EURGBP-OTC:0.85342][EURUSD-OTC:1.15299][EURUSD:1.15386][EURJPY:183.80650] :: TOTAL=$1619.69
+14:17:00 - [GBPUSD-OTC:1.34885][EURGBP-OTC:0.85396][EURUSD-OTC:1.15284][EURUSD:1.15375][EURJPY:183.77950] :: TOTAL=$1619.69
+14:18:01 - [GBPUSD-OTC:1.34940][EURGBP-OTC:0.85425][EURUSD-OTC:1.15322][EURUSD:1.15376][EURJPY:183.79300] :: TOTAL=$1619.69
+14:19:00 - [GBPUSD-OTC:1.34936][EURGBP-OTC:0.85437][EURUSD-OTC:1.15345][EURUSD:1.15383][EURJPY:183.81500] :: TOTAL=$1619.69
+14:20:00 - [GBPUSD-OTC:1.34902][EURGBP-OTC:0.85459][EURUSD-OTC:1.15372][EURUSD:1.15382][EURJPY:183.80900] :: TOTAL=$1619.69
+14:21:00 - [GBPUSD-OTC:1.34935][EURGBP-OTC:0.85462][EURUSD-OTC:1.15402][EURUSD:1.15384][EURJPY:183.80800] :: TOTAL=$1619.69
+14:22:00 - [GBPUSD-OTC:1.34905][EURGBP-OTC:0.85462][EURUSD-OTC:1.15382][EURUSD:1.15372][EURJPY:183.77800] :: TOTAL=$1619.69
+14:23:00 - [GBPUSD-OTC:1.34882][EURGBP-OTC:0.85469][EURUSD-OTC:1.15409][EURUSD:1.15366][EURJPY:183.78550] :: TOTAL=$1619.69
+14:24:00 - [GBPUSD-OTC:1.34842][EURGBP-OTC:0.85479][EURUSD-OTC:1.15376][EURUSD:1.15356][EURJPY:183.77700] :: TOTAL=$1619.69
+14:25:00 - [GBPUSD-OTC:1.34851][EURGBP-OTC:0.85520][EURUSD-OTC:1.15440][EURUSD:1.15366][EURJPY:183.76650] :: TOTAL=$1619.69
+14:26:00 - [GBPUSD-OTC:1.34851][EURGBP-OTC:0.85520][EURUSD-OTC:1.15440][EURUSD:1.15366][EURJPY:183.76650] :: TOTAL=$1619.69
+14:27:01 - [GBPUSD-OTC:1.34892][EURGBP-OTC:0.85499][EURUSD-OTC:1.15400][EURUSD:1.15372][EURJPY:183.76450] :: TOTAL=$1619.69
+14:28:00 - [GBPUSD-OTC:1.34899][EURGBP-OTC:0.85530][EURUSD-OTC:1.15464][EURUSD:1.15372][EURJPY:183.75800] :: TOTAL=$1619.69
+14:29:05 - [GBPUSD-OTC:1.34895][EURGBP-OTC:0.85515][EURUSD-OTC:1.15498][EURUSD:1.15377][EURJPY:183.75800] :: TOTAL=$1619.69
+14:30:01 - [GBPUSD-OTC:1.34878][EURGBP-OTC:0.85543][EURUSD-OTC:1.15504][EURUSD:1.15376][EURJPY:183.76100] :: TOTAL=$1619.69
+14:31:00 - [GBPUSD-OTC:1.34888][EURGBP-OTC:0.85540][EURUSD-OTC:1.15553][EURUSD:1.15379][EURJPY:183.78450] :: TOTAL=$1619.69
+14:32:00 - [GBPUSD-OTC:1.34872][EURGBP-OTC:0.85555][EURUSD-OTC:1.15616][EURUSD:1.15383][EURJPY:183.78550] :: TOTAL=$1619.69
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'E:\\BOT_FINALBOT\\FINALBOT_Part1\\logs\\logs_data_feed\\all_runtime\\runtime.log' -> 'E:\\BOT_FINALBOT\\FINALBOT_Part1\\logs\\logs_data_feed\\all_runtime\\runtime.log.1'
+Call stack:
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1009, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1052, in _bootstrap_inner
+    self.run()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 989, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 92, in _worker
+    work_item.run()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\BOT_FINALBOT\FINALBOT_Part1\runner.py", line 140, in fetch_and_save_data
+    return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
+  File "E:\BOT_FINALBOT\FINALBOT_Part1\data_feed\data_adapter.py", line 207, in update
+    logger.info(f"[DataAdapter] Starting update for {symbol}")
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 1539, in info
+    self._log(INFO, msg, args, **kwargs)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 1684, in _log
+    self.handle(record)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 1700, in handle
+    self.callHandlers(record)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 1762, in callHandlers
+    hdlr.handle(record)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 1028, in handle
+    self.emit(record)
+  File "E:\BOT_FINALBOT\FINALBOT_Part1\monitoring\console_dashboard.py", line 42, in emit
+    super().emit(record)
+Message: '[DataAdapter] Starting update for EURGBP-OTC'
+Arguments: ()
+14:33:01 - [GBPUSD-OTC:1.34895][EURGBP-OTC:0.85576][EURUSD-OTC:1.15566][EURUSD:1.15371][EURJPY:183.76800] :: TOTAL=$1619.69
+14:34:00 - [GBPUSD-OTC:1.34932][EURGBP-OTC:0.85559][EURUSD-OTC:1.15532][EURUSD:1.15371][EURJPY:183.77100] :: TOTAL=$1619.69
+14:35:00 - [GBPUSD-OTC:1.34932][EURGBP-OTC:0.85559][EURUSD-OTC:1.15532][EURUSD:1.15371][EURJPY:183.77100] :: TOTAL=$1619.69
+14:36:01 - [GBPUSD-OTC:1.34969][EURGBP-OTC:0.85511][EURUSD-OTC:1.15522][EURUSD:1.15366][EURJPY:183.75700] :: TOTAL=$1619.69
+14:37:00 - [GBPUSD-OTC:1.34969][EURGBP-OTC:0.85511][EURUSD-OTC:1.15522][EURUSD:1.15366][EURJPY:183.75700] :: TOTAL=$1619.69
+14:38:00 - [GBPUSD-OTC:1.34926][EURGBP-OTC:0.85508][EURUSD-OTC:1.15566][EURUSD:1.15365][EURJPY:183.74950] :: TOTAL=$1619.69
+14:39:00 - [GBPUSD-OTC:1.34942][EURGBP-OTC:0.85464][EURUSD-OTC:1.15521][EURUSD:1.15365][EURJPY:183.74550] :: TOTAL=$1619.69
+14:40:00 - [GBPUSD-OTC:1.34942][EURGBP-OTC:0.85464][EURUSD-OTC:1.15521][EURUSD:1.15365][EURJPY:183.74550] :: TOTAL=$1619.69
+14:41:00 - [GBPUSD-OTC:1.34910][EURGBP-OTC:0.85459][EURUSD-OTC:1.15528][EURUSD:1.15340][EURJPY:183.72400] :: TOTAL=$1619.69
+14:42:00 - [GBPUSD-OTC:1.34875][EURGBP-OTC:0.85450][EURUSD-OTC:1.15548][EURUSD:1.15336][EURJPY:183.73200] :: TOTAL=$1619.69
+14:43:01 - [GBPUSD-OTC:1.34831][EURGBP-OTC:0.85476][EURUSD-OTC:1.15535][EURUSD:1.15336][EURJPY:183.75100] :: TOTAL=$1619.69
+14:44:00 - [GBPUSD-OTC:1.34821][EURGBP-OTC:0.85454][EURUSD-OTC:1.15495][EURUSD:1.15331][EURJPY:183.74800] :: TOTAL=$1619.69
+14:45:01 - [GBPUSD-OTC:1.34769][EURGBP-OTC:0.85501][EURUSD-OTC:1.15474][EURUSD:1.15328][EURJPY:183.73800] :: TOTAL=$1619.69
+14:46:00 - [GBPUSD-OTC:1.34769][EURGBP-OTC:0.85501][EURUSD-OTC:1.15474][EURUSD:1.15328][EURJPY:183.73800] :: TOTAL=$1619.69
+14:47:01 - [GBPUSD-OTC:1.34804][EURGBP-OTC:0.85489][EURUSD-OTC:1.15441][EURUSD:1.15335][EURJPY:183.76200] :: TOTAL=$1619.69
+14:48:01 - [GBPUSD-OTC:1.34776][EURGBP-OTC:0.85498][EURUSD-OTC:1.15487][EURUSD:1.15341][EURJPY:183.76650] :: TOTAL=$1619.69
+14:49:00 - [GBPUSD-OTC:1.34753][EURGBP-OTC:0.85498][EURUSD-OTC:1.15490][EURUSD:1.15341][EURJPY:183.76150] :: TOTAL=$1619.69
+14:50:00 - [GBPUSD-OTC:1.34773][EURGBP-OTC:0.85474][EURUSD-OTC:1.15512][EURUSD:1.15341][EURJPY:183.74750] :: TOTAL=$1619.69
+14:51:00 - [GBPUSD-OTC:1.34773][EURGBP-OTC:0.85474][EURUSD-OTC:1.15512][EURUSD:1.15341][EURJPY:183.74750] :: TOTAL=$1619.69
+14:52:00 - [GBPUSD-OTC:1.34787][EURGBP-OTC:0.85474][EURUSD-OTC:1.15525][EURUSD:1.15331][EURJPY:183.73600] :: TOTAL=$1619.69
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\handlers.py", line 74, in emit
+    self.doRollover()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\handlers.py", line 179, in doRollover
+    self.rotate(self.baseFilename, dfn)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\handlers.py", line 115, in rotate
+    os.rename(source, dest)
+PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'E:\\BOT_FINALBOT\\FINALBOT_Part1\\logs\\logs_data_feed\\system_info\\info.log' -> 'E:\\BOT_FINALBOT\\FINALBOT_Part1\\logs\\logs_data_feed\\system_info\\info.log.1'
+Call stack:
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1009, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1052, in _bootstrap_inner
+    self.run()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 989, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 92, in _worker
+    work_item.run()
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\BOT_FINALBOT\FINALBOT_Part1\runner.py", line 140, in fetch_and_save_data
+    return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
+  File "E:\BOT_FINALBOT\FINALBOT_Part1\data_feed\data_adapter.py", line 207, in update
+    logger.info(f"[DataAdapter] Starting update for {symbol}")
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 1539, in info
+    self._log(INFO, msg, args, **kwargs)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 1684, in _log
+    self.handle(record)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 1700, in handle
+    self.callHandlers(record)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 1762, in callHandlers
+    hdlr.handle(record)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 1028, in handle
+    self.emit(record)
+  File "E:\BOT_FINALBOT\FINALBOT_Part1\monitoring\console_dashboard.py", line 42, in emit
+    super().emit(record)
+Message: '[DataAdapter] Starting update for GBPUSD-OTC'
+Arguments: ()
+14:53:01 - [GBPUSD-OTC:1.34794][EURGBP-OTC:0.85513][EURUSD-OTC:1.15606][EURUSD:1.15345][EURJPY:183.74750] :: TOTAL=$1619.69
+14:54:00 - [GBPUSD-OTC:1.34835][EURGBP-OTC:0.85518][EURUSD-OTC:1.15626][EURUSD:1.15345][EURJPY:183.77600] :: TOTAL=$1619.69
+14:55:00 - [GBPUSD-OTC:1.34814][EURGBP-OTC:0.85549][EURUSD-OTC:1.15610][EURUSD:1.15341][EURJPY:183.76350] :: TOTAL=$1619.69
+14:56:00 - [GBPUSD-OTC:1.34770][EURGBP-OTC:0.85554][EURUSD-OTC:1.15644][EURUSD:1.15342][EURJPY:183.76550] :: TOTAL=$1619.69
+14:57:00 - [GBPUSD-OTC:1.34794][EURGBP-OTC:0.85530][EURUSD-OTC:1.15692][EURUSD:1.15342][EURJPY:183.77750] :: TOTAL=$1619.69
+14:58:00 - [GBPUSD-OTC:1.34793][EURGBP-OTC:0.85527][EURUSD-OTC:1.15599][EURUSD:1.15332][EURJPY:183.77750] :: TOTAL=$1619.69
+14:59:00 - [GBPUSD-OTC:1.34788][EURGBP-OTC:0.85513][EURUSD-OTC:1.15603][EURUSD:1.15324][EURJPY:183.79400] :: TOTAL=$1619.69
+15:00:01 - [GBPUSD-OTC:1.34770][EURGBP-OTC:0.85515][EURUSD-OTC:1.15647][EURUSD:1.15320][EURJPY:183.77850] :: TOTAL=$1619.69
+15:01:00 - [GBPUSD-OTC:1.34814][EURGBP-OTC:0.85515][EURUSD-OTC:1.15675][EURUSD:1.15320][EURJPY:183.76750] :: TOTAL=$1619.69
+15:02:00 - [GBPUSD-OTC:1.34760][EURGBP-OTC:0.85520][EURUSD-OTC:1.15688][EURUSD:1.15319][EURJPY:183.76150] :: TOTAL=$1619.69
+15:03:01 - [GBPUSD-OTC:1.34702][EURGBP-OTC:0.85474][EURUSD-OTC:1.15690][EURUSD:1.15316][EURJPY:183.73950] :: TOTAL=$1619.69
+15:04:00 - [GBPUSD-OTC:1.34689][EURGBP-OTC:0.85496][EURUSD-OTC:1.15680][EURUSD:1.15324][EURJPY:183.74250] :: TOTAL=$1619.69
+15:05:00 - [GBPUSD-OTC:1.34689][EURGBP-OTC:0.85496][EURUSD-OTC:1.15680][EURUSD:1.15324][EURJPY:183.74250] :: TOTAL=$1619.69
+15:06:01 - [GBPUSD-OTC:1.34669][EURGBP-OTC:0.85525][EURUSD-OTC:1.15677][EURUSD:1.15320][EURJPY:183.74800] :: TOTAL=$1619.69
+15:07:00 - [GBPUSD-OTC:1.34669][EURGBP-OTC:0.85525][EURUSD-OTC:1.15677][EURUSD:1.15320][EURJPY:183.74800] :: TOTAL=$1619.69

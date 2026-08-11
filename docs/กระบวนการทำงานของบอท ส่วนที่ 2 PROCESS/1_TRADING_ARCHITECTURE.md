@@ -1,0 +1,74 @@
+# 🧠 FINALBOT: Trading Architecture & Logic
+
+เอกสารนี้อธิบายหลักการทำงานและแนวคิดทางสถาปัตยกรรมของ FINALBOT (AI Binary Options Trading Bot) 
+
+---
+
+## 🚀 การเตรียมความพร้อมก่อนเริ่มรอบการเทรด (Initialization Phase)
+- **การตรวจสอบและอัปเดตข่าวเศรษฐกิจประจำวันอัตโนมัติ (News Auto-Update on Startup):**
+  - ในขั้นตอนเริ่มต้นทำงานของบอท (`PureAIRunner.__init__()` ใน `runner.py`) ระบบจะเรียกใช้งาน `TimeCalendarManager` (`data_feed/time_calendar_manager.py`) ซึ่งจะบริหารจัดการและเรียกเมธอด `ensure_calendar_news()` ทันทีเพื่อเตรียมความพร้อมข้อมูลข่าวสารก่อนเข้าสู่รอบการเทรด
+  - ระบบจะตรวจสอบการมีอยู่ของไฟล์ข่าวประจำวันที่ `all_filelogs/calendar_logs/calendar_YYYY-MM-DD.json`
+  - หากยังไม่มีไฟล์ข่าวประจำวันนี้ `TimeCalendarManager` จะรันสคริปต์ `calendar_news.py` ผ่าน `subprocess.run()` อัตโนมัติทันที เพื่อดาวน์โหลดตารางข่าวเศรษฐกิจประจำวันมาเก็บไว้ใช้ประเมินความเสี่ยงและกรองข่าวนอกตลาด (News Risk Assessment) ในรอบการวิเคราะห์
+  - หากพบไฟล์ข่าวประจำวันนี้อยู่แล้ว ระบบจะโหลดไฟล์เดิมขึ้นมาใช้งานโดยไม่ต้องดาวน์โหลดซ้ำ
+
+---
+
+## 🕒 รอบการทำงานของระบบ (Execution Cycle)
+- **การทริกเกอร์:** บอทจะเริ่มทำงาน "ทุกๆ 1 นาที" อย่างแม่นยำ โดยจะยิงคำสั่งดึงข้อมูลที่วินาทีที่ **`.01`** ของต้นนาทีเสมอ (เช่น `10:05:01`) เพื่อป้องกันปัญหาหลุดดีเลย์หรือเน็ตเวิร์ค
+- **สถาปัตยกรรม Data Feed แยกตาม Timeframe:**
+  - **M1 (1 นาที):** ยิงดึงข้อมูลสดจาก IQ Option API และอัปเดตไฟล์ `M1.csv` **ทุกๆ 1 นาที**
+  - **M5 (5 นาที):** ยิงดึงข้อมูลสดและอัปเดตไฟล์ `M5.csv` **เฉพาะนาทีที่ครบบล็อก 5 นาที (`minute % 5 == 0`)** (นาทีย่อยอื่น ๆ ข้ามการยิง API)
+  - **M15 (15 นาที):** ยิงดึงข้อมูลสดและอัปเดตไฟล์ `M15.csv` **เฉพาะนาทีที่ครบบล็อก 15 นาที (`minute % 15 == 0`)** (นาทีย่อยอื่น ๆ ข้ามการยิง API)
+  - **การลดภาระ Broker Connection:** นาทีย่อยที่ไม่ตรงกับบล็อก 5 หรือ 15 นาที ระบบจะข้ามการยิง API เพื่อลดภาระการสื่อสารกับโบรกเกอร์ (Broker API Overhead)
+- **ความสมบูรณ์ของกราฟ:** ระบบจะส่งเฉพาะ **"แท่งเทียนที่ปิดจบสมบูรณ์ 100% แล้วเท่านั้น"** ไปให้ AI เพื่อป้องกันปัญหาแท่งเทียนหลอก (Repainting)
+- **การทำงานแบบขนาน (Concurrency):** ยิงคำสั่งประมวลผลคู่เงินทุกคู่พร้อมกันในเสี้ยววินาทีเดียวผ่าน ThreadPool เพื่อป้องกันปัญหาคอขวด (AI Blocking)
+
+---
+
+## 🔄 การซิงค์เวลาเซิร์ฟเวอร์แบบ Real-time (Server Time Synchronization)
+- **การบริหารจัดการเวลารวมศูนย์ (`TimeCalendarManager`):** การซิงค์เวลาโบรกเกอร์และการจัดการ `time_offset` ทั้งหมดถูกควบคุมและบริหารจัดการผ่าน `TimeCalendarManager` (`data_feed/time_calendar_manager.py`)
+- **Daemon Thread:** `TimeCalendarManager` จะเริ่มทำงาน Daemon Thread (`TimeSyncThread`) เบื้องหลังอัตโนมัติเพื่อซิงค์เวลาโบรกเกอร์
+- **การปรับแต่ง `time_offset` อัตโนมัติ:** ทำการซิงค์ผ่าน `sync_server_time()` และคำนวณปรับแต่งค่า `time_offset` เปรียบเทียบระหว่างเวลาเครื่องท้องถิ่น (Local Time) กับเวลาเซิร์ฟเวอร์ IQ Option (Broker Server Time) โดยอัตโนมัติใน **ทุกๆ วินาทีที่ 30** (`:30`) ของทุกนาที
+- **ความแม่นยำของ epoch:** ค่า `time_offset` ที่อัปเดตเรียลไทม์จะถูกนำไปใช้คำนวณ `broker_epoch = self.time_calendar_mgr.get_broker_epoch()` (หรือ `time.time() + self.time_calendar_mgr.time_offset`) ทุกครั้งที่ส่งเข้า `DataAdapter.update()` เพื่อให้เวลาของข้อมูลแท่งเทียนและการเข้าเทรดสอดคล้องกับเซิร์ฟเวอร์โบรกเกอร์อย่างสมบูรณ์ตลอดเวลา ไม่มีการ Hardcode ค่า Time Offset
+
+
+---
+
+## 📊 โครงสร้างการวิเคราะห์ (Multi-Timeframe Logic)
+AI ถูกโปรแกรมให้วิเคราะห์ตลาดแบบหลายมิติ (Multi-Timeframe) เพื่อหาจุดเข้าที่ได้เปรียบที่สุด:
+
+1. **M5 (กราฟ 5 นาที) = Market Context** 
+   - ใช้ประเมินโครงสร้างและสภาพตลาดโดยรวม (ภาพใหญ่) ว่าตลาดกำลังอยู่ในสภาวะใด เช่น มีเทรนด์ชัดเจน (Trending) หรือวิ่งในกรอบ (Ranging)
+2. **M5 (กราฟ 5 นาที) = Strategy Selection** 
+   - ใช้สำหรับให้ AI ตัดสินใจเลือก "กลยุทธ์" ที่เหมาะสมกับสภาพตลาดนั้นๆ มากที่สุด
+3. **M1 (กราฟ 1 นาที) = Entry Timing** 
+   - ใช้เป็นเป้าเล็ง (Sniper Scope) เพื่อหาจุดลั่นไกที่คมที่สุด เช่น การรอจังหวะราคาย่อตัว (Pullback) กลับมาที่เส้น EMA ภายในเทรนด์ของ M5 หรือการเกิดแท่งเทียนกลับตัว (Reversal Pattern) ยืนยันในกราฟระยะสั้น
+
+---
+
+## ⏱️ การกำหนดเวลาหมดอายุ (Expiry Time)
+- **Dynamic Expiry:** เวลาหมดอายุของออเดอร์ (Expiry) **"จะไม่ถูกฟิกตายตัว"**
+- **AI Decision:** AI (DeepSeek) มีอิสระและอำนาจเต็มที่ในการคำนวณและเลือกเวลาหมดอายุเอง **ตั้งแต่ 1 นาที ถึง 5 นาที**
+- **Logic:** AI จะพิจารณาจาก โครงสร้างราคาปัจจุบัน (Market Structure) และความผันผวน (Volatility) หากจังหวะนั้นต้องรีบหนีทำกำไร AI อาจเลือกตีหัวเข้าบ้านที่ M1-M3 แต่หากกราฟต้องการพื้นที่สวิง AI จะกำหนดเวลาเผื่อให้เป็น M5
+
+---
+
+## 🛡️ Exception Handling & Fail-Fast Standards (Data Feed System)
+
+ระบบ Data Feed ของ FINALBOT ถูกออกแบบตามเกณฑ์ **Strict Zero Fallback & Fail-Fast Policy** เพื่อป้องกันปัญหาข้อมูลปนเปื้อน ข้อมูลดีเลย์ หรือสภาวะ Silent Failure ที่ทำให้ AI วิเคราะห์จากข้อมูลที่ไม่ถูกต้อง:
+
+1. **Strict No Fallback Policy ( Zero Retries / No Dummy Value)**:
+   - **ห้ามมี Default Value Fallback**: เช่น ห้ามตั้งค่า `time_offset = 0.0` หรือคืนค่าคู่เงินสำรอง หากยิงขอข้อมูลหรือเวลาไม่สำเร็จ
+   - **ห้าม Swallow Exception**: ห้ามใช้ `try-except` ดักจับข้อผิดพลาดแล้วสั่ง `pass` หรือ print ข้อความลอยๆ โดยไม่ระเบิด Exception
+2. **Centralized Stack Trace Logging**:
+   - เมื่อเกิด Exception ในชั้น Data Feed หรือ Runner ระบบจะใช้ `logger.exception(...)` บันทึก Full Exception Stack Trace ลงในไฟล์ Log ระบบ:
+     `all_filelogs/system_logs/bot_YYYYMMDD_HHMMSS.log`
+   - การบันทึก Stack Trace จะถูก flush ลงไฟล์ก่อนที่ระบบจะสั่งระเบิด `RuntimeError` หรือ `ValueError` สั่งหยุดการทำงานของบอททันทีแบบ Fail-Fast
+3. **สรุปจุดตรวจเช็ก Fail-Fast ใน live code**:
+   - **Symbol Loading**: `config_loader.get_symbols()` ระเบิด `ValueError` หากไม่มี `symbols`
+   - **News Auto-Update**: `TimeCalendarManager.ensure_calendar_news()` ระเบิด `RuntimeError` หากรัน `calendar_news.py` ล้มเหลว
+   - **Server Time Sync**: `TimeCalendarManager.sync_server_time()` ระเบิด `RuntimeError` หากดึง timestamp จากโบรกเกอร์ล้มเหลว
+   - **Queue Overflow**: `csv_queue.py` ระเบิด `RuntimeError` หากงานเขียน CSV ค้างเกิน 1,000 รายการ
+   - **Data Validation**: `candle_validator.py` ระเบิด `ValueError` หากพบค่า NaN, แท่งเทียนขาดคอลัมน์ หรือ Volume = 0 สำหรับ Non-OTC
+   - **RAM Price Reading**: `candle_adapter.get_latest_close()` และ `candle_adapter.get_candles_ram()` ระเบิด `ValueError` หากข้อมูลใน RAM หายหรือระบุประเภทผิด
+
