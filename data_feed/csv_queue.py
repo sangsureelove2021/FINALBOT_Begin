@@ -48,11 +48,64 @@ class CSVQueue:
         self._consecutive_errors = 0
         self._writer = CSVWriter()
         self._queue = queue.Queue()
-        self._worker_thread = threading.Thread(target=self._worker, daemon=self.daemon)
-        self._worker_thread.start()
+        self._worker_thread = None
+        self._is_running = False
+        self._stop_event = threading.Event()
+        
+        self.start_worker()
         
         if self.enable_logging:
             logger.info(f"[CSVQueue] Initialized with {self.max_workers} worker(s)")
+
+    def start_worker(self):
+        """Start the background worker thread with proper lifecycle management."""
+        if self._is_running and self._worker_thread is not None and self._worker_thread.is_alive():
+            logger.debug("[CSVQueue] Worker thread is already running.")
+            return
+        
+        self._is_running = True
+        self._stop_event.clear()
+        self._worker_thread = threading.Thread(target=self._worker, daemon=self.daemon, name="CSVQueue-Worker")
+        self._worker_thread.start()
+        logger.info("[CSVQueue] Worker thread started")
+
+    def shutdown(self, wait=True, timeout=30):
+        """
+        Gracefully shutdown the worker thread to prevent resource leak.
+        
+        Args:
+            wait: If True, wait for the thread to finish
+            timeout: Maximum seconds to wait for thread termination
+        """
+        if not self._is_running:
+            logger.debug("[CSVQueue] Worker thread is not running, nothing to shutdown.")
+            return
+        
+        logger.info("[CSVQueue] Shutting down worker thread...")
+        self._is_running = False
+        self._stop_event.set()
+        
+        # Try to drain the queue before stopping
+        if wait:
+            try:
+                # Wait for queue to be processed
+                remaining = self._queue.qsize()
+                if remaining > 0:
+                    logger.info(f"[CSVQueue] Waiting for {remaining} items in queue to be processed...")
+                    self._queue.join()
+            except Exception as e:
+                logger.warning(f"[CSVQueue] Error while waiting for queue to drain: {e}")
+        
+        # Wait for thread to terminate
+        if self._worker_thread and self._worker_thread.is_alive():
+            self._worker_thread.join(timeout=timeout)
+            if self._worker_thread.is_alive():
+                logger.warning(f"[CSVQueue] Worker thread did not terminate within {timeout}s, forcing stop.")
+            else:
+                logger.info("[CSVQueue] Worker thread terminated gracefully.")
+        
+        self._worker_thread = None
+        logger.info("[CSVQueue] Shutdown complete.")
 
     def enqueue_write(self, df: pd.DataFrame, file_path: str) -> None:
         """Add a dataframe and target path to the write queue."""
@@ -65,10 +118,15 @@ class CSVQueue:
             self._queue.put((df.copy(), file_path))
 
     def _worker(self):
-        """Worker thread loop to process CSV writes."""
-        while True:
+        """Worker thread loop to process CSV writes with proper lifecycle management."""
+        while self._is_running or not self._queue.empty():
             file_path = "UNKNOWN"
             try:
+                # Check stop event before blocking on queue.get
+                if self._stop_event.is_set() and self._queue.empty():
+                    logger.info("[CSVQueue] Worker thread received stop signal and queue is empty, exiting.")
+                    break
+                    
                 df, file_path = self._queue.get(timeout=self.queue_timeout)
                 logger.info(f"[CSVQueue] Processing write for {file_path}")
                 
@@ -84,6 +142,9 @@ class CSVQueue:
                     
             except queue.Empty:
                 # This is normal timeout for daemon thread
+                if self._stop_event.is_set():
+                    logger.info("[CSVQueue] Worker thread received stop signal during timeout, exiting.")
+                    break
                 continue
             except Exception as e:
                 self._error_count += 1
@@ -100,7 +161,8 @@ class CSVQueue:
                         f"[CSVQueue] CIRCUIT BREAKER: {self._consecutive_errors} consecutive errors exceeded "
                         f"threshold ({self.max_consecutive_errors}). Worker stopping."
                     )
-                    raise RuntimeError(
-                        f"CSVQueue circuit breaker triggered: {self._consecutive_errors} consecutive write failures"
-                    ) from e
+                    self._is_running = False
+                    break
                 continue
+        
+        logger.info("[CSVQueue] Worker thread loop exited.")

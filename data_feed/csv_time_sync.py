@@ -16,8 +16,13 @@ class TimeSyncManager:
     _instances = {}
     
     def __new__(cls, data_adapter=None, config=None):
-        """Ensure singleton pattern for TimeSyncManager"""
-        key = f"{hash(str(data_adapter))}_{hash(str(config))}"
+        """Ensure singleton pattern for TimeSyncManager using stable hash keys."""
+        # Create a stable key based on object IDs instead of string representation
+        # This prevents the singleton from breaking due to memory address changes
+        adapter_id = id(data_adapter) if data_adapter is not None else 'none'
+        config_id = id(config) if config is not None else 'none'
+        key = f"TimeSync_{adapter_id}_{config_id}"
+        
         if key not in cls._instances:
             cls._instances[key] = super().__new__(cls)
         return cls._instances[key]
@@ -157,4 +162,4 @@ class TimeSyncManager:
         ซิงค์เวลาและคืนค่า time offset
         """
         local_time = cls.get_local_time()
-        return cls.get_time_offset(server_time, local_time)
+        return cls.get_time_offset(server_time, local_time)

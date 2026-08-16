@@ -161,8 +161,7 @@ class CSVWriter:
                 df_to_write['timestamp'] = df_to_write['timestamp'].dt.strftime('%Y-%m-%d %H:%M:%S+00:00')
 
             try:
-
-                # Write to temporary file and replace atomically
+                # Write to temporary file and replace atomically (Zero Tolerance: No Retries)
                 tmp_path = f"{file_path}.{threading.get_ident()}.tmp"
                 df_to_write.to_csv(
                     path_or_buf=tmp_path,
@@ -172,36 +171,25 @@ class CSVWriter:
                     mode='w',
                     date_format=self.date_format
                 )
-                # Retry loop on PermissionError to handle Windows OS millisecond file handle release delays
-                max_retries = 5
-                for attempt in range(1, max_retries + 1):
-                    try:
-                        os.replace(tmp_path, file_path)
-                        break
-                    except PermissionError as pe:
-                        if attempt < max_retries:
-                            logger.warning(f"[CSVWriter] PermissionError on os.replace (attempt {attempt}/{max_retries}) for {file_path}, retrying in 0.05s... Error: {pe}")
-                            time.sleep(0.05)
-                        else:
-                            logger.error(f"[CSVWriter] os.replace failed after {max_retries} attempts for {file_path}: {pe}")
-                            if os.path.exists(tmp_path):
-                                try:
-                                    os.remove(tmp_path)
-                                except Exception as rm_err:
-                                    logger.warning(f"[CSVWriter] Failed to remove tmp file {tmp_path}: {rm_err}")
-                            raise
-                    except Exception as e:
-                        logger.error(f"[CSVWriter] os.replace failed for {file_path}: {e}")
-                        if os.path.exists(tmp_path):
-                            try:
-                                os.remove(tmp_path)
-                            except Exception as rm_err:
-                                logger.warning(f"[CSVWriter] Failed to remove tmp file {tmp_path}: {rm_err}")
-                        raise
+                # Fail-Fast: Immediately raise on PermissionError (Zero Tolerance Policy)
+                os.replace(tmp_path, file_path)
                 
                 logger.info(f"[CSVWriter] Successfully wrote {len(df_to_write)} rows to {file_path}")
                 
+            except PermissionError as pe:
+                logger.error(f"[CSVWriter] CRITICAL: PermissionError on os.replace for {file_path} - File locked by another process. Zero Tolerance: Failing immediately. Error: {pe}")
+                if os.path.exists(tmp_path):
+                    try:
+                        os.remove(tmp_path)
+                    except Exception as rm_err:
+                        logger.warning(f"[CSVWriter] Failed to remove tmp file {tmp_path}: {rm_err}")
+                raise
             except Exception as e:
                 logger.error(f"[CSVWriter] Failed to write to {file_path}: {e}")
+                if os.path.exists(tmp_path):
+                    try:
+                        os.remove(tmp_path)
+                    except Exception as rm_err:
+                        logger.warning(f"[CSVWriter] Failed to remove tmp file {tmp_path}: {rm_err}")
                 raise
 
