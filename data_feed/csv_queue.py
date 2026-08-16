@@ -56,12 +56,24 @@ class CSVQueue:
             logger.info(f"[CSVQueue] Enqueuing write for {file_path} - Queue size: {self._queue.qsize()}")
             self._queue.put((df.copy(), file_path))
 
+    def stop(self) -> None:
+        """Send Sentinel to stop worker thread gracefully."""
+        logger.info("[CSVQueue] Stopping worker thread...")
+        self._queue.put((None, None))
+        if self._worker_thread.is_alive():
+            self._worker_thread.join(timeout=self.queue_timeout)
+        logger.info("[CSVQueue] Worker thread stopped.")
+
     def _worker(self):
         """Worker thread loop to process CSV writes."""
         while True:
             file_path = "UNKNOWN"
             try:
                 df, file_path = self._queue.get(timeout=self.queue_timeout)
+                if df is None and file_path is None:
+                    logger.info("[CSVQueue] Received sentinel. Stopping worker loop.")
+                    self._queue.task_done()
+                    break
                 logger.info(f"[CSVQueue] Processing write for {file_path}")
                 
                 # Use shared CSVWriter instance

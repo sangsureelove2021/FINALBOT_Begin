@@ -13,7 +13,25 @@ class TimeSyncManager:
     """
     ระบบบริหารจัดการการซิงค์เวลากับเซิร์ฟเวอร์ (Time Sync Manager)
     """
+    _instance = None
+    _lock = threading.Lock()
+
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            with cls._lock:
+                if not cls._instance:
+                    cls._instance = super(TimeSyncManager, cls).__new__(cls)
+                    cls._instance._initialized = False
+        return cls._instance
+
     def __init__(self, data_adapter=None, config=None):
+        if getattr(self, '_initialized', False):
+            if data_adapter is not None:
+                self.data_adapter = data_adapter
+                self.sync_server_time()
+            return
+        self._initialized = True
+        
         self.data_adapter = data_adapter
         if config is None:
             from config_setting.config_loader import get_time_sync_manager_config

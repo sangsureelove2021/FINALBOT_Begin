@@ -152,7 +152,7 @@ class IQConnectionManager:
         if not self._connected or self.api is None:
             raise RuntimeError("IQ Option not connected")
         try:
-            return float(time.time())
+            return float(self.api.get_server_timestamp())
         except Exception as e:
             logger.error(f"Failed to get server timestamp: {e}")
-            return float(time.time())
+            raise RuntimeError(f"FAIL-FAST: Failed to get server timestamp from broker: {e}") from e

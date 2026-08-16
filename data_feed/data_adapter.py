@@ -79,6 +79,10 @@ class DataAdapter(IDataSource):
         self.m15_seconds = adapter_config.get("m15_seconds", 900)
         self.auto_reconnect = adapter_config.get("auto_reconnect", True)
         
+        self.m1_gap_sec = adapter_config.get("m1_gap_sec", 300)
+        self.m5_gap_sec = adapter_config.get("m5_gap_sec", 1500)
+        self.m15_gap_sec = adapter_config.get("m15_gap_sec", 4500)
+        
         # Zero Tolerance compliance check
         retry_attempts = adapter_config.get("retry_attempts", 0)
         retry_delay = adapter_config.get("retry_delay", 0)
@@ -220,7 +224,7 @@ class DataAdapter(IDataSource):
                 timeframe='M1',
                 tf_seconds=60,
                 max_candles=110,
-                gap_threshold=_M1_GAP_SEC,
+                gap_threshold=self.m1_gap_sec,
                 validator=self._validator,
                 current_block=current_block_m1
             )
@@ -237,7 +241,7 @@ class DataAdapter(IDataSource):
                 timeframe='M5',
                 tf_seconds=300,
                 max_candles=260,
-                gap_threshold=_M5_GAP_SEC,
+                gap_threshold=self.m5_gap_sec,
                 validator=self._validator,
                 current_block=current_block_m5
             )
@@ -254,7 +258,7 @@ class DataAdapter(IDataSource):
                 timeframe='M15',
                 tf_seconds=900,
                 max_candles=60,
-                gap_threshold=_M15_GAP_SEC,
+                gap_threshold=self.m15_gap_sec,
                 validator=self._validator,
                 current_block=current_block_m15
             )

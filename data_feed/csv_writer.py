@@ -122,13 +122,13 @@ class CSVWriter:
                         existing_cols = [c for c in cols if c in existing_df.columns]
                         existing_df = existing_df[existing_cols]
 
-                    existing_df['timestamp'] = pd.to_datetime(existing_df['timestamp'], utc=True)
-                    df_to_write['timestamp'] = pd.to_datetime(df_to_write['timestamp'], utc=True)
+                    from data_feed.data_validator import DataValidator
+                    existing_df = DataValidator.ensure_utc_datetime_index(existing_df)
+                    df_to_write = DataValidator.ensure_utc_datetime_index(df_to_write)
 
-                    combined_df = pd.concat([existing_df, df_to_write], ignore_index=True)
-                    combined_df['timestamp'] = pd.to_datetime(combined_df['timestamp'], utc=True)
-                    combined_df = combined_df.drop_duplicates(subset=['timestamp'], keep='last')
-                    combined_df = combined_df.sort_values(by='timestamp').reset_index(drop=True)
+                    combined_df = pd.concat([existing_df, df_to_write])
+                    combined_df = combined_df[~combined_df.index.duplicated(keep='last')]
+                    combined_df = combined_df.sort_index().reset_index(drop=True)
                     df_to_write = combined_df
                 except Exception as e:
                     logger.error(f"[CSVWriter] Could not merge with existing file {file_path}: {e}")
@@ -157,8 +157,10 @@ class CSVWriter:
 
             # Format timestamp explicitly to UTC string so to_csv retains +00:00 (Fixing timestamp timezone issue)
             if 'timestamp' in df_to_write.columns:
-                df_to_write['timestamp'] = pd.to_datetime(df_to_write['timestamp'], utc=True)
-                df_to_write['timestamp'] = df_to_write['timestamp'].dt.strftime('%Y-%m-%d %H:%M:%S+00:00')
+                from data_feed.data_validator import DataValidator
+                df_to_write = DataValidator.ensure_utc_datetime_index(df_to_write)
+                df_to_write['timestamp'] = df_to_write.index.strftime('%Y-%m-%d %H:%M:%S+00:00')
+                df_to_write = df_to_write.reset_index(drop=True)
 
             try:
 
@@ -172,32 +174,17 @@ class CSVWriter:
                     mode='w',
                     date_format=self.date_format
                 )
-                # Retry loop on PermissionError to handle Windows OS millisecond file handle release delays
-                max_retries = 5
-                for attempt in range(1, max_retries + 1):
-                    try:
-                        os.replace(tmp_path, file_path)
-                        break
-                    except PermissionError as pe:
-                        if attempt < max_retries:
-                            logger.warning(f"[CSVWriter] PermissionError on os.replace (attempt {attempt}/{max_retries}) for {file_path}, retrying in 0.05s... Error: {pe}")
-                            time.sleep(0.05)
-                        else:
-                            logger.error(f"[CSVWriter] os.replace failed after {max_retries} attempts for {file_path}: {pe}")
-                            if os.path.exists(tmp_path):
-                                try:
-                                    os.remove(tmp_path)
-                                except Exception as rm_err:
-                                    logger.warning(f"[CSVWriter] Failed to remove tmp file {tmp_path}: {rm_err}")
-                            raise
-                    except Exception as e:
-                        logger.error(f"[CSVWriter] os.replace failed for {file_path}: {e}")
-                        if os.path.exists(tmp_path):
-                            try:
-                                os.remove(tmp_path)
-                            except Exception as rm_err:
-                                logger.warning(f"[CSVWriter] Failed to remove tmp file {tmp_path}: {rm_err}")
-                        raise
+                try:
+                    os.replace(tmp_path, file_path)
+                except Exception as e:
+                    logger.error(f"[CSVWriter] os.replace failed for {file_path}: {e}")
+                    if os.path.exists(tmp_path):
+                        try:
+                            os.remove(tmp_path)
+                        except Exception as rm_err:
+                            logger.warning(f"[CSVWriter] Failed to remove tmp file {tmp_path}: {rm_err}")
+                    from data_feed.exceptions import DataFeedError
+                    raise DataFeedError(f"FAIL-FAST: CSV file replace failed: {e}") from e
                 
                 logger.info(f"[CSVWriter] Successfully wrote {len(df_to_write)} rows to {file_path}")
                 
