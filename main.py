@@ -9,11 +9,11 @@ import logging
 from monitoring.console_dashboard import ConsoleUI, logger, setup_logging
 from runner import PureAIRunner
 
-setup_logging()
-
 def main():
     """Main entry point for FINALBOT"""
-    logger = logging.getLogger("FINALBOT")
+    # Setup logging only once at the application entry point
+    setup_logging()
+    
     ConsoleUI.show_startup()
     
     bot = PureAIRunner()

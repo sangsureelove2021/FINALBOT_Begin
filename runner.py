@@ -7,19 +7,16 @@ from typing import Optional
 from monitoring.console_dashboard import ConsoleUI, logger, setup_logging
 import concurrent.futures
 
-setup_logging()
+# Logging should only be setup once in main.py
+# setup_logging() is called in main.py, not here
 
 # Core imports (Part 1: Data Feed System only)
 from data_feed.bridge_adapter.broker_factory import BrokerFactory
 from data_feed.data_adapter import DataAdapter
 from data_feed.csv_time_sync import TimeSyncManager
 
-# Part 2: Data Evaluate
-from data_evaluate.orchestrator import Orchestrator
-
 # Load settings and symbols at the module level for clarity
 from config_setting.config_loader import load_settings, get_symbols, get_csv_manager_config
-from data_evaluate.economic_news_calendar import ensure_calendar_news
 
 
 class PureAIRunner:
@@ -56,19 +53,7 @@ class PureAIRunner:
         
         self.candle_adapter = DataAdapter(broker_adapter=self.data_adapter, time_sync_manager=self.time_calendar_mgr, base_dir=base_dir)
         
-        # รายงานขั้นตอน 1: ตรวจสอบข่าว ดึงข่าววันนี้ บันทึกลง SSD และรายงานผล
-        print("\n" + "="*80)
-        print("📰 [STEP 1] ระบบกำลังดึงข่าววันนี้...")
-        try:
-            news_file_path = ensure_calendar_news()
-            print(f"✅ [STEP 1] ดึงข่าวสำเร็จ | บันทึกไว้ที่: {news_file_path}")
-            print("="*80 + "\n")
-        except Exception as e:
-            print(f"❌ [STEP 1] ดึงข่าวล้มเหลว: {e}")
-            import traceback; traceback.print_exc()
-            raise RuntimeError("FAIL-FAST: Failed to fetch news") from e
-        
-        # รายงานขั้นตอน 2: ล็อกอินและรายงานข้อมูลบัญชี
+        # รายงานขั้นตอน 1: ล็อกอินและรายงานข้อมูลบัญชี
         logger.info("🚀 [STEP 1] ระบบกำลังเชื่อมต่อกับ IQ Option...")
         try:
             balance = self.candle_adapter.get_balance()
@@ -116,9 +101,11 @@ class PureAIRunner:
         # Initialize a reusable ThreadPoolExecutor
         self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=len(self.symbols) if self.symbols else 1)
         
-        # ── Part 2: Initialize Orchestrator (Data Evaluate) ──────────
-        self.orchestrator = Orchestrator()
-        logger.info("[Runner] Orchestrator (Part 2) initialized")
+        # ── Part 2: Orchestrator (Data Evaluate) will be added later ──────────
+        # self.orchestrator = Orchestrator()
+        # logger.info("[Runner] Orchestrator (Part 2) initialized")
+        self.orchestrator = None  # Placeholder for Part 2
+        logger.info("[Runner] Part 1 complete - CSV files ready for Part 2")
 
     def _countdown_to_first_candle(self):
         """คำนวณเวลาถอยหลังรอขอบนาทีถัดไป (วินาทีที่ :01.500) เพื่อให้แท่งเทียนปิดสมบูรณ์ก่อนเริ่มรอบทำงานสด พร้อม Second-by-Second Tracking"""
@@ -151,8 +138,8 @@ class PureAIRunner:
     def run_cycle(self):
         cycle_start = time.time()
         
-        # รายงานขั้นตอน 4: ดาวน์โหลดข้อมูลประวัติ
-        logger.info("📊 [STEP 4] ดาวน์โหลดข้อมูลประวัติราคา (M1:150, M5:250, M15:100)...")
+        # รายงานขั้นตอน 4: ดาวน์โหลดข้อมูลประวัติ (2 แท่งเทียนต่อรอบ)
+        logger.info("📊 [STEP 4] ดาวน์โหลดข้อมูลประวัติราคา (2 แท่งเทียนต่อรอบ)...")
         
         # Ensure connection is active before processing
         try:
@@ -204,12 +191,16 @@ class PureAIRunner:
                 self.last_displayed_minute = current_minute
             
             # ── Part 2: Run Orchestrator for each symbol (read CSV → analyze → output .txt) ──
-            logger.info("🤖 [STEP 5] เริ่มการวิเคราะห์ข้อมูลด้วย AI...")
-            for sym in processed_symbols:
-                try:
-                    self.orchestrator.process_cycle(symbol=sym)
-                except Exception as e:
-                    logger.exception(f"❌ [STEP 5] AI วิเคราะห์ล้มเหลว: {sym} - {e}")
+            # Part 2 is not implemented yet, this section is disabled
+            # logger.info("🤖 [STEP 5] เริ่มการวิเคราะห์ข้อมูลด้วย AI...")
+            # for sym in processed_symbols:
+            #     try:
+            #         self.orchestrator.process_cycle(symbol=sym)
+            #     except Exception as e:
+            #         logger.exception(f"❌ [STEP 5] AI วิเคราะห์ล้มเหลว: {sym} - {e}")
+            
+            # Part 1 complete: CSV files have been written successfully
+            logger.info(f"✅ [STEP 5] Part 1 complete - CSV files updated for {len(processed_symbols)} symbols")
 
     def start(self):
         logger.info("🎯 [STEP 6] เริ่มการทำงานของบอทที่แท้จริง (ดาวน์โหลด 2 แท่งเทียนต่อรอบ)...")
