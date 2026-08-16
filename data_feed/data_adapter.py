@@ -247,3 +247,107 @@ class DataAdapter:
         
         self._cache.clear_all()
         logger.info("DataAdapter shutdown complete")
+    
+    def start_stream(self, symbol: str, timeframe: str, candles_count: int = 100) -> bool:
+        """
+        เริ่มการ stream ข้อมูลสำหรับ symbol และ timeframe ที่กำหนด
+        
+        Args:
+            symbol: ชื่อ symbol
+            timeframe: timeframe (M1, M5, etc.)
+            candles_count: จำนวนแท่งเทียนที่ต้องการดึงเริ่มต้น
+            
+        Returns:
+            True ถ้าสำเร็จ, False ถ้าล้มเหลว
+        """
+        logger.info(f"Starting stream for {symbol}/{timeframe}")
+        try:
+            # ตรวจสอบการเชื่อมต่อก่อน
+            if not self.is_connected():
+                logger.error(f"Cannot start stream: Not connected to broker")
+                return False
+            
+            # ดึงข้อมูลเริ่มต้น
+            broker_epoch = self._get_broker_timestamp()
+            limit = max(candles_count, DataFeedConfig.get_candle_limit(timeframe))
+            
+            df = self._fetch_candles(symbol, timeframe, limit, broker_epoch)
+            
+            if df is None or df.empty:
+                logger.warning(f"[{symbol}/{timeframe}] No initial data received")
+                return False
+            
+            # ประมวลผลและเก็บเข้า cache
+            df = self._processor.process_new_data(df, symbol, timeframe)
+            self._processor.update_cache_and_block(df, symbol, timeframe)
+            
+            # เขียนลง CSV
+            if self._csv_manager:
+                filepath = self._get_csv_path(symbol, timeframe)
+                self._csv_manager.write_async(filepath, df)
+            
+            logger.info(f"[{symbol}/{timeframe}] Stream started with {len(df)} candles")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Failed to start stream for {symbol}/{timeframe}: {e}")
+            return False
+    
+    def stop_stream(self, symbol: str, timeframe: str) -> bool:
+        """
+        หยุดการ stream ข้อมูลสำหรับ symbol และ timeframe ที่กำหนด
+        
+        Args:
+            symbol: ชื่อ symbol
+            timeframe: timeframe
+            
+        Returns:
+            True เสมอ (เพราะแค่หยุดอัปเดต)
+        """
+        logger.info(f"Stopping stream for {symbol}/{timeframe}")
+        # ในปัจจุบัน แค่ log และ return True
+        # สามารถขยายเพื่อหยุด thread หรือ cancel task ได้ในอนาคต
+        return True
+    
+    def ensure_connected(self) -> bool:
+        """
+        ตรวจสอบและรักษาการเชื่อมต่อกับ broker
+        ถ้าขาดการเชื่อมต่อ จะพยายาม reconnect
+        
+        Returns:
+            True ถ้าเชื่อมต่อสำเร็จ, False ถ้าล้มเหลว
+        """
+        try:
+            if self.is_connected():
+                return True
+            
+            logger.warning("Connection lost, attempting to reconnect...")
+            
+            # พยายาม reconnect ผ่าน broker adapter
+            if hasattr(self._broker, 'reconnect'):
+                return self._broker.reconnect()
+            elif hasattr(self._broker, 'connect'):
+                return self._broker.connect()
+            else:
+                logger.error("Broker adapter has no reconnect/connect method")
+                return False
+                
+        except Exception as e:
+            logger.error(f"Failed to ensure connection: {e}")
+            raise ConnectionLostError(f"Cannot reconnect to broker: {e}")
+    
+    def is_connected(self) -> bool:
+        """
+        ตรวจสอบสถานะการเชื่อมต่อกับ broker
+        
+        Returns:
+            True ถ้าเชื่อมต่อ, False ถ้าขาดการเชื่อมต่อ
+        """
+        if hasattr(self._broker, 'is_connected'):
+            return self._broker.is_connected()
+        elif hasattr(self._broker, '_connected'):
+            return self._broker._connected
+        else:
+            # Default ถือว่าเชื่อมต่อไว้ก่อน
+            logger.warning("Broker adapter has no connection status check, assuming connected")
+            return True
