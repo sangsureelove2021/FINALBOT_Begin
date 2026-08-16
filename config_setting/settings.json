@@ -98,5 +98,7 @@
       "H4": 240,
       "D1": 1440
     }
-  }
+  },
+  
+  "active_broker": "IQ_OPTION"
 }
