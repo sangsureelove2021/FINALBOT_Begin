@@ -56,17 +56,24 @@ class TimeSyncManager:
         if data_adapter is not None:
             self.data_adapter = data_adapter
 
-        if self.data_adapter is None or not hasattr(self.data_adapter, 'api') or self.data_adapter.api is None:
-            logger.error("Failed to get server time offset: data_adapter or api is None")
+        if self.data_adapter is None:
+            logger.error("Failed to get server time offset: data_adapter is None")
             raise RuntimeError("FAIL-FAST: Failed to get server time offset from broker")
 
         try:
-            server_time = self.data_adapter.api.get_server_timestamp()
-            if server_time is None:
-                raise ValueError("get_server_timestamp returned None")
+            if hasattr(self.data_adapter, 'get_server_timestamp'):
+                server_time = self.data_adapter.get_server_timestamp()
+            elif hasattr(self.data_adapter, 'api') and hasattr(self.data_adapter.api, 'get_server_timestamp'):
+                server_time = self.data_adapter.api.get_server_timestamp()
+            else:
+                raise RuntimeError("data_adapter does not provide get_server_timestamp method")
+
+            if server_time is None or not isinstance(server_time, (int, float)) or float(server_time) <= 0:
+                raise ValueError(f"Invalid server_time received: {server_time}")
+
             local_time = int(time.time())
-            self.time_offset = server_time - local_time
-            logger.info(f"[TIME SYNC] Server time offset: {self.time_offset} seconds (Synced at {datetime.now().strftime('%H:%M:%S.%f')[:-3]})")
+            self.time_offset = float(server_time) - local_time
+            logger.info(f"[TIME SYNC] Server time offset: {self.time_offset:.3f} seconds (Synced at {datetime.now().strftime('%H:%M:%S.%f')[:-3]})")
             self._synced = True
         except RuntimeError:
             raise

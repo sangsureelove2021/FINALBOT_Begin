@@ -13,7 +13,6 @@ setup_logging()
 
 def main():
     """Main entry point for FINALBOT"""
-    logger = logging.getLogger("FINALBOT")
     ConsoleUI.show_startup()
     
     bot = PureAIRunner()

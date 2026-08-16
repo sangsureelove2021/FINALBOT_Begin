@@ -83,7 +83,14 @@ class IQConnectionManager:
         self.api = self.IQ_Option(self.email, self.password)
         logger.info("[CONN] API created, attempting to connect...")
         
-        ok, reason = self.api.connect()
+        conn_res = self.api.connect()
+        if isinstance(conn_res, tuple):
+            ok = conn_res[0]
+            reason = conn_res[1] if len(conn_res) > 1 else "Unknown error"
+        else:
+            ok = bool(conn_res)
+            reason = "Connection returned False"
+
         if not ok:
             raise RuntimeError(f"IQ Option login failed: {reason}")
 
@@ -152,7 +159,13 @@ class IQConnectionManager:
         if not self._connected or self.api is None:
             raise RuntimeError("IQ Option not connected")
         try:
-            return float(self.api.get_server_timestamp())
+            ts = self.api.get_server_timestamp()
+            if ts is None:
+                raise ValueError("Broker API returned None for server timestamp")
+            ts_float = float(ts)
+            if ts_float <= 0:
+                raise ValueError(f"Invalid server timestamp returned from broker API: {ts_float}")
+            return ts_float
         except Exception as e:
             logger.error(f"Failed to get server timestamp: {e}")
             raise RuntimeError(f"FAIL-FAST: Failed to get server timestamp from broker: {e}") from e
