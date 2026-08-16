@@ -8,6 +8,7 @@ import os
 import time
 import threading
 import traceback
+import numpy as np
 import pandas as pd
 import logging
 from typing import Dict, Any
@@ -150,7 +151,6 @@ class CSVWriter:
                 df_to_write['quality'] = df_to_write['quality'].astype(str)
                 invalid_mask = ~df_to_write['quality'].isin(['FRESH', 'STALE'])
                 if invalid_mask.any() and 'age' in df_to_write.columns:
-                    import numpy as np
                     df_to_write.loc[invalid_mask, 'quality'] = np.where(
                         df_to_write.loc[invalid_mask, 'age'] <= 120000, 'FRESH', 'STALE'
                     )

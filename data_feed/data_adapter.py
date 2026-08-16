@@ -46,10 +46,10 @@ class DataAdapter(IDataSource):
         Initialize DataAdapter.
 
         Args:
-            iq_adapter: IQ Option instance implementing IDataSource
-            base_dir: Base directory for CSV files
-            config: Configuration from datafeed_config.json
+            broker_adapter: Broker adapter instance implementing IDataSource
             time_sync_manager: TimeSyncManager instance
+            base_dir: Base directory for CSV files
+            config: Configuration dictionary
         """
         # Initialize with configuration
         if config is None:

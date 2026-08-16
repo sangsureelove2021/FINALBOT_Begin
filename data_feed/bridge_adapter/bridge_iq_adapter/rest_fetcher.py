@@ -149,13 +149,10 @@ class IQRestFetcher:
         if not is_otc and df["volume"].sum() == 0:
             raise ValueError(f"Volume is all zeros for non-OTC symbol {symbol} — broker data error")
 
-        # Sanity check: reject obviously broken price feeds
+        # Sanity check: reject non-positive price feeds
         median_close = float(df["close"].median())
-        is_jpy = "JPY" in symbol.upper()
-        if is_jpy and not (50.0 <= median_close <= 300.0):
-            raise ValueError(f"{symbol} median {median_close} out of JPY range")
-        if not is_jpy and not (0.3 <= median_close <= 10.0):
-            raise ValueError(f"{symbol} median {median_close} out of FX range")
+        if not np.isfinite(median_close) or median_close <= 0:
+            raise ValueError(f"{symbol} invalid median close price: {median_close}")
 
         res = df[["timestamp", "open", "high", "low", "close", "volume"]].set_index("timestamp")
         res.index = pd.to_datetime(res.index, utc=True)

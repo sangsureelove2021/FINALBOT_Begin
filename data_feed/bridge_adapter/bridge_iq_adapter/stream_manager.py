@@ -134,16 +134,12 @@ class IQStreamManager:
             return cached_df.tail(count)
 
         # 2. If stream not started or cache has insufficient data, start stream
-        logger.info(f"[STREAM] WebSocket cache empty for {symbol} ({timeframe}), starting stream...")
-        self.start_stream(api, symbol, timeframe, count=count)
-        
-        # Brief pause to let initial WebSocket frames populate the cache
-        time.sleep(0.3)
-        
-        # 3. Read again from WebSocket cache
-        cached_df = self.get_cached_candles(api, symbol, timeframe)
-        if cached_df is not None and len(cached_df) >= 2:
-            return cached_df.tail(count)
+        # Brief pause with active cache polling to let initial WebSocket frames arrive
+        for _ in range(6):
+            time.sleep(0.05)
+            cached_df = self.get_cached_candles(api, symbol, timeframe)
+            if cached_df is not None and len(cached_df) >= 2:
+                return cached_df.tail(count)
 
         # 4. If cache still not ready, bootstrap via REST fetcher
         logger.warning(f"[FALLBACK] WebSocket failed for {symbol} ({timeframe}) — using REST API fallback")
