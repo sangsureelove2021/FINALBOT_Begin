@@ -53,15 +53,13 @@ class CSVManager:
             raise ValueError(f"Path traversal detected in symbol='{symbol}' or timeframe='{timeframe}'")
         if '/' in symbol or '\\' in symbol:
             raise ValueError(f"Invalid characters in symbol: '{symbol}'")
-        if not date_str:
-            date_str = datetime.now().strftime("%Y_%m_%d")
-            
-        # Generate filename based on naming convention
+        
+        # Generate filename based on naming convention (date_str is optional, not used in current naming)
         symbol_folder = symbol  # เก็บเป็นเดิม EURUSD-OTC
         filename = self.naming_convention.format(
             symbol=symbol,  # เก็บเป็นเดิม EURUSD-OTC ทั้ง โฟลเดอร์ ทั้งชื่อไฟล์
             timeframe=timeframe,
-            date=date_str
+            date=date_str if date_str else datetime.now().strftime("%Y_%m_%d")
         )
 
         # Create date-based subdirectory with original symbol name

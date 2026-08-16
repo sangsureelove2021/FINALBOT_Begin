@@ -109,7 +109,9 @@ class PureAIRunner:
 
     def _countdown_to_first_candle(self):
         """คำนวณเวลาถอยหลังรอขอบนาทีถัดไป (วินาทีที่ :01.500) เพื่อให้แท่งเทียนปิดสมบูรณ์ก่อนเริ่มรอบทำงานสด พร้อม Second-by-Second Tracking"""
-        tz_thailand = timezone(timedelta(hours=7))
+        # Load timezone from config (default to UTC+7 if not specified)
+        tz_offset = self.settings.get("session", {}).get("timezone_offset", 7)
+        tz_thailand = timezone(timedelta(hours=tz_offset))
         now = datetime.now(tz_thailand)
 
         target_time = now.replace(second=1, microsecond=500000)
@@ -175,11 +177,19 @@ class PureAIRunner:
                 logger.exception(f"Error getting result for {sym}")
                 continue
 
-        tz_thailand = timezone(timedelta(hours=7))
+        # Load timezone from config (default to UTC+7 if not specified)
+        tz_offset = self.settings.get("session", {}).get("timezone_offset", 7)
+        tz_thailand = timezone(timedelta(hours=tz_offset))
         now_dt = datetime.now(tz_thailand)
         now_str = now_dt.strftime('%H:%M:%S')
         time_offset = getattr(self.time_calendar_mgr, 'time_offset', 0)
         latency_ms = (time.time() - cycle_start) * 1000
+
+        # Update balance each cycle (fix: balance was only set at init)
+        try:
+            self.balance = self.candle_adapter.get_balance()
+        except Exception as e:
+            logger.warning(f"Failed to update balance: {e}, using cached value")
 
         sec_msg = f"[SEC_TRACK] {now_str} | Balance: ${self.balance:.2f} | Latency: {latency_ms:.1f}ms | Offset: {time_offset:.3f}s"
         logger.info(sec_msg)
