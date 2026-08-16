@@ -32,10 +32,7 @@ from data_feed.data_cache_store import RAMCacheStore
 
 logger = logging.getLogger(__name__)
 
-# Gap thresholds (will be loaded from config)
-_M1_GAP_SEC = 300    # > 5 min gap on M1 → re-fetch 200 candles
-_M5_GAP_SEC = 1500   # > 25 min gap on M5 → re-fetch 200 candles
-_M15_GAP_SEC = 4500  # > 75 min gap on M15 → re-fetch 200 candles
+# Gap thresholds are loaded from config inside DataAdapter.__init__
 
 
 class DataAdapter(IDataSource):

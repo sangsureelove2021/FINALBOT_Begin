@@ -120,3 +120,46 @@ class IDataSource(ABC):
         """
         # ตามข้อกำหนดที่ห้ามดึงข้อมูลย้อนหลัง เราจะคืนค่าว่างเสมอ
         return []
+
+class BaseSkeletonAdapter(IDataSource):
+    """
+    Base Skeleton Adapter for unimplemented brokers to remove duplicated code.
+    """
+    def __init__(self, config: Optional[Dict[str, Any]] = None, broker_name: str = "Skeleton"):
+        super().__init__(config)
+        self._connected = False
+        self.broker_name = broker_name
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.warning(f"{self.broker_name}Adapter is a skeleton and not yet fully implemented.")
+
+    def is_connected(self) -> bool:
+        return self._connected
+
+    @property
+    def connected(self) -> bool:
+        return self._connected
+
+    def get_candles(self, symbol: str, timeframe: str, count: int, end_time: Optional[float] = None) -> pd.DataFrame:
+        raise NotImplementedError(f"{self.broker_name} get_candles not implemented")
+
+    def start_stream(self, symbol: str, timeframe: str, count: int) -> None:
+        raise NotImplementedError(f"{self.broker_name} start_stream not implemented")
+
+    def get_server_timestamp(self) -> float:
+        raise NotImplementedError(f"{self.broker_name} get_server_timestamp not implemented")
+
+    def get_balance(self) -> float:
+        raise NotImplementedError(f"{self.broker_name} get_balance not implemented")
+
+    def connect(self) -> None:
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.warning(f"{self.broker_name} connect() not implemented - skeleton only")
+        self._connected = True
+
+    def disconnect(self) -> None:
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.warning(f"{self.broker_name} disconnect() not implemented - skeleton only")
+        self._connected = False

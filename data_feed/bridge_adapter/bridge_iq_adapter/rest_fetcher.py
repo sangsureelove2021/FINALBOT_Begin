@@ -48,19 +48,8 @@ class IQRestFetcher:
     @staticmethod
     def normalize_candle_index(df: pd.DataFrame) -> pd.DataFrame:
         """Normalize candle index to UTC DatetimeIndex."""
-        if df is None or df.empty:
-            raise ValueError("Empty DataFrame in normalize_candle_index")
-        out = df.copy()
-        if not isinstance(out.index, pd.DatetimeIndex):
-            if pd.api.types.is_numeric_dtype(out.index):
-                out.index = pd.to_datetime(out.index, unit='s', utc=True)
-            else:
-                out.index = pd.to_datetime(out.index, utc=True)
-        elif out.index.tz is None:
-            out.index = out.index.tz_localize('UTC')
-        else:
-            out.index = out.index.tz_convert('UTC')
-        return out.sort_index(ascending=True)
+        from data_feed.data_validator import DataValidator
+        return DataValidator.ensure_utc_datetime_index(df)
 
     def get_candles(self, api: Any, symbol: str, timeframe: str = 'M1',
                     count: int = 200, end_time: Optional[Any] = None) -> pd.DataFrame:
