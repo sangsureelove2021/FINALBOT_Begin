@@ -13,23 +13,16 @@ from typing import Dict, Any
 logger = logging.getLogger(__name__)
 
 class CSVManager:
-    """Manages file storage directories and filenames - Singleton Pattern"""
-    
-    _instances = {}
-    
-    def __new__(cls, base_dir: str = "data_base/csv/iq_option", config: Dict[str, Any] = None):
-        """Ensure singleton pattern for CSVManager"""
-        key = f"{base_dir}_{hash(str(config))}"
-        if key not in cls._instances:
-            cls._instances[key] = super().__new__(cls)
-        return cls._instances[key]
+    """Manages file storage directories and filenames."""
 
     def __init__(self, base_dir: str = "data_base/csv/iq_option", config: Dict[str, Any] = None):
-        """Initialize with manager configuration."""
-        if hasattr(self, '_initialized') and self._initialized:
-            return
-            
-        self._initialized = True
+        """
+        Initialize with manager configuration.
+        
+        Args:
+            base_dir: Base directory for CSV files
+            config: Configuration from datafeed_config.json csv_manager section
+        """
         if config is None:
             from config_setting.config_loader import get_csv_manager_config
             config = get_csv_manager_config()
@@ -80,17 +73,12 @@ class CSVManager:
         directory = os.path.dirname(path)
         if directory and self.auto_create_dirs:
             os.makedirs(directory, exist_ok=True)
-    
+
     def read_csv(self, symbol: str, timeframe: str, **kwargs) -> Any:
         """Read CSV file for symbol and timeframe using per-file thread lock."""
         from data_feed.csv_writer import read_csv_safe
         file_path = self.get_file_path(symbol, timeframe)
         return read_csv_safe(file_path, **kwargs)
-
-    def get_csv_reader(self) -> Any:
-        """Get CSV reader instance to read files."""
-        from data_feed.csv_writer import read_csv_safe
-        return read_csv_safe
     
     def cleanup_old_files(self, symbol: str, timeframe: str, keep_days: int = 30) -> None:
         """Clean up old CSV files beyond the specified retention period."""

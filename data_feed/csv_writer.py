@@ -29,8 +29,6 @@ def get_file_lock(file_path: str) -> threading.RLock:
             _FILE_LOCKS[abs_path] = threading.RLock()
         return _FILE_LOCKS[abs_path]
 
-# Removed duplicate class definition - consolidated below with proper implementation
-
 def read_csv_safe(file_path: str, **kwargs) -> pd.DataFrame:
     """
     Read CSV file safely using the per-file thread lock to ensure zero-lock/zero-error reads.

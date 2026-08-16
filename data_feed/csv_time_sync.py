@@ -11,23 +11,9 @@ logger = logging.getLogger(__name__)
 
 class TimeSyncManager:
     """
-    ระบบบริหารจัดการการซิงค์เวลากับเซิร์ฟเวอร์ (Time Sync Manager) - Singleton Pattern
+    ระบบบริหารจัดการการซิงค์เวลากับเซิร์ฟเวอร์ (Time Sync Manager)
     """
-    _instances = {}
-    
-    def __new__(cls, data_adapter=None, config=None):
-        """Ensure singleton pattern for TimeSyncManager"""
-        key = f"{hash(str(data_adapter))}_{hash(str(config))}"
-        if key not in cls._instances:
-            cls._instances[key] = super().__new__(cls)
-        return cls._instances[key]
-
     def __init__(self, data_adapter=None, config=None):
-        """Initialize with time sync configuration."""
-        if hasattr(self, '_initialized') and self._initialized:
-            return
-            
-        self._initialized = True
         self.data_adapter = data_adapter
         if config is None:
             from config_setting.config_loader import get_time_sync_manager_config
@@ -128,33 +114,4 @@ class TimeSyncManager:
         if not self._synced:
             logger.error("[TIME SYNC] get_broker_epoch called before time sync completed")
             raise RuntimeError("FAIL-FAST: Broker time not synced — call sync_server_time() first")
-        return time.time() + self.time_offset
-
-    @staticmethod
-    def calculate_time_block(broker_epoch: float, timeframe_seconds: int) -> int:
-        """
-        คำนวณ time block จาก broker epoch และ timeframe
-        """
-        return int(broker_epoch) // timeframe_seconds
-    
-    @staticmethod
-    def get_local_time() -> int:
-        """
-        คืนค่า local time เวลาปัจจุบัน
-        """
-        return int(time.time())
-    
-    @classmethod
-    def get_time_offset(cls, server_time: int, local_time: int) -> int:
-        """
-        คำนวณ time offset จาก server time และ local time
-        """
-        return server_time - local_time
-    
-    @classmethod
-    def sync_with_offset(cls, server_time: int) -> int:
-        """
-        ซิงค์เวลาและคืนค่า time offset
-        """
-        local_time = cls.get_local_time()
-        return cls.get_time_offset(server_time, local_time)
+        return time.time() + self.time_offset
