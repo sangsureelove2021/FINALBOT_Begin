@@ -29,24 +29,7 @@ def get_file_lock(file_path: str) -> threading.RLock:
             _FILE_LOCKS[abs_path] = threading.RLock()
         return _FILE_LOCKS[abs_path]
 
-class CSVWriter:
-    """Writes candle dataframes to CSV files with Thread-Safe synchronization - Singleton Pattern"""
-    
-    _instances = {}
-    
-    def __new__(cls, config: Dict[str, Any] = None):
-        """Ensure singleton pattern for CSVWriter"""
-        key = f"{hash(str(config))}"
-        if key not in cls._instances:
-            cls._instances[key] = super().__new__(cls)
-        return cls._instances[key]
-
-    def __init__(self, config: Dict[str, Any] = None):
-        """Initialize with writer configuration."""
-        if hasattr(self, '_initialized') and self._initialized:
-            return
-            
-        self._initialized = True
+# Removed duplicate class definition - consolidated below with proper implementation
 
 def read_csv_safe(file_path: str, **kwargs) -> pd.DataFrame:
     """
