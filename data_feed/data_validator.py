@@ -16,8 +16,8 @@ logger = logging.getLogger(__name__)
 class DataValidator:
     """Validator for candle data validation and integrity checks."""
     
-    # Required columns for candle data
-    REQUIRED_COLUMNS = ['open', 'high', 'low', 'close', 'volume']
+    # Required columns for candle data (including timestamp for index consistency)
+    REQUIRED_COLUMNS = ['timestamp', 'open', 'high', 'low', 'close', 'volume']
     
     def __init__(self):
         """Initialize DataValidator."""
@@ -121,32 +121,35 @@ class DataValidator:
         if fresh_df is None or fresh_df.empty:
             raise ValueError(f"[{symbol}] fresh_df is empty in continuity check")
         
-        # Check price continuity using median of close prices
+        # Check price continuity using median of close prices (skip if either is NaN)
         if 'close' in stored_df.columns and 'close' in fresh_df.columns:
             stored_close_median = stored_df['close'].median()
             fresh_close_median = fresh_df['close'].median()
             
-            if stored_close_median is not None and fresh_close_median is not None:
-                # Calculate relative difference between medians
-                if stored_close_median != 0:
-                    price_diff_ratio = abs(fresh_close_median - stored_close_median) / stored_close_median
-                else:
-                    price_diff_ratio = float('inf')
-                
-                # If price difference is more than threshold, this is likely symbol mixing
-                if price_diff_ratio > threshold:
-                    logger.error(f"[DataAdapter] {label}: PRICE CONTINUITY VIOLATION detected! "
-                               f"Stored median={stored_close_median:.5f}, Fresh median={fresh_close_median:.5f}, "
-                               f"Diff ratio={price_diff_ratio:.3f}. This indicates symbol mixing!")
-                    from data_feed.exceptions import DataGapError
-                    raise DataGapError(
-                        f"FAIL-FAST: Price continuity violation for {label} - likely symbol mixing "
-                        f"(stored median {stored_close_median:.5f} vs fresh median {fresh_close_median:.5f})"
-                    )
-                else:
-                    logger.debug(f"[DataAdapter] {label}: Price continuity verified. "
-                               f"Stored median={stored_close_median:.5f}, Fresh median={fresh_close_median:.5f}, "
-                               f"Diff ratio={price_diff_ratio:.3f}")
+            # Skip validation if either median is NaN (indicates empty or all-NaN column)
+            if pd.isna(stored_close_median) or pd.isna(fresh_close_median):
+                logger.warning(f"[DataValidator] {label}: Skipping continuity check - median is NaN (stored={stored_close_median}, fresh={fresh_close_median})")
+                return True
+            
+            if stored_close_median != 0:
+                price_diff_ratio = abs(fresh_close_median - stored_close_median) / stored_close_median
+            else:
+                price_diff_ratio = float('inf')
+            
+            # If price difference is more than threshold, this is likely symbol mixing
+            if price_diff_ratio > threshold:
+                logger.error(f"[DataAdapter] {label}: PRICE CONTINUITY VIOLATION detected! "
+                           f"Stored median={stored_close_median:.5f}, Fresh median={fresh_close_median:.5f}, "
+                           f"Diff ratio={price_diff_ratio:.3f}. This indicates symbol mixing!")
+                from data_feed.exceptions import DataGapError
+                raise DataGapError(
+                    f"FAIL-FAST: Price continuity violation for {label} - likely symbol mixing "
+                    f"(stored median {stored_close_median:.5f} vs fresh median {fresh_close_median:.5f})"
+                )
+            else:
+                logger.debug(f"[DataAdapter] {label}: Price continuity verified. "
+                           f"Stored median={stored_close_median:.5f}, Fresh median={fresh_close_median:.5f}, "
+                           f"Diff ratio={price_diff_ratio:.3f}")
         
         return True
     
@@ -181,9 +184,17 @@ class DataValidator:
                 stored_close_values = stored_df.loc[check, 'close']
                 fresh_close_values = fresh_df.loc[check, 'close']
                 
+                # Skip validation if either median is NaN
+                stored_median = stored_close_values.median()
+                fresh_median = fresh_close_values.median()
+                
+                if pd.isna(stored_median) or pd.isna(fresh_median):
+                    logger.warning(f"[DataValidator] {label}: Skipping overlap check - median is NaN")
+                    return True
+                
                 # Check if price difference in overlap is significant
-                overlap_median_diff = abs(stored_close_values.median() - fresh_close_values.median())
-                overlap_median_rel_diff = overlap_median_diff / (stored_close_values.median() if stored_close_values.median() != 0 else 1)
+                overlap_median_diff = abs(stored_median - fresh_median)
+                overlap_median_rel_diff = overlap_median_diff / (stored_median if stored_median != 0 else 1)
                 
                 if overlap_median_rel_diff > threshold:  # threshold % difference in overlap
                     logger.error(f"[DataAdapter] {label}: Overlap price mismatch detected! "

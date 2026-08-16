@@ -148,9 +148,9 @@ class CSVWriter:
                 df_to_write['age'] = df_to_write['age'].round().astype('int64')
             if 'quality' in df_to_write.columns:
                 df_to_write['quality'] = df_to_write['quality'].astype(str)
+                # Validate quality column values - fix invalid values based on age threshold
                 invalid_mask = ~df_to_write['quality'].isin(['FRESH', 'STALE'])
                 if invalid_mask.any() and 'age' in df_to_write.columns:
-                    import numpy as np
                     df_to_write.loc[invalid_mask, 'quality'] = np.where(
                         df_to_write.loc[invalid_mask, 'age'] <= 120000, 'FRESH', 'STALE'
                     )

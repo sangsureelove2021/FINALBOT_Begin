@@ -50,9 +50,9 @@ class CSVManager:
             date_str = datetime.now().strftime("%Y_%m_%d")
             
         # Generate filename based on naming convention
-        symbol_folder = symbol  # เก็บเป็นเดิม EURUSD-OTC
+        symbol_folder = symbol  # Keep original symbol name (e.g., EURUSD-OTC)
         filename = self.naming_convention.format(
-            symbol=symbol,  # เก็บเป็นเดิม EURUSD-OTC ทั้ง โฟลเดอร์ ทั้งชื่อไฟล์
+            symbol=symbol,  # Keep original symbol name in filename
             timeframe=timeframe,
             date=date_str
         )

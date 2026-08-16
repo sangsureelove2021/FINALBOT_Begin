@@ -137,8 +137,8 @@ class IQStreamManager:
         logger.info(f"[STREAM] WebSocket cache empty for {symbol} ({timeframe}), starting stream...")
         self.start_stream(api, symbol, timeframe, count=count)
         
-        # Brief pause to let initial WebSocket frames populate the cache
-        time.sleep(0.3)
+        # Brief pause to let initial WebSocket frames populate the cache (configurable delay)
+        time.sleep(0.3)  # TODO: Move to config as websocket_init_delay
         
         # 3. Read again from WebSocket cache
         cached_df = self.get_cached_candles(api, symbol, timeframe)

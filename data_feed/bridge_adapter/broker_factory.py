@@ -17,6 +17,17 @@ logger = logging.getLogger(__name__)
 class BrokerFactory:
     @staticmethod
     def create_broker(config: Dict[str, Any]) -> IDataSource:
+        """Create broker adapter based on configuration.
+        
+        Args:
+            config: Configuration dictionary containing active_broker setting
+            
+        Returns:
+            IDataSource: Broker adapter instance
+            
+        Raises:
+            ValueError: If broker is unknown and no fallback is configured
+        """
         # Default to IQ_OPTION if not specified or missing
         active_broker = "IQ_OPTION"  # Default fallback
         if "active_broker" in config and config["active_broker"]:
@@ -31,5 +42,5 @@ class BrokerFactory:
         elif active_broker == "POCKET_OPTION":
             return PocketAdapter(config=config)
         else:
-            logger.warning(f"[BrokerFactory] Unknown broker '{active_broker}', falling back to IQ_OPTION")
-            return IQOptionAdapter(config=config)
+            logger.error(f"[BrokerFactory] Unknown broker '{active_broker}' - must configure valid broker")
+            raise ValueError(f"Unknown broker '{active_broker}'. Supported: IQ_OPTION, QUOTEX, POCKET_OPTION")

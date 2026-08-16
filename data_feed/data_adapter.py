@@ -46,19 +46,12 @@ class DataAdapter(IDataSource):
         Initialize DataAdapter.
 
         Args:
-            iq_adapter: IQ Option instance implementing IDataSource
+            broker_adapter: Broker adapter instance implementing IDataSource
+            time_sync_manager: TimeSyncManager instance
             base_dir: Base directory for CSV files
             config: Configuration from datafeed_config.json
-            time_sync_manager: TimeSyncManager instance
         """
-        # Initialize with configuration
-        if config is None:
-            from config_setting.config_loader import load_datafeed_settings
-            config = load_datafeed_settings()
-        
-        super().__init__(config)
-        
-        # Load data adapter configuration
+        # Load data adapter configuration from centralized config
         adapter_config = config.get("data_feed", {}).get("data_adapter", {})
         
         self._broker = broker_adapter
@@ -80,13 +73,13 @@ class DataAdapter(IDataSource):
         self.m5_gap_sec = adapter_config.get("m5_gap_sec", 1500)
         self.m15_gap_sec = adapter_config.get("m15_gap_sec", 4500)
         
-        # Zero Tolerance compliance check
+        # Zero Tolerance compliance check - reject retry mechanisms
         retry_attempts = adapter_config.get("retry_attempts", 0)
         retry_delay = adapter_config.get("retry_delay", 0)
         if retry_attempts > 0 or retry_delay > 0:
             logger.error(f"[DataAdapter] Zero Tolerance VIOLATION: retry_attempts={retry_attempts}, retry_delay={retry_delay}")
             logger.error(f"[DataAdapter] Config must have retry_attempts=0 and retry_delay=0")
-            raise RuntimeError("Zero Tolerance: retry mechanisms not allowed")
+            raise RuntimeError("Zero Tolerance: retry mechanisms not allowed in config")
         
         self.retry_attempts = 0  # Zero Tolerance: no retry allowed
         self.retry_delay = 0  # Zero Tolerance: no retry delay
@@ -144,7 +137,7 @@ class DataAdapter(IDataSource):
             if (m1 is None or m1.empty or len(m1) < 2) or \
                (m5 is None or m5.empty) or \
                (m15 is None or m15.empty):
-                raise ValueError("Incomplete data during init_symbol — M15 must be fetched directly from broker")
+                raise ValueError(f"Incomplete data during init_symbol for {symbol} — M1:{len(m1) if m1 is not None else 0}, M5:{len(m5) if m5 is not None else 0}, M15:{len(m15) if m15 is not None else 0}")
 
             # Pre-warm WebSocket Stream for M1
             self.start_stream(symbol, 'M1', 120)
@@ -289,7 +282,17 @@ class DataAdapter(IDataSource):
     
     def get_candles(self, symbol: str, timeframe: str = 'M1', 
                     count: int = 100, end_time: Optional[float] = None) -> pd.DataFrame:
-        """ดึงข้อมูลแท่งเทียนจาก broker adapter"""
+        """Fetch candle data from broker adapter.
+        
+        Args:
+            symbol: Trading symbol
+            timeframe: Timeframe ('M1', 'M5', 'M15')
+            count: Number of candles to fetch
+            end_time: End timestamp for fetching
+            
+        Returns:
+            DataFrame with candle data
+        """
         return self._broker.get_candles(symbol, timeframe, count, end_time)
     
     def get_server_timestamp(self) -> float:

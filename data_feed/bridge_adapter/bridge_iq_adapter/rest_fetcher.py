@@ -36,6 +36,14 @@ class IQRestFetcher:
     """Handles REST candle requests and data processing for IQ Option."""
 
     def __init__(self, timeout_sec: int = 8, max_workers: int = 10):
+        """Initialize REST fetcher with configurable timeout and workers.
+        
+        Args:
+            timeout_sec: Timeout per API call in seconds (default: 8)
+            max_workers: Maximum concurrent threads (default: 10)
+            
+        TODO: Move defaults to config as rest_fetcher.timeout_sec and rest_fetcher.max_workers
+        """
         self.timeout_sec: int = timeout_sec
         self.max_workers: int = max_workers
         self._executor = concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers)
@@ -149,13 +157,14 @@ class IQRestFetcher:
         if not is_otc and df["volume"].sum() == 0:
             raise ValueError(f"Volume is all zeros for non-OTC symbol {symbol} — broker data error")
 
-        # Sanity check: reject obviously broken price feeds
+        # Sanity check: reject obviously broken price feeds (configurable ranges recommended)
         median_close = float(df["close"].median())
         is_jpy = "JPY" in symbol.upper()
+        # TODO: Move price ranges to config for different asset classes
         if is_jpy and not (50.0 <= median_close <= 300.0):
-            raise ValueError(f"{symbol} median {median_close} out of JPY range")
+            raise ValueError(f"{symbol} median {median_close} out of JPY range (50-300)")
         if not is_jpy and not (0.3 <= median_close <= 10.0):
-            raise ValueError(f"{symbol} median {median_close} out of FX range")
+            raise ValueError(f"{symbol} median {median_close} out of FX range (0.3-10.0) - consider config adjustment for crypto/indices")
 
         res = df[["timestamp", "open", "high", "low", "close", "volume"]].set_index("timestamp")
         res.index = pd.to_datetime(res.index, utc=True)
