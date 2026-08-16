@@ -256,3 +256,40 @@ class IQOptionAdapter(BaseBrokerAdapter):
         df = pd.DataFrame(data)
         df.set_index('timestamp', inplace=True)
         return df
+    
+    def start_stream(self, symbol: str, timeframe: str, count: int) -> bool:
+        """เริ่มการรับข้อมูล Real-time สำหรับ symbol และ timeframe ที่กำหนด"""
+        try:
+            logger.info(f"Starting stream for {symbol} {timeframe}")
+            
+            # ดึงข้อมูลย้อนหลังก่อน
+            self.get_candles(symbol, timeframe, count)
+            
+            # Subscribe เพื่อรับข้อมูล real-time
+            def on_price_update(sym: str, df: pd.DataFrame):
+                """Callback เมื่อมีข้อมูลใหม่"""
+                logger.debug(f"Price update for {sym}: {df.iloc[-1]['close']:.5f}")
+                # ส่งข้อมูลต่อไปยัง data processor ผ่าน callback ที่ register ไว้
+                if hasattr(self, '_price_callback'):
+                    self._price_callback(sym, timeframe, df)
+            
+            # Register callback
+            self._price_callback = None  # จะถูก set โดย data_adapter
+            
+            # Subscribe
+            success = self.subscribe_price(symbol, lambda s, d: on_price_update(s, d))
+            
+            if success:
+                logger.info(f"Stream started for {symbol} {timeframe}")
+            else:
+                logger.warning(f"Failed to start stream for {symbol} {timeframe}")
+            
+            return success
+            
+        except Exception as e:
+            logger.error(f"Error starting stream for {symbol}: {e}")
+            return False
+    
+    def stop_stream(self, symbol: str) -> bool:
+        """หยุดการรับข้อมูล Real-time สำหรับ symbol ที่กำหนด"""
+        return self.unsubscribe_price(symbol)
