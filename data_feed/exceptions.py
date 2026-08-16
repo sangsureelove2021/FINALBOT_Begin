@@ -32,3 +32,11 @@ class ConnectionLostError(DataFeedError):
 class ConfigurationError(DataFeedError):
     """Raised when configuration values are missing or invalid."""
     pass
+
+class BrokerConnectionError(DataFeedError):
+    """Raised when broker connection fails."""
+    pass
+
+class DataFetchError(DataFeedError):
+    """Raised when fetching data from broker fails."""
+    pass
