@@ -9,18 +9,28 @@ import logging
 from monitoring.console_dashboard import ConsoleUI, logger, setup_logging
 from runner import PureAIRunner
 
+setup_logging()
+
 def main():
     """Main entry point for FINALBOT"""
-    # Setup logging only once at the application entry point
-    setup_logging()
-    
+    logger = logging.getLogger("FINALBOT")
     ConsoleUI.show_startup()
     
     bot = PureAIRunner()
     ConsoleUI.show_live_mode_start()
     bot.start()
 
-# load_symbols has been moved to config_setting.config_loader.get_symbols
+def load_symbols():
+    """Load symbols from settings.json - Single Source of Truth"""
+    from config_setting.config_loader import get_symbols
+    try:
+        symbols = get_symbols()
+        if not symbols:
+            raise Exception("No symbols found in settings.json")
+        return symbols
+    except Exception as e:
+        logger.exception(f"Failed to load symbols from settings.json: {e}")
+        raise Exception(f"Configuration error: symbols not loaded from settings.json — bot stopped")
 
 if __name__ == "__main__":
     try:

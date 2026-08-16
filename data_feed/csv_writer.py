@@ -94,16 +94,10 @@ class CSVWriter:
         cols = ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'age', 'quality']
         df_to_write = df_to_write[[c for c in cols if c in df_to_write.columns]]
         
-        # Format OHLCV, age, and quality columns
-        for col in ['open', 'high', 'low', 'close']:
+        # Round decimal places for numeric OHLCV columns
+        for col in ['open', 'high', 'low', 'close', 'volume']:
             if col in df_to_write.columns:
                 df_to_write[col] = df_to_write[col].round(self.decimal_places)
-        if 'volume' in df_to_write.columns:
-            df_to_write['volume'] = df_to_write['volume'].fillna(0).round().astype('int64')
-        if 'age' in df_to_write.columns:
-            df_to_write['age'] = df_to_write['age'].round().astype('int64')
-        if 'quality' in df_to_write.columns:
-            df_to_write['quality'] = df_to_write['quality'].astype(str)
         
         file_lock = get_file_lock(file_path)
         with file_lock:
@@ -138,23 +132,6 @@ class CSVWriter:
             # Ensure exact standard 8 columns order before writing
             df_to_write = df_to_write[[c for c in cols if c in df_to_write.columns]]
             
-            # Format types explicitly after merge
-            for col in ['open', 'high', 'low', 'close']:
-                if col in df_to_write.columns:
-                    df_to_write[col] = df_to_write[col].round(self.decimal_places)
-            if 'volume' in df_to_write.columns:
-                df_to_write['volume'] = df_to_write['volume'].fillna(0).round().astype('int64')
-            if 'age' in df_to_write.columns:
-                df_to_write['age'] = df_to_write['age'].round().astype('int64')
-            if 'quality' in df_to_write.columns:
-                df_to_write['quality'] = df_to_write['quality'].astype(str)
-                invalid_mask = ~df_to_write['quality'].isin(['FRESH', 'STALE'])
-                if invalid_mask.any() and 'age' in df_to_write.columns:
-                    import numpy as np
-                    df_to_write.loc[invalid_mask, 'quality'] = np.where(
-                        df_to_write.loc[invalid_mask, 'age'] <= 120000, 'FRESH', 'STALE'
-                    )
-
             # Format timestamp explicitly to UTC string so to_csv retains +00:00 (Fixing timestamp timezone issue)
             if 'timestamp' in df_to_write.columns:
                 df_to_write['timestamp'] = pd.to_datetime(df_to_write['timestamp'], utc=True)

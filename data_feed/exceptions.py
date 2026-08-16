@@ -29,8 +29,3 @@ class DataGapError(DataFeedError):
 class TimeframeSyncError(DataFeedError):
     """Timeframe synchronization failure."""
     pass
-
-
-class FallbackTriggered(DataFeedError):
-    """REST fallback was used instead of WebSocket. Logs to fallback.log."""
-    pass

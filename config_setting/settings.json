@@ -10,7 +10,7 @@
     "stop_loss_percent": 100.0
   },
   "symbols": [
-    "GBPUSD-OTC", "EURGBP-OTC", "EURUSD-OTC","EURUSD", "EURJPY"
+    "GBPUSD-OTC", "EURGBP-OTC", "EURUSD-OTC", "GBPJPY-OTC"
   ],
   "limits": {
     "max_concurrent": 9999,
@@ -76,11 +76,6 @@
       "sync_mode": "strict",
       "m1_m5_resample": true,
       "m5_m15_resample": true
-    },
-    "candle_counts": {
-      "m1": 150,
-      "m5": 250,
-      "m15": 100
     }
   },
   
@@ -103,7 +98,5 @@
       "H4": 240,
       "D1": 1440
     }
-  },
-  
-  "active_broker": "IQ_OPTION"
+  }
 }
