@@ -39094,3 +39094,168 @@ OTC\\EURUSD-OTC_M5.csv'
 2026-08-16 13:15:53,963 | WARNING  | Failed to start stream for GBPJPY-OTC M5
 2026-08-16 13:15:53,965 | WARNING  | API not initialized, cannot subscribe
 2026-08-16 13:15:53,965 | WARNING  | Failed to start stream for GBPJPY-OTC M15
+2026-08-16 13:19:03,756 | WARNING  | iqoptionapi not installed, using mock connection
+2026-08-16 13:19:03,788 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:19:03,960 | WARNING  | [GBPUSD-OTC/M1] No data received from broker
+2026-08-16 13:19:03,964 | WARNING  | [GBPUSD-OTC/M5] No data received from broker
+2026-08-16 13:19:03,967 | WARNING  | [GBPUSD-OTC/M15] No data received from broker
+2026-08-16 13:19:03,970 | WARNING  | [GBPUSD-OTC/M30] No data received from broker
+2026-08-16 13:19:03,975 | WARNING  | [GBPUSD-OTC/H1] No data received from broker
+2026-08-16 13:19:03,980 | WARNING  | [GBPUSD-OTC/H4] No data received from broker
+2026-08-16 13:19:03,984 | WARNING  | [EURGBP-OTC/M1] No data received from broker
+2026-08-16 13:19:03,987 | WARNING  | [EURGBP-OTC/M5] No data received from broker
+2026-08-16 13:19:03,991 | WARNING  | [EURGBP-OTC/M15] No data received from broker
+2026-08-16 13:19:03,994 | WARNING  | [EURGBP-OTC/M30] No data received from broker
+2026-08-16 13:19:03,997 | WARNING  | [EURGBP-OTC/H1] No data received from broker
+2026-08-16 13:19:04,001 | WARNING  | [EURGBP-OTC/H4] No data received from broker
+2026-08-16 13:19:04,003 | WARNING  | [EURUSD-OTC/M1] No data received from broker
+2026-08-16 13:19:04,007 | WARNING  | [EURUSD-OTC/M5] No data received from broker
+2026-08-16 13:19:04,011 | WARNING  | [EURUSD-OTC/M15] No data received from broker
+2026-08-16 13:19:04,014 | WARNING  | [EURUSD-OTC/M30] No data received from broker
+2026-08-16 13:19:04,017 | WARNING  | [EURUSD-OTC/H1] No data received from broker
+2026-08-16 13:19:04,020 | WARNING  | [EURUSD-OTC/H4] No data received from broker
+2026-08-16 13:19:04,023 | WARNING  | [GBPJPY-OTC/M1] No data received from broker
+2026-08-16 13:19:04,026 | WARNING  | [GBPJPY-OTC/M5] No data received from broker
+2026-08-16 13:19:04,029 | WARNING  | [GBPJPY-OTC/M15] No data received from broker
+2026-08-16 13:19:04,032 | WARNING  | [GBPJPY-OTC/M30] No data received from broker
+2026-08-16 13:19:04,035 | WARNING  | [GBPJPY-OTC/H1] No data received from broker
+2026-08-16 13:19:04,038 | WARNING  | [GBPJPY-OTC/H4] No data received from broker
+2026-08-16 13:19:04,088 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:19:04,089 | WARNING  | Failed to start stream for GBPUSD-OTC M1
+2026-08-16 13:19:04,093 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:19:04,093 | WARNING  | Failed to start stream for GBPUSD-OTC M5
+2026-08-16 13:19:04,095 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:19:04,095 | WARNING  | Failed to start stream for GBPUSD-OTC M15
+2026-08-16 13:19:04,096 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:19:04,097 | WARNING  | Failed to start stream for EURGBP-OTC M1
+2026-08-16 13:19:04,100 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:19:04,100 | WARNING  | Failed to start stream for EURGBP-OTC M5
+2026-08-16 13:19:04,102 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:19:04,102 | WARNING  | Failed to start stream for EURGBP-OTC M15
+2026-08-16 13:19:04,104 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:19:04,104 | WARNING  | Failed to start stream for EURUSD-OTC M1
+2026-08-16 13:19:04,107 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:19:04,107 | WARNING  | Failed to start stream for EURUSD-OTC M5
+2026-08-16 13:19:04,108 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:19:04,108 | WARNING  | Failed to start stream for EURUSD-OTC M15
+2026-08-16 13:19:04,111 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:19:04,111 | WARNING  | Failed to start stream for GBPJPY-OTC M1
+2026-08-16 13:19:04,116 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:19:04,116 | WARNING  | Failed to start stream for GBPJPY-OTC M5
+2026-08-16 13:19:04,117 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:19:04,118 | WARNING  | Failed to start stream for GBPJPY-OTC M15
+2026-08-16 13:20:01,501 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:02,555 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:03,558 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:04,575 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:05,579 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:06,586 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:07,589 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:08,597 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:09,604 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:10,608 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:11,643 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:12,647 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:13,654 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:14,658 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:15,673 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:16,676 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:17,680 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:18,683 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:19,712 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:20,724 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:21,732 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:22,739 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:23,898 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:24,903 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:25,912 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:26,916 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:27,919 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:28,923 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:29,926 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:30,934 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:31,938 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:32,941 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:33,945 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:34,948 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:35,952 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:36,955 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:37,959 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:38,963 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:39,966 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:40,969 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:41,973 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:42,976 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:43,979 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:44,983 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:45,987 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:46,990 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:47,993 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:48,996 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:50,000 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:51,003 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:52,007 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:53,010 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:54,014 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:55,019 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:56,023 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:57,026 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:58,030 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:20:59,033 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:00,037 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:01,044 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:02,047 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:03,051 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:04,054 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:05,057 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:06,061 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:07,064 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:08,068 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:09,071 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:10,075 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:11,079 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:12,082 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:13,086 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:14,090 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:15,094 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:16,097 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:17,101 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:18,105 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:19,108 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:20,112 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:21,116 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:22,120 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:23,123 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:24,127 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:25,130 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:26,134 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:27,140 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:28,167 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:29,170 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:30,174 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:31,178 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:32,181 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:33,185 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:34,188 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:35,192 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:36,195 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:37,200 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:38,203 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:39,207 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:40,211 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:41,215 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:42,218 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:43,222 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:44,226 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:45,229 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:46,233 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:47,237 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:48,241 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:49,246 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:50,250 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:51,253 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:52,258 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:53,261 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:54,265 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:55,270 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:21:56,275 | WARNING  | Broker adapter has no get_balance(), using mock balance
