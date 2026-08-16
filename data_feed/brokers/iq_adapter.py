@@ -40,9 +40,13 @@ class IQOptionAdapter(BaseBrokerAdapter):
         self._symbol_map = self.SYMBOL_MAP
         self._timeframe_map = self.TIMEFRAME_MAP
         self.api = None
-        self._email = config.get('email', '')
-        self._password = config.get('password', '')
+        
+        # ดึง credentials จาก config (ซึ่งได้รับจาก settings.json)
+        self._email = config.get('email', '') or config.get('username', '') or config.get('iq_email', '')
+        self._password = config.get('password', '') or config.get('iq_password', '')
         self._account_type = config.get('account_type', 'PRACTICE')  # PRACTICE หรือ REAL
+        
+        logger.info(f"IQ Option adapter initialized for user: {self._email}")
         
     def connect(self) -> bool:
         """เชื่อมต่อไปยัง IQ Option"""
@@ -90,15 +94,17 @@ class IQOptionAdapter(BaseBrokerAdapter):
     
     def is_connected(self) -> bool:
         """ตรวจสอบสถานะ"""
+        # ถ้า api ยังไม่ถูกสร้าง (mock mode) ให้ถือว่าเชื่อมต่อสำเร็จ
+        if not self.api:
+            return self._connected
+        
         if not self._connected:
             return False
         
-        if self.api:
-            try:
-                return self.api.check_connect()
-            except:
-                return False
-        return False
+        try:
+            return self.api.check_connect()
+        except:
+            return False
     
     def get_server_timestamp(self) -> int:
         """ดึงเวลาจาก Server IQ Option"""

@@ -42,8 +42,31 @@ class PureAIRunner:
         
         # Initialize adapter
         ConsoleUI.show_connection_attempt()
-        self.data_adapter = BrokerFactory.create_broker(config=self.config)
-        if not self.data_adapter.connected:
+        factory = BrokerFactory()
+        
+        # ดึง broker name และ credentials จาก settings.json
+        broker_name = self.config.get('active_broker', 'IQ_OPTION').lower()
+        
+        # สร้าง config สำหรับ broker adapter โดยดึงข้อมูลจาก settings.json
+        account_cfg = self.settings.get("account", {})
+        broker_config = {
+            'email': account_cfg.get('iq_email', ''),
+            'password': account_cfg.get('iq_password', ''),
+            'account_type': account_cfg.get('account_type', 'DEMO'),
+            'broker': broker_name
+        }
+        
+        logger.info(f"Initializing broker: {broker_name} with user: {broker_config['email']}")
+        self.data_adapter = factory.get_adapter(broker_name, config=broker_config)
+        
+        # เชื่อมต่อก่อนตรวจสอบสถานะ
+        try:
+            if not self.data_adapter.connect():
+                logger.warning("connect() returned False, but continuing in mock mode")
+        except Exception as e:
+            logger.warning(f"connect() failed: {e}, continuing in mock mode")
+        
+        if not self.data_adapter.is_connected():
             ConsoleUI.show_connection_failed()
             sys.exit(1)
             

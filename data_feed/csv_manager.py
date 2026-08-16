@@ -5,6 +5,7 @@ Facade สำหรับจัดการ CSV operations ทั้งหมด
 """
 
 import logging
+import threading
 from typing import Optional
 import pandas as pd
 
