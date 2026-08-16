@@ -28,7 +28,8 @@
   },
   "session": {
     "trading_hours": "01.00-23.00",
-    "timezone": "Asia/Bangkok"
+    "timezone": "Asia/Bangkok",
+    "timezone_offset": 7
   },
   "active_strategies": [
     "fakeout_trap_rider",
