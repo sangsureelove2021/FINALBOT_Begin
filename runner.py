@@ -35,42 +35,26 @@ class PureAIRunner:
         # Load symbols from config
         from main import load_symbols
         try:
-            self.symbols = load_symbols()
+            configured_symbols = load_symbols()
         except Exception as e:
             logger.exception("Failed to load symbols — Zero Tolerance: stopping immediately")
             raise Exception("Configuration error: symbols not loaded — bot stopped")
         
         # Initialize adapter
         ConsoleUI.show_connection_attempt()
-        factory = BrokerFactory()
-        
-        # ดึง broker name และ credentials จาก settings.json
-        broker_name = self.config.get('active_broker', 'IQ_OPTION').lower()
-        
-        # สร้าง config สำหรับ broker adapter โดยดึงข้อมูลจาก settings.json
-        account_cfg = self.settings.get("account", {})
-        broker_config = {
-            'email': account_cfg.get('iq_email', ''),
-            'password': account_cfg.get('iq_password', ''),
-            'account_type': account_cfg.get('account_type', 'DEMO'),
-            'broker': broker_name
-        }
-        
-        logger.info(f"Initializing broker: {broker_name} with user: {broker_config['email']}")
-        self.data_adapter = factory.get_adapter(broker_name, config=broker_config)
-        
-        # เชื่อมต่อก่อนตรวจสอบสถานะ
-        try:
-            if not self.data_adapter.connect():
-                logger.warning("connect() returned False, but continuing in mock mode")
-        except Exception as e:
-            logger.warning(f"connect() failed: {e}, continuing in mock mode")
-        
-        if not self.data_adapter.is_connected():
+        self.data_adapter = BrokerFactory.create_broker(config=self.config)
+        if not self.data_adapter.connected:
             ConsoleUI.show_connection_failed()
             sys.exit(1)
             
         ConsoleUI.show_connection_success()
+
+        # Verify live assets open on broker
+        self.symbols = self.data_adapter.get_open_symbols(configured_symbols)
+        if not self.symbols:
+            raise RuntimeError("FAIL-FAST: No tradable assets currently open on broker")
+        ConsoleUI.show_asset_list(self.symbols)
+
         # Load CSV manager configuration from datafeed_config.json
         from config_setting.config_loader import get_csv_manager_config
         csv_manager_config = get_csv_manager_config()
@@ -82,17 +66,24 @@ class PureAIRunner:
         try:
             balance = self.candle_adapter.get_balance()
             ConsoleUI.show_account_info(self.account_type, balance)
-            ConsoleUI.show_balance(balance)
         except Exception as e:
             logger.error(f"Failed to initialize runner: {e}")
             import traceback; traceback.print_exc()
             raise RuntimeError("FAIL-FAST: Failed to get balance from broker API") from e
 
-        # Synchronize with broker server time (sync once at startup) - Silent
+        # Synchronize with broker server time (sync at startup and start background auto-resync at second :30)
         self.time_calendar_mgr.sync_server_time(self.data_adapter)
+        self.time_calendar_mgr.start_time_sync_thread()
+        ConsoleUI.show_time_offset(self.time_calendar_mgr.time_offset)
 
-        # Display assets
-        ConsoleUI.show_asset_list(self.symbols)
+        # Load & ensure economic news calendar for today (runs once at startup)
+        try:
+            from data_feed.news_calendar import ensure_calendar_news
+            ensure_calendar_news(show_ui=True)
+        except Exception as e:
+            logger.exception(f"[Runner] Economic news calendar check failed: {e}")
+
+        # Display assets & start data preparation
         ConsoleUI.show_data_prep_start(self.symbols)
         
         # Warm-up: fetch 250 candles per symbol and write initial CSVs via DataAdapter
@@ -111,9 +102,9 @@ class PureAIRunner:
         
         # Subscribe to WebSocket streams for live data (only for ready symbols)
         for sym in self.symbols:
-            self.data_adapter.start_stream(sym, 'M1', 100)
-            self.data_adapter.start_stream(sym, 'M5', 250)
-            self.data_adapter.start_stream(sym, 'M15', 70)
+            self.data_adapter.start_stream(sym, 'M1', 255)
+            self.data_adapter.start_stream(sym, 'M5', 255)
+            self.data_adapter.start_stream(sym, 'M15', 255)
 
         # Initialize a reusable ThreadPoolExecutor
         self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=len(self.symbols) if self.symbols else 1)
@@ -200,7 +191,7 @@ class PureAIRunner:
                 latest_price = self.candle_adapter.get_latest_close(sym)
                 prices_dict[sym] = latest_price
             except Exception as e:
-                logger.error(f"Failed to get RAM price for {sym}: {e}")
+                logger.exception(f"Failed to get RAM price for {sym}")
                 continue
 
         tz_thailand = timezone(timedelta(hours=7))

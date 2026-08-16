@@ -104,3 +104,5 @@ This file contains strict behavioral rules and coding constraints that the AI mu
   1. **ตรวจโค้ด (Code Inspection):** ต้องเปิดอ่านไฟล์ซอร์สโค้ดที่ถูกแก้ไข ตรวจสอบความถูกต้องของตรรกะ ตัวแปร และชนิดข้อมูล (Types)
   2. **ตรวจข้อมูลจริง (Live Data Inspection):** ต้องเปิดอ่านไฟล์ผลลัพธ์ (เช่น CSV, Log) เพื่อยืนยันว่าค่าตัวเลขและสตริงที่บันทึกลงดิสก์ตรงตามสเปก 100%
 
+## 18. Data Feed Immutability Rule (ห้ามแก้ไขโค้ดใน data_feed)
+- **ห้าม แก้ไข ปรับแต่ง โค๊ดของทุกไฟล์ ใน โฟลเดอร์ data_feed** อย่างเด็ดขาด

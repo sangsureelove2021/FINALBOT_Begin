@@ -1,83 +1,111 @@
 """
-CSV Manager Module.
-Facade สำหรับจัดการ CSV operations ทั้งหมด
-รวม CSVWriter และ CSVQueue เข้าด้วยกัน
+CSV Manager
+
+Manages paths, directories, and file naming conventions.
 """
 
+import os
+from datetime import datetime
 import logging
-import threading
-from typing import Optional
-import pandas as pd
-
-from .csv_writer import CSVWriter
-from .csv_queue import CSVQueue
-from .config import DataFeedConfig
+import traceback
+from typing import Dict, Any
 
 logger = logging.getLogger(__name__)
 
 class CSVManager:
-    """
-    จัดการ CSV operations แบบ end-to-end
-    - ใช้ queue สำหรับเขียนแบบ asynchronous
-    - มี method สำหรับอ่านและ merge ข้อมูล
-    """
+    """Manages file storage directories and filenames - Singleton Pattern"""
     
-    _instance = None
-    _lock = threading.Lock()
+    _instances = {}
     
-    def __new__(cls, *args, **kwargs):
-        """Singleton pattern"""
-        if cls._instance is None:
-            with cls._lock:
-                if cls._instance is None:
-                    cls._instance = super().__new__(cls)
-        return cls._instance
-    
-    def __init__(self, max_workers: int = 3):
+    def __new__(cls, base_dir: str = "data_base/csv/iq_option", config: Dict[str, Any] = None):
+        """Ensure singleton pattern for CSVManager"""
+        key = f"{base_dir}_{hash(str(config))}"
+        if key not in cls._instances:
+            cls._instances[key] = super().__new__(cls)
+        return cls._instances[key]
+
+    def __init__(self, base_dir: str = "data_base/csv/iq_option", config: Dict[str, Any] = None):
+        """Initialize with manager configuration."""
         if hasattr(self, '_initialized') and self._initialized:
             return
-        
-        self._queue = CSVQueue(max_workers=max_workers)
+            
         self._initialized = True
-        logger.info(f"CSVManager initialized with {max_workers} workers")
-    
-    def write_async(self, filepath: str, df: pd.DataFrame, backup: bool = True) -> bool:
-        """เขียนไฟล์แบบ asynchronous (ไม่ blocking)"""
-        return self._queue.enqueue_write(filepath, df, backup)
-    
-    def write_sync(self, filepath: str, df: pd.DataFrame, backup: bool = True) -> bool:
-        """เขียนไฟล์แบบ synchronous (blocking)"""
-        return CSVWriter.write_safe(filepath, df, backup)
-    
-    def read(self, filepath: str) -> Optional[pd.DataFrame]:
-        """อ่านไฟล์ CSV"""
-        return CSVWriter.read_safe(filepath)
-    
-    def merge_and_write(self, filepath: str, new_df: pd.DataFrame, 
-                       backup: bool = True, async_write: bool = True) -> bool:
-        """
-        อ่านไฟล์เดิม, merge กับข้อมูลใหม่, แล้วเขียนกลับ
-        """
-        # อ่านไฟล์เดิม
-        existing_df = self.read(filepath)
+        if config is None:
+            from config_setting.config_loader import get_csv_manager_config
+            config = get_csv_manager_config()
         
-        # Merge
-        merged_df = CSVWriter.merge_and_deduplicate(existing_df, new_df)
+        # Load manager configuration
+        self.base_dir = config.get("base_dir", base_dir or "data_base/csv/iq_option")
+        self.naming_convention = config.get("naming_convention", "{symbol}_{timeframe}.csv")
+        self.auto_create_dirs = config.get("auto_create_dirs", True)
+        self.file_permissions = config.get("file_permissions", "rw-r--r--")
         
-        if merged_df.empty:
-            logger.warning(f"Merged DataFrame is empty for {filepath}")
-            return False
-        
-        # เขียนกลับ
-        if async_write:
-            return self.write_async(filepath, merged_df, backup)
-        else:
-            return self.write_sync(filepath, merged_df, backup)
-    
-    def shutdown(self, wait: bool = True) -> None:
-        """ปิด CSVManager"""
-        logger.info("Shutting down CSVManager...")
-        self._queue.shutdown(wait=wait)
+        logger.info(f"[CSVManager] Initialized with base_dir: {self.base_dir}")
 
-# Import threading at module level
-import threading
+    def get_file_path(self, symbol: str, timeframe: str, date_str: str = None) -> str:
+        """Get the full file path for a symbol and timeframe, ensuring directories exist."""
+        if not isinstance(symbol, str):
+            raise TypeError(f"symbol must be str, got {type(symbol).__name__}")
+        if not isinstance(timeframe, str):
+            raise TypeError(f"timeframe must be str, got {type(timeframe).__name__}")
+        # Path traversal protection
+        if '..' in symbol or '..' in timeframe:
+            raise ValueError(f"Path traversal detected in symbol='{symbol}' or timeframe='{timeframe}'")
+        if '/' in symbol or '\\' in symbol:
+            raise ValueError(f"Invalid characters in symbol: '{symbol}'")
+        if not date_str:
+            date_str = datetime.now().strftime("%Y_%m_%d")
+            
+        # Generate filename based on naming convention
+        symbol_folder = symbol  # เก็บเป็นเดิม EURUSD-OTC
+        filename = self.naming_convention.format(
+            symbol=symbol,  # เก็บเป็นเดิม EURUSD-OTC ทั้ง โฟลเดอร์ ทั้งชื่อไฟล์
+            timeframe=timeframe,
+            date=date_str
+        )
+
+        # Create date-based subdirectory with original symbol name
+        full_path = os.path.join(self.base_dir, symbol_folder, filename)
+
+        # Ensure base directory exists
+        os.makedirs(self.base_dir, exist_ok=True)
+        
+        if self.auto_create_dirs:
+            os.makedirs(os.path.dirname(full_path), exist_ok=True)
+        
+        return full_path
+    
+    def ensure_directory_exists(self, path: str) -> None:
+        """Ensure the directory for the given path exists."""
+        directory = os.path.dirname(path)
+        if directory and self.auto_create_dirs:
+            os.makedirs(directory, exist_ok=True)
+    
+    def read_csv(self, symbol: str, timeframe: str, **kwargs) -> Any:
+        """Read CSV file for symbol and timeframe using per-file thread lock."""
+        from data_feed.csv_writer import read_csv_safe
+        file_path = self.get_file_path(symbol, timeframe)
+        return read_csv_safe(file_path, **kwargs)
+
+    def get_csv_reader(self) -> Any:
+        """Get CSV reader instance to read files."""
+        from data_feed.csv_writer import read_csv_safe
+        return read_csv_safe
+    
+    def cleanup_old_files(self, symbol: str, timeframe: str, keep_days: int = 30) -> None:
+        """Clean up old CSV files beyond the specified retention period."""
+        import glob
+        
+        symbol_folder = symbol  # เก็บเป็นเดิม EURUSD-OTC
+        pattern = f"{symbol}_{timeframe}*.csv"
+        search_dir = os.path.join(self.base_dir, symbol_folder, "*")  # Search in OTC folder
+        
+        for file_path in glob.glob(os.path.join(search_dir, pattern)):
+            try:
+                file_age_days = (datetime.now() - datetime.fromtimestamp(os.path.getmtime(file_path))).days
+                if file_age_days > keep_days:
+                    os.remove(file_path)
+                    logger.info(f"[CSVManager] Removed old file: {file_path}")
+            except Exception as e:
+                logger.error(f"[CSVManager] Failed to clean up {file_path}: {e}")
+                traceback.print_exc()

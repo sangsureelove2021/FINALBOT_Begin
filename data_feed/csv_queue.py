@@ -1,108 +1,106 @@
 """
-CSV Queue Module.
-จัดการ queue สำหรับเขียน CSV แบบ asynchronous ด้วย thread pool
+CSV Queue
+
+Provides a thread-safe background worker queue to write CSVs to disk without blocking the main execution thread.
 """
 
-import threading
 import queue
-import logging
-from typing import Optional, Callable
-from concurrent.futures import ThreadPoolExecutor
+import threading
 import pandas as pd
-
-from .csv_writer import CSVWriter
+import logging
+import traceback
+from typing import Dict, Any
+from data_feed.csv_writer import CSVWriter
 
 logger = logging.getLogger(__name__)
 
-class CSVWriteTask:
-    """Task object สำหรับเขียน CSV"""
-    
-    def __init__(self, filepath: str, df: pd.DataFrame, backup: bool = True):
-        self.filepath = filepath
-        self.df = df
-        self.backup = backup
-
 class CSVQueue:
-    """
-    Thread-safe queue สำหรับจัดการการเขียน CSV
-    ใช้ ThreadPoolExecutor เพื่อเขียนแบบไม่ blocking main thread
-    """
+    """Thread-safe queue for asynchronous CSV writing - Singleton Pattern"""
     
-    def __init__(self, max_workers: int = 3, max_queue_size: int = 100):
-        self._queue: queue.Queue[Optional[CSVWriteTask]] = queue.Queue(maxsize=max_queue_size)
-        self._executor = ThreadPoolExecutor(max_workers=max_workers)
-        self._shutdown = False
-        self._worker_thread = threading.Thread(target=self._process_queue, daemon=True)
+    _instances = {}
+    
+    def __new__(cls, config: Dict[str, Any] = None):
+        """Ensure singleton pattern for CSVQueue"""
+        key = f"{hash(str(config))}"
+        if key not in cls._instances:
+            cls._instances[key] = super().__new__(cls)
+        return cls._instances[key]
+
+    def __init__(self, config: Dict[str, Any] = None):
+        """Initialize with queue configuration."""
+        if hasattr(self, '_initialized') and self._initialized:
+            return
+            
+        self._initialized = True
+        if config is None:
+            from config_setting.config_loader import get_csv_queue_config
+            config = get_csv_queue_config()
+        
+        # Load queue configuration
+        self.max_workers = config.get("max_workers", 1)
+        self.daemon = config.get("daemon", True)
+        self.queue_timeout = config.get("queue_timeout", 30)
+        self.max_queue_size = config.get("max_queue_size", 1000)
+        self.enable_logging = config.get("enable_logging", True)
+        self.max_consecutive_errors = config.get("max_consecutive_errors", 5)
+        
+        self._error_count = 0
+        self._consecutive_errors = 0
+        self._writer = CSVWriter()
+        self._queue = queue.Queue()
+        self._worker_thread = threading.Thread(target=self._worker, daemon=self.daemon)
         self._worker_thread.start()
-        logger.info(f"CSVQueue started with {max_workers} workers")
-    
-    def enqueue_write(self, filepath: str, df: pd.DataFrame, backup: bool = True) -> bool:
-        """
-        เพิ่ม task การเขียนไฟล์ลง queue
-        Returns: True ถ้าเพิ่มสำเร็จ, False ถ้า queue เต็มหรือ shutdown
-        """
-        if self._shutdown:
-            logger.warning("CSVQueue is shutting down, cannot enqueue new tasks")
-            return False
         
-        if df.empty:
-            logger.debug(f"Skipping empty DataFrame for {filepath}")
-            return False
-        
-        try:
-            task = CSVWriteTask(filepath, df, backup)
-            self._queue.put_nowait(task)
-            logger.debug(f"Enqueued write task for {filepath} ({len(df)} rows)")
-            return True
-        except queue.Full:
-            logger.warning(f"CSV write queue is full, dropping task for {filepath}")
-            return False
-    
-    def _process_queue(self) -> None:
-        """Worker thread ที่ดึง task จาก queue ไปประมวลผล"""
-        while not self._shutdown:
+        if self.enable_logging:
+            logger.info(f"[CSVQueue] Initialized with {self.max_workers} worker(s)")
+
+    def enqueue_write(self, df: pd.DataFrame, file_path: str) -> None:
+        """Add a dataframe and target path to the write queue."""
+        if df is not None and not df.empty:
+            # Check queue size to prevent memory issues
+            if self._queue.qsize() >= self.max_queue_size:
+                raise RuntimeError(f"FAIL-FAST: CSVQueue size exceeded max limit ({self.max_queue_size}) - write blocked for {file_path}")
+            
+            logger.info(f"[CSVQueue] Enqueuing write for {file_path} - Queue size: {self._queue.qsize()}")
+            self._queue.put((df.copy(), file_path))
+
+    def _worker(self):
+        """Worker thread loop to process CSV writes."""
+        while True:
+            file_path = "UNKNOWN"
             try:
-                # ดึง task จาก queue (block ได้สูงสุด 1 วินาที)
-                task: Optional[CSVWriteTask] = self._queue.get(timeout=1.0)
+                df, file_path = self._queue.get(timeout=self.queue_timeout)
+                logger.info(f"[CSVQueue] Processing write for {file_path}")
                 
-                if task is None:
-                    # Signal shutdown
-                    break
-                
-                # เขียนไฟล์
-                success = CSVWriter.write_safe(task.filepath, task.df, task.backup)
-                
-                if success:
-                    logger.debug(f"Completed write task for {task.filepath}")
-                else:
-                    logger.error(f"Failed to write {task.filepath}")
+                # Use shared CSVWriter instance
+                self._writer.write(df, file_path)
                 
                 self._queue.task_done()
+                self._consecutive_errors = 0
+                logger.info(f"[CSVQueue] Successfully processed write for {file_path}")
                 
+                if self.enable_logging and self._queue.qsize() % 100 == 0:
+                    logger.info(f"[CSVQueue] Queue size: {self._queue.qsize()}")
+                    
             except queue.Empty:
+                # This is normal timeout for daemon thread
                 continue
             except Exception as e:
-                logger.error(f"Error processing CSV write task: {e}")
-    
-    def shutdown(self, wait: bool = True) -> None:
-        """
-        ปิด queue อย่างสวยงาม
-        """
-        logger.info("Shutting down CSVQueue...")
-        self._shutdown = True
-        
-        # ส่ง signal ให้ worker thread หยุด
-        try:
-            self._queue.put_nowait(None)
-        except:
-            pass
-        
-        if wait:
-            self._worker_thread.join(timeout=5.0)
-        
-        self._executor.shutdown(wait=wait)
-        logger.info("CSVQueue shutdown complete")
-    
-    def get_queue_size(self) -> int:
-        """ดึงจำนวน task ที่ค้างอยู่ใน queue"""
-        return self._queue.qsize()
+                self._error_count += 1
+                self._consecutive_errors += 1
+                traceback.print_exc()
+                logger.error(f"[CSVQueue] Asynchronous write failed for {file_path}: {e}")
+                logger.error(f"[CSVQueue] Error details: {type(e).__name__}: {e}")
+                logger.error(f"[CSVQueue] Total errors: {self._error_count}, consecutive: {self._consecutive_errors}")
+                self._queue.task_done()
+                
+                # Circuit breaker: หยุด worker เมื่อ error ติดต่อกันเกิน threshold
+                if self._consecutive_errors >= self.max_consecutive_errors:
+                    logger.critical(
+                        f"[CSVQueue] CIRCUIT BREAKER: {self._consecutive_errors} consecutive errors exceeded "
+                        f"threshold ({self.max_consecutive_errors}). Worker stopping."
+                    )
+                    raise RuntimeError(
+                        f"CSVQueue circuit breaker triggered: {self._consecutive_errors} consecutive write failures"
+                    ) from e
+                continue

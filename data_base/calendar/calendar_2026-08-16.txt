@@ -1,0 +1,42 @@
+[
+    {
+        "title": "BusinessNZ Services Index",
+        "country": "NZD",
+        "date": "2026-08-16T22:30:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": "50.6"
+    },
+    {
+        "title": "FPI m/m",
+        "country": "NZD",
+        "date": "2026-08-16T22:45:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": "0.6%"
+    },
+    {
+        "title": "Rightmove HPI m/m",
+        "country": "GBP",
+        "date": "2026-08-16T23:01:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": "-1.0%"
+    },
+    {
+        "title": "Prelim GDP Price Index y/y",
+        "country": "JPY",
+        "date": "2026-08-16T23:50:00+00:00",
+        "impact": "Low",
+        "forecast": "2.3%",
+        "previous": "3.4%"
+    },
+    {
+        "title": "Prelim GDP q/q",
+        "country": "JPY",
+        "date": "2026-08-16T23:50:00+00:00",
+        "impact": "Low",
+        "forecast": "0.5%",
+        "previous": "0.5%"
+    }
+]

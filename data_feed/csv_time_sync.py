@@ -1,138 +1,160 @@
-"""
-CSV Time Sync Module.
-ตรวจสอบและแก้ไข timestamp ของข้อมูลให้ตรงกับเวลาจริง
-"""
-
-import pandas as pd
+import sys
+import os
+import time
 import logging
-from typing import Optional, Tuple
-from datetime import datetime, timezone, timedelta
+import threading
+from datetime import datetime
+
 
 logger = logging.getLogger(__name__)
 
+
 class TimeSyncManager:
     """
-    จัดการเรื่องเวลาและการซิงค์ timestamp
-    ไม่ใช้ Singleton แล้ว เพื่อให้ทดสอบง่าย
+    ระบบบริหารจัดการการซิงค์เวลากับเซิร์ฟเวอร์ (Time Sync Manager) - Singleton Pattern
     """
+    _instances = {}
     
-    def __init__(self, tolerance_seconds: int = 30):
-        self.tolerance = timedelta(seconds=tolerance_seconds)
-        self.time_offset = 0.0  # offset ระหว่าง local time กับ server time
-        logger.info(f"TimeSyncManager initialized with {tolerance_seconds}s tolerance")
-    
-    def sync_server_time(self, broker_adapter) -> None:
-        """
-        ซิงค์เวลากับ broker server
-        คำนวณ time offset และเก็บไว้ใช้
-        """
-        try:
-            local_time = self.get_current_utc()
-            server_timestamp_ms = broker_adapter.get_server_timestamp()
-            server_time = datetime.fromtimestamp(server_timestamp_ms / 1000, tz=timezone.utc)
+    def __new__(cls, data_adapter=None, config=None):
+        """Ensure singleton pattern for TimeSyncManager"""
+        key = f"{hash(str(data_adapter))}_{hash(str(config))}"
+        if key not in cls._instances:
+            cls._instances[key] = super().__new__(cls)
+        return cls._instances[key]
+
+    def __init__(self, data_adapter=None, config=None):
+        """Initialize with time sync configuration."""
+        if hasattr(self, '_initialized') and self._initialized:
+            return
             
-            self.time_offset = self.detect_clock_drift(local_time, server_time)
-            logger.info(f"Time synced with server. Offset: {self.time_offset:.3f}s")
+        self._initialized = True
+        self.data_adapter = data_adapter
+        if config is None:
+            from config_setting.config_loader import get_time_sync_manager_config
+            config = get_time_sync_manager_config()
+        
+        self.time_offset = 0
+        self._synced = False
+        self.sync_interval = config.get("sync_interval", 30)
+        self.max_sync_attempts = config.get("max_sync_attempts", 3)
+        self._sync_thread = None
+        self._is_running = False
+
+        # หากมี data_adapter ตั้งแต่ init ให้ทำการซิงค์เวลา 1 ครั้ง
+        if self.data_adapter is not None:
+            self.sync_server_time()
+
+    def sync_server_time(self, data_adapter=None):
+        """
+        ดึงเวลาจาก broker server timestamp และคำนวณ time_offset = server_time - local_time
+        หากยิงขอเวลาไม่สำเร็จ ให้ระเบิด Fail-Fast: raise RuntimeError("FAIL-FAST: Failed to get server time offset from broker")
+        """
+        if data_adapter is not None:
+            self.data_adapter = data_adapter
+
+        if self.data_adapter is None or not hasattr(self.data_adapter, 'api') or self.data_adapter.api is None:
+            logger.error("Failed to get server time offset: data_adapter or api is None")
+            raise RuntimeError("FAIL-FAST: Failed to get server time offset from broker")
+
+        try:
+            server_time = self.data_adapter.api.get_server_timestamp()
+            if server_time is None:
+                raise ValueError("get_server_timestamp returned None")
+            local_time = int(time.time())
+            self.time_offset = server_time - local_time
+            logger.info(f"[TIME SYNC] Server time offset: {self.time_offset} seconds (Synced at {datetime.now().strftime('%H:%M:%S.%f')[:-3]})")
+            self._synced = True
+        except RuntimeError:
+            raise
         except Exception as e:
-            logger.warning(f"Failed to sync server time: {e}")
-            self.time_offset = 0.0
-    
+            logger.exception("Failed to get server time offset")
+            raise RuntimeError("FAIL-FAST: Failed to get server time offset from broker") from e
+
+    def start_time_sync_thread(self):
+        """
+        เริ่มต้น Daemon Thread เพื่อทำการ resync เวลา ณ วินาทีที่ 30 (:30) ของทุกนาที
+        """
+        if self._is_running and self._sync_thread is not None and self._sync_thread.is_alive():
+            logger.debug("[TIME SYNC] Time resync thread is already running.")
+            return
+
+        self._is_running = True
+        self._sync_thread = threading.Thread(
+            target=self._time_sync_loop,
+            daemon=True,
+            name="TimeSyncDaemonThread"
+        )
+        self._sync_thread.start()
+        logger.info("[TIME SYNC] Daemon thread started (auto-resync at second :30 of every minute)")
+
+    def stop_time_sync_thread(self):
+        """
+        หยุดการทำงานของ Daemon Thread
+        """
+        self._is_running = False
+
+    def _time_sync_loop(self):
+        """
+        Loop ของ Daemon Thread คอยตรวจวัดเวลาและสั่ง sync_server_time() ณ วินาทีที่ 30 ของทุกนาที
+        """
+        while self._is_running:
+            try:
+                now = datetime.now()
+                current_sec = now.second + now.microsecond / 1_000_000.0
+                if current_sec < 30.0:
+                    sleep_time = 30.0 - current_sec
+                else:
+                    sleep_time = 60.0 - current_sec + 30.0
+
+                time.sleep(sleep_time)
+
+                if not self._is_running:
+                    break
+
+                if self.data_adapter is not None:
+                    logger.info("[TIME SYNC] Executing auto resync at second :30...")
+                    self.sync_server_time()
+
+                # Sleep 1.0 วินาทีเพื่อป้องกันการทำงานซ้ำในวินาทีที่ 30 เดียวกัน
+                time.sleep(1.0)
+            except Exception as e:
+                logger.exception("[TIME SYNC] Error in auto resync thread loop")
+                time.sleep(5.0)
+
     def get_broker_epoch(self) -> float:
         """
-        ดึง epoch time ของ broker (เป็นวินาที)
+        คืนค่า time.time() + self.time_offset สำหรับส่งต่อให้ระบบดึงข้อมูลแท่งเทียน
         """
-        return datetime.now(timezone.utc).timestamp() + self.time_offset
+        if not self._synced:
+            logger.error("[TIME SYNC] get_broker_epoch called before time sync completed")
+            raise RuntimeError("FAIL-FAST: Broker time not synced — call sync_server_time() first")
+        return time.time() + self.time_offset
+
+    @staticmethod
+    def calculate_time_block(broker_epoch: float, timeframe_seconds: int) -> int:
+        """
+        คำนวณ time block จาก broker epoch และ timeframe
+        """
+        return int(broker_epoch) // timeframe_seconds
     
-    def get_current_utc(self) -> datetime:
-        """ดึงเวลาปัจจุบันแบบ UTC"""
-        return datetime.now(timezone.utc)
+    @staticmethod
+    def get_local_time() -> int:
+        """
+        คืนค่า local time เวลาปัจจุบัน
+        """
+        return int(time.time())
     
-    def validate_timestamp(self, ts: datetime, expected_time: datetime) -> Tuple[bool, str]:
+    @classmethod
+    def get_time_offset(cls, server_time: int, local_time: int) -> int:
         """
-        ตรวจสอบว่า timestamp ตรงกับเวลาที่คาดหวังหรือไม่
-        Returns: (is_valid, message)
+        คำนวณ time offset จาก server time และ local time
         """
-        if ts.tzinfo is None:
-            ts = ts.replace(tzinfo=timezone.utc)
-        
-        if expected_time.tzinfo is None:
-            expected_time = expected_time.replace(tzinfo=timezone.utc)
-        
-        diff = abs((ts - expected_time).total_seconds())
-        
-        if diff <= self.tolerance.total_seconds():
-            return True, f"Timestamp within tolerance ({diff:.1f}s)"
-        else:
-            return False, f"Timestamp drift too large ({diff:.1f}s)"
+        return server_time - local_time
     
-    def align_to_timeframe(self, df: pd.DataFrame, timeframe: str) -> pd.DataFrame:
+    @classmethod
+    def sync_with_offset(cls, server_time: int) -> int:
         """
-        ปรับ index timestamp ให้ตรงกับขอบเขตของ timeframe
-        เช่น M1 ต้องตรง :00 วินาที, M5 ต้องตรงนาทีที่หาร 5 ลงตัว
+        ซิงค์เวลาและคืนค่า time offset
         """
-        if df.empty:
-            return df
-        
-        df = df.copy()
-        
-        # คำนวณระยะเวลาของแต่ละ timeframe เป็นนาที
-        tf_minutes = int(timeframe.replace('M', '').replace('H', '').replace('D', ''))
-        
-        if 'H' in timeframe:
-            tf_minutes *= 60
-        
-        # ปรับ timestamp ให้ตรงขอบเขต
-        def align_ts(ts):
-            # ปัดลงให้ใกล้ขอบเขต timeframe ที่สุด
-            minute = ts.minute
-            aligned_minute = (minute // tf_minutes) * tf_minutes
-            return ts.replace(minute=aligned_minute, second=0, microsecond=0)
-        
-        new_index = pd.DatetimeIndex([align_ts(ts) for ts in df.index], tz='UTC')
-        df.index = new_index
-        
-        # ลบแถวที่ซ้ำกันหลังจาก align
-        df = df[~df.index.duplicated(keep='first')]
-        df = df.sort_index()
-        
-        return df
-    
-    def detect_clock_drift(self, local_time: datetime, server_time: datetime) -> float:
-        """
-        คำนวณความแตกต่างระหว่างเวลาท้องถิ่นและเวลาเซิร์ฟเวอร์
-        Returns: drift ในหน่วยวินาที (บวก = local เร็วกว่า, ลบ = local ช้ากว่า)
-        """
-        if local_time.tzinfo is None:
-            local_time = local_time.replace(tzinfo=timezone.utc)
-        
-        if server_time.tzinfo is None:
-            server_time = server_time.replace(tzinfo=timezone.utc)
-        
-        drift_seconds = (local_time - server_time).total_seconds()
-        
-        if abs(drift_seconds) > 5:
-            logger.warning(f"Clock drift detected: {drift_seconds:.1f} seconds")
-        
-        return drift_seconds
-    
-    def create_time_index(self, start_time: datetime, periods: int, 
-                         timeframe: str) -> pd.DatetimeIndex:
-        """
-        สร้าง DatetimeIndex สำหรับข้อมูลใหม่
-        """
-        if start_time.tzinfo is None:
-            start_time = start_time.replace(tzinfo=timezone.utc)
-        
-        # คำนวณ frequency
-        tf_value = int(timeframe.replace('M', '').replace('H', '').replace('D', ''))
-        
-        if 'M' in timeframe:
-            freq = f'{tf_value}min'
-        elif 'H' in timeframe:
-            freq = f'{tf_value}h'
-        elif 'D' in timeframe:
-            freq = f'{tf_value}D'
-        else:
-            freq = timeframe
-        
-        return pd.date_range(start=start_time, periods=periods, freq=freq, tz='UTC')
+        local_time = cls.get_local_time()
+        return cls.get_time_offset(server_time, local_time)

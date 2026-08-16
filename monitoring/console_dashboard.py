@@ -208,7 +208,7 @@ class ConsoleUI:
 
     @staticmethod
     def show_account_info(account_type, balance):
-        thai_console_log(f"บัญชี {account_type} | Balance: ${balance:.2f}")
+        thai_console_log(f"บัญชี {account_type} | ยอดเงิน: ${balance:.2f}")
 
     @staticmethod
     def show_time_offset(offset):
@@ -250,8 +250,11 @@ class ConsoleUI:
         thai_console_log(f"กำลังเตรียมข้อมูลสินทรัพย์ {len(symbols)} รายการ : {', '.join(symbols)}")
 
     @staticmethod
-    def show_data_prep_result(ready_count, not_ready_count):
-        thai_console_log(f"ข้อมูลพร้อมเทรด {ready_count} รายการ  ไม่พร้อมเทรด {not_ready_count} รายการ")
+    def show_data_prep_result(ready_count, not_ready_count=0):
+        if not_ready_count > 0:
+            thai_console_log(f"ตรวจสอบข้อมูลแท่งเทียนสมบูรณ์ (M1/M5/M15 ครบ 250 แท่ง) : พร้อม {ready_count} รายการ (ไม่สมบูรณ์ {not_ready_count} รายการ)")
+        else:
+            thai_console_log(f"ตรวจสอบข้อมูลแท่งเทียนสมบูรณ์ (M1/M5/M15 ครบ 250 แท่ง) : พร้อม {ready_count} รายการ")
 
     @staticmethod
     def show_mode_summary(stake, profit_pct, loss_pct, max_conc, trade_hours):
@@ -267,7 +270,7 @@ class ConsoleUI:
     
     @staticmethod
     def show_balance(balance):
-        thai_console_log(f"💰 ยอดเงินในระบบ: ${balance:.2f}")
+        thai_console_log(f"ยอดเงินในระบบ: ${balance:.2f}")
 
     @staticmethod
     def show_countdown(remaining, target_str):
@@ -303,13 +306,8 @@ class ConsoleUI:
     @staticmethod
     def show_prices_and_balance(prices_dict, balance):
         try:
-            # แสดงราคาคู่เงินทั้งหมดในรูปแบบที่อ่านง่าย
-            if prices_dict:
-                price_parts = [f"{sym}: {price:.5f}" for sym, price in sorted(prices_dict.items())]
-                price_str = ", ".join(price_parts)
-            else:
-                price_str = "N/A"
-            
+            price_parts = [f"{sym}:{price:.5f}" for sym, price in prices_dict.items()]
+            price_str = "][".join(price_parts)
             balance_str = f"${balance:.2f}" if balance is not None else "N/A"
             thai_console_log(f"[{price_str}] :: TOTAL={balance_str}")
         except Exception as e:
