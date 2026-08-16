@@ -22831,3 +22831,1586 @@ data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for GBPJPY-OTC
 2026-08-16 11:44:26,093 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
 2026-08-16 11:44:26,094 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
 2026-08-16 11:44:26,094 | INFO     | [CSVQueue] Queue size: 0
+2026-08-16 11:44:26,686 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:26,686 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:26,686 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:26,686 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:26,704 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:26,709 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:26,710 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 1
+2026-08-16 11:44:26,710 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:26,711 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:26,711 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 1
+2026-08-16 11:44:26,713 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:26,713 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 3
+2026-08-16 11:44:26,713 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:26,714 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv - Queue size: 3
+2026-08-16 11:44:26,715 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 6
+2026-08-16 11:44:26,718 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 6
+2026-08-16 11:44:26,719 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:26,720 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:26,733 | INFO     | [SEC_TRACK] 11:44:26 | Prices: [EURGBP-OTC:0.85906 | EURUSD-OTC:1.15511 | GBPJPY-OTC:212.94339 | GBPUSD-OTC:1.34842] | Balance: $1619.69 | Latency: 323.9ms | Offset: -2.155s
+2026-08-16 11:44:26,735 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:26,735 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:26,736 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:26,736 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:26,756 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:26,757 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:26,757 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:26,758 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:26,780 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:26,781 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:26,781 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:26,782 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:26,803 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:26,804 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:26,804 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:26,804 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:26,822 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:26,823 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:26,823 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:26,824 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:26,883 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:26,884 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:26,884 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:26,884 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:26,905 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:26,906 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:26,906 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:26,906 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:26,939 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:26,939 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:26,939 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:26,940 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:26,957 | WARNING  | [CSVWriter] PermissionError on os.replace (attempt 1/5) for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv, retrying in 0.05s... Error: [WinError 5] Access is denied: 'data_base/csv/iq_option\\EURGBP-OTC\\EURGBP-OTC_M15.csv.4792.tmp' -> 'data_base/csv/iq_option\\EURGBP-OTC\\EURGBP-OTC_M15.csv'
+2026-08-16 11:44:26,984 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:26,984 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:26,984 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:26,984 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:27,000 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:27,009 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:27,009 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:27,010 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:27,010 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:27,019 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:27,019 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:27,020 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:27,020 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:27,022 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:27,023 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 3
+2026-08-16 11:44:27,024 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 3
+2026-08-16 11:44:27,024 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv - Queue size: 4
+2026-08-16 11:44:27,024 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:27,026 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 5
+2026-08-16 11:44:27,027 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:27,027 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:27,032 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:27,031 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv - Queue size: 8
+2026-08-16 11:44:27,033 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:27,033 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:27,033 | INFO     | [SEC_TRACK] 11:44:27 | Prices: [EURGBP-OTC:0.85903 | EURUSD-OTC:1.15505 | GBPJPY-OTC:212.93753 | GBPUSD-OTC:1.34847] | Balance: $1619.69 | Latency: 300.9ms | Offset: -1.876s
+2026-08-16 11:44:27,034 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:27,053 | WARNING  | [CSVWriter] PermissionError on os.replace (attempt 1/5) for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv, retrying in 0.05s... Error: [WinError 5] Access is denied: 'data_base/csv/iq_option\\EURUSD-OTC\\EURUSD-OTC_M15.csv.4792.tmp' -> 'data_base/csv/iq_option\\EURUSD-OTC\\EURUSD-OTC_M15.csv'
+2026-08-16 11:44:27,061 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:27,062 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:27,063 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:27,063 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:27,083 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:27,083 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:27,084 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:27,084 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:27,103 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:27,104 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:27,104 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:27,104 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:27,104 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:27,105 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:27,105 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:27,122 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:27,122 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:27,123 | INFO     | [CSVQueue] Queue size: 0
+2026-08-16 11:44:27,125 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:27,125 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:27,125 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:27,126 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:27,157 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:27,157 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:27,158 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:27,158 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:27,188 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:27,189 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:27,189 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:27,196 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:27,197 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:27,197 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:27,197 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:27,189 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:27,188 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:27,189 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:27,200 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:27,199 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:27,216 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:27,222 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:27,222 | ERROR    | [DataAdapter] update failed for GBPUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:27,233 | ERROR    | [DataAdapter] update failed for EURUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:27,229 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:27,234 | ERROR    | [DataAdapter] update failed for EURGBP-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:27,233 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:27,234 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:27,234 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 1
+2026-08-16 11:44:27,235 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:27,235 | ERROR    | [DataAdapter] update failed for GBPJPY-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:27,235 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:27,235 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:27,236 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:27,236 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv - Queue size: 2
+2026-08-16 11:44:27,236 | INFO     | [CSVWriter] Writing 110 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:27,237 | ERROR    | Error getting future result for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for GBPUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:27,237 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 3
+2026-08-16 11:44:27,240 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 5
+2026-08-16 11:44:27,242 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:27,240 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 5
+2026-08-16 11:44:27,243 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:27,240 | ERROR    | Error getting future result for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for EURGBP-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:27,243 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:27,243 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:27,243 | ERROR    | Error getting future result for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for EURUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:27,246 | ERROR    | Error getting future result for GBPJPY-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for GBPJPY-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:27,240 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv - Queue size: 5
+2026-08-16 11:44:27,242 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:27,257 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv - Queue size: 10
+2026-08-16 11:44:27,257 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:27,258 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:27,259 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:27,259 | INFO     | [CSVWriter] Writing 110 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:27,279 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:27,279 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:27,280 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:27,280 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:27,288 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:27,288 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:27,289 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:27,289 | INFO     | [CSVWriter] Writing 110 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:27,311 | ERROR    | [CSVWriter] os.replace failed for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv: [WinError 5] Access is denied: 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M15.csv.14076.tmp' -> 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M15.csv'
+2026-08-16 11:44:27,312 | ERROR    | [CSVWriter] Failed to write to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv: FAIL-FAST: CSV file replace failed: [WinError 5] Access is denied: 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M15.csv.14076.tmp' -> 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M15.csv'
+2026-08-16 11:44:27,314 | ERROR    | [CSVQueue] Asynchronous write failed for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv: FAIL-FAST: CSV file replace failed: [WinError 5] Access is denied: 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M15.csv.14076.tmp' -> 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M15.csv'
+2026-08-16 11:44:27,314 | ERROR    | [CSVQueue] Error details: DataFeedError: FAIL-FAST: CSV file replace failed: [WinError 5] Access is denied: 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M15.csv.14076.tmp' -> 'data_base/csv/iq_option\\GBPUSD-OTC\\GBPUSD-OTC_M15.csv'
+2026-08-16 11:44:27,314 | ERROR    | [CSVQueue] Total errors: 88, consecutive: 1
+2026-08-16 11:44:27,314 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:27,315 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:27,326 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:27,326 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:27,327 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:27,327 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:27,345 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:27,345 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:27,346 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:27,346 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:27,354 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:27,354 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:27,355 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:27,355 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:27,375 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:27,376 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:27,376 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:27,377 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:27,386 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:27,389 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:27,389 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:27,390 | INFO     | [CSVWriter] Writing 109 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:27,412 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:27,413 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:27,413 | INFO     | [CSVQueue] Queue size: 0
+2026-08-16 11:44:27,417 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:27,418 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:27,418 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:27,418 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:27,441 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:27,441 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:27,442 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:27,442 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:27,455 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:27,457 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:27,458 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:27,458 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:27,471 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:27,472 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:27,475 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:27,476 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:27,495 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:27,495 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:27,495 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:27,496 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:27,506 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:27,507 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:27,507 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:27,507 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:27,518 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:27,518 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:27,518 | INFO     | [CSVQueue] Queue size: 0
+2026-08-16 11:44:28,027 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:28,027 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:28,028 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:28,028 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:28,054 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:28,061 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:28,064 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:28,064 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:28,065 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv - Queue size: 1
+2026-08-16 11:44:28,065 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 1
+2026-08-16 11:44:28,066 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 1
+2026-08-16 11:44:28,066 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:28,068 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 3
+2026-08-16 11:44:28,069 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv - Queue size: 5
+2026-08-16 11:44:28,072 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 5
+2026-08-16 11:44:28,074 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 6
+2026-08-16 11:44:28,075 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:28,076 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:28,092 | INFO     | [SEC_TRACK] 11:44:28 | Prices: [EURGBP-OTC:0.85906 | EURUSD-OTC:1.15511 | GBPJPY-OTC:212.94339 | GBPUSD-OTC:1.34842] | Balance: $1619.69 | Latency: 356.6ms | Offset: -2.155s
+2026-08-16 11:44:28,098 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:28,098 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:28,099 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:28,099 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:28,159 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:28,159 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:28,160 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:28,160 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:28,179 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:28,180 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:28,180 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:28,181 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:28,199 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:28,200 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:28,200 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:28,201 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:28,232 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:28,233 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:28,233 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:28,234 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:28,265 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:28,275 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:28,275 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:28,276 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:28,276 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:28,265 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:28,265 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:28,287 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:28,294 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:28,311 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:28,313 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:28,313 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 1
+2026-08-16 11:44:28,340 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:28,341 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:28,341 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:28,342 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:28,330 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 2
+2026-08-16 11:44:28,332 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:28,343 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv - Queue size: 2
+2026-08-16 11:44:28,348 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 3
+2026-08-16 11:44:28,349 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 3
+2026-08-16 11:44:28,351 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:28,351 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 6
+2026-08-16 11:44:28,351 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv - Queue size: 6
+2026-08-16 11:44:28,352 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:28,352 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:28,354 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:28,354 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv - Queue size: 8
+2026-08-16 11:44:28,356 | INFO     | [SEC_TRACK] 11:44:28 | Prices: [EURGBP-OTC:0.85903 | EURUSD-OTC:1.15505 | GBPJPY-OTC:212.93753 | GBPUSD-OTC:1.34847] | Balance: $1619.69 | Latency: 321.6ms | Offset: -1.876s
+2026-08-16 11:44:28,356 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:28,389 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:28,390 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:28,390 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:28,391 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:28,395 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:28,395 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:28,396 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:28,396 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:28,424 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:28,424 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:28,424 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:28,425 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:28,447 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:28,448 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:28,448 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:28,449 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:28,463 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:28,464 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:28,465 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:28,465 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:28,476 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:28,483 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:28,501 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:28,501 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:28,502 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:28,505 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:28,509 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:28,494 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:28,509 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:28,512 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:28,513 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:28,510 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:28,545 | ERROR    | [DataAdapter] update failed for EURUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:28,546 | ERROR    | [DataAdapter] update failed for GBPUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:28,546 | ERROR    | [DataAdapter] update failed for EURGBP-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:28,559 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:28,559 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:28,560 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:28,568 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:28,569 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:28,569 | INFO     | [CSVQueue] Queue size: 0
+2026-08-16 11:44:28,577 | ERROR    | [DataAdapter] update failed for GBPJPY-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:28,577 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:28,578 | ERROR    | Error getting future result for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for GBPUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:28,582 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:28,582 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:28,583 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:28,583 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:28,582 | ERROR    | Error getting future result for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for EURGBP-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:28,585 | ERROR    | Error getting future result for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for EURUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:28,588 | ERROR    | Error getting future result for GBPJPY-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for GBPJPY-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:28,630 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:28,630 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:28,631 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:28,631 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:28,672 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:28,673 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:28,673 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:28,674 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:28,729 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:28,729 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:28,730 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:28,730 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:28,755 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:28,758 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:28,758 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:28,759 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:28,759 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:28,756 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:28,766 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:28,780 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:28,780 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:28,783 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:28,796 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:28,796 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:28,796 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:28,797 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:28,807 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:28,808 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:28,808 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:28,809 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:28,809 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:28,810 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:28,810 | INFO     | [CSVWriter] Writing 110 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:28,811 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv - Queue size: 3
+2026-08-16 11:44:28,811 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 5
+2026-08-16 11:44:28,814 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 6
+2026-08-16 11:44:28,815 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:28,816 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv - Queue size: 9
+2026-08-16 11:44:28,823 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:28,824 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:28,825 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:28,825 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:28,862 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:28,863 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:28,863 | INFO     | [CSVQueue] Queue size: 0
+2026-08-16 11:44:28,863 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:28,864 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:28,865 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:28,865 | INFO     | [CSVWriter] Writing 110 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:28,897 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:28,898 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:28,898 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:28,899 | INFO     | [CSVWriter] Writing 110 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:28,947 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:28,947 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:28,947 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:28,948 | INFO     | [CSVWriter] Writing 109 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:28,994 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:28,994 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:28,995 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:28,995 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:29,021 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:29,021 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:29,022 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:29,023 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:29,054 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:29,055 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:29,055 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:29,055 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:29,081 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:29,081 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:29,081 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:29,082 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:29,114 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:29,114 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:29,118 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:29,119 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:29,131 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:29,133 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:29,134 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:29,134 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:29,146 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:29,146 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:29,147 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:29,147 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:29,165 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:29,165 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:29,165 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:29,166 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:29,188 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:29,188 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:29,188 | INFO     | [CSVQueue] Queue size: 0
+2026-08-16 11:44:29,384 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:29,385 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:29,385 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:29,385 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:29,395 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:29,405 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:29,406 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:29,406 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:29,407 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 1
+2026-08-16 11:44:29,408 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv - Queue size: 1
+2026-08-16 11:44:29,408 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:29,408 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:29,410 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 4
+2026-08-16 11:44:29,410 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 4
+2026-08-16 11:44:29,413 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv - Queue size: 4
+2026-08-16 11:44:29,415 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 6
+2026-08-16 11:44:29,416 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 8
+2026-08-16 11:44:29,421 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv - Queue size: 8
+2026-08-16 11:44:29,427 | INFO     | [SEC_TRACK] 11:44:29 | Prices: [EURGBP-OTC:0.85906 | EURUSD-OTC:1.15511 | GBPJPY-OTC:212.94339 | GBPUSD-OTC:1.34842] | Balance: $1619.69 | Latency: 330.4ms | Offset: -2.155s
+2026-08-16 11:44:29,428 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:29,428 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:29,428 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:29,429 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:29,442 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:29,442 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:29,443 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:29,443 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:29,456 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:29,456 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:29,457 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:29,457 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:29,505 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:29,505 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:29,506 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:29,506 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:29,520 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:29,520 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:29,520 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:29,521 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:29,538 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:29,538 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:29,538 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:29,539 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:29,565 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:29,565 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:29,566 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:29,566 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:29,586 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:29,587 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:29,587 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:29,587 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:29,603 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:29,604 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:29,604 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:29,605 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:29,623 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:29,623 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:29,623 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:29,631 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:29,632 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:29,632 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:29,633 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:29,623 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:29,639 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:29,642 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:29,649 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 1
+2026-08-16 11:44:29,649 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:29,649 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:29,649 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 0
+2026-08-16 11:44:29,651 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:29,651 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:29,652 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:29,653 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv - Queue size: 4
+2026-08-16 11:44:29,655 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:29,655 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:29,656 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:29,656 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:29,658 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 5
+2026-08-16 11:44:29,659 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:29,659 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:29,660 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv - Queue size: 8
+2026-08-16 11:44:29,661 | INFO     | [SEC_TRACK] 11:44:29 | Prices: [EURGBP-OTC:0.85903 | EURUSD-OTC:1.15505 | GBPJPY-OTC:212.93753 | GBPUSD-OTC:1.34847] | Balance: $1619.69 | Latency: 304.3ms | Offset: -1.876s
+2026-08-16 11:44:29,681 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:29,681 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:29,682 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:29,682 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:29,682 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:29,683 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:29,683 | INFO     | [CSVQueue] Queue size: 0
+2026-08-16 11:44:29,707 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:29,707 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:29,707 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:29,708 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:29,732 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:29,733 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:29,733 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:29,734 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:29,759 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:29,759 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:29,759 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:29,760 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:29,785 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:29,785 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:29,785 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:29,786 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:29,817 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:29,818 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:29,818 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:29,819 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:29,844 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:29,845 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:29,845 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:29,845 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:29,871 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:29,871 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:29,872 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:29,872 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:29,892 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:29,892 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:29,892 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:29,892 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:29,913 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:29,913 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:29,914 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:29,914 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:29,936 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:29,937 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:29,937 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:29,938 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:29,960 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:29,961 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:29,961 | INFO     | [CSVQueue] Queue size: 0
+2026-08-16 11:44:29,986 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:29,986 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:29,986 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:29,989 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:30,008 | ERROR    | [DataAdapter] update failed for GBPUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:30,015 | ERROR    | [DataAdapter] update failed for EURUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:30,016 | ERROR    | [DataAdapter] update failed for EURGBP-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:30,016 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:30,017 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:30,017 | ERROR    | [DataAdapter] update failed for GBPJPY-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:30,017 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:30,018 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:30,018 | ERROR    | Error getting future result for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for GBPUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:30,020 | ERROR    | Error getting future result for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for EURGBP-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:30,022 | ERROR    | Error getting future result for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for EURUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:30,023 | ERROR    | Error getting future result for GBPJPY-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for GBPJPY-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:30,442 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:30,442 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:30,442 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:30,450 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:30,456 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:30,468 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:30,473 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 1
+2026-08-16 11:44:30,473 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:30,475 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv - Queue size: 2
+2026-08-16 11:44:30,475 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:30,475 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:30,476 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:30,476 | INFO     | [CSVWriter] Writing 110 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:30,477 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv - Queue size: 4
+2026-08-16 11:44:30,477 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 5
+2026-08-16 11:44:30,478 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 6
+2026-08-16 11:44:30,480 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 6
+2026-08-16 11:44:30,481 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv - Queue size: 8
+2026-08-16 11:44:30,503 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:30,503 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:30,504 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:30,504 | INFO     | [CSVWriter] Writing 110 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:30,529 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:30,532 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:30,532 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:30,533 | INFO     | [CSVWriter] Writing 110 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:30,565 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:30,569 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:30,569 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:30,569 | INFO     | [CSVWriter] Writing 109 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:30,604 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:30,608 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:30,608 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:30,609 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:30,629 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:30,629 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:30,630 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:30,631 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:30,672 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:30,673 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:30,673 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:30,673 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:30,695 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:30,695 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:30,700 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:30,704 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:30,705 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:30,695 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:30,706 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:30,695 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:30,720 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:30,733 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:30,734 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 1
+2026-08-16 11:44:30,734 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:30,734 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:30,735 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 1
+2026-08-16 11:44:30,736 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:30,737 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:30,737 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:30,738 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv - Queue size: 4
+2026-08-16 11:44:30,739 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 5
+2026-08-16 11:44:30,739 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 6
+2026-08-16 11:44:30,743 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 6
+2026-08-16 11:44:30,744 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv - Queue size: 8
+2026-08-16 11:44:30,745 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:30,749 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:30,750 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:30,750 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:30,758 | INFO     | [SEC_TRACK] 11:44:30 | Prices: [EURGBP-OTC:0.85906 | EURUSD-OTC:1.15511 | GBPJPY-OTC:212.94339 | GBPUSD-OTC:1.34842] | Balance: $1619.69 | Latency: 329.6ms | Offset: -2.155s
+2026-08-16 11:44:30,759 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:30,760 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:30,760 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:30,760 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:30,762 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:30,762 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:30,762 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:30,763 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:30,778 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:30,778 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:30,778 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:30,779 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:30,779 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:30,779 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:30,780 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:30,780 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:30,796 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:30,799 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:30,800 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:30,800 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:30,802 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:30,802 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:30,803 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:30,803 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:30,815 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:30,816 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:30,816 | INFO     | [CSVQueue] Queue size: 0
+2026-08-16 11:44:30,823 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:30,823 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:30,823 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:30,824 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:30,852 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:30,853 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:30,853 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:30,854 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:30,883 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:30,884 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:30,884 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:30,884 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:30,901 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:30,901 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:30,901 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:30,902 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:30,918 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:30,919 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:30,919 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:30,919 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:30,940 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:30,940 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:30,940 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:30,941 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:30,962 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:30,962 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:30,962 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:30,963 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:30,988 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:30,989 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:30,989 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:30,990 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:31,021 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:31,022 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:31,022 | INFO     | [CSVQueue] Queue size: 0
+2026-08-16 11:44:31,312 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:31,312 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:31,312 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:31,320 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:31,332 | ERROR    | [DataAdapter] update failed for GBPUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:31,340 | ERROR    | [DataAdapter] update failed for EURUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:31,342 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:31,343 | ERROR    | [DataAdapter] update failed for EURGBP-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:31,343 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:31,343 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:31,343 | ERROR    | [DataAdapter] update failed for GBPJPY-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:31,344 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:31,344 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:31,345 | ERROR    | Error getting future result for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for GBPUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:31,347 | ERROR    | Error getting future result for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for EURGBP-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:31,343 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:31,348 | ERROR    | Error getting future result for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for EURUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:31,350 | ERROR    | Error getting future result for GBPJPY-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for GBPJPY-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:31,343 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:31,343 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:31,354 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:31,359 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:31,365 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 2
+2026-08-16 11:44:31,366 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:31,366 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv - Queue size: 1
+2026-08-16 11:44:31,366 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:31,367 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:31,367 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:31,367 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:31,368 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv - Queue size: 4
+2026-08-16 11:44:31,369 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 4
+2026-08-16 11:44:31,372 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:31,372 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:31,373 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv - Queue size: 9
+2026-08-16 11:44:31,374 | INFO     | [SEC_TRACK] 11:44:31 | Prices: [EURGBP-OTC:0.85903 | EURUSD-OTC:1.15505 | GBPJPY-OTC:212.93753 | GBPUSD-OTC:1.34847] | Balance: $1619.69 | Latency: 710.9ms | Offset: -1.876s
+2026-08-16 11:44:31,394 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:31,394 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:31,394 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:31,395 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:31,419 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:31,419 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:31,420 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:31,420 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:31,443 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:31,444 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:31,444 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:31,444 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:31,470 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:31,470 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:31,470 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:31,471 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:31,496 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:31,497 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:31,497 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:31,497 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:31,523 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:31,524 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:31,524 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:31,524 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:31,550 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:31,550 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:31,551 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:31,551 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:31,580 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:31,581 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:31,581 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:31,581 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:31,602 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:31,602 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:31,603 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:31,603 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:31,626 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:31,627 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:31,627 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:31,627 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:31,647 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:31,647 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:31,648 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:31,648 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:31,673 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:31,673 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:31,673 | INFO     | [CSVQueue] Queue size: 0
+2026-08-16 11:44:32,068 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:32,068 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:32,069 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:32,074 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:32,082 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:32,093 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:32,102 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:32,102 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:32,103 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv - Queue size: 1
+2026-08-16 11:44:32,103 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 1
+2026-08-16 11:44:32,103 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 1
+2026-08-16 11:44:32,104 | INFO     | [CSVWriter] Writing 110 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:32,104 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 3
+2026-08-16 11:44:32,105 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv - Queue size: 3
+2026-08-16 11:44:32,107 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 5
+2026-08-16 11:44:32,108 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:32,109 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:32,109 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv - Queue size: 8
+2026-08-16 11:44:32,115 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:32,115 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:32,115 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:32,130 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:32,131 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:32,132 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:32,132 | INFO     | [CSVWriter] Writing 110 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:32,115 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:32,138 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:32,145 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:32,145 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:32,146 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:32,146 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:32,147 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 1
+2026-08-16 11:44:32,147 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:32,147 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 1
+2026-08-16 11:44:32,149 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 4
+2026-08-16 11:44:32,150 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv - Queue size: 4
+2026-08-16 11:44:32,154 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 5
+2026-08-16 11:44:32,155 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 6
+2026-08-16 11:44:32,156 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:32,161 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:32,164 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:32,165 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:32,165 | INFO     | [CSVWriter] Writing 110 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:32,171 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv - Queue size: 9
+2026-08-16 11:44:32,175 | INFO     | [SEC_TRACK] 11:44:32 | Prices: [EURGBP-OTC:0.85906 | EURUSD-OTC:1.15511 | GBPJPY-OTC:212.94339 | GBPUSD-OTC:1.34842] | Balance: $1619.69 | Latency: 415.3ms | Offset: -2.155s
+2026-08-16 11:44:32,176 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:32,177 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:32,177 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:32,178 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:32,194 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:32,196 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:32,197 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:32,198 | INFO     | [CSVWriter] Writing 109 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:32,204 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:32,204 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:32,204 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:32,205 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:32,228 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:32,228 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:32,229 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:32,229 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:32,232 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:32,232 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:32,232 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:32,233 | INFO     | [CSVWriter] Writing 120 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:32,255 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:32,256 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:32,256 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:32,256 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:32,262 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:32,262 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:32,263 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:32,263 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:32,276 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:32,277 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:32,277 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:32,278 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:32,293 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:32,294 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:32,294 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:32,294 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:32,307 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:32,315 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:32,316 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:32,316 | INFO     | [CSVWriter] Writing 259 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:32,325 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:32,326 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:32,326 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:32,326 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:32,344 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:32,344 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:32,345 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:32,345 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:32,356 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:32,357 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:32,357 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:32,357 | INFO     | [CSVWriter] Writing 264 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:32,359 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:32,359 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:32,359 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:32,360 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:32,372 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:32,374 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:32,374 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:32,375 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:32,379 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:32,380 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:32,380 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:32,381 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:32,388 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:32,389 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:32,389 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:32,390 | INFO     | [CSVWriter] Writing 59 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:32,404 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:32,404 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:32,405 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:32,405 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:32,406 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:32,407 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:32,407 | INFO     | [CSVQueue] Queue size: 0
+2026-08-16 11:44:32,426 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:32,426 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:32,426 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:32,427 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:32,459 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:32,460 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:32,460 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:32,461 | INFO     | [CSVWriter] Writing 69 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:32,499 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:32,499 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:32,500 | INFO     | [CSVQueue] Queue size: 0
+2026-08-16 11:44:32,592 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:32,592 | INFO     | [DataAdapter] Starting update for GBPUSD-OTC
+2026-08-16 11:44:32,592 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:32,592 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:32,593 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:32,610 | INFO     | [DataAdapter] Starting update for EURGBP-OTC
+2026-08-16 11:44:32,617 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:32,611 | INFO     | [DataAdapter] Starting update for EURUSD-OTC
+2026-08-16 11:44:32,611 | ERROR    | [DataAdapter] update failed for GBPUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:32,626 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:32,626 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv - Queue size: 0
+2026-08-16 11:44:32,627 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv - Queue size: 1
+2026-08-16 11:44:32,627 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:32,628 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv - Queue size: 1
+2026-08-16 11:44:32,629 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv - Queue size: 2
+2026-08-16 11:44:32,629 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv - Queue size: 3
+2026-08-16 11:44:32,624 | INFO     | [DataAdapter] Starting update for GBPJPY-OTC
+2026-08-16 11:44:32,631 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv - Queue size: 4
+2026-08-16 11:44:32,632 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:32,633 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv - Queue size: 6
+2026-08-16 11:44:32,635 | ERROR    | [DataAdapter] update failed for EURGBP-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:32,637 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:32,637 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:32,637 | INFO     | [CSVQueue] Enqueuing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv - Queue size: 7
+2026-08-16 11:44:32,640 | INFO     | [SEC_TRACK] 11:44:32 | Prices: [EURGBP-OTC:0.85903 | EURUSD-OTC:1.15505 | GBPJPY-OTC:212.93753 | GBPUSD-OTC:1.34847] | Balance: $1619.69 | Latency: 266.1ms | Offset: -1.876s
+2026-08-16 11:44:32,635 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:32,649 | ERROR    | [DataAdapter] update failed for EURUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:32,650 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:32,651 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:32,651 | ERROR    | [DataAdapter] update failed for GBPJPY-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:32,652 | ERROR    | [DataAdapter] Zero Tolerance: stopping immediately - no retry allowed
+2026-08-16 11:44:32,653 | ERROR    | Error getting future result for GBPUSD-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for GBPUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:32,655 | ERROR    | Error getting future result for EURGBP-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for EURGBP-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:32,657 | ERROR    | Error getting future result for EURUSD-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for EURUSD-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:32,659 | ERROR    | Error getting future result for GBPJPY-OTC
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 235, in update
+    completed_m5 = process_candle_refresh(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\csv_queue.py", line 64, in enqueue_write
+    self._worker_thread.join(timeout=self.queue_timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 196, in run_cycle
+    ConsoleUI.show_prices_and_balance(prices_dict, balance)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\runner.py", line 155, in fetch_and_save_data
+    # Fetch and save data concurrently (writes 8-column CSVs to SSD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_feed\data_adapter.py", line 243, in update
+    max_candles=260,
+data_feed.exceptions.DataFeedError: Zero Tolerance: update failed for GBPJPY-OTC: FAIL-FAST: CSVQueue size exceeded max limit (1000) - write blocked for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:32,664 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:32,664 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M1.csv
+2026-08-16 11:44:32,664 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:32,665 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:32,682 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:32,683 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M1.csv
+2026-08-16 11:44:32,683 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:32,684 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:32,713 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:32,714 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M1.csv
+2026-08-16 11:44:32,714 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:32,715 | INFO     | [CSVWriter] Writing 119 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:32,744 | INFO     | [CSVWriter] Successfully wrote 170 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:32,744 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M1.csv
+2026-08-16 11:44:32,746 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:32,747 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:32,811 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:32,812 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M5.csv
+2026-08-16 11:44:32,812 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:32,813 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:32,854 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:32,855 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M5.csv
+2026-08-16 11:44:32,856 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:32,856 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:32,886 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:32,886 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M5.csv
+2026-08-16 11:44:32,887 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:32,887 | INFO     | [CSVWriter] Writing 262 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:32,910 | INFO     | [CSVWriter] Successfully wrote 271 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:32,911 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M5.csv
+2026-08-16 11:44:32,911 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:32,912 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:32,925 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:32,925 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPUSD-OTC\GBPUSD-OTC_M15.csv
+2026-08-16 11:44:32,925 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:32,925 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:32,938 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:32,938 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURGBP-OTC\EURGBP-OTC_M15.csv
+2026-08-16 11:44:32,939 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:32,939 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:32,951 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:32,951 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\EURUSD-OTC\EURUSD-OTC_M15.csv
+2026-08-16 11:44:32,952 | INFO     | [CSVQueue] Processing write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:32,952 | INFO     | [CSVWriter] Writing 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:32,964 | INFO     | [CSVWriter] Successfully wrote 70 rows to data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:32,965 | INFO     | [CSVQueue] Successfully processed write for data_base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
+2026-08-16 11:44:32,965 | INFO     | [CSVQueue] Queue size: 0
