@@ -6,7 +6,7 @@ import threading
 from datetime import datetime, timezone, timedelta
 import pandas as pd
 from typing import Optional
-from monitoring.console_dashboard import ConsoleUI, logger, setup_logging, thai_console_log
+from monitoring.console_dashboard import ConsoleUI, logger, setup_logging
 import concurrent.futures
 
 setup_logging()
@@ -18,6 +18,7 @@ from data_feed.csv_time_sync import TimeSyncManager
 
 # Part 2: Data Evaluate
 from data_evaluate.orchestrator import Orchestrator
+from config_setting.config_loader import get_symbols
 
 
 class PureAIRunner:
@@ -35,10 +36,9 @@ class PureAIRunner:
         account_cfg = self.settings.get("account", {})
         self.account_type = account_cfg.get("account_type", "PRACTICE")
         
-        # Load symbols from config
-        from main import load_symbols
+        # Load symbols from config (single source of truth)
         try:
-            self.symbols = load_symbols()
+            self.symbols = get_symbols()
         except Exception as e:
             logger.exception("Failed to load symbols — Zero Tolerance: stopping immediately")
             raise Exception("Configuration error: symbols not loaded — bot stopped")
@@ -97,10 +97,18 @@ class PureAIRunner:
 
         # Initialize a reusable ThreadPoolExecutor
         self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=len(self.symbols) if self.symbols else 1)
+        self._executor_shutdown = False
         
         # ── Part 2: Initialize Orchestrator (Data Evaluate) ──────────
         self.orchestrator = Orchestrator()
         logger.info("[Runner] Orchestrator (Part 2) initialized")
+
+    def _shutdown_executor(self):
+        """Safely shutdown the executor to prevent resource leak."""
+        if not self._executor_shutdown and hasattr(self, 'executor'):
+            self.executor.shutdown(wait=True)
+            self._executor_shutdown = True
+            logger.info("[Runner] ThreadPoolExecutor shutdown complete")
 
     def _countdown_to_first_candle(self):
         """คำนวณเวลาถอยหลังรอขอบนาทีถัดไป (วินาทีที่ :01.500) เพื่อให้แท่งเทียนปิดสมบูรณ์ก่อนเริ่มรอบทำงานสด พร้อม Second-by-Second Tracking"""
@@ -215,17 +223,21 @@ class PureAIRunner:
     def start(self):
         self._countdown_to_first_candle()
 
-        while True:
-            try:
-                self.run_cycle()
-                time.sleep(1.0)
+        try:
+            while True:
+                try:
+                    self.run_cycle()
+                    time.sleep(1.0)
 
-            except KeyboardInterrupt:
-                ConsoleUI.show_stopping()
-                break
-            except Exception as e:
-                logger.exception("Error in main loop")
-                raise RuntimeError(f"FAIL-FAST: Error in runner execution loop: {e}") from e
+                except KeyboardInterrupt:
+                    ConsoleUI.show_stopping()
+                    break
+                except Exception as e:
+                    logger.exception("Error in main loop")
+                    raise RuntimeError(f"FAIL-FAST: Error in runner execution loop: {e}") from e
+        finally:
+            # Ensure executor is always shutdown on exit
+            self._shutdown_executor()
 
 if __name__ == "__main__":
     runner = PureAIRunner()
