@@ -64862,3 +64862,261 @@ _base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
 2026-08-16 13:08:26,522 | ERROR    | Failed to fetch candles for GBPJPY-OTC/H4: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
 2026-08-16 13:08:26,522 | WARNING  | [GBPJPY-OTC/H4] No data received from broker
 2026-08-16 13:08:26,559 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-08-16 13:12:43,867 | INFO     | TimeSyncManager initialized with 30s tolerance
+2026-08-16 13:12:43,877 | INFO     | กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+2026-08-16 13:12:43,877 | INFO     | Initializing broker: iq_option with user: venuz20152565@gmail.com
+2026-08-16 13:12:43,877 | INFO     | Creating iq_option adapter...
+2026-08-16 13:12:43,877 | INFO     | IQ Option adapter initialized for user: venuz20152565@gmail.com
+2026-08-16 13:12:43,878 | INFO     | iq_option adapter created successfully
+2026-08-16 13:12:44,085 | WARNING  | iqoptionapi not installed, using mock connection
+2026-08-16 13:12:44,132 | INFO     | เชื่อมต่อ IQ Option สำเร็จ
+2026-08-16 13:12:44,133 | INFO     | DataProcessor initialized
+2026-08-16 13:12:44,133 | INFO     | DataAdapter initialized with base_dir: data_base/csv/iq_option
+2026-08-16 13:12:44,133 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:12:44,137 | INFO     | บัญชี DEMO | Balance: $10000.00
+2026-08-16 13:12:44,290 | INFO     | 💰 ยอดเงินในระบบ: $10000.00
+2026-08-16 13:12:44,290 | INFO     | Time synced with server. Offset: 0.000s
+2026-08-16 13:12:44,296 | INFO     | ตรวจพบรายการสินทรัพย์ : GBPUSD-OTC, EURGBP-OTC, EURUSD-OTC, GBPJPY-OTC
+2026-08-16 13:12:44,302 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์ 4 รายการ : GBPUSD-OTC, EURGBP-OTC, EURUSD-OTC, GBPJPY-OTC
+2026-08-16 13:12:44,303 | INFO     | Initializing symbol: GBPUSD-OTC for timeframes: ['M1', 'M5', 'M15', 'M30', 'H1', 'H4']
+2026-08-16 13:12:44,306 | ERROR    | Failed to fetch candles for GBPUSD-OTC/M1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,306 | WARNING  | [GBPUSD-OTC/M1] No data received from broker
+2026-08-16 13:12:44,309 | ERROR    | Failed to fetch candles for GBPUSD-OTC/M5: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,309 | WARNING  | [GBPUSD-OTC/M5] No data received from broker
+2026-08-16 13:12:44,312 | ERROR    | Failed to fetch candles for GBPUSD-OTC/M15: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,312 | WARNING  | [GBPUSD-OTC/M15] No data received from broker
+2026-08-16 13:12:44,315 | ERROR    | Failed to fetch candles for GBPUSD-OTC/M30: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,315 | WARNING  | [GBPUSD-OTC/M30] No data received from broker
+2026-08-16 13:12:44,318 | ERROR    | Failed to fetch candles for GBPUSD-OTC/H1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,319 | WARNING  | [GBPUSD-OTC/H1] No data received from broker
+2026-08-16 13:12:44,321 | ERROR    | Failed to fetch candles for GBPUSD-OTC/H4: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,322 | WARNING  | [GBPUSD-OTC/H4] No data received from broker
+2026-08-16 13:12:44,322 | INFO     | Initializing symbol: EURGBP-OTC for timeframes: ['M1', 'M5', 'M15', 'M30', 'H1', 'H4']
+2026-08-16 13:12:44,324 | ERROR    | Failed to fetch candles for EURGBP-OTC/M1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,324 | WARNING  | [EURGBP-OTC/M1] No data received from broker
+2026-08-16 13:12:44,327 | ERROR    | Failed to fetch candles for EURGBP-OTC/M5: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,327 | WARNING  | [EURGBP-OTC/M5] No data received from broker
+2026-08-16 13:12:44,330 | ERROR    | Failed to fetch candles for EURGBP-OTC/M15: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,330 | WARNING  | [EURGBP-OTC/M15] No data received from broker
+2026-08-16 13:12:44,333 | ERROR    | Failed to fetch candles for EURGBP-OTC/M30: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,333 | WARNING  | [EURGBP-OTC/M30] No data received from broker
+2026-08-16 13:12:44,336 | ERROR    | Failed to fetch candles for EURGBP-OTC/H1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,336 | WARNING  | [EURGBP-OTC/H1] No data received from broker
+2026-08-16 13:12:44,339 | ERROR    | Failed to fetch candles for EURGBP-OTC/H4: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,339 | WARNING  | [EURGBP-OTC/H4] No data received from broker
+2026-08-16 13:12:44,339 | INFO     | Initializing symbol: EURUSD-OTC for timeframes: ['M1', 'M5', 'M15', 'M30', 'H1', 'H4']
+2026-08-16 13:12:44,341 | ERROR    | Failed to fetch candles for EURUSD-OTC/M1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,341 | WARNING  | [EURUSD-OTC/M1] No data received from broker
+2026-08-16 13:12:44,344 | ERROR    | Failed to fetch candles for EURUSD-OTC/M5: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,344 | WARNING  | [EURUSD-OTC/M5] No data received from broker
+2026-08-16 13:12:44,347 | ERROR    | Failed to fetch candles for EURUSD-OTC/M15: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,347 | WARNING  | [EURUSD-OTC/M15] No data received from broker
+2026-08-16 13:12:44,350 | ERROR    | Failed to fetch candles for EURUSD-OTC/M30: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,351 | WARNING  | [EURUSD-OTC/M30] No data received from broker
+2026-08-16 13:12:44,353 | ERROR    | Failed to fetch candles for EURUSD-OTC/H1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,354 | WARNING  | [EURUSD-OTC/H1] No data received from broker
+2026-08-16 13:12:44,357 | ERROR    | Failed to fetch candles for EURUSD-OTC/H4: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,357 | WARNING  | [EURUSD-OTC/H4] No data received from broker
+2026-08-16 13:12:44,357 | INFO     | Initializing symbol: GBPJPY-OTC for timeframes: ['M1', 'M5', 'M15', 'M30', 'H1', 'H4']
+2026-08-16 13:12:44,359 | ERROR    | Failed to fetch candles for GBPJPY-OTC/M1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,359 | WARNING  | [GBPJPY-OTC/M1] No data received from broker
+2026-08-16 13:12:44,362 | ERROR    | Failed to fetch candles for GBPJPY-OTC/M5: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,363 | WARNING  | [GBPJPY-OTC/M5] No data received from broker
+2026-08-16 13:12:44,366 | ERROR    | Failed to fetch candles for GBPJPY-OTC/M15: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,366 | WARNING  | [GBPJPY-OTC/M15] No data received from broker
+2026-08-16 13:12:44,369 | ERROR    | Failed to fetch candles for GBPJPY-OTC/M30: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,369 | WARNING  | [GBPJPY-OTC/M30] No data received from broker
+2026-08-16 13:12:44,372 | ERROR    | Failed to fetch candles for GBPJPY-OTC/H1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,373 | WARNING  | [GBPJPY-OTC/H1] No data received from broker
+2026-08-16 13:12:44,376 | ERROR    | Failed to fetch candles for GBPJPY-OTC/H4: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:12:44,376 | WARNING  | [GBPJPY-OTC/H4] No data received from broker
+2026-08-16 13:12:44,416 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-08-16 13:12:44,416 | INFO     | Starting stream for GBPUSD-OTC M1
+2026-08-16 13:12:44,418 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:12:44,419 | WARNING  | Failed to start stream for GBPUSD-OTC M1
+2026-08-16 13:12:44,419 | INFO     | Starting stream for GBPUSD-OTC M5
+2026-08-16 13:12:44,421 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:12:44,422 | WARNING  | Failed to start stream for GBPUSD-OTC M5
+2026-08-16 13:12:44,422 | INFO     | Starting stream for GBPUSD-OTC M15
+2026-08-16 13:12:44,424 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:12:44,424 | WARNING  | Failed to start stream for GBPUSD-OTC M15
+2026-08-16 13:12:44,424 | INFO     | Starting stream for EURGBP-OTC M1
+2026-08-16 13:12:44,426 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:12:44,426 | WARNING  | Failed to start stream for EURGBP-OTC M1
+2026-08-16 13:12:44,426 | INFO     | Starting stream for EURGBP-OTC M5
+2026-08-16 13:12:44,429 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:12:44,429 | WARNING  | Failed to start stream for EURGBP-OTC M5
+2026-08-16 13:12:44,429 | INFO     | Starting stream for EURGBP-OTC M15
+2026-08-16 13:12:44,431 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:12:44,431 | WARNING  | Failed to start stream for EURGBP-OTC M15
+2026-08-16 13:12:44,431 | INFO     | Starting stream for EURUSD-OTC M1
+2026-08-16 13:12:44,433 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:12:44,433 | WARNING  | Failed to start stream for EURUSD-OTC M1
+2026-08-16 13:12:44,433 | INFO     | Starting stream for EURUSD-OTC M5
+2026-08-16 13:12:44,437 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:12:44,437 | WARNING  | Failed to start stream for EURUSD-OTC M5
+2026-08-16 13:12:44,438 | INFO     | Starting stream for EURUSD-OTC M15
+2026-08-16 13:12:44,440 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:12:44,440 | WARNING  | Failed to start stream for EURUSD-OTC M15
+2026-08-16 13:12:44,440 | INFO     | Starting stream for GBPJPY-OTC M1
+2026-08-16 13:12:44,442 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:12:44,442 | WARNING  | Failed to start stream for GBPJPY-OTC M1
+2026-08-16 13:12:44,442 | INFO     | Starting stream for GBPJPY-OTC M5
+2026-08-16 13:12:44,445 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:12:44,446 | WARNING  | Failed to start stream for GBPJPY-OTC M5
+2026-08-16 13:12:44,446 | INFO     | Starting stream for GBPJPY-OTC M15
+2026-08-16 13:12:44,449 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:12:44,449 | WARNING  | Failed to start stream for GBPJPY-OTC M15
+2026-08-16 13:12:44,449 | INFO     | ⏳ [STARTUP] รอแท่งปัจจุบันจบอีก 17.1 วินาที... (เริ่มรัน Data Feed สด ณ 13:13:01)
+2026-08-16 13:12:44,456 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 17.1 วินาที  (เริ่ม 13:13:01)
+2026-08-16 13:12:44,456 | INFO     | [SEC_TRACK] 13:12:44 | Countdown: 17.0s | Offset: 0.000s
+2026-08-16 13:12:45,457 | INFO     | [SEC_TRACK] 13:12:45 | Countdown: 16.0s | Offset: 0.000s
+2026-08-16 13:12:46,458 | INFO     | [SEC_TRACK] 13:12:46 | Countdown: 15.0s | Offset: 0.000s
+2026-08-16 13:12:47,459 | INFO     | [SEC_TRACK] 13:12:47 | Countdown: 14.0s | Offset: 0.000s
+2026-08-16 13:12:48,459 | INFO     | [SEC_TRACK] 13:12:48 | Countdown: 13.0s | Offset: 0.000s
+2026-08-16 13:12:49,460 | INFO     | [SEC_TRACK] 13:12:49 | Countdown: 12.0s | Offset: 0.000s
+2026-08-16 13:12:50,461 | INFO     | [SEC_TRACK] 13:12:50 | Countdown: 11.0s | Offset: 0.000s
+2026-08-16 13:12:51,461 | INFO     | [SEC_TRACK] 13:12:51 | Countdown: 10.0s | Offset: 0.000s
+2026-08-16 13:12:52,462 | INFO     | [SEC_TRACK] 13:12:52 | Countdown: 9.0s | Offset: 0.000s
+2026-08-16 13:12:53,463 | INFO     | [SEC_TRACK] 13:12:53 | Countdown: 8.0s | Offset: 0.000s
+2026-08-16 13:12:54,463 | INFO     | [SEC_TRACK] 13:12:54 | Countdown: 7.0s | Offset: 0.000s
+2026-08-16 13:12:55,464 | INFO     | [SEC_TRACK] 13:12:55 | Countdown: 6.0s | Offset: 0.000s
+2026-08-16 13:12:56,464 | INFO     | [SEC_TRACK] 13:12:56 | Countdown: 5.0s | Offset: 0.000s
+2026-08-16 13:12:57,465 | INFO     | [SEC_TRACK] 13:12:57 | Countdown: 4.0s | Offset: 0.000s
+2026-08-16 13:12:58,466 | INFO     | [SEC_TRACK] 13:12:58 | Countdown: 3.0s | Offset: 0.000s
+2026-08-16 13:12:59,466 | INFO     | [SEC_TRACK] 13:12:59 | Countdown: 2.0s | Offset: 0.000s
+2026-08-16 13:13:00,467 | INFO     | [SEC_TRACK] 13:13:00 | Countdown: 1.0s | Offset: 0.000s
+2026-08-16 13:13:01,467 | INFO     | [SEC_TRACK] 13:13:01 | Countdown: 0.0s | Offset: 0.000s
+2026-08-16 13:13:01,568 | ERROR    | Connection check failed — stopping cycle
+2026-08-16 13:13:01,568 | ERROR    | Error in main loop
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 227, in start
+    self.run_cycle()
+  File "E:\FINALBOT_Begin\runner.py", line 162, in run_cycle
+    self.data_adapter.ensure_connected()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'IQOptionAdapter' object has no attribute 'ensure_connected'. Did you mean: 'is_connected'?
+2026-08-16 13:15:53,383 | INFO     | TimeSyncManager initialized with 30s tolerance
+2026-08-16 13:15:53,395 | INFO     | กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+2026-08-16 13:15:53,395 | INFO     | Initializing broker: iq_option with user: venuz20152565@gmail.com
+2026-08-16 13:15:53,395 | INFO     | Creating iq_option adapter...
+2026-08-16 13:15:53,395 | INFO     | IQ Option adapter initialized for user: venuz20152565@gmail.com
+2026-08-16 13:15:53,395 | INFO     | iq_option adapter created successfully
+2026-08-16 13:15:53,610 | WARNING  | iqoptionapi not installed, using mock connection
+2026-08-16 13:15:53,633 | INFO     | เชื่อมต่อ IQ Option สำเร็จ
+2026-08-16 13:15:53,633 | INFO     | DataProcessor initialized
+2026-08-16 13:15:53,633 | INFO     | DataAdapter initialized with base_dir: data_base/csv/iq_option
+2026-08-16 13:15:53,634 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:15:53,639 | INFO     | บัญชี DEMO | Balance: $10000.00
+2026-08-16 13:15:53,793 | INFO     | 💰 ยอดเงินในระบบ: $10000.00
+2026-08-16 13:15:53,793 | INFO     | Time synced with server. Offset: 0.001s
+2026-08-16 13:15:53,798 | INFO     | ตรวจพบรายการสินทรัพย์ : GBPUSD-OTC, EURGBP-OTC, EURUSD-OTC, GBPJPY-OTC
+2026-08-16 13:15:53,805 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์ 4 รายการ : GBPUSD-OTC, EURGBP-OTC, EURUSD-OTC, GBPJPY-OTC
+2026-08-16 13:15:53,805 | INFO     | Initializing symbol: GBPUSD-OTC for timeframes: ['M1', 'M5', 'M15', 'M30', 'H1', 'H4']
+2026-08-16 13:15:53,808 | ERROR    | Failed to fetch candles for GBPUSD-OTC/M1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,809 | WARNING  | [GBPUSD-OTC/M1] No data received from broker
+2026-08-16 13:15:53,812 | ERROR    | Failed to fetch candles for GBPUSD-OTC/M5: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,812 | WARNING  | [GBPUSD-OTC/M5] No data received from broker
+2026-08-16 13:15:53,815 | ERROR    | Failed to fetch candles for GBPUSD-OTC/M15: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,815 | WARNING  | [GBPUSD-OTC/M15] No data received from broker
+2026-08-16 13:15:53,819 | ERROR    | Failed to fetch candles for GBPUSD-OTC/M30: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,819 | WARNING  | [GBPUSD-OTC/M30] No data received from broker
+2026-08-16 13:15:53,822 | ERROR    | Failed to fetch candles for GBPUSD-OTC/H1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,823 | WARNING  | [GBPUSD-OTC/H1] No data received from broker
+2026-08-16 13:15:53,826 | ERROR    | Failed to fetch candles for GBPUSD-OTC/H4: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,826 | WARNING  | [GBPUSD-OTC/H4] No data received from broker
+2026-08-16 13:15:53,826 | INFO     | Initializing symbol: EURGBP-OTC for timeframes: ['M1', 'M5', 'M15', 'M30', 'H1', 'H4']
+2026-08-16 13:15:53,828 | ERROR    | Failed to fetch candles for EURGBP-OTC/M1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,828 | WARNING  | [EURGBP-OTC/M1] No data received from broker
+2026-08-16 13:15:53,832 | ERROR    | Failed to fetch candles for EURGBP-OTC/M5: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,832 | WARNING  | [EURGBP-OTC/M5] No data received from broker
+2026-08-16 13:15:53,835 | ERROR    | Failed to fetch candles for EURGBP-OTC/M15: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,835 | WARNING  | [EURGBP-OTC/M15] No data received from broker
+2026-08-16 13:15:53,838 | ERROR    | Failed to fetch candles for EURGBP-OTC/M30: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,838 | WARNING  | [EURGBP-OTC/M30] No data received from broker
+2026-08-16 13:15:53,842 | ERROR    | Failed to fetch candles for EURGBP-OTC/H1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,842 | WARNING  | [EURGBP-OTC/H1] No data received from broker
+2026-08-16 13:15:53,845 | ERROR    | Failed to fetch candles for EURGBP-OTC/H4: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,845 | WARNING  | [EURGBP-OTC/H4] No data received from broker
+2026-08-16 13:15:53,845 | INFO     | Initializing symbol: EURUSD-OTC for timeframes: ['M1', 'M5', 'M15', 'M30', 'H1', 'H4']
+2026-08-16 13:15:53,847 | ERROR    | Failed to fetch candles for EURUSD-OTC/M1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,847 | WARNING  | [EURUSD-OTC/M1] No data received from broker
+2026-08-16 13:15:53,850 | ERROR    | Failed to fetch candles for EURUSD-OTC/M5: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,851 | WARNING  | [EURUSD-OTC/M5] No data received from broker
+2026-08-16 13:15:53,854 | ERROR    | Failed to fetch candles for EURUSD-OTC/M15: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,854 | WARNING  | [EURUSD-OTC/M15] No data received from broker
+2026-08-16 13:15:53,857 | ERROR    | Failed to fetch candles for EURUSD-OTC/M30: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,857 | WARNING  | [EURUSD-OTC/M30] No data received from broker
+2026-08-16 13:15:53,860 | ERROR    | Failed to fetch candles for EURUSD-OTC/H1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,860 | WARNING  | [EURUSD-OTC/H1] No data received from broker
+2026-08-16 13:15:53,863 | ERROR    | Failed to fetch candles for EURUSD-OTC/H4: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,863 | WARNING  | [EURUSD-OTC/H4] No data received from broker
+2026-08-16 13:15:53,863 | INFO     | Initializing symbol: GBPJPY-OTC for timeframes: ['M1', 'M5', 'M15', 'M30', 'H1', 'H4']
+2026-08-16 13:15:53,865 | ERROR    | Failed to fetch candles for GBPJPY-OTC/M1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,865 | WARNING  | [GBPJPY-OTC/M1] No data received from broker
+2026-08-16 13:15:53,870 | ERROR    | Failed to fetch candles for GBPJPY-OTC/M5: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,870 | WARNING  | [GBPJPY-OTC/M5] No data received from broker
+2026-08-16 13:15:53,875 | ERROR    | Failed to fetch candles for GBPJPY-OTC/M15: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,875 | WARNING  | [GBPJPY-OTC/M15] No data received from broker
+2026-08-16 13:15:53,878 | ERROR    | Failed to fetch candles for GBPJPY-OTC/M30: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,878 | WARNING  | [GBPJPY-OTC/M30] No data received from broker
+2026-08-16 13:15:53,881 | ERROR    | Failed to fetch candles for GBPJPY-OTC/H1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,881 | WARNING  | [GBPJPY-OTC/H1] No data received from broker
+2026-08-16 13:15:53,884 | ERROR    | Failed to fetch candles for GBPJPY-OTC/H4: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:15:53,885 | WARNING  | [GBPJPY-OTC/H4] No data received from broker
+2026-08-16 13:15:53,935 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-08-16 13:15:53,935 | INFO     | Starting stream for GBPUSD-OTC M1
+2026-08-16 13:15:53,937 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:15:53,938 | WARNING  | Failed to start stream for GBPUSD-OTC M1
+2026-08-16 13:15:53,938 | INFO     | Starting stream for GBPUSD-OTC M5
+2026-08-16 13:15:53,941 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:15:53,941 | WARNING  | Failed to start stream for GBPUSD-OTC M5
+2026-08-16 13:15:53,941 | INFO     | Starting stream for GBPUSD-OTC M15
+2026-08-16 13:15:53,943 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:15:53,943 | WARNING  | Failed to start stream for GBPUSD-OTC M15
+2026-08-16 13:15:53,943 | INFO     | Starting stream for EURGBP-OTC M1
+2026-08-16 13:15:53,945 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:15:53,945 | WARNING  | Failed to start stream for EURGBP-OTC M1
+2026-08-16 13:15:53,945 | INFO     | Starting stream for EURGBP-OTC M5
+2026-08-16 13:15:53,949 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:15:53,949 | WARNING  | Failed to start stream for EURGBP-OTC M5
+2026-08-16 13:15:53,949 | INFO     | Starting stream for EURGBP-OTC M15
+2026-08-16 13:15:53,950 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:15:53,951 | WARNING  | Failed to start stream for EURGBP-OTC M15
+2026-08-16 13:15:53,951 | INFO     | Starting stream for EURUSD-OTC M1
+2026-08-16 13:15:53,953 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:15:53,953 | WARNING  | Failed to start stream for EURUSD-OTC M1
+2026-08-16 13:15:53,953 | INFO     | Starting stream for EURUSD-OTC M5
+2026-08-16 13:15:53,956 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:15:53,956 | WARNING  | Failed to start stream for EURUSD-OTC M5
+2026-08-16 13:15:53,956 | INFO     | Starting stream for EURUSD-OTC M15
+2026-08-16 13:15:53,958 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:15:53,958 | WARNING  | Failed to start stream for EURUSD-OTC M15
+2026-08-16 13:15:53,958 | INFO     | Starting stream for GBPJPY-OTC M1
+2026-08-16 13:15:53,960 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:15:53,960 | WARNING  | Failed to start stream for GBPJPY-OTC M1
+2026-08-16 13:15:53,960 | INFO     | Starting stream for GBPJPY-OTC M5
+2026-08-16 13:15:53,963 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:15:53,963 | WARNING  | Failed to start stream for GBPJPY-OTC M5
+2026-08-16 13:15:53,964 | INFO     | Starting stream for GBPJPY-OTC M15
+2026-08-16 13:15:53,965 | WARNING  | API not initialized, cannot subscribe
+2026-08-16 13:15:53,965 | WARNING  | Failed to start stream for GBPJPY-OTC M15
+2026-08-16 13:15:53,966 | INFO     | ⏳ [STARTUP] รอแท่งปัจจุบันจบอีก 7.5 วินาที... (เริ่มรัน Data Feed สด ณ 13:16:01)
+2026-08-16 13:15:53,972 | INFO     | เข้าสู่การวิเคราะห์สัญญาณในอีก 7.5 วินาที  (เริ่ม 13:16:01)
+2026-08-16 13:15:53,972 | INFO     | [SEC_TRACK] 13:15:53 | Countdown: 7.5s | Offset: 0.001s
+2026-08-16 13:15:54,974 | INFO     | [SEC_TRACK] 13:15:54 | Countdown: 6.5s | Offset: 0.001s
+2026-08-16 13:15:55,974 | INFO     | [SEC_TRACK] 13:15:55 | Countdown: 5.5s | Offset: 0.001s
+2026-08-16 13:15:56,975 | INFO     | [SEC_TRACK] 13:15:56 | Countdown: 4.5s | Offset: 0.001s
+2026-08-16 13:15:57,975 | INFO     | [SEC_TRACK] 13:15:57 | Countdown: 3.5s | Offset: 0.001s
+2026-08-16 13:15:58,976 | INFO     | [SEC_TRACK] 13:15:58 | Countdown: 2.5s | Offset: 0.001s
+2026-08-16 13:15:59,976 | INFO     | [SEC_TRACK] 13:15:59 | Countdown: 1.5s | Offset: 0.001s
+2026-08-16 13:16:00,977 | INFO     | [SEC_TRACK] 13:16:00 | Countdown: 0.5s | Offset: 0.001s
+2026-08-16 13:16:01,502 | ERROR    | Connection check failed — stopping cycle
+2026-08-16 13:16:01,502 | ERROR    | Error in main loop
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\runner.py", line 227, in start
+    self.run_cycle()
+  File "E:\FINALBOT_Begin\runner.py", line 162, in run_cycle
+    self.data_adapter.ensure_connected()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'IQOptionAdapter' object has no attribute 'ensure_connected'. Did you mean: 'is_connected'?
