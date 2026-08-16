@@ -303,8 +303,13 @@ class ConsoleUI:
     @staticmethod
     def show_prices_and_balance(prices_dict, balance):
         try:
-            price_parts = [f"{sym}:{price:.5f}" for sym, price in prices_dict.items()]
-            price_str = "][".join(price_parts)
+            # แสดงราคาคู่เงินทั้งหมดในรูปแบบที่อ่านง่าย
+            if prices_dict:
+                price_parts = [f"{sym}: {price:.5f}" for sym, price in sorted(prices_dict.items())]
+                price_str = ", ".join(price_parts)
+            else:
+                price_str = "N/A"
+            
             balance_str = f"${balance:.2f}" if balance is not None else "N/A"
             thai_console_log(f"[{price_str}] :: TOTAL={balance_str}")
         except Exception as e:
