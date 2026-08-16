@@ -64793,3 +64793,72 @@ _base/csv/iq_option\GBPJPY-OTC\GBPJPY-OTC_M15.csv
 2026-08-16 06:03:11,579 | ERROR    | Failed to fetch candles for GBPJPY-OTC/H4: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
 2026-08-16 06:03:11,579 | WARNING  | [GBPJPY-OTC/H4] No data received from broker
 2026-08-16 06:03:11,580 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
+2026-08-16 13:08:25,942 | INFO     | TimeSyncManager initialized with 30s tolerance
+2026-08-16 13:08:25,983 | INFO     | กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+2026-08-16 13:08:25,983 | INFO     | Initializing broker: iq_option with user: venuz20152565@gmail.com
+2026-08-16 13:08:25,983 | INFO     | Creating iq_option adapter...
+2026-08-16 13:08:25,983 | INFO     | IQ Option adapter initialized for user: venuz20152565@gmail.com
+2026-08-16 13:08:25,984 | INFO     | iq_option adapter created successfully
+2026-08-16 13:08:26,200 | WARNING  | iqoptionapi not installed, using mock connection
+2026-08-16 13:08:26,210 | INFO     | เชื่อมต่อ IQ Option สำเร็จ
+2026-08-16 13:08:26,211 | INFO     | DataProcessor initialized
+2026-08-16 13:08:26,211 | INFO     | DataAdapter initialized with base_dir: data_base/csv/iq_option
+2026-08-16 13:08:26,211 | WARNING  | Broker adapter has no get_balance(), using mock balance
+2026-08-16 13:08:26,216 | INFO     | บัญชี DEMO | Balance: $10000.00
+2026-08-16 13:08:26,428 | INFO     | 💰 ยอดเงินในระบบ: $10000.00
+2026-08-16 13:08:26,428 | INFO     | Time synced with server. Offset: 0.001s
+2026-08-16 13:08:26,434 | INFO     | ตรวจพบรายการสินทรัพย์ : GBPUSD-OTC, EURGBP-OTC, EURUSD-OTC, GBPJPY-OTC
+2026-08-16 13:08:26,442 | INFO     | กำลังเตรียมข้อมูลสินทรัพย์ 4 รายการ : GBPUSD-OTC, EURGBP-OTC, EURUSD-OTC, GBPJPY-OTC
+2026-08-16 13:08:26,442 | INFO     | Initializing symbol: GBPUSD-OTC for timeframes: ['M1', 'M5', 'M15', 'M30', 'H1', 'H4']
+2026-08-16 13:08:26,447 | ERROR    | Failed to fetch candles for GBPUSD-OTC/M1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,447 | WARNING  | [GBPUSD-OTC/M1] No data received from broker
+2026-08-16 13:08:26,451 | ERROR    | Failed to fetch candles for GBPUSD-OTC/M5: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,451 | WARNING  | [GBPUSD-OTC/M5] No data received from broker
+2026-08-16 13:08:26,455 | ERROR    | Failed to fetch candles for GBPUSD-OTC/M15: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,455 | WARNING  | [GBPUSD-OTC/M15] No data received from broker
+2026-08-16 13:08:26,460 | ERROR    | Failed to fetch candles for GBPUSD-OTC/M30: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,460 | WARNING  | [GBPUSD-OTC/M30] No data received from broker
+2026-08-16 13:08:26,464 | ERROR    | Failed to fetch candles for GBPUSD-OTC/H1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,464 | WARNING  | [GBPUSD-OTC/H1] No data received from broker
+2026-08-16 13:08:26,467 | ERROR    | Failed to fetch candles for GBPUSD-OTC/H4: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,468 | WARNING  | [GBPUSD-OTC/H4] No data received from broker
+2026-08-16 13:08:26,468 | INFO     | Initializing symbol: EURGBP-OTC for timeframes: ['M1', 'M5', 'M15', 'M30', 'H1', 'H4']
+2026-08-16 13:08:26,470 | ERROR    | Failed to fetch candles for EURGBP-OTC/M1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,470 | WARNING  | [EURGBP-OTC/M1] No data received from broker
+2026-08-16 13:08:26,473 | ERROR    | Failed to fetch candles for EURGBP-OTC/M5: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,474 | WARNING  | [EURGBP-OTC/M5] No data received from broker
+2026-08-16 13:08:26,476 | ERROR    | Failed to fetch candles for EURGBP-OTC/M15: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,477 | WARNING  | [EURGBP-OTC/M15] No data received from broker
+2026-08-16 13:08:26,480 | ERROR    | Failed to fetch candles for EURGBP-OTC/M30: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,480 | WARNING  | [EURGBP-OTC/M30] No data received from broker
+2026-08-16 13:08:26,483 | ERROR    | Failed to fetch candles for EURGBP-OTC/H1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,484 | WARNING  | [EURGBP-OTC/H1] No data received from broker
+2026-08-16 13:08:26,486 | ERROR    | Failed to fetch candles for EURGBP-OTC/H4: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,486 | WARNING  | [EURGBP-OTC/H4] No data received from broker
+2026-08-16 13:08:26,487 | INFO     | Initializing symbol: EURUSD-OTC for timeframes: ['M1', 'M5', 'M15', 'M30', 'H1', 'H4']
+2026-08-16 13:08:26,489 | ERROR    | Failed to fetch candles for EURUSD-OTC/M1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,489 | WARNING  | [EURUSD-OTC/M1] No data received from broker
+2026-08-16 13:08:26,492 | ERROR    | Failed to fetch candles for EURUSD-OTC/M5: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,492 | WARNING  | [EURUSD-OTC/M5] No data received from broker
+2026-08-16 13:08:26,495 | ERROR    | Failed to fetch candles for EURUSD-OTC/M15: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,495 | WARNING  | [EURUSD-OTC/M15] No data received from broker
+2026-08-16 13:08:26,498 | ERROR    | Failed to fetch candles for EURUSD-OTC/M30: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,498 | WARNING  | [EURUSD-OTC/M30] No data received from broker
+2026-08-16 13:08:26,501 | ERROR    | Failed to fetch candles for EURUSD-OTC/H1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,502 | WARNING  | [EURUSD-OTC/H1] No data received from broker
+2026-08-16 13:08:26,504 | ERROR    | Failed to fetch candles for EURUSD-OTC/H4: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,505 | WARNING  | [EURUSD-OTC/H4] No data received from broker
+2026-08-16 13:08:26,505 | INFO     | Initializing symbol: GBPJPY-OTC for timeframes: ['M1', 'M5', 'M15', 'M30', 'H1', 'H4']
+2026-08-16 13:08:26,506 | ERROR    | Failed to fetch candles for GBPJPY-OTC/M1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,507 | WARNING  | [GBPJPY-OTC/M1] No data received from broker
+2026-08-16 13:08:26,510 | ERROR    | Failed to fetch candles for GBPJPY-OTC/M5: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,510 | WARNING  | [GBPJPY-OTC/M5] No data received from broker
+2026-08-16 13:08:26,513 | ERROR    | Failed to fetch candles for GBPJPY-OTC/M15: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,513 | WARNING  | [GBPJPY-OTC/M15] No data received from broker
+2026-08-16 13:08:26,516 | ERROR    | Failed to fetch candles for GBPJPY-OTC/M30: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,516 | WARNING  | [GBPJPY-OTC/M30] No data received from broker
+2026-08-16 13:08:26,519 | ERROR    | Failed to fetch candles for GBPJPY-OTC/H1: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,519 | WARNING  | [GBPJPY-OTC/H1] No data received from broker
+2026-08-16 13:08:26,522 | ERROR    | Failed to fetch candles for GBPJPY-OTC/H4: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2026-08-16 13:08:26,522 | WARNING  | [GBPJPY-OTC/H4] No data received from broker
+2026-08-16 13:08:26,559 | INFO     | ข้อมูลพร้อมเทรด 4 รายการ  ไม่พร้อมเทรด 0 รายการ
