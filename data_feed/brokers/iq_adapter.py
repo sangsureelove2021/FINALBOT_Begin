@@ -106,6 +106,17 @@ class IQOptionAdapter(BaseBrokerAdapter):
         except:
             return False
     
+    def ensure_connected(self) -> bool:
+        """ตรวจสอบและรักษาการเชื่อมต่อ - Zero Tolerance Policy"""
+        if not self.is_connected():
+            logger.warning("IQ Option connection lost - attempting reconnect")
+            try:
+                return self.connect()
+            except Exception as e:
+                logger.error(f"Failed to reconnect to IQ Option: {e}")
+                raise BrokerConnectionError(f"Zero Tolerance: Connection lost and reconnect failed: {e}")
+        return True
+    
     def get_server_timestamp(self) -> int:
         """ดึงเวลาจาก Server IQ Option"""
         try:
