@@ -29,6 +29,7 @@ from data_feed.data_processor import (
     process_candle_refresh
 )
 from data_feed.data_cache_store import RAMCacheStore
+from data_feed.csv_time_sync import TimeSyncManager
 
 logger = logging.getLogger(__name__)
 
@@ -206,9 +207,10 @@ class DataAdapter(IDataSource):
         try:
             logger.info(f"[DataAdapter] Starting update for {symbol}")
 
-            current_block_m1 = int(broker_epoch) // 60
-            current_block_m5 = int(broker_epoch) // self.m5_seconds
-            current_block_m15 = int(broker_epoch) // self.m15_seconds
+            # Use TimeSyncManager helper functions to calculate time blocks
+            current_block_m1 = TimeSyncManager.calculate_time_block(broker_epoch, 60)
+            current_block_m5 = TimeSyncManager.calculate_time_block(broker_epoch, self.m5_seconds)
+            current_block_m15 = TimeSyncManager.calculate_time_block(broker_epoch, self.m15_seconds)
 
             # Refresh M1 data using process_candle_refresh
             completed_m1 = process_candle_refresh(

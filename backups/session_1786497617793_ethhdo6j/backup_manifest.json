@@ -1,0 +1,48 @@
+[
+  {
+    "timestamp": 1786497624394,
+    "type": "user_prompt",
+    "operation": "backup_user_prompt",
+    "sessionId": "session_1786497617793_ethhdo6j",
+    "taskContent": "จากการตรวจสอบโดย gg พบปัญหา 2 จุดคือ 1) Return Type Inconsistency ของ ensure_connected() ที่ IQOptionAdapter คืนค่าเป็น None ในขณะที่ PocketAdapter/QuotexAdapter คืนค่าเป็น bool และใน abstract_class.py (IDataSource) ยังไม่มีการประกาศ abstractmethod ensure_connected() -> bool 2) Duplicate Stream Subscription ที่ M1 ถูกสั่ง start_stream ใน init_symbol() (data_adapter.py) แล้วใน runner.py ยังวนลูปสั่ง start_stream สำหรับ M1 ซ้ำอีกรอบ โปรดเข้าตรวจสอบข้อเท็จจริงใน data_feed/ และ runner.py และทำการแก้ไขปรับปรุงให้ถูกต้อง: 1. นิยาม @abstractmethod def ensure_connected(self) -> bool: ใน IDataSource และปรับ ensure_connected() ของ IQOptionAdapter (และ connection.py) ให้คืนค่าเป็น bool (self.connected) เพื่อให้สอดคล้องกันทุก broker 2. ลบการสั่ง start_stream(sym, 'M1', ...) ซ้ำซ้อนใน runner.py ออกคงเหลือเฉพาะ timeframe ที่ยังไม่ได้เริ่ม หรือปรับลำดับการสั่ง stream ไม่ให้ซ้ำซ้อน",
+    "taskLength": 878,
+    "createdAt": "2026-08-12T01:20:17.794Z",
+    "updatedAt": "2026-08-12T01:20:24.394Z"
+  },
+  {
+    "timestamp": 1786497811525,
+    "operation": "replace_in_file",
+    "filePath": "E:\\FINALBOT_Begin\\data_feed\\bridge_adapter\\abstract_class.py",
+    "backupPath": "E:\\FINALBOT_Begin\\backups\\session_1786497617793_ethhdo6j\\data_feed\\bridge_adapter\\abstract_class.py",
+    "sessionId": "session_1786497617793_ethhdo6j",
+    "fileExists": true,
+    "originalSize": 6392
+  },
+  {
+    "timestamp": 1786497822831,
+    "operation": "replace_in_file",
+    "filePath": "E:\\FINALBOT_Begin\\data_feed\\bridge_adapter\\bridge_iq_adapter\\bridge_iq_adapter.py",
+    "backupPath": "E:\\FINALBOT_Begin\\backups\\session_1786497617793_ethhdo6j\\data_feed\\bridge_adapter\\bridge_iq_adapter\\bridge_iq_adapter.py",
+    "sessionId": "session_1786497617793_ethhdo6j",
+    "fileExists": true,
+    "originalSize": 4585
+  },
+  {
+    "timestamp": 1786497835100,
+    "operation": "replace_in_file",
+    "filePath": "E:\\FINALBOT_Begin\\data_feed\\bridge_adapter\\bridge_iq_adapter\\connection.py",
+    "backupPath": "E:\\FINALBOT_Begin\\backups\\session_1786497617793_ethhdo6j\\data_feed\\bridge_adapter\\bridge_iq_adapter\\connection.py",
+    "sessionId": "session_1786497617793_ethhdo6j",
+    "fileExists": true,
+    "originalSize": 6177
+  },
+  {
+    "timestamp": 1786497846893,
+    "operation": "replace_in_file",
+    "filePath": "E:\\FINALBOT_Begin\\runner.py",
+    "backupPath": "E:\\FINALBOT_Begin\\backups\\session_1786497617793_ethhdo6j\\runner.py",
+    "sessionId": "session_1786497617793_ethhdo6j",
+    "fileExists": true,
+    "originalSize": 10191
+  }
+]

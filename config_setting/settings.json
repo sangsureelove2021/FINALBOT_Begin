@@ -76,6 +76,11 @@
       "sync_mode": "strict",
       "m1_m5_resample": true,
       "m5_m15_resample": true
+    },
+    "candle_counts": {
+      "m1": 150,
+      "m5": 250,
+      "m15": 100
     }
   },
   

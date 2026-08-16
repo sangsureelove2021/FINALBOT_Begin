@@ -20,17 +20,7 @@ def main():
     ConsoleUI.show_live_mode_start()
     bot.start()
 
-def load_symbols():
-    """Load symbols from settings.json - Single Source of Truth"""
-    from config_setting.config_loader import get_symbols
-    try:
-        symbols = get_symbols()
-        if not symbols:
-            raise Exception("No symbols found in settings.json")
-        return symbols
-    except Exception as e:
-        logger.exception(f"Failed to load symbols from settings.json: {e}")
-        raise Exception(f"Configuration error: symbols not loaded from settings.json — bot stopped")
+# load_symbols has been moved to config_setting.config_loader.get_symbols
 
 if __name__ == "__main__":
     try:

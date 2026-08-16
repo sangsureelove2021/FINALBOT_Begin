@@ -15,15 +15,23 @@ from data_feed.csv_writer import CSVWriter
 logger = logging.getLogger(__name__)
 
 class CSVQueue:
-    """Thread-safe queue for asynchronous CSV writing."""
+    """Thread-safe queue for asynchronous CSV writing - Singleton Pattern"""
+    
+    _instances = {}
+    
+    def __new__(cls, config: Dict[str, Any] = None):
+        """Ensure singleton pattern for CSVQueue"""
+        key = f"{hash(str(config))}"
+        if key not in cls._instances:
+            cls._instances[key] = super().__new__(cls)
+        return cls._instances[key]
 
     def __init__(self, config: Dict[str, Any] = None):
-        """
-        Initialize with queue configuration.
-        
-        Args:
-            config: Configuration from datafeed_config.json csv_queue section
-        """
+        """Initialize with queue configuration."""
+        if hasattr(self, '_initialized') and self._initialized:
+            return
+            
+        self._initialized = True
         if config is None:
             from config_setting.config_loader import get_csv_queue_config
             config = get_csv_queue_config()
