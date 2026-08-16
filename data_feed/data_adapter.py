@@ -23,21 +23,27 @@ class DataAdapter:
     Adapter สำหรับดึงข้อมูลจาก Broker และประมวลผล
     """
     
-    def __init__(self, broker_adapter: Any, csv_manager: Optional[CSVManager] = None):
+    def __init__(self, broker_adapter: Any, csv_manager: Optional[CSVManager] = None, 
+                 time_sync_manager: Any = None, base_dir: str = None):
         """
         Args:
             broker_adapter: Adapter สำหรับเชื่อมต่อกับ Broker (เช่น IQOptionAdapter)
             csv_manager: ตัวจัดการ CSV (ถ้ามี)
+            time_sync_manager: ตัวจัดการเวลา (ถ้ามี) - รองรับ backward compatibility
+            base_dir: โฟลเดอร์ฐานสำหรับเก็บไฟล์ CSV (ถ้ามี)
         """
         self._broker = broker_adapter
         self._csv_manager = csv_manager
+        self._time_sync_manager = time_sync_manager
+        self._base_dir = base_dir or "data_base/csv/iq_option"
         self._validator = DataValidator()
         self._cache = DataCacheStore()
         self._processor = DataProcessor(self._cache)
         
-        logger.info("DataAdapter initialized")
+        logger.info(f"DataAdapter initialized with base_dir: {self._base_dir}")
     
-    def init_symbol(self, symbol: str, timeframes: List[str] = None) -> bool:
+    def init_symbol(self, symbol: str, timeframes: List[str] = None, 
+                   broker_epoch: Optional[float] = None) -> bool:
         """
         เริ่มต้นการติดตาม symbol ใหม่
         ดึงข้อมูลย้อนหลังสำหรับทุก timeframe ที่กำหนด
@@ -45,6 +51,7 @@ class DataAdapter:
         Args:
             symbol: ชื่อ symbol (เช่น "EURUSD")
             timeframes: รายการ timeframe ที่ต้องการ (default: ทุก timeframe ใน config)
+            broker_epoch: เวลาปัจจุบันจาก broker (epoch milliseconds) - ถ้าไม่ส่งจะคำนวณเอง
         
         Returns:
             True ถ้าสำเร็จ, False ถ้าล้มเหลว
@@ -56,7 +63,8 @@ class DataAdapter:
         
         try:
             # ดึงเวลาปัจจุบันจาก broker (เป็น epoch milliseconds)
-            broker_epoch = self._get_broker_timestamp()
+            if broker_epoch is None:
+                broker_epoch = self._get_broker_timestamp()
             
             for tf in timeframes:
                 limit = DataFeedConfig.get_candle_limit(tf)
@@ -191,6 +199,19 @@ class DataAdapter:
     def get_cached_data(self, symbol: str, timeframe: str) -> Optional[pd.DataFrame]:
         """ดึงข้อมูลจาก cache"""
         return self._cache.get_symbol_data(timeframe, symbol)
+    
+    def get_balance(self) -> float:
+        """ดึงยอดเงินคงเหลือจาก broker"""
+        try:
+            if hasattr(self._broker, 'get_balance'):
+                return self._broker.get_balance()
+            else:
+                # Mock balance สำหรับทดสอบ
+                logger.warning("Broker adapter has no get_balance(), using mock balance")
+                return 10000.0
+        except Exception as e:
+            logger.error(f"Failed to get balance: {e}")
+            raise
     
     def shutdown(self) -> None:
         """ปิด adapter และล้างทรัพยากร"""

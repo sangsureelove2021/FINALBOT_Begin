@@ -3,20 +3,11 @@
 *.pyc
 __pycache__/
 
-# Dependencies
-.venv/
-venv/
-node_modules/
-
-# Logs and temp files
+# Logs
 *.log
-*.tmp
+logs/
 
-# Editors
-.vscode/
-.idea/
-
-# Environment
+# Environment files
 .env
 .env.local
 *.env.*

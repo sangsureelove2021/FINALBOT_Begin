@@ -18,7 +18,30 @@ class TimeSyncManager:
     
     def __init__(self, tolerance_seconds: int = 30):
         self.tolerance = timedelta(seconds=tolerance_seconds)
+        self.time_offset = 0.0  # offset ระหว่าง local time กับ server time
         logger.info(f"TimeSyncManager initialized with {tolerance_seconds}s tolerance")
+    
+    def sync_server_time(self, broker_adapter) -> None:
+        """
+        ซิงค์เวลากับ broker server
+        คำนวณ time offset และเก็บไว้ใช้
+        """
+        try:
+            local_time = self.get_current_utc()
+            server_timestamp_ms = broker_adapter.get_server_timestamp()
+            server_time = datetime.fromtimestamp(server_timestamp_ms / 1000, tz=timezone.utc)
+            
+            self.time_offset = self.detect_clock_drift(local_time, server_time)
+            logger.info(f"Time synced with server. Offset: {self.time_offset:.3f}s")
+        except Exception as e:
+            logger.warning(f"Failed to sync server time: {e}")
+            self.time_offset = 0.0
+    
+    def get_broker_epoch(self) -> float:
+        """
+        ดึง epoch time ของ broker (เป็นวินาที)
+        """
+        return datetime.now(timezone.utc).timestamp() + self.time_offset
     
     def get_current_utc(self) -> datetime:
         """ดึงเวลาปัจจุบันแบบ UTC"""
