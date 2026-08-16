@@ -213,6 +213,31 @@ class DataAdapter:
             logger.error(f"Failed to get balance: {e}")
             raise
     
+    def check_warmup(self, symbol: str) -> bool:
+        """ตรวจสอบว่า symbol นี้พร้อมใช้งานหรือยัง (มีข้อมูลใน cache แล้ว)"""
+        # ตรวจสอบว่ามีข้อมูลสำหรับ symbol นี้ในทุก timeframe หรือไม่
+        for tf in DataFeedConfig.TIMEFRAMES:
+            df = self._cache.get_symbol_data(tf, symbol)
+            if df is not None and not df.empty:
+                return True
+        return False
+    
+    def get_latest_close(self, symbol: str) -> Optional[float]:
+        """ดึงราคาปิดล่าสุดของ symbol จาก cache (RAM)"""
+        # พยายามดึงจาก M1 ก่อน เพราะเป็น timeframe ที่ถี่ที่สุด
+        df = self._cache.get_symbol_data('M1', symbol)
+        if df is None or df.empty:
+            # ลอง timeframe อื่นๆ
+            for tf in DataFeedConfig.TIMEFRAMES:
+                df = self._cache.get_symbol_data(tf, symbol)
+                if df is not None and not df.empty:
+                    break
+        
+        if df is None or df.empty:
+            return None
+        
+        return float(df['close'].iloc[-1])
+    
     def shutdown(self) -> None:
         """ปิด adapter และล้างทรัพยากร"""
         logger.info("Shutting down DataAdapter...")
