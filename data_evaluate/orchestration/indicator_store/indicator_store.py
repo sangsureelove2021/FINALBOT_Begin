@@ -15,12 +15,8 @@ from datetime import datetime, timezone
 from typing import Dict, Any, Optional, List, Tuple
 import logging
 
-try:
-    from .core_indicators import CoreIndicators
-    from .structural_metrics import StructuralMetrics
-except ImportError:
-    from core_indicators import CoreIndicators
-    from structural_metrics import StructuralMetrics
+from data_evaluate.orchestration.indicator_store.core_indicators import CoreIndicators
+from data_evaluate.orchestration.indicator_store.structural_metrics import StructuralMetrics
 
 # ---------- Logging Setup ----------
 logging.basicConfig(
@@ -63,12 +59,12 @@ class IndicatorStore:
         # M1: minimum 100 candles (only EMA20 needed)
         # M15: minimum 100 candles (only EMA20 needed)
         # ------------------------------------------------------------
-        if df_m1 is None or df_m1.empty or len(df_m1) < 100:
-            raise ValueError("FAIL-FAST: Insufficient M1 warm-up candles (minimum 100 required)")
-        if df_m5 is None or df_m5.empty or len(df_m5) < 200:
-            raise ValueError("FAIL-FAST: Insufficient M5 warm-up candles (minimum 200 required)")
-        if df_m15 is None or df_m15.empty or len(df_m15) < 100:
-            raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 100 required)")
+        if df_m1 is None or df_m1.empty or len(df_m1) < 250:
+            raise ValueError("FAIL-FAST: Insufficient M1 warm-up candles (minimum 250 required)")
+        if df_m5 is None or df_m5.empty or len(df_m5) < 250:
+            raise ValueError("FAIL-FAST: Insufficient M5 warm-up candles (minimum 250 required)")
+        if df_m15 is None or df_m15.empty or len(df_m15) < 250:
+            raise ValueError("FAIL-FAST: Insufficient M15 warm-up candles (minimum 250 required)")
 
         # ------------------------------------------------------------
         # 1. M5 Indicators
@@ -89,8 +85,7 @@ class IndicatorStore:
         # Bollinger Bands (20, 2)
         m5.update(CoreIndicators.calculate_bb(close_m5, 20, Config.ROUND_DECIMALS, require_100=True))
 
-        # RSI (7, 14)
-        m5['rsi7'] = CoreIndicators.calc_rsi(close_m5, 7)
+        # RSI (14)
         m5['rsi14'] = CoreIndicators.calc_rsi(close_m5, 14)
 
         # MACD (12, 26, 9)
@@ -100,7 +95,7 @@ class IndicatorStore:
         m5.update(CoreIndicators.calculate_stochastic(close_m5, high_m5, low_m5))
 
         # ATR (14)
-        m5.update(StructuralMetrics.calculate_atr(high_m5, low_m5, close_m5, Config.ADX_PERIOD, Config.ROUND_DECIMALS))
+        m5.update(StructuralMetrics.calculate_atr(high_m5, low_m5, close_m5, Config.ROUND_DECIMALS, extended=True))
 
         # ADX (14)
         m5.update(StructuralMetrics.calc_adx(high_m5, low_m5, close_m5, Config.ADX_PERIOD))
@@ -117,8 +112,6 @@ class IndicatorStore:
         # LINEAR REGRESSION SLOPE
         # ================================================================
         m5['slope_10'] = round(StructuralMetrics.calc_slope(close_m5, 10), Config.ROUND_DECIMALS)
-        m5['slope_20'] = round(StructuralMetrics.calc_slope(close_m5, 20), Config.ROUND_DECIMALS)
-        m5['slope_50'] = round(StructuralMetrics.calc_slope(close_m5, 50), Config.ROUND_DECIMALS)
 
         # ================================================================
         # FLOOR PIVOT POINTS (UNIFIED METHODOLOGY)
@@ -140,22 +133,14 @@ class IndicatorStore:
         # Floor Pivot Support & Resistance Levels (all derived from same pivot)
         # R1 = (2 * P) - L
         m5['r1'] = round((2 * pivot) - completed_low, Config.ROUND_DECIMALS)
-        # R2 = P + (H - L)
-        m5['r2'] = round(pivot + (completed_high - completed_low), Config.ROUND_DECIMALS)
         # S1 = (2 * P) - H
         m5['s1'] = round((2 * pivot) - completed_high, Config.ROUND_DECIMALS)
-        # S2 = P - (H - L)
-        m5['s2'] = round(pivot - (completed_high - completed_low), Config.ROUND_DECIMALS)
         
         # PRIMARY SUPPORT & RESISTANCE (using Floor Pivot methodology)
         # Use S1 as primary support and R1 as primary resistance
         # These are the most relevant levels from the Floor Pivot system
         m5['support'] = m5['s1']  # S1 = (2 * P) - H
         m5['resistance'] = m5['r1']  # R1 = (2 * P) - L
-        
-        # Also keep the 20-period extremes as secondary references
-        m5['support_20'] = round(float(low_m5.tail(20).min()), Config.ROUND_DECIMALS)
-        m5['resistance_20'] = round(float(high_m5.tail(20).max()), Config.ROUND_DECIMALS)
 
         # Box Metrics
         m5.update(StructuralMetrics.calculate_box_metrics(high_m5, low_m5, m5['atr14']))
@@ -210,17 +195,6 @@ class IndicatorStore:
         # m1['slope_20'] = round(StructuralMetrics.calc_slope(close_m1, 20), Config.ROUND_DECIMALS)
         # m1['slope_50'] = round(StructuralMetrics.calc_slope(close_m1, 50), Config.ROUND_DECIMALS)
 
-        # M1 Pivot (Floor Pivot) - iloc[-1] is the most recent completed candle because forming candle is already dropped by data_feed
-        if len(df_m1) < 1:
-            raise ValueError("FAIL-FAST: Insufficient M1 candles for Pivot Point calculation (minimum 1 required)")
-        last_candle_m1 = df_m1.iloc[-1]
-            
-        pivot_m1 = (last_candle_m1['high'] + last_candle_m1['low'] + last_candle_m1['close']) / 3
-        m1['pivot'] = round(pivot_m1, Config.ROUND_DECIMALS)
-        m1['r1'] = round((2 * pivot_m1) - last_candle_m1['low'], Config.ROUND_DECIMALS)
-        m1['s1'] = round((2 * pivot_m1) - last_candle_m1['high'], Config.ROUND_DECIMALS)
-        m1['support'] = m1['s1']
-        m1['resistance'] = m1['r1']
         
         # Save actual OHLCV values in m1 dictionary
         m1['open'] = round(open_m1.iloc[-1], Config.ROUND_DECIMALS)

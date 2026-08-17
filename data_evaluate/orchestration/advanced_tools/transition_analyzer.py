@@ -43,6 +43,8 @@ class TransitionAnalyzer(BaseEngine):
             volatility_shift, momentum_shift, structure_shift
         )
         
+        transition_risk = 'HIGH' if stability < 40 else ('MEDIUM' if in_transition or stability < 70 else 'LOW')
+        
         return {
             'in_transition': bool(in_transition),
             'transition_type': transition_type,
@@ -50,6 +52,7 @@ class TransitionAnalyzer(BaseEngine):
             'momentum_shift': bool(momentum_shift),
             'structure_shift': bool(structure_shift),
             'stability_score': stability,
+            'transition_risk': transition_risk,
             'is_stable': stability > 60,
             'confidence': 70,
         }

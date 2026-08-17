@@ -41,11 +41,8 @@ class PureAIRunner:
             sys.exit(1)
         ConsoleUI.show_connection_success()
 
-        # 2. Discover tradable assets
-        configured_symbols = get_symbols()
-        self.symbols: List[str] = self.data_adapter.get_open_symbols(configured_symbols)
-        if not self.symbols:
-            raise RuntimeError("FAIL-FAST: No tradable assets currently open on broker")
+        # 2. Load configured trading assets directly from SSOT
+        self.symbols: List[str] = get_symbols()
         ConsoleUI.show_asset_list(self.symbols)
 
         # 3. Initialize Time Sync & Server Offset
@@ -83,11 +80,15 @@ class PureAIRunner:
         warmup_epoch = self.time_calendar_mgr.get_broker_epoch()
 
         for sym in self.symbols:
-            if self.candle_adapter.init_symbol(sym, broker_epoch=warmup_epoch):
-                ready_symbols.append(sym)
-            else:
+            try:
+                if self.candle_adapter.init_symbol(sym, broker_epoch=warmup_epoch):
+                    ready_symbols.append(sym)
+                else:
+                    not_ready_count += 1
+                    logger.warning(f"[Runner] {sym} data incomplete — skipped.")
+            except Exception as e:
                 not_ready_count += 1
-                logger.warning(f"[Runner] {sym} data incomplete — skipped.")
+                logger.warning(f"[Runner] {sym} is currently closed on broker or unavailable — skipped ({e})")
 
         self.symbols = ready_symbols
         if not self.symbols:

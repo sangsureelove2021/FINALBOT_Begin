@@ -10,7 +10,7 @@
     "stop_loss_percent": 100.0
   },
   "symbols": [
-    "GBPUSD-OTC", "EURGBP-OTC", "EURUSD-OTC", "GBPJPY-OTC"
+    "GBPUSD", "EURGBP", "EURUSD", "EURUSD-OTC"
   ],
   "limits": {
     "max_concurrent": 9999,

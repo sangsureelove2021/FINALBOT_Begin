@@ -70,7 +70,7 @@ class NoiseDetector(BaseEngine):
             chop = 100 * np.log10(atr_sum / price_range) / np.log10(period)
             return float(np.clip(chop, 0, 100))
         except Exception as e:
-            raise Exception(str(e))
+            raise
 
     
     def _detect_whipsaw(self, df) -> bool:
@@ -86,7 +86,7 @@ class NoiseDetector(BaseEngine):
             # Whipsaw if many direction changes
             return sign_changes >= 6
         except Exception as e:
-            raise Exception(str(e))
+            raise
 
     
     def _wick_noise_ratio(self, df) -> float:
@@ -102,7 +102,7 @@ class NoiseDetector(BaseEngine):
             
             return float(wicks.sum() / bodies.sum())
         except Exception as e:
-            raise Exception(str(e))
+            raise
 
     
     def _count_direction_changes(self, df) -> int:
@@ -113,7 +113,7 @@ class NoiseDetector(BaseEngine):
             signs = np.sign(changes)
             return int((signs != signs.shift(1)).sum())
         except Exception as e:
-            raise Exception(str(e))
+            raise
 
     
     def _calculate_noise_level(self, chop, whipsaw, wick_noise, dir_changes) -> int:

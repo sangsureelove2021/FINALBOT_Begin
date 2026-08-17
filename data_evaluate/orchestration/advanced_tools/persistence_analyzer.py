@@ -25,6 +25,9 @@ class PersistenceAnalyzer(BaseEngine):
         return {}
 
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
+        payload = kwargs.get('basic_payload') or kwargs.get('payload') or {}
+        m5 = payload.get('m5', {}) if isinstance(payload, dict) else {}
+
         autocorrelation = self._autocorrelation(candles_df)
         consecutive_run = self._max_consecutive_run(candles_df)
         trend_persistence = self._trend_persistence(candles_df)
@@ -33,7 +36,7 @@ class PersistenceAnalyzer(BaseEngine):
             autocorrelation, consecutive_run, trend_persistence
         )
         
-        expansion_persistence, fatigue_risk = self._calculate_expansion_persistence(candles_df)
+        expansion_persistence, fatigue_risk = self._calculate_expansion_persistence(candles_df, m5)
         
         return {
             'persistence_score': persistence_score,
@@ -49,7 +52,7 @@ class PersistenceAnalyzer(BaseEngine):
             'fatigue_risk': fatigue_risk,
         }
         
-    def _calculate_expansion_persistence(self, df: pd.DataFrame) -> Tuple[float, float]:
+    def _calculate_expansion_persistence(self, df: pd.DataFrame, m5: Dict[str, Any] = None) -> Tuple[float, float]:
         """
         Enhancement 4: Expansion Persistence.
         Measures momentum expansion persistence and trend fatigue risk.
@@ -58,9 +61,9 @@ class PersistenceAnalyzer(BaseEngine):
             closes = df['close'].tail(20).values
             
             # Autocorrelation of returns for short-term persistence
-            returns = np.diff(closes)
-            if len(returns) < 5:
-                return 50.0, 0.0
+            returns = np.diff(closes) / closes[:-1]
+            if len(returns) < 2:
+                return 50.0, 30.0
                 
             # Autocorrelation lag 1
             r1 = returns[:-1]
@@ -75,7 +78,10 @@ class PersistenceAnalyzer(BaseEngine):
             slope = np.polyfit(x, closes, 1)[0]
             
             # Fatigue: If current price deviation from 20 EMA is excessive
-            ema = df['close'].ewm(span=20).mean().iloc[-1]
+            if m5 and 'ema20' in m5 and m5['ema20'] is not None:
+                ema = m5['ema20']
+            else:
+                ema = df['close'].ewm(span=20).mean().iloc[-1]
             deviation = abs(closes[-1] - ema) / ema if ema != 0 else 0.0
             
             # Calculate metrics

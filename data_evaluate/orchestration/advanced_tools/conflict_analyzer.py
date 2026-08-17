@@ -26,8 +26,8 @@ class ConflictAnalyzer(BaseEngine):
 
     def _analyze(self, candles_df: pd.DataFrame, **kwargs) -> Dict[str, Any]:
         # Get payload from kwargs for pre-computed indicators
-        payload = kwargs.get('payload', {})
-        m5 = payload.get('m5', {})
+        payload = kwargs.get('basic_payload') or kwargs.get('payload') or {}
+        m5 = payload.get('m5', {}) if isinstance(payload, dict) else {}
         
         # Multiple direction indicators - using pre-computed values from SSOT
         ema_direction = self._ema_direction(candles_df, m5)

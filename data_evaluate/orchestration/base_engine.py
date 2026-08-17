@@ -44,7 +44,7 @@ class BaseEngine(ABC):
     def tier(self) -> int:
         return self.TIER
     
-    def analyze(self, payload: Any, **kwargs) -> Dict[str, Any]:
+    def analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
         """
         Standard analyze entry point. Wraps _analyze with safety.
         """
@@ -80,7 +80,7 @@ class BaseEngine(ABC):
     def get_neutral_state(self) -> dict:
         return {}
 
-    def _analyze(self, payload: Any, **kwargs) -> Dict[str, Any]:
+    def _analyze(self, payload: Dict[str, Any], **kwargs) -> Dict[str, Any]:
         """
         Override this in subclasses.
         Contains the actual analysis logic.

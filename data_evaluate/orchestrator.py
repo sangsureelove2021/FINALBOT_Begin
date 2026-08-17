@@ -177,7 +177,9 @@ class Orchestrator:
             if isinstance(df_m5, pd.DataFrame) and not df_m5.empty:
                 advanced_data = self.advanced_tools.analyze_all(symbol, basic_payload, df_m5)
                 final_payload.update(advanced_data)
-                
+                final_payload['m5'] = advanced_data['m5']
+                final_payload['price_action'] = advanced_data['price_action']
+                final_payload['advanced_signals'] = advanced_data['advanced_signals']
         except Exception as e:
             raise
 
@@ -394,8 +396,9 @@ class Orchestrator:
         eng  = _req(p, 'engines')
         dl   = _req(p, 'decision_layer')
         mc   = _req(p, 'market_context')
+        adv_sig = _req(p, 'advanced_signals')
         
-        # ─── CORE ANALYSIS (74 Fields) ───────────────────────────────────
+        # ─── CORE ANALYSIS (83 Fields) ───────────────────────────────────
         core_analysis = {
             # --- Market Context & State (5 fields) ---
             'state': _req(mc, 'state'),
@@ -437,7 +440,7 @@ class Orchestrator:
             # --- M15 Indicators (1 field) ---
             'm15_bias': _req(p, 'm15', 'bias'),
             
-            # --- Advanced Tools (Price Action & Volume) (11 fields) ---
+            # --- Advanced Tools (Price Action & Volume) (16 fields) ---
             'pa_pattern': _req(pa, 'pattern'),
             'pa_last_candle_bias': _req(pa, 'last_candle_bias'),
             'pa_body_strength': _req(pa, 'body_strength'),
@@ -446,11 +449,16 @@ class Orchestrator:
             'pa_move_quality': _req(pa, 'move_quality'),
             'pa_trap_alert': _req(pa, 'trap_alert'),
             'pa_sr_interaction': _req(pa, 'sr_interaction'),
-            'vol_tick_volume': 1.0 if is_otc else _req(m5, 'volume'),
+            'pa_divergence_alert': _req(pa, 'divergence_alert'),
+            'pa_divergence_strength': _req(pa, 'divergence_strength'),
+            'pa_market_behavior': _req(pa, 'market_behavior'),
+            'pa_hesitation_score': _req(pa, 'hesitation_score'),
+            'pa_path_efficiency': _req(pa, 'path_efficiency'),
+            'vol_tick_volume': 1.0 if is_otc else float(_req(p['ohlcv'], 'm5_volume')),
             'vol_momentum': 'NO_VOLUME_DATA' if is_otc else _req(pa, 'volume_momentum'),
             'vol_vs_average': 1.0 if is_otc else _req(m5, 'volume_ratio'),
 
-            # --- Tier-1 Engine Analysis (15 fields) ---
+            # --- Tier-1 Engine Analysis (19 fields) ---
             'eng_trend_direction': _req(eng, 'trend', 'direction'),
             'eng_trend_strength': _req(eng, 'trend', 'strength'),
             'eng_trend_type': _req(eng, 'trend', 'type'),
@@ -465,6 +473,10 @@ class Orchestrator:
             'eng_structure_bos_detected': _req(eng, 'structure', 'bos_detected'),
             'eng_mtf_alignment_score': _req(eng, 'mtf', 'alignment_score'),
             'eng_mtf_htf_direction': _req(eng, 'mtf', 'htf_direction'),
+            'eng_indicator_conflict_score': _req(adv_sig, 'conflict_score'),
+            'eng_trend_continuation_%': _req(adv_sig, 'continuation_probability'),
+            'eng_regime_transition_risk': _req(adv_sig, 'transition_risk'),
+            'eng_momentum_persistence_score': _req(adv_sig, 'persistence_score'),
 
             # --- Decision Layer (8 fields) ---
             'dl_tradeable': _req(dl, 'tradeable'),
@@ -500,8 +512,8 @@ class Orchestrator:
                 'm5_quality': _req(p['ohlcv'], 'm5_quality'),
             },
             'ohlcv': {
-                'm1': { 'open': _req(m1, 'open'), 'high': _req(m1, 'high'), 'low': _req(m1, 'low'), 'close': _req(m1, 'close'), 'volume': 'NONE_OTC' if is_otc else _req(m1, 'volume') },
-                'm5': { 'open': _req(m5, 'open'), 'high': _req(m5, 'high'), 'low': _req(m5, 'low'), 'close': _req(m5, 'close'), 'volume': 'NONE_OTC' if is_otc else _req(m5, 'volume') },
+                'm1': { 'open': _req(m1, 'open'), 'high': _req(m1, 'high'), 'low': _req(m1, 'low'), 'close': _req(m1, 'close'), 'volume': 'NONE_OTC' if is_otc else _req(p['ohlcv'], 'm1_volume') },
+                'm5': { 'open': _req(m5, 'open'), 'high': _req(m5, 'high'), 'low': _req(m5, 'low'), 'close': _req(m5, 'close'), 'volume': 'NONE_OTC' if is_otc else _req(p['ohlcv'], 'm5_volume') },
             },
             'full_engine_output': _req(p, 'engines'),
             'full_market_state': _req(p, 'market_state_full'),
@@ -647,15 +659,16 @@ class Orchestrator:
             ctx = SimpleNamespace(
                 symbol=symbol,
                 timeframe="M5",
-                continuation=None,
-                divergence=None,
-                candle_patterns=None,
-                conflict=None,
-                efficiency=None,
-                traps=None,
-                transition=None,
-                signal_quality=None,
-                confidence_framework=None
+                continuation=payload.get('continuation') or {'continuation_probability': 50, 'bias': 'NONE'},
+                divergence=payload.get('divergence') or {'divergence_detected': False, 'divergence_type': 'NONE', 'divergence_strength': 0},
+                candle_patterns=payload.get('candle_pattern') or {'bias': 'NONE', 'pattern_strength': 0},
+                conflict=payload.get('conflict') or {'ema_direction': 'NONE', 'conflict_score': 0},
+                efficiency=payload.get('efficiency') or {'overall_efficiency': 50},
+                traps=payload.get('trap_detector') or {'trap_detected': False, 'trap_type': 'NONE'},
+                transition=payload.get('transition') or {'in_transition': False, 'transition_type': 'NONE'},
+                persistence=payload.get('persistence') or {'persistence_score': 50, 'is_persistent': False},
+                signal_quality={'quality_score': 50, 'grade': 'C', 'confirmation_score': 50},
+                confidence_framework={'confidence_tier': 'MEDIUM', 'final_confidence': 50}
             )
             ctx.trend = trend_data
             ctx.strength = strength_data
@@ -669,17 +682,6 @@ class Orchestrator:
             ctx.liquidity = liq_res
             ctx.noise = noise_res
             ctx.price_action = payload.get('price_action', {})
-
-            # Set default dicts for safety if not populated
-            if not ctx.continuation: ctx.continuation = {'continuation_probability': 50, 'bias': 'NONE'}
-            if not ctx.divergence: ctx.divergence = {'divergence_detected': False, 'divergence_type': 'NONE', 'divergence_strength': 0}
-            if not ctx.candle_patterns: ctx.candle_patterns = {'bias': 'NONE', 'pattern_strength': 0}
-            if not ctx.conflict: ctx.conflict = {'ema_direction': 'NONE', 'conflict_score': 0}
-            if not ctx.efficiency: ctx.efficiency = {'overall_efficiency': 50}
-            if not ctx.traps: ctx.traps = {'trap_detected': False, 'trap_type': 'NONE'}
-            if not ctx.transition: ctx.transition = {'in_transition': False, 'transition_type': 'NONE'}
-            if not ctx.signal_quality: ctx.signal_quality = {'quality_score': 50, 'grade': 'C', 'confirmation_score': 50}
-            if not ctx.confidence_framework: ctx.confidence_framework = {'confidence_tier': 'MEDIUM', 'final_confidence': 50}
         except Exception as e:
             logger.exception(f"[MarketContext] Failed to build context for synthesis: {e}")
             traceback.print_exc()
@@ -829,6 +831,15 @@ class Orchestrator:
                 return str(v).lower()
             return str(v)
 
+        def _fmt_num(v):
+            if v is None or v == '':
+                return ''
+            if isinstance(v, (int, float)):
+                if isinstance(v, float) and abs(v) < 1e-4 and v != 0:
+                    return f"{v:.6f}"
+                return str(round(v, 6)) if isinstance(v, float) else str(v)
+            return str(v)
+
         lines = []
         app = lines.append
         app(f"ID:{prompt_id}")
@@ -836,10 +847,10 @@ class Orchestrator:
         app(f"  timestamp: '{meta.get('timestamp', '')}'")
         app(f"  symbol: {meta.get('symbol', '')}")
         app(f"  session: {meta.get('session', '')}")
-        app(f"  m1_open: {meta.get('m1_open', '')}")
+        app(f"  m1_open: {_fmt_num(meta.get('m1_open', ''))}")
         app(f"  m1_age: {meta.get('m1_age', '')}")
         app(f"  m1_quality: {meta.get('m1_quality', '')}")
-        app(f"  m5_open: {meta.get('m5_open', '')}")
+        app(f"  m5_open: {_fmt_num(meta.get('m5_open', ''))}")
         app(f"  m5_age: {meta.get('m5_age', '')}")
         app(f"  m5_quality: {meta.get('m5_quality', '')}")
         app("market_context:")
@@ -847,80 +858,89 @@ class Orchestrator:
         app(f"  description: {core.get('description', '')}")
         app(f"  volatility_regime: {core.get('volatility_regime', '')}")
         app(f"  news_impact: {core.get('news_impact', '')}")
-        app(f"  expected_volatility_%: {core.get('expected_volatility_%', '')}")
+        app(f"  expected_volatility_%: {_fmt_num(core.get('expected_volatility_%', ''))}")
         app("timeframes:")
         app("  m1:")
         app(f"    m1_last_candle: {core.get('m1_last_candle', '')}")
-        app(f"    ema5: {core.get('m1_ema5', '')}")
-        app(f"    ema20: {core.get('m1_ema20', '')}")
-        app(f"    rsi: {core.get('m1_rsi', '')}")
-        app(f"    stoch_k: {core.get('m1_stoch_k', '')}")
-        app(f"    stoch_d: {core.get('m1_stoch_d', '')}")
-        app(f"    macd: {core.get('m1_macd', '')}")
-        app(f"    macd_signal: {core.get('m1_macd_signal', '')}")
-        app("    ohclv:")
-        app(f"      open: {m1_ohlcv.get('open', '')}")
-        app(f"      high: {m1_ohlcv.get('high', '')}")
-        app(f"      low: {m1_ohlcv.get('low', '')}")
-        app(f"      close: {m1_ohlcv.get('close', '')}")
+        app(f"    m1_ema5: {_fmt_num(core.get('m1_ema5', ''))}")
+        app(f"    m1_ema20: {_fmt_num(core.get('m1_ema20', ''))}")
+        app(f"    m1_rsi: {_fmt_num(core.get('m1_rsi', ''))}")
+        app(f"    m1_stoch_k: {_fmt_num(core.get('m1_stoch_k', ''))}")
+        app(f"    m1_stoch_d: {_fmt_num(core.get('m1_stoch_d', ''))}")
+        app(f"    m1_macd: {_fmt_num(core.get('m1_macd', ''))}")
+        app(f"    m1_macd_signal: {_fmt_num(core.get('m1_macd_signal', ''))}")
+        app("    ohlcv:")
+        app(f"      open: {_fmt_num(m1_ohlcv.get('open', ''))}")
+        app(f"      high: {_fmt_num(m1_ohlcv.get('high', ''))}")
+        app(f"      low: {_fmt_num(m1_ohlcv.get('low', ''))}")
+        app(f"      close: {_fmt_num(m1_ohlcv.get('close', ''))}")
         app(f"      volume: {m1_ohlcv.get('volume', '')}")
         app("  m5:")
-        app(f"    bias: {core.get('m5_bias', '')}")
-        app(f"    ema5: {core.get('m5_ema5', '')}")
-        app(f"    ema10: {core.get('m5_ema10', '')}")
-        app(f"    ema20: {core.get('m5_ema20', '')}")
-        app(f"    ema50: {core.get('m5_ema50', '')}")
-        app(f"    bb_upper: {core.get('m5_bb_upper', '')}")
-        app(f"    bb_lower: {core.get('m5_bb_lower', '')}")
-        app(f"    bb_width: {core.get('m5_bb_width', '')}")
-        app(f"    rsi: {core.get('m5_rsi', '')}")
-        app(f"    stoch_k: {core.get('m5_stoch_k', '')}")
-        app(f"    stoch_d: {core.get('m5_stoch_d', '')}")
-        app(f"    macd: {core.get('m5_macd', '')}")
-        app(f"    macd_signal: {core.get('m5_macd_signal', '')}")
-        app(f"    adx: {core.get('m5_adx', '')}")
-        app(f"    atr: {core.get('m5_atr', '')}")
-        app(f"    support: {core.get('m5_support', '')}")
-        app(f"    resistance: {core.get('m5_resistance', '')}")
-        app(f"    pivot: {core.get('m5_pivot', '')}")
-        app("    ohclv:")
-        app(f"      open: {m5_ohlcv.get('open', '')}")
-        app(f"      high: {m5_ohlcv.get('high', '')}")
-        app(f"      low: {m5_ohlcv.get('low', '')}")
-        app(f"      close: {m5_ohlcv.get('close', '')}")
+        app(f"    m5_bias: {core.get('m5_bias', '')}")
+        app(f"    m5_ema5: {_fmt_num(core.get('m5_ema5', ''))}")
+        app(f"    m5_ema10: {_fmt_num(core.get('m5_ema10', ''))}")
+        app(f"    m5_ema20: {_fmt_num(core.get('m5_ema20', ''))}")
+        app(f"    m5_ema50: {_fmt_num(core.get('m5_ema50', ''))}")
+        app(f"    m5_bb_upper: {_fmt_num(core.get('m5_bb_upper', ''))}")
+        app(f"    m5_bb_lower: {_fmt_num(core.get('m5_bb_lower', ''))}")
+        app(f"    m5_bb_width: {_fmt_num(core.get('m5_bb_width', ''))}")
+        app(f"    m5_rsi: {_fmt_num(core.get('m5_rsi', ''))}")
+        app(f"    m5_stoch_k: {_fmt_num(core.get('m5_stoch_k', ''))}")
+        app(f"    m5_stoch_d: {_fmt_num(core.get('m5_stoch_d', ''))}")
+        app(f"    m5_macd: {_fmt_num(core.get('m5_macd', ''))}")
+        app(f"    m5_macd_signal: {_fmt_num(core.get('m5_macd_signal', ''))}")
+        app(f"    m5_adx: {_fmt_num(core.get('m5_adx', ''))}")
+        app(f"    m5_atr: {_fmt_num(core.get('m5_atr', ''))}")
+        app(f"    m5_support: {_fmt_num(core.get('m5_support', ''))}")
+        app(f"    m5_resistance: {_fmt_num(core.get('m5_resistance', ''))}")
+        app(f"    m5_pivot: {_fmt_num(core.get('m5_pivot', ''))}")
+        app("    ohlcv:")
+        app(f"      open: {_fmt_num(m5_ohlcv.get('open', ''))}")
+        app(f"      high: {_fmt_num(m5_ohlcv.get('high', ''))}")
+        app(f"      low: {_fmt_num(m5_ohlcv.get('low', ''))}")
+        app(f"      close: {_fmt_num(m5_ohlcv.get('close', ''))}")
         app(f"      volume: {m5_ohlcv.get('volume', '')}")
         app("  m15:")
-        app(f"    bias: {core.get('m15_bias', '')}")
+        app(f"    m15_bias: {core.get('m15_bias', '')}")
         app("price_action:")
-        app(f"  pattern: {core.get('pa_pattern', '')}")
+        app(f"  m5_pa_pattern: {core.get('pa_pattern', '')}")
         app(f"  m5_pa_last_candle_bias: {core.get('pa_last_candle_bias', '')}")
-        app(f"  body_strength: {core.get('pa_body_strength', '')}")
-        app(f"  wick_dominance: {core.get('pa_wick_dominance', '')}")
-        app(f"  momentum_bias: {core.get('pa_momentum_bias', '')}")
-        app(f"  move_quality: {core.get('pa_move_quality', '')}")
-        app(f"  trap_alert: {core.get('pa_trap_alert', '')}")
-        app(f"  sr_interaction: {core.get('pa_sr_interaction', '')}")
+        app(f"  m5_pa_body_strength: {core.get('pa_body_strength', '')}")
+        app(f"  m5_pa_wick_dominance: {core.get('pa_wick_dominance', '')}")
+        app(f"  m5_pa_momentum_bias: {core.get('pa_momentum_bias', '')}")
+        app(f"  m5_pa_move_quality: {core.get('pa_move_quality', '')}")
+        app(f"  m5_pa_trap_alert: {core.get('pa_trap_alert', '')}")
+        app(f"  m5_pa_sr_interaction: {core.get('pa_sr_interaction', '')}")
+        app(f"  m5_pa_divergence_alert: {core.get('pa_divergence_alert', 'NONE')}")
+        app(f"  m5_pa_divergence_strength: {core.get('pa_divergence_strength', 0)}")
+        app(f"  m5_pa_market_behavior: {core.get('pa_market_behavior', 'NEUTRAL')}")
+        app(f"  m5_pa_hesitation_score: {core.get('pa_hesitation_score', 50)}")
+        app(f"  m5_pa_path_efficiency: {core.get('pa_path_efficiency', 'FAIR')}")
         app("volume:")
-        app(f"  tick_volume: {core.get('vol_tick_volume', '')}")
-        app(f"  volume_momentum: {core.get('vol_momentum', '')}")
-        app(f"  volume_vs_average: {core.get('vol_vs_average', '')}")
+        app(f"  m5_tick_volume: {_fmt_num(core.get('vol_tick_volume', ''))}")
+        app(f"  m5_volume_momentum: {core.get('vol_momentum', '')}")
+        app(f"  m5_volume_vs_average: {_fmt_num(core.get('vol_vs_average', ''))}")
         app("analysis:")
-        app(f"  trend_direction: {core.get('eng_trend_direction', '')}")
-        app(f"  trend_type: {core.get('eng_trend_type', '')}")
-        app(f"  trend_strength_score: {core.get('eng_trend_strength', '')}")
+        app(f"  m5_trend_direction: {core.get('eng_trend_direction', '')}")
+        app(f"  m5_trend_type: {core.get('eng_trend_type', '')}")
+        app(f"  m5_trend_strength_score: {core.get('eng_trend_strength', '')}")
         app(f"  mtf_alignment_%: {core.get('eng_mtf_alignment_score', '')}")
-        app(f"  compression_quality_%: {core.get('eng_volatility_compression_quality', '')}")
-        app(f"  exhaustion_risk_%: {core.get('eng_strength_exhaustion_risk', '')}")
-        app(f"  bos_detected: {_fmt_bool(core.get('eng_structure_bos_detected', ''))}")
+        app(f"  m5_compression_quality_%: {core.get('eng_volatility_compression_quality', '')}")
+        app(f"  m5_exhaustion_risk_%: {core.get('eng_strength_exhaustion_risk', '')}")
+        app(f"  m5_bos_detected: {_fmt_bool(core.get('eng_structure_bos_detected', ''))}")
+        app(f"  mtf_conflict_score: {core.get('eng_indicator_conflict_score', 0)}")
+        app(f"  m5_trend_continuation_%: {core.get('eng_trend_continuation_%', 50)}")
+        app(f"  m5_transition_risk: {core.get('eng_regime_transition_risk', 'LOW')}")
+        app(f"  m5_persistence_score: {core.get('eng_momentum_persistence_score', 50)}")
         app("decision_layer:")
-        app(f"  tradeable: {_fmt_bool(core.get('dl_tradeable', ''))}")
-        app(f"  stability_score: {core.get('dl_stability_score', '')}")
-        app(f"  quality_score: {core.get('dl_quality_score', '')}")
-        app(f"  risk_level: {core.get('dl_risk_level', '')}")
-        app(f"  confidence_score: {core.get('dl_confidence_score', '')}")
-        app(f"  suggested_expiry_minutes: {core.get('dl_suggested_expiry_minutes', '')}")
-        app(f"  suggested_action: {core.get('dl_suggested_action', '')}")
-        app(f"  final_reason_th: {core.get('dl_final_reason_th', '')}")
+        app(f"  dl_tradeable: {_fmt_bool(core.get('dl_tradeable', ''))}")
+        app(f"  dl_stability_score: {core.get('dl_stability_score', '')}")
+        app(f"  dl_quality_score: {core.get('dl_quality_score', '')}")
+        app(f"  dl_risk_level: {core.get('dl_risk_level', '')}")
+        app(f"  ai_confidence_score: {core.get('dl_confidence_score', '')}")
+        app(f"  ai_suggested_expiry_minutes: {core.get('dl_suggested_expiry_minutes', '')}")
+        app(f"  ai_suggested_action: {core.get('dl_suggested_action', '')}")
+        app(f"  ai_final_reason_th: {core.get('dl_final_reason_th', '')}")
         app("")
         return "\n".join(lines)
 
@@ -940,5 +960,20 @@ class Orchestrator:
 
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(formatted_output)
+
+        # Retention policy: Keep at most 30 latest prompt files per symbol
+        try:
+            txt_files = sorted(
+                [os.path.join(symbol_dir, f) for f in os.listdir(symbol_dir) if f.endswith('.txt')],
+                key=os.path.getmtime
+            )
+            if len(txt_files) > 30:
+                for old_file in txt_files[:-30]:
+                    try:
+                        os.remove(old_file)
+                    except OSError:
+                        pass
+        except Exception as e:
+            logger.warning(f"[Orchestrator] Error cleaning old txt files for {symbol}: {e}")
 
         return filepath

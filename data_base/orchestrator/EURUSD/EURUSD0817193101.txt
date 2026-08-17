@@ -1,0 +1,99 @@
+ID:EURUSD0817193101
+meta:
+  timestamp: '2026-08-17T19:31:01.992917'
+  symbol: EURUSD
+  session: NY/LONDON_OVERLAP
+  m1_open: 1.15908
+  m1_age: 61694
+  m1_quality: FRESH
+  m5_open: 1.15948
+  m5_age: 361694
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: EXTREME
+  news_impact: LOW
+  expected_volatility_%: 0.029
+timeframes:
+  m1:
+    m1_last_candle: BULLISH
+    m1_ema5: 1.159148
+    m1_ema20: 1.159223
+    m1_rsi: 46.34
+    m1_stoch_k: 46.67
+    m1_stoch_d: 42.26
+    m1_macd: -0.000023
+    m1_macd_signal: 0.000003
+    ohlcv:
+      open: 1.15908
+      high: 1.159205
+      low: 1.159035
+      close: 1.15912
+      volume: 247
+  m5:
+    m5_bias: BEARISH
+    m5_ema5: 1.15923
+    m5_ema10: 1.159212
+    m5_ema20: 1.159236
+    m5_ema50: 1.159399
+    m5_bb_upper: 1.159522
+    m5_bb_lower: 1.15873
+    m5_bb_width: 0.000791
+    m5_rsi: 45.32
+    m5_stoch_k: 55.68
+    m5_stoch_d: 57.55
+    m5_macd: -0.000072
+    m5_macd_signal: -0.000123
+    m5_adx: 15.58
+    m5_atr: 0.000341
+    m5_support: 1.158663
+    m5_resistance: 1.159538
+    m5_pivot: 1.159132
+    ohlcv:
+      open: 1.15948
+      high: 1.1596
+      low: 1.158725
+      close: 1.15907
+      volume: 1477
+  m15:
+    m15_bias: BEARISH
+price_action:
+  m5_pa_pattern: BEARISH_ENGULFING
+  m5_pa_last_candle_bias: BEARISH
+  m5_pa_body_strength: WEAK
+  m5_pa_wick_dominance: LOW_WICK
+  m5_pa_momentum_bias: NEUTRAL
+  m5_pa_move_quality: CHAOTIC
+  m5_pa_trap_alert: BEAR_TRAP
+  m5_pa_sr_interaction: TESTING_PIVOT
+  m5_pa_divergence_alert: BULLISH
+  m5_pa_divergence_strength: 90
+  m5_pa_market_behavior: NEUTRAL
+  m5_pa_hesitation_score: 13
+  m5_pa_path_efficiency: POOR
+volume:
+  m5_tick_volume: 1477.0
+  m5_volume_momentum: HIGH_MOMENTUM
+  m5_volume_vs_average: 2.785
+analysis:
+  m5_trend_direction: NONE
+  m5_trend_type: CHOPPY
+  m5_trend_strength_score: 20
+  mtf_alignment_%: 33
+  m5_compression_quality_%: 38.24
+  m5_exhaustion_risk_%: 40
+  m5_bos_detected: false
+  mtf_conflict_score: 0
+  m5_trend_continuation_%: 55
+  m5_transition_risk: MEDIUM
+  m5_persistence_score: 68
+decision_layer:
+  dl_tradeable: true
+  dl_stability_score: 33
+  dl_quality_score: 54
+  dl_risk_level: HIGH
+  ai_confidence_score: รอการวิเคราะห์จาก AI
+  ai_suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  ai_suggested_action: รอการวิเคราะห์จาก AI
+  ai_final_reason_th: รอการวิเคราะห์จาก AI

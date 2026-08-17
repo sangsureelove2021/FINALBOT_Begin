@@ -37,18 +37,14 @@ class MTFEngine(BaseEngine):
                 if len(candles_dict[tf]) < 50:
                     raise ValueError(f"FAIL-FAST: Insufficient {tf} candles (minimum 50 required)")
             
-            # Get pre-computed M5 indicators from payload
-            m5_payload = payload.get('m5', {})
-            
             directions = {}
             for tf, df in candles_dict.items():
                 if df is None or len(df) < 50:
                     raise ValueError(f"FAIL-FAST: Invalid {tf} data - insufficient candles")
-                # Pass M5 payload to _tf_direction for SSOT compliance
-                if tf == 'M5':
-                    directions[tf] = self._tf_direction(df, m5_payload)
-                else:
-                    directions[tf] = self._tf_direction(df, None)
+                # Pass timeframe payload to _tf_direction for SSOT compliance
+                tf_key = tf.lower()
+                tf_payload = payload.get(tf_key, {})
+                directions[tf] = self._tf_direction(df, tf_payload)
             
             if not directions:
                 raise ValueError("FAIL-FAST: No valid timeframe directions detected")
@@ -105,20 +101,18 @@ class MTFEngine(BaseEngine):
             }
         except Exception as e:
             raise
-#             print(f" MTF Engine error: {e}")
     
-    def _tf_direction(self, df: pd.DataFrame, payload_m5: Dict[str, Any] = None) -> str:
+    def _tf_direction(self, df: pd.DataFrame, payload_tf: Dict[str, Any] = None) -> str:
         """Quick direction check for single timeframe using pre-computed SSOT values"""
         try:
             close = df['close'].iloc[-1]
             # Use pre-computed values from payload if available
-            if payload_m5:
-                ema20 = payload_m5.get('ema20', close)
-                ema50 = payload_m5.get('ema50', close)
+            if payload_tf and 'ema20' in payload_tf and 'ema50' in payload_tf:
+                ema20 = payload_tf['ema20']
+                ema50 = payload_tf['ema50']
             else:
-                # Fallback to direct calculation (should not happen in production)
-                ema20 = df['close'].ewm(span=20).mean().iloc[-1]
-                ema50 = df['close'].ewm(span=50).mean().iloc[-1]
+                ema20 = payload_tf.get('ema20') if payload_tf and 'ema20' in payload_tf else df['close'].ewm(span=20).mean().iloc[-1]
+                ema50 = payload_tf.get('ema50') if payload_tf and 'ema50' in payload_tf else df['close'].ewm(span=50).mean().iloc[-1]
             
             if close > ema20 > ema50:
                 return 'UP'

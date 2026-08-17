@@ -80,7 +80,7 @@ class TrapDetector(BaseEngine):
             
             return False, 'NONE'
         except Exception as e:
-            raise Exception(str(e))
+            raise
 
     
     def _detect_stop_hunt(self, df):
@@ -100,7 +100,7 @@ class TrapDetector(BaseEngine):
                     return True
             return False
         except Exception as e:
-            raise Exception(str(e))
+            raise
 
     
     def _detect_rejection_wick(self, df):
@@ -120,7 +120,7 @@ class TrapDetector(BaseEngine):
                 return True
             return False
         except Exception as e:
-            raise Exception(str(e))
+            raise
 
     
     def _calculate_trap_score(self, fb, sh, rw, df) -> int:

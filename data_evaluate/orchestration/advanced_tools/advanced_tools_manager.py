@@ -44,6 +44,13 @@ class AdvancedToolsManager:
         candle_data = self.candle_pattern.analyze(df_m5)
         trap_data = self.trap_detector.analyze(df_m5)
         pa_data = self.price_action.analyze(df_m5)
+        behavior_data = self.behavior.analyze(df_m5)
+        conflict_data = self.conflict.analyze(df_m5, basic_payload=basic_payload)
+        continuation_data = self.continuation.analyze(df_m5)
+        divergence_data = self.divergence.analyze(df_m5)
+        efficiency_data = self.efficiency.analyze(df_m5)
+        persistence_data = self.persistence.analyze(df_m5, basic_payload=basic_payload)
+        transition_data = self.transition.analyze(df_m5)
         
         # Format Price Action for Group B
         patterns = candle_data['patterns_detected']
@@ -146,18 +153,32 @@ class AdvancedToolsManager:
             'move_quality': pa_data['move_type'],
             'trap_alert': trap_alert,
             'sr_interaction': sr_interaction,
-            'volume_momentum': pa_data['volume_momentum']
+            'volume_momentum': pa_data['volume_momentum'],
+            'divergence_alert': divergence_data.get('divergence_type', 'NONE'),
+            'divergence_strength': divergence_data.get('divergence_strength', 0),
+            'market_behavior': behavior_data.get('behavior', 'NEUTRAL'),
+            'hesitation_score': behavior_data.get('hesitation', 50),
+            'path_efficiency': efficiency_data.get('movement_quality', 'FAIR'),
+        }
+
+        results['advanced_signals'] = {
+            'conflict_score': conflict_data.get('conflict_score', 0),
+            'continuation_probability': continuation_data.get('continuation_probability', 50),
+            'transition_risk': transition_data.get('transition_risk', 'LOW'),
+            'persistence_score': persistence_data.get('persistence_score', 50),
+            'is_persistent': persistence_data.get('is_persistent', False),
+            'efficiency_score': efficiency_data.get('overall_efficiency', 50),
         }
             
-        # Run all specialized analyzers
-        results['behavior'] = self.behavior.analyze(df_m5)
+        # Store individual specialized analyzer outputs
+        results['behavior'] = behavior_data
         results['candle_pattern'] = candle_data
         results['trap_detector'] = trap_data
-        results['conflict'] = self.conflict.analyze(df_m5)
-        results['continuation'] = self.continuation.analyze(df_m5)
-        results['divergence'] = self.divergence.analyze(df_m5)
-        results['efficiency'] = self.efficiency.analyze(df_m5)
-        results['persistence'] = self.persistence.analyze(df_m5)
-        results['transition'] = self.transition.analyze(df_m5)
+        results['conflict'] = conflict_data
+        results['continuation'] = continuation_data
+        results['divergence'] = divergence_data
+        results['efficiency'] = efficiency_data
+        results['persistence'] = persistence_data
+        results['transition'] = transition_data
 
         return results
