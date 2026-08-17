@@ -25,8 +25,6 @@ from datetime import datetime, timezone
 
 from data_evaluate.orchestration.indicator_store.indicator_store import store
 from data_evaluate.orchestration.advanced_tools.advanced_tools_manager import AdvancedToolsManager
-# orchestrator.py is the ONLY file authorized to read CSV from disk into RAM
-# via _load_csv_to_ram(), then distributes data to all analysis engines below.
 
 from types import SimpleNamespace
 # Import 5 Engines and Classifier
@@ -36,7 +34,6 @@ from data_evaluate.orchestration.market_classifier.volatility_engine import Vola
 from data_evaluate.orchestration.market_classifier.structure_engine import StructureEngine
 from data_evaluate.orchestration.market_classifier.mtf_engine import MTFEngine
 from data_evaluate.orchestration.market_classifier.market_state_classifier import MarketStateClassifier
-from data_feed.news_calendar import check_news_impact
 
 # Import Supplementary Engines
 from data_evaluate.orchestration.explainability_engine import ExplainabilityEngine
@@ -70,9 +67,6 @@ class Orchestrator:
     def __init__(self, trade_logger=None):
         self.trade_logger = trade_logger
         self.advanced_tools = AdvancedToolsManager()
-        
-        # ── CSV Base Directory (Part 1 output) ───────────────────────
-        self.csv_base_dir = os.path.join("data_base", "csv", "iq_option")
         
         # ── Tier-1 engines ────────────
         self.trend_engine = TrendEngine()
@@ -111,84 +105,6 @@ class Orchestrator:
         self.last_payload = None
         self.latest_payloads: Dict[str, dict] = {}
 
-    def _load_csv_to_ram(self, symbol: str) -> Dict[str, pd.DataFrame]:
-        """
-        ดึงข้อมูลราคาจากไฟล์ CSV ที่ Part 1 เขียนออกมา อ่านเข้า RAM ของ Orchestrator
-        นี่คือไฟล์เดียวที่มีสิทธิ์เข้าถึง CSV ของ Part 1
-        
-        Args:
-            symbol: ชื่อคู่เงิน เช่น 'EURUSD-OTC'
-            
-        Returns:
-            Dict[str, pd.DataFrame]: {'M1': df, 'M5': df, 'M15': df}
-        """
-        from data_feed.csv_writer import read_csv_safe
-        
-        timeframes = {'M1': 'M1', 'M5': 'M5', 'M15': 'M15'}
-        candles_dict = {}
-        
-        for tf_label, tf_key in timeframes.items():
-            # ตำแหน่งไฟล์ CSV: data_base/csv/iq_option/<SYMBOL>/<SYMBOL>_<TF>.csv
-            symbol_dir = os.path.join(self.csv_base_dir, symbol)
-            filename = f"{symbol}_{tf_key}.csv"
-            file_path = os.path.join(symbol_dir, filename)
-            
-            if not os.path.exists(file_path):
-                raise ValueError(
-                    f"FAIL-FAST: CSV file not found for {symbol} {tf_label}: {file_path}"
-                )
-            
-            try:
-                df = read_csv_safe(file_path, encoding='utf-8')
-                
-                if df is None or df.empty:
-                    raise ValueError(
-                        f"FAIL-FAST: CSV file is empty for {symbol} {tf_label}: {file_path}"
-                    )
-                
-                # ตรวจสอบว่ามีคอลัมน์ timestamp
-                if 'timestamp' not in df.columns:
-                    raise ValueError(
-                        f"FAIL-FAST: CSV missing 'timestamp' column for {symbol} {tf_label}: {file_path}"
-                    )
-                
-                # แปลง timestamp เป็น UTC DatetimeIndex
-                df['timestamp'] = pd.to_datetime(df['timestamp'], utc=True)
-                df = df.set_index('timestamp')
-                
-                # กำจัดแถวเวลาซ้ำ (Duplicate Timestamp)
-                df = df[~df.index.duplicated(keep='last')].sort_index()
-                
-                # ตรวจสอบคอลัมน์ OHLCV ขั้นต่ำ
-                required_cols = ['open', 'high', 'low', 'close', 'volume']
-                missing_cols = [c for c in required_cols if c not in df.columns]
-                if missing_cols:
-                    raise ValueError(
-                        f"FAIL-FAST: CSV missing required columns {missing_cols} for {symbol} {tf_label}"
-                    )
-                
-                # แปลงประเภทข้อมูล
-                for col in ['open', 'high', 'low', 'close']:
-                    df[col] = pd.to_numeric(df[col], errors='coerce')
-                df['volume'] = pd.to_numeric(df['volume'], errors='coerce').fillna(0).astype('int64')
-                
-                # ลบแถวที่มี NaN ใน OHLC
-                df = df.dropna(subset=['open', 'high', 'low', 'close'])
-                
-                if df.empty:
-                    raise ValueError(
-                        f"FAIL-FAST: CSV data is empty after cleaning for {symbol} {tf_label}: {file_path}"
-                    )
-                
-                candles_dict[tf_label] = df
-                logger.info(f"[Orchestrator] Loaded {symbol} {tf_label}: {len(df)} rows from CSV")
-                
-            except Exception as e:
-                logger.exception(f"[Orchestrator] Failed to load CSV for {symbol} {tf_label}: {e}")
-                raise
-        
-        return candles_dict
-
     def update_ai_memory(self, symbol: str, action: str, reason: str):
         self.ai_memory.append({
             'symbol': symbol,
@@ -203,19 +119,16 @@ class Orchestrator:
         self,
         symbol: str,
         ai_context: Optional[Any] = None,
-        candles_dict: Optional[Dict[str, pd.DataFrame]] = None
+        candles_dict: Optional[Dict[str, pd.DataFrame]] = None,
+        news_impact: Optional[str] = None
     ) -> Optional[Dict[str, Any]]:
         
-        # รับข้อมูลราคาผ่าน RAM หากส่งเข้ามา หรือโหลดจาก CSV ในกรณี standalone
-        if candles_dict is None:
-            candles_dict = self._load_csv_to_ram(symbol)
-        
-        # Fail-Fast: candles_dict must be provided — no silent fallback
-        if not isinstance(candles_dict, dict):
-            raise TypeError("FAIL-FAST: candles_dict must be a dictionary")
+        # Fail-Fast: candles_dict must be provided as in-memory snapshot — no silent fallback
+        if candles_dict is None or not isinstance(candles_dict, dict):
+            raise TypeError(f"FAIL-FAST: candles_dict must be provided as a dictionary for {symbol}")
         for tf in ["M1", "M5", "M15"]:
             if tf not in candles_dict or candles_dict[tf] is None or candles_dict[tf].empty:
-                raise ValueError(f"FAIL-FAST: Missing or empty {tf} data in candles_dict")
+                raise ValueError(f"FAIL-FAST: Missing or empty {tf} data in candles_dict for {symbol}")
                 
         # Warm-up Candle Lookback Check (Fail-Fast) - 250 candles per timeframe
         min_required_candles = {
@@ -374,14 +287,13 @@ class Orchestrator:
                 raise ValueError("Failed to calculate expected_vol") from e
 
             vol_ratio = 1.0 if is_otc else m5_data.get('volume_ratio', 1.0)
-            news_impact = check_news_impact(symbol)
+            effective_news_impact = 'NONE_OTC' if is_otc else (news_impact or 'NONE')
 
             if is_otc:
                 # OTC pairs do not have reliable news and volume from the regular market calendar.
                 # We preserve the structural fields but mark them explicitly and use neutral values so
                 # downstream AI, strategy, and classifier logic can treat OTC as "not applicable" without
                 # introducing a zero-bias or misleading numeric signal.
-                news_impact = 'NONE_OTC'
                 if 'm5' in final_payload and isinstance(final_payload['m5'], dict):
                     final_payload['m5']['volume'] = 1.0
                     final_payload['m5']['volume_ratio'] = 1.0
@@ -396,7 +308,7 @@ class Orchestrator:
                 'breakout_prob': state_data.get('breakout_prob', 0) if state_data else 0,
                 'reversal_prob': state_data.get('reversal_prob', 0) if state_data else 0,
                 'volatility_regime': final_payload['analysis']['volatility_regime'],
-                'news_impact': news_impact,
+                'news_impact': effective_news_impact,
                 'expected_volatility_%': expected_vol,
                 'recent_ai_memory': list(self.ai_memory)
             }

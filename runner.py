@@ -20,7 +20,7 @@ from config_setting.config_loader import load_settings, get_symbols, get_csv_man
 from data_feed.bridge_adapter.broker_factory import BrokerFactory
 from data_feed.data_adapter import DataAdapter
 from data_feed.csv_time_sync import TimeSyncManager
-from data_feed.news_calendar import ensure_calendar_news
+from data_feed.news_calendar import ensure_calendar_news, check_news_impact
 from data_evaluate.orchestrator import Orchestrator
 
 setup_logging()
@@ -172,7 +172,8 @@ class PureAIRunner:
             if sym in prices_dict:
                 try:
                     candles_ram = self.candle_adapter.get_candles_ram(sym)
-                    self.orchestrator.process_cycle(symbol=sym, candles_dict=candles_ram)
+                    news_impact = check_news_impact(sym)
+                    self.orchestrator.process_cycle(symbol=sym, candles_dict=candles_ram, news_impact=news_impact)
                 except Exception as e:
                     logger.exception(f"Failed to process Part 2 analysis for {sym}: {e}")
 
