@@ -23,7 +23,7 @@ class QuotexAdapter(IDataSource):
         return self._connected
 
     def get_candles(self, symbol: str, timeframe: str = 'M1', 
-                    limit: int = 1000, end_time: Optional[float] = None) -> pd.DataFrame:
+                    count: int = 250, end_time: Optional[float] = None) -> pd.DataFrame:
         raise NotImplementedError("Quotex get_candles not implemented")
 
     def get_server_timestamp(self) -> float:

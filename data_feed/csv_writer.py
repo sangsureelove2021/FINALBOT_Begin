@@ -35,20 +35,27 @@ def read_csv_safe(file_path: str, **kwargs) -> pd.DataFrame:
     """
     file_lock = get_file_lock(file_path)
     with file_lock:
-        return pd.read_csv(file_path, **kwargs)
+        max_retries = 3
+        for attempt in range(1, max_retries + 1):
+            try:
+                return pd.read_csv(file_path, **kwargs)
+            except PermissionError:
+                if attempt < max_retries:
+                    time.sleep(0.05)
+                else:
+                    raise
 
 
 class CSVWriter:
     """Writes candle dataframes to CSV files with Thread-Safe synchronization - Singleton Pattern"""
 
-    _instances = {}
+    _instance = None
 
-    def __new__(cls, config: Dict[str, Any] = None):
+    def __new__(cls, *args, **kwargs):
         """Ensure singleton pattern for CSVWriter"""
-        key = f"{hash(str(config))}"
-        if key not in cls._instances:
-            cls._instances[key] = super().__new__(cls)
-        return cls._instances[key]
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
 
     def __init__(self, config: Dict[str, Any] = None):
         """
@@ -67,7 +74,6 @@ class CSVWriter:
         
         # Load writer configuration
         self.encoding = config.get("encoding", "utf-8")
-        self.index_format = config.get("index_format", "timestamp")
         self.date_format = config.get("date_format", "%Y-%m-%d %H:%M:%S")
         self.include_header = config.get("include_header", True)
         self.decimal_places = config.get("decimal_places", 6)
@@ -108,17 +114,6 @@ class CSVWriter:
         cols = ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'age', 'quality']
         df_to_write = df_to_write[[c for c in cols if c in df_to_write.columns]]
         
-        # Format OHLCV, age, and quality columns
-        for col in ['open', 'high', 'low', 'close']:
-            if col in df_to_write.columns:
-                df_to_write[col] = df_to_write[col].round(self.decimal_places)
-        if 'volume' in df_to_write.columns:
-            df_to_write['volume'] = df_to_write['volume'].fillna(0).round().astype('int64')
-        if 'age' in df_to_write.columns:
-            df_to_write['age'] = df_to_write['age'].round().astype('int64')
-        if 'quality' in df_to_write.columns:
-            df_to_write['quality'] = df_to_write['quality'].astype(str)
-        
         file_lock = get_file_lock(file_path)
         with file_lock:
             # Read existing file if present using read_csv_safe (handles locking safely), merge and deduplicate
@@ -140,7 +135,6 @@ class CSVWriter:
                     df_to_write['timestamp'] = pd.to_datetime(df_to_write['timestamp'], utc=True)
 
                     combined_df = pd.concat([existing_df, df_to_write], ignore_index=True)
-                    combined_df['timestamp'] = pd.to_datetime(combined_df['timestamp'], utc=True)
                     combined_df = combined_df.drop_duplicates(subset=['timestamp'], keep='last')
                     combined_df = combined_df.sort_values(by='timestamp').reset_index(drop=True)
                     df_to_write = combined_df.tail(250)
@@ -163,9 +157,10 @@ class CSVWriter:
             if 'quality' in df_to_write.columns:
                 df_to_write['quality'] = df_to_write['quality'].astype(str)
 
-            # Format timestamp explicitly to UTC string so to_csv retains +00:00 (Fixing timestamp timezone issue)
+            # Format timestamp explicitly to UTC string so to_csv retains +00:00 (Standard ISO 8601)
             if 'timestamp' in df_to_write.columns:
-                df_to_write['timestamp'] = pd.to_datetime(df_to_write['timestamp'], utc=True)
+                if not pd.api.types.is_datetime64_any_dtype(df_to_write['timestamp']):
+                    df_to_write['timestamp'] = pd.to_datetime(df_to_write['timestamp'], utc=True)
                 df_to_write['timestamp'] = df_to_write['timestamp'].dt.strftime('%Y-%m-%d %H:%M:%S+00:00')
 
             try:

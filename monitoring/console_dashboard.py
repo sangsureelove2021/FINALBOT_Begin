@@ -72,27 +72,32 @@ def setup_logging():
     sys.stdout = SafeStreamWrapper(sys.stdout)
     sys.stderr = SafeStreamWrapper(sys.stderr)
 
-    base_log_dir = "logs/logs_data_feed"
-    errors_dir = os.path.join(base_log_dir, "errors")
-    warnings_dir = os.path.join(base_log_dir, "warnings")
-    info_dir = os.path.join(base_log_dir, "system_info")
-    all_runtime_dir = os.path.join(base_log_dir, "all_runtime")
-    fallback_dir = os.path.join(base_log_dir, "fallback")
+    # Base Log Directories
+    feed_log_dir = "logs/logs_data_feed"
+    eval_log_dir = "logs/logs_data_evaluate"
 
-    os.makedirs(errors_dir, exist_ok=True)
-    os.makedirs(warnings_dir, exist_ok=True)
-    os.makedirs(info_dir, exist_ok=True)
-    os.makedirs(all_runtime_dir, exist_ok=True)
+    feed_errors_dir = os.path.join(feed_log_dir, "errors")
+    feed_warnings_dir = os.path.join(feed_log_dir, "warnings")
+    fallback_dir = os.path.join(feed_log_dir, "fallback")
+
+    eval_errors_dir = os.path.join(eval_log_dir, "errors")
+    eval_warnings_dir = os.path.join(eval_log_dir, "warnings")
+
+    os.makedirs(feed_errors_dir, exist_ok=True)
+    os.makedirs(feed_warnings_dir, exist_ok=True)
     os.makedirs(fallback_dir, exist_ok=True)
+    os.makedirs(eval_errors_dir, exist_ok=True)
+    os.makedirs(eval_warnings_dir, exist_ok=True)
 
     max_bytes = 50 * 1024 * 1024  # 50 MB
     backup_count = 1000
 
-    error_log_path = os.path.join(errors_dir, "error.log")
-    warning_log_path = os.path.join(warnings_dir, "warning.log")
-    info_log_path = os.path.join(info_dir, "info.log")
-    all_runtime_log_path = os.path.join(all_runtime_dir, "runtime.log")
+    feed_error_log_path = os.path.join(feed_errors_dir, "error.log")
+    feed_warning_log_path = os.path.join(feed_warnings_dir, "warning.log")
     fallback_log_path = os.path.join(fallback_dir, "fallback.log")
+
+    eval_error_log_path = os.path.join(eval_errors_dir, "error.log")
+    eval_warning_log_path = os.path.join(eval_warnings_dir, "warning.log")
 
     formatter = logging.Formatter('%(asctime)s | %(levelname)-8s | %(message)s')
 
@@ -100,40 +105,54 @@ def setup_logging():
     root_logger.setLevel(logging.INFO)
     root_logger.handlers.clear()
 
-    # All Runtime Handler: all_runtime/runtime.log (100% events including [SEC_TRACK])
-    all_runtime_handler = AutoFlushRotatingFileHandler(
-        all_runtime_log_path, maxBytes=max_bytes, backupCount=backup_count, encoding='utf-8'
+    # Part 2 module identifier filter
+    part2_names = (
+        "data_evaluate",
+        "Orchestrator",
+        "AdvancedToolsManager",
+        "IndicatorStore",
+        "MarketStateClassifier",
+        "TrendEngine",
+        "StrengthEngine",
+        "VolatilityEngine",
+        "StructureEngine",
+        "MTFEngine",
+        "ExplainabilityEngine",
+        "LiquidityEngine",
+        "NoiseDetector",
+        "ProbabilityEstimator",
+        "SignalThrottle",
+        "ContextSynthesizer",
+        "MarketStructureEngine",
+        "MarketPressureAnalyzer",
     )
-    all_runtime_handler.setLevel(logging.INFO)
-    all_runtime_handler.setFormatter(formatter)
-    root_logger.addHandler(all_runtime_handler)
 
-    # Error Handler: errors/error.log (ERROR, CRITICAL, Exceptions)
-    error_handler = AutoFlushRotatingFileHandler(
-        error_log_path, maxBytes=max_bytes, backupCount=backup_count, encoding='utf-8'
-    )
-    error_handler.setLevel(logging.ERROR)
-    error_handler.setFormatter(formatter)
-    error_handler.addFilter(ExactLevelFilter(min_level=logging.ERROR))
-    root_logger.addHandler(error_handler)
+    class Part2Filter(logging.Filter):
+        def filter(self, record):
+            return any(record.name.startswith(p) for p in part2_names)
 
-    # Warning Handler: warnings/warning.log (WARNING only)
-    warning_handler = AutoFlushRotatingFileHandler(
-        warning_log_path, maxBytes=max_bytes, backupCount=backup_count, encoding='utf-8'
-    )
-    warning_handler.setLevel(logging.WARNING)
-    warning_handler.setFormatter(formatter)
-    warning_handler.addFilter(ExactLevelFilter(min_level=logging.WARNING, max_level=logging.WARNING))
-    root_logger.addHandler(warning_handler)
+    class Part1Filter(logging.Filter):
+        def filter(self, record):
+            return not any(record.name.startswith(p) for p in part2_names)
 
-    # Info Handler: system_info/info.log (INFO only)
-    info_handler = AutoFlushRotatingFileHandler(
-        info_log_path, maxBytes=max_bytes, backupCount=backup_count, encoding='utf-8'
+    # ── Part 1 Handlers (logs_data_feed) ──────────────────────────────────
+    feed_error_handler = AutoFlushRotatingFileHandler(
+        feed_error_log_path, maxBytes=max_bytes, backupCount=backup_count, encoding='utf-8'
     )
-    info_handler.setLevel(logging.INFO)
-    info_handler.setFormatter(formatter)
-    info_handler.addFilter(ExactLevelFilter(min_level=logging.INFO, max_level=logging.INFO))
-    root_logger.addHandler(info_handler)
+    feed_error_handler.setLevel(logging.ERROR)
+    feed_error_handler.setFormatter(formatter)
+    feed_error_handler.addFilter(ExactLevelFilter(min_level=logging.ERROR))
+    feed_error_handler.addFilter(Part1Filter())
+    root_logger.addHandler(feed_error_handler)
+
+    feed_warning_handler = AutoFlushRotatingFileHandler(
+        feed_warning_log_path, maxBytes=max_bytes, backupCount=backup_count, encoding='utf-8'
+    )
+    feed_warning_handler.setLevel(logging.WARNING)
+    feed_warning_handler.setFormatter(formatter)
+    feed_warning_handler.addFilter(ExactLevelFilter(min_level=logging.WARNING, max_level=logging.WARNING))
+    feed_warning_handler.addFilter(Part1Filter())
+    root_logger.addHandler(feed_warning_handler)
 
     # Fallback Handler: fallback/fallback.log (WARNING+ for REST fallback events)
     fallback_handler = AutoFlushRotatingFileHandler(
@@ -149,6 +168,25 @@ def setup_logging():
     fallback_handler.addFilter(FallbackFilter())
     root_logger.addHandler(fallback_handler)
 
+    # ── Part 2 Handlers (logs_data_evaluate) ──────────────────────────────
+    eval_error_handler = AutoFlushRotatingFileHandler(
+        eval_error_log_path, maxBytes=max_bytes, backupCount=backup_count, encoding='utf-8'
+    )
+    eval_error_handler.setLevel(logging.ERROR)
+    eval_error_handler.setFormatter(formatter)
+    eval_error_handler.addFilter(ExactLevelFilter(min_level=logging.ERROR))
+    eval_error_handler.addFilter(Part2Filter())
+    root_logger.addHandler(eval_error_handler)
+
+    eval_warning_handler = AutoFlushRotatingFileHandler(
+        eval_warning_log_path, maxBytes=max_bytes, backupCount=backup_count, encoding='utf-8'
+    )
+    eval_warning_handler.setLevel(logging.WARNING)
+    eval_warning_handler.setFormatter(formatter)
+    eval_warning_handler.addFilter(ExactLevelFilter(min_level=logging.WARNING, max_level=logging.WARNING))
+    eval_warning_handler.addFilter(Part2Filter())
+    root_logger.addHandler(eval_warning_handler)
+
     finalbot_logger = logging.getLogger("FINALBOT")
     finalbot_logger.setLevel(logging.INFO)
     finalbot_logger.handlers.clear()
@@ -157,8 +195,6 @@ def setup_logging():
     _LOGGING_INITIALIZED = True
 
 def thai_console_log(msg: str):
-    if "[SEC_TRACK]" in msg:
-        return
     tz_thailand = timezone(timedelta(hours=7))
     thai_time_str = datetime.now(tz_thailand).strftime('%H:%M:%S')
     try:

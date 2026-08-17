@@ -104,28 +104,25 @@ def load_datafeed_settings() -> Dict[str, Any]:
 
 def get_csv_writer_config() -> Dict[str, Any]:
     """Get CSV writer configuration"""
-    return load_settings().get("csv_writer", {})
+    settings = load_settings()
+    return settings.get("data_feed", {}).get("csv_writer", settings.get("csv_writer", {}))
 
 
 def get_csv_manager_config() -> Dict[str, Any]:
     """Get CSV manager configuration"""
-    return load_settings().get("csv_manager", {})
+    settings = load_settings()
+    return settings.get("data_feed", {}).get("csv_manager", settings.get("csv_manager", {}))
 
 
 def get_csv_queue_config() -> Dict[str, Any]:
     """Get CSV queue configuration"""
-    return load_settings().get("csv_queue", {})
+    settings = load_settings()
+    return settings.get("data_feed", {}).get("csv_queue", settings.get("csv_queue", {}))
 
 
 def get_time_sync_manager_config() -> Dict[str, Any]:
     """Get time sync manager configuration"""
-    return load_settings().get("time_sync_manager", {})
-
-
-def get_timeframe_sync_config() -> Dict[str, Any]:
-    """Get timeframe sync configuration"""
     settings = load_settings()
-    if "timeframe_sync" in settings:
-        return settings["timeframe_sync"]
-    return settings.get("data_feed", {}).get("timeframe_sync", {})
+    return settings.get("time_sync_manager", {})
+
 

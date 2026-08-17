@@ -45,7 +45,7 @@ def drop_forming(df: Optional[pd.DataFrame], broker_epoch: float, tf_seconds: in
     else:
         res = df.copy()
     
-    return DataValidator.ensure_utc_datetime_index(res)
+    return res
 
 
 def merge_candles(stored: pd.DataFrame, fresh: pd.DataFrame, 
@@ -98,7 +98,6 @@ def merge_candles(stored: pd.DataFrame, fresh: pd.DataFrame,
     # Combine and deduplicate
     combined = pd.concat([stored, fresh])
     combined = combined[~combined.index.duplicated(keep='last')]
-    combined = DataValidator.ensure_utc_datetime_index(combined)
     
     return combined.tail(max_candles)
 
@@ -128,7 +127,8 @@ def add_age_and_quality(df: pd.DataFrame, broker_epoch: float, tf_seconds: int) 
     if not isinstance(tf_seconds, (int, float)) or tf_seconds <= 0:
         raise ValueError(f"FAIL-FAST: tf_seconds must be a positive integer, got {tf_seconds}")
     
-    df = DataValidator.ensure_utc_datetime_index(df)
+    if not isinstance(df.index, pd.DatetimeIndex) or df.index.tz is None:
+        df = DataValidator.ensure_utc_datetime_index(df)
     result = df.copy()
     
     if not isinstance(result.index, pd.DatetimeIndex):

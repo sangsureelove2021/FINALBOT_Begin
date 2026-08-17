@@ -62,11 +62,6 @@ class IQRestFetcher:
             out.index = out.index.tz_convert('UTC')
         return out.sort_index(ascending=True)
 
-    def get_candles(self, api: Any, symbol: str, timeframe: str = 'M1',
-                    count: int = 200, end_time: Optional[Any] = None) -> pd.DataFrame:
-        """Alias for fetch_candles."""
-        return self.fetch_candles(api=api, symbol=symbol, timeframe=timeframe, count=count, end_time=end_time)
-
     def fetch_candles(self, api: Any, symbol: str, timeframe: str = 'M1',
                       count: int = 200, end_time: Optional[Any] = None) -> pd.DataFrame:
         """

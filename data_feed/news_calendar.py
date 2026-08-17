@@ -16,6 +16,7 @@ import io
 import sys
 import os
 import re
+import threading
 import logging
 import traceback
 from datetime import datetime, date, timezone
@@ -80,6 +81,7 @@ HEADERS = {
 }
 
 # Global Caches for News Evaluator
+_NEWS_LOCK = threading.RLock()
 _PRECALCULATED_NEWS: dict[str, str] = {}
 _LAST_CALENDAR_DATE: str | None = None
 _EVENTS_CACHE: list[dict] = []
@@ -109,7 +111,7 @@ def print_events(events: list[dict]) -> None:
     """พิมพ์ข่าวแต่ละรายการ"""
     if not isinstance(events, list):
         raise TypeError(f"events must be list, got {type(events)}")
-    now_str = datetime.now().strftime("%Y-%m-%d T%H:%M:%S")
+    from monitoring.console_dashboard import thai_console_log
     for e in events:
         try:
             dt = datetime.fromisoformat(e["date"])
@@ -133,23 +135,22 @@ def print_events(events: list[dict]) -> None:
             f"{forecast:<12}"
             f"{previous}"
         )
-        print(f"[{now_str}] -  {line}")
+        thai_console_log(f" {line}")
 
 def print_summary(events: list[dict], filepath: Path) -> None:
     """พิมพ์สรุปท้าย"""
     if not isinstance(events, list):
         raise TypeError(f"events must be list, got {type(events)}")
-    now_str = datetime.now().strftime("%Y-%m-%d T%H:%M:%S")
+    from monitoring.console_dashboard import thai_console_log
     high    = sum(1 for e in events if e.get("impact") == "High")
     medium  = sum(1 for e in events if e.get("impact") == "Medium")
     low     = sum(1 for e in events if e.get("impact") in ("Low", "Holiday"))
     width   = 80
 
-    print("-" * width)
-    print(f"[{now_str}] - [สรุป] ข่าวทั้งหมด {len(events)} รายการ  |  🔴 High: {high}  🟡 Medium: {medium}  ⚪ Low: {low}")
-    print(f"[{now_str}] - [บันทึกไฟล์] → {filepath}")
-    print("=" * width)
-    print()
+    thai_console_log("-" * width)
+    thai_console_log(f"[สรุป] ข่าวทั้งหมด {len(events)} รายการ  |  🔴 High: {high}  🟡 Medium: {medium}  ⚪ Low: {low}")
+    thai_console_log(f"[บันทึกไฟล์] → {filepath}")
+    thai_console_log("=" * width)
 
 # ─────────────────────────────────────────
 #  FETCH & PARSE ENGINE
@@ -450,95 +451,96 @@ def update_all_news_impact(symbols: list = None) -> None:
             symbols = ["EURUSD", "GBPUSD", "EURGBP"]
 
     global _PRECALCULATED_NEWS, _LAST_CALENDAR_DATE, _EVENTS_CACHE
-    try:
-        now_utc = datetime.now(timezone.utc)
-        today_str = datetime.now().strftime("%Y-%m-%d")
+    with _NEWS_LOCK:
+        try:
+            now_utc = datetime.now(timezone.utc)
+            today_str = now_utc.strftime("%Y-%m-%d")
 
-        # โหลดไฟล์ JSON เฉพาะเมื่อยังไม่มีข้อมูลของวันนี้
-        if _LAST_CALENDAR_DATE != today_str:
-            calendar_file = OUTPUT_DIR / f"calendar_{today_str}.txt"
+            # โหลดไฟล์ JSON เฉพาะเมื่อยังไม่มีข้อมูลของวันนี้ (ตามเวลา UTC)
+            if _LAST_CALENDAR_DATE != today_str:
+                calendar_file = OUTPUT_DIR / f"calendar_{today_str}.txt"
 
-            if not calendar_file.exists():
-                log(f"[NEWS] Calendar file for {today_str} not found (Day Rollover). Auto-fetching...")
-                try:
-                    ensure_calendar_news(date.today())
-                except Exception as e:
-                    log(f"[ERROR] Auto-fetch news failed: {e}")
-                    traceback.print_exc()
-                    raise RuntimeError(f"Auto-fetch news failed: {e}") from e
-
-            if calendar_file.exists():
-                try:
-                    with open(calendar_file, "r", encoding="utf-8") as f:
-                        _EVENTS_CACHE = json.load(f)
-                    _LAST_CALENDAR_DATE = today_str
-                except json.JSONDecodeError as e:
-                    log(f"[ERROR] Calendar JSON is corrupt: {e}. Removing file.")
+                if not calendar_file.exists():
+                    log(f"[NEWS] Calendar file for {today_str} (UTC) not found (Day Rollover). Auto-fetching...")
                     try:
-                        os.remove(calendar_file)
-                    except OSError:
-                        pass
-                    raise RuntimeError(f"Calendar JSON is corrupt: {e}") from e
-            else:
-                log(f"[WARN] Calendar file {calendar_file} not found even after auto-fetch. Using empty events.")
-                _EVENTS_CACHE = []
-                _LAST_CALENDAR_DATE = today_str
+                        ensure_calendar_news(now_utc.date())
+                    except Exception as e:
+                        log(f"[ERROR] Auto-fetch news failed: {e}")
+                        traceback.print_exc()
+                        raise RuntimeError(f"Auto-fetch news failed: {e}") from e
 
-        # คำนวณทีละคู่เงิน
-        for symbol in symbols:
-            if not isinstance(symbol, str):
-                raise TypeError(f"symbol must be str, got {type(symbol)}")
+                if calendar_file.exists():
+                    try:
+                        with open(calendar_file, "r", encoding="utf-8") as f:
+                            _EVENTS_CACHE = json.load(f)
+                        _LAST_CALENDAR_DATE = today_str
+                    except json.JSONDecodeError as e:
+                        log(f"[ERROR] Calendar JSON is corrupt: {e}. Removing file.")
+                        try:
+                            os.remove(calendar_file)
+                        except OSError:
+                            pass
+                        raise RuntimeError(f"Calendar JSON is corrupt: {e}") from e
+                else:
+                    log(f"[WARN] Calendar file {calendar_file} not found even after auto-fetch. Using empty events.")
+                    _EVENTS_CACHE = []
+                    _LAST_CALENDAR_DATE = today_str
 
-            # 1. OTC Bypass
-            if "OTC" in symbol.upper():
-                _PRECALCULATED_NEWS[symbol] = "NONE_OTC"
-                continue
+            # คำนวณทีละคู่เงิน
+            for symbol in symbols:
+                if not isinstance(symbol, str):
+                    raise TypeError(f"symbol must be str, got {type(symbol)}")
 
-            if not _EVENTS_CACHE:
-                _PRECALCULATED_NEWS[symbol] = "LOW"
-                continue
-
-            clean_symbol = symbol.upper().replace("-OTC", "").replace("_OTC", "")
-            upcoming_news = []
-            past_news = []
-
-            for event in _EVENTS_CACHE:
-                date_str = event.get("date")
-                if not date_str:
+                # 1. OTC Bypass
+                if "OTC" in symbol.upper():
+                    _PRECALCULATED_NEWS[symbol] = "NONE_OTC"
                     continue
 
-                event_time = datetime.fromisoformat(date_str)
+                if not _EVENTS_CACHE:
+                    _PRECALCULATED_NEWS[symbol] = "LOW"
+                    continue
 
-                if event_time.tzinfo is None:
-                    event_time = event_time.replace(tzinfo=timezone.utc)
+                clean_symbol = symbol.upper().replace("-OTC", "").replace("_OTC", "")
+                upcoming_news = []
+                past_news = []
 
-                time_diff = (event_time - now_utc).total_seconds() / 60
-                impact = event.get("impact", "")
-                currency = event.get("country", "")
+                for event in _EVENTS_CACHE:
+                    date_str = event.get("date")
+                    if not date_str:
+                        continue
 
-                relevant = clean_symbol[:3] in currency or clean_symbol[3:] in currency
-                if relevant:
-                    if 0 <= time_diff <= 30:
-                        upcoming_news.append({"impact": impact})
-                    elif -15 <= time_diff < 0:
-                        past_news.append({"impact": impact})
+                    event_time = datetime.fromisoformat(date_str)
 
-            all_news = upcoming_news + past_news
+                    if event_time.tzinfo is None:
+                        event_time = event_time.replace(tzinfo=timezone.utc)
 
-            has_high = any(n['impact'].strip().upper() == "HIGH" for n in all_news)
-            has_medium = any(n['impact'].strip().upper() == "MEDIUM" for n in all_news)
+                    time_diff = (event_time - now_utc).total_seconds() / 60
+                    impact = event.get("impact", "")
+                    currency = event.get("country", "")
 
-            if has_high:
-                _PRECALCULATED_NEWS[symbol] = "HIGH"
-            elif has_medium:
-                _PRECALCULATED_NEWS[symbol] = "MEDIUM"
-            else:
-                _PRECALCULATED_NEWS[symbol] = "LOW"
+                    relevant = clean_symbol[:3] in currency or clean_symbol[3:] in currency
+                    if relevant:
+                        if 0 <= time_diff <= 30:
+                            upcoming_news.append({"impact": impact})
+                        elif -15 <= time_diff < 0:
+                            past_news.append({"impact": impact})
 
-    except Exception as e:
-        log(f"[ERROR] update_all_news_impact error: {e}")
-        traceback.print_exc()
-        raise RuntimeError(f"update_all_news_impact error: {e}") from e
+                all_news = upcoming_news + past_news
+
+                has_high = any(n['impact'].strip().upper() == "HIGH" for n in all_news)
+                has_medium = any(n['impact'].strip().upper() == "MEDIUM" for n in all_news)
+
+                if has_high:
+                    _PRECALCULATED_NEWS[symbol] = "HIGH"
+                elif has_medium:
+                    _PRECALCULATED_NEWS[symbol] = "MEDIUM"
+                else:
+                    _PRECALCULATED_NEWS[symbol] = "LOW"
+
+        except Exception as e:
+            log(f"[ERROR] update_all_news_impact error: {e}")
+            traceback.print_exc()
+            raise RuntimeError(f"update_all_news_impact error: {e}") from e
 
 def check_news_impact(symbol: str = "EURUSD") -> str:
     """
@@ -549,9 +551,10 @@ def check_news_impact(symbol: str = "EURUSD") -> str:
         raise TypeError(f"check_news_impact: symbol must be str, got {type(symbol)}")
     if "OTC" in symbol.upper():
         return 'NONE_OTC'
-    if symbol not in _PRECALCULATED_NEWS:
-        update_all_news_impact([symbol])
-    return _PRECALCULATED_NEWS.get(symbol, 'LOW')
+    with _NEWS_LOCK:
+        if symbol not in _PRECALCULATED_NEWS:
+            update_all_news_impact([symbol])
+        return _PRECALCULATED_NEWS.get(symbol, 'LOW')
 
 # ─────────────────────────────────────────
 #  MAIN CLI

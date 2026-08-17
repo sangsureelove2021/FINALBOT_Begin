@@ -8,11 +8,9 @@ data_feed/abstract_class.py
 ไฟล์นี้ทำหน้าที่เป็นสัญญา (Contract) ให้ Adapter ที่จะสร้างขึ้นมาทั้งหมด
 ต้องมีเมธอดตามที่กำหนดไว้ เพื่อให้ส่วนอื่นของระบบเรียกใช้งานได้ในรูปแบบเดียวกัน
 """
-import asyncio
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 import pandas as pd
-from typing import Callable, Any, List, Dict
 
 
 class IDataSource(ABC):
@@ -119,11 +117,3 @@ class IDataSource(ABC):
         """Property shortcut สำหรับ self.is_connected()"""
         return self.is_connected()
 
-    async def get_historical_candles(self, symbol: str, timeframe: int, count: int, end_time: float) -> List[Dict[str, Any]]:
-        """
-        (Optional) ดึงข้อมูลแท่งเทียนย้อนหลัง (สำหรับระบบที่ต้องการ)
-        หมายเหตุ: ในโปรเจกต์นี้ ฟังก์ชันนี้อาจไม่ถูกใช้งานตามข้อกำหนด
-        แต่ใส่ไว้เพื่อความสมบูรณ์ของ Interface
-        """
-        # ตามข้อกำหนดที่ห้ามดึงข้อมูลย้อนหลัง เราจะคืนค่าว่างเสมอ
-        return []

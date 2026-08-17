@@ -13,18 +13,19 @@ class TimeSyncManager:
     """
     ระบบบริหารจัดการการซิงค์เวลากับเซิร์ฟเวอร์ (Time Sync Manager) - Singleton Pattern
     """
-    _instances = {}
+    _instance = None
     
-    def __new__(cls, data_adapter=None, config=None):
+    def __new__(cls, *args, **kwargs):
         """Ensure singleton pattern for TimeSyncManager"""
-        key = f"{hash(str(data_adapter))}_{hash(str(config))}"
-        if key not in cls._instances:
-            cls._instances[key] = super().__new__(cls)
-        return cls._instances[key]
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
 
     def __init__(self, data_adapter=None, config=None):
         """Initialize with time sync configuration."""
         if hasattr(self, '_initialized') and self._initialized:
+            if data_adapter is not None and self.data_adapter is None:
+                self.data_adapter = data_adapter
             return
             
         self._initialized = True
@@ -52,12 +53,12 @@ class TimeSyncManager:
         if data_adapter is not None:
             self.data_adapter = data_adapter
 
-        if self.data_adapter is None or not hasattr(self.data_adapter, 'api') or self.data_adapter.api is None:
-            logger.error("Failed to get server time offset: data_adapter or api is None")
+        if self.data_adapter is None:
+            logger.error("Failed to get server time offset: data_adapter is None")
             raise RuntimeError("FAIL-FAST: Failed to get server time offset from broker")
 
         try:
-            server_time = self.data_adapter.api.get_server_timestamp()
+            server_time = self.data_adapter.get_server_timestamp()
             if server_time is None:
                 raise ValueError("get_server_timestamp returned None")
             local_time = int(time.time())
@@ -142,19 +143,4 @@ class TimeSyncManager:
         """
         คืนค่า local time เวลาปัจจุบัน
         """
-        return int(time.time())
-    
-    @classmethod
-    def get_time_offset(cls, server_time: int, local_time: int) -> int:
-        """
-        คำนวณ time offset จาก server time และ local time
-        """
-        return server_time - local_time
-    
-    @classmethod
-    def sync_with_offset(cls, server_time: int) -> int:
-        """
-        ซิงค์เวลาและคืนค่า time offset
-        """
-        local_time = cls.get_local_time()
-        return cls.get_time_offset(server_time, local_time)
+        return int(time.time())

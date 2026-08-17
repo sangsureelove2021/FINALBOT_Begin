@@ -8,23 +8,23 @@ import os
 from datetime import datetime
 import logging
 import traceback
-from typing import Dict, Any
+from typing import Dict, Any, Optional
+from data_feed.csv_writer import read_csv_safe
 
 logger = logging.getLogger(__name__)
 
 class CSVManager:
     """Manages file storage directories and filenames - Singleton Pattern"""
     
-    _instances = {}
+    _instance = None
     
-    def __new__(cls, base_dir: str = "data_base/csv/iq_option", config: Dict[str, Any] = None):
+    def __new__(cls, base_dir: Optional[str] = None, config: Optional[Dict[str, Any]] = None):
         """Ensure singleton pattern for CSVManager"""
-        key = f"{base_dir}_{hash(str(config))}"
-        if key not in cls._instances:
-            cls._instances[key] = super().__new__(cls)
-        return cls._instances[key]
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
 
-    def __init__(self, base_dir: str = "data_base/csv/iq_option", config: Dict[str, Any] = None):
+    def __init__(self, base_dir: Optional[str] = None, config: Optional[Dict[str, Any]] = None):
         """Initialize with manager configuration."""
         if hasattr(self, '_initialized') and self._initialized:
             return
@@ -34,8 +34,16 @@ class CSVManager:
             from config_setting.config_loader import get_csv_manager_config
             config = get_csv_manager_config()
         
+        if not base_dir:
+            if config and config.get("base_dir"):
+                base_dir = config.get("base_dir")
+            else:
+                from config_setting.config_loader import load_settings
+                active_broker = str(load_settings().get("active_broker", "iq_option")).lower()
+                base_dir = f"data_base/csv/{active_broker}"
+        
         # Load manager configuration
-        self.base_dir = config.get("base_dir", base_dir or "data_base/csv/iq_option")
+        self.base_dir = config.get("base_dir", base_dir)
         self.naming_convention = config.get("naming_convention", "{symbol}_{timeframe}.csv")
         self.auto_create_dirs = config.get("auto_create_dirs", True)
         self.file_permissions = config.get("file_permissions", "rw-r--r--")
@@ -83,13 +91,11 @@ class CSVManager:
     
     def read_csv(self, symbol: str, timeframe: str, **kwargs) -> Any:
         """Read CSV file for symbol and timeframe using per-file thread lock."""
-        from data_feed.csv_writer import read_csv_safe
         file_path = self.get_file_path(symbol, timeframe)
         return read_csv_safe(file_path, **kwargs)
 
     def get_csv_reader(self) -> Any:
         """Get CSV reader instance to read files."""
-        from data_feed.csv_writer import read_csv_safe
         return read_csv_safe
     
     def cleanup_old_files(self, symbol: str, timeframe: str, keep_days: int = 30) -> None:

@@ -137,13 +137,15 @@ class IQStreamManager:
         logger.info(f"[STREAM] WebSocket cache empty for {symbol} ({timeframe}), starting stream...")
         self.start_stream(api, symbol, timeframe, count=count)
         
-        # Brief pause to let initial WebSocket frames populate the cache
-        time.sleep(0.3)
-        
-        # 3. Read again from WebSocket cache
-        cached_df = self.get_cached_candles(api, symbol, timeframe)
-        if cached_df is not None and len(cached_df) >= 2:
-            return cached_df.tail(count)
+        # Micro-polling: check cache every 20ms up to max 200ms, exit immediately as soon as data arrives
+        max_wait = 0.20
+        poll_interval = 0.02
+        start_time = time.time()
+        while time.time() - start_time < max_wait:
+            time.sleep(poll_interval)
+            cached_df = self.get_cached_candles(api, symbol, timeframe)
+            if cached_df is not None and len(cached_df) >= 2:
+                return cached_df.tail(count)
 
         # 4. If cache still not ready, bootstrap via REST fetcher
         logger.warning(f"[FALLBACK] WebSocket failed for {symbol} ({timeframe}) — using REST API fallback")

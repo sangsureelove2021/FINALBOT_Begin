@@ -31,9 +31,6 @@ class RAMCacheStore:
         self._last_block_m5: Dict[str, int] = {}
         self._last_block_m15: Dict[str, int] = {}
         
-        # Track CSV write status
-        self._m5_csv_written: Dict[str, int] = {}
-        self._m15_csv_written: Dict[str, int] = {}
         
         logger.info("[RAMCacheStore] Initialized with empty cache")
     
@@ -174,13 +171,7 @@ class RAMCacheStore:
         if symbol not in self._completed_candles:
             raise ValueError(f"FAIL-FAST: No candle data in RAM for {symbol}")
         
-        result = {}
-        for tf, df in self._completed_candles[symbol].items():
-            # Remove duplicates, keeping last
-            clean = df[~df.index.duplicated(keep='last')]
-            result[tf] = clean
-        
-        return result
+        return self._completed_candles[symbol]
     
     def get_candles_ram(self, symbol: str) -> Dict[str, pd.DataFrame]:
         """
@@ -303,10 +294,6 @@ class RAMCacheStore:
             del self._last_block_m5[symbol]
         if symbol in self._last_block_m15:
             del self._last_block_m15[symbol]
-        if symbol in self._m5_csv_written:
-            del self._m5_csv_written[symbol]
-        if symbol in self._m15_csv_written:
-            del self._m15_csv_written[symbol]
         
         logger.info(f"[RAMCacheStore] Cleared all cache data for {symbol}")
     

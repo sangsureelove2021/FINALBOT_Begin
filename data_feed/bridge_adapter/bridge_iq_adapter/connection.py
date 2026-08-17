@@ -148,11 +148,14 @@ class IQConnectionManager:
             raise RuntimeError(f"Failed to get balance: {e}") from e
 
     def get_server_timestamp(self) -> float:
-        """Get server timestamp."""
+        """Get server timestamp from broker API with Fail-Fast compliance."""
         if not self._connected or self.api is None:
             raise RuntimeError("IQ Option not connected")
         try:
-            return float(time.time())
+            server_ts = self.api.get_server_timestamp()
+            if server_ts is not None:
+                return float(server_ts)
+            raise ValueError("api.get_server_timestamp() returned None")
         except Exception as e:
-            logger.error(f"Failed to get server timestamp: {e}")
-            return float(time.time())
+            logger.exception(f"Failed to get server timestamp: {e}")
+            raise RuntimeError(f"FAIL-FAST: Failed to get server timestamp: {e}") from e

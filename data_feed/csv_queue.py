@@ -17,14 +17,13 @@ logger = logging.getLogger(__name__)
 class CSVQueue:
     """Thread-safe queue for asynchronous CSV writing - Singleton Pattern"""
     
-    _instances = {}
+    _instance = None
     
-    def __new__(cls, config: Dict[str, Any] = None):
+    def __new__(cls, *args, **kwargs):
         """Ensure singleton pattern for CSVQueue"""
-        key = f"{hash(str(config))}"
-        if key not in cls._instances:
-            cls._instances[key] = super().__new__(cls)
-        return cls._instances[key]
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
 
     def __init__(self, config: Dict[str, Any] = None):
         """Initialize with queue configuration."""

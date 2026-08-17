@@ -59,6 +59,7 @@
   },
   
   "data_feed": {
+    "enable_csv_export": true,
     "csv_manager": {
       "base_dir": "data_base/csv/iq_option"
     },
@@ -81,34 +82,12 @@
       "m15_gap_sec": 4500,
       "retry_attempts": 0,
       "retry_delay": 0
-    },
-    "timeframe_sync": {
-      "enabled": true,
-      "sync_mode": "strict",
-      "m1_m5_resample": true,
-      "m5_m15_resample": true
     }
   },
   
-  "time_sync_manager": {
-    "sync_interval": 30,
-    "max_sync_attempts": 3
-  },
-  
-  "timeframe_sync": {
-    "enabled": true,
-    "sync_mode": "strict",
-    "m1_m5_resample": true,
-    "m5_m15_resample": true,
-    "timeframe_minutes": {
-      "M1": 1,
-      "M5": 5,
-      "M15": 15,
-      "M30": 30,
-      "H1": 60,
-      "H4": 240,
-      "D1": 1440
-    }
+  "data_evaluate": {
+    "enable_txt_export": true,
+    "output_dir": "data_base/orchestrator"
   },
   
   "active_broker": "IQ_OPTION"

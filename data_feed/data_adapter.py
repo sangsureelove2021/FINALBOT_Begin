@@ -44,29 +44,34 @@ class DataAdapter(IDataSource):
     Acts as a Coordinator orchestrating DataValidator, CandleProcessor, and RAMCacheStore.
     """
 
-    def __init__(self, broker_adapter: IDataSource, time_sync_manager: Any, base_dir: str = "data_base/csv/iq_option", config: Optional[Dict[str, Any]] = None):
+    def __init__(self, broker_adapter: IDataSource, time_sync_manager: Any, base_dir: Optional[str] = None, config: Optional[Dict[str, Any]] = None):
         """
         Initialize DataAdapter.
 
         Args:
-            iq_adapter: IQ Option instance implementing IDataSource
+            broker_adapter: Broker instance implementing IDataSource
             base_dir: Base directory for CSV files
             config: Configuration from datafeed_config.json
             time_sync_manager: TimeSyncManager instance
         """
         # Initialize with configuration
         if config is None:
-            from config_setting.config_loader import load_datafeed_settings
-            config = load_datafeed_settings()
+            from config_setting.config_loader import load_settings
+            full_settings = load_settings(reload=True)
+            df_config = full_settings.get("data_feed", {})
+        elif "data_feed" in config:
+            df_config = config.get("data_feed", {})
+        else:
+            df_config = config
         
-        super().__init__(config)
+        super().__init__(df_config)
         
         # Load data adapter configuration
-        adapter_config = config.get("data_feed", {}).get("data_adapter", {})
+        adapter_config = df_config.get("data_adapter", {})
         
         self._broker = broker_adapter
-        self._csv_manager = CSVManager(base_dir, config.get("data_feed", {}).get("csv_manager", {}))
-        self._csv_queue = CSVQueue(config.get("data_feed", {}).get("csv_queue", {}))
+        self._csv_manager = CSVManager(base_dir, df_config.get("csv_manager", {}))
+        self._csv_queue = CSVQueue(df_config.get("csv_queue", {}))
         
         if time_sync_manager is None:
             raise ValueError("FAIL-FAST: time_sync_manager is a required argument.")
@@ -91,6 +96,7 @@ class DataAdapter(IDataSource):
         self.retry_delay = 0  # Zero Tolerance: no retry delay
         self.enable_cache = adapter_config.get("enable_cache", True)
         self.cache_size = adapter_config.get("cache_size", 1000)
+        self.enable_csv_export = bool(df_config.get("enable_csv_export", True))
         
         # Initialize RAM cache store
         self._cache = RAMCacheStore()
@@ -98,7 +104,7 @@ class DataAdapter(IDataSource):
         # Initialize validator
         self._validator = DataValidator()
         
-        logger.info("[DataAdapter] Initialized with Zero Tolerance compliance using modular components")
+        logger.info(f"[DataAdapter] Initialized (enable_csv_export={self.enable_csv_export}) with Zero Tolerance compliance")
 
     def read_csv(self, file_path: str, **kwargs) -> pd.DataFrame:
         """
@@ -180,12 +186,13 @@ class DataAdapter(IDataSource):
                 'M15': m15_completed
             })
 
-            # Enqueue write to CSV files on SSD disk for all 3 timeframes
-            for tf, df in [('M1', m1_completed), ('M5', m5_completed), ('M15', m15_completed)]:
-                file_path = self._csv_manager.get_file_path(symbol, tf)
-                self._csv_queue.enqueue_write(df, file_path)
+            # Enqueue write to CSV files on SSD disk for all 3 timeframes (if enabled)
+            if self.enable_csv_export:
+                for tf, df in [('M1', m1_completed), ('M5', m5_completed), ('M15', m15_completed)]:
+                    file_path = self._csv_manager.get_file_path(symbol, tf)
+                    self._csv_queue.enqueue_write(df, file_path)
 
-            logger.info(f"[DataAdapter] {symbol} initialised in RAM & CSV written — M1:{len(m1_completed)} M5:{len(m5_completed)} M15:{len(m15_completed)}")
+            logger.info(f"[DataAdapter] {symbol} initialised in RAM (CSV Export: {self.enable_csv_export}) — M1:{len(m1_completed)} M5:{len(m5_completed)} M15:{len(m15_completed)}")
             return True
 
         except Exception as e:
@@ -269,11 +276,12 @@ class DataAdapter(IDataSource):
                 'M15': completed_m15
             })
 
-            # Enqueue write to CSV files ONLY when a new candle completed (block_changed == True)
-            for tf, df, changed in [('M1', completed_m1, m1_changed), ('M5', completed_m5, m5_changed), ('M15', completed_m15, m15_changed)]:
-                if changed:
-                    file_path = self._csv_manager.get_file_path(symbol, tf)
-                    self._csv_queue.enqueue_write(df, file_path)
+            # Enqueue write to CSV files ONLY when a new candle completed (and CSV export is enabled)
+            if self.enable_csv_export:
+                for tf, df, changed in [('M1', completed_m1, m1_changed), ('M5', completed_m5, m5_changed), ('M15', completed_m15, m15_changed)]:
+                    if changed:
+                        file_path = self._csv_manager.get_file_path(symbol, tf)
+                        self._csv_queue.enqueue_write(df, file_path)
 
             # Return symbol string on successful update
             return symbol
@@ -287,9 +295,22 @@ class DataAdapter(IDataSource):
     def get_candles_ram(self, symbol: str) -> Dict[str, pd.DataFrame]:
         """Return completed candles directly from RAM. No CSV read."""
         return self._cache.get_candles_ram(symbol)
+
+    def export_csv(self, symbol: Optional[str] = None) -> None:
+        """
+        On-Demand CSV Export: Dump completed candles from RAM to CSV files.
+        Can be triggered anytime Boss wants to inspect CSV files on disk.
+        """
+        symbols_to_export = [symbol] if symbol else list(self._cache._completed_candles.keys())
+        for sym in symbols_to_export:
+            candles = self._cache.get_candles_ram(sym)
+            for tf, df in candles.items():
+                file_path = self._csv_manager.get_file_path(sym, tf)
+                self._csv_queue.enqueue_write(df, file_path)
+        logger.info(f"[DataAdapter] On-demand CSV export queued for: {symbols_to_export}")
     
     def get_candles(self, symbol: str, timeframe: str = 'M1', 
-                    count: int = 100, end_time: Optional[float] = None) -> pd.DataFrame:
+                    count: int = 250, end_time: Optional[float] = None) -> pd.DataFrame:
         """ดึงข้อมูลแท่งเทียนจาก broker adapter"""
         return self._broker.get_candles(symbol, timeframe, count, end_time)
     
@@ -333,14 +354,3 @@ class DataAdapter(IDataSource):
         """Check and return list of open symbols (delegated to broker adapter)."""
         return self._broker.get_open_symbols(target_symbols)
 
-    async def get_historical_candles(self, symbol: str, timeframe: int, count: int, end_time: float):
-        """Get historical candles (delegated to IQ adapter)."""
-        # Convert timeframe string to int if needed
-        if isinstance(timeframe, str):
-            from config_setting.config_loader import get_timeframe_sync_config
-            tf_config = get_timeframe_sync_config()
-            timeframe_seconds = tf_config["timeframe_minutes"].get(timeframe, 60) * 60
-        else:
-            timeframe_seconds = timeframe
-            
-        return await self._broker.get_historical_candles(symbol, timeframe_seconds, count, end_time)

@@ -80,7 +80,7 @@ class IQOptionAdapter(IDataSource):
         return self.connection_manager.get_server_timestamp()
 
     def get_candles(self, symbol: str, timeframe: str = 'M1',
-                    count: int = 200, end_time: Optional[Any] = None) -> pd.DataFrame:
+                    count: int = 250, end_time: Optional[Any] = None) -> pd.DataFrame:
         """
         Fetch historical candles via REST API.
         """
@@ -95,7 +95,7 @@ class IQOptionAdapter(IDataSource):
 
     def get_multi_timeframe(self, symbol: str,
                             timeframes: Optional[List[str]] = None,
-                            count: int = 200) -> Dict[str, pd.DataFrame]:
+                            count: int = 250) -> Dict[str, pd.DataFrame]:
         """
         Fetch candles for multiple timeframes sequentially.
         """
@@ -107,7 +107,7 @@ class IQOptionAdapter(IDataSource):
             result[tf] = self.get_candles(symbol, timeframe=tf, count=count)
         return result
 
-    def start_stream(self, symbol: str, timeframe: str = 'M1', count: int = 200) -> None:
+    def start_stream(self, symbol: str, timeframe: str = 'M1', count: int = 250) -> None:
         """
         Start WebSocket candle streaming.
         """
@@ -119,7 +119,7 @@ class IQOptionAdapter(IDataSource):
             count=count
         )
 
-    def update_with_streaming(self, symbol: str, timeframe: str = 'M1', count: int = 200) -> pd.DataFrame:
+    def update_with_streaming(self, symbol: str, timeframe: str = 'M1', count: int = 250) -> pd.DataFrame:
         """
         Get latest candles from WebSocket cache.
         """

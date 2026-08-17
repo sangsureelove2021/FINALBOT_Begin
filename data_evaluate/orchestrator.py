@@ -36,7 +36,7 @@ from data_evaluate.orchestration.market_classifier.volatility_engine import Vola
 from data_evaluate.orchestration.market_classifier.structure_engine import StructureEngine
 from data_evaluate.orchestration.market_classifier.mtf_engine import MTFEngine
 from data_evaluate.orchestration.market_classifier.market_state_classifier import MarketStateClassifier
-from data_evaluate.economic_news_calendar import check_news_impact
+from data_feed.news_calendar import check_news_impact
 
 # Import Supplementary Engines
 from data_evaluate.orchestration.explainability_engine import ExplainabilityEngine
@@ -93,28 +93,23 @@ class Orchestrator:
 
         # ── Tier-2 classifier ────────────────────────────────────────────
         self.classifier: Optional[MarketStateClassifier] = None
+        self.enable_txt_export: bool = False
         try:
             from config_setting.config_loader import load_settings
-            _cfg = load_settings(reload=False)["thresholds"]
+            _all_cfg = load_settings(reload=False)
+            self.enable_txt_export = bool(_all_cfg.get("data_evaluate", {}).get("enable_txt_export", False))
+            _cfg = _all_cfg.get("thresholds", {})
             self.classifier = MarketStateClassifier(config=_cfg)
-            logger.info("MarketStateClassifier initialised")
+            logger.info(f"MarketStateClassifier initialised (enable_txt_export={self.enable_txt_export})")
         except Exception as e:
             raise
-
-        self.csv_dir = os.path.join("logs", "all_process")
-        os.makedirs(self.csv_dir, exist_ok=True)
-
-        self.json_dir = os.path.join("logs", "json_process")
-        os.makedirs(self.json_dir, exist_ok=True)
-
-        self.ai_log_dir = os.path.join("logs", "logs_ai")
-        os.makedirs(self.ai_log_dir, exist_ok=True)
 
         self.orchestrator_log_dir = os.path.join("data_base", "orchestrator")
         os.makedirs(self.orchestrator_log_dir, exist_ok=True)
 
         self.ai_memory = []
         self.last_payload = None
+        self.latest_payloads: Dict[str, dict] = {}
 
     def _load_csv_to_ram(self, symbol: str) -> Dict[str, pd.DataFrame]:
         """
@@ -207,11 +202,13 @@ class Orchestrator:
     def process_cycle(
         self,
         symbol: str,
-        ai_context: Optional[Any] = None
+        ai_context: Optional[Any] = None,
+        candles_dict: Optional[Dict[str, pd.DataFrame]] = None
     ) -> Optional[Dict[str, Any]]:
         
-        # orchestrator.py คือไฟล์เดียวที่มีสิทธิ์อ่าน CSV — บังคับอ่านเสมอ ไม่มี bypass
-        candles_dict = self._load_csv_to_ram(symbol)
+        # รับข้อมูลราคาผ่าน RAM หากส่งเข้ามา หรือโหลดจาก CSV ในกรณี standalone
+        if candles_dict is None:
+            candles_dict = self._load_csv_to_ram(symbol)
         
         # Fail-Fast: candles_dict must be provided — no silent fallback
         if not isinstance(candles_dict, dict):
@@ -220,16 +217,16 @@ class Orchestrator:
             if tf not in candles_dict or candles_dict[tf] is None or candles_dict[tf].empty:
                 raise ValueError(f"FAIL-FAST: Missing or empty {tf} data in candles_dict")
                 
-        # Warm-up Candle Lookback Check (Fail-Fast)
+        # Warm-up Candle Lookback Check (Fail-Fast) - 250 candles per timeframe
         min_required_candles = {
-            'M1': 100,
+            'M1': 250,
             'M5': 250,
-            'M15': 50
+            'M15': 250
         }
         for tf, min_req in min_required_candles.items():
             df_tf = candles_dict.get(tf)
             if df_tf is None or len(df_tf) < min_req:
-                raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (minimum {min_req} required)")
+                raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (got {len(df_tf) if df_tf is not None else 0}, minimum {min_req} required)")
 
         final_payload = {
             'symbol': symbol,
@@ -376,8 +373,7 @@ class Orchestrator:
             except (ZeroDivisionError, ValueError, TypeError) as e:
                 raise ValueError("Failed to calculate expected_vol") from e
 
-            m1_data = final_payload['m1']
-            vol_ratio = m1_data['volume_ratio']
+            vol_ratio = 1.0 if is_otc else m5_data.get('volume_ratio', 1.0)
             news_impact = check_news_impact(symbol)
 
             if is_otc:
@@ -424,34 +420,35 @@ class Orchestrator:
         except Exception as e:
             raise
 
-        # ── 6. Save Full Payload to CSV ─────────────────────────────────
-        # Skip CSV save - only save TXT as requested
-        # try:
-        #     self._save_full_csv(symbol, final_payload, candles_dict['M1'])
-        # except Exception as e:
-        #     raise
-
-        # ── 7. Format Payload ───────────────────────────────────────────
+        # ── 6. Format Payload ───────────────────────────────────────────
         try:
             formatted_payload = self._format_payload(final_payload)
 
-            # Skip JSON save - only save TXT as requested
-            # try:
-            #     self._save_formatted_json(symbol, formatted_payload)
-            # except Exception as e:
-            #     raise
-
-            try:
-                txt_filepath = self._save_txt_payload(symbol, formatted_payload)
-            except Exception as e:
-                logger.exception(f"Orchestrator failed to save txt payload for {symbol}: {e}")
-                raise
+            if self.enable_txt_export:
+                try:
+                    txt_filepath = self._save_txt_payload(symbol, formatted_payload)
+                except Exception as e:
+                    logger.exception(f"Orchestrator failed to save txt payload for {symbol}: {e}")
+                    raise
                 
             self.last_payload = formatted_payload
+            self.latest_payloads[symbol] = formatted_payload
             store.clear_symbol(symbol)  # Clean up memory leak
             return formatted_payload
         except Exception as e:
             raise
+
+    def export_txt_payload(self, symbol: Optional[str] = None) -> Optional[str]:
+        """
+        On-demand debug switch to export formatted payload to .txt file.
+        Use this when diagnosing issues to inspect snapshot on disk.
+        """
+        if symbol and symbol in self.latest_payloads:
+            return self._save_txt_payload(symbol, self.latest_payloads[symbol])
+        elif self.last_payload is not None:
+            sym = symbol or self.last_payload.get('meta', {}).get('symbol', 'UNKNOWN')
+            return self._save_txt_payload(sym, self.last_payload)
+        return None
 
     def _format_payload(self, p: dict) -> dict:
         """
@@ -879,85 +876,6 @@ class Orchestrator:
             elif not isinstance(v, pd.DataFrame):
                 items.append((new_key, v))
         return dict(items)
-
-    def _save_full_csv(self, symbol: str, final_payload: dict, df_m1: pd.DataFrame):
-        if df_m1 is None or df_m1.empty:
-            return
-            
-        date_str = datetime.now().strftime('%Y%m%d')
-        filename = f"{symbol.replace('-', '_')}_{date_str}.csv"
-        filepath = os.path.join(self.csv_dir, filename)
-        
-        last_row = df_m1.iloc[-1]
-        
-        # Flatten the final payload
-        flat_payload = self._flatten_dict(final_payload)
-        
-        current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:00')
-        # We want OHLCV at the front
-        row_data = {
-            'timestamp': current_timestamp,
-            'open': last_row['open'],
-            'high': last_row['high'],
-            'low': last_row['low'],
-            'close': last_row['close'],
-            'volume': last_row['volume']
-        }
-        
-        # Add all other data
-        for k, v in flat_payload.items():
-            if k not in row_data and k != 'timestamp':
-                row_data[k] = v
-                
-        file_exists = os.path.isfile(filepath) and os.path.getsize(filepath) > 0
-        
-        # Read existing headers if file exists
-        existing_headers = []
-        if file_exists:
-            try:
-                # Optimized verification (Rule 5 & 1): Read headers and last line only to prevent I/O bottlenecks
-                last_timestamp = None
-                with open(filepath, mode='r', newline='', encoding='utf-8') as f:
-                    lines = f.readlines()
-                    if len(lines) > 0:
-                        existing_headers = list(csv.reader([lines[0]]))[0]
-                        if 'timestamp' in existing_headers:
-                            ts_index = existing_headers.index('timestamp')
-                            if len(lines) > 1:
-                                last_row = list(csv.reader([lines[-1]]))[0]
-                                if len(last_row) > ts_index:
-                                    last_timestamp = last_row[ts_index]
-                                    
-                if last_timestamp == current_timestamp:
-                    # Timestamp already exists, skip writing to prevent duplicate log pollution
-                    return
-            except Exception as e:
-                # Rule 1: No Silent Failures & preserve stack trace
-                logger.exception(f"Orchestrator failed to inspect CSV headers or duplicate timestamp: {e}")
-                raise
-                    
-        # If new columns appear, we might miss them in the old file, but we will append using DictWriter
-        fieldnames = list(row_data.keys())
-        if file_exists:
-            # Add any new keys to fieldnames that aren't in existing_headers
-            for k in fieldnames:
-                if k not in existing_headers:
-                    existing_headers.append(k)
-            fieldnames = existing_headers
-            
-        with open(filepath, mode='a', newline='', encoding='utf-8') as f:
-            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction='ignore')
-            if not file_exists:
-                writer.writeheader()
-            writer.writerow(row_data)
-
-    def _save_formatted_json(self, symbol: str, formatted_payload: dict):
-        date_str = datetime.now().strftime('%Y%m%d')
-        filename = f"{symbol.replace('-', '_')}_{date_str}.json"
-        filepath = os.path.join(self.json_dir, filename)
-
-        with open(filepath, mode='w', encoding='utf-8') as f:
-            json.dump(formatted_payload, f, ensure_ascii=False, indent=4, cls=NumpyEncoder)
 
     def _generate_yaml_text(self, symbol: str, fp: dict) -> str:
         """Generates a YAML string from the formatted payload and aligns colons."""
