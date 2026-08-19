@@ -1,0 +1,1 @@
+2026-08-19 18:47:01,991 | WARNING  | [Orchestrator] Error cleaning old txt files for GBPUSD: [WinError 2] The system cannot find the file specified: 'data_base\\orchestrator\\GBPUSD\\GBPUSD0819181902.txt'

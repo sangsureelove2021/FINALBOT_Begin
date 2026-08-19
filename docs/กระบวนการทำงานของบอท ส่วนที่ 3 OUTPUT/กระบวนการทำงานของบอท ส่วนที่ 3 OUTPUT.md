@@ -28,26 +28,36 @@ flowchart TD
 
 ---
 
-## 📋 หน้าที่หลักของโมดูลในส่วนที่ 3
+## 📋 หน้าที่หลักของโมดูลในส่วนที่ 3 (Planned Modules)
 
 1. **AI Prompt Dispatcher & Interface:**
-   - อ่านไฟล์ Prompt `.txt` ล่าสุดของแต่ละคู่เงิน
-   - จัดส่งให้โมเดล AI (DeepSeek / Gemini) ประมวลผลแบบ Real-time
+   - อ่านไฟล์ Prompt `.txt` ล่าสุดของแต่ละคู่เงินจาก `data_base/orchestrator/<SYMBOL>/`
+   - แนบ **System Prompt (คู่มือกำกับตัวแปร 100 ฟิลด์ & กฎการเทรด)** ประกบคู่กับไฟล์ Prompt สด
+   - จัดส่งให้โมเดล AI (DeepSeek / Gemini API) ประมวลผลแบบ Real-time ภายในกรอบเวลา < 2 วินาที
 
 2. **Decision Parser & Signal Validator:**
-   - ถอดรหัสผลการตัดสินใจของ AI (Action: CALL / PUT / WAIT, Expiry, Confidence, Reason)
-   - ตรวจสอบความถูกต้องและขจัดสัญญาณขัดแย้งตามเงื่อนไขความปลอดภัย
+   - ถอดรหัสผลการตัดสินใจของ AI ในรูปแบบมาตรฐาน JSON:
+     ```json
+     {
+       "symbol": "EURUSD",
+       "action": "CALL",
+       "expiry_minutes": 5,
+       "confidence_score": 85,
+       "reason_th": "เกิด Reversal Breakout บนแนวรับ M5 ร่วมกับ RSI M1 เริ่มฟื้นตัว"
+     }
+     ```
+   - ตรวจสอบความถูกต้องและขจัดสัญญาณขัดแย้งตามเงื่อนไขความปลอดภัย (Safety Circuit Breaker)
 
 3. **Money Management & Position Sizing:**
    - คำนวณขนาดเงินลงทุนต่อไม้ (Fixed Amount / Compound / Martingale / Fractional Sizing)
-   - ควบคุมขีดจำกัดความเสี่ยงรายวัน (Daily Drawdown / Profit Target / Circuit Breaker)
+   - ควบคุมขีดจำกัดความเสี่ยงรายวัน (Daily Drawdown / Profit Target / Max Loss Streak)
 
 4. **Trade Execution & Order Management:**
-   - ส่งคำสั่งเทรดไปยังโบรกเกอร์ (IQ Option) แบบเสี้ยววินาที
-   - ติดตามผลลัพธ์การเทรด (Win / Loss / PnL) และบันทึกลงในระบบ Memory Manager และ Report
+   - ส่งคำสั่งเทรดไปยังโบรกเกอร์ (IQ Option) แบบเสี้ยววินาทีผ่าน Broker Bridge
+   - ติดตามผลลัพธ์การเทรดเมื่อหมดเวลาสัญญา (Win / Loss / PnL / Payout) และบันทึกลงในระบบ Memory Manager และ Performance Report
 
 ---
 
-## ⏳ สถานะปัจจุบัน
+## ⏳ สถานะและความพร้อม (Readiness Status)
 - **สถานะ:** ⏳ เตรียมพร้อมเริ่มพัฒนาในขั้นตอนถัดไป (Pending Development)
-- **ความพร้อมของระบบรองรับ:** ข้อมูลจาก Part 1 (Data Feed) และ Part 2 (Data Evaluate) เสร็จสมบูรณ์ 100% พร้อมเชื่อมต่อทันที
+- **ความพร้อมของระบบรองรับ:** ข้อมูลจาก Part 1 (Data Feed) และ Part 2 (Data Evaluate) เสร็จสมบูรณ์ 100% พร้อมเชื่อมต่อทันที ไร้ข้อติดค้างใดๆ ค่ะ 🚀

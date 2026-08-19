@@ -55,20 +55,25 @@ class DivergenceAnalyzer(BaseEngine):
             'confidence': 70 if divergence_detected else 60,
         }
     
-    def _calculate_rsi(self, prices, period=14) -> pd.Series:
+    def _calculate_rsi(self, prices: pd.Series, period: int = 14) -> pd.Series:
         try:
             deltas = prices.diff()
-            gains = np.where(deltas > 0, deltas, 0)
-            losses = np.where(deltas < 0, -deltas, 0)
+            gains = np.where(deltas > 0, deltas, 0.0)
+            losses = np.where(deltas < 0, -deltas, 0.0)
             avg_gain = pd.Series(gains, index=prices.index).rolling(period).mean()
             avg_loss = pd.Series(losses, index=prices.index).rolling(period).mean()
-            if (avg_loss == 0).any():
-                raise ValueError("Division by zero in RSI calculation (avg_loss contains 0)")
-            rs = avg_gain / avg_loss
-            return 100 - (100 / (1 + rs))
+            
+            # Handle division by zero properly according to Welles Wilder's RSI formula
+            safe_loss = np.where(avg_loss == 0, 1e-10, avg_loss)
+            rs = avg_gain / safe_loss
+            rsi = 100.0 - (100.0 / (1.0 + rs))
+            
+            # Bound boundaries: when avg_loss == 0, RSI = 100.0 (or 50.0 if avg_gain == 0)
+            rsi = np.where(avg_loss == 0, np.where(avg_gain == 0, 50.0, 100.0), rsi)
+            return pd.Series(rsi, index=prices.index)
         except Exception as e:
             import logging
-            logging.getLogger(__name__).exception(f"Error: {e}")
+            logging.getLogger(__name__).exception(f"Error in _calculate_rsi: {e}")
             raise
     
     def _calculate_macd_hist(self, prices) -> pd.Series:

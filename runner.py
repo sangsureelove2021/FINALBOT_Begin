@@ -22,6 +22,7 @@ from data_feed.data_adapter import DataAdapter
 from data_feed.csv_time_sync import TimeSyncManager
 from data_feed.news_calendar import ensure_calendar_news, check_news_impact
 from data_evaluate.orchestrator import Orchestrator
+from data_trade import ExecutorManager
 
 setup_logging()
 
@@ -109,6 +110,9 @@ class PureAIRunner:
         # 8. Initialize Orchestrator (Part 2: PROCESS & Data Evaluate)
         self.orchestrator = Orchestrator()
 
+        # 9. Initialize Output Orchestrator (Part 3: OUTPUT & Execution)
+        self.executor_manager = ExecutorManager(config=self.settings)
+
     def _countdown_to_first_candle(self):
         """Sleep directly until the first completed candle minute boundary (:01.500)."""
         tz_thailand = timezone(timedelta(hours=7))
@@ -168,15 +172,35 @@ class PureAIRunner:
         # Display prices & balance on console
         ConsoleUI.show_prices_and_balance(prices_dict, balance)
 
-        # Execute Part 2 (Data Evaluate / Orchestrator) for each active symbol
+        # Execute Part 2 (Data Evaluate) and Part 3 (Data Trade / Output Execution) for each active symbol
         for sym in self.symbols:
             if sym in prices_dict:
                 try:
                     candles_ram = self.candle_adapter.get_candles_ram(sym)
                     news_impact = check_news_impact(sym)
-                    self.orchestrator.process_cycle(symbol=sym, candles_dict=candles_ram, news_impact=news_impact)
+                    eval_payload = self.orchestrator.process_cycle(symbol=sym, candles_dict=candles_ram, news_impact=news_impact)
+
+                    # Part 3: Execute AI Decision & Order Placement
+                    if eval_payload and isinstance(eval_payload, dict):
+                        txt_filepath = eval_payload.get("txt_filepath")
+                        if not txt_filepath:
+                            txt_filepath = self.orchestrator.export_txt_payload(symbol=sym)
+
+                        if txt_filepath:
+                            decision_report = self.executor_manager.process_cycle_decision(
+                                symbol=sym,
+                                prompt_filepath=txt_filepath,
+                                payload=eval_payload,
+                                broker_adapter=self.data_adapter
+                            )
+                            if decision_report and decision_report.get("action") in ("CALL", "PUT"):
+                                logger.info(
+                                    f"[Runner] Part 3 Action for {sym}: {decision_report.get('action')} "
+                                    f"(Confidence: {decision_report.get('confidence_score')}%, "
+                                    f"Executed: {decision_report.get('order_executed')})"
+                                )
                 except Exception as e:
-                    logger.exception(f"Failed to process Part 2 analysis for {sym}: {e}")
+                    logger.exception(f"Failed to process analysis/execution for {sym}: {e}")
 
     def start(self):
         """Main Loop: Runs strictly at each minute boundary (:01.500) and sleeps between intervals."""

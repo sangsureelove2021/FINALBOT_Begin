@@ -1,0 +1,20 @@
+2026-08-19 21:42:50,849 | ERROR    | Error: Division by zero in RSI calculation (avg_loss contains 0)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\advanced_tools\divergence_analyzer.py", line 66, in _calculate_rsi
+    raise ValueError("Division by zero in RSI calculation (avg_loss contains 0)")
+ValueError: Division by zero in RSI calculation (avg_loss contains 0)
+2026-08-19 21:44:09,708 | ERROR    | Error: Division by zero in RSI calculation (avg_loss contains 0)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\advanced_tools\divergence_analyzer.py", line 66, in _calculate_rsi
+    raise ValueError("Division by zero in RSI calculation (avg_loss contains 0)")
+ValueError: Division by zero in RSI calculation (avg_loss contains 0)
+2026-08-19 23:06:04,051 | ERROR    | Error: Division by zero in RSI calculation (avg_loss contains 0)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\advanced_tools\divergence_analyzer.py", line 66, in _calculate_rsi
+    raise ValueError("Division by zero in RSI calculation (avg_loss contains 0)")
+ValueError: Division by zero in RSI calculation (avg_loss contains 0)
+2026-08-19 23:07:03,736 | ERROR    | Error: Division by zero in RSI calculation (avg_loss contains 0)
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_evaluate\orchestration\advanced_tools\divergence_analyzer.py", line 66, in _calculate_rsi
+    raise ValueError("Division by zero in RSI calculation (avg_loss contains 0)")
+ValueError: Division by zero in RSI calculation (avg_loss contains 0)

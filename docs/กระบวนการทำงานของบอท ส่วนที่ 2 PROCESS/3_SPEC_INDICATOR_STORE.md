@@ -70,7 +70,7 @@ OHLCV Data ➡️ คำนวณครั้งเดียว (IndicatorStore)
 * **Candle Age & Quality:**
   - `m1_open` / `m5_open`: ราคาเปิดของแท่งเทียนกำลังก่อตัว
   - `m1_age` / `m5_age`: เวลาอายุแท่งเทียนที่รอข้อมูล
-  - `m1_quality` / `m5_quality`: สถานะความสดใหม่ของข้อมูล (เช่น `MEDIUM`, `STALE`)
+  - `m1_quality` / `m5_quality`: สถานะความสดใหม่ของข้อมูล (`FRESH` หรือ `STALE` ตามกฎ Rule 16)
 
 ---
 

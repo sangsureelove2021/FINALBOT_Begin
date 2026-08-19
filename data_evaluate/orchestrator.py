@@ -341,6 +341,7 @@ class Orchestrator:
             if self.enable_txt_export:
                 try:
                     txt_filepath = self._save_txt_payload(symbol, formatted_payload)
+                    formatted_payload['txt_filepath'] = txt_filepath
                 except Exception as e:
                     logger.exception(f"Orchestrator failed to save txt payload for {symbol}: {e}")
                     raise

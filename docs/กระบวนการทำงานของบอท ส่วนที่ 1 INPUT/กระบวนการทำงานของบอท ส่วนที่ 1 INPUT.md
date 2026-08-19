@@ -39,7 +39,7 @@
 
 ---
 
-## 🚨 กฎเหล็ก Fail-Fast และมาตรฐาน Zero Tolerance (Rules 1 - 18)
+## 🚨 กฎเหล็ก Fail-Fast และมาตรฐาน Zero Tolerance (Rules 1 - 21)
 
 ระบบ Data Feed ยึดถือกฎระเบียบวินัย AI และข้อบังคับความปลอดภัยขั้นสูงสุดตามเอกสาร `AGENTS.md` อย่างเคร่งครัด:
 
@@ -52,6 +52,7 @@ flowchart TD
         R4[4. No Silent Failures: ห้ามกลืน Error ด้วย try-except ว่างเปล่า]
         R5[5. Immutability: ห้ามดัดแปลง DataFrame ต้นฉบับ ส่งผลลัพธ์ผ่านตัวแปรใหม่]
         R6[6. Fail-Fast Execution: พบ Data Gap หรือ Time Drifting สั่งระเบิด Error ทันที]
+        R7[7. Unblocked Symbols: โหลดคู่เงินตรงจาก settings.json อิสระตามสั่งบอส]
     end
 ```
 
@@ -65,6 +66,8 @@ flowchart TD
    - หากตรวจพบช่องว่างข้อมูล (Data Gap) เกินเกณฑ์ที่กำหนด (`M1 > 300s`, `M5 > 1500s`, `M15 > 4500s`) ระบบจะยกเลิกการทำงานทันทีผ่าน `DataGapError`
 4. **Data Feed Immutability Rule (Rule 18):**
    - ซอร์สโค้ดทั้งหมดในโฟลเดอร์ `data_feed/` ถือเป็นแกนหลักที่มีความเสถียร ห้ามแก้ไข ดัดแปลง หรือปรับแต่งโดยไม่ได้รับคำสั่งอนุมัติโดยตรงจากบอส
+5. **Unblocked Currency Configuration Rule (Rule 19):**
+   - บอทต้องโหลดรายชื่อคู่เงินจาก `config_setting/settings.json` เข้าสู่ `runner.py` โดยตรง ไม่มีการตัดหรือคัดกรองคู่เงินทิ้ง บอสสามารถกำหนดจะรันกี่คู่ มี OTC หรือไม่มี OTC ได้อย่างอิสระ 100%
 
 ---
 

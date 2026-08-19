@@ -106,3 +106,23 @@ This file contains strict behavioral rules and coding constraints that the AI mu
 
 ## 18. Data Feed Immutability Rule (ห้ามแก้ไขโค้ดใน data_feed)
 - **ห้าม แก้ไข ปรับแต่ง โค๊ดของทุกไฟล์ ใน โฟลเดอร์ data_feed** อย่างเด็ดขาด
+
+## 19. Unblocked Currency Configuration Rule (การโหลดคู่เงินอิสระตามคำสั่งบอส)
+- บอทต้องโหลดรายชื่อคู่เงินจาก `config_setting/settings.json` สู่ `runner.py` โดยตรง 100%
+- บอสเป็นผู้กำหนดว่าจะเทรดคู่ไหน กี่คู่ (1 คู่, 5 คู่, 10 คู่) มี OTC หรือไม่มี OTC
+- **ห้าม** มีตัวกลางคัดกรอง (เช่น `get_open_symbols` ที่ตัดชื่อคู่เงินทิ้ง) หรือแอบเติม/ตัดคำว่า `-OTC` โดยพลการ
+- ระบบจะพุ่งตรงไปดึงแท่งเทียนจริง 250 แท่ง (M1, M5, M15) จากโบรกเกอร์ทันที
+
+## 20. Standard 100-Line Explicit Prompt Schema & Retention Rule (มาตรฐานไฟล์ Prompt 100 บรรทัดและการจำกัด 30 ไฟล์)
+- ไฟล์ Prompt ที่ส่งออกจากด่าน 2 สู่ `data_base/orchestrator/<SYMBOL>/` ต้องมีขนาดคงที่ **100 บรรทัดพอดีเป๊ะ**
+- ทุกฟิลด์ต้องมีคำนำหน้าระบุ Timeframe และ Engine ชัดเจน 100% (`m1_`, `m5_`, `m15_`, `m5_pa_`, `m5_`, `mtf_`, `dl_`, `ai_`) เพื่อไม่ให้ AI ในด่าน 3 ต้องคาดเดา
+- **Retention Policy:** ในแต่ละโฟลเดอร์คู่เงิน ระบบจะรักษาไฟล์ไว้ **ไม่เกิน 30 ไฟล์ล่าสุด** โดยระบบจะลบไฟล์เก่าทิ้งอัตโนมัติเมื่อมีไฟล์รอบใหม่เกิดขึ้น
+
+## 21. Part 2 to Part 3 Handover Protocol (โปรโตคอลการส่งมอบงานสู่ด่าน 3)
+- ด่าน 2 มีหน้าที่คำนวณและสรุปข้อมูลตลาดจริง 96 ฟิลด์แรก (OHLCV, Indicators, Price Action, Volume, Engines, Filter Rules)
+- 4 ฟิลด์สุดท้ายในหมวด `decision_layer` ได้แก่:
+  - `ai_confidence_score: รอการวิเคราะห์จาก AI`
+  - `ai_suggested_expiry_minutes: รอการวิเคราะห์จาก AI`
+  - `ai_suggested_action: รอการวิเคราะห์จาก AI`
+  - `ai_final_reason_th: รอการวิเคราะห์จาก AI`
+- จะถูกส่งต่อไปให้โมเดล AI ในด่านที่ 3 เป็นผู้ประมวลผลร่วมกับ System Prompt เพื่อตัดสินใจออกออเดอร์จริงต่อไป

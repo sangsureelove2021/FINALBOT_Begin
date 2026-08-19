@@ -1,94 +1,57 @@
 {
-  "_comment": "FINALBOT settings. account_type=PRACTICE uses the IQ Option demo account (fake money). Change to REAL only after demo testing is complete.",
+  "_comment": "FINALBOT Settings - Single Source of Truth",
+  
   "account": {
     "account_type": "DEMO",
     "trading_mode": "AI AUTO_BOT",
     "iq_email": "venuz20152565@gmail.com",
     "iq_password": "2856101607mM@",
-    "stake_per_trade": 35,
-    "take_profit_percent": 100.0,
-    "stop_loss_percent": 100.0
+    "stake_per_trade": 35
   },
+
   "symbols": [
     "GBPUSD", "EURGBP", "EURUSD", "EURUSD-OTC"
   ],
-  "limits": {
-    "max_concurrent": 9999,
-    "max_trades_per_session": 9999,
-    "max_daily_profit": 9999,
-    "max_daily_loss": 9999,
-    "max_consecutive_losses": 9999,
-    "cooldown_minutes_after_loss": 0,
-    "_note": "Risk management disabled (set to 9999)."
+
+  "ai_mode": {
+    "enabled": true,
+    "primary_engine": "gemini",
+    "deepseek_session_index": 1,
+    "gemini_model": "gemini-3.5-flash-lite",
+    "timeout_seconds": 75,
+    "max_consecutive_failures": 3
   },
-  "execution_gate": {
-    "min_confidence": 60,
-    "max_block_score": 30,
-    "_note": "Strict quality threshold for better signals."
-  },
+
+
   "session": {
     "trading_hours": "01.00-23.00",
     "timezone": "Asia/Bangkok"
   },
-  "active_strategies": [
-    "fakeout_trap_rider",
-    "velocity_layer",
-    "stochastic_sniping",
-    "zscore_bandit",
-    "range_bounce_arbitrage"
-  ],
-  "backtest": {
-    "start_date": "2026-05-08 00:00:00",
-    "end_date": "2026-05-08 23:59:59"
-  },
-  "ai_mode": {
-    "enabled": true,
-    "use_cli_agent": true,
-    "agent_command": "deepseek-agent",
-    "timeout_seconds": 75,
-    "cache_ttl_seconds": 5,
-    "max_consecutive_failures": 3,
-    "fallback_to_traditional": false,
-    "weight_in_fusion": 0.4
-  },
-  "thresholds": {
-    "_note": "ค่าตัดสินใจทั้งหมดของระบบ — แก้ได้โดยไม่ต้องแตะโค้ด",
-    "min_confidence": 60,
-    "min_quality_score": 30,
-    "max_noise_level": 0.6
-  },
-  
+
+  "active_broker": "IQ_OPTION",
+
   "data_feed": {
     "enable_csv_export": true,
     "csv_manager": {
       "base_dir": "data_base/csv/iq_option"
-    },
-    "csv_queue": {
-      "max_queue_size": 1000,
-      "queue_timeout": 5,
-      "enable_logging": true
-    },
-    "csv_writer": {
-      "include_header": true,
-      "date_format": "%Y-%m-%d %H:%M:%S"
     },
     "data_adapter": {
       "default_candle_count": 250,
       "min_candle_count": 21,
       "m5_seconds": 300,
       "m15_seconds": 900,
-      "m1_gap_sec": 300,
-      "m5_gap_sec": 1500,
-      "m15_gap_sec": 4500,
       "retry_attempts": 0,
       "retry_delay": 0
     }
   },
-  
+
   "data_evaluate": {
     "enable_txt_export": true,
     "output_dir": "data_base/orchestrator"
   },
-  
-  "active_broker": "IQ_OPTION"
+
+  "data_trade": {
+    "enable_live_execution": true,
+    "trade_history_file": "logs/logs_data_trade/trades_history.csv"
+  }
 }
