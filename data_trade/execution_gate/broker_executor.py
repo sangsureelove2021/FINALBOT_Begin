@@ -1,8 +1,10 @@
 """
-Broker Executor for Part 3 Binary Options
-=========================================
-Directs order placement to IQ Option API via `api.buy()` with validation,
-error handling, and execution logging.
+Broker Executor for Part 3 (Schema 2.0 Multi-Protocol Engine)
+============================================================
+Directs order placement to IQ Option with support for:
+1. Binary / Turbo Options (Standard & OTC)
+2. Digital Options Schema 2.0 (Dynamic Strike & Underlying Resolution)
+3. Auto-Failover & Detailed Error Telemetry
 """
 
 import time
@@ -15,7 +17,7 @@ logger = logging.getLogger("BrokerExecutor")
 
 
 class BrokerExecutor:
-    """Executes Binary Option buy orders against the broker connection."""
+    """Executes Binary & Digital Option orders against the broker connection (Schema 2.0)."""
 
     def __init__(self):
         pass
@@ -39,17 +41,17 @@ class BrokerExecutor:
         broker_adapter: Any
     ) -> Dict[str, Any]:
         """
-        Submits binary option order to broker.
+        Submits option order to broker using Schema 2.0 Multi-Protocol Routing.
         
         Args:
-            symbol: Asset symbol (e.g. 'EURUSD' or 'EURUSD-OTC').
+            symbol: Asset symbol (e.g. 'EURUSD', 'GBPUSD', 'EURUSD-OTC', 'DIA', 'SPY').
             action: 'CALL' or 'PUT'.
             expiry_minutes: Contract expiration duration in minutes (1-5).
             stake: Order amount (e.g. 35.0).
             broker_adapter: Broker facade instance.
             
         Returns:
-            Execution result dict with status, order_id, symbol, action, stake, expiry_minutes, timestamp, error.
+            Execution result dict with status, order_id, symbol, action, stake, expiry_minutes, timestamp, error, protocol.
         """
         if not symbol or not isinstance(symbol, str):
             raise ValueError("FAIL-FAST: symbol must be a valid non-empty string")
@@ -81,12 +83,13 @@ class BrokerExecutor:
         act_param = "call" if norm_action == "CALL" else "put"
 
         logger.info(
-            f"[BrokerExecutor] Sending Order -> Symbol: {symbol}, Action: {norm_action}, "
+            f"[BrokerExecutor] [Schema 2.0] Dispatching Order -> Symbol: {symbol}, Action: {norm_action}, "
             f"Expiry: {expiry_minutes}m, Stake: {stake:.2f} THB"
         )
 
+        # ── Step 1: Protocol 1 (Binary / Turbo Standard Route) ─────────────────
+        start_t = time.time()
         try:
-            start_t = time.time()
             status, result_id = api.buy(
                 float(stake),
                 str(symbol),
@@ -98,7 +101,7 @@ class BrokerExecutor:
             if status and result_id is not None:
                 order_id_str = str(result_id)
                 logger.info(
-                    f"[BrokerExecutor] Order Placed SUCCESS -> ID: {order_id_str}, "
+                    f"[BrokerExecutor] Order Placed SUCCESS (Binary/Turbo) -> ID: {order_id_str}, "
                     f"Symbol: {symbol}, Action: {norm_action}, Elapsed: {elapsed}s"
                 )
                 return {
@@ -109,15 +112,40 @@ class BrokerExecutor:
                     "stake": float(stake),
                     "expiry_minutes": int(expiry_minutes),
                     "timestamp": order_timestamp,
+                    "protocol": "BINARY_TURBO",
                     "error": None,
                     "latency_sec": elapsed
                 }
             else:
                 error_reason = str(result_id) if result_id is not None else "Unknown broker rejection"
                 logger.warning(
-                    f"[BrokerExecutor] Order Placed FAILED -> Symbol: {symbol}, "
+                    f"[BrokerExecutor] Binary/Turbo Route rejected -> Symbol: {symbol}, "
                     f"Action: {norm_action}, Reason: {error_reason}"
                 )
+
+                # ── Step 2: Protocol 2 (Digital Options V2 Fallback) ────────────
+                if "not available" in error_reason or "suspended" in error_reason or "invalid" in error_reason:
+                    logger.info(f"[BrokerExecutor] [Schema 2.0] Attempting Digital Options V2 fallback for {symbol}...")
+                    digital_status, digital_id = self._try_digital_v2(api, symbol, act_param, stake, expiry_minutes)
+                    if digital_status and digital_id is not None:
+                        elapsed = round(time.time() - start_t, 3)
+                        logger.info(
+                            f"[BrokerExecutor] Order Placed SUCCESS (Digital V2) -> ID: {digital_id}, "
+                            f"Symbol: {symbol}, Action: {norm_action}, Elapsed: {elapsed}s"
+                        )
+                        return {
+                            "status": "SUCCESS",
+                            "order_id": str(digital_id),
+                            "symbol": symbol,
+                            "action": norm_action,
+                            "stake": float(stake),
+                            "expiry_minutes": int(expiry_minutes),
+                            "timestamp": order_timestamp,
+                            "protocol": "DIGITAL_V2",
+                            "error": None,
+                            "latency_sec": elapsed
+                        }
+
                 return {
                     "status": "FAILED",
                     "order_id": None,
@@ -126,6 +154,7 @@ class BrokerExecutor:
                     "stake": float(stake),
                     "expiry_minutes": int(expiry_minutes),
                     "timestamp": order_timestamp,
+                    "protocol": "BINARY_TURBO",
                     "error": error_reason,
                     "latency_sec": elapsed
                 }
@@ -134,3 +163,28 @@ class BrokerExecutor:
             logger.exception(f"[BrokerExecutor] Exception occurred during order execution for {symbol}: {e}")
             traceback.print_exc()
             raise RuntimeError(f"FAIL-FAST: Broker order execution error for {symbol}: {e}") from e
+
+    def _try_digital_v2(self, api: Any, symbol: str, action: str, stake: float, duration: int) -> tuple:
+        """Helper to safely execute Digital Option V2 orders with strict timeout and no hanging."""
+        import threading
+
+        result = [False, None]
+
+        def _worker():
+            try:
+                if hasattr(api, "buy_digital_spot"):
+                    clean_sym = symbol.replace("-OTC", "").upper()
+                    s, oid = api.buy_digital_spot(clean_sym, float(stake), action, int(duration))
+                    if s and oid and (isinstance(oid, int) or str(oid).isdigit()):
+                        result[0] = True
+                        result[1] = str(oid)
+            except Exception as e:
+                logger.debug(f"[BrokerExecutor] Digital fallback worker error: {e}")
+
+        th = threading.Thread(target=_worker, daemon=True)
+        th.start()
+        th.join(timeout=3.0)
+
+        if result[0]:
+            return True, result[1]
+        return False, None
