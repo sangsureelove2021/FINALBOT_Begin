@@ -121,50 +121,121 @@ def main():
         return
     print(f"[CONN] Connected successfully! (Balance Mode: {api.get_balance_mode()})")
 
-    # 4. Fetch real-time payout rates
+    # รอให้ API พร้อม (wait for data stream)
+    print("[DATA] Waiting for market data stream to be ready...")
+    api.start_async_candle(OP_code.ACTIVES["EURUSD"], 60, "binary")
+    import time
+    time.sleep(2)  # รอ 2 วินาทีให้ข้อมูลไหลเข้ามา
+    
+    # 4. Fetch real-time payout rates (ลองใหม่หากครั้งแรกว่าง)
     print("[DATA] Fetching active instruments and payout percentages from broker...")
-    try:
-        all_profits = api.get_all_profit()
-    except Exception as e:
-        print(f"[ERR] Failed to fetch profit rates: {e}")
-        return
-
-    # Group into categories
-    categorized = {
-        "FOREX": [],
-        "FOREX_OTC": [],
-        "INDICES_ETFS": [],
-        "CRYPTO": [],
-        "STOCKS": [],
-        "COMMODITIES": []
-    }
-
-    total_active_count = 0
-    all_valid_symbols = []
-
-    for sym in OP_code.ACTIVES.keys():
-        p_info = all_profits.get(sym, {})
-        turbo_p = p_info.get("turbo") or 0.0
-        binary_p = p_info.get("binary") or 0.0
-        
-        # Check if asset has active payout
-        if turbo_p > 0 or binary_p > 0:
-            max_payout = max(turbo_p, binary_p) * 100.0
-            cat = classify_asset(sym)
-            
-            entry = {
-                "symbol": sym,
-                "turbo_pct": round(turbo_p * 100.0, 1),
-                "binary_pct": round(binary_p * 100.0, 1),
-                "max_payout": round(max_payout, 1)
-            }
-            if cat in categorized:
-                categorized[cat].append(entry)
+    all_profits = {}
+    retry_count = 0
+    max_retries = 3
+    
+    while retry_count < max_retries:
+        try:
+            all_profits = api.get_all_profit()
+            if all_profits and len(all_profits) > 10:  # มีข้อมูลมากกว่า 10 คู่
+                break
             else:
-                categorized["STOCKS"].append(entry)
+                print(f"[WARN] Got incomplete data ({len(all_profits)} pairs), retrying... ({retry_count+1}/{max_retries})")
+                time.sleep(1)
+                retry_count += 1
+        except Exception as e:
+            print(f"[WARN] Error fetching profit (attempt {retry_count+1}): {e}")
+            time.sleep(1)
+            retry_count += 1
+    
+    if not all_profits or len(all_profits) <= 10:
+        print(f"[ERR] Failed to fetch complete profit rates after {max_retries} attempts. Data received: {len(all_profits) if all_profits else 0} pairs")
+        # พยายามใช้วิธีตรวจสอบทีละคู่แทน
+        print("[INFO] Falling back to individual asset checking method...")
+        
+        # Group into categories (ต้องสร้างก่อน)
+        categorized = {
+            "FOREX": [],
+            "FOREX_OTC": [],
+            "INDICES_ETFS": [],
+            "CRYPTO": [],
+            "STOCKS": [],
+            "COMMODITIES": []
+        }
+
+        total_active_count = 0
+        all_valid_symbols = []
+        
+        # วิธีสำรอง: ตรวจสอบทีละคู่โดยตรง
+        for sym in OP_code.ACTIVES.keys():
+            try:
+                # ดึง payout ของคู่นี้โดยตรง
+                api.subscribe_strike_list(sym, 60)  # binary option
+                time.sleep(0.3)
                 
-            total_active_count += 1
-            all_valid_symbols.append(sym)
+                # ตรวจสอบว่ามี payout หรือไม่
+                payout_data = api.get_digital_current_profit(sym, 60)
+                if payout_data and payout_data > 0:
+                    max_payout = float(payout_data)
+                    cat = classify_asset(sym)
+                    
+                    entry = {
+                        "symbol": sym,
+                        "turbo_pct": round(max_payout, 1),
+                        "binary_pct": round(max_payout, 1),
+                        "max_payout": round(max_payout, 1)
+                    }
+                    if cat in categorized:
+                        categorized[cat].append(entry)
+                    else:
+                        categorized["STOCKS"].append(entry)
+                        
+                    total_active_count += 1
+                    all_valid_symbols.append(sym)
+                    
+                api.unsubscribe_strike_list(sym, 60)
+            except Exception as e:
+                pass  # ข้ามคู่ที่ error
+                
+        print(f"[INFO] Fallback method found {total_active_count} active pairs.")
+    
+    else:
+        # ใช้วิธีปกติหากได้ข้อมูลครบ
+        # Group into categories
+        categorized = {
+            "FOREX": [],
+            "FOREX_OTC": [],
+            "INDICES_ETFS": [],
+            "CRYPTO": [],
+            "STOCKS": [],
+            "COMMODITIES": []
+        }
+
+        total_active_count = 0
+        all_valid_symbols = []
+        
+        for sym in OP_code.ACTIVES.keys():
+            p_info = all_profits.get(sym, {})
+            turbo_p = p_info.get("turbo") or 0.0
+            binary_p = p_info.get("binary") or 0.0
+            
+            # Check if asset has active payout
+            if turbo_p > 0 or binary_p > 0:
+                max_payout = max(turbo_p, binary_p) * 100.0
+                cat = classify_asset(sym)
+                
+                entry = {
+                    "symbol": sym,
+                    "turbo_pct": round(turbo_p * 100.0, 1),
+                    "binary_pct": round(binary_p * 100.0, 1),
+                    "max_payout": round(max_payout, 1)
+                }
+                if cat in categorized:
+                    categorized[cat].append(entry)
+                else:
+                    categorized["STOCKS"].append(entry)
+                    
+                total_active_count += 1
+                all_valid_symbols.append(sym)
 
     # Sort each category by highest payout first
     for cat in categorized:
