@@ -89,10 +89,36 @@ def get_session() -> Dict[str, Any]:
 
 
 def get_symbols() -> list[str]:
-    symbols = load_settings(reload=True).get("symbols")
+    """Read trading symbols directly from config_setting/symbols.json."""
+    here = Path(__file__).resolve().parent
+    candidates = [
+        here / "symbols.json",
+        Path.cwd() / "config_setting" / "symbols.json",
+        Path("config_setting/symbols.json"),
+    ]
+    symbols_file = None
+    for p in candidates:
+        if p.is_file():
+            symbols_file = p
+            break
+
+    if not symbols_file:
+        raise FileNotFoundError("FAIL-FAST: config_setting/symbols.json not found")
+
+    with open(symbols_file, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    if isinstance(data, list):
+        symbols = data
+    elif isinstance(data, dict):
+        symbols = data.get("symbols", [])
+    else:
+        symbols = None
+
     if not symbols or not isinstance(symbols, list):
-        raise ValueError("FAIL-FAST: Missing or empty 'symbols' array in config_setting/settings.json")
-    return list(symbols)
+        raise ValueError("FAIL-FAST: Missing or empty 'symbols' array in config_setting/symbols.json")
+
+    return [str(s).strip() for s in symbols if str(s).strip()]
 
 
 def load_datafeed_settings() -> Dict[str, Any]:

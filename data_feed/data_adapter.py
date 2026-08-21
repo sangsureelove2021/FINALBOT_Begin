@@ -5,6 +5,7 @@ Data Adapter - Market Ingestion Core (Coordinator)
 ฟังก์ชัน: Mapping Field, Timestamp, Symbol, Timeframe, Type Conversion
 """
 
+import concurrent.futures
 import pandas as pd
 import numpy as np
 from datetime import datetime, timezone, timedelta
@@ -40,19 +41,25 @@ _M15_GAP_SEC = 4500  # > 75 min gap on M15 → re-fetch 200 candles
 
 class DataAdapter(IDataSource):
     """
-    Adapter for data translation and CSV management.
-    Acts as a Coordinator orchestrating DataValidator, CandleProcessor, and RAMCacheStore.
+    Adapter for data translation, CSV management, and Market Ingestion Commander.
+    Acts as Commander orchestrating DataValidator, CandleProcessor, RAMCacheStore, and Broker Connections.
     """
 
-    def __init__(self, broker_adapter: IDataSource, time_sync_manager: Any, base_dir: Optional[str] = None, config: Optional[Dict[str, Any]] = None):
+    def __init__(
+        self,
+        broker_adapter: Optional[IDataSource] = None,
+        time_sync_manager: Optional[Any] = None,
+        base_dir: Optional[str] = None,
+        config: Optional[Dict[str, Any]] = None
+    ):
         """
         Initialize DataAdapter.
 
         Args:
-            broker_adapter: Broker instance implementing IDataSource
-            base_dir: Base directory for CSV files
-            config: Configuration from datafeed_config.json
-            time_sync_manager: TimeSyncManager instance
+            broker_adapter: Broker instance implementing IDataSource (optional; auto-created if None)
+            time_sync_manager: TimeSyncManager instance (optional; auto-created if None)
+            base_dir: Base directory for CSV files (optional)
+            config: Configuration from settings.json
         """
         # Initialize with configuration
         if config is None:
@@ -69,12 +76,26 @@ class DataAdapter(IDataSource):
         # Load data adapter configuration
         adapter_config = df_config.get("data_adapter", {})
         
+        if broker_adapter is None:
+            from data_feed.bridge_adapter.broker_factory import BrokerFactory
+            from config_setting.config_loader import load_settings
+            broker_adapter = BrokerFactory.create_raw_broker(config=load_settings(reload=False))
+            
         self._broker = broker_adapter
+
+        if base_dir is None:
+            from config_setting.config_loader import get_csv_manager_config
+            csv_mgr_cfg = get_csv_manager_config()
+            base_dir = csv_mgr_cfg.get("base_dir", "data_feed/ohclv_output/iq_option")
+
         self._csv_manager = CSVManager(base_dir, df_config.get("csv_manager", {}))
         self._csv_queue = CSVQueue(df_config.get("csv_queue", {}))
         
         if time_sync_manager is None:
-            raise ValueError("FAIL-FAST: time_sync_manager is a required argument.")
+            time_sync_manager = TimeSyncManager(data_adapter=self._broker)
+            time_sync_manager.sync_server_time(self._broker)
+            time_sync_manager.start_time_sync_thread()
+
         self.time_calendar_mgr = time_sync_manager
 
         # Load configuration parameters
@@ -103,8 +124,11 @@ class DataAdapter(IDataSource):
         
         # Initialize validator
         self._validator = DataValidator()
+
+        # Track ready symbols from warmup
+        self.ready_symbols: List[str] = []
         
-        logger.info(f"[DataAdapter] Initialized (enable_csv_export={self.enable_csv_export}) with Zero Tolerance compliance")
+        logger.info(f"[DataAdapter] Initialized Commander (enable_csv_export={self.enable_csv_export}) with Zero Tolerance compliance")
 
     def read_csv(self, file_path: str, **kwargs) -> pd.DataFrame:
         """
@@ -150,9 +174,6 @@ class DataAdapter(IDataSource):
                (m5 is None or m5.empty or len(m5) < 2) or \
                (m15 is None or m15.empty or len(m15) < 2):
                 raise ValueError("Incomplete data during init_symbol — all timeframes (M1, M5, M15) must be fetched directly from broker")
-
-            # Pre-warm WebSocket Stream for M1
-            self.start_stream(symbol, 'M1', 255)
 
             # Validate data using DataValidator
             self._validator.validate(m1, symbol)
@@ -201,6 +222,31 @@ class DataAdapter(IDataSource):
 
     initialize = init_symbol
 
+    def _wait_staggered_timing(self, target_second: float, broker_epoch: float) -> float:
+        """
+        Wait until target_second offset within the current minute:
+        - M1  at :01.500 (target_second = 1.5)
+        - M5  at :02.000 (target_second = 2.0)
+        - M15 at :02.500 (target_second = 2.5)
+
+        Returns the updated broker epoch at wake up.
+        """
+        if not isinstance(target_second, (int, float)):
+            raise TypeError("target_second must be float or int")
+        if not isinstance(broker_epoch, (int, float)):
+            raise TypeError("broker_epoch must be float or int")
+
+        minute_start = int(broker_epoch) - (int(broker_epoch) % 60)
+        target_epoch = minute_start + target_second
+        current_epoch = self.time_calendar_mgr.get_broker_epoch()
+        wait_sec = target_epoch - current_epoch
+
+        if wait_sec > 0:
+            time.sleep(wait_sec)
+            current_epoch = self.time_calendar_mgr.get_broker_epoch()
+
+        return current_epoch
+
     def update(self, symbol: str, broker_epoch: Optional[float] = None) -> str:
         """Refresh candle stores, update RAM cache, and write CSV files. Returns symbol string on success."""
         if not isinstance(symbol, str):
@@ -213,15 +259,14 @@ class DataAdapter(IDataSource):
         try:
             logger.info(f"[DataAdapter] Starting update for {symbol}")
 
-            # Use TimeSyncManager helper functions to calculate time blocks
-            current_block_m1 = TimeSyncManager.calculate_time_block(broker_epoch, 60)
-            current_block_m5 = TimeSyncManager.calculate_time_block(broker_epoch, self.m5_seconds)
-            current_block_m15 = TimeSyncManager.calculate_time_block(broker_epoch, self.m15_seconds)
+            # 1. Staggered Step 1: M1 fetch at second :01.500
+            broker_epoch_m1 = self._wait_staggered_timing(1.5, broker_epoch)
+            current_block_m1 = TimeSyncManager.calculate_time_block(broker_epoch_m1, 60)
 
             # Refresh M1 data using process_candle_refresh
             completed_m1, m1_changed = process_candle_refresh(
                 symbol=symbol,
-                broker_epoch=broker_epoch,
+                broker_epoch=broker_epoch_m1,
                 store_dict=self._cache.get_store('M1'),
                 last_block_dict=self._cache.get_last_block('M1'),
                 data_source=self._broker,
@@ -235,10 +280,21 @@ class DataAdapter(IDataSource):
             if completed_m1 is None:
                 raise ValueError("M1 refresh failed")
 
+            # 2. Staggered Step 2: M5 fetch at second :02.000 (when 5-min block closes)
+            current_block_m5 = TimeSyncManager.calculate_time_block(broker_epoch, self.m5_seconds)
+            last_block_m5 = self._cache.get_last_block('M5').get(symbol)
+            m5_needs_fetch = (self._cache.get_store('M5').get(symbol) is None) or (current_block_m5 != last_block_m5)
+
+            if m5_needs_fetch:
+                broker_epoch_m5 = self._wait_staggered_timing(2.0, broker_epoch)
+                current_block_m5 = TimeSyncManager.calculate_time_block(broker_epoch_m5, self.m5_seconds)
+            else:
+                broker_epoch_m5 = broker_epoch_m1
+
             # Refresh M5 data using process_candle_refresh
             completed_m5, m5_changed = process_candle_refresh(
                 symbol=symbol,
-                broker_epoch=broker_epoch,
+                broker_epoch=broker_epoch_m5,
                 store_dict=self._cache.get_store('M5'),
                 last_block_dict=self._cache.get_last_block('M5'),
                 data_source=self._broker,
@@ -252,10 +308,21 @@ class DataAdapter(IDataSource):
             if completed_m5 is None:
                 raise ValueError("M5 refresh failed")
 
+            # 3. Staggered Step 3: M15 fetch at second :02.500 (when 15-min block closes)
+            current_block_m15 = TimeSyncManager.calculate_time_block(broker_epoch, self.m15_seconds)
+            last_block_m15 = self._cache.get_last_block('M15').get(symbol)
+            m15_needs_fetch = (self._cache.get_store('M15').get(symbol) is None) or (current_block_m15 != last_block_m15)
+
+            if m15_needs_fetch:
+                broker_epoch_m15 = self._wait_staggered_timing(2.5, broker_epoch)
+                current_block_m15 = TimeSyncManager.calculate_time_block(broker_epoch_m15, self.m15_seconds)
+            else:
+                broker_epoch_m15 = broker_epoch_m5
+
             # Refresh M15 data using process_candle_refresh
             completed_m15, m15_changed = process_candle_refresh(
                 symbol=symbol,
-                broker_epoch=broker_epoch,
+                broker_epoch=broker_epoch_m15,
                 store_dict=self._cache.get_store('M15'),
                 last_block_dict=self._cache.get_last_block('M15'),
                 data_source=self._broker,
@@ -326,9 +393,132 @@ class DataAdapter(IDataSource):
         """Check warmup data sufficiency from RAM. No CSV read."""
         return self._cache.check_warmup(symbol)
 
+    # ── Commander Level Methods (Part 1 Commander) ───────────────────
+    @property
+    def api(self) -> Any:
+        """Access underlying broker API object (e.g. iqoptionapi instance)."""
+        return getattr(self._broker, "api", None)
+
+    @property
+    def broker(self) -> IDataSource:
+        """Access underlying broker adapter."""
+        return self._broker
+
+    def warmup_all_symbols(self, symbols: List[str]) -> bool:
+        """
+        Commander method: Warm up 250 historical candles for all symbols concurrently.
+        Fetches M1, M5, M15 candles, validates data, stores in RAM, and writes 8-column CSV to disk.
+        """
+        if not isinstance(symbols, list) or not symbols:
+            raise ValueError("FAIL-FAST: symbols must be a non-empty list of strings")
+        for sym in symbols:
+            if not isinstance(sym, str):
+                raise TypeError(f"FAIL-FAST: symbol must be a string, got {type(sym).__name__}")
+
+        self.ensure_connected()
+        warmup_epoch = self.time_calendar_mgr.get_broker_epoch()
+        logger.info(f"[DataAdapter] Starting Commander warm-up for {len(symbols)} symbols at epoch {warmup_epoch}")
+
+        ready_symbols: List[str] = []
+        failed_symbols: List[str] = []
+
+        max_workers = max(1, min(len(symbols), 20))
+        with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix="WarmupWorker") as executor:
+            future_to_sym = {
+                executor.submit(self._warmup_single_symbol, sym, warmup_epoch): sym
+                for sym in symbols
+            }
+            for future in concurrent.futures.as_completed(future_to_sym):
+                sym = future_to_sym[future]
+                try:
+                    is_ready, err = future.result()
+                    if is_ready:
+                        ready_symbols.append(sym)
+                    else:
+                        failed_symbols.append(sym)
+                        logger.warning(f"[DataAdapter] Warmup for {sym} failed: {err}")
+                except Exception as e:
+                    failed_symbols.append(sym)
+                    logger.exception(f"[DataAdapter] Exception during warmup for {sym}: {e}")
+
+        # Flush CSV queue to guarantee all 8-column CSV files are physically written to disk
+        if self.enable_csv_export:
+            self._csv_queue.flush()
+
+        self.ready_symbols = ready_symbols
+        logger.info(
+            f"[DataAdapter] Commander warm-up completed: {len(ready_symbols)} ready ({ready_symbols}), "
+            f"{len(failed_symbols)} failed/skipped"
+        )
+
+        if not self.ready_symbols:
+            raise RuntimeError("FAIL-FAST: Zero assets passed historical data warm-up")
+
+        return True
+
+    def _warmup_single_symbol(self, symbol: str, warmup_epoch: float) -> Tuple[bool, Optional[str]]:
+        """Internal worker for single symbol historical warm-up."""
+        try:
+            if self.init_symbol(symbol, broker_epoch=warmup_epoch):
+                return True, None
+            return False, "init_symbol returned False"
+        except Exception as e:
+            return False, str(e)
+
+    def ingest_cycle(self, symbols: List[str]) -> Dict[str, float]:
+        """
+        Commander method: Ingest candle cycle across all symbols concurrently.
+        Fetches completed candles, updates RAM cache, enqueues CSV export, and returns latest close prices.
+        """
+        if not isinstance(symbols, list):
+            raise TypeError(f"FAIL-FAST: symbols must be a list of strings, got {type(symbols).__name__}")
+        for sym in symbols:
+            if not isinstance(sym, str):
+                raise TypeError(f"FAIL-FAST: symbol must be a string, got {type(sym).__name__}")
+
+        self.ensure_connected()
+        cycle_broker_epoch = self.time_calendar_mgr.get_broker_epoch()
+        logger.info(f"[DataAdapter] Commander cycle ingestion for {len(symbols)} symbols at epoch {cycle_broker_epoch}")
+
+        prices_dict: Dict[str, float] = {}
+        max_workers = max(1, min(len(symbols), 20))
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix="IngestWorker") as executor:
+            future_to_sym = {
+                executor.submit(self._ingest_single_symbol, sym, cycle_broker_epoch): sym
+                for sym in symbols
+            }
+            for future in concurrent.futures.as_completed(future_to_sym):
+                sym = future_to_sym[future]
+                try:
+                    price, err = future.result()
+                    if price is not None:
+                        prices_dict[sym] = price
+                    else:
+                        logger.warning(f"[DataAdapter] Ingest for {sym} returned no price: {err}")
+                except Exception as e:
+                    logger.exception(f"[DataAdapter] Exception during ingest for {sym}: {e}")
+
+        # Flush CSV queue to make fresh data immediately available to Part 2 on disk
+        if self.enable_csv_export:
+            self._csv_queue.flush()
+
+        return prices_dict
+
+    def _ingest_single_symbol(self, symbol: str, cycle_broker_epoch: float) -> Tuple[Optional[float], Optional[str]]:
+        """Internal worker for single symbol candle ingestion."""
+        try:
+            update_res = self.update(symbol, broker_epoch=cycle_broker_epoch)
+            if not update_res or not self.check_warmup(symbol):
+                return None, "Warmup check failed after update"
+            price = self.get_latest_close(symbol)
+            return price, None
+        except Exception as e:
+            return None, str(e)
+
     def is_connected(self) -> bool:
         """Check connection status."""
-        return self._broker.is_connected()
+        return bool(self._broker.is_connected())
 
     def connect(self) -> None:
         """Connect to data source."""
@@ -336,21 +526,24 @@ class DataAdapter(IDataSource):
 
     def disconnect(self) -> None:
         """Disconnect from data source."""
-        return self._broker.disconnect()
+        if self._broker is not None:
+            return self._broker.disconnect()
 
     def start_stream(self, symbol: str, timeframe: str, count: int) -> None:
         """Start streaming for symbol and timeframe."""
         return self._broker.start_stream(symbol, timeframe, count)
 
     def ensure_connected(self) -> bool:
-        """Ensure connection is active, reconnect if needed"""
-        return self._broker.ensure_connected()
+        """Ensure connection is active, reconnect if needed."""
+        res = self._broker.ensure_connected()
+        return bool(res) if res is not None else self.is_connected()
 
     def get_balance(self) -> float:
         """Get account balance (delegated to broker adapter)."""
-        return self._broker.get_balance()
+        return float(self._broker.get_balance())
 
     def get_open_symbols(self, target_symbols: Optional[List[str]] = None) -> List[str]:
         """Check and return list of open symbols (delegated to broker adapter)."""
         return self._broker.get_open_symbols(target_symbols)
+
 

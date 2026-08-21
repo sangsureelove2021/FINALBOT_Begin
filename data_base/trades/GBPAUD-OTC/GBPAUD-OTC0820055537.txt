@@ -1,0 +1,143 @@
+:: คำสั่ง ::
+จงทำหน้าที่เป็น Quantitative Trading AI และ Binary Options Expert 
+วิเคราะห์ข้อมูลตลาดแบบ Multi-Timeframe (M1, M5, M15) ด้านล่างนี้ โดยประมวลผลทุกตัวชี้วัด (Price Action, Technical Indicators, Volume, Market Context, Multi-Timeframe Alignment) 
+เพื่อกำหนด Action, Expiry Minutes (1-5 นาที), Confidence Score และเหตุผลเชิงเทคนิค ไม่เกิน 40 คำ
+ให้พิจารณาระยะเวลาถือครอง expiry_minutes 1-5 นาที ซึ่งผลแพ้ชนะเทียบเท่าข้อมูลจากอินดิเคเตอร์
+หากสัญญาณไม่ชัดเจนหรือมีความเสี่ยงสูง ให้ตอบ "action": "WAIT"
+
+:: ข้อกำหนดการส่งผลลัพธ์ ::
+- ตอบกลับในรูปแบบ JSON ตามโครงสร้างนี้เท่านั้น (ห้ามมีข้อความเกริ่นนำหรือปิดท้ายนอก JSON):
+{
+  "symbol": "string",
+  "action": "CALL" | "PUT" | "WAIT",
+  "expiry_minutes": 1,
+  "confidence_score": 0,
+  "ai_final_reason_th": "สรุปเหตุผลเชิงเทคนิคแบบกระชับ ครอบคลุม Price Action, Momentum และแนวรับแนวต้าน ไม่เกิน 40 คำ"
+}
+
+:: ข้อมูลตลาดสำหรับวิเคราะห์ ::
+ID:GBPAUDOTC0820055531
+meta:
+  timestamp: '2026-08-20T05:55:31.742235'
+  symbol: GBPAUD-OTC
+  session: SYDNEY_OPEN
+  m1_open: 1.908345
+  m1_age: 81585
+  m1_quality: FRESH
+  m5_open: 1.908145
+  m5_age: 381585
+  m5_quality: FRESH
+market_context:
+  state: TRENDING_STRONG
+  description: Strong directional trend with high momentum. Favorable for trend-following strategies.
+  volatility_regime: NORMAL
+  news_impact: NONE_OTC
+  expected_volatility_%: 0.094
+timeframes:
+  m1:
+    m1_last_candle: BEARISH
+    m1_ema5: 1.908559
+    m1_ema20: 1.908959
+    m1_rsi: 35.65
+    m1_stoch_k: 55.98
+    m1_stoch_d: 68.52
+    m1_macd: -0.000655
+    m1_macd_signal: -0.00087
+    ohlcv:
+      open: 1.908345
+      high: 1.908465
+      low: 1.907665
+      close: 1.907695
+      volume: NONE_OTC
+  m5:
+    m5_bias: BEARISH
+    m5_ema5: 1.909047
+    m5_ema10: 1.910871
+    m5_ema20: 1.913852
+    m5_ema50: 1.918496
+    m5_bb_upper: 1.92454
+    m5_bb_lower: 1.905634
+    m5_bb_width: 0.018907
+    m5_rsi: 17.51
+    m5_stoch_k: 6.35
+    m5_stoch_d: 5.46
+    m5_macd: -0.003604
+    m5_macd_signal: -0.00298
+    m5_adx: 54.68
+    m5_atr: 0.001793
+    m5_support: 1.907818
+    m5_resistance: 1.909288
+    m5_pivot: 1.908682
+    ohlcv:
+      open: 1.908145
+      high: 1.909545
+      low: 1.908075
+      close: 1.908425
+      volume: NONE_OTC
+  m15:
+    m15_bias: BEARISH
+price_action:
+  m5_pa_pattern: SHOOTING_STAR
+  m5_pa_last_candle_bias: BULLISH
+  m5_pa_body_strength: WEAK
+  m5_pa_wick_dominance: HIGH_LOWER_WICK
+  m5_pa_momentum_bias: BEARISH
+  m5_pa_move_quality: NORMAL
+  m5_pa_trap_alert: BEAR_TRAP
+  m5_pa_sr_interaction: TESTING_PIVOT
+  m5_pa_divergence_alert: NONE
+  m5_pa_divergence_strength: 0
+  m5_pa_market_behavior: CREEPING_SELLING
+  m5_pa_hesitation_score: 33
+  m5_pa_path_efficiency: GOOD
+volume:
+  m5_tick_volume: 1.0
+  m5_volume_momentum: NO_VOLUME_DATA
+  m5_volume_vs_average: 1.0
+analysis:
+  m5_trend_direction: DOWN
+  m5_trend_type: IMPULSIVE
+  m5_trend_strength_score: 100
+  mtf_alignment_%: 100
+  m5_compression_quality_%: 0.0
+  m5_exhaustion_risk_%: 65
+  m5_bos_detected: false
+  mtf_conflict_score: 0
+  m5_trend_continuation_%: 98
+  m5_transition_risk: HIGH
+  m5_persistence_score: 75
+decision_layer:
+  dl_tradeable: true
+  dl_stability_score: 100
+  dl_quality_score: 68
+  dl_risk_level: MEDIUM
+  ai_confidence_score: รอการวิเคราะห์จาก AI
+  ai_suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  ai_suggested_action: รอการวิเคราะห์จาก AI
+  ai_final_reason_th: รอการวิเคราะห์จาก AI
+
+
+================================================================
+:: สิ่งที่ AI ตอบกลับมา (AI RESPONSE) ::
+เวลาตอบกลับ: 2026-08-20 05:55:41
+เครื่องยนต์/โมเดล: AI (gemini-3.5-flash-lite)
+ผลลัพธ์ดิบ (Raw Response):
+{
+  "symbol": "GBPAUD-OTC",
+  "action": "CALL",
+  "expiry_minutes": 2,
+  "confidence_score": 85,
+  "ai_final_reason_th": "RSI ใน M5 อยู่เขต Oversold (17.51) เกิดสัญญาณ Bear Trap และราคาปฏิเสธแนวรับ M5 ประกอบกับ Stoch M5 ตัดขึ้น สนับสนุนโอกาสรีบาวด์ระยะสั้น"
+}
+
+สรุปผลการวิเคราะห์ (Parsed JSON):
+{
+  "symbol": "GBPAUD-OTC",
+  "action": "CALL",
+  "expiry_minutes": 2,
+  "confidence_score": 85.0,
+  "reason_th": "RSI ใน M5 อยู่เขต Oversold (17.51) เกิดสัญญาณ Bear Trap และราคาปฏิเสธแนวรับ M5 ประกอบกับ Stoch M5 ตัดขึ้น สนับสนุนโอกาสรีบาวด์ระยะสั้น",
+  "ai_final_reason_th": "RSI ใน M5 อยู่เขต Oversold (17.51) เกิดสัญญาณ Bear Trap และราคาปฏิเสธแนวรับ M5 ประกอบกับ Stoch M5 ตัดขึ้น สนับสนุนโอกาสรีบาวด์ระยะสั้น",
+  "engine_used": "AI (gemini-3.5-flash-lite)"
+}
+================================================================

@@ -1,0 +1,143 @@
+:: คำสั่ง ::
+จงทำหน้าที่เป็น Quantitative Trading AI และ Binary Options Expert 
+วิเคราะห์ข้อมูลตลาดแบบ Multi-Timeframe (M1, M5, M15) ด้านล่างนี้ โดยประมวลผลทุกตัวชี้วัด (Price Action, Technical Indicators, Volume, Market Context, Multi-Timeframe Alignment) 
+เพื่อกำหนด Action, Expiry Minutes (1-5 นาที), Confidence Score และเหตุผลเชิงเทคนิค ไม่เกิน 40 คำ
+ให้พิจารณาระยะเวลาถือครอง expiry_minutes 1-5 นาที ซึ่งผลแพ้ชนะเทียบเท่าข้อมูลจากอินดิเคเตอร์
+หากสัญญาณไม่ชัดเจนหรือมีความเสี่ยงสูง ให้ตอบ "action": "WAIT"
+
+:: ข้อกำหนดการส่งผลลัพธ์ ::
+- ตอบกลับในรูปแบบ JSON ตามโครงสร้างนี้เท่านั้น (ห้ามมีข้อความเกริ่นนำหรือปิดท้ายนอก JSON):
+{
+  "symbol": "string",
+  "action": "CALL" | "PUT" | "WAIT",
+  "expiry_minutes": 1,
+  "confidence_score": 0,
+  "ai_final_reason_th": "สรุปเหตุผลเชิงเทคนิคแบบกระชับ ครอบคลุม Price Action, Momentum และแนวรับแนวต้าน ไม่เกิน 40 คำ"
+}
+
+:: ข้อมูลตลาดสำหรับวิเคราะห์ ::
+ID:GBPUSD0820181211
+meta:
+  timestamp: '2026-08-20T18:12:11.267867'
+  symbol: GBPUSD
+  session: LONDON_OPEN
+  m1_open: 1.363445
+  m1_age: 61804
+  m1_quality: FRESH
+  m5_open: 1.364045
+  m5_age: 301343
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: EXTREME
+  news_impact: LOW
+  expected_volatility_%: 0.034
+timeframes:
+  m1:
+    m1_last_candle: BEARISH
+    m1_ema5: 1.363463
+    m1_ema20: 1.363957
+    m1_rsi: 20.3
+    m1_stoch_k: 5.35
+    m1_stoch_d: 5.31
+    m1_macd: -0.000355
+    m1_macd_signal: -0.000295
+    ohlcv:
+      open: 1.363445
+      high: 1.363465
+      low: 1.363185
+      close: 1.36326
+      volume: 276
+  m5:
+    m5_bias: BEARISH
+    m5_ema5: 1.364072
+    m5_ema10: 1.364405
+    m5_ema20: 1.364432
+    m5_ema50: 1.363657
+    m5_bb_upper: 1.365895
+    m5_bb_lower: 1.363515
+    m5_bb_width: 0.00238
+    m5_rsi: 37.92
+    m5_stoch_k: 7.83
+    m5_stoch_d: 12.41
+    m5_macd: 0.00015
+    m5_macd_signal: 0.000415
+    m5_adx: 35.99
+    m5_atr: 0.000467
+    m5_support: 1.363108
+    m5_resistance: 1.363823
+    m5_pivot: 1.363577
+    ohlcv:
+      open: 1.364045
+      high: 1.364045
+      low: 1.36333
+      close: 1.363355
+      volume: 1863
+  m15:
+    m15_bias: BULLISH
+price_action:
+  m5_pa_pattern: NONE
+  m5_pa_last_candle_bias: BEARISH
+  m5_pa_body_strength: WEAK
+  m5_pa_wick_dominance: LOW_WICK
+  m5_pa_momentum_bias: NEUTRAL
+  m5_pa_move_quality: CHAOTIC
+  m5_pa_trap_alert: NONE
+  m5_pa_sr_interaction: TESTING_PIVOT
+  m5_pa_divergence_alert: BEARISH
+  m5_pa_divergence_strength: 50
+  m5_pa_market_behavior: NEUTRAL
+  m5_pa_hesitation_score: 26
+  m5_pa_path_efficiency: POOR
+volume:
+  m5_tick_volume: 1863.0
+  m5_volume_momentum: HIGH_MOMENTUM
+  m5_volume_vs_average: 1.427
+analysis:
+  m5_trend_direction: NONE
+  m5_trend_type: CHOPPY
+  m5_trend_strength_score: 20
+  mtf_alignment_%: 33
+  m5_compression_quality_%: 0.0
+  m5_exhaustion_risk_%: 30
+  m5_bos_detected: false
+  mtf_conflict_score: 0
+  m5_trend_continuation_%: 55
+  m5_transition_risk: MEDIUM
+  m5_persistence_score: 79
+decision_layer:
+  dl_tradeable: true
+  dl_stability_score: 33
+  dl_quality_score: 52
+  dl_risk_level: HIGH
+  ai_confidence_score: รอการวิเคราะห์จาก AI
+  ai_suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  ai_suggested_action: รอการวิเคราะห์จาก AI
+  ai_final_reason_th: รอการวิเคราะห์จาก AI
+
+
+================================================================
+:: สิ่งที่ AI ตอบกลับมา (AI RESPONSE) ::
+เวลาตอบกลับ: 2026-08-20 18:12:18
+เครื่องยนต์/โมเดล: AI (gemini-3.5-flash-lite)
+ผลลัพธ์ดิบ (Raw Response):
+{
+  "symbol": "GBPUSD",
+  "action": "WAIT",
+  "expiry_minutes": 1,
+  "confidence_score": 40,
+  "ai_final_reason_th": "ตลาดมีความผันผวนสูงและไร้ทิศทางชัดเจน ความขัดแย้งของกรอบเวลาและสภาพตลาดแบบสะสมทำให้ความเสี่ยงสูงเกินไป ควรอร่อยรอสัญญาณเบรกเอาท์ที่ชัดเจนกว่านี้"
+}
+
+สรุปผลการวิเคราะห์ (Parsed JSON):
+{
+  "symbol": "GBPUSD",
+  "action": "WAIT",
+  "expiry_minutes": 1,
+  "confidence_score": 40.0,
+  "reason_th": "ตลาดมีความผันผวนสูงและไร้ทิศทางชัดเจน ความขัดแย้งของกรอบเวลาและสภาพตลาดแบบสะสมทำให้ความเสี่ยงสูงเกินไป ควรอร่อยรอสัญญาณเบรกเอาท์ที่ชัดเจนกว่านี้",
+  "ai_final_reason_th": "ตลาดมีความผันผวนสูงและไร้ทิศทางชัดเจน ความขัดแย้งของกรอบเวลาและสภาพตลาดแบบสะสมทำให้ความเสี่ยงสูงเกินไป ควรอร่อยรอสัญญาณเบรกเอาท์ที่ชัดเจนกว่านี้",
+  "engine_used": "AI (gemini-3.5-flash-lite)"
+}
+================================================================

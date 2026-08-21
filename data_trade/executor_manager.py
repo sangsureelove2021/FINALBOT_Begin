@@ -127,7 +127,14 @@ class ExecutorManager:
             except Exception as e:
                 logger.exception(f"[ExecutorManager] AI analysis failed for {symbol}: {e}")
                 traceback.print_exc()
-                raise RuntimeError(f"FAIL-FAST: AI analysis failed for {symbol}: {e}") from e
+                ai_decision = {
+                    "symbol": symbol,
+                    "action": "WAIT",
+                    "expiry_minutes": 1,
+                    "confidence_score": 0,
+                    "reason_th": f"AI ขัดข้องชั่วคราว ({e}) - ระบบสั่ง WAIT เพื่อความปลอดภัย",
+                    "engine_used": "FALLBACK_SAFE_WAIT"
+                }
 
         # ── Step 3: Execution Gate (The Single Decisive Authority) ──────────
         try:

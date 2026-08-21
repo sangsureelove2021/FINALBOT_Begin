@@ -41,24 +41,42 @@ class GeminiApiAgent:
         if not isinstance(user_prompt, str) or not user_prompt.strip():
             raise ValueError("FAIL-FAST: user_prompt must be a non-empty string.")
 
-        try:
-            logger.info(f"[Gemini Transport] Dispatching prompt to model {self.model_name}...")
-            from google.genai import types
-            
-            config = types.GenerateContentConfig(
-                response_mime_type="application/json",
-                temperature=0.2
-            )
-            if system_instruction:
-                config.system_instruction = system_instruction
+        models_to_try = [self.model_name]
+        if "gemini-3.5-flash-lite" not in models_to_try:
+            models_to_try.append("gemini-3.5-flash-lite")
+        if "gemini-3.6-flash" not in models_to_try:
+            models_to_try.append("gemini-3.6-flash")
 
-            response = self.client.models.generate_content(
-                model=self.model_name,
-                contents=user_prompt,
-                config=config
-            )
-            return (response.text or "").strip()
+        from google.genai import types
+        config = types.GenerateContentConfig(
+            response_mime_type="application/json",
+            temperature=0.2
+        )
+        if system_instruction:
+            config.system_instruction = system_instruction
 
-        except Exception as e:
-            logger.exception(f"[Gemini Transport] API call failed on model {self.model_name}: {e}")
-            raise RuntimeError(f"FAIL-FAST: Gemini API call failed: {e}") from e
+        last_err = None
+        for m in models_to_try:
+            try:
+                logger.info(f"[Gemini Transport] Dispatching prompt to model {m}...")
+                response = self.client.models.generate_content(
+                    model=m,
+                    contents=user_prompt,
+                    config=config
+                )
+                txt = (response.text or "").strip()
+                if txt:
+                    return txt
+            except Exception as e:
+                last_err = e
+                err_str = str(e).lower()
+                fallback_triggers = ["404", "not_found", "not found", "503", "high demand", "unavailable", "resource_exhausted", "429"]
+                if any(trigger in err_str for trigger in fallback_triggers):
+                    logger.warning(f"[Gemini Transport] Model {m} failed with fallback error ({e}), falling back to next available model...", exc_info=True)
+                    continue
+                else:
+                    logger.exception(f"[Gemini Transport] API call failed on model {m}: {e}")
+                    raise RuntimeError(f"FAIL-FAST: Gemini API call failed: {e}") from e
+
+        logger.exception(f"[Gemini Transport] All model candidates failed: {last_err}")
+        raise RuntimeError(f"FAIL-FAST: Gemini API call failed on all candidate models: {last_err}") from last_err

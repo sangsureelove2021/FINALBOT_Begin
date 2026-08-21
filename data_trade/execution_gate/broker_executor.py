@@ -32,6 +32,20 @@ class BrokerExecutor:
             return broker_or_adapter.data_adapter.api
         return broker_or_adapter
 
+    def _ensure_symbol_registered(self, api: Any, symbol: str) -> None:
+        """Dynamically registers symbol into OP_code.ACTIVES if missing."""
+        try:
+            import iqoptionapi.constants as OP_code
+            if symbol not in OP_code.ACTIVES:
+                init_data = api.get_all_init() if hasattr(api, "get_all_init") else {}
+                for cat in ["turbo", "binary"]:
+                    for aid, ainfo in init_data.get("result", {}).get(cat, {}).get("actives", {}).items():
+                        name = ainfo.get("name", "").replace("front.", "")
+                        if name:
+                            OP_code.ACTIVES[name] = int(aid)
+        except Exception as e:
+            logger.warning(f"[BrokerExecutor] Could not dynamically register symbol {symbol}: {e}")
+
     def execute_order(
         self,
         symbol: str,
@@ -63,8 +77,8 @@ class BrokerExecutor:
         if not (1 <= expiry_minutes <= 5):
             raise ValueError(f"FAIL-FAST: Invalid expiry_minutes '{expiry_minutes}', must be between 1 and 5")
 
-        if stake <= 0:
-            raise ValueError(f"FAIL-FAST: Invalid stake amount '{stake}', must be positive")
+        if not isinstance(stake, (int, float)) or stake <= 0:
+            raise ValueError(f"FAIL-FAST: Invalid stake '{stake}', must be a positive number")
 
         api = self._resolve_api(broker_adapter)
         if api is None or not hasattr(api, "buy"):
@@ -77,6 +91,8 @@ class BrokerExecutor:
             except Exception as e:
                 logger.exception(f"[BrokerExecutor] Failed ensure_connected check: {e}")
                 raise
+
+        self._ensure_symbol_registered(api, symbol)
 
         tz_thailand = timezone(timedelta(hours=7))
         order_timestamp = datetime.now(tz_thailand).isoformat()

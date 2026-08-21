@@ -20,10 +20,10 @@ class MoneyManager:
     """Calculates stake sizes and enforces strict capital preservation limits in Part 3."""
 
     DEFAULT_STAKE_PER_TRADE: float = 35.0
-    DEFAULT_MAX_DAILY_PROFIT: float = 9999.0
-    DEFAULT_MAX_DAILY_LOSS: float = 9999.0
-    DEFAULT_MAX_CONSECUTIVE_LOSSES: int = 9999
-    DEFAULT_MAX_CONCURRENT: int = 9999
+    DEFAULT_MAX_DAILY_PROFIT: float = 999999.0
+    DEFAULT_MAX_DAILY_LOSS: float = 999999.0
+    DEFAULT_MAX_CONSECUTIVE_LOSSES: int = 999999
+    DEFAULT_MAX_CONCURRENT: int = 999999
     DEFAULT_COOLDOWN_MINUTES: int = 0
 
     def __init__(self, config: Optional[Dict[str, Any]] = None):

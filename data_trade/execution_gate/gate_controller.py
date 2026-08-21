@@ -36,31 +36,38 @@ class ExecutionGate:
         reason_th = str(ai_decision.get("ai_final_reason_th") or ai_decision.get("reason_th") or "").strip()
         engine_used = str(ai_decision.get("engine_used", "AI_ENGINE"))
 
-        # ── กฎชี้ขาด: คะแนน AI ตั้งแต่ 60 ขึ้นไป (>= 60) และเป็น CALL/PUT ➡️ เทรดเลย! ──
+        # ── กฎที่ 1: action in ("CALL", "PUT") และ confidence_score >= 60.0 ➡️ APPROVED 100% ──
         if action in ("CALL", "PUT") and confidence_score >= 60.0:
+            approved_reason = reason_th or f"อนุมัติเข้าเทรด {action} (คะแนนความมั่นใจ {confidence_score:.1f}% >= 60.0%)"
             logger.info(
                 f"[ExecutionGate] {symbol} => APPROVED: {action} "
-                f"({expiry_minutes}m, คะแนน {confidence_score:.1f} >= 60) -> เทรดเลย!"
+                f"({expiry_minutes}m, คะแนน {confidence_score:.1f}%) -> {approved_reason}"
             )
             return {
                 "approved": True,
                 "action": action,
                 "expiry_minutes": expiry_minutes,
                 "confidence_score": confidence_score,
-                "reason": reason_th or f"อนุมัติเข้าเทรด {action} (คะแนน AI {confidence_score:.1f} >= 60)",
+                "reason": approved_reason,
                 "engine_used": engine_used
             }
 
-        # ── คะแนนต่ำกว่า 60 (< 60) หรือไม่ใช่ CALL/PUT ➡️ ไม่เทรด ───────────
+        # ── กฎที่ 2: action == "WAIT" หรือ confidence_score < 60.0 ➡️ REJECTED ──
+        if action in ("CALL", "PUT") and confidence_score < 60.0:
+            reject_reason = f"คะแนนความมั่นใจไม่ถึงเกณฑ์ขั้นต่ำ ({confidence_score:.1f}% < 60.0%)"
+        elif action == "WAIT":
+            reject_reason = "รอสัญญาณ AI (WAIT)"
+        else:
+            reject_reason = f"สัญญาณไม่ถูกต้อง ({action})"
+
         logger.info(
-            f"[ExecutionGate] {symbol} => NOT APPROVED: {action} "
-            f"(คะแนน {confidence_score:.1f} < 60) -> ไม่เทรด"
+            f"[ExecutionGate] {symbol} => NOT APPROVED: {action} (คะแนน {confidence_score:.1f}%) -> {reject_reason}"
         )
         return {
             "approved": False,
-            "action": action if action in ("CALL", "PUT") else "WAIT",
+            "action": "WAIT" if action == "WAIT" else action,
             "expiry_minutes": expiry_minutes,
             "confidence_score": confidence_score,
-            "reason": f"ไม่อนุมัติ: คะแนน AI {confidence_score:.1f} ต่ำกว่า 60 ({reason_th})",
+            "reason": reject_reason,
             "engine_used": engine_used
         }

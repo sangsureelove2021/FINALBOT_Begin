@@ -21,12 +21,13 @@ SYSTEM_PROMPT = """:: คำสั่ง ::
 วิเคราะห์ข้อมูลตลาดแบบ Multi-Timeframe (M1, M5, M15) ด้านล่างนี้ โดยประมวลผลทุกตัวชี้วัด (Price Action, Technical Indicators, Volume, Market Context, Multi-Timeframe Alignment) 
 เพื่อกำหนด Action, Expiry Minutes (1-5 นาที), Confidence Score และเหตุผลเชิงเทคนิค ไม่เกิน 40 คำ
 ให้พิจารณาระยะเวลาถือครอง expiry_minutes 1-5 นาที ซึ่งผลแพ้ชนะเทียบเท่าข้อมูลจากอินดิเคเตอร์
+หากสัญญาณไม่ชัดเจนหรือมีความเสี่ยงสูง ให้ตอบ "action": "WAIT"
 
 :: ข้อกำหนดการส่งผลลัพธ์ ::
 - ตอบกลับในรูปแบบ JSON ตามโครงสร้างนี้เท่านั้น (ห้ามมีข้อความเกริ่นนำหรือปิดท้ายนอก JSON):
 {
   "symbol": "string",
-  "action": "CALL" | "PUT",
+  "action": "CALL" | "PUT" | "WAIT",
   "expiry_minutes": 1,
   "confidence_score": 0,
   "ai_final_reason_th": "สรุปเหตุผลเชิงเทคนิคแบบกระชับ ครอบคลุม Price Action, Momentum และแนวรับแนวต้าน ไม่เกิน 40 คำ"

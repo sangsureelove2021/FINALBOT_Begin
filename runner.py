@@ -1,117 +1,178 @@
 """
-PureAIRunner — Main Bot Runner
-===============================
-Manages the end-to-end bot execution lifecycle:
-1. Broker connection & tradable asset discovery
-2. Time synchronization & economic news calendar
-3. Historical candle warm-up (250 candles for M1, M5, M15)
-4. Minute-boundary event loop (:01.500) for candle ingestion (Part 1) and analysis (Part 2)
+FINALBOT Master Runner (Event-Driven Pipeline)
+==============================================
+สถาปัตยกรรมระบบ:
+- Part 1 (Data Feed): ดึงแท่งเทียนสดจากโบรกเกอร์ บันทึก CSV 8 คอลัมน์ลงดิสก์
+- Event-Driven Trigger (สะกิด): เมื่อ CSVWriter บันทึกไฟล์ลงดิสก์เสร็จ จะยิงสัญญาณ Path แจ้งเตือนทันที
+- Part 2 (Data Evaluate): เมื่อได้รับสัญญาณ จะตื่นมาอ่านไฟล์ CSV จากดิสก์ (pd.read_csv) ทันที
+  คำนวณอินดิเคเตอร์ 5 Engines และสร้างไฟล์ Prompt 100 บรรทัดส่งออกสู่ data_base/orchestrator/<SYMBOL>/
+- Zero RAM Transfer: ไม่มีการส่งผ่านข้อมูลหรือ DataFrame ผ่านแรมระหว่าง Part 1 และ Part 2
 """
 
+import os
 import sys
 import time
+import signal
 import logging
 import concurrent.futures
+import threading
 from datetime import datetime, timezone, timedelta
 from typing import Optional, List, Dict
 
-from monitoring.console_dashboard import ConsoleUI, logger, setup_logging
-from config_setting.config_loader import load_settings, get_symbols, get_csv_manager_config
+from monitoring.console_dashboard import ConsoleUI, logger, setup_logging, disable_quick_edit
+from config_setting.config_loader import load_settings, get_symbols
 from data_feed.bridge_adapter.broker_factory import BrokerFactory
 from data_feed.data_adapter import DataAdapter
-from data_feed.csv_time_sync import TimeSyncManager
-from data_feed.news_calendar import ensure_calendar_news, check_news_impact
+from data_feed.csv_writer import CSVWriter
 from data_evaluate.orchestrator import Orchestrator
-from data_trade import ExecutorManager
+from data_evaluate.news_calendar import ensure_calendar_news
 
 setup_logging()
+disable_quick_edit()
+
+# Global reference for signal handling and instant OS-level hard termination
+_ACTIVE_RUNNER: Optional["DataFeedRunner"] = None
 
 
-class PureAIRunner:
-    """Core coordinator managing data ingestion and analysis execution."""
+def graceful_exit(signum=None, frame=None):
+    """Handle exit signals cleanly and immediately hard exit the process."""
+    global _ACTIVE_RUNNER
+    try:
+        ConsoleUI.show_stopping()
+    except Exception:
+        pass
+
+    if _ACTIVE_RUNNER is not None:
+        try:
+            if hasattr(_ACTIVE_RUNNER, "_on_csv_written"):
+                CSVWriter.unregister_listener(_ACTIVE_RUNNER._on_csv_written)
+            if hasattr(_ACTIVE_RUNNER, "data_feed") and _ACTIVE_RUNNER.data_feed:
+                _ACTIVE_RUNNER.data_feed.disconnect()
+        except Exception:
+            pass
+
+    # Instant hard exit at the OS level (0.00s) to kill all background threads cleanly
+    os._exit(0)
+
+
+class DataFeedRunner:
+    """Master Event-Driven Coordinator for Part 1 Data Ingestion and Part 2 Evaluation."""
 
     def __init__(self):
+        global _ACTIVE_RUNNER
+        _ACTIVE_RUNNER = self
+
         self.settings = load_settings(reload=True)
         self.account_type = self.settings.get("account", {}).get("account_type", "PRACTICE")
-        
-        # 1. Connect to Broker
+
+        # 1. Initialize Part 1 Commander (DataAdapter via BrokerFactory)
         ConsoleUI.show_connection_attempt()
-        self.data_adapter = BrokerFactory.create_broker(config=self.settings)
-        if not self.data_adapter.connected:
+        self.data_feed: DataAdapter = BrokerFactory.create_broker(config=self.settings)
+        if not self.data_feed.connected:
             ConsoleUI.show_connection_failed()
-            sys.exit(1)
+            os._exit(1)
         ConsoleUI.show_connection_success()
 
-        # 2. Load configured trading assets directly from SSOT
+        # 1.1 Dynamically populate active IDs into OP_code.ACTIVES for all broker assets
+        try:
+            import iqoptionapi.constants as OP_code
+            if hasattr(self.data_feed, "api") and self.data_feed.api:
+                init_data = self.data_feed.api.get_all_init() or {}
+                for cat in ["turbo", "binary"]:
+                    for aid, ainfo in init_data.get("result", {}).get(cat, {}).get("actives", {}).items():
+                        name = ainfo.get("name", "").replace("front.", "")
+                        if name:
+                            OP_code.ACTIVES[name] = int(aid)
+        except Exception as e:
+            logger.warning(f"[DataFeedRunner] Dynamic active registration note: {e}")
+
+        # 2. Load configured trading assets directly from SSOT (symbols.json)
         self.symbols: List[str] = get_symbols()
         ConsoleUI.show_asset_list(self.symbols)
 
-        # 3. Initialize Time Sync & Server Offset
-        self.time_calendar_mgr = TimeSyncManager(data_adapter=self.data_adapter)
-        self.time_calendar_mgr.sync_server_time(self.data_adapter)
-        self.time_calendar_mgr.start_time_sync_thread()
-        ConsoleUI.show_time_offset(self.time_calendar_mgr.time_offset)
+        # 3. Show Time Sync & Offset
+        ConsoleUI.show_time_offset(self.data_feed.time_calendar_mgr.time_offset)
 
-        # 4. Initialize Data Adapter (Part 1 Core) & Display Balance
-        csv_mgr_cfg = get_csv_manager_config()
-        base_dir = csv_mgr_cfg.get("base_dir", "data_base/csv/iq_option")
-        self.candle_adapter = DataAdapter(
-            broker_adapter=self.data_adapter,
-            time_sync_manager=self.time_calendar_mgr,
-            base_dir=base_dir
-        )
-        
+        # 4. Display Account Balance
         try:
-            balance = self.candle_adapter.get_balance()
+            balance = self.data_feed.get_balance()
             ConsoleUI.show_account_info(self.account_type, balance)
         except Exception as e:
             logger.exception("Failed to get account balance from broker")
             raise RuntimeError("FAIL-FAST: Failed to get balance from broker API") from e
 
-        # 5. Load Economic News Calendar for Today
-        try:
-            ensure_calendar_news(show_ui=True)
-        except Exception as e:
-            logger.exception(f"[Runner] Economic news calendar check failed: {e}")
+        # 5. Initialize Part 2 Orchestrator (Loads Economic News Calendar automatically)
+        self.orchestrator = Orchestrator(self.settings)
 
-        # 6. Historical Data Warm-Up (250 candles for M1, M5, M15)
+        # 6. Part 1 Commander: Historical Data Warm-Up (250 candles for M1, M5, M15)
         ConsoleUI.show_data_prep_start(self.symbols)
-        ready_symbols = []
-        not_ready_count = 0
-        warmup_epoch = self.time_calendar_mgr.get_broker_epoch()
+        self.data_feed.warmup_all_symbols(self.symbols)
+        self.symbols = getattr(self.data_feed, "ready_symbols", self.symbols)
+        ConsoleUI.show_data_prep_result(len(self.symbols), 0)
 
-        for sym in self.symbols:
-            try:
-                if self.candle_adapter.init_symbol(sym, broker_epoch=warmup_epoch):
-                    ready_symbols.append(sym)
-                else:
-                    not_ready_count += 1
-                    logger.warning(f"[Runner] {sym} data incomplete — skipped.")
-            except Exception as e:
-                not_ready_count += 1
-                logger.warning(f"[Runner] {sym} is currently closed on broker or unavailable — skipped ({e})")
-
-        self.symbols = ready_symbols
-        if not self.symbols:
-            raise RuntimeError("FAIL-FAST: Zero assets passed historical data warm-up")
-        ConsoleUI.show_data_prep_result(len(self.symbols), not_ready_count)
-
-        # 7. Start Streaming & Thread Pool Executor
-        for sym in self.symbols:
-            self.data_adapter.start_stream(sym, 'M1', 255)
-            self.data_adapter.start_stream(sym, 'M5', 255)
-            self.data_adapter.start_stream(sym, 'M15', 255)
-
-        self.executor = concurrent.futures.ThreadPoolExecutor(
+        # 7. Setup ThreadPoolExecutor for Part 2 Evaluation Workers
+        self.eval_executor = concurrent.futures.ThreadPoolExecutor(
             max_workers=max(1, len(self.symbols)),
-            thread_name_prefix="FeedWorker"
+            thread_name_prefix="Part2EvalWorker"
         )
 
-        # 8. Initialize Orchestrator (Part 2: PROCESS & Data Evaluate)
-        self.orchestrator = Orchestrator()
+        # 8. Register Event Listener on CSVWriter (Event-Driven Trigger สะกิด Part 2 ทันทีที่เขียนไฟล์ลงดิสก์เสร็จ)
+        self._export_lock = threading.Lock()
+        self._export_done: Dict[str, bool] = {}   # symbol → success/fail per cycle
+        self._cycle_total = 0                      # จำนวน symbol ที่ trigger M1 ในรอบนี้
+        CSVWriter.register_listener(self._on_csv_written)
 
-        # 9. Initialize Output Orchestrator (Part 3: OUTPUT & Execution)
-        self.executor_manager = ExecutorManager(config=self.settings)
+    def _on_csv_written(self, file_path: str):
+        """
+        Event Handler: Triggered immediately by CSVWriter when a file write completes.
+        Extracts symbol and triggers Part 2 to read from disk and evaluate.
+        Strictly passes ONLY the file path string (Zero RAM Data Transfer).
+        """
+        if not isinstance(file_path, str):
+            return
+
+        # Trigger evaluation when M1 candle finishes writing to disk
+        if file_path.endswith("_M1.csv"):
+            norm_path = file_path.replace("\\", "/")
+            parts = norm_path.split("/")
+            if len(parts) >= 2:
+                symbol = parts[-2]
+                if symbol in self.symbols:
+                    self.eval_executor.submit(self._evaluate_symbol_from_disk, symbol)
+
+    def _evaluate_symbol_from_disk(self, symbol: str):
+        """Part 2 Worker: Reads CSV from disk → runs 5 Engines → writes Prompt → notifies runner."""
+        success = False
+        try:
+            logger.info(f"[Part2:Event] Nudged for {symbol} - Reading CSV from disk and evaluating...")
+            self.orchestrator.process_cycle(symbol=symbol)
+            success = True
+        except Exception as e:
+            logger.exception(f"[Part2:Orchestrator] Evaluation failed for {symbol}: {e}")
+
+        # --- Counter: นับจำนวน symbol ที่ Part 2 ทำเสร็จในรอบนี้ ---
+        with self._export_lock:
+            self._export_done[symbol] = success
+            done_count = len(self._export_done)
+            total = self._cycle_total
+
+        if total > 0 and done_count >= total:
+            # ตรวจไฟล์จริงในโฟลเดอร์ก่อนแสดงผล
+            output_dir = self.orchestrator.orchestrator_log_dir
+            ready, failed = [], []
+            with self._export_lock:
+                results = dict(self._export_done)
+            for sym, ok in results.items():
+                sym_dir = os.path.join(output_dir, sym)
+                has_file = bool(
+                    os.path.isdir(sym_dir) and
+                    any(f.endswith(".txt") for f in os.listdir(sym_dir))
+                )
+                if ok and has_file:
+                    ready.append(sym)
+                else:
+                    failed.append(sym)
+            ConsoleUI.show_payload_export(ready, failed)
 
     def _countdown_to_first_candle(self):
         """Sleep directly until the first completed candle minute boundary (:01.500)."""
@@ -123,26 +184,17 @@ class PureAIRunner:
             target_time += timedelta(minutes=1)
 
         total_wait = (target_time - now).total_seconds()
-        target_str = target_time.strftime('%H:%M:%S')
+        target_str = target_time.strftime("%H:%M:%S")
 
         ConsoleUI.show_countdown(f"{total_wait:.1f}", target_str)
         if total_wait > 0:
             time.sleep(total_wait)
 
-    def fetch_and_save_data(self, symbol: str, broker_epoch: Optional[float] = None) -> Optional[str]:
-        """Fetch completed candles, update RAM cache, and enqueue CSV write."""
-        if broker_epoch is None:
-            broker_epoch = self.time_calendar_mgr.get_broker_epoch()
-        return self.candle_adapter.update(symbol, broker_epoch=broker_epoch)
-
     def run_cycle(self):
-        """Execute one completed candle cycle at the minute boundary (:01.500)."""
-        # Verify broker connection
-        self.data_adapter.ensure_connected()
-
-        # Update balance
+        """Execute one complete data ingestion cycle for all symbols concurrently."""
+        self.data_feed.ensure_connected()
         try:
-            balance = self.candle_adapter.get_balance()
+            balance = self.data_feed.get_balance()
         except Exception as e:
             logger.exception("Failed to update balance during cycle")
             raise RuntimeError("FAIL-FAST: Failed to update balance during cycle") from e
@@ -150,57 +202,17 @@ class PureAIRunner:
         if not self.symbols:
             return
 
-        cycle_broker_epoch = self.time_calendar_mgr.get_broker_epoch()
+        # รีเซ็ต counter สำหรับรอบใหม่
+        with self._export_lock:
+            self._export_done.clear()
+            self._cycle_total = len(self.symbols)
 
-        # Ingest candles for all active symbols concurrently
-        sym_futures = {
-            sym: self.executor.submit(self.fetch_and_save_data, sym, cycle_broker_epoch)
-            for sym in self.symbols
-        }
-        concurrent.futures.wait(sym_futures.values(), timeout=10)
+        # Part 1: Ingest candles → write CSV → fire _on_csv_written → submit Part 2 workers (non-blocking)
+        prices_dict: Dict[str, float] = self.data_feed.ingest_cycle(self.symbols)
 
-        # Extract latest close prices from RAM
-        prices_dict: Dict[str, float] = {}
-        for sym in self.symbols:
-            try:
-                res = sym_futures[sym].result()
-                if res and self.candle_adapter.check_warmup(sym):
-                    prices_dict[sym] = self.candle_adapter.get_latest_close(sym)
-            except Exception as e:
-                logger.exception(f"Error reading cycle candle for {sym}: {e}")
-
-        # Display prices & balance on console
+        # Part 1 แสดงราคา → จบทันที ไม่รอ Part 2
         ConsoleUI.show_prices_and_balance(prices_dict, balance)
-
-        # Execute Part 2 (Data Evaluate) and Part 3 (Data Trade / Output Execution) for each active symbol
-        for sym in self.symbols:
-            if sym in prices_dict:
-                try:
-                    candles_ram = self.candle_adapter.get_candles_ram(sym)
-                    news_impact = check_news_impact(sym)
-                    eval_payload = self.orchestrator.process_cycle(symbol=sym, candles_dict=candles_ram, news_impact=news_impact)
-
-                    # Part 3: Execute AI Decision & Order Placement
-                    if eval_payload and isinstance(eval_payload, dict):
-                        txt_filepath = eval_payload.get("txt_filepath")
-                        if not txt_filepath:
-                            txt_filepath = self.orchestrator.export_txt_payload(symbol=sym)
-
-                        if txt_filepath:
-                            decision_report = self.executor_manager.process_cycle_decision(
-                                symbol=sym,
-                                prompt_filepath=txt_filepath,
-                                payload=eval_payload,
-                                broker_adapter=self.data_adapter
-                            )
-                            if decision_report and decision_report.get("action") in ("CALL", "PUT"):
-                                logger.info(
-                                    f"[Runner] Part 3 Action for {sym}: {decision_report.get('action')} "
-                                    f"(Confidence: {decision_report.get('confidence_score')}%, "
-                                    f"Executed: {decision_report.get('order_executed')})"
-                                )
-                except Exception as e:
-                    logger.exception(f"Failed to process analysis/execution for {sym}: {e}")
+        # Part 2 ทำงานใน background threads → เมื่อทุก symbol เสร็จ จะแสดง [ ALL  Payload  Export ] เอง
 
     def start(self):
         """Main Loop: Runs strictly at each minute boundary (:01.500) and sleeps between intervals."""
@@ -221,13 +233,28 @@ class PureAIRunner:
                 time.sleep(sleep_seconds)
 
             except KeyboardInterrupt:
-                ConsoleUI.show_stopping()
-                break
+                graceful_exit()
             except Exception as e:
-                logger.exception("Error in runner execution loop")
-                raise RuntimeError(f"FAIL-FAST: Error in runner execution loop: {e}") from e
+                logger.exception(f"[DataFeedRunner] Error in runner execution loop: {e}")
+                now = datetime.now(tz_thailand)
+                target_time = now.replace(second=1, microsecond=500000)
+                if target_time <= now:
+                    target_time += timedelta(minutes=1)
+
+                sleep_seconds = max(0.5, (target_time - now).total_seconds())
+                time.sleep(sleep_seconds)
+
+
+# Alias for compatibility with main.py
+PureAIRunner = DataFeedRunner
 
 
 if __name__ == "__main__":
-    runner = PureAIRunner()
+    # Register signal handlers for clean OS-level hard termination
+    signal.signal(signal.SIGINT, graceful_exit)
+    signal.signal(signal.SIGTERM, graceful_exit)
+    if hasattr(signal, "SIGBREAK"):
+        signal.signal(signal.SIGBREAK, graceful_exit)
+
+    runner = DataFeedRunner()
     runner.start()

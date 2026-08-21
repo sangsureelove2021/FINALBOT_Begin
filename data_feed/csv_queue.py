@@ -63,6 +63,10 @@ class CSVQueue:
             logger.info(f"[CSVQueue] Enqueuing write for {file_path} - Queue size: {self._queue.qsize()}")
             self._queue.put((df.copy(), file_path))
 
+    def flush(self) -> None:
+        """Block until all items in the queue have been written to disk."""
+        self._queue.join()
+
     def _worker(self):
         """Worker thread loop to process CSV writes."""
         while True:

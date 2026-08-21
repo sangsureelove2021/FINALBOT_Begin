@@ -1,0 +1,143 @@
+:: คำสั่ง ::
+จงทำหน้าที่เป็น Quantitative Trading AI และ Binary Options Expert 
+วิเคราะห์ข้อมูลตลาดแบบ Multi-Timeframe (M1, M5, M15) ด้านล่างนี้ โดยประมวลผลทุกตัวชี้วัด (Price Action, Technical Indicators, Volume, Market Context, Multi-Timeframe Alignment) 
+เพื่อกำหนด Action, Expiry Minutes (1-5 นาที), Confidence Score และเหตุผลเชิงเทคนิค ไม่เกิน 40 คำ
+ให้พิจารณาระยะเวลาถือครอง expiry_minutes 1-5 นาที ซึ่งผลแพ้ชนะเทียบเท่าข้อมูลจากอินดิเคเตอร์
+หากสัญญาณไม่ชัดเจนหรือมีความเสี่ยงสูง ให้ตอบ "action": "WAIT"
+
+:: ข้อกำหนดการส่งผลลัพธ์ ::
+- ตอบกลับในรูปแบบ JSON ตามโครงสร้างนี้เท่านั้น (ห้ามมีข้อความเกริ่นนำหรือปิดท้ายนอก JSON):
+{
+  "symbol": "string",
+  "action": "CALL" | "PUT" | "WAIT",
+  "expiry_minutes": 1,
+  "confidence_score": 0,
+  "ai_final_reason_th": "สรุปเหตุผลเชิงเทคนิคแบบกระชับ ครอบคลุม Price Action, Momentum และแนวรับแนวต้าน ไม่เกิน 40 คำ"
+}
+
+:: ข้อมูลตลาดสำหรับวิเคราะห์ ::
+ID:EURUSD0820161601
+meta:
+  timestamp: '2026-08-20T16:16:01.955733'
+  symbol: EURUSD
+  session: LONDON_OPEN
+  m1_open: 1.170405
+  m1_age: 106319
+  m1_quality: FRESH
+  m5_open: 1.169655
+  m5_age: 586319
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: HIGH
+  news_impact: LOW
+  expected_volatility_%: 0.031
+timeframes:
+  m1:
+    m1_last_candle: BEARISH
+    m1_ema5: 1.170244
+    m1_ema20: 1.169939
+    m1_rsi: 71.98
+    m1_stoch_k: 93.95
+    m1_stoch_d: 93.85
+    m1_macd: 0.000172
+    m1_macd_signal: 0.000113
+    ohlcv:
+      open: 1.170405
+      high: 1.170485
+      low: 1.17035
+      close: 1.17036
+      volume: 216
+  m5:
+    m5_bias: BULLISH
+    m5_ema5: 1.169766
+    m5_ema10: 1.169604
+    m5_ema20: 1.169293
+    m5_ema50: 1.168679
+    m5_bb_upper: 1.170067
+    m5_bb_lower: 1.168555
+    m5_bb_width: 0.001512
+    m5_rsi: 65.93
+    m5_stoch_k: 85.63
+    m5_stoch_d: 84.94
+    m5_macd: 0.000408
+    m5_macd_signal: 0.000388
+    m5_adx: 38.75
+    m5_atr: 0.00036
+    m5_support: 1.169677
+    m5_resistance: 1.170082
+    m5_pivot: 1.169818
+    ohlcv:
+      open: 1.169655
+      high: 1.16996
+      low: 1.169555
+      close: 1.16994
+      volume: 569
+  m15:
+    m15_bias: BULLISH
+price_action:
+  m5_pa_pattern: NONE
+  m5_pa_last_candle_bias: BULLISH
+  m5_pa_body_strength: WEAK
+  m5_pa_wick_dominance: LOW_WICK
+  m5_pa_momentum_bias: BULLISH
+  m5_pa_move_quality: NOISY
+  m5_pa_trap_alert: BULL_TRAP
+  m5_pa_sr_interaction: TESTING_PIVOT
+  m5_pa_divergence_alert: BEARISH
+  m5_pa_divergence_strength: 90
+  m5_pa_market_behavior: NEUTRAL
+  m5_pa_hesitation_score: 26
+  m5_pa_path_efficiency: FAIR
+volume:
+  m5_tick_volume: 569.0
+  m5_volume_momentum: NORMAL
+  m5_volume_vs_average: 0.814
+analysis:
+  m5_trend_direction: UP
+  m5_trend_type: CHOPPY
+  m5_trend_strength_score: 80
+  mtf_alignment_%: 100
+  m5_compression_quality_%: 7.88
+  m5_exhaustion_risk_%: 30
+  m5_bos_detected: false
+  mtf_conflict_score: 0
+  m5_trend_continuation_%: 55
+  m5_transition_risk: LOW
+  m5_persistence_score: 50
+decision_layer:
+  dl_tradeable: true
+  dl_stability_score: 100
+  dl_quality_score: 54
+  dl_risk_level: HIGH
+  ai_confidence_score: รอการวิเคราะห์จาก AI
+  ai_suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  ai_suggested_action: รอการวิเคราะห์จาก AI
+  ai_final_reason_th: รอการวิเคราะห์จาก AI
+
+
+================================================================
+:: สิ่งที่ AI ตอบกลับมา (AI RESPONSE) ::
+เวลาตอบกลับ: 2026-08-20 16:16:03
+เครื่องยนต์/โมเดล: AI (gemini-3.5-flash-lite)
+ผลลัพธ์ดิบ (Raw Response):
+{
+  "symbol": "EURUSD",
+  "action": "PUT",
+  "expiry_minutes": 2,
+  "confidence_score": 75,
+  "ai_final_reason_th": "Stochastic อยู่ในเขต Overbought สูงมาก (M1 >93) พร้อมสัญญาณ Bearish Divergence ที่แนวต้าน M5 บ่งชี้ภาวะ Bull Trap และโอกาสกลับตัวลงระยะสั้น"
+}
+
+สรุปผลการวิเคราะห์ (Parsed JSON):
+{
+  "symbol": "EURUSD",
+  "action": "PUT",
+  "expiry_minutes": 2,
+  "confidence_score": 75.0,
+  "reason_th": "Stochastic อยู่ในเขต Overbought สูงมาก (M1 >93) พร้อมสัญญาณ Bearish Divergence ที่แนวต้าน M5 บ่งชี้ภาวะ Bull Trap และโอกาสกลับตัวลงระยะสั้น",
+  "ai_final_reason_th": "Stochastic อยู่ในเขต Overbought สูงมาก (M1 >93) พร้อมสัญญาณ Bearish Divergence ที่แนวต้าน M5 บ่งชี้ภาวะ Bull Trap และโอกาสกลับตัวลงระยะสั้น",
+  "engine_used": "AI (gemini-3.5-flash-lite)"
+}
+================================================================

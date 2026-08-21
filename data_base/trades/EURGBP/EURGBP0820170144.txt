@@ -1,0 +1,143 @@
+:: คำสั่ง ::
+จงทำหน้าที่เป็น Quantitative Trading AI และ Binary Options Expert 
+วิเคราะห์ข้อมูลตลาดแบบ Multi-Timeframe (M1, M5, M15) ด้านล่างนี้ โดยประมวลผลทุกตัวชี้วัด (Price Action, Technical Indicators, Volume, Market Context, Multi-Timeframe Alignment) 
+เพื่อกำหนด Action, Expiry Minutes (1-5 นาที), Confidence Score และเหตุผลเชิงเทคนิค ไม่เกิน 40 คำ
+ให้พิจารณาระยะเวลาถือครอง expiry_minutes 1-5 นาที ซึ่งผลแพ้ชนะเทียบเท่าข้อมูลจากอินดิเคเตอร์
+หากสัญญาณไม่ชัดเจนหรือมีความเสี่ยงสูง ให้ตอบ "action": "WAIT"
+
+:: ข้อกำหนดการส่งผลลัพธ์ ::
+- ตอบกลับในรูปแบบ JSON ตามโครงสร้างนี้เท่านั้น (ห้ามมีข้อความเกริ่นนำหรือปิดท้ายนอก JSON):
+{
+  "symbol": "string",
+  "action": "CALL" | "PUT" | "WAIT",
+  "expiry_minutes": 1,
+  "confidence_score": 0,
+  "ai_final_reason_th": "สรุปเหตุผลเชิงเทคนิคแบบกระชับ ครอบคลุม Price Action, Momentum และแนวรับแนวต้าน ไม่เกิน 40 คำ"
+}
+
+:: ข้อมูลตลาดสำหรับวิเคราะห์ ::
+ID:EURGBP0820170137
+meta:
+  timestamp: '2026-08-20T17:01:37.428320'
+  symbol: EURGBP
+  session: LONDON_OPEN
+  m1_open: 0.857815
+  m1_age: 68012
+  m1_quality: FRESH
+  m5_open: 0.85795
+  m5_age: 368012
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: EXTREME
+  news_impact: LOW
+  expected_volatility_%: 0.019
+timeframes:
+  m1:
+    m1_last_candle: BULLISH
+    m1_ema5: 0.857896
+    m1_ema20: 0.857873
+    m1_rsi: 54.47
+    m1_stoch_k: 68.28
+    m1_stoch_d: 69.71
+    m1_macd: -0.000004
+    m1_macd_signal: -0.000023
+    ohlcv:
+      open: 0.857815
+      high: 0.857955
+      low: 0.8578
+      close: 0.85792
+      volume: 227
+  m5:
+    m5_bias: BEARISH
+    m5_ema5: 0.857855
+    m5_ema10: 0.857891
+    m5_ema20: 0.857922
+    m5_ema50: 0.857976
+    m5_bb_upper: 0.858216
+    m5_bb_lower: 0.857576
+    m5_bb_width: 0.00064
+    m5_rsi: 44.83
+    m5_stoch_k: 26.98
+    m5_stoch_d: 27.72
+    m5_macd: -0.000037
+    m5_macd_signal: -0.000025
+    m5_adx: 15.84
+    m5_atr: 0.000167
+    m5_support: 0.857742
+    m5_resistance: 0.857932
+    m5_pivot: 0.857863
+    ohlcv:
+      open: 0.85795
+      high: 0.857985
+      low: 0.857795
+      close: 0.85781
+      volume: 705
+  m15:
+    m15_bias: BEARISH
+price_action:
+  m5_pa_pattern: NONE
+  m5_pa_last_candle_bias: BEARISH
+  m5_pa_body_strength: WEAK
+  m5_pa_wick_dominance: LOW_WICK
+  m5_pa_momentum_bias: NEUTRAL
+  m5_pa_move_quality: CHAOTIC
+  m5_pa_trap_alert: NONE
+  m5_pa_sr_interaction: TESTING_PIVOT
+  m5_pa_divergence_alert: BULLISH
+  m5_pa_divergence_strength: 50
+  m5_pa_market_behavior: NEUTRAL
+  m5_pa_hesitation_score: 23
+  m5_pa_path_efficiency: POOR
+volume:
+  m5_tick_volume: 705.0
+  m5_volume_momentum: NORMAL
+  m5_volume_vs_average: 0.833
+analysis:
+  m5_trend_direction: DOWN
+  m5_trend_type: CORRECTIVE
+  m5_trend_strength_score: 60
+  mtf_alignment_%: 33
+  m5_compression_quality_%: 7.01
+  m5_exhaustion_risk_%: 30
+  m5_bos_detected: false
+  mtf_conflict_score: 0
+  m5_trend_continuation_%: 55
+  m5_transition_risk: LOW
+  m5_persistence_score: 60
+decision_layer:
+  dl_tradeable: true
+  dl_stability_score: 33
+  dl_quality_score: 51
+  dl_risk_level: HIGH
+  ai_confidence_score: รอการวิเคราะห์จาก AI
+  ai_suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  ai_suggested_action: รอการวิเคราะห์จาก AI
+  ai_final_reason_th: รอการวิเคราะห์จาก AI
+
+
+================================================================
+:: สิ่งที่ AI ตอบกลับมา (AI RESPONSE) ::
+เวลาตอบกลับ: 2026-08-20 17:01:48
+เครื่องยนต์/โมเดล: AI (gemini-3.5-flash-lite)
+ผลลัพธ์ดิบ (Raw Response):
+{
+  "symbol": "EURGBP",
+  "action": "WAIT",
+  "expiry_minutes": 1,
+  "confidence_score": 40,
+  "ai_final_reason_th": "ความขัดแย้งของกรอบเวลา M1 (Bullish) และ M5/M15 (Bearish) รวมถึงความผันผวนสูงและสภาพตลาดสะสมที่ยังไม่ทะลุแนวต้านสำคัญ ทำให้ความเสี่ยงสูงเกินไป ควรอร่อยรอดูความชัดเจน"
+}
+
+สรุปผลการวิเคราะห์ (Parsed JSON):
+{
+  "symbol": "EURGBP",
+  "action": "WAIT",
+  "expiry_minutes": 1,
+  "confidence_score": 40.0,
+  "reason_th": "ความขัดแย้งของกรอบเวลา M1 (Bullish) และ M5/M15 (Bearish) รวมถึงความผันผวนสูงและสภาพตลาดสะสมที่ยังไม่ทะลุแนวต้านสำคัญ ทำให้ความเสี่ยงสูงเกินไป ควรอร่อยรอดูความชัดเจน",
+  "ai_final_reason_th": "ความขัดแย้งของกรอบเวลา M1 (Bullish) และ M5/M15 (Bearish) รวมถึงความผันผวนสูงและสภาพตลาดสะสมที่ยังไม่ทะลุแนวต้านสำคัญ ทำให้ความเสี่ยงสูงเกินไป ควรอร่อยรอดูความชัดเจน",
+  "engine_used": "AI (gemini-3.5-flash-lite)"
+}
+================================================================

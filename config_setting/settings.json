@@ -9,22 +9,19 @@
     "stake_per_trade": 35
   },
 
-  "symbols": [
-    "GBPUSD", "EURGBP", "EURUSD", "EURUSD-OTC"
-  ],
 
   "ai_mode": {
     "enabled": true,
     "primary_engine": "gemini",
     "deepseek_session_index": 1,
     "gemini_model": "gemini-3.5-flash-lite",
-    "timeout_seconds": 75,
+    "timeout_seconds": 25,
     "max_consecutive_failures": 3
   },
 
 
   "session": {
-    "trading_hours": "01.00-23.00",
+    "trading_hours": "00.00-24.00",
     "timezone": "Asia/Bangkok"
   },
 
@@ -33,7 +30,7 @@
   "data_feed": {
     "enable_csv_export": true,
     "csv_manager": {
-      "base_dir": "data_base/csv/iq_option"
+      "base_dir": "data_feed/ohclv_output/iq_option"
     },
     "data_adapter": {
       "default_candle_count": 250,
@@ -47,7 +44,7 @@
 
   "data_evaluate": {
     "enable_txt_export": true,
-    "output_dir": "data_base/orchestrator"
+    "output_dir": "data_evaluate/payload_output"
   },
 
   "data_trade": {

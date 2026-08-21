@@ -45,6 +45,7 @@ from data_evaluate.orchestration.context_synthesizer import ContextSynthesizer
 
 from data_evaluate.orchestration.market_classifier.market_structure_engine import MarketStructureEngine
 from data_evaluate.orchestration.market_classifier.market_pressure_analyzer import MarketPressureAnalyzer
+from data_evaluate.news_calendar import ensure_calendar_news, check_news_impact
 
 logger = logging.getLogger("Orchestrator")
 
@@ -98,8 +99,16 @@ class Orchestrator:
         except Exception as e:
             raise
 
-        self.orchestrator_log_dir = os.path.join("data_base", "orchestrator")
+        self.orchestrator_log_dir = _all_cfg.get("data_evaluate", {}).get("output_dir", os.path.join("data_evaluate", "payload_output"))
         os.makedirs(self.orchestrator_log_dir, exist_ok=True)
+
+        # ── News Calendar (Part 2 Commander of News Calendar) ───────────
+        try:
+            ensure_calendar_news(show_ui=True)
+            logger.info("News calendar verified and exported to data_evaluate/orchestration by Orchestrator")
+        except Exception as e:
+            logger.exception(f"Failed to ensure economic news calendar in Orchestrator: {e}")
+            raise
 
         self.ai_memory = []
         self.last_payload = None
@@ -123,12 +132,35 @@ class Orchestrator:
         news_impact: Optional[str] = None
     ) -> Optional[Dict[str, Any]]:
         
-        # Fail-Fast: candles_dict must be provided as in-memory snapshot — no silent fallback
-        if candles_dict is None or not isinstance(candles_dict, dict):
+        # Load directly from CSV files on disk if candles_dict is not provided (Decoupled Part 1 -> Part 2)
+        if candles_dict is None:
+            from config_setting.config_loader import get_csv_manager_config
+            base_dir = get_csv_manager_config().get("base_dir", os.path.join("data_feed", "ohclv_output", "iq_option"))
+            candles_dict = {}
+            for tf in ["M1", "M5", "M15"]:
+                file_path = os.path.join(base_dir, symbol, f"{symbol}_{tf}.csv")
+                if not os.path.exists(file_path):
+                    raise FileNotFoundError(f"FAIL-FAST: CSV file not found for {symbol} {tf} at {file_path}")
+                
+                df_tf = pd.read_csv(file_path)
+                if df_tf is None or df_tf.empty:
+                    raise ValueError(f"FAIL-FAST: Empty CSV file for {symbol} {tf} at {file_path}")
+                
+                if 'timestamp' in df_tf.columns:
+                    df_tf['timestamp'] = pd.to_datetime(df_tf['timestamp'], utc=True)
+                    df_tf.set_index('timestamp', drop=False, inplace=True)
+                elif not isinstance(df_tf.index, pd.DatetimeIndex):
+                    df_tf.index = pd.to_datetime(df_tf.index, utc=True)
+                
+                df_tf.sort_index(ascending=True, inplace=True)
+                candles_dict[tf] = df_tf
+
+        if not isinstance(candles_dict, dict):
             raise TypeError(f"FAIL-FAST: candles_dict must be provided as a dictionary for {symbol}")
+            
         for tf in ["M1", "M5", "M15"]:
             if tf not in candles_dict or candles_dict[tf] is None or candles_dict[tf].empty:
-                raise ValueError(f"FAIL-FAST: Missing or empty {tf} data in candles_dict for {symbol}")
+                raise ValueError(f"FAIL-FAST: Missing or empty {tf} data for {symbol}")
                 
         # Warm-up Candle Lookback Check (Fail-Fast) - 250 candles per timeframe
         min_required_candles = {
@@ -139,7 +171,7 @@ class Orchestrator:
         for tf, min_req in min_required_candles.items():
             df_tf = candles_dict.get(tf)
             if df_tf is None or len(df_tf) < min_req:
-                raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles (got {len(df_tf) if df_tf is not None else 0}, minimum {min_req} required)")
+                raise ValueError(f"FAIL-FAST: Insufficient {tf} warm-up candles on disk (got {len(df_tf) if df_tf is not None else 0}, minimum {min_req} required)")
 
         final_payload = {
             'symbol': symbol,
@@ -289,7 +321,10 @@ class Orchestrator:
                 raise ValueError("Failed to calculate expected_vol") from e
 
             vol_ratio = 1.0 if is_otc else m5_data.get('volume_ratio', 1.0)
-            effective_news_impact = 'NONE_OTC' if is_otc else (news_impact or 'NONE')
+            if is_otc:
+                effective_news_impact = 'NONE_OTC'
+            else:
+                effective_news_impact = news_impact if news_impact is not None else check_news_impact(symbol)
 
             if is_otc:
                 # OTC pairs do not have reliable news and volume from the regular market calendar.

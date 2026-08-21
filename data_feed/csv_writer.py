@@ -50,6 +50,19 @@ class CSVWriter:
     """Writes candle dataframes to CSV files with Thread-Safe synchronization - Singleton Pattern"""
 
     _instance = None
+    _LISTENERS = []
+
+    @classmethod
+    def register_listener(cls, callback):
+        """Register a callback to be triggered immediately when a CSV write completes: callback(file_path)."""
+        if callback not in cls._LISTENERS:
+            cls._LISTENERS.append(callback)
+
+    @classmethod
+    def unregister_listener(cls, callback):
+        """Unregister a write listener callback."""
+        if callback in cls._LISTENERS:
+            cls._LISTENERS.remove(callback)
 
     def __new__(cls, *args, **kwargs):
         """Ensure singleton pattern for CSVWriter"""
@@ -203,7 +216,14 @@ class CSVWriter:
                         raise
                 
                 logger.info(f"[CSVWriter] Successfully wrote {len(df_to_write)} rows to {file_path}")
-                
+
+                # Event-Driven Trigger (สะกิด Part 2 / Listeners ทันทีที่ไฟล์เขียนลงดิสก์เสร็จ)
+                for listener in list(self._LISTENERS):
+                    try:
+                        listener(file_path)
+                    except Exception as cb_err:
+                        logger.warning(f"[CSVWriter] Listener callback error for {file_path}: {cb_err}")
+
             except Exception as e:
                 logger.error(f"[CSVWriter] Failed to write to {file_path}: {e}")
                 raise

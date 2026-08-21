@@ -1,0 +1,143 @@
+:: คำสั่ง ::
+จงทำหน้าที่เป็น Quantitative Trading AI และ Binary Options Expert 
+วิเคราะห์ข้อมูลตลาดแบบ Multi-Timeframe (M1, M5, M15) ด้านล่างนี้ โดยประมวลผลทุกตัวชี้วัด (Price Action, Technical Indicators, Volume, Market Context, Multi-Timeframe Alignment) 
+เพื่อกำหนด Action, Expiry Minutes (1-5 นาที), Confidence Score และเหตุผลเชิงเทคนิค ไม่เกิน 40 คำ
+ให้พิจารณาระยะเวลาถือครอง expiry_minutes 1-5 นาที ซึ่งผลแพ้ชนะเทียบเท่าข้อมูลจากอินดิเคเตอร์
+หากสัญญาณไม่ชัดเจนหรือมีความเสี่ยงสูง ให้ตอบ "action": "WAIT"
+
+:: ข้อกำหนดการส่งผลลัพธ์ ::
+- ตอบกลับในรูปแบบ JSON ตามโครงสร้างนี้เท่านั้น (ห้ามมีข้อความเกริ่นนำหรือปิดท้ายนอก JSON):
+{
+  "symbol": "string",
+  "action": "CALL" | "PUT" | "WAIT",
+  "expiry_minutes": 1,
+  "confidence_score": 0,
+  "ai_final_reason_th": "สรุปเหตุผลเชิงเทคนิคแบบกระชับ ครอบคลุม Price Action, Momentum และแนวรับแนวต้าน ไม่เกิน 40 คำ"
+}
+
+:: ข้อมูลตลาดสำหรับวิเคราะห์ ::
+ID:USDJPY0820180801
+meta:
+  timestamp: '2026-08-20T18:08:01.908936'
+  symbol: USDJPY
+  session: LONDON_OPEN
+  m1_open: 158.574
+  m1_age: 60818
+  m1_quality: FRESH
+  m5_open: 158.474
+  m5_age: 449107
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: HIGH
+  news_impact: LOW
+  expected_volatility_%: 0.037
+timeframes:
+  m1:
+    m1_last_candle: BEARISH
+    m1_ema5: 158.558904
+    m1_ema20: 158.493623
+    m1_rsi: 72.46
+    m1_stoch_k: 87.96
+    m1_stoch_d: 92.52
+    m1_macd: 0.052996
+    m1_macd_signal: 0.04824
+    ohlcv:
+      open: 158.574
+      high: 158.5885
+      low: 158.567
+      close: 158.568
+      volume: 470
+  m5:
+    m5_bias: BULLISH
+    m5_ema5: 158.462868
+    m5_ema10: 158.410731
+    m5_ema20: 158.383854
+    m5_ema50: 158.404044
+    m5_bb_upper: 158.496927
+    m5_bb_lower: 158.192473
+    m5_bb_width: 0.304454
+    m5_rsi: 68.27
+    m5_stoch_k: 92.23
+    m5_stoch_d: 93.5
+    m5_macd: 0.015725
+    m5_macd_signal: -0.015877
+    m5_adx: 26.29
+    m5_atr: 0.05926
+    m5_support: 158.494833
+    m5_resistance: 158.575833
+    m5_pivot: 158.524667
+    ohlcv:
+      open: 158.474
+      high: 158.5545
+      low: 158.4735
+      close: 158.546
+      volume: 1601
+  m15:
+    m15_bias: BULLISH
+price_action:
+  m5_pa_pattern: BULLISH_ENGULFING
+  m5_pa_last_candle_bias: BULLISH
+  m5_pa_body_strength: WEAK
+  m5_pa_wick_dominance: LOW_WICK
+  m5_pa_momentum_bias: BULLISH
+  m5_pa_move_quality: NOISY
+  m5_pa_trap_alert: NONE
+  m5_pa_sr_interaction: TESTING_PIVOT
+  m5_pa_divergence_alert: NONE
+  m5_pa_divergence_strength: 0
+  m5_pa_market_behavior: NEUTRAL
+  m5_pa_hesitation_score: 23
+  m5_pa_path_efficiency: FAIR
+volume:
+  m5_tick_volume: 1601.0
+  m5_volume_momentum: NORMAL
+  m5_volume_vs_average: 1.038
+analysis:
+  m5_trend_direction: NONE
+  m5_trend_type: CHOPPY
+  m5_trend_strength_score: 20
+  mtf_alignment_%: 33
+  m5_compression_quality_%: 17.58
+  m5_exhaustion_risk_%: 30
+  m5_bos_detected: false
+  mtf_conflict_score: 0
+  m5_trend_continuation_%: 49
+  m5_transition_risk: HIGH
+  m5_persistence_score: 79
+decision_layer:
+  dl_tradeable: true
+  dl_stability_score: 33
+  dl_quality_score: 47
+  dl_risk_level: HIGH
+  ai_confidence_score: รอการวิเคราะห์จาก AI
+  ai_suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  ai_suggested_action: รอการวิเคราะห์จาก AI
+  ai_final_reason_th: รอการวิเคราะห์จาก AI
+
+
+================================================================
+:: สิ่งที่ AI ตอบกลับมา (AI RESPONSE) ::
+เวลาตอบกลับ: 2026-08-20 18:08:03
+เครื่องยนต์/โมเดล: AI (gemini-3.5-flash-lite)
+ผลลัพธ์ดิบ (Raw Response):
+{
+  "symbol": "USDJPY",
+  "action": "WAIT",
+  "expiry_minutes": 1,
+  "confidence_score": 45,
+  "ai_final_reason_th": "ตลาดอยู่ในภาวะสะสมพลังและความผันผวนสูง M1 เกิดแท่งเทียนกลับตัวประกอบกับ Stochastic อยู่ในเขต Overbought และความเสี่ยงในการเปลี่ยนผ่านแนวโน้มสูง ควรออรอดจังหวะที่ชัดเจนกว่านี้"
+}
+
+สรุปผลการวิเคราะห์ (Parsed JSON):
+{
+  "symbol": "USDJPY",
+  "action": "WAIT",
+  "expiry_minutes": 1,
+  "confidence_score": 45.0,
+  "reason_th": "ตลาดอยู่ในภาวะสะสมพลังและความผันผวนสูง M1 เกิดแท่งเทียนกลับตัวประกอบกับ Stochastic อยู่ในเขต Overbought และความเสี่ยงในการเปลี่ยนผ่านแนวโน้มสูง ควรออรอดจังหวะที่ชัดเจนกว่านี้",
+  "ai_final_reason_th": "ตลาดอยู่ในภาวะสะสมพลังและความผันผวนสูง M1 เกิดแท่งเทียนกลับตัวประกอบกับ Stochastic อยู่ในเขต Overbought และความเสี่ยงในการเปลี่ยนผ่านแนวโน้มสูง ควรออรอดจังหวะที่ชัดเจนกว่านี้",
+  "engine_used": "AI (gemini-3.5-flash-lite)"
+}
+================================================================

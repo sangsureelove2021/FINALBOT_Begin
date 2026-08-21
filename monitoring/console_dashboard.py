@@ -212,6 +212,23 @@ def thai_console_log(msg: str):
         logging.getLogger("FINALBOT").error(f"Console output error: {e}")
         raise RuntimeError(f"Console output failed: {e}")
 
+def disable_quick_edit():
+    """Disable Windows Console QuickEdit mode to prevent accidental freeze on click."""
+    if sys.platform == "win32":
+        try:
+            import ctypes
+            kernel32 = ctypes.windll.kernel32
+            h_stdin = kernel32.GetStdHandle(-10)  # STD_INPUT_HANDLE = -10
+            mode = ctypes.c_ulong()
+            if kernel32.GetConsoleMode(h_stdin, ctypes.byref(mode)):
+                # ENABLE_QUICK_EDIT_MODE = 0x0040, ENABLE_EXTENDED_FLAGS = 0x0080
+                ENABLE_QUICK_EDIT_MODE = 0x0040
+                ENABLE_EXTENDED_FLAGS = 0x0080
+                new_mode = (mode.value & ~ENABLE_QUICK_EDIT_MODE) | ENABLE_EXTENDED_FLAGS
+                kernel32.SetConsoleMode(h_stdin, new_mode)
+        except Exception as e:
+            logging.getLogger("FINALBOT").warning(f"Could not disable QuickEdit Mode: {e}")
+
 logger = logging.getLogger("FINALBOT")
 
 
@@ -340,9 +357,18 @@ class ConsoleUI:
         thai_console_log(f"{status} {symbol} (ID: {order_id}) | PnL: {pnl:.2f}")
 
     @staticmethod
-    def show_prices_and_balance(prices_dict, balance):
+    def show_prices_and_balance(prices_dict, balance, pipeline_results: Optional[Dict[str, dict]] = None):
         try:
-            price_parts = [f"{sym}:{price:.5f}" for sym, price in prices_dict.items()]
+            price_parts = []
+            for sym, price in prices_dict.items():
+                extra = ""
+                if pipeline_results and sym in pipeline_results:
+                    res = pipeline_results[sym]
+                    act = res.get("action", "HOLD")
+                    conf = res.get("confidence", 0)
+                    if act in ("CALL", "PUT"):
+                        extra = f"->{act}({conf}%)"
+                price_parts.append(f"{sym}:{price:.5f}{extra}")
             price_str = "][".join(price_parts)
             balance_str = f"${balance:.2f}" if balance is not None else "N/A"
             thai_console_log(f"[{price_str}] :: TOTAL={balance_str}")
@@ -355,6 +381,13 @@ class ConsoleUI:
     @staticmethod
     def show_stopping():
         thai_console_log("Stopping bot...")
+
+    @staticmethod
+    def show_payload_export(ready: list, failed: list):
+        if failed:
+            thai_console_log(f"[ Payload Export: {len(ready)}/{len(ready)+len(failed)} | Failed: {', '.join(failed)} ]")
+        else:
+            thai_console_log("[ ALL  Payload  Export ]")
 
 
 @dataclass
