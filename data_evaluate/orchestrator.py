@@ -65,6 +65,20 @@ class NumpyEncoder(json.JSONEncoder):
 
 
 class Orchestrator:
+    _LISTENERS = []
+
+    @classmethod
+    def register_listener(cls, callback):
+        """Register a callback function to be called when a payload txt file is saved."""
+        if callback not in cls._LISTENERS:
+            cls._LISTENERS.append(callback)
+
+    @classmethod
+    def unregister_listener(cls, callback):
+        """Unregister a previously registered callback."""
+        if callback in cls._LISTENERS:
+            cls._LISTENERS.remove(callback)
+
     def __init__(self, trade_logger=None):
         self.trade_logger = trade_logger
         self.advanced_tools = AdvancedToolsManager()
@@ -1011,5 +1025,12 @@ class Orchestrator:
                         pass
         except Exception as e:
             logger.warning(f"[Orchestrator] Error cleaning old txt files for {symbol}: {e}")
+
+        # Trigger registered event listeners (Nudge Part 3)
+        for listener in self._LISTENERS:
+            try:
+                listener(filepath, symbol)
+            except Exception as e:
+                logger.error(f"[Orchestrator] Error calling payload listener: {e}", exc_info=True)
 
         return filepath

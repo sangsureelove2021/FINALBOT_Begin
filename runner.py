@@ -46,6 +46,8 @@ def graceful_exit(signum=None, frame=None):
         try:
             if hasattr(_ACTIVE_RUNNER, "_on_csv_written"):
                 CSVWriter.unregister_listener(_ACTIVE_RUNNER._on_csv_written)
+            if hasattr(_ACTIVE_RUNNER, "executor_manager") and _ACTIVE_RUNNER.executor_manager:
+                Orchestrator.unregister_listener(_ACTIVE_RUNNER.executor_manager.on_orchestrator_payload_saved)
             if hasattr(_ACTIVE_RUNNER, "data_feed") and _ACTIVE_RUNNER.data_feed:
                 _ACTIVE_RUNNER.data_feed.disconnect()
         except Exception:
@@ -103,6 +105,11 @@ class DataFeedRunner:
 
         # 5. Initialize Part 2 Orchestrator (Loads Economic News Calendar automatically)
         self.orchestrator = Orchestrator(self.settings)
+
+        # 5.1 Initialize Part 3 ExecutorManager & Register Listener on Orchestrator
+        from data_trade.executor_manager import ExecutorManager
+        self.executor_manager = ExecutorManager(self.settings)
+        Orchestrator.register_listener(self.executor_manager.on_orchestrator_payload_saved)
 
         # 6. Part 1 Commander: Historical Data Warm-Up (250 candles for M1, M5, M15)
         ConsoleUI.show_data_prep_start(self.symbols)

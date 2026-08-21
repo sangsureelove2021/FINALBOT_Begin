@@ -7,12 +7,14 @@ to `data_base/trades/<SYMBOL>/` retaining max 30 files per symbol.
 """
 
 import os
+import asyncio
 import csv
 import glob
 import json
 import logging
 from datetime import datetime, timezone, timedelta
 from typing import Dict, Any, Optional
+
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +45,21 @@ class SystemPrompt:
     """
 
     MAX_RETENTION_FILES = 30
-    TRADES_PROMPT_BASE_DIR = os.path.join("data_base", "trades")
+    TRADES_PROMPT_BASE_DIR = os.path.join("data_trade", "ai_prompt_output")
+    AI_OUTPUT_BASE_DIR = os.path.join("data_trade", "ai_output")
+    _GEMINI_AGENT: Optional[Any] = None
+
+    @classmethod
+    def get_ai_agent(cls) -> Any:
+        """Initializes and returns the dedicated Gemini AI Transport Driver (Lazy-loaded Singleton)."""
+        if cls._GEMINI_AGENT is None:
+            from data_trade.ai_decision.ai_gemini_api import GeminiApiAgent
+            from config_setting.config_loader import load_settings
+            cfg = load_settings(reload=False).get("ai_mode", {})
+            model_name = cfg.get("gemini_model", "gemini-3.5-flash-lite")
+            cls._GEMINI_AGENT = GeminiApiAgent(model_name=model_name)
+            logger.info(f"[SystemPrompt] Initialized Dedicated Gemini Agent ({model_name})")
+        return cls._GEMINI_AGENT
 
     @staticmethod
     def get_system_prompt() -> str:
@@ -68,7 +84,7 @@ class SystemPrompt:
     @classmethod
     def save_prompt_file(cls, symbol: str, full_prompt_content: str) -> str:
         """
-        Saves the assembled prompt file to `data_base/trades/<SYMBOL>/<FILENAME>.txt`
+        Saves the assembled prompt file to `data_trade/ai_decision/ai_prompt_output/<SYMBOL>/<FILENAME>.txt`
         and enforces the 30-file retention policy.
         """
         symbol_dir = os.path.join(cls.TRADES_PROMPT_BASE_DIR, symbol)
@@ -108,22 +124,47 @@ class SystemPrompt:
             logger.warning(f"[SystemPrompt] Error during retention cleanup: {e}")
 
     @classmethod
-    def process_ai_decision(cls, symbol: str, payload_text: str, ai_agent: Any) -> Dict[str, Any]:
+    def read_payload_from_disk(cls, prompt_filepath: str) -> str:
+        """Reads 100-line prompt text from Part 2 output file on disk."""
+        if not prompt_filepath or not isinstance(prompt_filepath, str):
+            raise ValueError("FAIL-FAST: prompt_filepath must be a non-empty string")
+        if not os.path.isfile(prompt_filepath):
+            raise FileNotFoundError(f"FAIL-FAST: Payload file not found at {prompt_filepath}")
+
+        with open(prompt_filepath, "r", encoding="utf-8") as f:
+            content = f.read().strip()
+
+        if not content:
+            raise ValueError(f"FAIL-FAST: Payload file is empty at {prompt_filepath}")
+        return content
+
+    @classmethod
+    def process_ai_decision(
+        cls,
+        symbol: str,
+        payload_text: Optional[str] = None,
+        ai_agent: Any = None,
+        prompt_filepath: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         Main Engine Flow:
-        1. Takes 100 payload from executor_manager.
+        1. Reads 100-line payload from disk (prompt_filepath) if provided, or uses payload_text.
         2. Builds complete prompt with system rules.
-        3. Archives assembled prompt to data_base/trades/<SYMBOL>/<FILENAME>.txt.
+        3. Archives assembled prompt to data_trade/ai_decision/ai_prompt_output/<SYMBOL>/<FILENAME>.txt.
         4. Sends to ai_gemini_api or ai_deepseek_browser transport.
         5. Receives raw output and parses into structured JSON.
         6. Returns structured JSON to executor_manager.
         """
         if not symbol or not isinstance(symbol, str):
             raise ValueError("FAIL-FAST: symbol must be a non-empty string")
-        if not payload_text or not isinstance(payload_text, str):
-            raise ValueError("FAIL-FAST: payload_text must be a non-empty string")
 
-        if ai_agent is None:
+        if prompt_filepath:
+            payload_text = cls.read_payload_from_disk(prompt_filepath)
+        elif not payload_text or not isinstance(payload_text, str):
+            raise ValueError("FAIL-FAST: Either prompt_filepath or non-empty payload_text must be provided")
+
+        target_agent = ai_agent or cls.get_ai_agent()
+        if target_agent is None:
             return {
                 "symbol": symbol,
                 "action": "WAIT",
@@ -138,40 +179,79 @@ class SystemPrompt:
         user_prompt = cls.build_user_prompt(symbol, payload_text)
         full_assembled_prompt = f"{system_instruction}\n\n{user_prompt}"
 
-        # ── Step 0: Archive prompt file to data_base/trades/<SYMBOL>/ ────────
+        # ── Step 0: Archive prompt file to data_trade/ai_decision/ai_prompt_output/<SYMBOL>/ ────────
         saved_file_path = cls.save_prompt_file(symbol=symbol, full_prompt_content=full_assembled_prompt)
 
-        # ── Step 1 & 2: Send prompt to AI Transport Agent ────────────────────
+        # ── Step 1 & 2: Send prompt directly to Gemini AI Transport Agent ────────────────────
         try:
-            raw_output = ai_agent.send_prompt(user_prompt=user_prompt, system_instruction=system_instruction)
+            raw_output = target_agent.send_prompt(user_prompt=user_prompt, system_instruction=system_instruction)
         except TypeError:
-            # Fallback for CLI transport drivers that take full combined prompt string
-            raw_output = ai_agent.send_prompt(full_assembled_prompt)
+            raw_output = target_agent.send_prompt(full_assembled_prompt)
 
         # ── Step 3: Parse raw text and extract JSON decision ─────────────
-        parsed_decision = cls.parse_json_decision(raw_output=raw_output, symbol=symbol, ai_agent=ai_agent)
+        parsed_decision = cls.parse_json_decision(raw_output=raw_output, symbol=symbol, ai_agent=target_agent)
 
-        # ── Step 4: Record AI Response back into the archived trade txt file ─
-        try:
-            tz_thailand = timezone(timedelta(hours=7))
-            resp_time = datetime.now(tz_thailand).strftime("%Y-%m-%d %H:%M:%S")
-            with open(saved_file_path, "a", encoding="utf-8") as f:
-                f.write("\n\n" + "=" * 64 + "\n")
-                f.write(f":: สิ่งที่ AI ตอบกลับมา (AI RESPONSE) ::\n")
-                f.write(f"เวลาตอบกลับ: {resp_time}\n")
-                f.write(f"เครื่องยนต์/โมเดล: {parsed_decision.get('engine_used')}\n")
-                f.write(f"ผลลัพธ์ดิบ (Raw Response):\n{raw_output.strip()}\n\n")
-                f.write("สรุปผลการวิเคราะห์ (Parsed JSON):\n")
-                f.write(json.dumps(parsed_decision, ensure_ascii=False, indent=2))
-                f.write("\n" + "=" * 64 + "\n")
-            logger.info(f"[SystemPrompt] Appended AI response into: {saved_file_path}")
-        except Exception as e:
-            logger.warning(f"[SystemPrompt] Could not append AI response to {saved_file_path}: {e}")
+        # ── Step 4: Save AI Order Decision as File to data_trade/ai_output/<SYMBOL>/ ──────
+        cls._save_decision_file(symbol=symbol, decision=parsed_decision, raw_output=raw_output)
 
-        # ── Step 5: Save AI Decision to Symbol-Separated CSV File ─────────────
+        # ── Step 5: Save AI Decision to Symbol CSV Record ─────────────────────
         cls._save_decision_csv(symbol=symbol, decision=parsed_decision)
 
         return parsed_decision
+
+    @classmethod
+    def _save_decision_file(cls, symbol: str, decision: Dict[str, Any], raw_output: str) -> str:
+        """Saves the structured AI order decision file to data_trade/ai_output/<SYMBOL>/<FILENAME>.json."""
+        try:
+            symbol_dir = os.path.join(cls.AI_OUTPUT_BASE_DIR, symbol)
+            os.makedirs(symbol_dir, exist_ok=True)
+
+            tz_thailand = timezone(timedelta(hours=7))
+            now = datetime.now(tz_thailand)
+            timestamp_str = now.strftime("%Y%m%d_%H%M%S")
+            filename = f"decision_{symbol}_{timestamp_str}.json"
+            file_path = os.path.join(symbol_dir, filename)
+
+            decision_record = {
+                "timestamp": now.strftime("%Y-%m-%d %H:%M:%S"),
+                "symbol": symbol,
+                "action": decision.get("action", "WAIT"),
+                "expiry_minutes": decision.get("expiry_minutes", 1),
+                "confidence_score": decision.get("confidence_score", 0),
+                "ai_final_reason_th": decision.get("ai_final_reason_th", ""),
+                "engine_used": decision.get("engine_used", "AI (Gemini)"),
+                "raw_response": raw_output.strip()
+            }
+
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(decision_record, f, ensure_ascii=False, indent=2)
+
+            logger.info(f"[SystemPrompt] Saved AI Order Decision file to: {file_path}")
+
+            # Enforce 30-file retention for decision files
+            cls._enforce_retention_pattern(symbol_dir, "*.json")
+            return file_path
+        except Exception as e:
+            logger.error(f"[SystemPrompt] Could not save AI Order Decision file for {symbol}: {e}", exc_info=True)
+            return ""
+
+    @classmethod
+    def _enforce_retention_pattern(cls, symbol_dir: str, pattern: str) -> None:
+        """Keeps at most MAX_RETENTION_FILES in the symbol directory for the specified pattern."""
+        try:
+            files = sorted(
+                glob.glob(os.path.join(symbol_dir, pattern)),
+                key=os.path.getmtime
+            )
+            while len(files) > cls.MAX_RETENTION_FILES:
+                oldest = files.pop(0)
+                try:
+                    os.remove(oldest)
+                    logger.debug(f"[SystemPrompt] Retention cleanup removed: {oldest}")
+                except Exception as e:
+                    logger.warning(f"[SystemPrompt] Could not remove old file {oldest}: {e}")
+        except Exception as e:
+            logger.warning(f"[SystemPrompt] Error during retention cleanup: {e}")
 
     @classmethod
     def _save_decision_csv(cls, symbol: str, decision: Dict[str, Any]) -> str:
@@ -213,7 +293,119 @@ class SystemPrompt:
             return ""
 
     @classmethod
+    async def _process_single_async(
+        cls,
+        symbol: str,
+        prompt_filepath: str,
+        agent: Any
+    ) -> Dict[str, Any]:
+        """
+        Async coroutine: processes one currency pair concurrently.
+        Reads Part 2 payload → builds prompt → saves to ai_prompt_output
+        → sends to Gemini async → saves to ai_output → returns decision.
+        """
+        if not symbol or not isinstance(symbol, str):
+            raise ValueError(f"FAIL-FAST [async]: symbol must be non-empty string, got: {symbol!r}")
+        if not prompt_filepath or not isinstance(prompt_filepath, str):
+            raise ValueError(f"FAIL-FAST [async]: prompt_filepath must be non-empty string for {symbol}")
+
+        payload_text = cls.read_payload_from_disk(prompt_filepath)
+        system_instruction = cls.get_system_prompt()
+        user_prompt = cls.build_user_prompt(symbol, payload_text)
+        full_assembled_prompt = f"{system_instruction}\n\n{user_prompt}"
+
+        cls.save_prompt_file(symbol=symbol, full_prompt_content=full_assembled_prompt)
+
+        raw_output = await agent.send_prompt_async(
+            user_prompt=user_prompt,
+            system_instruction=system_instruction
+        )
+
+        decision = cls.parse_json_decision(raw_output=raw_output, symbol=symbol, ai_agent=agent)
+        cls._save_decision_file(symbol=symbol, decision=decision, raw_output=raw_output)
+        cls._save_decision_csv(symbol=symbol, decision=decision)
+
+        logger.info(
+            f"[SystemPrompt Concurrent] {symbol} ✓ "
+            f"Action={decision.get('action')} Confidence={decision.get('confidence_score')}"
+        )
+        return decision
+
+    @classmethod
+    def process_ai_decisions_concurrent(
+        cls,
+        tasks: list
+    ) -> Dict[str, Dict[str, Any]]:
+        """
+        N-Symbol Concurrent Dispatch:
+        Fires Gemini API for ALL symbols simultaneously via asyncio.gather().
+        Works for N=1 to N=10+ symbols — no sequential waiting.
+
+        Args:
+            tasks: list of (symbol: str, prompt_filepath: str) tuples
+
+        Returns:
+            dict {symbol: decision_dict} — failed symbols return safe WAIT decision.
+        """
+        import concurrent.futures
+        import traceback
+
+        if not tasks or not isinstance(tasks, list):
+            raise ValueError("FAIL-FAST: tasks must be a non-empty list of (symbol, filepath) tuples")
+
+        agent = cls.get_ai_agent()
+        symbols_list = [t[0] for t in tasks]
+        logger.info(
+            f"[SystemPrompt Concurrent] Dispatching {len(tasks)} symbol(s) simultaneously: {symbols_list}"
+        )
+
+        async def _gather_all():
+            coroutines = [
+                cls._process_single_async(sym, fp, agent)
+                for sym, fp in tasks
+            ]
+            return await asyncio.gather(*coroutines, return_exceptions=True)
+
+        # Handle both cases: inside running event loop or standalone
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                # Already inside an event loop — run in separate thread
+                with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+                    future = pool.submit(asyncio.run, _gather_all())
+                    raw_results = future.result(timeout=60)
+            else:
+                raw_results = loop.run_until_complete(_gather_all())
+        except RuntimeError:
+            raw_results = asyncio.run(_gather_all())
+
+        output: Dict[str, Dict[str, Any]] = {}
+        for (symbol, _), result in zip(tasks, raw_results):
+            if isinstance(result, Exception):
+                logger.exception(
+                    f"[SystemPrompt Concurrent] {symbol} FAILED during concurrent dispatch: {result}"
+                )
+                traceback.print_exc()
+                output[symbol] = {
+                    "symbol": symbol,
+                    "action": "WAIT",
+                    "expiry_minutes": 1,
+                    "confidence_score": 0,
+                    "reason_th": f"AI concurrent dispatch ขัดข้อง: {result}",
+                    "ai_final_reason_th": f"AI concurrent dispatch ขัดข้อง: {result}",
+                    "engine_used": "FALLBACK_SAFE_WAIT"
+                }
+            else:
+                output[symbol] = result
+
+        logger.info(
+            f"[SystemPrompt Concurrent] Completed {len(output)} symbol(s): {list(output.keys())}"
+        )
+        return output
+
+    @classmethod
     def parse_json_decision(cls, raw_output: str, symbol: str, ai_agent: Any) -> Dict[str, Any]:
+
         """Extracts, parses, and normalizes JSON decision."""
         if not raw_output or not isinstance(raw_output, str):
             raise ValueError("FAIL-FAST: Received empty text response from AI transport agent")

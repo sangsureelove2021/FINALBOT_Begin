@@ -1,7 +1,0 @@
-{
-  "symbol": "GBPUSD",
-  "action": "WAIT",
-  "expiry_minutes": 0,
-  "confidence_score": 0,
-  "reason_th": "ตลาดอยู่ในสถานะ ACCUMULATION แต่ M5 มีแนวโน้ม Bearish ขณะที่ M15 Bullish ทำให้เกิดความขัดแย้งของไทม์เฟรม (MTF Alignment เพียง 33%) สภาวะความผันผวนอยู่ในระดับ EXTREME แม้ข่าวจะไม่หนักหน่วง แต่ความไม่แน่นอนสูง สัญญาณจาก M1 แสดง Bearish Momentum (EMA5 < EMA20, RSI 43.35) และ M5 มีรูปแบบราคาที่เคลื่อนไหวไม่ชัดเจน (CHAOTIC) เสี่ยงสูง จึงสมควร WAIT เพื่อรอความชัดเจน"
-}

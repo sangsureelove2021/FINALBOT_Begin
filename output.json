@@ -1,7 +1,0 @@
-{
-  "symbol": "EURGBP",
-  "action": "WAIT",
-  "expiry_minutes": 1,
-  "confidence_score": 0,
-  "reason_th": "สภาวะตลาดมีความไม่ชัดเจนสูง เกิดสัญญาณ BULL_TRAP และความเสี่ยงสูงจากตลาด Sideways Range ประกอบกับ M5 Bias เป็น BEARISH แต่ M15 Bias เป็น BULLISH ทำให้เกิดความขัดแย้งของแนวโน้ม และ M5 PA Move Quality เป็น CHAOTIC ประกอบกับ PA Pattern เป็น BEARISH_ENGULFING ซึ่งส่งสัญญาณความต่อเนื่องเชิงลบ แต่ราคากำลังทดสอบ Pivot และมี Divergence แบบ BULLISH ส่งผลให้เกิดความไม่แน่นอนสูง ควรหลีกเลี่ยงการเทรดในสภาวะนี้"
-}
