@@ -107,7 +107,13 @@ class GeminiApiAgent:
                 logger.exception(f"[GeminiApiAgent] Non-recoverable error on {model}: {e}")
                 raise RuntimeError(f"FAIL-FAST: Gemini API call failed: {e}") from e
 
-        logger.exception(f"[GeminiApiAgent] All models exhausted. Last error: {last_err}")
+        if last_err is not None:
+            logger.error(
+                f"[GeminiApiAgent] All models exhausted. Last error: {last_err}",
+                exc_info=(type(last_err), last_err, last_err.__traceback__)
+            )
+        else:
+            logger.error("[GeminiApiAgent] All models exhausted with no captured error.")
         raise RuntimeError(
             f"FAIL-FAST: Gemini API failed on all models [{', '.join(self._models_to_try)}]: {last_err}"
         ) from last_err

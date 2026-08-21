@@ -3,7 +3,7 @@ System Prompt & Prompt Formatter for Part 3 AI Decision Engine
 ==============================================================
 Defines the authoritative System Prompt and Strict JSON Output Specification
 for DeepSeek Browser Agent and Google Gemini API, with automatic prompt archiving
-to `data_base/trades/<SYMBOL>/` retaining max 30 files per symbol.
+to `data_trade/ai_decision/ai_prompt_output/<SYMBOL>/` retaining max 30 files per symbol.
 """
 
 import os
@@ -40,12 +40,12 @@ class SystemPrompt:
     """
     Prompt Orchestrator & Response Parser for Part 3.
     Receives 100-line payload, formats complete prompt, archives prompt to
-    data_base/trades/<SYMBOL>/, sends to AI transport agent, parses raw response,
+    data_trade/ai_decision/ai_prompt_output/<SYMBOL>/, sends to AI transport agent, parses raw response,
     and returns validated decision JSON.
     """
 
     MAX_RETENTION_FILES = 30
-    TRADES_PROMPT_BASE_DIR = os.path.join("data_trade", "ai_prompt_output")
+    TRADES_PROMPT_BASE_DIR = os.path.join("data_trade", "ai_decision", "ai_prompt_output")
     AI_OUTPUT_BASE_DIR = os.path.join("data_trade", "ai_output")
     _GEMINI_AGENT: Optional[Any] = None
 
@@ -179,19 +179,19 @@ class SystemPrompt:
         user_prompt = cls.build_user_prompt(symbol, payload_text)
         full_assembled_prompt = f"{system_instruction}\n\n{user_prompt}"
 
-        # ── Step 0: Archive prompt file to data_trade/ai_decision/ai_prompt_output/<SYMBOL>/ ────────
+        # ── Step 0: Archive prompt file ──────────────────────────────────────
         saved_file_path = cls.save_prompt_file(symbol=symbol, full_prompt_content=full_assembled_prompt)
 
-        # ── Step 1 & 2: Send prompt directly to Gemini AI Transport Agent ────────────────────
+        # ── Step 1 & 2: Send prompt directly to Gemini AI Transport Agent ────
         try:
             raw_output = target_agent.send_prompt(user_prompt=user_prompt, system_instruction=system_instruction)
         except TypeError:
             raw_output = target_agent.send_prompt(full_assembled_prompt)
 
-        # ── Step 3: Parse raw text and extract JSON decision ─────────────
+        # ── Step 3: Parse raw text and extract JSON decision ─────────────────
         parsed_decision = cls.parse_json_decision(raw_output=raw_output, symbol=symbol, ai_agent=target_agent)
 
-        # ── Step 4: Save AI Order Decision as File to data_trade/ai_output/<SYMBOL>/ ──────
+        # ── Step 4: Save AI Order Decision as File ───────────────────────────
         cls._save_decision_file(symbol=symbol, decision=parsed_decision, raw_output=raw_output)
 
         # ── Step 5: Save AI Decision to Symbol CSV Record ─────────────────────
@@ -340,12 +340,6 @@ class SystemPrompt:
         N-Symbol Concurrent Dispatch:
         Fires Gemini API for ALL symbols simultaneously via asyncio.gather().
         Works for N=1 to N=10+ symbols — no sequential waiting.
-
-        Args:
-            tasks: list of (symbol: str, prompt_filepath: str) tuples
-
-        Returns:
-            dict {symbol: decision_dict} — failed symbols return safe WAIT decision.
         """
         import concurrent.futures
         import traceback
@@ -366,11 +360,9 @@ class SystemPrompt:
             ]
             return await asyncio.gather(*coroutines, return_exceptions=True)
 
-        # Handle both cases: inside running event loop or standalone
         try:
             loop = asyncio.get_event_loop()
             if loop.is_running():
-                # Already inside an event loop — run in separate thread
                 with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
                     future = pool.submit(asyncio.run, _gather_all())
                     raw_results = future.result(timeout=60)
@@ -382,10 +374,11 @@ class SystemPrompt:
         output: Dict[str, Dict[str, Any]] = {}
         for (symbol, _), result in zip(tasks, raw_results):
             if isinstance(result, Exception):
-                logger.exception(
-                    f"[SystemPrompt Concurrent] {symbol} FAILED during concurrent dispatch: {result}"
+                logger.error(
+                    f"[SystemPrompt Concurrent] {symbol} FAILED during concurrent dispatch: {result}",
+                    exc_info=(type(result), result, result.__traceback__)
                 )
-                traceback.print_exc()
+                traceback.print_exception(type(result), result, result.__traceback__)
                 output[symbol] = {
                     "symbol": symbol,
                     "action": "WAIT",
@@ -405,7 +398,6 @@ class SystemPrompt:
 
     @classmethod
     def parse_json_decision(cls, raw_output: str, symbol: str, ai_agent: Any) -> Dict[str, Any]:
-
         """Extracts, parses, and normalizes JSON decision."""
         if not raw_output or not isinstance(raw_output, str):
             raise ValueError("FAIL-FAST: Received empty text response from AI transport agent")

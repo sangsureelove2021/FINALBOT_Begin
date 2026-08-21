@@ -1,0 +1,117 @@
+:: คำสั่ง ::
+จงทำหน้าที่เป็น Quantitative Trading AI และ Binary Options Expert 
+วิเคราะห์ข้อมูลตลาดแบบ Multi-Timeframe (M1, M5, M15) ด้านล่างนี้ โดยประมวลผลทุกตัวชี้วัด (Price Action, Technical Indicators, Volume, Market Context, Multi-Timeframe Alignment) 
+เพื่อกำหนด Action, Expiry Minutes (1-5 นาที), Confidence Score และเหตุผลเชิงเทคนิค ไม่เกิน 40 คำ
+ให้พิจารณาระยะเวลาถือครอง expiry_minutes 1-5 นาที ซึ่งผลแพ้ชนะเทียบเท่าข้อมูลจากอินดิเคเตอร์
+หากสัญญาณไม่ชัดเจนหรือมีความเสี่ยงสูง ให้ตอบ "action": "WAIT"
+
+:: ข้อกำหนดการส่งผลลัพธ์ ::
+- ตอบกลับในรูปแบบ JSON ตามโครงสร้างนี้เท่านั้น (ห้ามมีข้อความเกริ่นนำหรือปิดท้ายนอก JSON):
+{
+  "symbol": "string",
+  "action": "CALL" | "PUT" | "WAIT",
+  "expiry_minutes": 1,
+  "confidence_score": 0,
+  "ai_final_reason_th": "สรุปเหตุผลเชิงเทคนิคแบบกระชับ ครอบคลุม Price Action, Momentum และแนวรับแนวต้าน ไม่เกิน 40 คำ"
+}
+
+:: ข้อมูลตลาดสำหรับวิเคราะห์ ::
+ID:EURUSD0821225001
+meta:
+  timestamp: '2026-08-21T22:50:01.894262'
+  symbol: EURUSD
+  session: NY/LONDON_OVERLAP
+  m1_open: 1.16806
+  m1_age: 119743
+  m1_quality: FRESH
+  m5_open: 1.167725
+  m5_age: 302006
+  m5_quality: FRESH
+market_context:
+  state: ACCUMULATION
+  description: Smart money accumulation. Bullish bias, look for breakout.
+  volatility_regime: EXTREME
+  news_impact: LOW
+  expected_volatility_%: 0.033
+timeframes:
+  m1:
+    m1_last_candle: BEARISH
+    m1_ema5: 1.167989
+    m1_ema20: 1.16783
+    m1_rsi: 59.03
+    m1_stoch_k: 73.33
+    m1_stoch_d: 80.57
+    m1_macd: 0.000133
+    m1_macd_signal: 0.00012
+    ohlcv:
+      open: 1.16806
+      high: 1.168065
+      low: 1.167965
+      close: 1.167965
+      volume: 65
+  m5:
+    m5_bias: BULLISH
+    m5_ema5: 1.167764
+    m5_ema10: 1.167642
+    m5_ema20: 1.167697
+    m5_ema50: 1.168283
+    m5_bb_upper: 1.168062
+    m5_bb_lower: 1.166938
+    m5_bb_width: 0.001123
+    m5_rsi: 54.2
+    m5_stoch_k: 91.52
+    m5_stoch_d: 82.67
+    m5_macd: -0.000177
+    m5_macd_signal: -0.000314
+    m5_adx: 34.1
+    m5_atr: 0.000387
+    m5_support: 1.167758
+    m5_resistance: 1.168203
+    m5_pivot: 1.167912
+    ohlcv:
+      open: 1.167725
+      high: 1.168065
+      low: 1.16762
+      close: 1.16805
+      volume: 695
+  m15:
+    m15_bias: BEARISH
+price_action:
+  m5_pa_pattern: NONE
+  m5_pa_last_candle_bias: BULLISH
+  m5_pa_body_strength: WEAK
+  m5_pa_wick_dominance: LOW_WICK
+  m5_pa_momentum_bias: NEUTRAL
+  m5_pa_move_quality: CHAOTIC
+  m5_pa_trap_alert: NONE
+  m5_pa_sr_interaction: TESTING_PIVOT
+  m5_pa_divergence_alert: BULLISH
+  m5_pa_divergence_strength: 90
+  m5_pa_market_behavior: NEUTRAL
+  m5_pa_hesitation_score: 13
+  m5_pa_path_efficiency: POOR
+volume:
+  m5_tick_volume: 695.0
+  m5_volume_momentum: NORMAL
+  m5_volume_vs_average: 0.771
+analysis:
+  m5_trend_direction: NONE
+  m5_trend_type: CHOPPY
+  m5_trend_strength_score: 20
+  mtf_alignment_%: 33
+  m5_compression_quality_%: 41.76
+  m5_exhaustion_risk_%: 40
+  m5_bos_detected: false
+  mtf_conflict_score: 0
+  m5_trend_continuation_%: 55
+  m5_transition_risk: MEDIUM
+  m5_persistence_score: 54
+decision_layer:
+  dl_tradeable: true
+  dl_stability_score: 33
+  dl_quality_score: 53
+  dl_risk_level: HIGH
+  ai_confidence_score: รอการวิเคราะห์จาก AI
+  ai_suggested_expiry_minutes: รอการวิเคราะห์จาก AI
+  ai_suggested_action: รอการวิเคราะห์จาก AI
+  ai_final_reason_th: รอการวิเคราะห์จาก AI
