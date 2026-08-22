@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-08-21 20:16:03+00:00",
+  "symbol": "USDJPY-OTC",
+  "raw_response": "{\n  \"symbol\": \"USDJPY-OTC\",\n  \"action\": \"PUT\",\n  \"expiry_minutes\": 2,\n  \"confidence_score\": 75,\n  \"ai_final_reason_th\": \"แนวโน้มหลัก M5 และ M15 เป็นขาลง สอดคล้องกับสัญญาณ Bearish Engulfing และ M1 Stoch อยู่ในเขต Oversold พร้อมตัดลงต่อ สนับสนุนโอกาสราคาปรับตัวลดลงต่อเนื่อง\"\n}",
+  "ID": "USDJPYOTC0821201603",
+  "action": "PUT",
+  "expiry_minutes": 2,
+  "confidence_score": 75.0,
+  "ai_final_reason_th": "แนวโน้มหลัก M5 และ M15 เป็นขาลง สอดคล้องกับสัญญาณ Bearish Engulfing และ M1 Stoch อยู่ในเขต Oversold พร้อมตัดลงต่อ สนับสนุนโอกาสราคาปรับตัวลดลงต่อเนื่อง",
+  "engine_used": "AI (gemini-3.5-flash-lite)"
+}

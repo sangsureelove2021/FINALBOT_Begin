@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-08-21 20:10:02+00:00",
+  "symbol": "GBPUSD-OTC",
+  "raw_response": "{\n  \"symbol\": \"GBPUSD-OTC\",\n  \"action\": \"PUT\",\n  \"expiry_minutes\": 2,\n  \"confidence_score\": 82,\n  \"ai_final_reason_th\": \"เกิดรูปแบบ Bearish Engulfing และ Bearish Divergence ชัดเจนที่บริเวณแนวต้าน M5 ประกอบกับ RSI เริ่มอ่อนแรง ตลาดอยู่ในภาวะ Sideway Range เหมาะแก่การเปิดสัญญา Put ระยะสั้น\"\n}",
+  "ID": "GBPUSDOTC0821201002",
+  "action": "PUT",
+  "expiry_minutes": 2,
+  "confidence_score": 82.0,
+  "ai_final_reason_th": "เกิดรูปแบบ Bearish Engulfing และ Bearish Divergence ชัดเจนที่บริเวณแนวต้าน M5 ประกอบกับ RSI เริ่มอ่อนแรง ตลาดอยู่ในภาวะ Sideway Range เหมาะแก่การเปิดสัญญา Put ระยะสั้น",
+  "engine_used": "AI (gemini-3.5-flash-lite)"
+}

@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-08-21 20:16:05+00:00",
+  "symbol": "GBPUSD-OTC",
+  "raw_response": "{\n  \"symbol\": \"GBPUSD-OTC\",\n  \"action\": \"PUT\",\n  \"expiry_minutes\": 2,\n  \"confidence_score\": 75,\n  \"ai_final_reason_th\": \"เกิดสัญญาณ Bearish Divergence ที่แข็งแกร่ง (ความแข็งแกร่ง 90) ประกอบกับราคาเคลื่อนตัวเข้าทดสอบแนวต้าน Pivot และ RSI เริ่มเข้าเขตซื้อมากเกินไป บ่งชี้โอกาสกลับตัวลงระยะสั้นในกรอบ Sideway\"\n}",
+  "ID": "GBPUSDOTC0821201605",
+  "action": "PUT",
+  "expiry_minutes": 2,
+  "confidence_score": 75.0,
+  "ai_final_reason_th": "เกิดสัญญาณ Bearish Divergence ที่แข็งแกร่ง (ความแข็งแกร่ง 90) ประกอบกับราคาเคลื่อนตัวเข้าทดสอบแนวต้าน Pivot และ RSI เริ่มเข้าเขตซื้อมากเกินไป บ่งชี้โอกาสกลับตัวลงระยะสั้นในกรอบ Sideway",
+  "engine_used": "AI (gemini-3.5-flash-lite)"
+}

@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-08-21 20:16:05+00:00",
+  "symbol": "EURGBP-OTC",
+  "raw_response": "{\n  \"symbol\": \"EURGBP-OTC\",\n  \"action\": \"CALL\",\n  \"expiry_minutes\": 2,\n  \"confidence_score\": 75,\n  \"ai_final_reason_th\": \"M1 เกิดภาวะ Breakout ข้ามแนว Pivot M5 พร้อม Momentum ฝั่งซื้อสนับสนุน RSI และ MACD เป็นบวก สอดคล้องกับสัญญาณ Bullish Divergence ระยะสั้น\"\n}",
+  "ID": "EURGBPOTC0821201605",
+  "action": "CALL",
+  "expiry_minutes": 2,
+  "confidence_score": 75.0,
+  "ai_final_reason_th": "M1 เกิดภาวะ Breakout ข้ามแนว Pivot M5 พร้อม Momentum ฝั่งซื้อสนับสนุน RSI และ MACD เป็นบวก สอดคล้องกับสัญญาณ Bullish Divergence ระยะสั้น",
+  "engine_used": "AI (gemini-3.5-flash-lite)"
+}

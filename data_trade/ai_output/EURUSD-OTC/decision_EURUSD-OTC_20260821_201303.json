@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-08-21 20:13:01+00:00",
+  "symbol": "EURUSD-OTC",
+  "raw_response": "{\n  \"symbol\": \"EURUSD-OTC\",\n  \"action\": \"WAIT\",\n  \"expiry_minutes\": 1,\n  \"confidence_score\": 40,\n  \"ai_final_reason_th\": \"ตลาดอยู่ในภาวะ Sideway Range และมีความผันผวนสูงมาก (Extreme Volatility) สัญญาณความขัดแย้งของ Multi-Timeframe สูงและความเสี่ยงอยู่ในระดับสูง ควรหลีกเลี่ยงการเทรด\"\n}",
+  "ID": "EURUSDOTC0821201301",
+  "action": "WAIT",
+  "expiry_minutes": 1,
+  "confidence_score": 40.0,
+  "ai_final_reason_th": "ตลาดอยู่ในภาวะ Sideway Range และมีความผันผวนสูงมาก (Extreme Volatility) สัญญาณความขัดแย้งของ Multi-Timeframe สูงและความเสี่ยงอยู่ในระดับสูง ควรหลีกเลี่ยงการเทรด",
+  "engine_used": "AI (gemini-3.5-flash-lite)"
+}

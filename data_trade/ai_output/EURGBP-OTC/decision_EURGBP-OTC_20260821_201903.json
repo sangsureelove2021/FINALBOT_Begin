@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-08-21 20:19:02+00:00",
+  "symbol": "EURGBP-OTC",
+  "raw_response": "{\n  \"symbol\": \"EURGBP-OTC\",\n  \"action\": \"PUT\",\n  \"expiry_minutes\": 3,\n  \"confidence_score\": 65,\n  \"ai_final_reason_th\": \"M15 และ M5 มีแนวโน้มหลักเป็นขาลง ชนแนวต้าน Pivot และ M1 เกิดแท่งเทียน Bearish พร้อม Stochastic ตัดลงสนับสนุนแรงขายต่อ\"\n}",
+  "ID": "EURGBPOTC0821201902",
+  "action": "PUT",
+  "expiry_minutes": 3,
+  "confidence_score": 65.0,
+  "ai_final_reason_th": "M15 และ M5 มีแนวโน้มหลักเป็นขาลง ชนแนวต้าน Pivot และ M1 เกิดแท่งเทียน Bearish พร้อม Stochastic ตัดลงสนับสนุนแรงขายต่อ",
+  "engine_used": "AI (gemini-3.5-flash-lite)"
+}

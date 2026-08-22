@@ -24,6 +24,7 @@ from data_trade.execution_gate.gate_controller import ExecutionGate
 from data_trade.execution_gate.money_manager import MoneyManager
 from data_trade.execution_gate.broker_executor import BrokerExecutor
 from data_trade.execution_gate.order_tracker import OrderTracker
+from monitoring.console_dashboard import thai_console_log, ConsoleUI
 
 logger = logging.getLogger("ExecutorManager")
 
@@ -167,6 +168,13 @@ class ExecutorManager:
         can_trade, risk_reason = self.money_manager.can_trade()
         if not can_trade:
             logger.info(f"[ExecutorManager] {symbol} blocked by risk gate: {risk_reason}")
+            action = str(ai_decision.get("action", "WAIT")).upper().strip()
+            confidence = ai_decision.get("confidence_score", 0)
+            if isinstance(confidence, float) and confidence.is_integer():
+                confidence = int(confidence)
+            thai_console_log(
+                f"[AI Skipped] {symbol} -> {action} | Conf: {confidence}% | Reason: {risk_reason}"
+            )
             return {
                 "symbol": symbol,
                 "action": "BLOCKED_BY_RISK",
@@ -239,6 +247,32 @@ class ExecutorManager:
                     traceback.print_exc()
                     raise
 
+        # ── Step 5: Console Output Reporting (Real Processed Decision Output) ──
+        action = gate_verdict.get("action", "WAIT")
+        expiry_minutes = gate_verdict.get("expiry_minutes", 1)
+        confidence = gate_verdict.get("confidence_score", 0)
+        if isinstance(confidence, float) and confidence.is_integer():
+            confidence = int(confidence)
+        reason = gate_verdict.get("reason", "")
+
+        if gate_verdict.get("approved", False):
+            if self.trading_mode == "AI SIGNAL_BOT" or "SIGNAL_BOT" in self.trading_mode:
+                ConsoleUI.show_signal_only(
+                    action=action,
+                    symbol=symbol,
+                    expiry_time=expiry_minutes,
+                    mode=self.trading_mode
+                )
+            else:
+                order_id = order_data.get("order_id", "N/A") if order_data else "N/A"
+                thai_console_log(
+                    f"[AI Executed] {symbol} -> {action} ({expiry_minutes}m) | Conf: {confidence}% | OrderID: {order_id}"
+                )
+        else:
+            thai_console_log(
+                f"[AI Skipped] {symbol} -> {action} | Conf: {confidence}% | Reason: {reason}"
+            )
+
         result = {
             "symbol": symbol,
             "action": gate_verdict.get("action", "WAIT"),
@@ -283,6 +317,9 @@ class ExecutorManager:
 
         can_trade, risk_reason = self.money_manager.can_trade()
         if not can_trade:
+            thai_console_log(
+                f"[AI Skipped] {symbol} -> WAIT | Conf: 0% | Reason: {risk_reason}"
+            )
             return {
                 "symbol": symbol,
                 "action": "BLOCKED_BY_RISK",

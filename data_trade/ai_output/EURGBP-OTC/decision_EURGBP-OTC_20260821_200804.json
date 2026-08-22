@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-08-21 20:08:03+00:00",
+  "symbol": "EURGBP-OTC",
+  "raw_response": "{\n  \"symbol\": \"EURGBP-OTC\",\n  \"action\": \"CALL\",\n  \"expiry_minutes\": 2,\n  \"confidence_score\": 75,\n  \"ai_final_reason_th\": \"เกิดสัญญาณ Bullish Engulfing และ Bear Trap ที่แนวรับ M5 ประกอบกับ Stoch M5 ตัดขึ้นจากเขต Oversold หนุนแรงซื้อระยะสั้น\"\n}",
+  "ID": "EURGBPOTC0821200803",
+  "action": "CALL",
+  "expiry_minutes": 2,
+  "confidence_score": 75.0,
+  "ai_final_reason_th": "เกิดสัญญาณ Bullish Engulfing และ Bear Trap ที่แนวรับ M5 ประกอบกับ Stoch M5 ตัดขึ้นจากเขต Oversold หนุนแรงซื้อระยะสั้น",
+  "engine_used": "AI (gemini-3.5-flash-lite)"
+}

@@ -1,0 +1,75 @@
+Python 3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license()" for more information.
+
+= RESTART: E:\FINALBOT_Begin\runner.py
+02:47:47 - กำลังเชื่อมต่อโบรกเกอร์  | IQ Option
+02:47:50 - เชื่อมต่อ IQ Option สำเร็จ
+02:47:53 - ตรวจพบรายการสินทรัพย์ : EURUSD-OTC, EURGBP-OTC, GBPUSD-OTC, USDJPY-OTC
+02:47:53 - Time Sync : -0.455s
+02:47:53 - บัญชี DEMO | ยอดเงิน: $495.55
+02:47:57 - ระบบรายงานข่าวเศรษฐกิจและการเงิน : วันเสาร์ ที่ 22 สิงหาคม 2569 : By Athena(Ai)
+02:47:57 - กำลังเตรียมข้อมูลสินทรัพย์ 4 รายการ : EURUSD-OTC, EURGBP-OTC, GBPUSD-OTC, USDJPY-OTC
+02:48:01 - ตรวจสอบข้อมูลแท่งเทียนสมบูรณ์ (M1/M5/M15 ครบ 250 แท่ง) : พร้อม 4 รายการ
+02:48:01 - เข้าสู่การวิเคราะห์สัญญาณในอีก 0.4 วินาที  (เริ่ม 02:48:01)
+02:48:08 - [EURUSD-OTC:1.17388][EURGBP-OTC:0.85288][USDJPY-OTC:157.89055][GBPUSD-OTC:1.35871] :: TOTAL=$495.55
+02:48:08 - [ ALL  Payload  Export ]
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_trade\ai_decision\ai_gemini_api.py", line 89, in send_prompt
+    response = self.client.models.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\genai\models.py", line 6641, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\genai\models.py", line 5067, in _generate_content
+    response = self._api_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\genai\_api_client.py", line 1700, in request
+    response = self._request(http_request, http_options, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\genai\_api_client.py", line 1487, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\genai\_api_client.py", line 1464, in _request_once
+    errors.APIError.raise_for_response(response)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 401 UNAUTHENTICATED. {'error': {'code': 401, 'message': 'Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.', 'status': 'UNAUTHENTICATED', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'ACCESS_TOKEN_TYPE_UNSUPPORTED', 'metadata': {'method': 'google.ai.generativelanguage.v1beta.GenerativeService.GenerateContent', 'service': 'generativelanguage.googleapis.com'}}]}}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\FINALBOT_Begin\data_trade\ai_decision\system_prompt.py", line 524, in _process_single_async
+    raw_output = await agent.send_prompt_async(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_trade\ai_decision\ai_gemini_api.py", line 130, in send_prompt_async
+    return await loop.run_in_executor(None, self.send_prompt, user_prompt, system_instruction)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BUSOLOVE\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\FINALBOT_Begin\data_trade\ai_decision\ai_gemini_api.py", line 117, in send_prompt
+    raise RuntimeError(
+RuntimeError: FAIL-FAST: Gemini API failed on all models [gemini-3.5-flash-lite, gemini-3.1-flash-lite]: 401 UNAUTHENTICATED. {'error': {'code': 401, 'message': 'Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.', 'status': 'UNAUTHENTICATED', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'ACCESS_TOKEN_TYPE_UNSUPPORTED', 'metadata': {'method': 'google.ai.generativelanguage.v1beta.GenerativeService.GenerateContent', 'service': 'generativelanguage.googleapis.com'}}]}}
+02:49:01 - [EURGBP-OTC:0.85288][GBPUSD-OTC:1.35871][EURUSD-OTC:1.17388][USDJPY-OTC:157.89055] :: TOTAL=$495.55

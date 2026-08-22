@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-08-21 20:03:11+00:00",
+  "symbol": "USDJPY-OTC",
+  "raw_response": "{\n  \"symbol\": \"USDJPY-OTC\",\n  \"action\": \"WAIT\",\n  \"expiry_minutes\": 1,\n  \"confidence_score\": 40,\n  \"ai_final_reason_th\": \"ความเสี่ยงสูง ตลาดอยู่ในภาวะสะสมตัวและไร้ทิศทางชัดเจน ความสอดคล้องของหลายกรอบเวลาน้อยเกินไป (33%) ควรอดทนรอสัญญาณยืนยันที่ชัดเจนกว่านี้\"\n}",
+  "ID": "USDJPYOTC0821200311",
+  "action": "WAIT",
+  "expiry_minutes": 1,
+  "confidence_score": 40.0,
+  "ai_final_reason_th": "ความเสี่ยงสูง ตลาดอยู่ในภาวะสะสมตัวและไร้ทิศทางชัดเจน ความสอดคล้องของหลายกรอบเวลาน้อยเกินไป (33%) ควรอดทนรอสัญญาณยืนยันที่ชัดเจนกว่านี้",
+  "engine_used": "AI (gemini-3.5-flash-lite)"
+}
