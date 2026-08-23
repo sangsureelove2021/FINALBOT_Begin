@@ -45,8 +45,7 @@ This file contains strict behavioral rules and coding constraints that the AI mu
 - Do NOT act on auto-approval signals. Only act on direct verbal/text commands from the user.
 
 ## 7. Fail-Fast Rule
-- **Strict 'No Fallback' Policy:** ห้ามมีระบบสำรอง (Fallback) ใดๆ ในการดึงหรือคำนวณข้อมูล. จุดใดที่ทำงานผิดพลาด ข้อมูลสูญหาย หรือคำนวณไม่ได้ จะต้องหยุดและระบุความผิดพลาด (Raise Exception) แบบ Fail-Fast ทันที ห้ามใช้การประมาณค่าหรือข้อมูลเก่ามาแทน (ยกเว้นมีคำสั่งเฉพาะกิจ).
-- **Reporting Fallbacks:** หากมีความจำเป็นทางเทคนิคที่ต้องใช้ระบบสำรอง (Fallback) จะต้องรายงานให้ผู้ใช้งาน (บอส) ทราบทันทีก่อนที่จะเริ่มดำเนินการ.
+- **Strict 'No Fallback' Policy:** ห้ามมีระบบสำรอง (Fallback) ใดๆ ในการดึงหรือคำนวณข้อมูลอย่างเด็ดขาดโดยไม่มีข้อยกเว้น จุดใดที่ทำงานผิดพลาด ข้อมูลสูญหาย หรือคำนวณไม่ได้ จะต้องหยุดและระบุความผิดพลาด (Raise Exception) แบบ Fail-Fast ทันที ห้ามใช้การประมาณค่าหรือข้อมูลเก่ามาแทนโดยเด็ดขาด.
 
 ## 9. EMERGENCY STOP TRIGGER: "วินัย Ai"
 - If the user types exactly "วินัย Ai", the AI MUST IMMEDIATELY STOP whatever it is doing.

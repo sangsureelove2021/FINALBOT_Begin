@@ -273,11 +273,19 @@ class ConsoleUI:
 
     @staticmethod
     def show_ai_checking():
-        thai_console_log("ตรวจเช็คความพร้อม DEEPSEEK AI")
+        thai_console_log("ตรวจเช็คความพร้อม AI")
+
+    @staticmethod
+    def show_ai_connection_attempt():
+        thai_console_log("กำลังทดสอบการเชื่อมต่อสมองกล AI  | Google Gemini")
+
+    @staticmethod
+    def show_ai_connection_success(channel_count: int, model_name: str = "gemini-3.5-flash-lite"):
+        thai_console_log(f"เชื่อมต่อ AI สำเร็จ ({model_name} | พร้อมใช้งาน {channel_count} ท่อสัญญาณ)")
 
     @staticmethod
     def show_ai_failed():
-        thai_console_log("Failed to connect to AI. System stopped.")
+        thai_console_log("เชื่อมต่อ AI ล้มเหลว")
 
     @staticmethod
     def show_ai_prompt_sent(count=0, skipped_symbols=None):
@@ -387,7 +395,11 @@ class ConsoleUI:
         if failed:
             thai_console_log(f"[ Payload Export: {len(ready)}/{len(ready)+len(failed)} | Failed: {', '.join(failed)} ]")
         else:
-            thai_console_log("[ ALL  Payload  Export ]")
+            thai_console_log(f"[Bot Evaluate Market Complete {len(ready)} asset]")
+
+    @staticmethod
+    def show_ai_analysis_complete(count: int):
+        thai_console_log(f"[AI Analysis And Dicisions Complete {count} Signal]")
 
 
 @dataclass

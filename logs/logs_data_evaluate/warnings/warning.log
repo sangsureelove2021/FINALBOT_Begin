@@ -1,1 +1,3 @@
 2026-08-19 18:47:01,991 | WARNING  | [Orchestrator] Error cleaning old txt files for GBPUSD: [WinError 2] The system cannot find the file specified: 'data_base\\orchestrator\\GBPUSD\\GBPUSD0819181902.txt'
+2026-08-23 00:33:03,843 | WARNING  | [Orchestrator] Error cleaning old txt files for USDJPY-OTC: [WinError 2] The system cannot find the file specified: 'data_evaluate/payload_output\\USDJPY-OTC\\USDJPYOTC0822031403.txt'
+2026-08-23 00:41:04,333 | WARNING  | [Orchestrator] Error cleaning old txt files for USDJPY-OTC: [WinError 2] The system cannot find the file specified: 'data_evaluate/payload_output\\USDJPY-OTC\\USDJPYOTC0823000701.txt'

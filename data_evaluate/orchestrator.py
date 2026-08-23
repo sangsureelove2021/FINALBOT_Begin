@@ -20,9 +20,10 @@ import csv
 import json
 import yaml
 import traceback
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List, Tuple
 from datetime import datetime, timezone
 
+from monitoring.console_dashboard import ConsoleUI
 from data_evaluate.orchestration.indicator_store.indicator_store import store
 from data_evaluate.orchestration.advanced_tools.advanced_tools_manager import AdvancedToolsManager
 
@@ -137,6 +138,60 @@ class Orchestrator:
         })
         if len(self.ai_memory) > 5:
             self.ai_memory.pop(0)
+
+    def evaluate_cycle(self, symbols: List[str]) -> None:
+        """
+        Commander method: Evaluate all symbols concurrently from disk CSV.
+        Reads CSV, computes indicators & 5 engines, writes 100-line prompt payload,
+        and displays export summary on Console UI.
+        """
+        if not isinstance(symbols, list):
+            raise TypeError(f"FAIL-FAST: symbols must be a list of strings, got {type(symbols).__name__}")
+        for sym in symbols:
+            if not isinstance(sym, str):
+                raise TypeError(f"FAIL-FAST: symbol must be a string, got {type(sym).__name__}")
+
+        ready_symbols: List[str] = []
+        ready_payloads: List[Tuple[str, str]] = []
+        failed_symbols: List[str] = []
+        max_workers = max(1, min(len(symbols), 20))
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix="Part2EvalWorker") as executor:
+            future_to_sym = {
+                executor.submit(self.process_cycle, symbol=sym): sym
+                for sym in symbols
+            }
+            for future in concurrent.futures.as_completed(future_to_sym):
+                sym = future_to_sym[future]
+                try:
+                    result = future.result()
+                    if isinstance(result, dict):
+                        fp = result.get('txt_filepath')
+                        ready_symbols.append(sym)
+                        if fp and isinstance(fp, str) and os.path.isfile(fp):
+                            ready_payloads.append((sym, fp))
+                    elif isinstance(result, str) and os.path.isfile(result):
+                        ready_symbols.append(sym)
+                        ready_payloads.append((sym, result))
+                    elif result is not None:
+                        ready_symbols.append(sym)
+                    else:
+                        failed_symbols.append(sym)
+                        logger.warning(f"[Orchestrator] Evaluation for {sym} returned None")
+                except Exception as e:
+                    failed_symbols.append(sym)
+                    logger.exception(f"[Orchestrator] Evaluation failed for {sym}: {e}")
+
+        # Display Payload Export summary on Console UI
+        ConsoleUI.show_payload_export(ready_symbols, failed_symbols)
+
+        # Trigger registered event listeners for ALL ready payloads in a single unified batch
+        if ready_payloads:
+            for listener in list(self._LISTENERS):
+                try:
+                    listener(ready_payloads)
+                except Exception as e:
+                    logger.error(f"[Orchestrator] Error calling payload listener: {e}", exc_info=True)
 
     def process_cycle(
         self,
@@ -371,8 +426,7 @@ class Orchestrator:
                 'risk_level': state_data['risk_level'] if state_data else 'MEDIUM',
                 'confidence_score': "รอการวิเคราะห์จาก AI",
                 'suggested_expiry_minutes': "รอการวิเคราะห์จาก AI",
-                'suggested_action': "รอการวิเคราะห์จาก AI",
-                'final_reason_th': "รอการวิเคราะห์จาก AI"
+                'suggested_action': "รอการวิเคราะห์จาก AI"
             }
         except Exception as e:
             raise
@@ -528,7 +582,7 @@ class Orchestrator:
             'eng_regime_transition_risk': _req(adv_sig, 'transition_risk'),
             'eng_momentum_persistence_score': _req(adv_sig, 'persistence_score'),
 
-            # --- Decision Layer (8 fields) ---
+            # --- Decision Layer (7 fields) ---
             'dl_tradeable': _req(dl, 'tradeable'),
             'dl_stability_score': _req(dl, 'stability_score'),
             'dl_quality_score': _req(dl, 'quality_score'),
@@ -536,7 +590,6 @@ class Orchestrator:
             'dl_confidence_score': _req(dl, 'confidence_score'),
             'dl_suggested_expiry_minutes': _req(dl, 'suggested_expiry_minutes'),
             'dl_suggested_action': _req(dl, 'suggested_action'),
-            'dl_final_reason_th': _req(dl, 'final_reason_th'),
         }
 
         # ─── SUPPLEMENTARY DATA (Remaining Fields) ───────────────────────
@@ -990,7 +1043,6 @@ class Orchestrator:
         app(f"  ai_confidence_score: {core.get('dl_confidence_score', '')}")
         app(f"  ai_suggested_expiry_minutes: {core.get('dl_suggested_expiry_minutes', '')}")
         app(f"  ai_suggested_action: {core.get('dl_suggested_action', '')}")
-        app(f"  ai_final_reason_th: {core.get('dl_final_reason_th', '')}")
         app("")
         return "\n".join(lines)
 
@@ -1025,12 +1077,5 @@ class Orchestrator:
                         pass
         except Exception as e:
             logger.warning(f"[Orchestrator] Error cleaning old txt files for {symbol}: {e}")
-
-        # Trigger registered event listeners (Nudge Part 3)
-        for listener in self._LISTENERS:
-            try:
-                listener(filepath, symbol)
-            except Exception as e:
-                logger.error(f"[Orchestrator] Error calling payload listener: {e}", exc_info=True)
 
         return filepath

@@ -23,7 +23,6 @@ from monitoring.console_dashboard import ConsoleUI, logger, setup_logging, disab
 from config_setting.config_loader import load_settings, get_symbols
 from data_feed.bridge_adapter.broker_factory import BrokerFactory
 from data_feed.data_adapter import DataAdapter
-from data_feed.csv_writer import CSVWriter
 from data_evaluate.orchestrator import Orchestrator
 from data_evaluate.news_calendar import ensure_calendar_news
 
@@ -44,8 +43,6 @@ def graceful_exit(signum=None, frame=None):
 
     if _ACTIVE_RUNNER is not None:
         try:
-            if hasattr(_ACTIVE_RUNNER, "_on_csv_written"):
-                CSVWriter.unregister_listener(_ACTIVE_RUNNER._on_csv_written)
             if hasattr(_ACTIVE_RUNNER, "executor_manager") and _ACTIVE_RUNNER.executor_manager:
                 Orchestrator.unregister_listener(_ACTIVE_RUNNER.executor_manager.on_orchestrator_payload_saved)
             if hasattr(_ACTIVE_RUNNER, "data_feed") and _ACTIVE_RUNNER.data_feed:
@@ -106,80 +103,38 @@ class DataFeedRunner:
         # 5. Initialize Part 2 Orchestrator (Loads Economic News Calendar automatically)
         self.orchestrator = Orchestrator(self.settings)
 
-        # 5.1 Initialize Part 3 ExecutorManager & Register Listener on Orchestrator
+        # 5.1 Pre-warm and Test Dedicated Google Gemini AI Connections (1:1 Channel per symbol)
+        from data_trade.ai_analysis.system_prompt import SystemPrompt
+        ConsoleUI.show_ai_connection_attempt()
+        SystemPrompt.prewarm_and_test_ai(self.symbols)
+        model_name = self.settings.get("ai_mode", {}).get("gemini_model", "gemini-3.5-flash-lite")
+        ConsoleUI.show_ai_connection_success(channel_count=len(self.symbols), model_name=model_name)
+
+        # 5.2 Initialize Part 3 ExecutorManager & Register Listener on Orchestrator
         from data_trade.executor_manager import ExecutorManager
         self.executor_manager = ExecutorManager(self.settings)
+        self.executor_manager._broker_adapter = self.data_feed._broker
         Orchestrator.register_listener(self.executor_manager.on_orchestrator_payload_saved)
+
+        # 5.3 Start Telegram AI Bridge in Background Thread (Chat with Athena via mobile)
+        try:
+            from monitoring.telegram_bridge import TelegramBridge
+            self.telegram_bridge = TelegramBridge()
+            telegram_thread = threading.Thread(
+                target=self.telegram_bridge.start_polling,
+                daemon=True,
+                name="TelegramBridgeWorker"
+            )
+            telegram_thread.start()
+            logger.info("[DataFeedRunner] Telegram AI Bridge started in background thread.")
+        except Exception as e:
+            logger.warning(f"[DataFeedRunner] Telegram AI Bridge note: {e}")
 
         # 6. Part 1 Commander: Historical Data Warm-Up (250 candles for M1, M5, M15)
         ConsoleUI.show_data_prep_start(self.symbols)
         self.data_feed.warmup_all_symbols(self.symbols)
         self.symbols = getattr(self.data_feed, "ready_symbols", self.symbols)
         ConsoleUI.show_data_prep_result(len(self.symbols), 0)
-
-        # 7. Setup ThreadPoolExecutor for Part 2 Evaluation Workers
-        self.eval_executor = concurrent.futures.ThreadPoolExecutor(
-            max_workers=max(1, len(self.symbols)),
-            thread_name_prefix="Part2EvalWorker"
-        )
-
-        # 8. Register Event Listener on CSVWriter (Event-Driven Trigger สะกิด Part 2 ทันทีที่เขียนไฟล์ลงดิสก์เสร็จ)
-        self._export_lock = threading.Lock()
-        self._export_done: Dict[str, bool] = {}   # symbol → success/fail per cycle
-        self._cycle_total = 0                      # จำนวน symbol ที่ trigger M1 ในรอบนี้
-        CSVWriter.register_listener(self._on_csv_written)
-
-    def _on_csv_written(self, file_path: str):
-        """
-        Event Handler: Triggered immediately by CSVWriter when a file write completes.
-        Extracts symbol and triggers Part 2 to read from disk and evaluate.
-        Strictly passes ONLY the file path string (Zero RAM Data Transfer).
-        """
-        if not isinstance(file_path, str):
-            return
-
-        # Trigger evaluation when M1 candle finishes writing to disk
-        if file_path.endswith("_M1.csv"):
-            norm_path = file_path.replace("\\", "/")
-            parts = norm_path.split("/")
-            if len(parts) >= 2:
-                symbol = parts[-2]
-                if symbol in self.symbols:
-                    self.eval_executor.submit(self._evaluate_symbol_from_disk, symbol)
-
-    def _evaluate_symbol_from_disk(self, symbol: str):
-        """Part 2 Worker: Reads CSV from disk → runs 5 Engines → writes Prompt → notifies runner."""
-        success = False
-        try:
-            logger.info(f"[Part2:Event] Nudged for {symbol} - Reading CSV from disk and evaluating...")
-            self.orchestrator.process_cycle(symbol=symbol)
-            success = True
-        except Exception as e:
-            logger.exception(f"[Part2:Orchestrator] Evaluation failed for {symbol}: {e}")
-
-        # --- Counter: นับจำนวน symbol ที่ Part 2 ทำเสร็จในรอบนี้ ---
-        with self._export_lock:
-            self._export_done[symbol] = success
-            done_count = len(self._export_done)
-            total = self._cycle_total
-
-        if total > 0 and done_count >= total:
-            # ตรวจไฟล์จริงในโฟลเดอร์ก่อนแสดงผล
-            output_dir = self.orchestrator.orchestrator_log_dir
-            ready, failed = [], []
-            with self._export_lock:
-                results = dict(self._export_done)
-            for sym, ok in results.items():
-                sym_dir = os.path.join(output_dir, sym)
-                has_file = bool(
-                    os.path.isdir(sym_dir) and
-                    any(f.endswith(".txt") for f in os.listdir(sym_dir))
-                )
-                if ok and has_file:
-                    ready.append(sym)
-                else:
-                    failed.append(sym)
-            ConsoleUI.show_payload_export(ready, failed)
 
     def _countdown_to_first_candle(self):
         """Sleep directly until the first completed candle minute boundary (:01.500)."""
@@ -198,28 +153,16 @@ class DataFeedRunner:
             time.sleep(total_wait)
 
     def run_cycle(self):
-        """Execute one complete data ingestion cycle for all symbols concurrently."""
+        """Execute one complete data ingestion and evaluation cycle for all symbols."""
         self.data_feed.ensure_connected()
-        try:
-            balance = self.data_feed.get_balance()
-        except Exception as e:
-            logger.exception("Failed to update balance during cycle")
-            raise RuntimeError("FAIL-FAST: Failed to update balance during cycle") from e
-
         if not self.symbols:
             return
 
-        # รีเซ็ต counter สำหรับรอบใหม่
-        with self._export_lock:
-            self._export_done.clear()
-            self._cycle_total = len(self.symbols)
+        # 1. Part 1: Ingest candles → write CSV to disk → display UI prices & balance
+        self.data_feed.ingest_cycle(self.symbols)
 
-        # Part 1: Ingest candles → write CSV → fire _on_csv_written → submit Part 2 workers (non-blocking)
-        prices_dict: Dict[str, float] = self.data_feed.ingest_cycle(self.symbols)
-
-        # Part 1 แสดงราคา → จบทันที ไม่รอ Part 2
-        ConsoleUI.show_prices_and_balance(prices_dict, balance)
-        # Part 2 ทำงานใน background threads → เมื่อทุก symbol เสร็จ จะแสดง [ ALL  Payload  Export ] เอง
+        # 2. Part 2: Read CSV from disk → evaluate 5 Engines → write Prompt 100 lines → display UI payload export
+        self.orchestrator.evaluate_cycle(self.symbols)
 
     def start(self):
         """Main Loop: Runs strictly at each minute boundary (:01.500) and sleeps between intervals."""

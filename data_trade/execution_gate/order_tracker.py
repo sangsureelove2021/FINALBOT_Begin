@@ -16,6 +16,8 @@ import concurrent.futures
 from typing import Dict, Any, Optional
 from datetime import datetime, timezone, timedelta
 
+from data_trade.execution_gate.broker_executor import resolve_api
+
 logger = logging.getLogger("OrderTracker")
 
 CSV_HEADER = [
@@ -55,16 +57,6 @@ class OrderTracker:
             with open(self.history_file, "w", newline="", encoding="utf-8") as f:
                 writer = csv.writer(f)
                 writer.writerow(CSV_HEADER)
-
-    def _resolve_api(self, broker_or_adapter: Any) -> Any:
-        """Extracts underlying iqoptionapi instance."""
-        if hasattr(broker_or_adapter, "api"):
-            return broker_or_adapter.api
-        if hasattr(broker_or_adapter, "broker_adapter") and hasattr(broker_or_adapter.broker_adapter, "api"):
-            return broker_or_adapter.broker_adapter.api
-        if hasattr(broker_or_adapter, "data_adapter") and hasattr(broker_or_adapter.data_adapter, "api"):
-            return broker_or_adapter.data_adapter.api
-        return broker_or_adapter
 
     def track_order(
         self,
@@ -111,7 +103,7 @@ class OrderTracker:
         ai_engine = ai_decision.get("engine_used", "UNKNOWN")
         reason_th = ai_decision.get("reason_th", "")
 
-        api = self._resolve_api(broker_adapter)
+        api = resolve_api(broker_adapter)
         wait_seconds = max(5, expiry_minutes * 60 + 5)
         logger.info(f"[OrderTracker] Monitoring Order {order_id} ({symbol} {action} {expiry_minutes}m) - waiting {wait_seconds}s for expiry...")
 

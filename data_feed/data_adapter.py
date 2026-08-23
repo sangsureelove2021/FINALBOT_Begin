@@ -30,6 +30,7 @@ from data_feed.data_processor import (
 )
 from data_feed.data_cache_store import RAMCacheStore
 from data_feed.csv_time_sync import TimeSyncManager
+from monitoring.console_dashboard import ConsoleUI
 
 logger = logging.getLogger(__name__)
 
@@ -502,6 +503,11 @@ class DataAdapter(IDataSource):
         # Flush CSV queue to make fresh data immediately available to Part 2 on disk
         if self.enable_csv_export:
             self._csv_queue.flush()
+
+        # Get balance and display prices on Console UI
+        balance = self.get_balance()
+        ordered_prices = {sym: prices_dict[sym] for sym in symbols if sym in prices_dict}
+        ConsoleUI.show_prices_and_balance(ordered_prices, balance)
 
         return prices_dict
 

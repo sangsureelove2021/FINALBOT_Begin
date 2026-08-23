@@ -62,7 +62,7 @@
 * **รายละเอียด:** ตรวจสอบราคาเฉลี่ย ป้องกันฟีดราคาผิดปกติจากโบรกเกอร์
 
 #### ด่านที่ 9: ตัวกรองข่าวเศรษฐกิจรุนแรง (News Impact Filter)
-* **ไฟล์:** [`data_feed/news_calendar.py`](file:///e:/FINALBOT_Begin/data_feed/news_calendar.py)
+* **ไฟล์:** [`data_evaluate/news_calendar.py`](file:///e:/FINALBOT_Begin/data_evaluate/news_calendar.py)
 * **โค้ด:** `check_news_impact(symbol)`
 * **รายละเอียด:** ดึงปฏิทินเศรษฐกิจเพื่อตรวจจับข่าว High Impact (สำหรับสินทรัพย์จริง ส่วน OTC รายงาน `NONE_OTC`)
 
@@ -110,22 +110,22 @@
 * **รายละเอียด:** ตรวจสอบขีดจำกัดขาดทุนรายวัน (Daily Loss) และล็อกขนาดไม้คงที่ (Fixed Stake 35 THB)
 
 #### ด่านที่ 17: ด่านเชื่อมต่อสมองกล AI (AI Dispatch & Resilient Fallback Gate)
-* **ไฟล์:** [`data_trade/ai_decision/ai_gemini_api.py`](file:///e:/FINALBOT_Begin/data_trade/ai_decision/ai_gemini_api.py)
+* **ไฟล์:** [`data_trade/ai_analysis/gemini_bridge.py`](file:///e:/FINALBOT_Begin/data_trade/ai_analysis/gemini_bridge.py)
 * **โค้ด:** `send_prompt()` พร้อมระบบสลับ Candidate Models อัตโนมัติ
 * **รายละเอียด:** ส่ง Prompt วิเคราะห์และรับผลลัพธ์ JSON จาก Gemini API
 
 #### ด่านที่ 18: การคัดกรองคำสั่งซื้อขาย (Action Resolution Gate)
-* **ไฟล์:** [`data_trade/ai_decision/system_prompt.py`](file:///e:/FINALBOT_Begin/data_trade/ai_decision/system_prompt.py)
+* **ไฟล์:** [`data_trade/ai_analysis/system_prompt.py`](file:///e:/FINALBOT_Begin/data_trade/ai_analysis/system_prompt.py)
 * **โค้ด:** คัดกรองผลลัพธ์ให้อยู่ใน 3 สถานะเท่านั้น: **`CALL` | `PUT` | `WAIT`**
 * **รายละเอียด:** ป้องกันคำสั่งนอกเหนือมาตรฐานและแปลงค่าสัญญาณให้อยู่ในรูปแบบที่ถูกต้อง
 
 #### ด่านที่ 19: การจำกัดอายุสัญญา (Expiry Duration Gate)
-* **ไฟล์:** [`data_trade/ai_decision/system_prompt.py`](file:///e:/FINALBOT_Begin/data_trade/ai_decision/system_prompt.py)
+* **ไฟล์:** [`data_trade/ai_analysis/system_prompt.py`](file:///e:/FINALBOT_Begin/data_trade/ai_analysis/system_prompt.py)
 * **โค้ด:** `norm_expiry = max(1, min(5, norm_expiry))`
 * **รายละเอียด:** บังคับให้อายุสัญญาการเทรดต้องอยู่ระหว่าง **1 - 5 นาที** เท่านั้น
 
 #### ด่านที่ 20: การปรับเกณฑ์คะแนนความมั่นใจ (Confidence Score Bounding Gate)
-* **ไฟล์:** [`data_trade/ai_decision/system_prompt.py`](file:///e:/FINALBOT_Begin/data_trade/ai_decision/system_prompt.py)
+* **ไฟล์:** [`data_trade/ai_analysis/system_prompt.py`](file:///e:/FINALBOT_Begin/data_trade/ai_analysis/system_prompt.py)
 * **โค้ด:** `norm_confidence = max(0.0, min(100.0, norm_confidence))`
 * **รายละเอียด:** ล็อกคะแนนความมั่นใจให้อยู่ในช่วง 0.0 - 100.0%
 
@@ -167,7 +167,7 @@
 | **6** | Warm-up 250 Candles Gate | Part 1 / 2 | [`orchestrator.py`](file:///e:/FINALBOT_Begin/data_evaluate/orchestrator.py) | ยืนยันแท่งเทียนครบ 250 แท่ง |
 | **7** | Candle Freshness Gate | Part 1 | [`data_validator.py`](file:///e:/FINALBOT_Begin/data_feed/data_validator.py) | ข้อมูลต้องเป็นสถานะ FRESH |
 | **8** | Price Sanity & FX Range Gate | Part 1 | [`rest_fetcher.py`](file:///e:/FINALBOT_Begin/data_feed/bridge_adapter/bridge_iq_adapter/rest_fetcher.py) | ยืนยันราคาไม่หลุดช่วงทศนิยม |
-| **9** | News Impact Filter | Part 1 | [`news_calendar.py`](file:///e:/FINALBOT_Begin/data_feed/news_calendar.py) | รายงานความเสี่ยงข่าวแรง |
+| **9** | News Impact Filter | Part 1 / 2 | [`news_calendar.py`](file:///e:/FINALBOT_Begin/data_evaluate/news_calendar.py) | รายงานความเสี่ยงข่าวแรง |
 | **10** | MTF Alignment Gate | Part 2 | [`orchestrator.py`](file:///e:/FINALBOT_Begin/data_evaluate/orchestrator.py) | ตรวจสอบแนวโน้ม M1, M5, M15 |
 | **11** | Volatility Regime Gate | Part 2 | [`orchestrator.py`](file:///e:/FINALBOT_Begin/data_evaluate/orchestrator.py) | ระบุสภาวะความผันผวนตลาด |
 | **12** | Trap & Fakeout Detection Gate | Part 2 | [`orchestrator.py`](file:///e:/FINALBOT_Begin/data_evaluate/orchestrator.py) | ตรวจจับกับดักราคา Bull/Bear |
@@ -175,10 +175,10 @@
 | **14** | Decision Layer Gate | Part 2 | [`orchestrator.py`](file:///e:/FINALBOT_Begin/data_evaluate/orchestrator.py) | สังเคราะห์ความพร้อมตลาด 4 มิติ |
 | **15** | 100-Line Prompt Contract | Part 2 | [`orchestrator.py`](file:///e:/FINALBOT_Begin/data_evaluate/orchestrator.py) | ส่งออกไฟล์ .txt ขนาด 100 บรรทัด |
 | **16** | Pre-Trade Money Manager Gate | Part 3 | [`money_manager.py`](file:///e:/FINALBOT_Begin/data_trade/execution_gate/money_manager.py) | ตรวจสอบความปลอดภัยของเงินทุน |
-| **17** | AI Dispatch & Fallback Gate | Part 3 | [`ai_gemini_api.py`](file:///e:/FINALBOT_Begin/data_trade/ai_decision/ai_gemini_api.py) | ยิงวิเคราะห์และรับผลลัพธ์ JSON |
-| **18** | Action Resolution Gate | Part 3 | [`system_prompt.py`](file:///e:/FINALBOT_Begin/data_trade/ai_decision/system_prompt.py) | จัดกลุ่ม Action: CALL / PUT / WAIT |
-| **19** | Expiry Duration Gate | Part 3 | [`system_prompt.py`](file:///e:/FINALBOT_Begin/data_trade/ai_decision/system_prompt.py) | ล็อกอายุสัญญา 1 - 5 นาที |
-| **20** | Confidence Score Bounding Gate | Part 3 | [`system_prompt.py`](file:///e:/FINALBOT_Begin/data_trade/ai_decision/system_prompt.py) | ล็อกคะแนนความมั่นใจ 0 - 100% |
+| **17** | AI Dispatch & Fallback Gate | Part 3 | [`gemini_bridge.py`](file:///e:/FINALBOT_Begin/data_trade/ai_analysis/gemini_bridge.py) | ยิงวิเคราะห์และรับผลลัพธ์ JSON |
+| **18** | Action Resolution Gate | Part 3 | [`system_prompt.py`](file:///e:/FINALBOT_Begin/data_trade/ai_analysis/system_prompt.py) | จัดกลุ่ม Action: CALL / PUT / WAIT |
+| **19** | Expiry Duration Gate | Part 3 | [`system_prompt.py`](file:///e:/FINALBOT_Begin/data_trade/ai_analysis/system_prompt.py) | ล็อกอายุสัญญา 1 - 5 นาที |
+| **20** | Confidence Score Bounding Gate | Part 3 | [`system_prompt.py`](file:///e:/FINALBOT_Begin/data_trade/ai_analysis/system_prompt.py) | ล็อกคะแนนความมั่นใจ 0 - 100% |
 | **21** | The Ultimate Execution Gate | Part 3 | [`gate_controller.py`](file:///e:/FINALBOT_Begin/data_trade/execution_gate/gate_controller.py) | **อนุมัติยิงออเดอร์ (คะแนน >= 60%)** |
 | **22** | Binary/Turbo Execution Route | Part 3 | [`broker_executor.py`](file:///e:/FINALBOT_Begin/data_trade/execution_gate/broker_executor.py) | ยิงออเดอร์ Binary เข้า IQ Option |
 | **23** | Digital Options V2 Fallback | Part 3 | [`broker_executor.py`](file:///e:/FINALBOT_Begin/data_trade/execution_gate/broker_executor.py) | ยิงออเดอร์ Digital สำรอง |

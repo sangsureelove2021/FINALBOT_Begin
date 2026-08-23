@@ -19,12 +19,11 @@ import threading
 from typing import Dict, Any, Optional, List, Tuple
 
 from config_setting.config_loader import load_settings
-from data_trade.ai_decision.system_prompt import SystemPrompt
+from data_trade.ai_analysis.system_prompt import SystemPrompt
 from data_trade.execution_gate.gate_controller import ExecutionGate
 from data_trade.execution_gate.money_manager import MoneyManager
 from data_trade.execution_gate.broker_executor import BrokerExecutor
 from data_trade.execution_gate.order_tracker import OrderTracker
-from monitoring.console_dashboard import thai_console_log, ConsoleUI
 
 logger = logging.getLogger("ExecutorManager")
 
@@ -49,31 +48,68 @@ class ExecutorManager:
         self._pending_tasks: Dict[str, str] = {}   # {symbol: prompt_filepath}
         self._flush_lock = threading.Lock()         # ป้องกัน concurrent flush ซ้อน
         self._broker_adapter: Optional[Any] = None  # เก็บ broker adapter ล่าสุด
+        self._is_warmup_round: bool = False         # BOSS ORDER: Disabled warmup round
 
         logger.info(
             f"[ExecutorManager] Initialized | Mode: '{self.trading_mode}' | "
-            f"N-Symbol Concurrent Dispatch: ENABLED | Confidence Gate: >= 70%"
+            f"N-Symbol Concurrent Dispatch: ENABLED | Confidence Gate: >= 70% | "
+            f"Warmup Round: DISABLED (เทรดตั้งแต่รอบแรก)"
         )
+
 
     def on_orchestrator_payload_saved(
         self,
-        prompt_filepath: str,
-        symbol: str,
+        prompt_filepath_or_batch: Any,
+        symbol: Optional[str] = None,
         broker_adapter: Optional[Any] = None
     ) -> None:
         """
-        Event Handler: เรียกทันทีที่ Orchestrator Part 2 บันทึก payload เสร็จ.
-        เพิ่ม symbol เข้า pending queue แล้ว flush ทันทีใน background thread.
+        Event Handler: เรียกเมื่อ Orchestrator Part 2 บันทึก payload เสร็จ.
+        รองรับทั้งแบบ Batch (List[Tuple[str, str]]) และแบบเดี่ยว (filepath, symbol).
         """
+        if broker_adapter is not None:
+            self._broker_adapter = broker_adapter
+
+        # ── Case A: Unified Batch (List of (symbol, filepath)) ───────────────
+        if isinstance(prompt_filepath_or_batch, list):
+            if not prompt_filepath_or_batch:
+                return
+
+            with self._pending_lock:
+                for item in prompt_filepath_or_batch:
+                    if isinstance(item, tuple) and len(item) == 2:
+                        sym, fp = item
+                        if sym and fp:
+                            self._pending_tasks[sym] = fp
+                    elif isinstance(item, dict):
+                        sym = item.get("symbol")
+                        fp = item.get("filepath") or item.get("prompt_filepath")
+                        if sym and fp:
+                            self._pending_tasks[sym] = fp
+                queue_size = len(self._pending_tasks)
+
+            logger.info(
+                f"[ExecutorManager] Queued batch of {len(prompt_filepath_or_batch)} symbol(s) "
+                f"(pending queue: {queue_size} symbol(s))"
+            )
+
+            flush_thread = threading.Thread(
+                target=self._flush_pending,
+                kwargs={"triggering_symbol": "BATCH"},
+                daemon=True,
+                name="FlushThread-BATCH"
+            )
+            flush_thread.start()
+            return
+
+        # ── Case B: Single Item (filepath, symbol) ───────────────────────────
+        prompt_filepath = prompt_filepath_or_batch
         if not symbol or not isinstance(symbol, str):
             logger.error(f"[ExecutorManager] Invalid symbol in nudge: {symbol!r}")
             return
         if not prompt_filepath or not isinstance(prompt_filepath, str):
             logger.error(f"[ExecutorManager] Invalid filepath for symbol {symbol}")
             return
-
-        if broker_adapter is not None:
-            self._broker_adapter = broker_adapter
 
         with self._pending_lock:
             self._pending_tasks[symbol] = prompt_filepath
@@ -84,7 +120,6 @@ class ExecutorManager:
             f"(pending queue: {queue_size} symbol(s))"
         )
 
-        # Flush ใน daemon thread เพื่อไม่บล็อก Orchestrator
         flush_thread = threading.Thread(
             target=self._flush_pending,
             kwargs={"triggering_symbol": symbol},
@@ -96,11 +131,14 @@ class ExecutorManager:
     def _flush_pending(self, triggering_symbol: str = "") -> None:
         """
         ดึง pending tasks ทั้งหมดออกจาก queue แล้วยิง concurrent dispatch ทีเดียว.
-        ถ้า flush กำลังทำงานอยู่ จะ skip (non-blocking acquire).
+        ✅ FIX: ใช้ blocking lock with timeout แทน non-blocking skip เพื่อป้องกัน signal ตกหล่น
+        หลัง flush เสร็จจะเช็ค pending tasks อีกครั้ง ถ้ามีก็ flush ต่อ
         """
-        if not self._flush_lock.acquire(blocking=False):
-            logger.debug(
-                f"[ExecutorManager] Flush already running (triggered by {triggering_symbol}), skip."
+        # รอจนกว่าจะได้ flush lock (timeout 5 วินาที)
+        if not self._flush_lock.acquire(blocking=True, timeout=5.0):
+            logger.warning(
+                f"[ExecutorManager] Flush lock timeout (triggered by {triggering_symbol}), "
+                f"signal queued for next flush cycle."
             )
             return
 
@@ -138,6 +176,7 @@ class ExecutorManager:
                 }
 
             # ── Process each decision: ExecutionGate → BrokerExecutor ────────
+
             for symbol, ai_decision in decisions.items():
                 try:
                     self._execute_single_decision(
@@ -153,6 +192,25 @@ class ExecutorManager:
 
         finally:
             self._flush_lock.release()
+            
+            # ✅ FIX: หลัง flush เสร็จ เช็ค pending tasks อีกครั้ง
+            # ถ้ามี signal ใหม่เข้ามาระหว่าง flush ก็ flush ต่อเลย
+            with self._pending_lock:
+                has_pending = bool(self._pending_tasks)
+            
+            if has_pending:
+                logger.info(
+                    f"[ExecutorManager] New signals detected during flush, "
+                    f"triggering follow-up flush cycle."
+                )
+                # สร้าง thread ใหม่เพื่อ flush ต่อ (recursive flush)
+                follow_up_thread = threading.Thread(
+                    target=self._flush_pending,
+                    kwargs={"triggering_symbol": "follow-up"},
+                    daemon=True,
+                    name="FlushThread-follow-up"
+                )
+                follow_up_thread.start()
 
     def _execute_single_decision(
         self,
@@ -168,13 +226,6 @@ class ExecutorManager:
         can_trade, risk_reason = self.money_manager.can_trade()
         if not can_trade:
             logger.info(f"[ExecutorManager] {symbol} blocked by risk gate: {risk_reason}")
-            action = str(ai_decision.get("action", "WAIT")).upper().strip()
-            confidence = ai_decision.get("confidence_score", 0)
-            if isinstance(confidence, float) and confidence.is_integer():
-                confidence = int(confidence)
-            thai_console_log(
-                f"[AI Skipped] {symbol} -> {action} | Conf: {confidence}% | Reason: {risk_reason}"
-            )
             return {
                 "symbol": symbol,
                 "action": "BLOCKED_BY_RISK",
@@ -206,7 +257,7 @@ class ExecutorManager:
                 f"Expiry={gate_verdict.get('expiry_minutes')}m"
             )
 
-        # ── Step 4: Broker Order Execution ───────────────────────────────────
+        # ── Step 4: Broker Order Execution (Fire-and-Forget) ─────────────────
         order_data = None
         if should_execute_order:
             action = gate_verdict["action"]
@@ -234,44 +285,16 @@ class ExecutorManager:
                         stake=stake,
                         broker_adapter=broker_adapter
                     )
-                    if order_data.get("status") == "SUCCESS":
-                        self.order_tracker.track_order(
-                            order_data=order_data,
-                            ai_decision=ai_decision,
-                            broker_adapter=broker_adapter
-                        )
+                    logger.info(
+                        f"[ExecutorManager] Broker order dispatched for {symbol}: "
+                        f"Action={action}, Expiry={expiry_minutes}m, Stake={stake}, OrderData={order_data}"
+                    )
                 except Exception as e:
                     logger.exception(
                         f"[ExecutorManager] Broker execution failed for {symbol}: {e}"
                     )
                     traceback.print_exc()
                     raise
-
-        # ── Step 5: Console Output Reporting (Real Processed Decision Output) ──
-        action = gate_verdict.get("action", "WAIT")
-        expiry_minutes = gate_verdict.get("expiry_minutes", 1)
-        confidence = gate_verdict.get("confidence_score", 0)
-        if isinstance(confidence, float) and confidence.is_integer():
-            confidence = int(confidence)
-        reason = gate_verdict.get("reason", "")
-
-        if gate_verdict.get("approved", False):
-            if self.trading_mode == "AI SIGNAL_BOT" or "SIGNAL_BOT" in self.trading_mode:
-                ConsoleUI.show_signal_only(
-                    action=action,
-                    symbol=symbol,
-                    expiry_time=expiry_minutes,
-                    mode=self.trading_mode
-                )
-            else:
-                order_id = order_data.get("order_id", "N/A") if order_data else "N/A"
-                thai_console_log(
-                    f"[AI Executed] {symbol} -> {action} ({expiry_minutes}m) | Conf: {confidence}% | OrderID: {order_id}"
-                )
-        else:
-            thai_console_log(
-                f"[AI Skipped] {symbol} -> {action} | Conf: {confidence}% | Reason: {reason}"
-            )
 
         result = {
             "symbol": symbol,
@@ -317,9 +340,7 @@ class ExecutorManager:
 
         can_trade, risk_reason = self.money_manager.can_trade()
         if not can_trade:
-            thai_console_log(
-                f"[AI Skipped] {symbol} -> WAIT | Conf: 0% | Reason: {risk_reason}"
-            )
+            logger.info(f"[ExecutorManager] {symbol} blocked by risk gate: {risk_reason}")
             return {
                 "symbol": symbol,
                 "action": "BLOCKED_BY_RISK",
