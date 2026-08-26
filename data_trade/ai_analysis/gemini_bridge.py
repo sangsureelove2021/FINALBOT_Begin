@@ -23,7 +23,7 @@ from google.genai import types
 logger = logging.getLogger(__name__)
 
 PRIMARY_MODEL = "gemini-3.5-flash-lite"
-FALLBACK_MODEL = "gemini-3.1-flash-lite"
+FALLBACK_MODEL = "gemini-3.6-flash"
 
 _FALLBACK_TRIGGERS = [
     "404", "not_found", "not found",

@@ -1,24 +1,20 @@
 {
-  "_comment": "FINALBOT Settings - Single Source of Truth",
+  "_comment": "ATHENA SNIPER BOT Settings - Single Source of Truth",
   
   "account": {
     "account_type": "DEMO",
     "trading_mode": "AI AUTO_BOT",
     "iq_email": "venuz20152565@gmail.com",
     "iq_password": "2856101607mM@",
-    "stake_per_trade": 35
+    "stake_per_trade": 35,
+    "target_wins": 2
   },
-
 
   "ai_mode": {
     "enabled": true,
-    "primary_engine": "gemini",
-    "deepseek_session_index": 1,
-    "gemini_model": "gemini-3.5-flash-lite",
-    "timeout_seconds": 25,
-    "max_consecutive_failures": 3
+    "primary_engine": "athena",
+    "min_confidence": 85
   },
-
 
   "session": {
     "trading_hours": "00.00-24.00",
@@ -28,7 +24,7 @@
   "active_broker": "IQ_OPTION",
 
   "data_feed": {
-    "enable_csv_export": true,
+    "enable_csv_export": false,
     "csv_manager": {
       "base_dir": "data_feed/ohclv_output/iq_option"
     },
@@ -43,7 +39,7 @@
   },
 
   "data_evaluate": {
-    "enable_txt_export": true,
+    "enable_txt_export": false,
     "output_dir": "data_evaluate/payload_output"
   },
 

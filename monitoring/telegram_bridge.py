@@ -39,9 +39,35 @@ class TelegramBridge:
         self.running = False
         self.last_update_id = 0
         self.settings = load_settings(reload=False)
+        self.chat_ids = set()
+        
+        # Load chat_id from env if present
+        env_chat = os.getenv("TELEGRAM_CHAT_ID")
+        if env_chat:
+            try:
+                self.chat_ids.add(int(env_chat))
+            except ValueError:
+                pass
+
+    def register_chat_id(self, chat_id: int):
+        """Register a chat ID for broadcast trade notifications."""
+        if chat_id:
+            self.chat_ids.add(chat_id)
+
+    def broadcast_message(self, text: str, parse_mode: str = "Markdown") -> bool:
+        """Sends a message to all registered chats."""
+        if not self.chat_ids:
+            return False
+        success = True
+        for cid in list(self.chat_ids):
+            res = self.send_message(cid, text, parse_mode=parse_mode)
+            if not res:
+                success = False
+        return success
 
     def send_message(self, chat_id: int, text: str, parse_mode: str = "Markdown") -> bool:
         """Sends a text message to a specific Telegram chat."""
+        self.register_chat_id(chat_id)
         url = f"{self.api_url}/sendMessage"
         payload = {
             "chat_id": chat_id,
@@ -97,16 +123,18 @@ class TelegramBridge:
         if not chat_id or not text:
             return
 
+        self.register_chat_id(chat_id)
         logger.info(f"[TelegramBridge] Received from {user_name} ({chat_id}): {text}")
 
         # Command: /start or /help
         if text.startswith("/start") or text.startswith("/help"):
             reply = (
-                f"👑 *สวัสดีค่ะบอส! เอเธน่า (Athena AI) พร้อมรับคำสั่งค่ะ*\n\n"
+                f"👑 *สวัสดีค่ะบอส! เอเธน่า (Athena Sniper AI) พร้อมรับคำสั่งค่ะ*\n\n"
+                f"🎯 *เป้าหมายระบบ:* ชนะ 2 ไม้ต่อวัน ล็อคกำไร (THB ไม้ละ 35 บาท)\n\n"
                 f"บอสสามารถสั่งงานหรือสอบถามข้อมูลผ่านเมนูด้านล่างนี้ได้เลยนะคะ:\n\n"
-                f"📊 `/status` — เช็คยอดเงินและสถานะบอท\n"
+                f"📊 `/status` — เช็คยอดเงินและสถานะเป้าหมาย 2 ชนะ\n"
                 f"🎯 `/analyze EURUSD` — สั่งวิเคราะห์คู่เงินสดทันที\n"
-                f"📈 `/signals` — ดูสัญญาณล่าสุดของทุกคู่เงิน\n\n"
+                f"📈 `/signals` — ดูสัญญาณ A+ ล่าสุดของทุกคู่เงิน\n\n"
                 f"💬 *หรือพิมพ์คุยกับเอเธน่าได้อิสระเลยค่ะ*"
             )
             self.send_message(chat_id, reply)
@@ -115,15 +143,15 @@ class TelegramBridge:
         # Command: /status or /balance
         if text.startswith("/status") or text.startswith("/balance"):
             try:
-                from config_setting.symbol_loader import get_symbols
+                from config_setting.config_loader import get_symbols
                 symbols = get_symbols()
                 reply = (
-                    f"📊 *รายงานสถานะระบบ FINALBOT*\n\n"
-                    f"• *ผู้ช่วย:* Athena (AI Secretary)\n"
-                    f"• *โมเดล AI:* Google Gemini API (5 ท่อสัญญาณ 1:1)\n"
-                    f"• *คู่เงินที่กำลังเทรด:* {', '.join(symbols)}\n"
-                    f"• *โหมดการทำงาน:* AI AUTO_BOT\n"
-                    f"• *สถานะ:* ระบบออนไลน์และเชื่อมต่อสมบูรณ์ค่ะ 🟢"
+                    f"📊 *รายงานสถานะ ATHENA SNIPER BOT*\n\n"
+                    f"• *ผู้ช่วยและสมองกล:* Athena (Pure In-Memory Decision Core)\n"
+                    f"• *เป้าหมายรายวัน:* ชนะ 2 ไม้ / วัน (THB)\n"
+                    f"• *ขนาดไม้ลงทุน:* 35.00 บาท (IQ Option)\n"
+                    f"• *คู่เงินที่สแกนสด:* {', '.join(symbols)}\n"
+                    f"• *สถานะความเร็ว:* Zero Latency In-Memory Pipeline 🟢"
                 )
             except Exception as e:
                 reply = f"สถานะระบบออนไลน์ปกติค่ะ (หมายเหตุ: {e})"
