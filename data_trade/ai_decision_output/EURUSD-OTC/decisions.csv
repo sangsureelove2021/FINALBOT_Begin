@@ -8,3 +8,8 @@ timestamp,ID,symbol,action,confidence_score,expiry_minutes,engine_used,reason_th
 2026-08-26 18:13:02+00:00,EURUSDOTC0826181302,EURUSD-OTC,WAIT,0.0,5,ML (AB),Dual-Brain AB ขัดแย้ง: Model A ให้ WAIT (0%) แต่ Model B ให้ WAIT (0%) ➡️ สั่ง WAIT เพื่อความปลอดภัยค่ะ
 2026-08-26 18:14:02+00:00,EURUSDOTC0826181402,EURUSD-OTC,WAIT,0.0,5,ML (AB),Dual-Brain AB ขัดแย้ง: Model A ให้ WAIT (0%) แต่ Model B ให้ WAIT (0%) ➡️ สั่ง WAIT เพื่อความปลอดภัยค่ะ
 2026-08-26 18:15:12+00:00,EURUSDOTC0826181512,EURUSD-OTC,WAIT,0.0,5,ML (AB),Dual-Brain AB ขัดแย้ง: Model A ให้ WAIT (0%) แต่ Model B ให้ WAIT (0%) ➡️ สั่ง WAIT เพื่อความปลอดภัยค่ะ
+2026-08-26 18:16:03+00:00,EURUSDOTC0826181603,EURUSD-OTC,WAIT,0.0,5,ML (AB),Dual-Brain AB ขัดแย้ง: Model A ให้ WAIT (0%) แต่ Model B ให้ WAIT (0%) ➡️ สั่ง WAIT เพื่อความปลอดภัยค่ะ
+2026-08-26 18:17:03+00:00,EURUSDOTC0826181703,EURUSD-OTC,WAIT,0.0,5,ML (AB),Dual-Brain AB ขัดแย้ง: Model A ให้ WAIT (0%) แต่ Model B ให้ WAIT (0%) ➡️ สั่ง WAIT เพื่อความปลอดภัยค่ะ
+2026-08-26 18:18:04+00:00,EURUSDOTC0826181804,EURUSD-OTC,WAIT,0.0,5,ML (AB),Dual-Brain AB ขัดแย้ง: Model A ให้ WAIT (0%) แต่ Model B ให้ WAIT (0%) ➡️ สั่ง WAIT เพื่อความปลอดภัยค่ะ
+2026-08-26 18:19:02+00:00,EURUSDOTC0826181902,EURUSD-OTC,WAIT,0.0,5,ML (AB),Dual-Brain AB ขัดแย้ง: Model A ให้ WAIT (0%) แต่ Model B ให้ WAIT (0%) ➡️ สั่ง WAIT เพื่อความปลอดภัยค่ะ
+2026-08-26 18:20:03+00:00,EURUSDOTC0826182003,EURUSD-OTC,WAIT,0.0,5,ML (AB),Dual-Brain AB ขัดแย้ง: Model A ให้ WAIT (0%) แต่ Model B ให้ WAIT (0%) ➡️ สั่ง WAIT เพื่อความปลอดภัยค่ะ
