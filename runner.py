@@ -1,13 +1,12 @@
 """
-ATHENA SNIPER BOT — Master In-Memory Runner
-============================================
-สถาปัตยกรรมระบบ 3 ส่วน (Pure In-Memory Pipeline):
-- Part 1 (Data Feed): ดึงแท่งเทียนสดจาก IQ Option (M1, M5, M15) เก็บใน RAM 100% (ไม่เขียน CSV)
-- Part 2 (Athena Brain): วิเคราะห์ Multi-Timeframe, Price Action Rejection, Stochastic/RSI ใน RAM (< 10 ms)
-  และฟันธงสัญญาณ CALL / PUT ทันที
-- Part 3 (Athena Guardian): รับสัญญาณ Action ตรง ยิงออเดอร์ไม้ละ 35 บาท (THB)
-  ติดตามผลลัพธ์ และควบคุมเป้าหมายรายวัน "ชนะครบ 2 ไม้ ➡️ ล็อคกำไร & หยุดเทรดทันที"
-- Telegram Bridge: เชื่อมต่อสนทนาและแจ้งเตือนผลสดเข้ามือถือของบอส 100%
+FINALBOT Master Runner (Event-Driven Pipeline)
+==============================================
+สถาปัตยกรรมระบบ:
+- Part 1 (Data Feed): ดึงแท่งเทียนสดจากโบรกเกอร์ บันทึก CSV 8 คอลัมน์ลงดิสก์
+- Event-Driven Trigger (สะกิด): เมื่อ CSVWriter บันทึกไฟล์ลงดิสก์เสร็จ จะยิงสัญญาณ Path แจ้งเตือนทันที
+- Part 2 (Data Evaluate): เมื่อได้รับสัญญาณ จะตื่นมาอ่านไฟล์ CSV จากดิสก์ (pd.read_csv) ทันที
+  คำนวณอินดิเคเตอร์ 5 Engines และสร้างไฟล์ Prompt 100 บรรทัดส่งออกสู่ data_base/orchestrator/<SYMBOL>/
+- Zero RAM Transfer: ไม่มีการส่งผ่านข้อมูลหรือ DataFrame ผ่านแรมระหว่าง Part 1 และ Part 2
 """
 
 import os
@@ -15,26 +14,27 @@ import sys
 import time
 import signal
 import logging
+import concurrent.futures
 import threading
 from datetime import datetime, timezone, timedelta
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict
 
-from monitoring.console_dashboard import ConsoleUI, logger, setup_logging, disable_quick_edit, thai_console_log
+from monitoring.console_dashboard import ConsoleUI, logger, setup_logging, disable_quick_edit
 from config_setting.config_loader import load_settings, get_symbols
 from data_feed.bridge_adapter.broker_factory import BrokerFactory
 from data_feed.data_adapter import DataAdapter
-from data_evaluate.athena_brain import AthenaBrain
-from data_trade.athena_guardian import AthenaGuardian
-from monitoring.telegram_bridge import TelegramBridge
+from data_evaluate.orchestrator import Orchestrator
+from data_evaluate.news_calendar import ensure_calendar_news
 
 setup_logging()
 disable_quick_edit()
 
-_ACTIVE_RUNNER: Optional["AthenaSniperRunner"] = None
+# Global reference for signal handling and instant OS-level hard termination
+_ACTIVE_RUNNER: Optional["DataFeedRunner"] = None
 
 
 def graceful_exit(signum=None, frame=None):
-    """Handle exit signals cleanly and immediately terminate the process."""
+    """Handle exit signals cleanly and immediately hard exit the process."""
     global _ACTIVE_RUNNER
     try:
         ConsoleUI.show_stopping()
@@ -43,34 +43,28 @@ def graceful_exit(signum=None, frame=None):
 
     if _ACTIVE_RUNNER is not None:
         try:
+            if hasattr(_ACTIVE_RUNNER, "executor_manager") and _ACTIVE_RUNNER.executor_manager:
+                Orchestrator.unregister_listener(_ACTIVE_RUNNER.executor_manager.on_orchestrator_payload_saved)
             if hasattr(_ACTIVE_RUNNER, "data_feed") and _ACTIVE_RUNNER.data_feed:
                 _ACTIVE_RUNNER.data_feed.disconnect()
         except Exception:
             pass
 
-    # Hard exit at OS level
+    # Instant hard exit at the OS level (0.00s) to kill all background threads cleanly
     os._exit(0)
 
 
-class AthenaSniperRunner:
-    """Master In-Memory Coordinator for ATHENA SNIPER BOT (3-Part Direct Pipeline)."""
+class DataFeedRunner:
+    """Master Event-Driven Coordinator for Part 1 Data Ingestion and Part 2 Evaluation."""
 
     def __init__(self):
         global _ACTIVE_RUNNER
         _ACTIVE_RUNNER = self
 
         self.settings = load_settings(reload=True)
-        self.account_type = self.settings.get("account", {}).get("account_type", "DEMO")
-        self.stake = float(self.settings.get("account", {}).get("stake_per_trade", 35.0))
-        self.target_wins = int(self.settings.get("account", {}).get("target_wins", 2))
+        self.account_type = self.settings.get("account", {}).get("account_type", "PRACTICE")
 
-        thai_console_log("=" * 70)
-        thai_console_log("👑 ATHENA SNIPER BOT — 2-WINS DAILY PROFIT LOCK (THB)")
-        thai_console_log(f"   ขนาดไม้ลงทุน: {self.stake:.2f} บาท | เป้าหมาย: ชนะ {self.target_wins} ไม้/วัน ล็อคกำไรทันที")
-        thai_console_log("   โหมดการทำงาน: Pure In-Memory Pipeline (Zero Latency - No SSD I/O)")
-        thai_console_log("=" * 70)
-
-        # ── 1. Part 1: Connect Broker and Ingest Data in RAM ──────────────────
+        # 1. Initialize Part 1 Commander (DataAdapter via BrokerFactory)
         ConsoleUI.show_connection_attempt()
         self.data_feed: DataAdapter = BrokerFactory.create_broker(config=self.settings)
         if not self.data_feed.connected:
@@ -78,7 +72,7 @@ class AthenaSniperRunner:
             os._exit(1)
         ConsoleUI.show_connection_success()
 
-        # Dynamically register active asset IDs
+        # 1.1 Dynamically populate active IDs into OP_code.ACTIVES for all broker assets
         try:
             import iqoptionapi.constants as OP_code
             if hasattr(self.data_feed, "api") and self.data_feed.api:
@@ -89,23 +83,50 @@ class AthenaSniperRunner:
                         if name:
                             OP_code.ACTIVES[name] = int(aid)
         except Exception as e:
-            logger.warning(f"[AthenaSniperRunner] Dynamic active registration note: {e}")
+            logger.warning(f"[DataFeedRunner] Dynamic active registration note: {e}")
 
-        # Load trading symbols
+        # 2. Load configured trading assets directly from SSOT (symbols.json)
         self.symbols: List[str] = get_symbols()
         ConsoleUI.show_asset_list(self.symbols)
+
+        # 3. Show Time Sync & Offset
         ConsoleUI.show_time_offset(self.data_feed.time_calendar_mgr.time_offset)
 
-        # Display Account Balance
+        # 4. Display Account Balance
         try:
             balance = self.data_feed.get_balance()
             ConsoleUI.show_account_info(self.account_type, balance)
         except Exception as e:
-            logger.exception("Failed to get balance from broker API")
+            logger.exception("Failed to get account balance from broker")
             raise RuntimeError("FAIL-FAST: Failed to get balance from broker API") from e
 
-        # ── 2. Start Telegram AI Bridge (Background Thread) ───────────────────
+        # 5. Initialize Part 2 Orchestrator (Loads Economic News Calendar automatically)
+        self.orchestrator = Orchestrator(self.settings)
+
+        # 5.1 Pre-warm and Test AI / ML Model Connections
+        ai_cfg = self.settings.get("ai_mode", {})
+        engine = str(ai_cfg.get("engine", ai_cfg.get("primary_engine", "GEMINI_API"))).strip().upper()
+        if engine in ("A", "B", "AB"):
+            from ai_analysis.ml_model.ml_dispatcher import MLDispatcher
+            MLDispatcher.get_instance()
+            from monitoring.console_dashboard import thai_console_log
+            thai_console_log(f"เชื่อมต่อสมองกล ML สำเร็จ (Mode {engine} | Chronos + LightGBM พร้อมใช้งาน)")
+        else:
+            from ai_analysis.system_prompt import SystemPrompt
+            ConsoleUI.show_ai_connection_attempt()
+            SystemPrompt.prewarm_and_test_ai(self.symbols)
+            model_name = ai_cfg.get("gemini_model", "gemini-3.5-flash-lite")
+            ConsoleUI.show_ai_connection_success(channel_count=len(self.symbols), model_name=model_name)
+
+        # 5.2 Initialize Part 3 ExecutorManager & Register Listener on Orchestrator
+        from data_trade.executor_manager import ExecutorManager
+        self.executor_manager = ExecutorManager(self.settings)
+        self.executor_manager._broker_adapter = self.data_feed._broker
+        Orchestrator.register_listener(self.executor_manager.on_orchestrator_payload_saved)
+
+        # 5.3 Start Telegram AI Bridge in Background Thread (Chat with Athena via mobile)
         try:
+            from monitoring.telegram_bridge import TelegramBridge
             self.telegram_bridge = TelegramBridge()
             telegram_thread = threading.Thread(
                 target=self.telegram_bridge.start_polling,
@@ -113,22 +134,12 @@ class AthenaSniperRunner:
                 name="TelegramBridgeWorker"
             )
             telegram_thread.start()
-            logger.info("[AthenaSniperRunner] Telegram AI Bridge started in background thread.")
+            time.sleep(0.3)
+            logger.info("[DataFeedRunner] Telegram AI Bridge started in background thread.")
         except Exception as e:
-            logger.warning(f"[AthenaSniperRunner] Telegram bridge note: {e}")
-            self.telegram_bridge = None
+            logger.warning(f"[DataFeedRunner] Telegram AI Bridge note: {e}")
 
-        # ── 3. Part 2: Initialize Athena Brain Core ───────────────────────────
-        min_conf = self.settings.get("ai_mode", {}).get("min_confidence", 85)
-        self.athena_brain = AthenaBrain(config={"min_confidence": min_conf, "stake": self.stake})
-
-        # ── 4. Part 3: Initialize Athena Guardian & Execution ─────────────────
-        self.athena_guardian = AthenaGuardian(
-            config={"stake": self.stake, "target_wins": self.target_wins},
-            telegram_bridge=self.telegram_bridge
-        )
-
-        # ── 5. Part 1 Historical Warm-Up (250 completed candles in RAM) ────────
+        # 6. Part 1 Commander: Historical Data Warm-Up (250 candles for M1, M5, M15)
         ConsoleUI.show_data_prep_start(self.symbols)
         self.data_feed.warmup_all_symbols(self.symbols)
         self.symbols = getattr(self.data_feed, "ready_symbols", self.symbols)
@@ -151,46 +162,16 @@ class AthenaSniperRunner:
             time.sleep(total_wait)
 
     def run_cycle(self):
-        """Execute one complete In-Memory Ingestion, Athena Evaluation, and Trade Cycle."""
+        """Execute one complete data ingestion and evaluation cycle for all symbols."""
         self.data_feed.ensure_connected()
         if not self.symbols:
             return
 
-        # 1. Check if Daily Target has been reached
-        if self.athena_guardian.target_reached or self.athena_guardian.daily_wins >= self.target_wins:
-            thai_console_log(f"👑 [DAILY TARGET LOCKED] ชนะครบ {self.athena_guardian.daily_wins}/{self.target_wins} ไม้แล้วค่ะ (+{self.athena_guardian.daily_pnl:.2f} THB) — หยุดพักระบบ")
-            return
+        # 1. Part 1: Ingest candles → write CSV to disk → display UI prices & balance
+        self.data_feed.ingest_cycle(self.symbols)
 
-        # 2. Part 1: Ingest candles into RAM
-        prices_dict = self.data_feed.ingest_cycle(self.symbols)
-
-        # 3. Part 2: Athena Parallel In-Memory AI Evaluation (Gemini 3.5 Flash Lite)
-        symbols_candles = {sym: self.data_feed.get_candles_ram(sym) for sym in self.symbols}
-        evaluations: List[Dict[str, Any]] = self.athena_brain.evaluate_all(symbols_candles)
-
-        # Display Live Telemetry on Console Dashboard
-        thai_console_log("-" * 70)
-        thai_console_log(f"🧠 [ATHENA AI DECISION ENGINE] ผลการวิเคราะห์สด {len(evaluations)} คู่เงิน (Gemini 3.5 Flash Lite):")
-        for ev in evaluations:
-            sym = ev.get("symbol")
-            act = ev.get("action")
-            conf = ev.get("confidence", 0)
-            price = ev.get("m5_close", 0.0)
-            reason = ev.get("reason", "")
-            
-            icon = "⚡" if act in ("CALL", "PUT") else "⏳"
-            thai_console_log(f"  {icon} {sym:<12} | Action: {act:<4} | Conf: {conf:>2}% | Price: {price:.5f} | {reason[:45]}")
-        thai_console_log("-" * 70)
-
-        # 4. Part 3: Execution Check (Pick highest confidence A+ signal)
-        best_signal = evaluations[0] if evaluations else None
-        if best_signal and best_signal.get("action") in ("CALL", "PUT") and best_signal.get("confidence", 0) >= self.athena_brain.min_confidence:
-            thai_console_log(f"🎯 [A+ SNIPER ENTRY] ยิงออเดอร์ {best_signal.get('symbol')} {best_signal.get('action')} (มั่นใจ {best_signal.get('confidence')}%)")
-            exec_res = self.athena_guardian.execute_signal(best_signal, broker_adapter=self.data_feed._broker)
-            if exec_res.get("status") == "SUCCESS":
-                ConsoleUI.show_order_success(exec_res.get("order_id"))
-            else:
-                thai_console_log(f"   ⚠️ ผลการยิงออเดอร์: {exec_res.get('status')} ({exec_res.get('message') or exec_res.get('error')})")
+        # 2. Part 2: Read CSV from disk → evaluate 5 Engines → write Prompt 100 lines → display UI payload export
+        self.orchestrator.evaluate_cycle(self.symbols)
 
     def start(self):
         """Main Loop: Runs strictly at each minute boundary (:01.500) and sleeps between intervals."""
@@ -201,12 +182,7 @@ class AthenaSniperRunner:
             try:
                 self.run_cycle()
 
-                # If target reached, sleep longer or gracefully hold
-                if self.athena_guardian.target_reached:
-                    time.sleep(60)
-                    continue
-
-                # Sleep to next minute boundary (:01.500)
+                # Sleep directly to next minute boundary (:01.500)
                 now = datetime.now(tz_thailand)
                 target_time = now.replace(second=1, microsecond=500000)
                 if target_time <= now:
@@ -218,20 +194,26 @@ class AthenaSniperRunner:
             except KeyboardInterrupt:
                 graceful_exit()
             except Exception as e:
-                logger.exception(f"[AthenaSniperRunner] Error in execution loop: {e}")
-                time.sleep(5)
+                logger.exception(f"[DataFeedRunner] Error in runner execution loop: {e}")
+                now = datetime.now(tz_thailand)
+                target_time = now.replace(second=1, microsecond=500000)
+                if target_time <= now:
+                    target_time += timedelta(minutes=1)
+
+                sleep_seconds = max(0.5, (target_time - now).total_seconds())
+                time.sleep(sleep_seconds)
 
 
-# Compatibility alias
-DataFeedRunner = AthenaSniperRunner
-PureAIRunner = AthenaSniperRunner
+# Alias for compatibility with main.py
+PureAIRunner = DataFeedRunner
 
 
 if __name__ == "__main__":
+    # Register signal handlers for clean OS-level hard termination
     signal.signal(signal.SIGINT, graceful_exit)
     signal.signal(signal.SIGTERM, graceful_exit)
     if hasattr(signal, "SIGBREAK"):
         signal.signal(signal.SIGBREAK, graceful_exit)
 
-    runner = AthenaSniperRunner()
+    runner = DataFeedRunner()
     runner.start()

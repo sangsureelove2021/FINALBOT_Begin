@@ -19,7 +19,7 @@ import threading
 from typing import Dict, Any, Optional, List, Tuple
 
 from config_setting.config_loader import load_settings
-from data_trade.ai_analysis.system_prompt import SystemPrompt
+from ai_analysis.system_prompt import SystemPrompt
 from data_trade.execution_gate.gate_controller import ExecutionGate
 from data_trade.execution_gate.money_manager import MoneyManager
 from data_trade.execution_gate.broker_executor import BrokerExecutor
@@ -154,13 +154,24 @@ class ExecutorManager:
                 f"{[t[0] for t in tasks]}"
             )
 
-            # ── AI Decision: N-Symbol Concurrent Dispatch ───────────────────
+            # ── AI / ML Decision Dispatch ───────────────────────────────────
             try:
-                decisions: Dict[str, Dict[str, Any]] = \
-                    SystemPrompt.process_ai_decisions_concurrent(tasks)
+                ai_cfg = self.settings.get("ai_mode", {})
+                engine = str(ai_cfg.get("engine", ai_cfg.get("primary_engine", "GEMINI_API"))).strip().upper()
+                if engine in ("A", "B", "AB"):
+                    from ai_analysis.ml_model.ml_dispatcher import MLDispatcher
+                    ml_disp = MLDispatcher.get_instance()
+                    decisions = {
+                        sym: ml_disp.process_payload_file(sym, fpath)
+                        for sym, fpath in tasks
+                    }
+                    from monitoring.console_dashboard import ConsoleUI
+                    ConsoleUI.show_ai_analysis_complete(len(tasks))
+                else:
+                    decisions = SystemPrompt.process_ai_decisions_concurrent(tasks)
             except Exception as e:
                 logger.exception(
-                    f"[ExecutorManager] process_ai_decisions_concurrent crashed: {e}"
+                    f"[ExecutorManager] decision dispatch crashed: {e}"
                 )
                 traceback.print_exc()
                 decisions = {
@@ -169,7 +180,7 @@ class ExecutorManager:
                         "action": "WAIT",
                         "expiry_minutes": 1,
                         "confidence_score": 0,
-                        "ai_final_reason_th": f"Concurrent AI crashed: {e}",
+                        "ai_final_reason_th": f"Decision crashed: {e}",
                         "engine_used": "FALLBACK_SAFE_WAIT"
                     }
                     for sym, _ in tasks

@@ -7,9 +7,9 @@ Layers:
 """
 
 from data_trade.executor_manager import ExecutorManager
-from data_trade.ai_analysis.system_prompt import SystemPrompt
-from data_trade.ai_analysis.deepseek_bridge import DeepSeekBrowserAgent
-from data_trade.ai_analysis.gemini_bridge import GeminiApiAgent
+from ai_analysis.system_prompt import SystemPrompt
+from ai_analysis.deepseek_bridge import DeepSeekBrowserAgent
+from ai_analysis.gemini_bridge import GeminiApiAgent
 from data_trade.execution_gate.gate_controller import ExecutionGate
 from data_trade.execution_gate.money_manager import MoneyManager
 from data_trade.execution_gate.broker_executor import BrokerExecutor

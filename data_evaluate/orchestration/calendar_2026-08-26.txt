@@ -1,0 +1,138 @@
+[
+    {
+        "title": "MI Leading Index m/m",
+        "country": "AUD",
+        "date": "2026-08-26T00:30:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": "0.0%"
+    },
+    {
+        "title": "CPI m/m",
+        "country": "AUD",
+        "date": "2026-08-26T01:30:00+00:00",
+        "impact": "High",
+        "forecast": "0.9%",
+        "previous": "-0.1%"
+    },
+    {
+        "title": "CPI y/y",
+        "country": "AUD",
+        "date": "2026-08-26T01:30:00+00:00",
+        "impact": "High",
+        "forecast": "3.3%",
+        "previous": "3.8%"
+    },
+    {
+        "title": "Trimmed Mean CPI m/m",
+        "country": "AUD",
+        "date": "2026-08-26T01:30:00+00:00",
+        "impact": "High",
+        "forecast": "0.4%",
+        "previous": "0.3%"
+    },
+    {
+        "title": "Construction Work Done q/q",
+        "country": "AUD",
+        "date": "2026-08-26T01:30:00+00:00",
+        "impact": "Low",
+        "forecast": "0.5%",
+        "previous": "3.4%"
+    },
+    {
+        "title": "UBS Economic Expectations",
+        "country": "CHF",
+        "date": "2026-08-26T08:00:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": "10.0"
+    },
+    {
+        "title": "CBI Realized Sales",
+        "country": "GBP",
+        "date": "2026-08-26T10:00:00+00:00",
+        "impact": "Low",
+        "forecast": "-35",
+        "previous": "-26"
+    },
+    {
+        "title": "Core PCE Price Index m/m",
+        "country": "USD",
+        "date": "2026-08-26T12:30:00+00:00",
+        "impact": "High",
+        "forecast": "0.2%",
+        "previous": "0.1%"
+    },
+    {
+        "title": "Prelim GDP q/q",
+        "country": "USD",
+        "date": "2026-08-26T12:30:00+00:00",
+        "impact": "High",
+        "forecast": "1.5%",
+        "previous": "1.5%"
+    },
+    {
+        "title": "Prelim GDP Price Index q/q",
+        "country": "USD",
+        "date": "2026-08-26T12:30:00+00:00",
+        "impact": "Medium",
+        "forecast": "6.2%",
+        "previous": "6.2%"
+    },
+    {
+        "title": "Core Durable Goods Orders m/m",
+        "country": "USD",
+        "date": "2026-08-26T12:30:00+00:00",
+        "impact": "Low",
+        "forecast": "0.6%",
+        "previous": "0.6%"
+    },
+    {
+        "title": "Durable Goods Orders m/m",
+        "country": "USD",
+        "date": "2026-08-26T12:30:00+00:00",
+        "impact": "Low",
+        "forecast": "0.4%",
+        "previous": "0.3%"
+    },
+    {
+        "title": "Personal Income m/m",
+        "country": "USD",
+        "date": "2026-08-26T12:30:00+00:00",
+        "impact": "Low",
+        "forecast": "0.2%",
+        "previous": "0.2%"
+    },
+    {
+        "title": "Personal Spending m/m",
+        "country": "USD",
+        "date": "2026-08-26T12:30:00+00:00",
+        "impact": "Low",
+        "forecast": "0.1%",
+        "previous": "0.3%"
+    },
+    {
+        "title": "Crude Oil Inventories",
+        "country": "USD",
+        "date": "2026-08-26T14:30:00+00:00",
+        "impact": "Low",
+        "forecast": "1.6M",
+        "previous": "4.4M"
+    },
+    {
+        "title": "FOMC Member Barkin Speaks",
+        "country": "USD",
+        "date": "2026-08-26T15:45:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": ""
+    },
+    {
+        "title": "Gov Board Member Martin Speaks",
+        "country": "CHF",
+        "date": "2026-08-26T16:15:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": ""
+    }
+]

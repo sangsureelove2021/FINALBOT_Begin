@@ -1,0 +1,130 @@
+[
+    {
+        "title": "Household Spending m/m",
+        "country": "AUD",
+        "date": "2026-08-27T01:30:00+00:00",
+        "impact": "Low",
+        "forecast": "0.3%",
+        "previous": "0.8%"
+    },
+    {
+        "title": "Private Capital Expenditure q/q",
+        "country": "AUD",
+        "date": "2026-08-27T01:30:00+00:00",
+        "impact": "Low",
+        "forecast": "0.8%",
+        "previous": "6.5%"
+    },
+    {
+        "title": "RBA Bulletin",
+        "country": "AUD",
+        "date": "2026-08-27T01:30:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": ""
+    },
+    {
+        "title": "German GfK Consumer Climate",
+        "country": "EUR",
+        "date": "2026-08-27T06:00:00+00:00",
+        "impact": "Low",
+        "forecast": "-29.5",
+        "previous": "-29.6"
+    },
+    {
+        "title": "M3 Money Supply y/y",
+        "country": "EUR",
+        "date": "2026-08-27T08:00:00+00:00",
+        "impact": "Low",
+        "forecast": "3.5%",
+        "previous": "3.3%"
+    },
+    {
+        "title": "Private Loans y/y",
+        "country": "EUR",
+        "date": "2026-08-27T08:00:00+00:00",
+        "impact": "Low",
+        "forecast": "2.9%",
+        "previous": "3.0%"
+    },
+    {
+        "title": "ECB Monetary Policy Meeting Accounts",
+        "country": "EUR",
+        "date": "2026-08-27T11:30:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": ""
+    },
+    {
+        "title": "Current Account",
+        "country": "CAD",
+        "date": "2026-08-27T12:30:00+00:00",
+        "impact": "Low",
+        "forecast": "3.5B",
+        "previous": "-7.2B"
+    },
+    {
+        "title": "Unemployment Claims",
+        "country": "USD",
+        "date": "2026-08-27T12:30:00+00:00",
+        "impact": "Medium",
+        "forecast": "208K",
+        "previous": "206K"
+    },
+    {
+        "title": "Goods Trade Balance",
+        "country": "USD",
+        "date": "2026-08-27T12:30:00+00:00",
+        "impact": "Low",
+        "forecast": "-100.8B",
+        "previous": "-101.5B"
+    },
+    {
+        "title": "Prelim Wholesale Inventories m/m",
+        "country": "USD",
+        "date": "2026-08-27T12:30:00+00:00",
+        "impact": "Low",
+        "forecast": "0.2%",
+        "previous": "0.2%"
+    },
+    {
+        "title": "CB Leading Index m/m",
+        "country": "CNY",
+        "date": "2026-08-27T13:00:00+00:00",
+        "impact": "Low",
+        "forecast": "",
+        "previous": "0.1%"
+    },
+    {
+        "title": "Natural Gas Storage",
+        "country": "USD",
+        "date": "2026-08-27T14:30:00+00:00",
+        "impact": "Low",
+        "forecast": "19B",
+        "previous": "16B"
+    },
+    {
+        "title": "Jackson Hole Symposium",
+        "country": "All",
+        "date": "2026-08-27T16:15:00+00:00",
+        "impact": "Medium",
+        "forecast": "",
+        "previous": ""
+    },
+    {
+        "title": "Tokyo Core CPI y/y",
+        "country": "JPY",
+        "date": "2026-08-27T23:30:00+00:00",
+        "impact": "Medium",
+        "forecast": "1.8%",
+        "previous": "1.9%"
+    },
+    {
+        "title": "Unemployment Rate",
+        "country": "JPY",
+        "date": "2026-08-27T23:30:00+00:00",
+        "impact": "Low",
+        "forecast": "2.5%",
+        "previous": "2.5%"
+    }
+]
