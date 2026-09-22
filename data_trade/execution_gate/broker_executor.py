@@ -64,7 +64,7 @@ class BrokerExecutor:
         Args:
             symbol: Asset symbol (e.g. 'EURUSD', 'GBPUSD', 'EURUSD-OTC', 'DIA', 'SPY').
             action: 'CALL' or 'PUT'.
-            expiry_minutes: Contract expiration duration in minutes (1-5).
+            expiry_minutes: Contract expiration duration in minutes (fixed at 5 for M5).
             stake: Order amount (e.g. 35.0).
             broker_adapter: Broker facade instance.
             
@@ -78,8 +78,11 @@ class BrokerExecutor:
         if norm_action not in ("CALL", "PUT"):
             raise ValueError(f"FAIL-FAST: Invalid action '{action}', must be 'CALL' or 'PUT'")
 
-        if not (1 <= expiry_minutes <= 5):
-            raise ValueError(f"FAIL-FAST: Invalid expiry_minutes '{expiry_minutes}', must be between 1 and 5")
+        if expiry_minutes != 5:
+            raise ValueError(
+                f"FAIL-FAST: Invalid expiry_minutes '{expiry_minutes}', "
+                "M5 Binary Options strategy requires exactly 5 minutes"
+            )
 
         if not isinstance(stake, (int, float)) or stake <= 0:
             raise ValueError(f"FAIL-FAST: Invalid stake '{stake}', must be a positive number")
@@ -180,43 +183,10 @@ class BrokerExecutor:
         elapsed = round(time.time() - start_t, 3)
         error_reason = last_error or "Unknown broker rejection after retries"
 
-        # ── Step 2: Protocol 2 (Digital Options V2 Fallback) ────────────
-        if "not available" in error_reason or "suspended" in error_reason or "invalid" in error_reason:
-            logger.info(f"[BrokerExecutor] [Schema 2.0] Attempting Digital Options V2 fallback for {symbol}...")
-            digital_status, digital_id = self._try_digital_v2(api, symbol, act_param, stake, expiry_minutes)
-            if digital_status and digital_id is not None:
-                elapsed = round(time.time() - start_t, 3)
-                logger.info(
-                    f"[BrokerExecutor] Order Placed SUCCESS (Digital V2) -> ID: {digital_id}, "
-                    f"Symbol: {symbol}, Action: {norm_action}, Elapsed: {elapsed}s"
-                )
-                return {
-                    "status": "SUCCESS",
-                    "order_id": str(digital_id),
-                    "symbol": symbol,
-                    "action": norm_action,
-                    "stake": float(stake),
-                    "expiry_minutes": int(expiry_minutes),
-                    "timestamp": order_timestamp,
-                    "protocol": "DIGITAL_V2",
-                    "error": None,
-                    "latency_sec": elapsed,
-                    "retry_attempt": max_retries
-                }
-
-        return {
-            "status": "FAILED",
-            "order_id": None,
-            "symbol": symbol,
-            "action": norm_action,
-            "stake": float(stake),
-            "expiry_minutes": int(expiry_minutes),
-            "timestamp": order_timestamp,
-            "protocol": "BINARY_TURBO",
-            "error": error_reason,
-            "latency_sec": elapsed,
-            "retry_attempt": max_retries
-        }
+        raise RuntimeError(
+            f"FAIL-FAST: Broker rejected {norm_action} {symbol} "
+            f"after {max_retries} attempts: {error_reason}"
+        )
 
     def _try_digital_v2(self, api: Any, symbol: str, action: str, stake: float, duration: int) -> tuple:
         """Helper to safely execute Digital Option V2 orders with strict timeout and no hanging."""

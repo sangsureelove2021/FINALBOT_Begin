@@ -21,6 +21,7 @@ _CANDLES_LOCK = threading.Lock()
 
 # Timeframe mapping to IQ Option candle sizes (in seconds)
 _TF_SECONDS: Dict[str, int] = {
+    'S30': 30,
     'M1': 60,
     'M5': 300,
     'M15': 900,

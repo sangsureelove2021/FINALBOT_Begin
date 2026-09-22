@@ -20,6 +20,7 @@ class RAMCacheStore:
         """Initialize RAMCacheStore with empty stores."""
         # Per-symbol candle stores (raw data from broker)
         self._store_m1: Dict[str, Optional[pd.DataFrame]] = {}
+        self._store_s30: Dict[str, Optional[pd.DataFrame]] = {}
         self._store_m5: Dict[str, Optional[pd.DataFrame]] = {}
         self._store_m15: Dict[str, Optional[pd.DataFrame]] = {}
         
@@ -28,6 +29,7 @@ class RAMCacheStore:
         
         # Track last written block indices to avoid redundant disk writes
         self._last_block_m1: Dict[str, int] = {}
+        self._last_block_s30: Dict[str, int] = {}
         self._last_block_m5: Dict[str, int] = {}
         self._last_block_m15: Dict[str, int] = {}
         
@@ -49,6 +51,8 @@ class RAMCacheStore:
         """
         if timeframe == 'M1':
             return self._store_m1
+        elif timeframe == 'S30':
+            return self._store_s30
         elif timeframe == 'M5':
             return self._store_m5
         elif timeframe == 'M15':
@@ -71,6 +75,8 @@ class RAMCacheStore:
         """
         if timeframe == 'M1':
             return self._last_block_m1
+        elif timeframe == 'S30':
+            return self._last_block_s30
         elif timeframe == 'M5':
             return self._last_block_m5
         elif timeframe == 'M15':

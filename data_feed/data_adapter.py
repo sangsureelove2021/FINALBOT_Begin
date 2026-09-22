@@ -36,6 +36,7 @@ logger = logging.getLogger(__name__)
 
 # Gap thresholds (will be loaded from config)
 _M1_GAP_SEC = 300    # > 5 min gap on M1 → re-fetch 200 candles
+_S30_GAP_SEC = 150   # > 2.5 min gap on S30 → re-fetch 200 candles
 _M5_GAP_SEC = 1500   # > 25 min gap on M5 → re-fetch 200 candles
 _M15_GAP_SEC = 4500  # > 75 min gap on M15 → re-fetch 200 candles
 
@@ -87,7 +88,7 @@ class DataAdapter(IDataSource):
         if base_dir is None:
             from config_setting.config_loader import get_csv_manager_config
             csv_mgr_cfg = get_csv_manager_config()
-            base_dir = csv_mgr_cfg.get("base_dir", "data_feed/ohclv_output/iq_option")
+            base_dir = csv_mgr_cfg.get("base_dir", "data_base/output_feed")
 
         self._csv_manager = CSVManager(base_dir, df_config.get("csv_manager", {}))
         self._csv_queue = CSVQueue(df_config.get("csv_queue", {}))
@@ -104,6 +105,16 @@ class DataAdapter(IDataSource):
         self.min_candle_count = adapter_config.get("min_candle_count", 21)
         self.m5_seconds = adapter_config.get("m5_seconds", 300)
         self.m15_seconds = adapter_config.get("m15_seconds", 900)
+        self.s30_seconds = adapter_config.get("s30_seconds", 30)
+        self.active_mode = str(full_settings.get("active_mode", "") if config is None else config.get("active_mode", "")).lower()
+        self.strategy_timeframes = tuple(
+            adapter_config.get("strategies_timeframes", ("S30", "M1", "M5"))
+        )
+        self.strategy_mode = self.active_mode == "strategies_mode"
+        self.strategy_m15_enabled = bool(
+            adapter_config.get("strategies_enable_m15", False)
+        )
+        self.skip_m15_for_strategy = self.strategy_mode and not self.strategy_m15_enabled
         self.auto_reconnect = adapter_config.get("auto_reconnect", True)
         
         # Zero Tolerance compliance check
@@ -167,54 +178,76 @@ class DataAdapter(IDataSource):
 
         try:
             # Fetch initial candles (extra buffer so after drop_forming, count >= 250 for all timeframes)
+            s30 = self._broker.get_candles(symbol, 'S30', 255, end_time=broker_epoch)
             m1 = self._broker.get_candles(symbol, 'M1', 255, end_time=broker_epoch)
             m5 = self._broker.get_candles(symbol, 'M5', 255, end_time=broker_epoch)
-            m15 = self._broker.get_candles(symbol, 'M15', 255, end_time=broker_epoch)
+            m15 = None if self.skip_m15_for_strategy else self._broker.get_candles(
+                symbol, 'M15', 255, end_time=broker_epoch
+            )
 
-            if (m1 is None or m1.empty or len(m1) < 2) or \
+            if (s30 is None or s30.empty or len(s30) < 2) or \
+               (m1 is None or m1.empty or len(m1) < 2) or \
                (m5 is None or m5.empty or len(m5) < 2) or \
-               (m15 is None or m15.empty or len(m15) < 2):
-                raise ValueError("Incomplete data during init_symbol — all timeframes (M1, M5, M15) must be fetched directly from broker")
+               (not self.skip_m15_for_strategy and (m15 is None or m15.empty or len(m15) < 2)):
+                raise ValueError("Incomplete data during init_symbol — strategies mode requires S30, M1, M5; other modes require M15 too")
 
             # Validate data using DataValidator
+            self._validator.validate(s30, symbol)
             self._validator.validate(m1, symbol)
             self._validator.validate(m5, symbol)
-            self._validator.validate(m15, symbol)
+            if m15 is not None:
+                self._validator.validate(m15, symbol)
 
             # Store data in cache
+            self._cache.set_store_data('S30', symbol, s30)
             self._cache.set_store_data('M1', symbol, m1)
             self._cache.set_store_data('M5', symbol, m5)
-            self._cache.set_store_data('M15', symbol, m15)
+            if m15 is not None:
+                self._cache.set_store_data('M15', symbol, m15)
 
             # Set initial last_block to current time block
+            self._cache.set_last_block_value('S30', symbol, TimeSyncManager.calculate_time_block(broker_epoch, self.s30_seconds))
             self._cache.set_last_block_value('M1', symbol, TimeSyncManager.calculate_time_block(broker_epoch, 60))
             self._cache.set_last_block_value('M5', symbol, TimeSyncManager.calculate_time_block(broker_epoch, self.m5_seconds))
-            self._cache.set_last_block_value('M15', symbol, TimeSyncManager.calculate_time_block(broker_epoch, self.m15_seconds))
+            if m15 is not None:
+                self._cache.set_last_block_value('M15', symbol, TimeSyncManager.calculate_time_block(broker_epoch, self.m15_seconds))
 
             # Drop the still-forming last candle on each timeframe using broker_epoch and retain 250 completed
+            s30_completed = drop_forming(s30, broker_epoch, 30).tail(250)
             m1_completed = drop_forming(m1, broker_epoch, 60).tail(250)
             m5_completed = drop_forming(m5, broker_epoch, 300).tail(250)
-            m15_completed = drop_forming(m15, broker_epoch, 900).tail(250)
+            m15_completed = (
+                None if self.skip_m15_for_strategy
+                else drop_forming(m15, broker_epoch, 900).tail(250)
+            )
 
             # Add age and quality columns to initial candles using broker_epoch
+            s30_completed = add_age_and_quality(s30_completed, broker_epoch, 30)
             m1_completed = add_age_and_quality(m1_completed, broker_epoch, 60)
             m5_completed = add_age_and_quality(m5_completed, broker_epoch, 300)
-            m15_completed = add_age_and_quality(m15_completed, broker_epoch, 900)
+            if m15_completed is not None:
+                m15_completed = add_age_and_quality(m15_completed, broker_epoch, 900)
 
             # Store completed candles in RAM cache
             self._cache.set_completed_candles(symbol, {
+                'S30': s30_completed,
                 'M1': m1_completed,
                 'M5': m5_completed,
-                'M15': m15_completed
+                **({} if m15_completed is None else {'M15': m15_completed})
             })
 
-            # Enqueue write to CSV files on SSD disk for all 3 timeframes (if enabled)
+            # Enqueue write to CSV files on SSD disk for all 4 timeframes (if enabled)
             if self.enable_csv_export:
-                for tf, df in [('M1', m1_completed), ('M5', m5_completed), ('M15', m15_completed)]:
+                for tf, df in [('S30', s30_completed), ('M1', m1_completed), ('M5', m5_completed)] + ([] if m15_completed is None else [('M15', m15_completed)]):
                     file_path = self._csv_manager.get_file_path(symbol, tf)
                     self._csv_queue.enqueue_write(df, file_path)
 
-            logger.info(f"[DataAdapter] {symbol} initialised in RAM (CSV Export: {self.enable_csv_export}) — M1:{len(m1_completed)} M5:{len(m5_completed)} M15:{len(m15_completed)}")
+            logger.info(
+                f"[DataAdapter] {symbol} initialised in RAM "
+                f"(CSV Export: {self.enable_csv_export}) — "
+                f"S30:{len(s30_completed)} M1:{len(m1_completed)} "
+                f"M5:{len(m5_completed)}" + (f" M15:{len(m15_completed)}" if m15_completed is not None else "")
+            )
             return True
 
         except Exception as e:
@@ -260,7 +293,21 @@ class DataAdapter(IDataSource):
         try:
             logger.info(f"[DataAdapter] Starting update for {symbol}")
 
-            # 1. Staggered Step 1: M1 fetch at second :01.500
+            # 1. Refresh S30 and M1 candles.
+            broker_epoch_s30 = self._wait_staggered_timing(0.8, broker_epoch)
+            current_block_s30 = TimeSyncManager.calculate_time_block(broker_epoch_s30, self.s30_seconds)
+            completed_s30, s30_changed = process_candle_refresh(
+                symbol=symbol, broker_epoch=broker_epoch_s30,
+                store_dict=self._cache.get_store('S30'),
+                last_block_dict=self._cache.get_last_block('S30'),
+                data_source=self._broker, timeframe='S30', tf_seconds=30,
+                max_candles=250, gap_threshold=_S30_GAP_SEC,
+                validator=self._validator, current_block=current_block_s30
+            )
+            if completed_s30 is None:
+                raise ValueError("S30 refresh failed")
+
+            # 2. Staggered Step 1: M1 fetch at second :01.500
             broker_epoch_m1 = self._wait_staggered_timing(1.5, broker_epoch)
             current_block_m1 = TimeSyncManager.calculate_time_block(broker_epoch_m1, 60)
 
@@ -309,44 +356,43 @@ class DataAdapter(IDataSource):
             if completed_m5 is None:
                 raise ValueError("M5 refresh failed")
 
-            # 3. Staggered Step 3: M15 fetch at second :02.500 (when 15-min block closes)
-            current_block_m15 = TimeSyncManager.calculate_time_block(broker_epoch, self.m15_seconds)
-            last_block_m15 = self._cache.get_last_block('M15').get(symbol)
-            m15_needs_fetch = (self._cache.get_store('M15').get(symbol) is None) or (current_block_m15 != last_block_m15)
-
-            if m15_needs_fetch:
-                broker_epoch_m15 = self._wait_staggered_timing(2.5, broker_epoch)
-                current_block_m15 = TimeSyncManager.calculate_time_block(broker_epoch_m15, self.m15_seconds)
+            if self.skip_m15_for_strategy:
+                completed_m15, m15_changed = None, False
             else:
-                broker_epoch_m15 = broker_epoch_m5
+                # 3. Staggered Step 3: M15 fetch at second :02.500 (when 15-min block closes)
+                current_block_m15 = TimeSyncManager.calculate_time_block(broker_epoch, self.m15_seconds)
+                last_block_m15 = self._cache.get_last_block('M15').get(symbol)
+                m15_needs_fetch = (self._cache.get_store('M15').get(symbol) is None) or (current_block_m15 != last_block_m15)
+
+                if m15_needs_fetch:
+                    broker_epoch_m15 = self._wait_staggered_timing(2.5, broker_epoch)
+                    current_block_m15 = TimeSyncManager.calculate_time_block(broker_epoch_m15, self.m15_seconds)
+                else:
+                    broker_epoch_m15 = broker_epoch_m5
 
             # Refresh M15 data using process_candle_refresh
-            completed_m15, m15_changed = process_candle_refresh(
-                symbol=symbol,
-                broker_epoch=broker_epoch_m15,
-                store_dict=self._cache.get_store('M15'),
-                last_block_dict=self._cache.get_last_block('M15'),
-                data_source=self._broker,
-                timeframe='M15',
-                tf_seconds=900,
-                max_candles=250,
-                gap_threshold=_M15_GAP_SEC,
-                validator=self._validator,
-                current_block=current_block_m15
-            )
-            if completed_m15 is None:
-                raise ValueError("M15 refresh failed")
+                completed_m15, m15_changed = process_candle_refresh(
+                    symbol=symbol, broker_epoch=broker_epoch_m15,
+                    store_dict=self._cache.get_store('M15'),
+                    last_block_dict=self._cache.get_last_block('M15'),
+                    data_source=self._broker, timeframe='M15', tf_seconds=900,
+                    max_candles=250, gap_threshold=_M15_GAP_SEC,
+                    validator=self._validator, current_block=current_block_m15
+                )
+                if completed_m15 is None:
+                    raise ValueError("M15 refresh failed")
 
             # Store completed candles in RAM cache
             self._cache.set_completed_candles(symbol, {
+                'S30': completed_s30,
                 'M1': completed_m1,
                 'M5': completed_m5,
-                'M15': completed_m15
+                **({} if completed_m15 is None else {'M15': completed_m15})
             })
 
             # Enqueue write to CSV files ONLY when a new candle completed (and CSV export is enabled)
             if self.enable_csv_export:
-                for tf, df, changed in [('M1', completed_m1, m1_changed), ('M5', completed_m5, m5_changed), ('M15', completed_m15, m15_changed)]:
+                for tf, df, changed in [('S30', completed_s30, s30_changed), ('M1', completed_m1, m1_changed), ('M5', completed_m5, m5_changed)] + ([] if completed_m15 is None else [('M15', completed_m15, m15_changed)]):
                     if changed:
                         file_path = self._csv_manager.get_file_path(symbol, tf)
                         self._csv_queue.enqueue_write(df, file_path)
@@ -408,7 +454,8 @@ class DataAdapter(IDataSource):
     def warmup_all_symbols(self, symbols: List[str]) -> bool:
         """
         Commander method: Warm up 250 historical candles for all symbols concurrently.
-        Fetches M1, M5, M15 candles, validates data, stores in RAM, and writes 8-column CSV to disk.
+        Fetches S30, M1, M5 (and M15 outside strategies mode), validates data,
+        stores in RAM, and writes CSV to disk.
         """
         if not isinstance(symbols, list) or not symbols:
             raise ValueError("FAIL-FAST: symbols must be a non-empty list of strings")
@@ -551,5 +598,3 @@ class DataAdapter(IDataSource):
     def get_open_symbols(self, target_symbols: Optional[List[str]] = None) -> List[str]:
         """Check and return list of open symbols (delegated to broker adapter)."""
         return self._broker.get_open_symbols(target_symbols)
-
-

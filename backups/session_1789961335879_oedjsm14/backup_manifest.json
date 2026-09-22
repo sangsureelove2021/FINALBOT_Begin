@@ -1,0 +1,11 @@
+[
+  {
+    "timestamp": 1789961335880,
+    "type": "user_prompt",
+    "operation": "backup_user_prompt",
+    "sessionId": "session_1789961335879_oedjsm14",
+    "taskContent": "อ่านโครงสร้าง repo E:\\FINALBOT_Begin โดยเน้นไฟล์ data_evaluate/orchestrator.py, data_evaluate/orchestration/indicator_store/*.py, data_evaluate/orchestration/advanced_tools/*.py, data_trade/execution_gate/gate_controller.py และรายชื่อกลยุทธ์ Belive ที่ต้องใช้: indicators = [EMA, RSI, STOCHASTIC, MACD, BOLLINGER_BAND, ATR, ADX, VOLUME_RATIO, SLOPE, PIVOT, SUPPORT_RESISTANCE, MARKET_STRUCTURE, DIVERGENCE, CANDLE_PATTERN, TREND_DIRECTION, STRUCTURE_SHIFT, MOMENTUM, RISK_FILTER]; tools = [IndicatorStore, AdvancedToolsManager, TrendEngine, StrengthEngine, VolatilityEngine, StructureEngine, MTFEngine, MarketStateClassifier, ExplainabilityEngine, LiquidityEngine, NoiseDetector, ProbabilityEstimator, SignalThrottle, ContextSynthesizer, MarketStructureEngine, MarketPressureAnalyzer, ExecutionGate]. ให้ตรวจว่า repo ทำการคำนวณและใช้จริงทุกตัวหรือไม่ โดยอ้างอิงโค้ดจริง และรายงาน: 1) ที่ใช้อย่างถูกต้อง 2) ที่ไม่คำนวณจริง/เป็น heuristic 3) จากมาตรฐานสากล ว่ามีความตรงตามมาตรฐานหรือไม่ 4) กำหนดไฟล์/ฟังก์ชันที่พิสูจน์แต่ละข้อ. ห้ามแก้ไฟล์ และห้ามส่ง credential หรือ secret. อ่านเฉพาะไฟล์ที่เกี่ยวข้องเท่านั้น",
+    "taskLength": 1107,
+    "createdAt": "2026-09-21T03:28:55.880Z"
+  }
+]

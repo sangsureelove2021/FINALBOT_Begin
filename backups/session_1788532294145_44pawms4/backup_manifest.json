@@ -1,0 +1,11 @@
+[
+  {
+    "timestamp": 1788532294145,
+    "type": "user_prompt",
+    "operation": "backup_user_prompt",
+    "sessionId": "session_1788532294145_44pawms4",
+    "taskContent": "กรุณาตรวจทานโค้ด e:\\FINALBOT_Begin\\config_setting\\symbols_selection.py เทียบกับโค้ดต้นฉบับ e:\\FINALBOT_Begin\\symbols_scanner\\secondary_filter.py โดยดูว่าตรรกะ 100 คะแนนเต็ม (7 Skills + 4 Edges + S/R) และการดึงแท่งเทียน 4 TF In-Memory ถูกต้องตรงกันไหม สรุปผลมาสั้นๆ",
+    "taskLength": 264,
+    "createdAt": "2026-09-04T14:31:34.145Z"
+  }
+]

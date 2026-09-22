@@ -1,0 +1,11 @@
+[
+  {
+    "timestamp": 1788532272080,
+    "type": "user_prompt",
+    "operation": "backup_user_prompt",
+    "sessionId": "session_1788532272079_2uiqomh9",
+    "taskContent": "กรุณาตรวจทานโค้ด e:\\FINALBOT_Begin\\config_setting\\symbols_selection.py เทียบกับโค้ดต้นฉบับ e:\\FINALBOT_Begin\\symbols_scanner\\secondary_filter.py และ symbols_selector.py โดยให้ดูว่า: 1. ตรรกะ 100 คะแนนเต็ม (7 Skills + 4 Edges + S/R) คำนวณตรงกันเป๊ะไหม 2. การดึงแท่งเทียน 4 TF (Tick 30, M1 20, M5 20, M15 20) ทำงานแบบ In-Memory ไม่เซฟ SSD ถูกต้องไหม 3. การอ่าน symbols_user.json และบันทึก symbols.json เป็นไปตามมาตรฐานไหม สรุปผลการตรวจและแจ้งจุดต่างหรือข้อผิดพลาดอย่างละเอียด",
+    "taskLength": 473,
+    "createdAt": "2026-09-04T14:31:12.080Z"
+  }
+]

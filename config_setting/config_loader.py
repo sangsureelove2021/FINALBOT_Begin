@@ -121,6 +121,56 @@ def get_symbols() -> list[str]:
     return [str(s).strip() for s in symbols if str(s).strip()]
 
 
+def get_symbols_with_payouts() -> tuple[list[str], dict[str, int]]:
+    """
+    Read trading symbols and payouts directly from config_setting/symbols.json.
+
+    Returns:
+        tuple[list[str], dict[str, int]]: (symbols list, payouts mapping)
+    """
+    here = Path(__file__).resolve().parent
+    candidates = [
+        here / "symbols.json",
+        Path.cwd() / "config_setting" / "symbols.json",
+        Path("config_setting/symbols.json"),
+    ]
+    symbols_file = None
+    for p in candidates:
+        if p.is_file():
+            symbols_file = p
+            break
+
+    if not symbols_file:
+        raise FileNotFoundError("FAIL-FAST: config_setting/symbols.json not found")
+
+    with open(symbols_file, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    if isinstance(data, list):
+        symbols = data
+        payouts_raw = {}
+    elif isinstance(data, dict):
+        symbols = data.get("symbols", [])
+        payouts_raw = data.get("payouts", {})
+    else:
+        symbols = None
+        payouts_raw = {}
+
+    if not symbols or not isinstance(symbols, list):
+        raise ValueError("FAIL-FAST: Missing or empty 'symbols' array in config_setting/symbols.json")
+
+    cleaned_symbols = [str(s).strip() for s in symbols if str(s).strip()]
+    cleaned_payouts: dict[str, int] = {}
+    if isinstance(payouts_raw, dict):
+        for k, v in payouts_raw.items():
+            try:
+                cleaned_payouts[str(k).strip()] = int(round(float(v)))
+            except (ValueError, TypeError):
+                continue
+
+    return cleaned_symbols, cleaned_payouts
+
+
 def load_datafeed_settings() -> Dict[str, Any]:
     """Load datafeed configuration from settings"""
     return load_settings().get("data_feed", {})

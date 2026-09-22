@@ -53,7 +53,7 @@ class BrokerFactory:
 
         # Resolve base dir for CSV manager
         csv_mgr_cfg = get_csv_manager_config()
-        base_dir = csv_mgr_cfg.get("base_dir", "data_feed/ohclv_output/iq_option")
+        base_dir = csv_mgr_cfg.get("base_dir", "data_base/output_feed")
 
         data_adapter = DataAdapter(
             broker_adapter=raw_broker,

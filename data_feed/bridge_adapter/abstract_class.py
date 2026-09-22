@@ -65,7 +65,7 @@ class IDataSource(ABC):
 
         Args:
             symbol: ชื่อสัญลักษณ์ เช่น 'EURUSD-OTC' (ตาม settings.json)
-            timeframe: 'M1', 'M5', 'M15'
+            timeframe: 'S30', 'M1', 'M5', 'M15'
             count: จำนวนแท่งเทียนที่ต้องการ
             end_time: epoch timestamp สิ้นสุด (optional)
 
@@ -81,7 +81,7 @@ class IDataSource(ABC):
         
         Args:
             symbol: ชื่อสัญลักษณ์ เช่น 'EURUSD-OTC'
-            timeframe: 'M1', 'M5', 'M15'
+            timeframe: 'S30', 'M1', 'M5', 'M15'
             count: จำนวนแท่งเทียนที่ต้องการเก็บใน stream buffer
         """
         raise NotImplementedError
@@ -116,4 +116,3 @@ class IDataSource(ABC):
     def connected(self) -> bool:
         """Property shortcut สำหรับ self.is_connected()"""
         return self.is_connected()
-

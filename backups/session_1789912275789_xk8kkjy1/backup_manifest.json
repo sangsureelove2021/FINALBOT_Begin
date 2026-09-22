@@ -1,0 +1,11 @@
+[
+  {
+    "timestamp": 1789912275790,
+    "type": "user_prompt",
+    "operation": "backup_user_prompt",
+    "sessionId": "session_1789912275789_xk8kkjy1",
+    "taskContent": "เปิดหน้า DeepSeek เพื่อให้ผู้ใช้ล็อกอินเท่านั้น ห้ามวิเคราะห์หรือแก้ไฟล์ เมื่อผู้ใช้ล็อกอินเสร็จให้รอการยืนยัน",
+    "taskLength": 110,
+    "createdAt": "2026-09-20T13:51:15.790Z"
+  }
+]

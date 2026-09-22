@@ -35,12 +35,7 @@ class CSVManager:
             config = get_csv_manager_config()
         
         if not base_dir:
-            if config and config.get("base_dir"):
-                base_dir = config.get("base_dir")
-            else:
-                from config_setting.config_loader import load_settings
-                active_broker = str(load_settings().get("active_broker", "iq_option")).lower()
-                base_dir = f"data_base/csv/{active_broker}"
+            base_dir = config.get("base_dir", "data_base/output_feed") if config else "data_base/output_feed"
         
         # Load manager configuration
         self.base_dir = config.get("base_dir", base_dir)

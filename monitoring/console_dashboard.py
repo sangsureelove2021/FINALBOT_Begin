@@ -9,7 +9,7 @@ import os
 import threading
 import logging
 from logging.handlers import RotatingFileHandler
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from datetime import datetime, timezone, timedelta
 from dataclasses import dataclass, field
 
@@ -256,6 +256,20 @@ class ConsoleUI:
         thai_console_log("เชื่อมต่อ IQ Option สำเร็จ")
 
     @staticmethod
+    def show_sequence_order_2(mode: str = "bot"):
+        if mode == "bot":
+            thai_console_log("ค้นหาและตรวจประเมินรายการสินทรัพย์ที่เหมาะสม")
+        else:
+            thai_console_log("การคัดเลือกคู่เงิน: [BOSS] ผู้ใช้งานเป็นผู้กำหนดรายชื่อเอง")
+
+    @staticmethod
+    def show_sequence_order_3(mode: str = "bot"):
+        if mode == "bot":
+            thai_console_log("ส่งออกรายชื่อสินทรัพย์ที่เหมาะสมกับการเทรดแล้ว")
+        else:
+            thai_console_log("สถานะการซิงค์คู่เงิน: โหลดคู่เงินจาก symbols.json คงเดิม")
+
+    @staticmethod
     def show_connection_failed():
         thai_console_log("เชื่อมต่อ IQ Option ล้มเหลว")
 
@@ -303,8 +317,15 @@ class ConsoleUI:
         thai_console_log(f'"{reply}"')
 
     @staticmethod
-    def show_asset_list(symbols):
-        thai_console_log(f"ตรวจพบรายการสินทรัพย์ : {', '.join(symbols)}")
+    def show_asset_list(symbols, payouts=None):
+        if payouts and isinstance(payouts, dict):
+            parts = [
+                f"{sym} pay {payouts[sym]}%" if sym in payouts else sym
+                for sym in symbols
+            ]
+            thai_console_log(f"ตรวจพบรายการสินทรัพย์ : {' : '.join(parts)}")
+        else:
+            thai_console_log(f"ตรวจพบรายการสินทรัพย์ : {', '.join(symbols)}")
 
     @staticmethod
     def show_data_prep_start(symbols):
@@ -377,7 +398,7 @@ class ConsoleUI:
                     if act in ("CALL", "PUT"):
                         extra = f"->{act}({conf}%)"
                 price_parts.append(f"{sym}:{price:.5f}{extra}")
-            price_str = "][".join(price_parts)
+            price_str = "] [".join(price_parts)
             balance_str = f"${balance:.2f}" if balance is not None else "N/A"
             thai_console_log(f"[{price_str}] :: TOTAL={balance_str}")
         except Exception as e:
@@ -398,8 +419,74 @@ class ConsoleUI:
             thai_console_log(f"[Bot Evaluate Market Complete {len(ready)} asset]")
 
     @staticmethod
-    def show_ai_analysis_complete(count: int):
-        thai_console_log(f"[AI Analysis And Dicisions Complete {count} Signal]")
+    def show_ai_analysis_complete(decisions_or_count):
+        try:
+            if isinstance(decisions_or_count, dict):
+                parts = []
+                for sym, dec in decisions_or_count.items():
+                    if isinstance(dec, dict):
+                        act = str(dec.get("action", "WAIT")).upper().strip()
+                        conf = int(round(float(dec.get("confidence_score", dec.get("confidence", 0)))))
+                    else:
+                        act = "WAIT"
+                        conf = 0
+                    parts.append(f"[{sym}:{act}({conf}%)]")
+                sym_str = " ".join(parts)
+                thai_console_log(f"[AI Analysis] {sym_str}" if sym_str else "[AI Analysis]")
+            elif isinstance(decisions_or_count, list):
+                parts = []
+                for dec in decisions_or_count:
+                    if isinstance(dec, dict):
+                        sym = dec.get("symbol", "")
+                        act = str(dec.get("action", "WAIT")).upper().strip()
+                        conf = int(round(float(dec.get("confidence_score", dec.get("confidence", 0)))))
+                    else:
+                        sym = str(dec)
+                        act = "WAIT"
+                        conf = 0
+                    parts.append(f"[{sym}:{act}({conf}%)]")
+                sym_str = " ".join(parts)
+                thai_console_log(f"[AI Analysis] {sym_str}" if sym_str else "[AI Analysis]")
+            else:
+                thai_console_log(f"[AI Analysis And Decisions Complete {decisions_or_count} Signal]")
+        except Exception as e:
+            thai_console_log(f"[AI Analysis Complete {decisions_or_count}]")
+
+    @staticmethod
+    def show_order_placed(payload_id: str, action: str, expiry_minutes: int, stake: float, order_id: Any):
+        thai_console_log(f"[{payload_id}:{action}:{expiry_minutes}นาที:{int(stake)}THB] [ID:{order_id}]")
+
+    @staticmethod
+    def show_trade_settled(payload_id: str, action: str, expiry_minutes: int, stake: float, order_id: Any, result_status: str, profit_amount: float, balance: Any):
+        if profit_amount > 0:
+            profit_sign = f"+{profit_amount:.2f}"
+        elif profit_amount < 0:
+            profit_sign = f"{profit_amount:.2f}"
+        else:
+            profit_sign = "0.00"
+
+        if balance is None:
+            balance_formatted = "0THB"
+        elif isinstance(balance, (int, float)):
+            if float(balance).is_integer():
+                balance_formatted = f"{int(balance):,}THB"
+            else:
+                balance_formatted = f"{balance:,.2f}THB"
+        elif isinstance(balance, str):
+            clean_b = balance.strip().replace("THB", "").replace(",", "").strip()
+            try:
+                val = float(clean_b)
+                if val.is_integer():
+                    balance_formatted = f"{int(val):,}THB"
+                else:
+                    balance_formatted = f"{val:,.2f}THB"
+            except ValueError:
+                balance_formatted = f"{balance.strip()}THB" if not balance.strip().endswith("THB") else balance.strip()
+        else:
+            balance_formatted = f"{balance}THB"
+
+        msg = f"[{payload_id}:{action}:{expiry_minutes}นาที:{int(stake)}THB] [ID:{order_id}] [{result_status}:{profit_sign}THB::{balance_formatted}]"
+        thai_console_log(msg)
 
 
 @dataclass
