@@ -8,7 +8,7 @@ Detects candlestick patterns: Engulfing, Hammer, Doji, etc.
 import pandas as pd
 from typing import Dict, Any, List
 
-from data_evaluate.orchestration.base_engine import BaseEngine
+from data_evaluate.strategies_mode.orchestration.base_engine import BaseEngine
 
 
 class CandlePatternAnalyzer(BaseEngine):

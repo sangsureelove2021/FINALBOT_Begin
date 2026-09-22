@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 from typing import Dict, Any
 
-from data_evaluate.orchestration.base_engine import BaseEngine
+from data_evaluate.strategies_mode.orchestration.base_engine import BaseEngine
 
 
 class TrapDetector(BaseEngine):

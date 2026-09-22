@@ -9,7 +9,7 @@ Critical for binary options to confirm setup across timeframes.
 import pandas as pd
 from typing import Dict, Any
 
-from data_evaluate.orchestration.base_engine import BaseEngine
+from data_evaluate.strategies_mode.orchestration.base_engine import BaseEngine
 
 
 class MTFEngine(BaseEngine):
@@ -27,8 +27,10 @@ class MTFEngine(BaseEngine):
             if not candles_dict:
                 raise ValueError("FAIL-FAST: Missing candles_dict for MTF analysis")
                 
-            # Validate each timeframe
-            required_timeframes = ['M1', 'M5', 'M15']
+            # Strategies mode intentionally evaluates only M1 and M5.
+            # M15 remains supported by the shared engine for other modes but
+            # is not required or inferred for this strategy path.
+            required_timeframes = ['M1', 'M5']
             for tf in required_timeframes:
                 if tf not in candles_dict:
                     raise ValueError(f"FAIL-FAST: Missing required timeframe {tf} in candles_dict")

@@ -1,7 +1,7 @@
 from typing import Dict, Any
 import pandas as pd
 
-from data_evaluate.orchestration.base_engine import BaseEngine
+from data_evaluate.strategies_mode.orchestration.base_engine import BaseEngine
 
 
 class MarketStructureEngine(BaseEngine):

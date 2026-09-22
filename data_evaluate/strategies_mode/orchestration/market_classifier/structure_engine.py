@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 from typing import Dict, Any, List, Tuple
 
-from data_evaluate.orchestration.base_engine import BaseEngine
+from data_evaluate.strategies_mode.orchestration.base_engine import BaseEngine
 
 
 class StructureEngine(BaseEngine):

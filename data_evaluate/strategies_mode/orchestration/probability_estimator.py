@@ -9,7 +9,7 @@ For binary options: this is the core "will it go up or down" estimate.
 """
 
 from typing import Dict, Any
-from data_evaluate.orchestration.base_engine import BaseEngine
+from data_evaluate.strategies_mode.orchestration.base_engine import BaseEngine
 
 
 class ProbabilityEstimator(BaseEngine):

@@ -28,6 +28,9 @@ class DecisionManager:
         self.ai_dir = decision_cfg.get(
             "ai_output_dir", os.path.join(self.decision_dir, "ai_decision")
         )
+        self.ml_dir = decision_cfg.get(
+            "ml_output_dir", os.path.join(self.decision_dir, "ml_decision")
+        )
         self.strategy_dir = decision_cfg.get(
             "strategies_output_dir", os.path.join(self.decision_dir, "strategies_decision")
         )
@@ -61,7 +64,7 @@ class DecisionManager:
             decision = MLDispatcher.get_instance(self.settings).process_payload_file(
                 symbol, prompt_filepath=payload_path
             )
-            root = self.ai_dir
+            root = self.ml_dir
 
         payload_id = str(
             decision.get("ID") or os.path.basename(payload_path).split(".")[0]

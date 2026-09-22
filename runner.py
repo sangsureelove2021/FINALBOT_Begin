@@ -166,14 +166,15 @@ class DataFeedRunner:
         strategies_enabled = self.active_mode == "strategies_mode"
 
         if ml_enabled:
-            from data_trade.execution_gate.chronos_dispatcher import ChronosDispatcher
-            ChronosDispatcher.get_instance(self.settings)
+            from data_decision.ai_analysis.machine_learning.ml_dispatcher import MLDispatcher
+            MLDispatcher.get_instance(self.settings)
             from monitoring.console_dashboard import thai_console_log
-            thai_console_log("เชื่อมต่อ Chronos-2 ONNX ใน data_trade สำเร็จ")
+            thai_console_log("เชื่อมต่อ ML/Chronos ใน data_decision สำเร็จ")
         if ai_enabled:
             from data_decision.ai_analysis.artificial_intelligence.ai_dispatcher import SystemPrompt
             ConsoleUI.show_ai_connection_attempt()
             SystemPrompt.prewarm_and_test_ai(self.symbols)
+            ai_cfg = self.settings.get("ai_mode", {})
             provider = ai_cfg.get("provider", "GEMINI")
             primary_model = ai_cfg.get("primary_model") or ai_cfg.get("gemini_model", "gemini-3.5-flash-lite")
             secondary_model = ai_cfg.get("secondary_model", "gemini-3.1-flash-lite")
@@ -245,29 +246,23 @@ class DataFeedRunner:
             logger.info("[DataFeedRunner] Cycle start: symbols=%d", len(self.symbols))
 
             ingest_started = time.perf_counter()
-            self.data_feed.ingest_cycle(self.symbols)
+            ingest_result = self.data_feed.ingest_cycle(self.symbols)
+            ready_symbols = list(ingest_result.get("ready_symbols", []))
+            if not ready_symbols:
+                raise RuntimeError("FAIL-FAST: No symbols produced fresh S30/M1/M5 CSV files")
             ingest_elapsed = time.perf_counter() - ingest_started
 
-            block_state = {}
-            cache = getattr(self.data_feed, "_cache", None)
-            if cache is not None:
-                for timeframe in ("S30", "M1", "M5", "M15"):
-                    blocks = cache.get_last_block(timeframe)
-                    block_state[timeframe] = {
-                        symbol: blocks.get(symbol) for symbol in self.symbols if symbol in blocks
-                    }
             logger.info(
-                "[DataFeedRunner] Ingest complete: %.3fs; timeframe_blocks=%s",
+                "[DataFeedRunner] Ingest complete: %.3fs; Part 2 will read feed CSV files from disk",
                 ingest_elapsed,
-                block_state,
             )
 
             evaluate_started = time.perf_counter()
-            self.orchestrator.evaluate_cycle(self.symbols)
+            self.orchestrator.evaluate_cycle(ready_symbols)
             evaluate_elapsed = time.perf_counter() - evaluate_started
             decision_started = time.perf_counter()
-            self.decision_manager.process_latest(self.symbols)
-            self.executor_manager.process_decision_files(self.symbols)
+            self.decision_manager.process_latest(ready_symbols)
+            self.executor_manager.process_decision_files(ready_symbols)
             logger.info(
                 "[DataFeedRunner] Evaluation/decision/trade complete: %.3fs/%.3fs; cycle_total=%.3fs",
                 evaluate_elapsed,

@@ -24,29 +24,29 @@ from typing import Dict, Any, Optional, List, Tuple
 from datetime import datetime, timezone
 
 from monitoring.console_dashboard import ConsoleUI
-from data_evaluate.orchestration.indicator_store.indicator_store import store
-from data_evaluate.orchestration.advanced_tools.advanced_tools_manager import AdvancedToolsManager
+from data_evaluate.strategies_mode.orchestration.indicator_store.indicator_store import store
+from data_evaluate.strategies_mode.orchestration.advanced_tools.advanced_tools_manager import AdvancedToolsManager
 
 from types import SimpleNamespace
 # Import 5 Engines and Classifier
-from data_evaluate.orchestration.market_classifier.trend_engine import TrendEngine
-from data_evaluate.orchestration.market_classifier.strength_engine import StrengthEngine
-from data_evaluate.orchestration.market_classifier.volatility_engine import VolatilityEngine
-from data_evaluate.orchestration.market_classifier.structure_engine import StructureEngine
-from data_evaluate.orchestration.market_classifier.mtf_engine import MTFEngine
-from data_evaluate.orchestration.market_classifier.market_state_classifier import MarketStateClassifier
+from data_evaluate.strategies_mode.orchestration.market_classifier.trend_engine import TrendEngine
+from data_evaluate.strategies_mode.orchestration.market_classifier.strength_engine import StrengthEngine
+from data_evaluate.strategies_mode.orchestration.market_classifier.volatility_engine import VolatilityEngine
+from data_evaluate.strategies_mode.orchestration.market_classifier.structure_engine import StructureEngine
+from data_evaluate.strategies_mode.orchestration.market_classifier.mtf_engine import MTFEngine
+from data_evaluate.strategies_mode.orchestration.market_classifier.market_state_classifier import MarketStateClassifier
 
 # Import Supplementary Engines
-from data_evaluate.orchestration.explainability_engine import ExplainabilityEngine
-from data_evaluate.orchestration.liquidity_engine import LiquidityEngine
-from data_evaluate.orchestration.noise_detector import NoiseDetector
-from data_evaluate.orchestration.probability_estimator import ProbabilityEstimator
-from data_evaluate.orchestration.signal_throttle import SignalThrottle
-from data_evaluate.orchestration.context_synthesizer import ContextSynthesizer
+from data_evaluate.strategies_mode.orchestration.explainability_engine import ExplainabilityEngine
+from data_evaluate.strategies_mode.orchestration.liquidity_engine import LiquidityEngine
+from data_evaluate.strategies_mode.orchestration.noise_detector import NoiseDetector
+from data_evaluate.strategies_mode.orchestration.probability_estimator import ProbabilityEstimator
+from data_evaluate.strategies_mode.orchestration.signal_throttle import SignalThrottle
+from data_evaluate.strategies_mode.orchestration.context_synthesizer import ContextSynthesizer
 
-from data_evaluate.orchestration.market_classifier.market_structure_engine import MarketStructureEngine
-from data_evaluate.orchestration.market_classifier.market_pressure_analyzer import MarketPressureAnalyzer
-from data_evaluate.news_calendar import ensure_calendar_news, check_news_impact
+from data_evaluate.strategies_mode.orchestration.market_classifier.market_structure_engine import MarketStructureEngine
+from data_evaluate.strategies_mode.orchestration.market_classifier.market_pressure_analyzer import MarketPressureAnalyzer
+from data_evaluate.strategies_mode.news_calendar import ensure_calendar_news, check_news_impact
 
 logger = logging.getLogger("Orchestrator")
 
@@ -181,28 +181,39 @@ class Orchestrator:
         candles_dict: Optional[Dict[str, pd.DataFrame]] = None,
         news_impact: Optional[str] = None
     ) -> Optional[Dict[str, Any]]:
+        if candles_dict is not None:
+            raise ValueError(
+                "FAIL-FAST: Part 1 -> Part 2 candle transfer through RAM is prohibited; "
+                "process_cycle must read CSV files from data_base/output_feed"
+            )
+        
         # Load directly from CSV files on disk if candles_dict is not provided (Decoupled Part 1 -> Part 2)
-        if candles_dict is None:
-            from config_setting.config_loader import get_csv_manager_config
-            base_dir = get_csv_manager_config().get("base_dir", os.path.join("data_base", "output_feed"))
-            candles_dict = {}
-            for tf in ["S30", "M1", "M5"]:
-                file_path = os.path.join(base_dir, symbol, f"{symbol}_{tf}.csv")
-                if not os.path.exists(file_path):
-                    raise FileNotFoundError(f"FAIL-FAST: CSV file not found for {symbol} {tf} at {file_path}")
+        from config_setting.config_loader import get_csv_manager_config
+        base_dir = get_csv_manager_config().get("base_dir", os.path.join("data_base", "output_feed"))
+        candles_dict = {}
+        for tf in ["S30", "M1", "M5"]:
+            file_path = os.path.join(base_dir, symbol, f"{symbol}_{tf}.csv")
+            if not os.path.exists(file_path):
+                raise FileNotFoundError(f"FAIL-FAST: CSV file not found for {symbol} {tf} at {file_path}")
                 
-                df_tf = pd.read_csv(file_path)
-                if df_tf is None or df_tf.empty:
-                    raise ValueError(f"FAIL-FAST: Empty CSV file for {symbol} {tf} at {file_path}")
+            df_tf = pd.read_csv(file_path)
+            if df_tf is None or df_tf.empty:
+                raise ValueError(f"FAIL-FAST: Empty CSV file for {symbol} {tf} at {file_path}")
                 
-                if 'timestamp' in df_tf.columns:
-                    df_tf['timestamp'] = pd.to_datetime(df_tf['timestamp'], utc=True)
-                    df_tf.set_index('timestamp', drop=False, inplace=True)
-                elif not isinstance(df_tf.index, pd.DatetimeIndex):
-                    df_tf.index = pd.to_datetime(df_tf.index, utc=True)
+            if 'timestamp' in df_tf.columns:
+                df_tf['timestamp'] = pd.to_datetime(df_tf['timestamp'], utc=True)
+                df_tf.set_index('timestamp', drop=False, inplace=True)
+            elif not isinstance(df_tf.index, pd.DatetimeIndex):
+                df_tf.index = pd.to_datetime(df_tf.index, utc=True)
                 
-                df_tf.sort_index(ascending=True, inplace=True)
-                candles_dict[tf] = df_tf
+            df_tf.sort_index(ascending=True, inplace=True)
+            age_seconds = (pd.Timestamp.now(tz="UTC") - df_tf.index[-1]).total_seconds()
+            max_age = {"S30": 120, "M1": 180, "M5": 600}[tf]
+            if age_seconds > max_age:
+                raise ValueError(
+                    f"FAIL-FAST: Stale {tf} CSV for {symbol}: age={age_seconds:.1f}s > {max_age}s"
+                )
+            candles_dict[tf] = df_tf
 
         if not isinstance(candles_dict, dict):
             raise TypeError(f"FAIL-FAST: candles_dict must be provided as a dictionary for {symbol}")
@@ -234,13 +245,10 @@ class Orchestrator:
             'close': float(s30_last['close']),
             'volume': float(s30_last.get('volume', 0.0) or 0.0),
         }
-        # Strategies mode does not fetch M15. Keep legacy engines' optional
-        # schema intact without presenting M5 as an independent M15 feed.
-        candles_dict.setdefault('M15', candles_dict['M5'])
-        
+        final_payload['s30'].update(self._calculate_believe_indicators(candles_dict['S30']))
         # ── 0.1 Timeframe Synchronization (REMOVED) ───────────────────────
         # Note: Timeframe sync is strictly prohibited in Part 2 per specs.
-        # Data from M1, M5, M15 must remain independent.
+        # Strategies mode evaluates only the independent S30, M1 and M5 inputs.
 
 
         # ── 0. Handle OTC Volume ────────────────────────────────────────
@@ -536,8 +544,9 @@ class Orchestrator:
             'm1_macd': _req(m1, 'macd'),
             'm1_macd_signal': _req(m1, 'macd_signal'),
             
-            # --- M15 Indicators (1 field) ---
-            'm15_bias': _req(p, 'm15', 'bias'),
+            # --- M15 Compatibility Field (not calculated in strategies mode) ---
+            # Keep the legacy payload shape without fabricating M15 from M5.
+            'm15_bias': 'NOT_CALCULATED',
             
             # --- Advanced Tools (Price Action & Volume) (16 fields) ---
             'pa_pattern': _req(pa, 'pattern'),
@@ -608,12 +617,18 @@ class Orchestrator:
                 'm5_open': _req(p['ohlcv'], 'm5_open'),
                 'm5_age': _req(p['ohlcv'], 'm5_age'),
                 'm5_quality': _req(p['ohlcv'], 'm5_quality'),
+                'expiry_minutes': 5,
+                'holding_period': '5m',
+                'entry_timeframe': 'S30',
+                'trigger_timeframe': 'M1',
+                'context_timeframe': 'M5',
             },
             'ohlcv': {
                 's30': { 'open': _req(s30, 'open'), 'high': _req(s30, 'high'), 'low': _req(s30, 'low'), 'close': _req(s30, 'close'), 'volume': _req(s30, 'volume') },
                 'm1': { 'open': _req(m1, 'open'), 'high': _req(m1, 'high'), 'low': _req(m1, 'low'), 'close': _req(m1, 'close'), 'volume': 'NONE_OTC' if is_otc else _req(p['ohlcv'], 'm1_volume') },
                 'm5': { 'open': _req(m5, 'open'), 'high': _req(m5, 'high'), 'low': _req(m5, 'low'), 'close': _req(m5, 'close'), 'volume': 'NONE_OTC' if is_otc else _req(p['ohlcv'], 'm5_volume') },
             },
+            's30_indicators': {k: v for k, v in s30.items() if k not in {'open', 'high', 'low', 'close', 'volume'}},
             'full_engine_output': _req(p, 'engines'),
             'full_market_state': _req(p, 'market_state_full'),
             'supplementary_engines': p.get('supplementary_engines', {}),
@@ -851,15 +866,109 @@ class Orchestrator:
     def _log_red(self, msg: str):
         logger.error(f"[ORCHESTRATOR ERROR] {msg}")
 
-    def _enrich_believe_analysis(self, payload: dict) -> dict:
-        """Build Believe using the BOSS timeframe roles: S30 = Entry, M1 = Trigger, M5 = Context.
+    @staticmethod
+    def _calculate_believe_indicators(df: pd.DataFrame) -> Dict[str, Any]:
+        """Calculate the S30-only indicator snapshot required by Believe."""
+        if df is None or len(df) < 20:
+            raise ValueError("FAIL-FAST: S30 requires at least 20 candles for Believe indicators")
+        close = pd.to_numeric(df["close"], errors="coerce")
+        high = pd.to_numeric(df["high"], errors="coerce")
+        low = pd.to_numeric(df["low"], errors="coerce")
+        ema5 = close.ewm(span=5, adjust=False).mean()
+        ema10 = close.ewm(span=10, adjust=False).mean()
+        ema20 = close.ewm(span=20, adjust=False).mean()
+        middle = close.rolling(20).mean()
+        std = close.rolling(20).std(ddof=0)
+        upper = middle + 2 * std
+        lower = middle - 2 * std
+        delta = close.diff()
+        gains = delta.clip(lower=0).rolling(14).mean()
+        losses = (-delta.clip(upper=0)).rolling(14).mean()
+        rs = gains / losses.replace(0, np.nan)
+        rsi = (100 - (100 / (1 + rs))).fillna(50)
+        low14 = low.rolling(14).min()
+        high14 = high.rolling(14).max()
+        stoch_k = ((close - low14) / (high14 - low14).replace(0, np.nan) * 100).fillna(50)
+        stoch_d = stoch_k.rolling(3).mean().fillna(stoch_k)
+        macd = close.ewm(span=12, adjust=False).mean() - close.ewm(span=26, adjust=False).mean()
+        macd_signal = macd.ewm(span=9, adjust=False).mean()
+        last = lambda series, default=0.0: float(series.iloc[-1]) if pd.notna(series.iloc[-1]) else default
+        prev_fast, prev_slow = ema5.iloc[-2], ema10.iloc[-2]
+        curr_fast, curr_slow = ema5.iloc[-1], ema10.iloc[-1]
+        golden_cross = prev_fast <= prev_slow and curr_fast > curr_slow
+        death_cross = prev_fast >= prev_slow and curr_fast < curr_slow
+        return {
+            "bias": "BULLISH" if last(close) >= last(ema20) else "BEARISH",
+            "ema5": last(ema5),
+            "ema10": last(ema10),
+            "ema20": last(ema20),
+            "bb_upper": last(upper),
+            "bb_middle": last(middle),
+            "bb_lower": last(lower),
+            "bb_percent_b": round((last(close) - last(lower)) / (last(upper) - last(lower)), 6)
+            if last(upper) != last(lower) else 0.5,
+            "bb_width": last(upper) - last(lower),
+            "rsi": round(last(rsi), 2),
+            "stoch_k": round(last(stoch_k), 2),
+            "stoch_d": round(last(stoch_d), 2),
+            "macd": last(macd),
+            "macd_signal": last(macd_signal),
+            "macd_histogram": last(macd - macd_signal),
+            "stoch_cross": (
+                "GOLDEN_CROSS" if last(stoch_k) > last(stoch_d)
+                else "DEATH_CROSS" if last(stoch_k) < last(stoch_d) else "NONE"
+            ),
+            "stoch_tangled": bool(abs(last(stoch_k) - last(stoch_d)) < 2),
+            "ma_cross": "GOLDEN_CROSS" if golden_cross else "DEATH_CROSS" if death_cross else "NONE",
+            "ma_cross_confirmed": bool(golden_cross or death_cross),
+        }
 
-        The Believe indicator setup (BB %B + Stochastic + MA cross) is evaluated on
-        M1 because five one-minute candles represent the five-minute holding
-        horizon; M1 is therefore the TRIGGER.  S30 supplies the ENTRY (the entry
-        candle direction, consumed by the Part-3 analyzer) and M5 supplies the
-        CONTEXT filter.
-        """
+    @staticmethod
+    def _build_grid_payload(payload: Dict[str, Any]) -> Dict[str, Any]:
+        """Expose nearest levels for S30/M1/M5 without inventing M15 data."""
+        s30 = payload.get("s30", {}) or {}
+        m1 = payload.get("m1", {}) or {}
+        m5 = payload.get("m5", {}) or {}
+        levels = {
+            "S30": (s30.get("high"), s30.get("low"), s30.get("close")),
+            "M1": (m1.get("high"), m1.get("low"), m1.get("close")),
+            "M5": (m5.get("resistance"), m5.get("support"), m5.get("close")),
+        }
+        per_tf = {}
+        blocked_timeframes = []
+        atr = float(m5.get("atr") or 0.0)
+        tolerance = max(atr * 0.50, abs(float(m5.get("close") or 0.0)) * 0.0002)
+        for tf, (above, below, close) in levels.items():
+            try:
+                close_f = float(close)
+                above_f = float(above)
+                below_f = float(below)
+            except (TypeError, ValueError):
+                continue
+            per_tf[tf] = {
+                "nearest_grid_above": above_f,
+                "nearest_grid_below": below_f,
+                "dist_to_upper": abs(above_f - close_f),
+                "dist_to_lower": abs(close_f - below_f),
+                "is_blocking": False,
+            }
+            if tf == "M5":
+                near_support = abs(close_f - below_f) <= tolerance
+                near_resistance = abs(above_f - close_f) <= tolerance
+                per_tf[tf]["is_blocking"] = near_support or near_resistance
+                if per_tf[tf]["is_blocking"]:
+                    blocked_timeframes.append(tf)
+        return {
+            "blocked": bool(blocked_timeframes),
+            "blocked_timeframes": blocked_timeframes,
+            "tolerance": tolerance,
+            "retest_valid": False,
+            "timeframes": per_tf,
+        }
+
+    def _enrich_believe_analysis(self, payload: dict) -> dict:
+        """Build Believe from S30 entry, M1 trigger, and M5 context."""
+        s30 = payload.get("s30", {}) or {}
         m5 = payload.get("m5", {}) or {}
         m1 = payload.get("m1", {}) or {}
         price_action = payload.get("price_action", {}) or {}
@@ -874,28 +983,26 @@ class Orchestrator:
             except (TypeError, ValueError):
                 return float(default)
 
-        try:
-            close = _num(ohlcv.get("m1_close", m1.get("close", 0.0)))
-        except Exception:
-            close = 0.0
+        close = _num(s30.get("close", 0.0))
 
-        # Believe's trigger is evaluated on M1 because five one-minute
-        # candles represent the five-minute holding horizon.
-        upper = _num(m1.get("bb_upper"), 0.0)
-        lower = _num(m1.get("bb_lower"), 0.0)
+        # Believe is evaluated in the configured roles:
+        # S30 entry, M1 trigger, M5 context.
+        upper = _num(s30.get("bb_upper"), 0.0)
+        lower = _num(s30.get("bb_lower"), 0.0)
         bb_pct_b = 0.5 if upper == lower else (close - lower) / (upper - lower)
         if not (0 <= bb_pct_b <= 1):
             bb_pct_b = 0.5
 
-        stoch_k = _num(m1.get("stoch_k", m1.get("stoch13_k", 50.0)), 50.0)
-        stoch_d = _num(m1.get("stoch_d", m1.get("stoch13_d", 50.0)), 50.0)
-        rsi = _num(m1.get("rsi14", 50.0), 50.0)
-        macd = _num(m1.get("macd", 0.0), 0.0)
-        macd_signal = _num(m1.get("macd_signal", 0.0), 0.0)
-        ema_fast = _num(m1.get("ema5", m1.get("ema_fast", 0.0)), 0.0)
-        ema_slow = _num(m1.get("ema10", m1.get("ema_slow", 0.0)), 0.0)
-        ema20 = _num(m1.get("ema20", 0.0), 0.0)
-        trend_direction = str(payload.get("analysis", {}).get("trend_direction") or payload.get("market_state") or "").upper()
+        stoch_k = _num(s30.get("stoch_k", 50.0), 50.0)
+        stoch_d = _num(s30.get("stoch_d", 50.0), 50.0)
+        rsi = _num(s30.get("rsi"), 50.0)
+        macd = _num(s30.get("macd"), 0.0)
+        macd_signal = _num(s30.get("macd_signal"), 0.0)
+        ema_fast = _num(s30.get("ema5"), 0.0)
+        ema_slow = _num(s30.get("ema10"), 0.0)
+        ema20 = _num(s30.get("ema20"), 0.0)
+        trigger_direction = str(m1.get("bias") or "").upper()
+        context_direction = str(m5.get("bias") or "").upper()
 
         ma_fast_above_slow = ema_fast >= ema_slow
         ma_fast_above_20 = ema_fast >= ema20
@@ -909,18 +1016,8 @@ class Orchestrator:
         elif stoch_k >= 90:
             stochastic_extreme = "OVERBOUGHT_90"
 
-        bullish_structure = bool(
-            market_state.get("structure_shift") in ("BULLISH_SHIFT", "BULLISH")
-            or payload.get("market_state") in ("UPTREND", "BULLISH")
-            or trend_direction in ("UP", "UPTREND", "BULLISH")
-            or price_action.get("market_behavior") in ("BULLISH", "STRONG_BULLISH")
-        )
-        bearish_structure = bool(
-            market_state.get("structure_shift") in ("BEARISH_SHIFT", "BEARISH")
-            or payload.get("market_state") in ("DOWNTREND", "BEARISH")
-            or trend_direction in ("DOWN", "DOWNTREND", "BEARISH")
-            or price_action.get("market_behavior") in ("BEARISH", "STRONG_BEARISH")
-        )
+        bullish_structure = trigger_direction in ("BULLISH", "UP", "UPTREND")
+        bearish_structure = trigger_direction in ("BEARISH", "DOWN", "DOWNTREND")
 
         hook_confirmed = (stoch_k >= stoch_d) and ((stoch_k >= 50 and bullish_structure) or (stoch_k <= 50 and bearish_structure))
         kd_crossed = stoch_k >= stoch_d
@@ -937,11 +1034,18 @@ class Orchestrator:
         if divergence_type == "NONE" and bearish_structure:
             divergence_type = "BEARISH"
 
-        ma_confirmed = ma_fast_above_slow and (close >= ema_fast or close > ema20)
-        bb_confirmed = bb_pct_b <= 0.15 or bb_pct_b >= 0.85
-        stochastic_confirmed = stochastic_extreme in ("OVERSOLD_10", "OVERBOUGHT_90")
-        structure_confirmed = bullish_structure or bearish_structure
-        risk_filter_ok = not bool(price_action.get("trap_alert") in ("TRAP", "GRID_BLOCK")) and not bool(price_action.get("pattern") in ("DOJI", "GRAY_DOJI"))
+        ma_cross = str(s30.get("ma_cross", "NONE")).upper()
+        ma_confirmed = bool(s30.get("ma_cross_confirmed", False))
+        bb_confirmed = bb_pct_b <= 0.15 if bullish_structure else bb_pct_b >= 0.85
+        stochastic_confirmed = (
+            stoch_k <= 10 if bullish_structure else stoch_k >= 90
+        )
+        grid = self._build_grid_payload(payload)
+        risk_filter_ok = (
+            not grid["blocked"]
+            and not bool(price_action.get("trap_alert") in ("TRAP", "GRID_BLOCK"))
+            and not bool(price_action.get("pattern") in ("DOJI", "GRAY_DOJI"))
+        )
 
         bullish_score = 0.0
         bearish_score = 0.0
@@ -985,17 +1089,19 @@ class Orchestrator:
 
         believe_payload = {
             "symbol": payload.get("symbol", "UNKNOWN"),
-            # BOSS timeframe roles: S30 = Entry, M1 = Trigger, M5 = Context.
-            "trigger_timeframe": "M1",
-            "timeframe": "M1",
+            "timeframe": "S30",
             "entry_timeframe": "S30",
+            "trigger_timeframe": "M1",
             "context_timeframe": "M5",
             "holding_period_minutes": 5,
-            "analysis_window": "5 x M1 candles",
+            "analysis_window": "S30 entry + M1 trigger + M5 context",
+            "entry_bias": str(s30.get("bias", "UNKNOWN")).upper(),
+            "trigger_bias": trigger_direction or "UNKNOWN",
+            "context_bias": context_direction or "UNKNOWN",
             "close_price": close,
             "indicators_raw": {
-                "ema3": float(m1.get("ema5", m1.get("ema3", 0.0)) or 0.0),
-                "sma6": float(m1.get("sma6", m1.get("ema5", 0.0)) or 0.0),
+                "ema3": float(s30.get("ema5", 0.0) or 0.0),
+                "sma6": float(s30.get("ema10", 0.0) or 0.0),
                 "bb_pct_b": round(bb_pct_b, 6),
                 "stoch13_k": round(stoch_k, 2),
                 "stoch13_d": round(stoch_d, 2),
@@ -1008,7 +1114,7 @@ class Orchestrator:
             "believe_trigger_states": {
                 "ma_crossover": {
                     "cross_direction": ma_cross_direction,
-                    "is_confirmed_bar_close": bool(ma_confirmed or ma_fast_above_slow or not ma_fast_above_slow),
+                    "is_confirmed_bar_close": ma_confirmed,
                 },
                 "bb_state": {
                     "touched_lower_0": bb_pct_b <= 0.15,
@@ -1038,19 +1144,27 @@ class Orchestrator:
                 "macd_side_of_zero": "BELOW_ZERO" if macd < 0 else "ABOVE_ZERO",
             },
             "risk_and_market_filters": {
-                "grid_filter": {
-                    "nearest_grid_above": float(m5.get("resistance") or close),
-                    "nearest_grid_below": float(m5.get("support") or close),
-                    "dist_to_upper": abs(float(m5.get("resistance") or close) - close),
-                    "dist_to_lower": abs(float(m5.get("support") or close) - close),
-                    "is_blocked_by_grid": bool(price_action.get("trap_alert") in ("TRAP", "GRID_BLOCK")),
-                    "is_touching_grid_level": bool(price_action.get("sr_interaction") in ("SUPPORT_TOUCH", "RESISTANCE_TOUCH")),
-                },
+                "grid_filter": grid,
                 "candle_safety": {
                     "is_gray_doji": bool(price_action.get("pattern") in ("DOJI", "GRAY_DOJI")),
                     "left_opposite_momentum_heavy": bool(price_action.get("momentum_bias") in ("BEARISH", "STRONG_BEARISH")),
                     "is_extreme_volatility_spike": bool(price_action.get("move_quality") in ("EXTREME", "VOLATILITY_SPIKE")),
                 }
+            },
+            "decision_conditions": {
+                "entry_s30_bb_touch": (
+                    "LOWER_0" if bb_pct_b <= 0.15
+                    else "UPPER_1" if bb_pct_b >= 0.85 else "NONE"
+                ),
+                "trigger_m1_direction_aligned": (
+                    (bullish_structure and context_direction == "BULLISH")
+                    or (bearish_structure and context_direction == "BEARISH")
+                ),
+                "context_m5_direction_aligned": (
+                    context_direction in ("BULLISH", "BEARISH")
+                    and context_direction == trigger_direction
+                ),
+                "holding_period_minutes": 5,
             },
         }
 
@@ -1095,6 +1209,13 @@ class Orchestrator:
             "confidence": "HIGH" if extreme_confirmed else "MEDIUM" if (bullish_signal or bearish_signal) else "LOW",
             "score": round(score, 3),
             "signal": ap_signal,
+        }
+        payload["grid_filter"] = grid
+        payload["timeframe_contract"] = {
+            "entry": "S30",
+            "trigger": "M1",
+            "context": "M5",
+            "holding_period_minutes": 5,
         }
         return payload
 
@@ -1202,7 +1323,9 @@ class Orchestrator:
                 cfg = {}
         ml_cfg = cfg.get("ml_mode", {})
         ai_cfg = cfg.get("ai_mode", {})
-        if ml_cfg.get("enabled", False):
+        if str(cfg.get("active_mode", "")).lower() == "strategies_mode":
+            ai_model = "STRATEGY_BELIEVE"
+        elif ml_cfg.get("enabled", False):
             ai_model = str(ml_cfg.get("model", "LIGHTGBM_CHRONOS"))
         elif ai_cfg.get("enabled", False):
             ai_model = str(ai_cfg.get("provider", "GEMINI"))
@@ -1223,14 +1346,30 @@ class Orchestrator:
         app(f"  m5_open: {_fmt_num(meta.get('m5_open', ''))}")
         app(f"  m5_age: {meta.get('m5_age', '')}")
         app(f"  m5_quality: {meta.get('m5_quality', '')}")
+        app(f"  expiry_minutes: {meta.get('expiry_minutes', 5)}")
+        app(f"  holding_period: {meta.get('holding_period', '5m')}")
+        app(f"  entry_timeframe: {meta.get('entry_timeframe', 'S30')}")
+        app(f"  trigger_timeframe: {meta.get('trigger_timeframe', 'M1')}")
+        app(f"  context_timeframe: {meta.get('context_timeframe', 'M5')}")
         app("s30:")
-        s30_direction = "BULLISH" if float(s30_ohlcv.get("close", 0) or 0) >= float(s30_ohlcv.get("open", 0) or 0) else "BEARISH"
+        s30_indicators = supp.get("s30_indicators", {})
+        s30_direction = str(s30_indicators.get("bias", "UNKNOWN")).upper()
         app(f"  s30_bias: {s30_direction}")
         app(f"  s30_open: {_fmt_num(s30_ohlcv.get('open', ''))}")
         app(f"  s30_high: {_fmt_num(s30_ohlcv.get('high', ''))}")
         app(f"  s30_low: {_fmt_num(s30_ohlcv.get('low', ''))}")
         app(f"  s30_close: {_fmt_num(s30_ohlcv.get('close', ''))}")
         app(f"  s30_volume: {s30_ohlcv.get('volume', '')}")
+        app(f"  s30_ema5: {_fmt_num(s30_indicators.get('ema5', ''))}")
+        app(f"  s30_ema10: {_fmt_num(s30_indicators.get('ema10', ''))}")
+        app(f"  s30_ema20: {_fmt_num(s30_indicators.get('ema20', ''))}")
+        app(f"  s30_rsi: {_fmt_num(s30_indicators.get('rsi', ''))}")
+        app(f"  s30_stoch_k: {_fmt_num(s30_indicators.get('stoch_k', ''))}")
+        app(f"  s30_stoch_d: {_fmt_num(s30_indicators.get('stoch_d', ''))}")
+        app(f"  s30_macd: {_fmt_num(s30_indicators.get('macd', ''))}")
+        app(f"  s30_macd_signal: {_fmt_num(s30_indicators.get('macd_signal', ''))}")
+        app(f"  s30_macd_histogram: {_fmt_num(s30_indicators.get('macd_histogram', ''))}")
+        app(f"  s30_bb_percent_b: {_fmt_num(s30_indicators.get('bb_percent_b', ''))}")
         app("market_context:")
         app(f"  mtf_state: {core.get('state', '')}")
         app(f"  mtf_description: {core.get('description', '')}")
@@ -1280,7 +1419,7 @@ class Orchestrator:
         app(f"      m5_close: {_fmt_num(m5_ohlcv.get('close', ''))}")
         app(f"      m5_volume: {m5_ohlcv.get('volume', '')}")
         app("  m15:")
-        app(f"    m15_bias: {core.get('m15_bias', '')}")
+        app(f"    m15_bias: {core.get('m15_bias', 'NOT_CALCULATED')}")
         app("price_action:")
         app(f"  m5_pa_pattern: {core.get('pa_pattern', '')}")
         app(f"  m5_pa_last_candle_bias: {core.get('pa_last_candle_bias', '')}")
@@ -1328,6 +1467,38 @@ class Orchestrator:
         app(f"  believe_score: {_fmt_num(belief.get('score', ''))}")
         app(f"  extreme_believe_active: {_fmt_bool(extreme.get('is_active', False))}")
         app(f"  extreme_believe_setup: {extreme.get('setup_type', '')}")
+        believe = supp.get("believe", {}) or {}
+        trigger = believe.get("believe_trigger_states", {}) or {}
+        bb_state = trigger.get("bb_state", {}) or {}
+        sto_state = trigger.get("stochastic_state", {}) or {}
+        risk = believe.get("risk_and_market_filters", {}) or {}
+        grid = risk.get("grid_filter", {}) or {}
+        app(f"  believe_entry_timeframe: {believe.get('entry_timeframe', 'S30')}")
+        app(f"  believe_trigger_timeframe: {believe.get('trigger_timeframe', 'M1')}")
+        app(f"  believe_context_timeframe: {believe.get('context_timeframe', 'M5')}")
+        app(f"  believe_bb_percent_b: {_fmt_num(believe.get('indicators_raw', {}).get('bb_pct_b', ''))}")
+        app(f"  believe_bb_touch: {'LOWER' if bb_state.get('touched_lower_0') else 'UPPER' if bb_state.get('touched_upper_1') else 'NONE'}")
+        app(f"  believe_sto_k: {_fmt_num(believe.get('indicators_raw', {}).get('stoch13_k', ''))}")
+        app(f"  believe_sto_d: {_fmt_num(believe.get('indicators_raw', {}).get('stoch13_d', ''))}")
+        app(f"  believe_sto_zone: {sto_state.get('touched_extreme_10_or_90', 'MID')}")
+        app(f"  believe_sto_cross: {('UP' if sto_state.get('kd_crossed') and believe.get('trigger_bias') in ('BULLISH', 'UP', 'UPTREND') else 'DOWN' if sto_state.get('kd_crossed') and believe.get('trigger_bias') in ('BEARISH', 'DOWN', 'DOWNTREND') else 'NONE')}")
+        app(f"  believe_sto_hook_confirmed: {_fmt_bool(sto_state.get('hook_confirmed', False))}")
+        app(f"  believe_sto_cross_50: {_fmt_bool(sto_state.get('crossed_50', False))}")
+        app(f"  believe_ma_fast: {_fmt_num(believe.get('indicators_raw', {}).get('ema3', ''))}")
+        app(f"  believe_ma_slow: {_fmt_num(believe.get('indicators_raw', {}).get('sma6', ''))}")
+        app(f"  believe_ma_cross: {trigger.get('ma_crossover', {}).get('cross_direction', 'FLAT')}")
+        app(f"  believe_ma_cross_confirmed: {_fmt_bool(trigger.get('ma_crossover', {}).get('is_confirmed_bar_close', False))}")
+        app(f"  believe_risk_grid_block: {_fmt_bool(grid.get('is_blocked_by_grid', grid.get('blocked', False)))}")
+        app(f"  believe_risk_gray_candle: {_fmt_bool(risk.get('candle_safety', {}).get('is_gray_doji', False))}")
+        app(f"  believe_risk_sto_tangled: {_fmt_bool(s30_indicators.get('stoch_tangled', False))}")
+        app(f"  believe_risk_trap_alert: {core.get('pa_trap_alert', 'NONE')}")
+        app(f"  believe_risk_room_to_run_clear: {_fmt_bool(believe.get('decision_conditions', {}).get('room_to_run_clear', True))}")
+        app(f"  ap_signal: {supp.get('ap_confirmation', {}).get('signal', 'AP_NEUTRAL')}")
+        app(f"  ns_signal: {supp.get('ns_confirmation', {}).get('signal', 'NS_NEUTRAL')}")
+        conditions = believe.get("decision_conditions", {}) or {}
+        app(f"  believe_entry_s30_bb_touch: {conditions.get('entry_s30_bb_touch', 'NONE')}")
+        app(f"  believe_trigger_m1_direction_aligned: {_fmt_bool(conditions.get('trigger_m1_direction_aligned', False))}")
+        app(f"  believe_context_m5_direction_aligned: {_fmt_bool(conditions.get('context_m5_direction_aligned', False))}")
         app("")
         return "\n".join(lines)
 

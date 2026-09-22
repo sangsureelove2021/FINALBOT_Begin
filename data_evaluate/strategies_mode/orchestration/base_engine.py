@@ -13,7 +13,7 @@ import pandas as pd
 
 from abc import ABC
 
-from data_evaluate.exceptions import InvalidInputError, ComputationError
+from data_evaluate.strategies_mode.exceptions import InvalidInputError, ComputationError
 
 
 class BaseEngine(ABC):

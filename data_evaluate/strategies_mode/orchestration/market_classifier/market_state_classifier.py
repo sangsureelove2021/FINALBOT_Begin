@@ -5,8 +5,8 @@ from collections import deque
 import traceback
 import logging
 
-from data_evaluate.orchestration.base_engine import BaseEngine
-from data_evaluate.exceptions import InvalidInputError, ComputationError
+from data_evaluate.strategies_mode.orchestration.base_engine import BaseEngine
+from data_evaluate.strategies_mode.exceptions import InvalidInputError, ComputationError
 
 
 class MarketStateClassifier(BaseEngine):

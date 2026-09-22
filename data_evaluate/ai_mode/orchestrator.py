@@ -181,28 +181,33 @@ class Orchestrator:
         candles_dict: Optional[Dict[str, pd.DataFrame]] = None,
         news_impact: Optional[str] = None
     ) -> Optional[Dict[str, Any]]:
+        if candles_dict is not None:
+            raise ValueError(
+                "FAIL-FAST: Part 1 -> Part 2 candle transfer through RAM is prohibited; "
+                "process_cycle must read CSV files from data_base/output_feed"
+            )
+        
         # Load directly from CSV files on disk if candles_dict is not provided (Decoupled Part 1 -> Part 2)
-        if candles_dict is None:
-            from config_setting.config_loader import get_csv_manager_config
-            base_dir = get_csv_manager_config().get("base_dir", os.path.join("data_base", "output_feed"))
-            candles_dict = {}
-            for tf in ["M1", "M5", "M15"]:
-                file_path = os.path.join(base_dir, symbol, f"{symbol}_{tf}.csv")
-                if not os.path.exists(file_path):
-                    raise FileNotFoundError(f"FAIL-FAST: CSV file not found for {symbol} {tf} at {file_path}")
+        from config_setting.config_loader import get_csv_manager_config
+        base_dir = get_csv_manager_config().get("base_dir", os.path.join("data_base", "output_feed"))
+        candles_dict = {}
+        for tf in ["M1", "M5", "M15"]:
+            file_path = os.path.join(base_dir, symbol, f"{symbol}_{tf}.csv")
+            if not os.path.exists(file_path):
+                raise FileNotFoundError(f"FAIL-FAST: CSV file not found for {symbol} {tf} at {file_path}")
                 
-                df_tf = pd.read_csv(file_path)
-                if df_tf is None or df_tf.empty:
-                    raise ValueError(f"FAIL-FAST: Empty CSV file for {symbol} {tf} at {file_path}")
+            df_tf = pd.read_csv(file_path)
+            if df_tf is None or df_tf.empty:
+                raise ValueError(f"FAIL-FAST: Empty CSV file for {symbol} {tf} at {file_path}")
                 
-                if 'timestamp' in df_tf.columns:
-                    df_tf['timestamp'] = pd.to_datetime(df_tf['timestamp'], utc=True)
-                    df_tf.set_index('timestamp', drop=False, inplace=True)
-                elif not isinstance(df_tf.index, pd.DatetimeIndex):
-                    df_tf.index = pd.to_datetime(df_tf.index, utc=True)
+            if 'timestamp' in df_tf.columns:
+                df_tf['timestamp'] = pd.to_datetime(df_tf['timestamp'], utc=True)
+                df_tf.set_index('timestamp', drop=False, inplace=True)
+            elif not isinstance(df_tf.index, pd.DatetimeIndex):
+                df_tf.index = pd.to_datetime(df_tf.index, utc=True)
                 
-                df_tf.sort_index(ascending=True, inplace=True)
-                candles_dict[tf] = df_tf
+            df_tf.sort_index(ascending=True, inplace=True)
+            candles_dict[tf] = df_tf
 
         if not isinstance(candles_dict, dict):
             raise TypeError(f"FAIL-FAST: candles_dict must be provided as a dictionary for {symbol}")
