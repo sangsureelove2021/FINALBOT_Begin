@@ -852,7 +852,14 @@ class Orchestrator:
         logger.error(f"[ORCHESTRATOR ERROR] {msg}")
 
     def _enrich_believe_analysis(self, payload: dict) -> dict:
-        """Build Believe from S30 entry, M1 confirmation, and M5 context."""
+        """Build Believe using the BOSS timeframe roles: S30 = Entry, M1 = Trigger, M5 = Context.
+
+        The Believe indicator setup (BB %B + Stochastic + MA cross) is evaluated on
+        M1 because five one-minute candles represent the five-minute holding
+        horizon; M1 is therefore the TRIGGER.  S30 supplies the ENTRY (the entry
+        candle direction, consumed by the Part-3 analyzer) and M5 supplies the
+        CONTEXT filter.
+        """
         m5 = payload.get("m5", {}) or {}
         m1 = payload.get("m1", {}) or {}
         price_action = payload.get("price_action", {}) or {}
@@ -978,6 +985,8 @@ class Orchestrator:
 
         believe_payload = {
             "symbol": payload.get("symbol", "UNKNOWN"),
+            # BOSS timeframe roles: S30 = Entry, M1 = Trigger, M5 = Context.
+            "trigger_timeframe": "M1",
             "timeframe": "M1",
             "entry_timeframe": "S30",
             "context_timeframe": "M5",
