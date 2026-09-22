@@ -181,7 +181,6 @@ class Orchestrator:
         candles_dict: Optional[Dict[str, pd.DataFrame]] = None,
         news_impact: Optional[str] = None
     ) -> Optional[Dict[str, Any]]:
-        
         # Load directly from CSV files on disk if candles_dict is not provided (Decoupled Part 1 -> Part 2)
         if candles_dict is None:
             from config_setting.config_loader import get_csv_manager_config
