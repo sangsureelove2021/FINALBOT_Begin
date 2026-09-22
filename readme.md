@@ -1,4 +1,4 @@
-# 🚀 FINALBOT — Intelligent Automated Trading System
+# 🚀 FINAL_BOT — Intelligent Automated Trading System
 
 > **FINALBOT** is an institutional-grade automated binary options trading system driven by a **4-Stage Quantitative Pipeline**, **Pre-Trade 3D Asset Screening**, and a **Dual-Brain Machine Learning & Cloud AI** analysis engine.
 
